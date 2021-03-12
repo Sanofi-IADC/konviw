@@ -1,0 +1,326 @@
+// Default font IADC ======================================
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;600;800&display=swap");
+@import "variables.scss";
+@import "expander-panel.scss";
+@import "media.scss";
+@import "profile.scss";
+@import "checkboxes.scss";
+@import "info-panels.scss";
+@import "decisions.scss";
+@import "tables.scss";
+@import "blog.scss";
+@import "scrolltotop.scss";
+
+// Basic styles ===========================================
+html {
+  transition: color 300ms, background-color 300ms;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--font-color);
+  font-family: "Rubik", sans-serif;
+  font-size: var(--main-font-size);
+  font-weight: var(--main-font-weight);
+}
+
+h1.titlePage {
+  color: var(--heading-color);
+  font-size: var(--title-font-size);
+}
+
+p {
+  margin-bottom: 20px;
+}
+
+li p {
+  margin-bottom: 0px;
+}
+
+ul {
+  margin: 0;
+}
+
+.smalltext {
+  font-size: $small-text;
+}
+
+// Headers ===========================================
+h1 {
+  font-size: 1.6em;
+}
+h2 {
+  font-size: 1.4em;
+}
+h3 {
+  font-size: 1.2em;
+}
+h4 {
+  font-size: 1em;
+}
+h5 {
+  font-size: 0.8em;
+}
+h6 {
+  font-size: 0.6em;
+}
+
+// Source code ===========================================
+// although most of the configuration and syntax highlights comes from addHighlights step
+code {
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+// Hyperlinks ============================================
+a {
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--primary-color-link);
+  &::after {
+    content: "";
+    background: rgba(rgb(221, 235, 132), 0.25);
+    position: absolute;
+    left: 0px;
+    bottom: -2px;
+    width: 100%;
+    height: 4px;
+    z-index: -1;
+    transition: 0.35s cubic-bezier(0.15, 0, 0, 2.05);
+  }
+  &:hover:after {
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+// User mention with @ ===================================
+a.user-mention {
+  background: var(--user-mention-bg);
+  padding: 2px;
+  border-radius: 15px;
+  color: var(--font-color);
+  font-size: var(--user-mention-size);
+  &:hover {
+    color: white;
+  }
+  &::before {
+    content: "@ ";
+  }
+}
+
+// Main content of the page =============================
+#Content {
+  max-width: $base-width;
+  margin: auto;
+  // margin-left: 20px;
+  padding: 20px !important;
+
+  &.fullWidth {
+    max-width: 100%;
+  }
+
+  .columnLayout {
+    padding-top: 10px;
+    // 2 equal columns layout
+    &.two-equal {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+
+      .cell {
+        &.normal {
+          flex-basis: 50%;
+          margin-left: 32px;
+          @media screen and (max-width: 1024px) {
+            margin-left: 0px;
+          }
+        }
+        p {
+          padding-top: 10px;
+        }
+      }
+      @media screen and (max-width: 1024px) {
+        width: 100%;
+        flex-direction: column;
+      }
+    }
+
+    // 2 columns layout with smaller in the right
+    &.two-right-sidebar {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+
+      .cell {
+        &.normal {
+          flex-basis: 66.6%;
+        }
+        &.aside {
+          flex-basis: 33.3%;
+          margin-left: 32px;
+          @media screen and (max-width: 1024px) {
+            margin-left: 0px;
+          }
+        }
+        p {
+          padding-top: 10px;
+        }
+      }
+      @media screen and (max-width: 1024px) {
+        width: 100%;
+        flex-direction: column;
+      }
+    }
+
+    // 2 columns layout with smaller in the left
+    &.two-left-sidebar {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+
+      .cell {
+        &.normal {
+          flex-basis: 66.6%;
+          margin-left: 32px;
+        }
+        &.aside {
+          flex-basis: 33.3%;
+          @media screen and (max-width: 1024px) {
+            margin-left: 30px;
+          }
+        }
+        p {
+          padding-top: 10px;
+        }
+      }
+      @media screen and (max-width: 1024px) {
+        width: 100%;
+        flex-direction: column;
+      }
+    }
+
+    // 3 equal columns layout
+    &.three-equal {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+
+      .cell {
+        &.normal {
+          flex-basis: 33.3%;
+          margin-left: 32px;
+          @media screen and (max-width: 1024px) {
+            margin-left: 0px;
+          }
+        }
+        p {
+          padding-top: 10px;
+        }
+      }
+      @media screen and (max-width: 1024px) {
+        width: 100%;
+        flex-direction: column;
+      }
+    }
+
+    // 3 columns layout with 2 sides smaller
+    &.three-with-sidebars {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+
+      .cell {
+        &.normal {
+          flex-basis: 50%;
+          margin-left: 32px;
+          margin-right: 32px;
+        }
+        &.sidebars {
+          flex-basis: 25%;
+          @media screen and (max-width: 1024px) {
+            margin-left: 0px;
+          }
+        }
+        p {
+          padding-top: 10px;
+        }
+      }
+      @media screen and (max-width: 1024px) {
+        width: 100%;
+        flex-direction: column;
+      }
+    }
+  }
+}
+
+// Macro Content by Label ==================================
+ul.content-by-label li div span.icon {
+  display: none;
+}
+
+ul.content-by-label {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul.content-by-label li {
+  display: flex;
+  padding-left: 15px;
+  padding-top: 10px;
+  text-decoration: none;
+}
+
+ul.content-by-label li::before {
+  content: "\1F4CB"; // notebook 📋 emoji
+  padding-right: 5px;
+}
+
+// Macro Child Pages ==================================
+ul.childpages-macro {
+  font-size: 16px;
+}
+ul.childpages-macro li {
+  padding-top: 5px;
+}
+
+// Macro TOC===============================================
+.toc-macro ul.toc-indentation {
+  margin-top: 0;
+}
+.toc-macro {
+  font-size: 16px;
+}
+.toc-macro span.toc-outline {
+  padding-right: 5px;
+}
+.toc-macro.hidden-outline span.toc-outline {
+  display: none;
+}
+.toc-macro li.toc-empty-item {
+  list-style-type: none;
+}
+@media print {
+  .toc-macro.non-printable {
+    display: none;
+  }
+}
+
+// Tables embedded in a ‘Page Properties’ Macro will be displayed borderless
+// this technique will be used to embed footers or menus with tables used for better layout organization
+.conf-macro .plugin-tabmeta-details {
+  padding-top: 40px;
+  .table-wrap {
+    .confluenceTd {
+      border: 0px;
+      padding: 10px;
+      vertical-align: top;
+      font-size: 12px;
+    }
+  }
+}

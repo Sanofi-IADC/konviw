@@ -1,0 +1,362 @@
+// Tables =================================================
+table.confluenceTable {
+  // background: red;
+  text-align: left;
+  position: relative;
+  border-collapse: collapse;
+}
+
+table.confluenceTable th.confluenceTh {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0; /* Don't forget this, required for the stickiness */
+  z-index: 2;
+  box-shadow: 0 3px 2px -1px rgba(0, 0, 0, 0.4);
+  font-size: var(--main-font-size);
+}
+
+.confluenceTh,
+.confluenceTd {
+  border: 1px solid #ddd;
+  padding: 7px 10px; /* CONFDEV-13618: line-height will add up 3 pixels, so we have a 10px top padding for text. Images will remain with 7px top margin though (see thread in Stash) */
+  vertical-align: top;
+  // text-align: left;
+  min-width: 8px; /* CONF-39943: set table cell min-width to which cursor can be focused */
+}
+
+/* Lists in tables */
+.confluenceTable ol,
+.confluenceTable ul {
+  margin-left: 0;
+  padding-left: 22px; /* CONFDEV-12589: default left padding is far too wide */
+}
+
+/* all tables should have a top margin of 10px */
+.confluenceTable,
+.table-wrap {
+  margin: 10px 0 0 0;
+  // overflow-x: auto;
+}
+
+/* an exception to above rule for tables that are first child */
+.confluenceTable:first-child,
+.table-wrap:first-child {
+  margin-top: 0;
+}
+
+/* Background colors */
+table.confluenceTable th.confluenceTh,
+table.confluenceTable th.confluenceTh > p,
+table.confluenceTable th.confluenceTh.highlight-grey,
+table.confluenceTable th.confluenceTh.highlight-grey > p,
+table.confluenceTable td.confluenceTd.highlight-grey,
+table.confluenceTable td.confluenceTd.highlight-grey > p {
+  background-color: var(--highlight-grey);
+}
+
+table.confluenceTable th.confluenceTh.highlight-blue,
+table.confluenceTable th.confluenceTh.highlight-blue > p,
+table.confluenceTable td.confluenceTd.highlight-blue,
+table.confluenceTable td.confluenceTd.highlight-blue > p {
+  background-color: var(--highlight-blue);
+}
+
+table.confluenceTable th.confluenceTh.highlight-green,
+table.confluenceTable th.confluenceTh.highlight-green > p,
+table.confluenceTable td.confluenceTd.highlight-green,
+table.confluenceTable td.confluenceTd.highlight-green > p {
+  background-color: var(--highlight-green);
+}
+
+table.confluenceTable th.confluenceTh.highlight-red,
+table.confluenceTable th.confluenceTh.highlight-red > p,
+table.confluenceTable td.confluenceTd.highlight-red,
+table.confluenceTable td.confluenceTd.highlight-red > p {
+  background-color: var(--highlight-red);
+}
+
+table.confluenceTable th.confluenceTh.highlight-yellow,
+table.confluenceTable th.confluenceTh.highlight-yellow > p,
+table.confluenceTable td.confluenceTd.highlight-yellow,
+table.confluenceTable td.confluenceTd.highlight-yellow > p {
+  background-color: var(--highlight-yellow);
+}
+
+/* ADG3 colors */
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#091e42"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#091e42"] {
+  background-color: #091e42;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#172b4d"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#172b4d"] {
+  background-color: #172b4d;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#253858"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#253858"] {
+  background-color: #253858;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#344563"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#344563"] {
+  background-color: #344563;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#42526e"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#42526e"] {
+  background-color: #42526e;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#505f79"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#505f79"] {
+  background-color: #505f79;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#5e6c84"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#5e6c84"] {
+  background-color: #5e6c84;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#6b778c"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#6b778c"] {
+  background-color: #6b778c;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#7a869a"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#7a869a"] {
+  background-color: #7a869a;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#8993a4"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#8993a4"] {
+  background-color: #8993a4;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#97a0af"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#97a0af"] {
+  background-color: #97a0af;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#a5adba"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#a5adba"] {
+  background-color: #a5adba;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#b3bac5"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#b3bac5"] {
+  background-color: #b3bac5;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#c1c7d0"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#c1c7d0"] {
+  background-color: #c1c7d0;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#dfe1e6"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#dfe1e6"] {
+  background-color: #dfe1e6;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#ebecf0"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#ebecf0"] {
+  background-color: #ebecf0;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#f4f5f7"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#f4f5f7"] {
+  background-color: #f4f5f7;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#fafbfc"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#fafbfc"] {
+  background-color: #fafbfc;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#ffffff"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#ffffff"] {
+  background-color: #ffffff;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#bf2600"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#bf2600"] {
+  background-color: #bf2600;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#de350b"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#de350b"] {
+  background-color: #de350b;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#ff5630"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#ff5630"] {
+  background-color: #ff5630;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#ff7452"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#ff7452"] {
+  background-color: #ff7452;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#ff8f73"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#ff8f73"] {
+  background-color: #ff8f73;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#ffbdad"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#ffbdad"] {
+  background-color: #ffbdad;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#ffebe6"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#ffebe6"] {
+  background-color: #ffebe6;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#ff8b00"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#ff8b00"] {
+  background-color: #ff8b00;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#ff991f"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#ff991f"] {
+  background-color: #ff991f;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#ffab00"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#ffab00"] {
+  background-color: #ffab00;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#ffc400"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#ffc400"] {
+  background-color: #ffc400;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#ffe380"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#ffe380"] {
+  background-color: #ffe380;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#fff0b3"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#fff0b3"] {
+  background-color: #fff0b3;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#fffae6"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#fffae6"] {
+  background-color: #fffae6;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#006644"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#006644"] {
+  background-color: #006644;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#00875a"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#00875a"] {
+  background-color: #00875a;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#36b37e"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#36b37e"] {
+  background-color: #36b37e;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#57d9a3"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#57d9a3"] {
+  background-color: #57d9a3;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#79f2c0"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#79f2c0"] {
+  background-color: #79f2c0;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#abf5d1"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#abf5d1"] {
+  background-color: #abf5d1;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#e3fcef"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#e3fcef"] {
+  background-color: #e3fcef;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#008da6"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#008da6"] {
+  background-color: #008da6;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#00a3bf"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#00a3bf"] {
+  background-color: #00a3bf;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#00b8d9"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#00b8d9"] {
+  background-color: #00b8d9;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#00c7e6"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#00c7e6"] {
+  background-color: #00c7e6;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#79e2f2"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#79e2f2"] {
+  background-color: #79e2f2;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#b3f5ff"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#b3f5ff"] {
+  background-color: #b3f5ff;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#e6fcff"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#e6fcff"] {
+  background-color: #e6fcff;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#0747a6"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#0747a6"] {
+  background-color: #0747a6;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#0052cc"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#0052cc"] {
+  background-color: #0052cc;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#0065ff"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#0065ff"] {
+  background-color: #0065ff;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#2684ff"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#2684ff"] {
+  background-color: #2684ff;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#4c9aff"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#4c9aff"] {
+  background-color: #4c9aff;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#b3d4ff"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#b3d4ff"] {
+  background-color: #b3d4ff;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#deebff"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#deebff"] {
+  background-color: #deebff;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#403294"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#403294"] {
+  background-color: #403294;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#5243aa"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#5243aa"] {
+  background-color: #5243aa;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#6554c0"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#6554c0"] {
+  background-color: #6554c0;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#8777d9"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#8777d9"] {
+  background-color: #8777d9;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#998dd9"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#998dd9"] {
+  background-color: #998dd9;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#c0b6f2"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#c0b6f2"] {
+  background-color: #c0b6f2;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#eae6ff"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#eae6ff"] {
+  background-color: #eae6ff;
+}
+table.confluenceTable th.confluenceTh[data-highlight-colour="\#000000"],
+table.confluenceTable td.confluenceTd[data-highlight-colour="\#000000"] {
+  background-color: #000000;
+}
+/* ADG3 colors end */
+
+table.confluenceTable th.confluenceTh,
+table.confluenceTable th.confluenceTh > p {
+  font-weight: bold;
+}
+
+table.confluenceTable th.confluenceTh.nohighlight, /* deprecated */
+table.confluenceTable th.confluenceTh.nohighlight > p {
+  /* deprecated */
+  font-weight: normal;
+  background-color: transparent;
+}
+
+table.confluenceTable td.confluenceTd img,
+table.confluenceTable td.confluenceTd .confluence-embedded-file-wrapper img,
+table.confluenceTable th.confluenceTh .confluence-embedded-file-wrapper img {
+  max-width: none;
+}
+
+table.confluenceTable td.numberingColumn {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
+}

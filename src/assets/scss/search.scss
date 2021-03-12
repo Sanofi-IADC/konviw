@@ -1,0 +1,139 @@
+/* Search box styles =========================================== */
+
+#Results {
+  max-width: 760px;
+  margin: auto;
+  padding: 20px !important;
+}
+
+#wrap {
+  margin: 0;
+  height: 30px;
+  float: right;
+  padding: 0;
+  position: fixed;
+  top: 50px;
+  right: 50px;
+}
+
+// input search text to be hidden behind the lens icon
+input#search {
+  border: none;
+  font-size: 20px;
+  font-weight: 300;
+  outline: none;
+  color: #555;
+  padding: 0px;
+  padding-right: 40px;
+  width: 0px;
+  position: relative;
+  top: 0;
+  right: 0;
+  background: none;
+  z-index: 20;
+  transition: width 0.4s cubic-bezier(0, 1.795, 0, 1);
+  cursor: pointer;
+}
+
+// search text box that opens up from the lens icon to the left
+input#search:focus {
+  width: 400px;
+  z-index: 1;
+  position: relative;
+  cursor: text;
+  background: #fafafa;
+  padding: 5px;
+  border-radius: 5px 5px 5px 5px;
+  -moz-border-radius: 5px 5px 5px 5px;
+  -webkit-border-radius: 5px 5px 5px 5px;
+  border: 0px solid #000000;
+  -webkit-box-shadow: 0px 2px 4px -2px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 2px 4px -2px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 2px 4px -2px rgba(0, 0, 0, 0.75);
+}
+
+input#search_submit {
+  border: none; //  change to this value
+  z-index: 1;
+  height: 30px;
+  width: 30px;
+  float: right;
+  background: url("./images/lens.png") center center no-repeat;
+  background-size: 30px 30px;
+  text-indent: -1000px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  opacity: 0.4;
+  transition: opacity 0.4s ease;
+}
+
+input#search_submit:hover {
+  opacity: 1;
+}
+
+.score {
+  font-size: 16px;
+}
+
+.date {
+  font-size: 11px;
+}
+
+.author {
+  font-size: 12px;
+}
+
+.title {
+  font-size: 22px;
+  color: rgb(73, 73, 73);
+}
+
+.docid {
+  color: rgb(73, 73, 73);
+  font-size: 11px;
+}
+
+.excerpt {
+  color: rgb(73, 73, 73);
+  font-size: 16px;
+}
+
+.id {
+  color: dimgrey;
+  font-size: 12px;
+}
+
+.result {
+  font-size: 12px;
+}
+
+ul.tag {
+  font-size: 12px;
+  list-style-type: none;
+  margin-right: 10px;
+  padding: 0;
+}
+ul.tag::before {
+  content: "\1F3F7"; // Tag icon 🏷 emoji
+  font-size: 18px;
+  margin-right: 10px;
+  color: green;
+  left: 5px;
+  position: relative;
+  top: 2px;
+}
+
+li.tag {
+  display: inline;
+  font-size: 10px;
+  background-color: #e7e3e3;
+  margin-right: 5px;
+  text-align: center;
+  padding: 2px;
+  border-radius: 3px 3px 3px 3px;
+  -moz-border-radius: 3px 3px 3px 3px;
+  -webkit-border-radius: 3px 3px 3px 3px;
+  border: 1px solid lightgrey;
+}

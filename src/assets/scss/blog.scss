@@ -1,0 +1,87 @@
+// Blog Post header styles ====================================
+/* Some vars */
+$background-color: hsl(50, 5, 97);
+$black: hsl(200, 40, 10);
+$white: $background-color;
+$base-font-size: 25px;
+$base-line-height: 1.5em;
+$color-contrast-lower: #7785ab;
+$blog-header-font: white;
+
+.blog--header {
+  background-color: $color-contrast-lower;
+  position: relative;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  padding: 150 0;
+  -webkit-clip-path: polygon(0% 0%, 100% 0%, 100% calc(100% - 1em), 0% 100%);
+  clip-path: polygon(0% 0%, 100% 0%, 100% calc(100% - 3em), 0% 100%);
+}
+
+.blog--box {
+  position: absolute;
+  top: 35%;
+  left: 5%;
+}
+
+.blog--vCard {
+  color: $blog-header-font;
+  display: inline-block;
+  vertical-align: middle;
+}
+.blog--title {
+  color: $blog-header-font;
+  padding: 5px;
+  font-size: 40px;
+  font-weight: bolder;
+  text-align: left;
+}
+
+.blog--when,
+.blog--email {
+  color: $blog-header-font;
+  font-size: $small-text;
+}
+
+section.blog--excerpt {
+  max-width: $base-width;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.blog--excerpt blockquote {
+  font-family: Rubik;
+  font-size: $base-font-size;
+  border-radius: 5px;
+  position: relative; /*  <--- */
+  font-style: italic;
+  text-align: left;
+  padding: 1rem 1.2rem;
+  width: 80%; /* create space for the quotes */
+  color: #6d6b6b;
+  margin: 1rem auto 2rem;
+  background: #fafafa;
+  /* -- create the quotation marks -- */
+  &:before,
+  &:after {
+    position: absolute;
+    font-family: "Helvetica Neue";
+    /* -- inside the relative position of blockquote -- */
+    // top: 13px;
+    color: #e8e8e8;
+    font-size: 200px;
+  }
+  &:before {
+    content: "\201C";
+    margin-right: 5px;
+    top: -10%;
+    right: 100%;
+  }
+  &:after {
+    content: "\201D";
+    margin-left: -15px;
+    left: 100%;
+    bottom: -20%;
+  }
+}

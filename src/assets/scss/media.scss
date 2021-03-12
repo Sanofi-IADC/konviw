@@ -1,0 +1,51 @@
+// Video iframe ===================================
+video {
+  padding: 10px;
+  width: 100%;
+  height: auto;
+}
+
+iframe.conf-macro {
+  margin-right: auto;
+  margin-left: auto;
+  display: block;
+  border-style: none;
+}
+
+// Image positioning ===================================
+img {
+  max-width: 100%;
+  height: auto;
+  padding: 10px;
+  display: block;
+  &.image-left {
+    align-content: left;
+    margin-right: auto;
+  }
+  &.image-right {
+    align-content: right;
+    margin-left: auto;
+  }
+  &.image-center {
+    margin-left: auto;
+    margin-right: auto;
+    align-content: center;
+  }
+}
+
+// Image positioning with wrapped text ===============
+img {
+  max-width: 100%;
+  height: auto;
+  padding: 10px;
+  &.image-wrap-left {
+    float: left;
+    margin-right: 10px;
+    margin-top: -5px;
+  }
+  &.image-wrap-right {
+    float: right;
+    margin-left: 10px;
+    margin-top: -5px;
+  }
+}
