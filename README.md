@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://sanofi-iadc.github.io/konviw/" target="blank"><img src="https://raw.githubusercontent.com/Sanofi-IADC/konviw/main/docs/public/konviw.svg" width="320" alt="Nest Logo" /></a>
+  <a href="https://sanofi-iadc.github.io/konviw/" target="blank"><img src="https://sanofi-iadc.github.io/konviw/konviw.svg" width="320" alt="Nest Logo" /></a>
 </p>
 
   <p align="center">Enterprise public viewer for your <a href="https://www.atlassian.com/software/confluence" target="_blank">Confluence</a> pages.</p>
@@ -51,14 +51,10 @@ This sequence represents the common steps handled by the proxy server:
 
 - [Nest.js](https://nestjs.com). A progressive Node.js framework for building efficient, reliable and scalable server-side applications. Guess what, we use NestJS to serve the backend proxy.
 
-<a href="https://nestjs.com/" target="blank"><img src="https://sanofi-iadc.github.io/konviw/nestjs-logo.svg" width="120" alt="Nest Logo" /></a>
-
 - Simple REST API
 - [Cheerio](https://cheerio.js.org) is used to parse the DOM of the HTML returned by the Confluence API and perform the desired transformations.
 
 - [Reveal.js](https://revealjs.com) is our choice to create Stunning Presentations on the Web from a Confluence page.
-
-<a href="https://revealjs.com" target="blank"><img src="https://sanofi-iadc.github.io/konviw/revealjs-logo.svg" width="120" alt="Nest Logo" /></a>
 
 - [Zooming](https://github.com/kingdido999/zooming) an image zoom 🔍 that makes sense.
 - [Highlight.js](https://highlightjs.org) a JavaScript syntax highlighter with language auto-detection.
