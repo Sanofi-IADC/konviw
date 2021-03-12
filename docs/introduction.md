@@ -1,3 +1,7 @@
+---
+title: Introduction
+---
+
 <p align="center">
   <a href="https://sanofi-iadc.github.io/konviw/" target="blank"><img :src="$withBase('/konviw.svg')" width="320" alt="Nest Logo" /></a>
 </p>
@@ -77,7 +81,7 @@ $ npm run build
 $ npm run start
 ```
 
-For configuration check the [docs](https://sanofi-iadc.github.io/konviw/installation).
+For configuration check the detailed [installation](/installation).
 
 ## How to contribute?
 
