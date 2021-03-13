@@ -2,8 +2,6 @@
 title: Installation
 ---
 
-# Installation
-
 ## Manual setup
 
 ```bash
@@ -16,7 +14,7 @@ $ npm run build
 $ npm run start
 ```
 
-## Setup with Docker
+## Docker setup
 
 - [ ] TODO
 
@@ -59,6 +57,56 @@ $ npm run start:dev
 
 6. You can use the proxy on `http://localhost:3000/`
 
-## Test
+## Advance Customizing
+
+You can furher customize the way the pages are rendered and the default styles applying your own stylesheets.
+
+In the folder `src/assets/scss` you will find all the scss stylesheets organized by formating group.
+
+For instance editing the file `expander-panel.scss` you can personalize the style for your expander panels. Whether you prefer arrows instead of `+` / `-` symbols or change text size or color.
+
+```js
+// Expander pannel ========================================
+div.expand-container {
+  border-radius: 10px;
+  border: solid 1px var(--border-expander);
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 5px;
+  background-color: var(--bg-expander);
+}
+div.expand-control:before {
+  content: "\2795"; // symbol +
+}
+div.active:before {
+  content: "\2796"; // symbol -
+}
+div.expand-control {
+  cursor: pointer;
+  padding: 10px;
+  font-size: 20px;
+  font-weight: 400;
+}
+div.expand-control:hover {
+  background-color: var(--border-expander);
+  border-radius: 10px;
+}
+span.expand-control-text {
+  padding: 5px;
+  word-wrap: break-word;
+  white-space: normal;
+}
+div.expand-content {
+  transition: max-height 0.3s ease-out;
+  font-size: 18px;
+  padding: 0 18px;
+  max-height: 0;
+  overflow: hidden;
+}
+```
+
+As you see we use CSS variables for the most common styles shared across components. You can access and modify all those variables from the file `variables.scss`.
+
+## Tests
 
 - [ ] TODO

@@ -10,7 +10,7 @@ title: Introduction
   Enterprise public viewer for your <a href="https://www.atlassian.com/software/confluence" target="_blank">Confluence</a> pages.
 </p>
 
-# Konviw, a Confluence viewer
+## Konviw, a Confluence viewer
 
 It comes from the abreviation of Confluence Viewer and the word _conviu_ (coming from Catalan and pronouced /koɱˈviw/) which means coexist en English.
 

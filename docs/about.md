@@ -2,7 +2,7 @@
 title: About
 ---
 
-# Sanofi IADC
+## Sanofi IADC
 
 We are Industrial Affairs Digital Center and we 💚 &nbsp;open source. We sponsor our favorite open source that we use to build our Digital Products and we contribute to the open source community with some of our components and solutions.
 
