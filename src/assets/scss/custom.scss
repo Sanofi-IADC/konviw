@@ -1,15 +1,18 @@
 // Default font IADC ======================================
-@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;600;800&display=swap");
-@import "variables.scss";
-@import "expander-panel.scss";
-@import "media.scss";
-@import "profile.scss";
-@import "checkboxes.scss";
-@import "info-panels.scss";
-@import "decisions.scss";
-@import "tables.scss";
-@import "blog.scss";
-@import "scrolltotop.scss";
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;600&display=swap');
+@import url('https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+@import 'variables.scss';
+@import 'expander-panel.scss';
+@import 'media.scss';
+@import 'profile.scss';
+@import 'checkboxes.scss';
+@import 'info-panels.scss';
+@import 'decisions.scss';
+@import 'tables.scss';
+@import 'blog.scss';
+@import 'scrolltotop.scss';
+@import 'status.scss';
+@import 'blockquote.scss';
 
 // Basic styles ===========================================
 html {
@@ -20,7 +23,7 @@ html {
 body {
   background-color: var(--bg-color);
   color: var(--font-color);
-  font-family: "Rubik", sans-serif;
+  font-family: 'Rubik', sans-serif;
   font-size: var(--main-font-size);
   font-weight: var(--main-font-weight);
 }
@@ -80,7 +83,7 @@ a {
   text-decoration: none;
   color: var(--primary-color-link);
   &::after {
-    content: "";
+    content: '';
     background: rgba(rgb(221, 235, 132), 0.25);
     position: absolute;
     left: 0px;
@@ -109,7 +112,7 @@ a.user-mention {
     color: white;
   }
   &::before {
-    content: "@ ";
+    content: '@ ';
   }
 }
 
@@ -277,7 +280,7 @@ ul.content-by-label li {
 }
 
 ul.content-by-label li::before {
-  content: "\1F4CB"; // notebook 📋 emoji
+  content: '\1F4CB'; // notebook 📋 emoji
   padding-right: 5px;
 }
 
