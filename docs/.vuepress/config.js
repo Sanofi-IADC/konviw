@@ -14,7 +14,30 @@ module.exports = {
       { text: 'About', link: '/about' },
       { text: 'GitHub', link: 'https://github.com/Sanofi-IADC/konviw' },
     ],
-    sidebar: 'auto',
+    // sidebar: 'auto',
+    sidebar: [
+      {
+        title: 'Introduction', // required
+        path: '/introduction', // optional, link of the title, which should be an absolute path and must exist
+        collapsable: false, // optional, defaults to true
+        // sidebarDepth: 2, // optional, defaults to 1
+      },
+      {
+        title: 'Installation',
+        path: '/installation', // optional, link of the title, which should be an absolute path and must exist
+        // sidebarDepth: 2, // optional, defaults to 1
+      },
+      {
+        title: 'Usage',
+        path: '/usage', // optional, link of the title, which should be an absolute path and must exist
+      },
+      {
+        title: 'Demo', // required
+        collapsable: true, // optional, defaults to true
+        children: ['/demoIntroduction', '/demoStyles'],
+      },
+      '/about',
+    ],
   },
   plugins: ['@vuepress/back-to-top'],
   markdown: {
