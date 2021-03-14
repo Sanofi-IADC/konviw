@@ -22,7 +22,6 @@
     "docs:prebuild": "rimraf docs/.vuepress/dist",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
-    "docs:serve": "vuepress serve docs",
     "docs:deploy": "npm run docs:prebuild && npm run docs:build && gh-pages -d docs/.vuepress/dist"
   },
   "dependencies": {
