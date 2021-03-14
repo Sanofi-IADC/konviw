@@ -7,7 +7,7 @@ export default (): Config => ({
   web: {
     port: (process.env.PORT && parseInt(process.env.PORT, 10)) || 3000,
     basePath: process.env.CPV_BASEPATH || '/',
-    baseHost: process.env.CPV_BASEHOST || 'https://iadc-docs.sanofi.com',
+    baseHost: process.env.CPV_BASEHOST || '',
   },
   confluence: {
     baseURL: process.env.CPV_CONFLUENCE_BASE_URL || '',
