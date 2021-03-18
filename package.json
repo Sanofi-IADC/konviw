@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Enterprise public viewer for your Confluence pages",
   "author": "Jose Gascon",
-  "private": true,
+  "private": false,
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
@@ -13,7 +13,7 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix --max-warnings 3",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
