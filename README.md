@@ -38,6 +38,7 @@ Konviw is an open source public viewer for Confluence pages in Enterprise privat
 - [ ] Comments
 - [ ] Dockerized deployment
 - [ ] Make the 'perf_hooks' measurement optional via .env configuration
+- [ ] Enhanced configuration of slides functionality
 
 ## Architecture
 
