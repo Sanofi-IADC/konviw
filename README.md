@@ -1,4 +1,5 @@
-[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/Sanofi-IADC/konviw)
+[![CI][ci-shield]][ci-url]
+[![Gitpod ready-to-code][gp-shield]][gp-url]
 
 <p align="center">
   <a href="https://sanofi-iadc.github.io/konviw/" target="blank"><img src="https://sanofi-iadc.github.io/konviw/konviw.svg" width="320" alt="Nest Logo" /></a>
@@ -92,3 +93,10 @@ For configuration check the [docs](https://sanofi-iadc.github.io/konviw/installa
 ## License
 
 [MIT licensed](https://github.com/Sanofi-IADC/konviw/blob/main/LICENCE) made by Sanofi IADC
+
+
+[ci-shield]: https://github.com/Sanofi-IADC/konviw/workflows/CI/badge.svg?branch=main&event=push
+[ci-url]: https://github.com/Sanofi-IADC/konviw/actions
+
+[gp-shield]: https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod
+[gp-url]: https://gitpod.io/#https://github.com/Sanofi-IADC/konviw
