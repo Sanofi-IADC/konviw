@@ -29,8 +29,8 @@ Konviw is an open source public viewer for Confluence pages in Enterprise privat
 ## Use cases
 
 - Headless CMS via Confluence
-- Corporate Blogs
-- Cool Tech sessions with stunning Presentations on the Web
+- Corporate blogs
+- Cool tech sessions with stunning presentations on the Web
 
 ### Roadmap
 
