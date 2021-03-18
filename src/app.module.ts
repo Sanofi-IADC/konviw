@@ -9,7 +9,7 @@ import { HttpModule } from './http/http.module';
 import { TerminusModule } from '@nestjs/terminus';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { HealthcheckController } from './healthcheck/healthcheck.controller';
+import { HealthController } from './health/health.controller';
 // import { ProxyController } from './proxy/proxy.controller';
 // import { ProxyService } from './proxy/proxy.service';
 import { ContextService } from './context/context.service';
@@ -31,7 +31,7 @@ import configuration from './config/configuration';
       isGlobal: true,
     }),
   ],
-  controllers: [AppController, HealthcheckController],
+  controllers: [AppController, HealthController],
   providers: [AppService, ContextService],
 })
 export class AppModule implements NestModule {
