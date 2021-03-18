@@ -1,4 +1,6 @@
 [![CI][ci-shield]][ci-url]
+[![Sonarcloud quality][sonarcloud-shield]][sonarcloud-url]
+[![MIT License][license-shield]][license-url]
 [![Gitpod ready-to-code][gp-shield]][gp-url]
 
 <p align="center">
@@ -100,3 +102,9 @@ For configuration check the [docs](https://sanofi-iadc.github.io/konviw/installa
 
 [gp-shield]: https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod
 [gp-url]: https://gitpod.io/#https://github.com/Sanofi-IADC/konviw
+
+[sonarcloud-shield]: https://sonarcloud.io/api/project_badges/measure?project=Sanofi-IADC_konviw&metric=alert_status
+[sonarcloud-url]: https://sonarcloud.io/dashboard?id=Sanofi-IADC_konviw
+
+[license-shield]: https://img.shields.io/badge/License-MIT-green.svg
+[license-url]: https://github.com/Sanofi-IADC/whispr/blob/master/LICENSE
