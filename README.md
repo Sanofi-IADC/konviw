@@ -1,3 +1,5 @@
+[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/Sanofi-IADC/konviw)
+
 <p align="center">
   <a href="https://sanofi-iadc.github.io/konviw/" target="blank"><img src="https://sanofi-iadc.github.io/konviw/konviw.svg" width="320" alt="Nest Logo" /></a>
 </p>
