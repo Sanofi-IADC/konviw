@@ -1,0 +1,97 @@
+name: CI
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  quality:
+    name: Quality
+    if: "!contains(github.event.head_commit.message, 'chore(release):')"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x, 14.x, 15.x]
+    env:
+      AWS_ACCESS_KEY_ID: dummy
+      AWS_SECRET_ACCESS_KEY: dummy
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      # - name: Format
+      #   run: npm run format:check
+
+      # - name: Tests
+      #   run: npm test
+
+      - name: Prod build
+        run: npm run build
+
+  # release:
+  #   name: Release
+  #   needs: quality
+  #   # https://github.community/t/how-do-i-specify-job-dependency-running-in-another-workflow/16482
+  #   if: github.event_name == 'push' && github.ref == 'refs/heads/master' && !contains(github.event.head_commit.message, 'chore(release):')
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     CACHE_IMAGE: sanofiiadc/konviw
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v2
+  #       with:
+  #         token: ${{ secrets.SEMANTIC_RELEASE_TOKEN }}
+
+  #     - name: Setup Node
+  #       uses: actions/setup-node@v1
+  #       with:
+  #         node-version: "12.x"
+
+  #     - name: Cache dependencies
+  #       uses: actions/cache@v2
+  #       with:
+  #         path: ~/.npm
+  #         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+  #         restore-keys: |
+  #           ${{ runner.os }}-node-
+
+  #     - name: Install dependencies
+  #       run: npm ci
+
+  #     - name: Log into Docker registry
+  #       uses: azure/docker-login@v1
+  #       with:
+  #         username: ${{ secrets.SANOFI_DOCKER_HUB_USERNAME }}
+  #         password: ${{ secrets.SANOFI_DOCKER_HUB_TOKEN }}
+
+  #     - name: Pull Docker cache image
+  #       run: docker pull --quiet ${CACHE_IMAGE} 2>/dev/null || true
+
+  #     - name: Semantic Release
+  #       env:
+  #         MDF_BRANCH_TAG: latest
+  #         MDF_BUILD_PARAMS: --cache-from ${{ env.CACHE_IMAGE }}
+  #         GH_TOKEN: ${{ secrets.SEMANTIC_RELEASE_TOKEN }}
+  #       run: npx semantic-release
