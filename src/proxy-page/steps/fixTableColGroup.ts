@@ -3,12 +3,12 @@ import { Step } from '../proxy-page.step';
 
 export default (): Step => {
   return (context: ContextService): void => {
-    context.setPerfMark('fixTableColgroup');
+    context.setPerfMark('fixTableColGroup');
     const $ = context.getCheerioBody();
 
     // Remove colgroup to make the tables responsive and taking the full space of the viewport
     $('table.confluenceTable > colgroup').remove();
 
-    context.getPerfMeasure('fixTableColgroup');
+    context.getPerfMeasure('fixTableColGroup');
   };
 };
