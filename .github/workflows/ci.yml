@@ -44,8 +44,8 @@ jobs:
       # - name: Format
       #   run: npm run format:check
 
-      # - name: Tests
-      #   run: npm test
+      - name: Tests
+        run: npm test
 
       - name: Prod build
         run: npm run build
