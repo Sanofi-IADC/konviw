@@ -7,7 +7,7 @@ import {
 import { ConfigService } from '@nestjs/config';
 import Config from '../config/config.d';
 
-@Controller('healthcheck')
+@Controller('health')
 export class HealthController {
   constructor(
     private config: ConfigService,
