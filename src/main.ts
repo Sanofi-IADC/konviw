@@ -6,9 +6,9 @@ import { AppModule } from './app.module';
 import * as sassMiddleware from 'node-sass-middleware';
 
 async function bootstrap() {
-  // const app = await NestFactory.create(AppModule);
   // const logger = new Logger('bootstrap');
-  const app = await NestFactory.create<NestExpressApplication>(AppModule); //  in case we want to access the Express API
+  // as we need to access the Express API
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   // logger: ['error', 'warn'];
 
   app.useGlobalPipes(

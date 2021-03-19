@@ -4,10 +4,13 @@ import {
   HealthCheckService,
   HttpHealthIndicator,
 } from '@nestjs/terminus';
+import { ConfigService } from '@nestjs/config';
+import Config from '../config/config.d';
 
-@Controller('health')
+@Controller('healthcheck')
 export class HealthController {
   constructor(
+    private config: ConfigService,
     private health: HealthCheckService,
     private dns: HttpHealthIndicator,
   ) {}
@@ -15,8 +18,9 @@ export class HealthController {
   @Get()
   @HealthCheck()
   check() {
+    const baseURL = this.config.get<Config>('confluence.baseURL');
     return this.health.check([
-      () => this.dns.pingCheck('Atlassian API', 'https://iadc.atlassian.net'),
+      async () => this.dns.pingCheck('Atlassian API', `${baseURL}`),
     ]);
   }
 }
