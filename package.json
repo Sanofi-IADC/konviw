@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Enterprise public viewer for your Confluence pages",
   "author": "Jose Gascon",
-  "private": false,
+  "private": true,
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
