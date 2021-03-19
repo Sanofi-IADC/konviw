@@ -2,11 +2,11 @@ import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
 import { ConfigService } from '@nestjs/config';
 import Config from '../../config/config';
-import { Logger } from '@nestjs/common';
+// import { Logger } from '@nestjs/common';
 
 export default (config: ConfigService): Step => {
   return (context: ContextService): void => {
-    const logger = new Logger('fixLinks');
+    // const logger = new Logger('fixLinks');
     context.setPerfMark('fixLinks');
     // performance.mark('fixLinks-init');
 
