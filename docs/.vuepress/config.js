@@ -1,10 +1,13 @@
+const package = require('../../package.json');
+
 module.exports = {
-  // title: 'konviw',
-  description: 'Enterprise public viewer for your Confluence pages.',
+  description: package.description,
+  version: package.version,
   base: '/konviw/', // when published to GitHub Pages
   // base: '/', // when rendered locally
   head: [['link', { rel: 'icon', href: '/konviw.png' }]],
   themeConfig: {
+    version: package.version,
     logo: '/konviw.svg',
     nav: [
       { text: 'Home', link: '/' },
