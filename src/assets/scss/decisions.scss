@@ -9,11 +9,10 @@ ul.decision-list li {
   position: relative;
   padding: 5px 35px 5px;
   text-decoration: none;
-  position: relative;
 }
 
 ul.decision-list li::before {
-  content: "\1F396"; // medal with star 🎖 emoji
+  content: '\1F396'; // medal with star 🎖 emoji
   font-size: 25px;
   color: grey;
   left: 5px;
