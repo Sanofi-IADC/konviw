@@ -30,8 +30,8 @@ Konviw is an open source public viewer for Confluence pages in Enterprise privat
 ### Use cases
 
 - Headless CMS via Confluence
-- Corporate Blogs
-- Cool Tech sessions with stunning Presentations on the Web
+- Corporate blogs
+- Cool tech sessions with stunning presentations on the Web
 
 ### Roadmap
 
@@ -85,6 +85,8 @@ For configuration check the detailed [installation](/installation).
 
 ## How to contribute?
 
+[![CI][ci-shield]][ci-url] [![Sonarcloud quality][sonarcloud-shield]][sonarcloud-url] [![MIT License][license-shield]][license-url] [![Gitpod ready-to-code][gp-shield]][gp-url]
+
 - [Create a Bug report](https://github.com/Sanofi-IADC/konviw/issues/new?assignees=&labels=&template=bug_report.md&title=) to help us improve.
 - Suggest [feature request](https://github.com/Sanofi-IADC/konviw/issues/new?assignees=&labels=&template=feature_request.md&title=) or idea for this project]
 - And if you are interested to contribute to the development or documenation do not hesitate to fork of this repository and propose a pull request with new features.
@@ -100,3 +102,12 @@ Cheerio is a MIT-licensed open source blazingly fast DOM parser for nodejs serve
 ## License
 
 [MIT licensed](https://github.com/Sanofi-IADC/konviw/blob/main/LICENCE) made by Sanofi IADC
+
+[ci-shield]: https://github.com/Sanofi-IADC/konviw/workflows/CI/badge.svg?branch=main&event=push
+[ci-url]: https://github.com/Sanofi-IADC/konviw/actions
+[gp-shield]: https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod
+[gp-url]: https://gitpod.io/#https://github.com/Sanofi-IADC/konviw
+[sonarcloud-shield]: https://sonarcloud.io/api/project_badges/measure?project=Sanofi-IADC_konviw&metric=alert_status
+[sonarcloud-url]: https://sonarcloud.io/dashboard?id=Sanofi-IADC_konviw
+[license-shield]: https://img.shields.io/badge/License-MIT-green.svg
+[license-url]: https://github.com/Sanofi-IADC/whispr/blob/master/LICENSE

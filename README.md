@@ -97,15 +97,11 @@ For configuration check the [docs](https://sanofi-iadc.github.io/konviw/installa
 
 [MIT licensed](https://github.com/Sanofi-IADC/konviw/blob/main/LICENCE) made by Sanofi IADC
 
-
 [ci-shield]: https://github.com/Sanofi-IADC/konviw/workflows/CI/badge.svg?branch=main&event=push
 [ci-url]: https://github.com/Sanofi-IADC/konviw/actions
-
 [gp-shield]: https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod
 [gp-url]: https://gitpod.io/#https://github.com/Sanofi-IADC/konviw
-
 [sonarcloud-shield]: https://sonarcloud.io/api/project_badges/measure?project=Sanofi-IADC_konviw&metric=alert_status
 [sonarcloud-url]: https://sonarcloud.io/dashboard?id=Sanofi-IADC_konviw
-
 [license-shield]: https://img.shields.io/badge/License-MIT-green.svg
 [license-url]: https://github.com/Sanofi-IADC/whispr/blob/master/LICENSE
