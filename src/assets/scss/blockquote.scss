@@ -15,7 +15,7 @@ blockquote {
 
 blockquote::before {
   position: absolute;
-  font-family: 'FontAwesome';
+  font-family: 'FontAwesome', sans-serif;
   top: -30px;
   left: -120px;
   content: '\f10d';
