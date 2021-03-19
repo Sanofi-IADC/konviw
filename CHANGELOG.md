@@ -1,3 +1,10 @@
+## [0.0.2](https://github.com/Sanofi-IADC/konviw/compare/v0.0.1...v0.0.2) (2021-03-19)
+
+
+### Bug Fixes
+
+* correct package version ([57a9d55](https://github.com/Sanofi-IADC/konviw/commit/57a9d55058311d42f4ccfbda53396eca760f55eb))
+
 # 1.0.0 (2021-03-19)
 
 
