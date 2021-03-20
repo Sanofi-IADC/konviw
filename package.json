@@ -43,7 +43,7 @@
     "@nestjs/cli": "7.5.6",
     "@nestjs/schematics": "7.3.0",
     "@nestjs/testing": "7.6.14",
-    "@types/cheerio": "=0.22.10",
+    "@types/cheerio": "0.22.28",
     "@types/express": "4.17.11",
     "@types/jest": "26.0.20",
     "@types/node": "14.14.35",
