@@ -1,3 +1,10 @@
+## [0.1.1](https://github.com/Sanofi-IADC/konviw/compare/v0.1.0...v0.1.1) (2021-03-24)
+
+
+### Bug Fixes
+
+* import compliant with esModuleInterop true ([0a6cf69](https://github.com/Sanofi-IADC/konviw/commit/0a6cf694f1fe6929b02586ff5af636865c17c9c3))
+
 # [0.1.0](https://github.com/Sanofi-IADC/konviw/compare/v0.0.2...v0.1.0) (2021-03-24)
 
 
