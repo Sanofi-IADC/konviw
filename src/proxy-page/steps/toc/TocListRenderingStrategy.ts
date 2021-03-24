@@ -1,4 +1,4 @@
-import * as cheerio from 'cheerio';
+import cheerio from 'cheerio';
 import TocRenderingStrategy from './TocRenderingStrategy';
 import Toc from './Toc';
 import TocSection from './TocSection';
