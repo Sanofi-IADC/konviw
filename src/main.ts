@@ -6,7 +6,7 @@ import { AppModule } from './app.module';
 import * as sassMiddleware from 'node-sass-middleware';
 
 async function bootstrap() {
-  // const logger = new Logger('bootstrap');
+  const logger = new Logger('bootstrap');
   // as we need to access the Express API
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   // logger: ['error', 'warn'];
@@ -31,11 +31,11 @@ async function bootstrap() {
     sassMiddleware({
       src: path.resolve('./src/assets/scss'),
       dest: path.resolve('./static/css'),
-      debug: false,
+      debug: true,
       outputStyle: 'compressed',
-      // log: function (severity: string, key: string, value: string) {
-      //   logger.log(`${key} : ${value}`, `node-sass-middleware : ${severity}`);
-      // },
+      log: function (severity: string, key: string, value: string) {
+        logger.log(`${key} : ${value}`, `node-sass-middleware : ${severity}`);
+      },
       prefix: '/css',
     }),
   );

@@ -50,7 +50,7 @@ export class ProxyApiService {
         })),
         summary: doc.excerpt,
         lastModified: doc.friendlyLastModified,
-        excerptBlog: this.context.getExcerptBlog(),
+        excerptBlog: this.context.getExcerpt(),
         imgblog: this.context
           .getImgBlog()
           .replace(atlassianIadcRegEx, `${baseHost}${basePath}/wiki/`),
@@ -104,7 +104,7 @@ export class ProxyApiService {
         summary: doc.excerpt,
         space: doc.resultGlobalContainer.displayUrl.split('/')[2],
         lastModified: doc.friendlyLastModified,
-        excerptBlog: this.context.getExcerptBlog(),
+        excerptBlog: this.context.getExcerpt(),
         body: this.context.getTextBody(),
         readTime: this.context.getReadTime(),
       };

@@ -24,6 +24,7 @@ import addDarkTheme from './steps/addDarkTheme';
 import addNoZoom from './steps/addNoZoom';
 import addHeaderBlog from './steps/addHeaderBlog';
 import addSlides from './steps/addSlides';
+import addMessageBus from './steps/addMessageBus';
 
 @Injectable()
 export class ProxyPageService {
@@ -79,6 +80,7 @@ export class ProxyPageService {
     }
     delUnnecessaryCode()(this.context);
     addCustomCss(this.config)(this.context);
+    addMessageBus()(this.context);
     addZooming(this.config)(this.context);
     addNoZoom()(this.context);
     addHighlightjs(this.config)(this.context);
