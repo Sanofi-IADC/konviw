@@ -1,3 +1,10 @@
+# [0.1.0](https://github.com/Sanofi-IADC/konviw/compare/v0.0.2...v0.1.0) (2021-03-24)
+
+
+### Features
+
+* set excerpt into context as page metadata ([71393f4](https://github.com/Sanofi-IADC/konviw/commit/71393f4b2678199803f57eaa4396815a5710c288))
+
 ## [0.0.2](https://github.com/Sanofi-IADC/konviw/compare/v0.0.1...v0.0.2) (2021-03-19)
 
 
