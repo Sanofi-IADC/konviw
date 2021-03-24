@@ -13,7 +13,7 @@ export default (body: string): Step => {
         const imgBlog = $(element).find('img');
         const excerptBlog = $(element).find('blockquote');
         context.setImgBlog(imgBlog.attr('src'));
-        context.setExcerptBlog(excerptBlog.html());
+        context.setExcerpt(excerptBlog.html());
       });
   };
 };

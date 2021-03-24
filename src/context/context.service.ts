@@ -31,6 +31,7 @@ export class ContextService {
     this.theme = theme;
     const logger = new Logger();
     // Activate the observer
+    // TODO: Activate PerformanceObserver only in development
     this.observer = new PerformanceObserver((list) => {
       const entry = list.getEntries()[0];
       logger.log(`Time for [${entry.name}] = ${entry.duration}ms`);
@@ -39,14 +40,17 @@ export class ContextService {
   }
 
   Close() {
+    // TODO: Activate PerformanceObserver only in development
     this.observer.disconnect();
   }
 
   setPerfMark(mark: string): void {
+    // TODO: Activate PerformanceObserver only in development
     performance.mark(`${mark}-init`);
   }
 
   getPerfMeasure(mark: string): void {
+    // TODO: Activate PerformanceObserver only in development
     performance.mark(`${mark}-end`);
     performance.measure(`${mark}`, `${mark}-init`, `${mark}-end`);
   }
@@ -144,11 +148,11 @@ export class ContextService {
     return Math.ceil(words / wordsPerMinute);
   }
 
-  getExcerptBlog(): string {
+  getExcerpt(): string {
     return this.excerpt;
   }
 
-  setExcerptBlog(excerpt: any): void {
+  setExcerpt(excerpt: any): void {
     this.excerpt = String(excerpt);
   }
 
