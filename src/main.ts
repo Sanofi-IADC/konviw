@@ -1,9 +1,9 @@
 import { NestFactory } from '@nestjs/core';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import * as path from 'path';
+import path from 'path';
 import { AppModule } from './app.module';
-import * as sassMiddleware from 'node-sass-middleware';
+import sassMiddleware from 'node-sass-middleware';
 
 async function bootstrap() {
   const logger = new Logger('bootstrap');

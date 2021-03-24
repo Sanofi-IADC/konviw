@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import * as cheerio from 'cheerio';
+import cheerio from 'cheerio';
 import { performance, PerformanceObserver } from 'perf_hooks';
 
 @Injectable()

@@ -1,4 +1,4 @@
-import * as packageJson from '../../package.json';
+import packageJson from '../../package.json';
 import Config from '../config/config.d';
 
 export default (): Config => ({
