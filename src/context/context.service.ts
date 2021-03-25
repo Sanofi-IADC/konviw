@@ -59,6 +59,10 @@ export class ContextService {
     return this.pageId;
   }
 
+  getSpaceKey(): string {
+    return this.spaceKey;
+  }
+
   getTitle(): string {
     return this.title;
   }

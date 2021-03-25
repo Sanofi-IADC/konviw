@@ -20,7 +20,7 @@ import addZooming from './steps/addZooming';
 import addHighlightjs from './steps/addHighlightjs';
 import addScrollToTop from './steps/addScrollToTop';
 import addHeaderTitle from './steps/addHeaderTitle';
-import addDarkTheme from './steps/addDarkTheme';
+import addTheme from './steps/addTheme';
 import addNoZoom from './steps/addNoZoom';
 import addHeaderBlog from './steps/addHeaderBlog';
 import addSlides from './steps/addSlides';
@@ -80,11 +80,11 @@ export class ProxyPageService {
     }
     delUnnecessaryCode()(this.context);
     addCustomCss(this.config)(this.context);
-    addMessageBus()(this.context);
+    addMessageBus(this.config)(this.context);
     addZooming(this.config)(this.context);
     addNoZoom()(this.context);
     addHighlightjs(this.config)(this.context);
-    addDarkTheme()(this.context);
+    addTheme()(this.context);
     addScrollToTop()(this.context); // TODO: not working
     this.context.Close();
     return this.context.getHtmlBody();
