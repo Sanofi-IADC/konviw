@@ -7,9 +7,10 @@ export default (): Step => {
     const $ = context.getCheerioBody();
 
     // When the DOM content is loaded call the initialization of the Zooming library
-    $('#Content').append(
-      `<script>var coll = document.getElementsByClassName("expand-control");
-            var i;
+    $('body').append(
+      `<script type="module">
+        const coll = document.getElementsByClassName("expand-control");
+            let i;
             for (i = 0; i < coll.length; i++) {
               coll[i].addEventListener("click", function() {
                 this.classList.toggle("active");
@@ -20,7 +21,8 @@ export default (): Step => {
                   content.style.maxHeight = content.scrollHeight + "px";
                 } 
               });
-            }</script>`,
+            }
+      </script>`,
     );
 
     context.getPerfMeasure('fixExpander');

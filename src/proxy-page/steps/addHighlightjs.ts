@@ -22,9 +22,9 @@ export default (config: ConfigService): Step => {
 
     // `<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.3.2/highlight.min.js"></script>`
     // When the DOM content is loaded call the initialization of the Hightlight library
-    $('#Content').append(
-      `<script src="/highlight/highlight.min.js?nocache=${version}"></script>
-       <script>
+    $('body').append(
+      `<script defer src="/highlight/highlight.min.js?nocache=${version}"></script>
+       <script type="module">
          document.addEventListener('DOMContentLoaded', function () {hljs.initHighlightingOnLoad();})
        </script>`,
     );

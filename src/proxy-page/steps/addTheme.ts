@@ -12,18 +12,18 @@ export default (): Step => {
       case 'dark':
       case 'light':
         // When the DOM content is loaded set the theme and save the preference
-        $('#Content').append(
-          `<script>
-          document.addEventListener('DOMContentLoaded', function () {
-          document.documentElement.setAttribute('data-theme', '${theme}');
-          localStorage.setItem('theme', '${theme}');
-          })
+        $('body').append(
+          `<script type="module">
+            document.addEventListener('DOMContentLoaded', function () {
+              document.documentElement.setAttribute('data-theme', '${theme}');
+              localStorage.setItem('theme', '${theme}');
+            })
           </script>`,
         );
         break;
       default:
-        $('#Content').append(
-          `<script>
+        $('body').append(
+          `<script type="module">
             document.addEventListener('DOMContentLoaded', function () {
               const currentTheme = localStorage.getItem('theme');
               if (currentTheme) {
@@ -33,7 +33,7 @@ export default (): Step => {
                 localStorage.setItem('theme', 'light');
               }
             })
-            </script>`,
+          </script>`,
         );
     }
 
