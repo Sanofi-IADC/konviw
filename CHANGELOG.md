@@ -1,3 +1,20 @@
+# [0.2.0](https://github.com/Sanofi-IADC/konviw/compare/v0.1.1...v0.2.0) (2021-03-25)
+
+
+### Bug Fixes
+
+* remove security risk Math.random() ([5d09885](https://github.com/Sanofi-IADC/konviw/commit/5d09885ea9ab1b074605c9ee1f2d1049155ea589))
+
+
+### Features
+
+* **MessageBus:** add framebus and messages ([599541b](https://github.com/Sanofi-IADC/konviw/commit/599541bf34376b8431f75a581dcb7bbe8fdb1fe0))
+
+
+### Performance Improvements
+
+* **script:** load scripts in html body ([365fe45](https://github.com/Sanofi-IADC/konviw/commit/365fe4573b59bfb73e67fe8e089e70c0719da0da))
+
 ## [0.1.1](https://github.com/Sanofi-IADC/konviw/compare/v0.1.0...v0.1.1) (2021-03-24)
 
 
