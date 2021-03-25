@@ -14,7 +14,10 @@
           return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
             /[xy]/g,
             function (c) {
-              const r = (Math.random() * 16) | 0;
+              const crypto = window.crypto || window.msCrypto;
+              const array = new Uint32Array(1);
+              crypto.getRandomValues(array);
+              const r = (array * 16) | 0;
               const v = c === 'x' ? r : (r & 0x3) | 0x8;
 
               return v.toString(16);
