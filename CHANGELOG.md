@@ -1,3 +1,10 @@
+# [0.3.0](https://github.com/Sanofi-IADC/konviw/compare/v0.2.0...v0.3.0) (2021-03-27)
+
+
+### Features
+
+* **bus:** vanilla msg bus to share page metadata ([67b1642](https://github.com/Sanofi-IADC/konviw/commit/67b1642fc3914097a2db859f53bd9021726fa52b))
+
 # [0.2.0](https://github.com/Sanofi-IADC/konviw/compare/v0.1.1...v0.2.0) (2021-03-25)
 
 
