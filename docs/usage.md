@@ -55,6 +55,51 @@ Konviw will detect your draw.io diagrams and present the .png view automatically
 
 ## Advance features
 
+### Embedded konviw pages
+
+You can simply embed your konviw pages in websites, MS Teams tabs or in other applications via iframes. To provide advance integration features konviw share some metadata with the parent window so you can resize the iframe dynamically based on the content or display the Url being loaded in the iframe.
+
+- `frameHeight` dynamically share the height of the content
+- `iframeUrl` with the full page Url
+- `slug` of the space key
+- `pageId` with the ID of the page
+- `title` of the page
+- `excerpt` of the page
+
+For instance you can retrieve metadata in a Vue component with a method like this
+
+```js
+  methods: {
+    LoadFrame(resize) {
+      window.onmessage = (e) => {
+        if (resize) {
+          if (Object.prototype.hasOwnProperty.call(e.data, 'frameHeight')) {
+            document.getElementById('cpv-iframe').style.height = `${e.data.frameHeight + 30}px`
+          }
+          this.frameHeight = e.data.frameHeight
+        }
+
+        if (Object.prototype.hasOwnProperty.call(e.data, 'iframeUrl')) {
+          this.iframe = e.data.iframeUrl
+        }
+        if (Object.prototype.hasOwnProperty.call(e.data, 'title')) {
+          this.title = e.data.title
+        }
+        if (Object.prototype.hasOwnProperty.call(e.data, 'excerpt')) {
+          this.excerpt = e.data.excerpt
+        }
+        if (Object.prototype.hasOwnProperty.call(e.data, 'pageId')) {
+          this.pageId = e.data.pageId
+        }
+        if (Object.prototype.hasOwnProperty.call(e.data, 'slug')) {
+          this.slug = e.data.slug
+          this.directUrl = `/${this.slug}/${this.pageId}`
+        }
+      }
+    },
+  },
+```
+
 ### Turn pages into beatiful blog posts
 
 Coming soon.

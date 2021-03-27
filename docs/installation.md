@@ -5,13 +5,13 @@ title: Installation
 ## Manual setup
 
 ```bash
-$ git clone https://github.com/Sanofi-IADC/konviw.git
+➜ git clone https://github.com/Sanofi-IADC/konviw.git
 
-$ cd konviw && npm install
+➜ cd konviw && npm install
 
-$ npm run build
+➜ npm run build
 
-$ npm run start
+➜ npm run start
 ```
 
 ## Docker setup
@@ -36,13 +36,13 @@ Configuration is made with environment variables. They can also be defined with 
 1. Clone the repo:
 
 ```bash
-$ git clone https://github.com/Sanofi-IADC/konviw.git
+➜ git clone https://github.com/Sanofi-IADC/konviw.git
 ```
 
 2. Install packages:
 
 ```bash
-$ cd konviw && npm install
+➜ cd konviw && npm install
 ```
 
 3. Create an Atlassian API token: https://id.atlassian.com/manage/api-tokens
@@ -52,10 +52,25 @@ $ cd konviw && npm install
 5. Run the server in watch mode:
 
 ```bash
-$ npm run start:dev
+➜ npm run start:dev
 ```
 
 6. You can use the proxy on `http://localhost:3000/`
+
+## Documentation
+
+We use [VuePress](https://vuepress.vuejs.org/) to maintain and publish the konviw online documentation.
+Check them locally with
+
+```bash
+➜ npm run docs:dev
+```
+
+and deploy them in Github pages with
+
+```bash
+➜ npm run docs:deploy
+```
 
 ## Advance Customizing
 
