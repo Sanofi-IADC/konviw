@@ -80,7 +80,7 @@ export class ProxyPageService {
     }
     delUnnecessaryCode()(this.context);
     addCustomCss(this.config)(this.context);
-    addMessageBus(this.config)(this.context);
+    addMessageBus()(this.context);
     addZooming(this.config)(this.context);
     addNoZoom()(this.context);
     addHighlightjs(this.config)(this.context);
