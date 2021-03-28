@@ -1,3 +1,11 @@
+## [0.3.1](https://github.com/Sanofi-IADC/konviw/compare/v0.3.0...v0.3.1) (2021-03-28)
+
+
+### Bug Fixes
+
+* **ConfluencePage.vue:** prod vercel url ([7c0f5c8](https://github.com/Sanofi-IADC/konviw/commit/7c0f5c8098b4380ac209e9bf5797ac7b6961f1f0))
+* spaceKey as better variable name than slug ([2f48484](https://github.com/Sanofi-IADC/konviw/commit/2f48484b75303c5b6ea77eb6c4178e8d0e10aa96))
+
 # [0.3.0](https://github.com/Sanofi-IADC/konviw/compare/v0.2.0...v0.3.0) (2021-03-27)
 
 
