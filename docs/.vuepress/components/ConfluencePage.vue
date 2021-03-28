@@ -32,7 +32,7 @@ export default {
   data() {
     return {
       title: '',
-      url: `http://localhost:3000/cpv/wiki/spaces/konviw/pages/${this.pageId}`,
+      url: `https://konviw.vercel.app/cpv/wiki/spaces/konviw/pages/${this.pageId}`,
       excerpt: '',
       iframeUrl: '',
     };
