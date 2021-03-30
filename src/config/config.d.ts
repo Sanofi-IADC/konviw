@@ -1,5 +1,3 @@
-// import LogLevel from "./LogLevel";
-
 interface Config {
   env: string;
 

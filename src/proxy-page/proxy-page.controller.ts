@@ -32,13 +32,12 @@ export class ProxyPageController {
     @Query() queries: PageQueryDTO,
   ) {
     this.logger.verbose(`Rendering... /${params.spaceKey}/${params.pageId}`);
-    const page = await this.proxyPage.renderPage(
+    return await this.proxyPage.renderPage(
       params.spaceKey,
       params.pageId,
       queries.theme,
       queries.type,
     );
-    return page;
   }
 
   /**
@@ -53,32 +52,16 @@ export class ProxyPageController {
     this.logger.verbose(
       `Rendering Slides for ... /${params.spaceKey}/${params.pageId}`,
     );
-    const page = await this.proxyPage.renderSlides(
-      params.spaceKey,
-      params.pageId,
-    );
-    return page;
+    return await this.proxyPage.renderSlides(params.spaceKey, params.pageId);
   }
 
   /**
-   * @GET (controller) /download/*
-   * @description Route to retrieve the standard media files like images and videos (usually attachments)
+   * @GET (controller) /download/* or /aa-avatar/*
+   * @description Route to retrieve the standard media files like images, videos or user profile avatar
    * @return {string} 'url' - URL of the media to display
    */
-  @Get('/download/*')
-  async download(@Req() req: Request, @Res() res: Response) {
-    const reqUrl = req.url.replace(/\/cpv\/wiki/, '');
-    const mediaCdnUrl = await this.proxyPage.getMediaCdnUrl(reqUrl);
-    res.redirect(mediaCdnUrl);
-  }
-
-  /**
-   * @GET (controller) /aa-avatar/*
-   * @description Route to retrieve the avatar image asociated with a Confluence user profile
-   * @return {string} 'url' - URL of the media to display
-   */
-  @Get('/aa-avatar/*')
-  async avatar(@Req() req: Request, @Res() res: Response) {
+  @Get(['/download/*', '/aa-avatar/*'])
+  async getMedia(@Req() req: Request, @Res() res: Response) {
     const reqUrl = req.url.replace(/\/cpv\/wiki/, '');
     const mediaCdnUrl = await this.proxyPage.getMediaCdnUrl(reqUrl);
     res.redirect(mediaCdnUrl);

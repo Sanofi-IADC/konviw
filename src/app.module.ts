@@ -31,6 +31,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
       isGlobal: true,
     }),
     CacheModule.register({
+      // TODO: Make the cache parameters customizable via env variables
       ttl: 604800, // 1 week
       max: 10,
     }),
@@ -48,6 +49,6 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     // TODO: Improve the logger customization in development mode (* for all routes)
-    consumer.apply(LoggerMiddleware).forRoutes('/slides*');
+    consumer.apply(LoggerMiddleware).forRoutes('*');
   }
 }

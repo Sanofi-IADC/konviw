@@ -20,7 +20,6 @@ export class ProxyApiService {
    * @param spaceKey {string} 'iadc' - space key where the page belongs
    */
   async getAllPosts(spaceKey: string): Promise<any> {
-    // const results = await this.confluence.getPage(spaceKey, pageId);
     const data = await this.confluence.getAllPosts(spaceKey);
     const baseURL = this.config.get<Config>('confluence.baseURL');
     const baseHost = this.config.get<Config>('web.baseHost');
@@ -69,7 +68,6 @@ export class ProxyApiService {
    * @param query {string} 'vision factory' - words to be searched
    */
   async getSearchResults(spaceKey: string, query: string): Promise<string> {
-    // const context = new Context(spaceKey, '', '', scope, query);
     const data = await this.confluence.getResults(spaceKey, query);
     const baseURL = this.config.get<Config>('confluence.baseURL');
     const baseHost = this.config.get<Config>('web.baseHost');
@@ -122,7 +120,6 @@ export class ProxyApiService {
       results: parseResults,
     };
 
-    // console.log("objects is ", combined);
     return JSON.parse(JSON.stringify(combined));
     // return combined;  // why this is not working?
   }
