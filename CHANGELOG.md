@@ -1,3 +1,10 @@
+## [0.4.1](https://github.com/Sanofi-IADC/konviw/compare/v0.4.0...v0.4.1) (2021-03-30)
+
+
+### Bug Fixes
+
+* get the env variable from config service ([2f9eccf](https://github.com/Sanofi-IADC/konviw/commit/2f9eccf1d7cab5b6b58e323c53597094d51677c9))
+
 # [0.4.0](https://github.com/Sanofi-IADC/konviw/compare/v0.3.2...v0.4.0) (2021-03-30)
 
 
