@@ -1,3 +1,17 @@
+# [0.4.0](https://github.com/Sanofi-IADC/konviw/compare/v0.3.2...v0.4.0) (2021-03-30)
+
+
+### Bug Fixes
+
+* **fixLink:** prevent matching on undefined ([db591c2](https://github.com/Sanofi-IADC/konviw/commit/db591c2ae7270324f77cfc31ac529ad230b71b33))
+* **scrollToTop:** correctly display scroll to top button ([dc75094](https://github.com/Sanofi-IADC/konviw/commit/dc75094a5700908233cb34b97c5e4ae6d16dcdcb))
+
+
+### Features
+
+* **cache:** in memory cache resquests ([ab65e12](https://github.com/Sanofi-IADC/konviw/commit/ab65e12f3861eb24860eaaecec19b8c18700e808))
+* **ContextService:** performance logging only in development ([757dc72](https://github.com/Sanofi-IADC/konviw/commit/757dc72782ffb0d7de57041af043aa77a61a2c77))
+
 ## [0.3.2](https://github.com/Sanofi-IADC/konviw/compare/v0.3.1...v0.3.2) (2021-03-28)
 
 
