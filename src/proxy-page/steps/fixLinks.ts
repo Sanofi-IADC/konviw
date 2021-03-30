@@ -24,37 +24,29 @@ export default (config: ConfigService): Step => {
     const searchUrl = new RegExp(`(https?://${domain}/wiki)(.*)`, 'g');
     const searchUri = new RegExp(`(\/wiki)(.*)`, 'g');
 
-    // Let's find Confluence links to pages
-    $('a').each((_index: number, link: CheerioElement) => {
-      if ($(link).attr('href').match(searchUrl)) {
+    const replaceAttributeLink = (attr: string, link: CheerioElement) => {
+      if ($(link).attr(attr)?.match(searchUrl)) {
         // Step 1: replace absolute URLs by absolute URIs
         $(link).attr(
-          'href',
-          $(link).attr('href').replace(searchUrl, `${webBasePath}/wiki$2`),
+          attr,
+          $(link).attr(attr).replace(searchUrl, `${webBasePath}/wiki$2`),
         );
-      } else if ($(link).attr('href').match(searchUri)) {
+      } else if ($(link).attr(attr)?.match(searchUri)) {
         // Step 2: replace URIs with the correct base path
         $(link).attr(
-          'href',
-          $(link).attr('href').replace(searchUri, `${webBasePath}/wiki$2`),
+          attr,
+          $(link).attr(attr).replace(searchUri, `${webBasePath}/wiki$2`),
         );
       }
+    };
+
+    // Let's find Confluence links to pages
+    $('a').each((_index: number, link: CheerioElement) => {
+      replaceAttributeLink('href', link);
     });
     // Let's find Confluence links to images
     $('img').each((_index: number, link: CheerioElement) => {
-      if ($(link).attr('src').match(searchUrl)) {
-        // Step 1: replace absolute URLs by absolute URIs
-        $(link).attr(
-          'src',
-          $(link).attr('src').replace(searchUrl, `${webBasePath}/wiki$2`),
-        );
-      } else if ($(link).attr('src').match(searchUri)) {
-        // Step 2: replace URIs with the correct base path
-        $(link).attr(
-          'src',
-          $(link).attr('src').replace(searchUri, `${webBasePath}/wiki$2`),
-        );
-      }
+      replaceAttributeLink('src', link);
     });
 
     // We have improved this code by parsing links and images with Cheerio

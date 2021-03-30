@@ -30,7 +30,6 @@ export class ProxyPageController {
   async getPage(
     @Param() params: PageParamsDTO,
     @Query() queries: PageQueryDTO,
-    @Res() res: Response,
   ) {
     this.logger.verbose(`Rendering... /${params.spaceKey}/${params.pageId}`);
     const page = await this.proxyPage.renderPage(
@@ -39,7 +38,7 @@ export class ProxyPageController {
       queries.theme,
       queries.type,
     );
-    res.send(page);
+    return page;
   }
 
   /**
@@ -58,7 +57,7 @@ export class ProxyPageController {
       params.spaceKey,
       params.pageId,
     );
-    res.send(page);
+    return page;
   }
 
   /**

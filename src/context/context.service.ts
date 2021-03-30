@@ -31,12 +31,13 @@ export class ContextService {
     this.theme = theme;
     const logger = new Logger();
     // Activate the observer
-    // TODO: Activate PerformanceObserver only in development
-    this.observer = new PerformanceObserver((list) => {
-      const entry = list.getEntries()[0];
-      logger.log(`Time for [${entry.name}] = ${entry.duration}ms`);
-    });
-    this.observer.observe({ entryTypes: ['measure'], buffered: false });
+    if (process.env.NODE_ENV === 'development') {
+      this.observer = new PerformanceObserver((list) => {
+        const entry = list.getEntries()[0];
+        logger.log(`Time for [${entry.name}] = ${entry.duration}ms`);
+      });
+      this.observer.observe({ entryTypes: ['measure'], buffered: false });
+    }
   }
 
   Close() {

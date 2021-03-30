@@ -118,6 +118,7 @@ a.user-mention {
 
 // Main content of the page =============================
 #Content {
+  position: relative;
   max-width: $base-width;
   margin: auto;
   // margin-left: 20px;
