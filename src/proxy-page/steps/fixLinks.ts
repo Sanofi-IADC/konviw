@@ -2,13 +2,12 @@ import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
 import { ConfigService } from '@nestjs/config';
 import Config from '../../config/config';
-// import { Logger } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 
 export default (config: ConfigService): Step => {
   return (context: ContextService): void => {
-    // const logger = new Logger('fixLinks');
+    const logger = new Logger('fixLinks');
     context.setPerfMark('fixLinks');
-    // performance.mark('fixLinks-init');
 
     const $ = context.getCheerioBody();
     const confluenceBaseURL = config.get<Config>('confluence.baseURL');
@@ -41,16 +40,18 @@ export default (config: ConfigService): Step => {
     };
 
     // Let's find Confluence links to pages
+    logger.log('Replacing links URLs');
     $('a').each((_index: number, link: CheerioElement) => {
       replaceAttributeLink('href', link);
     });
     // Let's find Confluence links to images
+    logger.log('Replacing images URLs');
     $('img').each((_index: number, link: CheerioElement) => {
       replaceAttributeLink('src', link);
     });
 
     // We have improved this code by parsing links and images with Cheerio
-    // and replace them like this instead of doing a big regex on the whole HTML page.
+    // and replace them instead of doing a big regex on the whole HTML page.
     // Because it may break some real texts containing "/wiki" that we don't want to replace.
 
     // Step 1: replace absolute URLs by absolute URIs

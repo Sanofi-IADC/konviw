@@ -49,7 +49,7 @@ export class ProxyPageController {
    * @param pageId {string} '639243960' - id of the page to retrieve
    */
   @Get('/slides/:spaceKey/:pageId/:pageSlug?')
-  async getSlides(@Param() params: PageParamsDTO, @Res() res: Response) {
+  async getSlides(@Param() params: PageParamsDTO) {
     this.logger.verbose(
       `Rendering Slides for ... /${params.spaceKey}/${params.pageId}`,
     );

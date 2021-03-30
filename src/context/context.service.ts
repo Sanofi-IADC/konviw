@@ -1,6 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
 import cheerio from 'cheerio';
 import { performance, PerformanceObserver } from 'perf_hooks';
+import { ConfigService } from '@nestjs/config';
+import Config from '../config/config';
 
 @Injectable()
 export class ContextService {
@@ -20,6 +22,7 @@ export class ContextService {
   private searchResults = '';
   private fullWidth = false;
   private observer: PerformanceObserver;
+  constructor(private config: ConfigService) {}
 
   // ! How to make this working with classic constructor for the class?
   // ! Somehow not working with the @Injectable decorator
@@ -30,8 +33,8 @@ export class ContextService {
     this.pageId = pageId;
     this.theme = theme;
     const logger = new Logger();
-    // Activate the observer
-    if (process.env.NODE_ENV === 'development') {
+    // Activate the observer in development
+    if (this.config.get<Config>('env').toString() === 'development') {
       this.observer = new PerformanceObserver((list) => {
         const entry = list.getEntries()[0];
         logger.log(`Time for [${entry.name}] = ${entry.duration}ms`);
@@ -41,19 +44,25 @@ export class ContextService {
   }
 
   Close() {
-    // TODO: Activate PerformanceObserver only in development
-    this.observer.disconnect();
+    // Disconnect the PerformanceObserver only in development
+    if (this.config.get<Config>('env').toString() === 'development') {
+      this.observer.disconnect();
+    }
   }
 
   setPerfMark(mark: string): void {
-    // TODO: Activate PerformanceObserver only in development
-    performance.mark(`${mark}-init`);
+    // Activate PerformanceObserver only in development
+    if (this.config.get<Config>('env').toString() === 'development') {
+      performance.mark(`${mark}-init`);
+    }
   }
 
   getPerfMeasure(mark: string): void {
-    // TODO: Activate PerformanceObserver only in development
-    performance.mark(`${mark}-end`);
-    performance.measure(`${mark}`, `${mark}-init`, `${mark}-end`);
+    // Get PerformanceObserver metrics only in development
+    if (this.config.get<Config>('env').toString() === 'development') {
+      performance.mark(`${mark}-end`);
+      performance.measure(`${mark}`, `${mark}-init`, `${mark}-end`);
+    }
   }
 
   getPageId(): string {
