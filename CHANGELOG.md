@@ -1,3 +1,10 @@
+## [0.4.2](https://github.com/Sanofi-IADC/konviw/compare/v0.4.1...v0.4.2) (2021-03-30)
+
+
+### Bug Fixes
+
+* minor fixes to improve code ([77314ff](https://github.com/Sanofi-IADC/konviw/commit/77314ff3b483327507f429c4a0687676c5e36ade))
+
 ## [0.4.1](https://github.com/Sanofi-IADC/konviw/compare/v0.4.0...v0.4.1) (2021-03-30)
 
 
