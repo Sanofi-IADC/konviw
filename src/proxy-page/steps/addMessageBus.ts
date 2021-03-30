@@ -18,7 +18,6 @@ export default (): Step => {
         context.setExcerpt(excerptPage.text());
       });
 
-    const spaceKey = context.getSpaceKey().toLowerCase();
     $('body').append(
       `<script type="module">
         let height;
@@ -33,7 +32,7 @@ export default (): Step => {
         const sendMetadataMsg = () => {
           window.parent.postMessage({
             iframeUrl: window.location.href,
-            spaceKey: "${spaceKey}",
+            spaceKey: "${context.getSpaceKey().toLowerCase()}",
             pageId: "${context.getPageId()}",
             title: "${context.getTitle()}",
             excerpt: "${context.getExcerpt()}"
