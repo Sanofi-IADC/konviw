@@ -6,8 +6,7 @@ import {
   OnModuleInit,
   HttpModule as BaseHttpModule,
 } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { ConfigService } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import Config from '../config/config';
 
 @Module({

@@ -30,6 +30,7 @@ export class ConfluenceService {
         })
         .toPromise();
       this.logger.log(`Retrieving page ${pageId}`);
+      // TODO: Check first metadata.labels!=='iadc-private' or return error 403 Forbidden
       return results.data;
     } catch (err) {
       this.logger.log(err, 'error:getPage');
@@ -53,7 +54,7 @@ export class ConfluenceService {
           },
         })
         .toPromise();
-      // this.logger.log(`Retrieving media from ${uri}`);
+      this.logger.log(`Retrieving media from ${uri}`);
       return results.headers.location;
     } catch (err) {
       this.logger.log(err, 'error:getRedirectUrlForMedia');
@@ -122,13 +123,11 @@ export class ConfluenceService {
           params: {
             limit: 999,
             cql: cpl,
-            // excerpt: "highlight", // use "highlight" to enclosed word found in @@@hl@@@ and @@@endhl@@@
             expand: [
               // fields to retrieve
               'content.history',
               'content.metadata.labels',
               'content.body.styled_view',
-              // 'content.body.view',
             ].join(','),
           },
         })
