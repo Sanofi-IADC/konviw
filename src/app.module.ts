@@ -5,7 +5,7 @@ import {
   CacheModule,
   CacheInterceptor,
 } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { HttpModule } from './http/http.module';
 import { TerminusModule } from '@nestjs/terminus';
 import { AppController } from './app.controller';
@@ -30,10 +30,13 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
       load: [configuration],
       isGlobal: true,
     }),
-    CacheModule.register({
-      // TODO: Make the cache parameters customizable via env variables
-      ttl: 604800, // 1 week
-      max: 10,
+    CacheModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        ttl: configService.get('cacheTTL'),
+        max: configService.get('cacheMax'),
+      }),
+      inject: [ConfigService],
     }),
   ],
   controllers: [AppController, HealthController],

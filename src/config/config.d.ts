@@ -21,6 +21,11 @@ interface Config {
     baseURL: string;
     idSite: string;
   };
+
+  cache: {
+    cacheTTL: number;
+    cacheMax: number;
+  };
 }
 
 export default Config;
