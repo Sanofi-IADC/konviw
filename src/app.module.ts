@@ -18,6 +18,7 @@ import { ProxyPageModule } from './proxy-page/proxy-page.module';
 import { ProxyApiModule } from './proxy-api/proxy-api.module';
 import configuration from './config/configuration';
 import { APP_INTERCEPTOR } from '@nestjs/core';
+import { CacheController } from './cache/cache.controller';
 
 @Module({
   imports: [
@@ -39,7 +40,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
       inject: [ConfigService],
     }),
   ],
-  controllers: [AppController, HealthController],
+  controllers: [AppController, HealthController, CacheController],
   providers: [
     AppService,
     ContextService,
