@@ -1,3 +1,10 @@
+## [0.5.2](https://github.com/Sanofi-IADC/konviw/compare/v0.5.1...v0.5.2) (2021-04-01)
+
+
+### Bug Fixes
+
+* **app:** default route redirect to konviw docs ([f25f7e1](https://github.com/Sanofi-IADC/konviw/commit/f25f7e1696c5aa87ea21b51c05e2d711f55056f5))
+
 ## [0.5.1](https://github.com/Sanofi-IADC/konviw/compare/v0.5.0...v0.5.1) (2021-04-01)
 
 
