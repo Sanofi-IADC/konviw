@@ -3,7 +3,6 @@ import {
   NestModule,
   MiddlewareConsumer,
   CacheModule,
-  CacheInterceptor,
 } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { HttpModule } from './http/http.module';
@@ -18,7 +17,7 @@ import { ProxyPageModule } from './proxy-page/proxy-page.module';
 import { ProxyApiModule } from './proxy-api/proxy-api.module';
 import configuration from './config/configuration';
 import { APP_INTERCEPTOR } from '@nestjs/core';
-import { CacheController } from './cache/cache.controller';
+import CustomHttpCacheInterceptor from './cache/custom-http-cache.interceptor';
 
 @Module({
   imports: [
@@ -40,13 +39,13 @@ import { CacheController } from './cache/cache.controller';
       inject: [ConfigService],
     }),
   ],
-  controllers: [AppController, HealthController, CacheController],
+  controllers: [AppController, HealthController],
   providers: [
     AppService,
     ContextService,
     {
       provide: APP_INTERCEPTOR,
-      useClass: CacheInterceptor,
+      useClass: CustomHttpCacheInterceptor,
     },
   ],
 })

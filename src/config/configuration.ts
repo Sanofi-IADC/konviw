@@ -22,7 +22,7 @@ export default (): Config => ({
   },
   cache: {
     cacheTTL:
-      (process.env.CACHE_TTL && parseInt(process.env.CACHE_TTL, 10)) || 604800,
+      (process.env.CACHE_TTL && parseInt(process.env.CACHE_TTL, 10)) || 86400,
     cacheMax:
       (process.env.CACHE_MAX && parseInt(process.env.CACHE_MAX, 10)) || 10,
   },
