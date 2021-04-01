@@ -29,4 +29,9 @@ export class PageQueryDTO {
   @IsString()
   @IsIn(['blog', 'notitle'])
   type: string;
+
+  @IsOptional()
+  @IsString()
+  @IsIn(['no-cache', 'clear-cache'])
+  cache: string;
 }
