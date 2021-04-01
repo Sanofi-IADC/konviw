@@ -26,10 +26,10 @@
     "docs:deploy": "npm run docs:prebuild && npm run docs:build && gh-pages -d docs/.vuepress/dist"
   },
   "dependencies": {
-    "@nestjs/common": "7.6.14",
+    "@nestjs/common": "7.6.15",
     "@nestjs/config": "0.6.3",
-    "@nestjs/core": "7.6.14",
-    "@nestjs/platform-express": "7.6.14",
+    "@nestjs/core": "7.6.15",
+    "@nestjs/platform-express": "7.6.15",
     "@nestjs/serve-static": "2.1.4",
     "@nestjs/terminus": "7.1.1",
     "cache-manager": "3.4.2",
@@ -41,9 +41,9 @@
     "rxjs": "6.6.6"
   },
   "devDependencies": {
-    "@nestjs/cli": "7.5.6",
+    "@nestjs/cli": "7.6.0",
     "@nestjs/schematics": "7.3.0",
-    "@nestjs/testing": "7.6.14",
+    "@nestjs/testing": "7.6.15",
     "@semantic-release/changelog": "5.0.1",
     "@semantic-release/exec": "5.0.0",
     "@semantic-release/git": "9.0.0",
