@@ -100,6 +100,17 @@ For instance you can retrieve metadata in a Vue component with a method like thi
   },
 ```
 
+### Cache management
+
+By default Konviw comes with an in-memory cache for both pages and API endpoints.
+You can manually specify a TTL (expiration time) for the cache, via the `env` variable:
+
+```
+CACHE_TTL = 86400    # Default to 24h
+```
+
+In some cases you may want to skip the cache to force to render a page with the last content served from the Confluence API. In those cases use the parameter `cache=no-cache`.
+
 ### Turn pages into beatiful blog posts
 
 Coming soon.
