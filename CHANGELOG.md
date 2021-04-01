@@ -1,3 +1,10 @@
+## [0.5.1](https://github.com/Sanofi-IADC/konviw/compare/v0.5.0...v0.5.1) (2021-04-01)
+
+
+### Bug Fixes
+
+* **deps:** update dependency rxjs to v6.6.7 ([c44f0b7](https://github.com/Sanofi-IADC/konviw/commit/c44f0b7f5e5daa3687be68109856e00f207efbe8))
+
 # [0.5.0](https://github.com/Sanofi-IADC/konviw/compare/v0.4.2...v0.5.0) (2021-04-01)
 
 
