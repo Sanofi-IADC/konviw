@@ -1,3 +1,12 @@
+# [0.5.0](https://github.com/Sanofi-IADC/konviw/compare/v0.4.2...v0.5.0) (2021-04-01)
+
+
+### Features
+
+* **cache:** add cache=no-cache query param to ignore cache ([8143e1f](https://github.com/Sanofi-IADC/konviw/commit/8143e1f5672278e508e79513592b84f3e6e2be99))
+* **cache:** add configuration with env ([21b3d4d](https://github.com/Sanofi-IADC/konviw/commit/21b3d4dbb8776dd0e58f2c1a319b07c0e79e3f4e))
+* **cache:** add route to clear cache ([bfda98b](https://github.com/Sanofi-IADC/konviw/commit/bfda98b53f69853b254900eacb3a0ec9ced107c1))
+
 ## [0.4.2](https://github.com/Sanofi-IADC/konviw/compare/v0.4.1...v0.4.2) (2021-03-30)
 
 
