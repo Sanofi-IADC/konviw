@@ -26,6 +26,7 @@ async function bootstrap() {
   );
 
   app.setGlobalPrefix('cpv');
+  app.disable('x-powered-by');
   app.enableCors();
   app.use(
     sassMiddleware({
