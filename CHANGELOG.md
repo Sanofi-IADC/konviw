@@ -1,3 +1,10 @@
+# [0.6.0](https://github.com/Sanofi-IADC/konviw/compare/v0.5.2...v0.6.0) (2021-04-02)
+
+
+### Features
+
+* **blog:** better blockquote style for blog post ([ec09f19](https://github.com/Sanofi-IADC/konviw/commit/ec09f19bbe947100ea32caf6896fdcc9264ff7c9))
+
 ## [0.5.2](https://github.com/Sanofi-IADC/konviw/compare/v0.5.1...v0.5.2) (2021-04-01)
 
 
