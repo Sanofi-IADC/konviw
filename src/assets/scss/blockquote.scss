@@ -11,24 +11,16 @@ blockquote {
   position: relative;
   background: var(--bg-blockquote);
   border-radius: 5px;
+  &::before {
+    position: absolute;
+    font-family: 'FontAwesome', sans-serif;
+    top: -30px;
+    left: -120px;
+    content: '\f10d';
+    font-size: 100px;
+    color: var(--font-color);
+  }
+  &::after {
+    content: '';
+  }
 }
-
-blockquote::before {
-  position: absolute;
-  font-family: 'FontAwesome', sans-serif;
-  top: -30px;
-  left: -120px;
-  content: '\f10d';
-  font-size: 100px;
-  color: var(--font-color);
-}
-
-blockquote::after {
-  content: '';
-}
-
-// blockquote p {
-//   display: block;
-//   font-style: normal;
-//   margin-top: 1em;
-// }

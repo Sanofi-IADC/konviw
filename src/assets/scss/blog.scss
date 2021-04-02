@@ -51,37 +51,26 @@ section.blog--excerpt {
 }
 
 .blog--excerpt blockquote {
-  font-family: Rubik, sans-serif;
-  font-size: $base-font-size;
+  font-size: 1.3em;
+  width: 70%;
+  margin: 20px auto;
+  color: var(--font-color);
+  padding: 0.5em 25px 0.5em 25px;
+  border-left: 8px solid #78c0a8;
+  line-height: 1.6;
+  position: relative;
+  background: var(--bg-blockquote);
   border-radius: 5px;
-  position: relative; /*  <--- */
-  font-style: italic;
-  text-align: left;
-  padding: 1rem 1.2rem;
-  width: 80%; /* create space for the quotes */
-  color: #6d6b6b;
-  margin: 1rem auto 2rem;
-  background: #fafafa;
-  /* -- create the quotation marks -- */
-  &:before,
-  &:after {
+  &::before {
     position: absolute;
-    font-family: 'Helvetica Neue', sans-serif;
-    /* -- inside the relative position of blockquote -- */
-    // top: 13px;
-    color: #e8e8e8;
-    font-size: 200px;
+    font-family: 'FontAwesome', sans-serif;
+    top: -30px;
+    left: -120px;
+    content: '\f10d';
+    font-size: 100px;
+    color: var(--font-color);
   }
-  &:before {
-    content: '\201C';
-    margin-right: 5px;
-    top: -10%;
-    right: 100%;
-  }
-  &:after {
-    content: '\201D';
-    margin-left: -15px;
-    left: 100%;
-    bottom: -20%;
+  &::after {
+    content: '';
   }
 }
