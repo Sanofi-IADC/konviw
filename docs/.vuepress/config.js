@@ -37,7 +37,7 @@ module.exports = {
       {
         title: 'Demo', // required
         collapsable: true, // optional, defaults to true
-        children: ['/demoIntroduction', '/demoStyles'],
+        children: ['/demoIntroduction', '/demoStyles', '/demoComments'],
       },
       '/about',
     ],
