@@ -1,18 +1,20 @@
 <!-- Demo.vue -->
 <template>
   <div class="container">
-    <p>
-      Title: <i>{{ title }}</i>
-    </p>
-    <p>
-      Excerpt: <i>{{ excerpt }}</i>
-    </p>
-    <p>
-      iFrame Url:
-      <a :href="iframeUrl"
-        ><i>{{ iframeUrl }}</i></a
-      >
-    </p>
+    <div v-if="metadata">
+      <p>
+        Title: <i>{{ title }}</i>
+      </p>
+      <p>
+        Excerpt: <i>{{ excerpt }}</i>
+      </p>
+      <p>
+        iFrame Url:
+        <a :href="iframeUrl"
+          ><i>{{ iframeUrl }}</i></a
+        >
+      </p>
+    </div>
     <iframe
       id="konviw-iframe"
       class="konviw--page"
@@ -28,11 +30,13 @@
 export default {
   props: {
     pageId: { type: String, required: true },
+    type: { type: String, required: true },
+    metadata: { type: Boolean, default: true },
   },
   data() {
     return {
       title: '',
-      url: `https://konviw.vercel.app/cpv/wiki/spaces/konviw/pages/${this.pageId}`,
+      url: `https://konviw.vercel.app/cpv/wiki/spaces/konviw/pages/${this.pageId}?type=${this.type}&cache=no-cache`,
       excerpt: '',
       iframeUrl: '',
     };

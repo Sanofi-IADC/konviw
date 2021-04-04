@@ -1,5 +1,5 @@
 ---
-title: Demo
+title: Demo with Title
 ---
 
-<ConfluencePage pageId='32981'/>
+<ConfluencePage type='title' pageId='32981'/>
