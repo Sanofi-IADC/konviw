@@ -1,3 +1,10 @@
+# [0.7.0](https://github.com/Sanofi-IADC/konviw/compare/v0.6.0...v0.7.0) (2021-04-04)
+
+
+### Features
+
+* **proxy-page.controller:** new blog post route ([6ef49ff](https://github.com/Sanofi-IADC/konviw/commit/6ef49ff6cd97fe8b8294e89284a66c299ef38dca))
+
 # [0.6.0](https://github.com/Sanofi-IADC/konviw/compare/v0.5.2...v0.6.0) (2021-04-02)
 
 
