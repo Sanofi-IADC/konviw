@@ -206,7 +206,7 @@ For the blog post above both URL examples will render the same result:
 The parameter `type` is used to define the header format for the page and accept 3 values:
 
 - `blog` to display the blog header image and headline text
-- `notitle` to avoid the title in the header. See [example without title](./demoNoTitle)
+- `notitle` to avoid the title in the header. See [example without title](/demoNoTitle)
 - `title` or undefined will render the standard Konviw page with just title
 
 ### Turn pages into online web presentations
