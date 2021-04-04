@@ -7,6 +7,14 @@ title: Usage
 After following the [installation](/installation) and configuration steps you can render any Confluence page composing
 `CPV_BASEHOST:PORT + CPV_BASEPATH + /wiki/spaces/ + spaceKey + /pages/ + pageId`
 
+Or similarly for any Confluence URL like:
+[https://konviw.atlassian.net/wiki/spaces/KONVIW/pages/32981/Introduction+to+Konviw](https://konviw.atlassian.net/wiki/spaces/KONVIW/pages/32981/Introduction+to+Konviw)
+
+just replace the begining of the URL by your custom Konviw domain like:
+`CPV_BASEHOST:PORT + CPV_BASEPATH + /wiki/spaces/KONVIW/pages/32981/Introduction+to+Konviw`
+
+for example [https://konviw.vercel.app/cpv/wiki/spaces/konviw/pages/32981](https://konviw.vercel.app/cpv/wiki/spaces/konviw/pages/32981)
+
 ## Formating your page
 
 ### Text
@@ -156,7 +164,50 @@ title: Demo Comments
 
 ### Turn pages into beatiful blog posts
 
-Coming soon.
+How to create your first blog post in Confluence and publish it via Konviw.
+
+⓵ Make sure you are in the space you want to save your blog posts.
+
+⓶ Click on Create to create a new page.
+
+⓷ Select Blog post as template.
+
+⓸ You will see that the position of the page change to Blog / Year / Month / Day
+which means that you are ready to go following the next steps and recommendations in this post.
+
+Then you can start writing the main body of the article or post as per your own style, preference and according to the story you want to share.
+
+To add a header banner with a nice image make sure the first element in the document is a “Page Properties” macro as showed in this example with an image and a blockquote headline.
+
+![](create-blog-post.png)
+
+Which will be processed and rendered via Konviw as follows:
+![](blog-post-header.png)
+
+Check in the demo section in this documentation an [online example with blog post](/demoBlogPost).
+
+Like for any other Confluence page you can render the blog posts also composing the following URL:
+`CPV_BASEHOST:PORT + CPV_BASEPATH + /wiki/spaces/ + spaceKey + /pages/ + pageId`
+or alternatively with the Confluence blog post notation:
+`CPV_BASEHOST:PORT + CPV_BASEPATH + /wiki/spaces/ + spaceKey + /blog/ + year + / + month + / + day + / + pageId`
+you may also add the slug with the title of the page (like it's done by Confluence) while this is ignored by Konviw.
+
+So for any blog post in Confluence like:
+[https://konviw.atlassian.net/wiki/spaces/KONVIW/blog/2021/04/04/10387469/How+to+write+a+blog+post+with+konviw](https://konviw.atlassian.net/wiki/spaces/KONVIW/blog/2021/04/04/10387469/How+to+write+a+blog+post+with+konviw)
+
+just replace the begining of the URL by your custom Konviw domain like:
+`CPV_BASEHOST:PORT + CPV_BASEPATH + /wiki/spaces/konviw/blog/2021/04/04/10387469?type=blog`
+
+For the blog post above both URL examples will render the same result:
+
+- [https://konviw.vercel.app/cpv/wiki/spaces/konviw/blog/2021/04/04/10387469?type=blog](https://konviw.vercel.app/cpv/wiki/spaces/konviw/blog/2021/04/04/10387469?type=blog)
+- [https://konviw.vercel.app/cpv/wiki/spaces/konviw/pages/10387469?type=blog](https://konviw.vercel.app/cpv/wiki/spaces/konviw/pages/10387469?type=blog)
+
+The parameter `type` is used to define the header format for the page and accept 3 values:
+
+- `blog` to display the blog header image and headline text
+- `notitle` to avoid the title in the header. See [example without title](./demoNoTitle)
+- `title` or undefined will render the standard Konviw page with just title
 
 ### Turn pages into online web presentations
 

@@ -2,4 +2,4 @@
 title: Demo Styles
 ---
 
-<ConfluencePage pageId='98444'/>
+<ConfluencePage type='title' pageId='98444'/>

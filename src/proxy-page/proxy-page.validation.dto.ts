@@ -11,12 +11,22 @@ export class PageParamsDTO {
   @IsString()
   spaceKey: string;
 
-  @IsOptional()
-  pageSlug: string;
-
   @IsNotEmpty()
   @IsNumberString()
   pageId: string;
+
+  @IsOptional()
+  pageSlug: string;
+
+  // Optional parameters for the blog post router
+  @IsOptional()
+  year: string;
+
+  @IsOptional()
+  month: string;
+
+  @IsOptional()
+  day: string;
 }
 
 export class PageQueryDTO {
@@ -27,7 +37,7 @@ export class PageQueryDTO {
 
   @IsOptional()
   @IsString()
-  @IsIn(['blog', 'notitle'])
+  @IsIn(['blog', 'notitle', 'title'])
   type: string;
 
   @IsOptional()
