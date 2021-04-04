@@ -19,14 +19,21 @@ export class ProxyPageController {
 
   /**
    * @GET (controller) /spaces/:spaceKey/pages/:pageId/:pageSlug?
-   * @description Route to get a read-only fully rendered Confluence page
+   * @GET (controller) /spaces/:spaceKey/blog/:year/:month/:day/:pageId/:pageSlug?
+   * @description Route to get a read-only fully rendered Confluence page or blog post
    * @return {string} 'html' - full html of the rendered Confluence page
    * @param spaceKey {string} 'iadc' - space key where the page belongs
+   * @param year {string} [optional] '2021' - year of publication of the blog post
+   * @param month {string} [optional] '04' - month of publication of the blog post
+   * @param day {string} [optional] '12' - day of publication of the blog post
    * @param pageId {string} '639243960' - id of the page to retrieve
    * @query theme {string} 'dark' - switch between light and dark themes
    * @query type {string} 'blog' - 'blog' to display a post header or 'notitle' to remove the title of the page
    */
-  @Get('/spaces/:spaceKey/pages/:pageId/:pageSlug?')
+  @Get([
+    '/spaces/:spaceKey/pages/:pageId/:pageSlug?',
+    '/spaces/:spaceKey/blog/:year/:month/:day/:pageId/:pageSlug?',
+  ])
   async getPage(
     @Param() params: PageParamsDTO,
     @Query() queries: PageQueryDTO,
