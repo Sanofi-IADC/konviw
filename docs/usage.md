@@ -111,6 +111,49 @@ CACHE_TTL = 86400    # Default to 24h
 
 In some cases you may want to skip the cache to force to render a page with the last content served from the Confluence API. In those cases use the parameter `cache=no-cache`.
 
+### Add comments to pages
+
+We will use [Utterances](https://utteranc.es/) to host comments in GitHub and linked to konviw pages.
+Follow the installation and configuration instructions from their website.
+You can add the following Vue component that will match a set of comments to the pageId passed as props.
+
+```js
+// .vuepress/components/Comment.vue
+<template>
+  <div ref="comment"></div>
+</template>
+<script>
+export default {
+  props: {
+    pageId: { type: String, required: true },
+  },
+  mounted() {
+    const utterances = document.createElement('script');
+    utterances.type = 'text/javascript';
+    utterances.async = true;
+    utterances.crossorigin = 'anonymous';
+    utterances.src = 'https://utteranc.es/client.js';
+    utterances.setAttribute('issue-term', this.pageId); // pathname|url|title|og:title
+    utterances.setAttribute('theme', 'github-light'); // theme
+    utterances.setAttribute('repo', 'Sanofi-IADC/konviw-comments'); // repository
+    this.$refs.comment.appendChild(utterances);
+  },
+};
+</script>
+```
+
+Now, for instance in VuePress you can add this component to any markdown page, like follows:
+
+```md
+---
+title: Demo Comments
+---
+
+<ConfluencePage pageId='32981'/>
+
+<Comment pageId='32981'/>
+```
+
 ### Turn pages into beatiful blog posts
 
 Coming soon.
