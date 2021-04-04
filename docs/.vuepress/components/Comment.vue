@@ -14,7 +14,7 @@ export default {
     utterances.src = 'https://utteranc.es/client.js';
     utterances.setAttribute('issue-term', this.pageId); // pathname|url|title|og:title
     utterances.setAttribute('theme', 'github-light'); // theme
-    utterances.setAttribute('repo', 'Sanofi-IADC/konviw-comments'); // repository
+    utterances.setAttribute('repo', 'Sanofi-IADC/konviw'); // repository
     this.$refs.comment.appendChild(utterances);
   },
 };
