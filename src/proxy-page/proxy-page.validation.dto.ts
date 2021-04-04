@@ -37,7 +37,7 @@ export class PageQueryDTO {
 
   @IsOptional()
   @IsString()
-  @IsIn(['blog', 'notitle'])
+  @IsIn(['blog', 'notitle', 'title'])
   type: string;
 
   @IsOptional()
