@@ -20,15 +20,16 @@ export default (): Step => {
 
     $('body').append(
       `<script type="module">
-        let height;
+        let height; 
         const sendHeightMsg = () => {
-          if (height !== document.getElementById('Content').offsetHeight) {
-            height = document.getElementById('Content').offsetHeight;
+          if (height !== document.getElementsByTagName("BODY")[0].offsetHeight) {
+            height = document.getElementsByTagName("BODY")[0].offsetHeight;
             window.parent.postMessage({
               frameHeight: height
             }, '*');
           }
         }
+        new ResizeObserver(sendHeightMsg).observe(document.body)
         const sendMetadataMsg = () => {
           window.parent.postMessage({
             iframeUrl: window.location.href,
