@@ -1,3 +1,10 @@
+# [0.8.0](https://github.com/Sanofi-IADC/konviw/compare/v0.7.0...v0.8.0) (2021-04-05)
+
+
+### Features
+
+* **addMessageBus:** BODY height ResizeObserver ([041eb5b](https://github.com/Sanofi-IADC/konviw/commit/041eb5b1585ccae765f5dd60c059b04f5634f9bc))
+
 # [0.7.0](https://github.com/Sanofi-IADC/konviw/compare/v0.6.0...v0.7.0) (2021-04-04)
 
 
