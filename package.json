@@ -33,7 +33,7 @@
     "@nestjs/serve-static": "2.1.4",
     "@nestjs/terminus": "7.1.1",
     "cache-manager": "3.4.2",
-    "cheerio": "1.0.0-rc.5",
+    "cheerio": "1.0.0-rc.3",
     "class-transformer": "0.4.0",
     "class-validator": "0.13.1",
     "node-sass-middleware": "0.11.0",
@@ -78,7 +78,7 @@
       "json",
       "ts"
     ],
-    "rootDir": "src",
+    "rootDir": "tests",
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
