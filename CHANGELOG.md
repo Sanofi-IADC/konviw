@@ -1,3 +1,10 @@
+# [0.10.0](https://github.com/Sanofi-IADC/konviw/compare/v0.9.0...v0.10.0) (2021-04-08)
+
+
+### Features
+
+* create Dockerfile ([2605db8](https://github.com/Sanofi-IADC/konviw/commit/2605db873f5da64b577f87d5b918d10e41b71ba0))
+
 # [0.9.0](https://github.com/Sanofi-IADC/konviw/compare/v0.8.0...v0.9.0) (2021-04-08)
 
 
