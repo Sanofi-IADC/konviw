@@ -1,3 +1,10 @@
+# [0.12.0](https://github.com/Sanofi-IADC/konviw/compare/v0.11.1...v0.12.0) (2021-04-09)
+
+
+### Features
+
+* update pm2 config ([e3839d3](https://github.com/Sanofi-IADC/konviw/commit/e3839d3b6de81e6e9da616f76c3bbf18131235fc))
+
 ## [0.11.1](https://github.com/Sanofi-IADC/konviw/compare/v0.11.0...v0.11.1) (2021-04-09)
 
 
