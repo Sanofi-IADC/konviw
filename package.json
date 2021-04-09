@@ -43,7 +43,7 @@
   },
   "devDependencies": {
     "@nestjs/cli": "7.6.0",
-    "@nestjs/schematics": "7.3.0",
+    "@nestjs/schematics": "7.3.1",
     "@nestjs/testing": "7.6.15",
     "@semantic-release/changelog": "5.0.1",
     "@semantic-release/exec": "5.0.0",
