@@ -1,3 +1,10 @@
+# [0.13.0](https://github.com/Sanofi-IADC/konviw/compare/v0.12.0...v0.13.0) (2021-04-09)
+
+
+### Features
+
+* build static ([0d31697](https://github.com/Sanofi-IADC/konviw/commit/0d31697e2eebe65f2204721890ff16c82d33f65c))
+
 # [0.12.0](https://github.com/Sanofi-IADC/konviw/compare/v0.11.1...v0.12.0) (2021-04-09)
 
 
