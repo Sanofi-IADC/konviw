@@ -1,13 +1,13 @@
 {
   "name": "confluence-cms-api",
-  "version": "0.11.1",
+  "version": "0.13.0",
   "description": "Enterprise public viewer for your Confluence pages",
   "author": "Jose Gascon",
   "private": true,
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "npm run prebuild && nest build",
+    "build": "npm run prebuild && nest build && npm run copy:static",
     "format": "prettier --write \"src/**/*.ts\"",
     "format:check": "prettier --list-different \"src/**/*.ts\"",
     "start": "nest start",
@@ -23,7 +23,8 @@
     "docs:prebuild": "rimraf docs/.vuepress/dist",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
-    "docs:deploy": "npm run docs:prebuild && npm run docs:build && gh-pages -d docs/.vuepress/dist"
+    "docs:deploy": "npm run docs:prebuild && npm run docs:build && gh-pages -d docs/.vuepress/dist",
+    "copy:static": "cpx 'static/**' 'dist/static'"
   },
   "dependencies": {
     "@nestjs/common": "7.6.15",
@@ -56,6 +57,7 @@
     "@typescript-eslint/eslint-plugin": "4.17.0",
     "@typescript-eslint/parser": "4.17.0",
     "@vuepress/plugin-back-to-top": "1.8.2",
+    "cpx": "^1.5.0",
     "eslint": "7.22.0",
     "eslint-config-prettier": "7.2.0",
     "eslint-plugin-prettier": "3.3.1",
