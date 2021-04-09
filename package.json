@@ -1,13 +1,13 @@
 {
   "name": "confluence-cms-api",
-  "version": "0.8.0",
+  "version": "0.13.0",
   "description": "Enterprise public viewer for your Confluence pages",
   "author": "Jose Gascon",
   "private": true,
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "npm run prebuild && nest build",
+    "build": "npm run prebuild && nest build && npm run copy:static",
     "format": "prettier --write \"src/**/*.ts\"",
     "format:check": "prettier --list-different \"src/**/*.ts\"",
     "start": "nest start",
@@ -23,7 +23,8 @@
     "docs:prebuild": "rimraf docs/.vuepress/dist",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
-    "docs:deploy": "npm run docs:prebuild && npm run docs:build && gh-pages -d docs/.vuepress/dist"
+    "docs:deploy": "npm run docs:prebuild && npm run docs:build && gh-pages -d docs/.vuepress/dist",
+    "copy:static": "cpx 'static/**' 'dist/static'"
   },
   "dependencies": {
     "@nestjs/common": "7.6.15",
@@ -31,7 +32,7 @@
     "@nestjs/core": "7.6.15",
     "@nestjs/platform-express": "7.6.15",
     "@nestjs/serve-static": "2.1.4",
-    "@nestjs/terminus": "7.1.1",
+    "@nestjs/terminus": "7.1.2",
     "cache-manager": "3.4.2",
     "cheerio": "1.0.0-rc.3",
     "class-transformer": "0.4.0",
@@ -56,6 +57,7 @@
     "@typescript-eslint/eslint-plugin": "4.17.0",
     "@typescript-eslint/parser": "4.17.0",
     "@vuepress/plugin-back-to-top": "1.8.2",
+    "cpx": "^1.5.0",
     "eslint": "7.22.0",
     "eslint-config-prettier": "7.2.0",
     "eslint-plugin-prettier": "3.3.1",
@@ -66,7 +68,7 @@
     "rimraf": "3.0.2",
     "supertest": "6.1.3",
     "ts-jest": "26.5.4",
-    "ts-loader": "8.0.18",
+    "ts-loader": "8.1.0",
     "ts-node": "9.1.1",
     "tsconfig-paths": "3.9.0",
     "typescript": "4.2.3",
