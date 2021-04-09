@@ -37,6 +37,15 @@ export default (config: ConfigService): Step => {
           $(link).attr(attr).replace(searchUri, `${webBasePath}/wiki$2`),
         );
       }
+      // (Optional) Step 3: add resized URLs in srcset attribute on resized images
+      if (link.tagName === 'img') {
+        const imgWidth = link.attribs.width;
+        // If the image has been resized, it had a width attribute
+        if (imgWidth) {
+          // Remove the old, wrong srcset links and add the new one with the corresponding width for standards
+          link.attribs.srcset = `${link.attribs.src} ${imgWidth}w`;
+        }
+      }
     };
 
     // Let's find Confluence links to pages
