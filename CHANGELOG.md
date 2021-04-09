@@ -1,3 +1,17 @@
+## [0.13.2](https://github.com/Sanofi-IADC/konviw/compare/v0.13.1...v0.13.2) (2021-04-09)
+
+
+### Bug Fixes
+
+* **deps:** update dependency cache-manager to v3.4.3 ([cf86fa2](https://github.com/Sanofi-IADC/konviw/commit/cf86fa2bd9fda73fd5707e40339e7748cb22689c))
+
+## [0.13.1](https://github.com/Sanofi-IADC/konviw/compare/v0.13.0...v0.13.1) (2021-04-09)
+
+
+### Bug Fixes
+
+* **fixLinks:** add the right srcset attribute on resized images ([5d9107e](https://github.com/Sanofi-IADC/konviw/commit/5d9107ee32abffeb58cecd484f9d34d868575079))
+
 # [0.13.0](https://github.com/Sanofi-IADC/konviw/compare/v0.12.0...v0.13.0) (2021-04-09)
 
 
