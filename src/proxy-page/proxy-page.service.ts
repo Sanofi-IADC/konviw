@@ -85,7 +85,7 @@ export class ProxyPageService {
     addNoZoom()(this.context);
     addHighlightjs(this.config)(this.context);
     addTheme()(this.context);
-    addScrollToTop()(this.context); // TODO: not working
+    addScrollToTop()(this.context);
     this.context.Close();
     return this.context.getHtmlBody();
   }
@@ -96,10 +96,14 @@ export class ProxyPageService {
    * @param spaceKey {string} 'iadc' - space key where the page belongs
    * @param pageId {string} '639243960' - id of the page to retrieve
    */
-  async renderSlides(spaceKey: string, pageId: string): Promise<string> {
+  async renderSlides(
+    spaceKey: string,
+    pageId: string,
+    theme: string,
+  ): Promise<string> {
     const results = await this.confluence.getPage(spaceKey, pageId);
     this.logger.log(`Starting the restyling of /${spaceKey}/${pageId}`);
-    this.context.Init(spaceKey, pageId);
+    this.context.Init(spaceKey, pageId, theme);
     this.context.setTitle(results.title);
     this.context.setHtmlBody(results.body.styled_view.value);
     this.context.setAuthor(results.history.createdBy.displayName);
