@@ -18,9 +18,9 @@ export default (): Step => {
     // Div with class plugin-tabmeta-details (Confluence macro "properties") is framing the sections for each slide
     $(".plugin-tabmeta-details[data-macro-name='details']").each(
       (_index: number, pageProperties: CheerioElement) => {
-        // First element is an image so let's fill the full background
         const thisBlock = $(pageProperties).children().first().attr('class');
         if (thisBlock) {
+          // First element is an image so let's fill the full background
           if (thisBlock.match(/confluence-embedded-file-wrapper/g)) {
             const srcImage =
               $(pageProperties).children().first().children().attr('src') || '';
@@ -28,15 +28,15 @@ export default (): Step => {
             sections += `<section data-background-image=${srcImage}>
                   ${$(pageProperties).html()}</section>`;
           }
-          // if heading 1 let's make it a cover
         } else if (
+          // if heading 1 let's make it a cover
           $(pageProperties).children().first().get(0).tagName === 'h1'
         ) {
           sections += `<section data-state="cover">${$(
             pageProperties,
           ).html()}</section>`;
-          // heading 3 will be a nice blue bubble to wrap the title
         } else if (
+          // heading 3 will be a nice blue bubble to wrap the title
           $(pageProperties).children().first().get(0).tagName === 'h3'
         ) {
           sections += `<section data-state="bubble">${$(
@@ -49,11 +49,13 @@ export default (): Step => {
       },
     );
 
+    const theme = context.getTheme();
+
     // Let's add the JS library for reveal.js and required CSS styles
     $('head').append(
       `<link rel="stylesheet" href="/reveal/reset.css">
           <link rel="stylesheet" href="/reveal/reveal.css">
-          <link rel="stylesheet" href="/reveal/theme/iadc.css" id="theme">
+          <link rel="stylesheet" href="/reveal/theme/${theme}.css" id="theme">
           <link rel="stylesheet" href="/highlight/zenburn.min.css">
           <script src="/reveal/reveal.js"></script>`,
     );

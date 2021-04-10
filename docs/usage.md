@@ -65,7 +65,7 @@ Konviw will detect your draw.io diagrams and present the .png view automatically
 
 ### Embedded konviw pages
 
-You can simply embed your konviw pages in websites, MS Teams tabs or in other applications via iframes. To provide advance integration features konviw share some metadata with the parent window so you can resize the iframe dynamically based on the content or display the Url being loaded in the iframe.
+You can simply embed your konviw pages in websites, MS Teams tabs or in other applications via iframes. To provide advance integration features konviw automatically pushes some post messages with metadata with the parent window so you can resize the iframe dynamically based on the content or display the Url being loaded in the iframe.
 
 - `frameHeight` dynamically share the height of the content
 - `iframeUrl` with the full page Url
@@ -211,4 +211,4 @@ The parameter `type` is used to define the header format for the page and accept
 
 ### Turn pages into online web presentations
 
-Coming soon.
+You can read a konviw page with instructions to create web slides from your Confluence content in the demo section of these docs.
