@@ -32,7 +32,6 @@ export class PageParamsDTO {
 export class PageQueryDTO {
   @IsOptional()
   @IsString()
-  @IsIn(['light', 'dark'])
   theme: string;
 
   @IsOptional()

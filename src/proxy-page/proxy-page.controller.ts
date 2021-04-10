@@ -53,13 +53,21 @@ export class ProxyPageController {
    * @return {string} 'html' - full html of the rendered page as reveal.js slides
    * @param spaceKey {string} 'iadc' - space key where the page belongs
    * @param pageId {string} '639243960' - id of the page to retrieve
+   * @query theme {string} 'iadc' - select the theme to use for your slide deck
    */
   @Get('/slides/:spaceKey/:pageId/:pageSlug?')
-  async getSlides(@Param() params: PageParamsDTO) {
+  async getSlides(
+    @Param() params: PageParamsDTO,
+    @Query() queries: PageQueryDTO,
+  ) {
     this.logger.verbose(
-      `Rendering Slides for ... /${params.spaceKey}/${params.pageId}`,
+      `Rendering Slides for ... /${params.spaceKey}/${params.pageId} with theme ${queries.theme}`,
     );
-    return await this.proxyPage.renderSlides(params.spaceKey, params.pageId);
+    return await this.proxyPage.renderSlides(
+      params.spaceKey,
+      params.pageId,
+      queries.theme,
+    );
   }
 
   /**
