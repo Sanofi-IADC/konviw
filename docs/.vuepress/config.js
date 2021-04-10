@@ -43,6 +43,7 @@ module.exports = {
           '/demoStyles',
           '/demoComments',
           '/demoBlogPost',
+          '/demoSlidesDocs',
         ],
       },
       '/about',
