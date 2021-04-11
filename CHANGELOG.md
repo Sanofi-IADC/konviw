@@ -1,3 +1,10 @@
+# [0.15.0](https://github.com/Sanofi-IADC/konviw/compare/v0.14.0...v0.15.0) (2021-04-11)
+
+
+### Features
+
+* **slides:** konviw theme for slides ([2e3380c](https://github.com/Sanofi-IADC/konviw/commit/2e3380ce14fa50993337ddb641b1a7db45814bac))
+
 # [0.14.0](https://github.com/Sanofi-IADC/konviw/compare/v0.13.2...v0.14.0) (2021-04-10)
 
 
