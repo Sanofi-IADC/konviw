@@ -39,12 +39,14 @@ section.has-light-background h6 {
   --heading4-size: 1em;
   --code-font: monospace;
   --link-color: #268bd2;
-  --link-color-hover: #78b9e6;
+  --link-color-hover: #9fd0f4;
   --selection-background-color: #a1d23f;
   --selection-color: #fff;
   --selection: #d2c63f;
-  --theme-background: #444e96;
-  --iadc-brown: #c1c1c1;
+  --theme-background: #885f16;
+  --theme-blackground-blockquote: #daa983;
+  --theme-blackground-light: #fee2cc;
+  --theme-blackground-code: #554131;
   --default-text: #343434;
   --progress-color: #2bb640;
 }
@@ -183,7 +185,7 @@ section.has-light-background h6 {
   background-color: var(--theme-background);
   color: white;
   padding: 30px;
-  border-radius: 5px;
+  border-radius: 10px;
   position: relative;
   margin-bottom: 1em;
 }
@@ -227,8 +229,7 @@ section.has-light-background h6 {
 .reveal img,
 .reveal video,
 .reveal iframe {
-  max-width: 75%;
-  /* max-height: 65%; */
+  max-width: 80%;
 }
 
 .reveal strong,
@@ -281,10 +282,10 @@ section.has-light-background h6 {
 }
 
 .reveal blockquote {
-  background-color: var(--iadc-brown);
+  background-color: var(--theme-blackground-blockquote);
   color: var(--default-text);
   padding: 30px;
-  border-radius: 5px;
+  border-radius: 10px;
   position: relative;
   margin-bottom: 1em;
   font-style: normal;
@@ -300,7 +301,7 @@ section.has-light-background h6 {
   height: 0;
   border-left: 20px solid transparent;
   border-right: 20px solid transparent;
-  border-top: 20px solid var(--iadc-brown);
+  border-top: 20px solid var(--theme-blackground-blockquote);
   position: absolute;
   left: 30px;
   bottom: -20px;
@@ -308,6 +309,14 @@ section.has-light-background h6 {
 
 .reveal q {
   font-style: italic;
+}
+
+.reveal code {
+  font-family: monospace;
+  text-transform: none;
+  background-color: var(--theme-blackground-light);
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .reveal pre {
@@ -320,12 +329,6 @@ section.has-light-background h6 {
   font-family: monospace;
   line-height: 1.2em;
   word-wrap: break-word;
-  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
-}
-
-.reveal code {
-  font-family: monospace;
-  text-transform: none;
 }
 
 .reveal pre code {
@@ -334,6 +337,9 @@ section.has-light-background h6 {
   overflow: auto;
   max-height: 400px;
   word-wrap: normal;
+  background-color: var(--theme-blackground-code);
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.297);
+  border-radius: 10px;
 }
 
 .reveal table {
@@ -390,13 +396,19 @@ section.has-light-background h6 {
   vertical-align: top;
 }
 
-.reveal img {
-  margin: 20px 0;
+/**********************************************/
+/*****         IMAGE with links          ******/
+/**********************************************/
+.reveal a img.image-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
 }
 
-/*********************************************
- * LINKS
- *********************************************/
+/**********************************************/
+/*****                LINKS              ******/
+/**********************************************/
 .reveal a {
   color: var(--link-color);
   text-decoration: none;

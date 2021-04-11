@@ -54,10 +54,10 @@ export default (): Step => {
     // Let's add the JS library for reveal.js and required CSS styles
     $('head').append(
       `<link rel="stylesheet" href="/reveal/reset.css">
-          <link rel="stylesheet" href="/reveal/reveal.css">
-          <link rel="stylesheet" href="/reveal/theme/${theme}.css" id="theme">
-          <link rel="stylesheet" href="/highlight/zenburn.min.css">
-          <script src="/reveal/reveal.js"></script>`,
+      <link rel="stylesheet" href="/reveal/reveal.css">
+      <link rel="stylesheet" href="/reveal/theme/${theme}.css" id="theme">
+      <link rel="stylesheet" href="/highlight/zenburn.min.css">
+      <script src="/reveal/reveal.js"></script>`,
     );
 
     const newHtmlBody = `<div id="Content" class="reveal"><div class="slides">${sections}</div></div>`;
@@ -66,20 +66,20 @@ export default (): Step => {
     // When the DOM content is loaded call the initialization of Reveal (https://revealjs.com/)
     $('#Content').append(
       `<script src="/reveal/plugin/zoom/zoom.js"></script>
-          <script src="/reveal/plugin/highlight/highlight.js"></script>
-          <script>
-            document.addEventListener('DOMContentLoaded', function () {
-              Reveal.initialize({ 
-                hash: true,
-                center: false,
-                plugins: [ RevealZoom, RevealHighlight],
-                backgroundTransition: 'slide',
-                slideNumber: true,
-                disableLayout: false,
-                margin: 0.1,
-              });
-            })
-          </script>`,
+      <script src="/reveal/plugin/highlight/highlight.js"></script>
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          Reveal.initialize({ 
+            hash: true,
+            center: false,
+            plugins: [ RevealZoom, RevealHighlight],
+            backgroundTransition: 'slide',
+            slideNumber: true,
+            disableLayout: false,
+            margin: 0.1,
+          });
+        })
+      </script>`,
     );
 
     context.getPerfMeasure('addSlides');
