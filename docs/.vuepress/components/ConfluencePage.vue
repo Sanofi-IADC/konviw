@@ -15,6 +15,13 @@
         >
       </p>
     </div>
+    <div v-if="switchTheme">
+      <span class="label">Dark mode</span>
+      <input type="checkbox" id="toggle" class="checkbox" v-model="darkMode" />
+      <label for="toggle" class="switch"></label>
+      <br />
+      <br />
+    </div>
     <iframe
       id="konviw-iframe"
       class="konviw--page"
@@ -31,12 +38,13 @@ export default {
   props: {
     pageId: { type: String, required: true },
     type: { type: String, required: true },
+    switchTheme: { type: Boolean, default: false },
     metadata: { type: Boolean, default: true },
   },
   data() {
     return {
+      darkMode: false,
       title: '',
-      url: `https://konviw.vercel.app/cpv/wiki/spaces/konviw/pages/${this.pageId}?type=${this.type}&cache=no-cache`,
       excerpt: '',
       iframeUrl: '',
     };
@@ -72,6 +80,12 @@ export default {
       };
     },
   },
+  computed: {
+    url: function () {
+      const theme = this.darkMode ? 'dark' : 'light';
+      return `https://konviw.vercel.app/cpv/wiki/spaces/konviw/pages/${this.pageId}?type=${this.type}&theme=${theme}&cache=no-cache`;
+    },
+  },
 };
 </script>
 
@@ -88,5 +102,40 @@ iframe.konviw--page {
   overflow: hidden;
   border: 1px solid lightgray;
   border-radius: 5px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+  background-color: rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+  transition: all 0.3s;
+}
+.switch::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: white;
+  top: 1px;
+  left: 1px;
+  transition: all 0.3s;
+}
+
+.checkbox:checked + .switch::after {
+  left: 20px;
+}
+.checkbox:checked + .switch {
+  background-color: #29a906;
+}
+.checkbox {
+  display: none;
+}
+span.label {
+  font-size: 15px;
+  vertical-align: top;
 }
 </style>
