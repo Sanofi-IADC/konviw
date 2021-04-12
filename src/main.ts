@@ -4,6 +4,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import path from 'path';
 import { AppModule } from './app.module';
 import sassMiddleware from 'node-sass-middleware';
+import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 
 async function bootstrap() {
   const logger = new Logger('bootstrap');
@@ -24,6 +25,8 @@ async function bootstrap() {
       transform: true,
     }),
   );
+
+  app.useGlobalFilters(new HttpExceptionFilter());
 
   app.setGlobalPrefix('cpv');
   app.disable('x-powered-by');
