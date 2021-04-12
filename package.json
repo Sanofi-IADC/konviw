@@ -75,6 +75,7 @@
     "vuepress": "1.8.2"
   },
   "jest": {
+    "setupFiles": ["./setup.ts"],
     "moduleFileExtensions": [
       "js",
       "json",
