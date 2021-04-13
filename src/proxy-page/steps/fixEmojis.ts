@@ -1,10 +1,8 @@
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
-// import { Logger } from '@nestjs/common';
 
 export default (): Step => {
   return (context: ContextService): void => {
-    // const logger = new Logger('fixEmojis');
     context.setPerfMark('fixEmojis');
     const $ = context.getCheerioBody();
 

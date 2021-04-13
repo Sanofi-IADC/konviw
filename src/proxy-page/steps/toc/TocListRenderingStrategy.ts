@@ -3,7 +3,7 @@ import TocRenderingStrategy from './TocRenderingStrategy';
 import Toc from './Toc';
 import TocSection from './TocSection';
 
-export default class TocListRendringStrategy implements TocRenderingStrategy {
+export default class TocListRenderingStrategy implements TocRenderingStrategy {
   renderToc(toc: Toc): string {
     return `<ul>${toc.children
       .map((child) => {

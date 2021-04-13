@@ -3,7 +3,7 @@ import TocRenderingStrategy from './TocRenderingStrategy';
 import Toc from './Toc';
 import TocSection from './TocSection';
 
-export default class TocFlatRendringStrategy implements TocRenderingStrategy {
+export default class TocFlatRenderingStrategy implements TocRenderingStrategy {
   constructor(readonly midSeparator = '') {}
 
   private $getMidSeparator(): string {
