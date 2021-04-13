@@ -13,7 +13,7 @@ export class ProxyApiController {
    */
   @Get('getAllPosts/:spaceKey')
   async getAllPosts(@Param() params: PostsParamsDTO): Promise<any> {
-    return await this.proxyApi.getAllPosts(params.spaceKey);
+    return this.proxyApi.getAllPosts(params.spaceKey);
   }
 
   /**
@@ -23,9 +23,6 @@ export class ProxyApiController {
    */
   @Get('search')
   async getSearchResults(@Query() queries: SearchQueryDTO): Promise<any> {
-    return await this.proxyApi.getSearchResults(
-      queries.spaceKey,
-      queries.query,
-    );
+    return this.proxyApi.getSearchResults(queries.spaceKey, queries.query);
   }
 }

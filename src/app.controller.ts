@@ -11,5 +11,7 @@ export class AppController {
   // check https://docs.nestjs.com/exception-filters
   @Redirect('https://sanofi-iadc.github.io/konviw/')
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  doNothing() {}
+  doNothing() {
+    // This is intentional
+  }
 }

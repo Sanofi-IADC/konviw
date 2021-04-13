@@ -2,7 +2,6 @@ import { Test } from '@nestjs/testing';
 // It is used below
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { INestApplication } from '@nestjs/common';
-import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from '../../src/app.module';
 
 declare global {

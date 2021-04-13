@@ -1,4 +1,3 @@
-// import Config from '../config/config.d';
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfluenceService } from '../confluence/confluence.service';
 import { ContextService } from '../context/context.service';
@@ -40,6 +39,8 @@ export class ProxyPageService {
    * @return Promise {string}
    * @param spaceKey {string} 'iadc' - space key where the page belongs
    * @param pageId {string} '639243960' - id of the page to retrieve
+   * @param theme {string} '#FFFFFF' - theme used by the page
+   * @param type {string} 'blog' - type of the page
    */
   async renderPage(
     spaceKey: string,
@@ -95,6 +96,7 @@ export class ProxyPageService {
    * @return Promise {string}
    * @param spaceKey {string} 'iadc' - space key where the page belongs
    * @param pageId {string} '639243960' - id of the page to retrieve
+   * @param theme {string} '#FFFFFF' - the theme used of the page
    */
   async renderSlides(
     spaceKey: string,

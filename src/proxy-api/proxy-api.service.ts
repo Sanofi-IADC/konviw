@@ -25,10 +25,9 @@ export class ProxyApiService {
     const baseHost = this.config.get<Config>('web.baseHost');
     const basePath = this.config.get<Config>('web.basePath');
 
-    const parseResults = data.results.map((doc: any) => {
+    return data.results.map((doc: any) => {
       this.context.Init(spaceKey, doc.content.id);
       const atlassianIadcRegEx = new RegExp(`${baseURL}/wiki/`);
-      // parseHeaderBlog(doc.content.body.view.value)(this.context);
       parseHeaderBlog(doc.content.body.styled_view.value)(this.context);
       return {
         docId: doc.content.id,
@@ -57,8 +56,6 @@ export class ProxyApiService {
         readTime: this.context.getReadTime(),
       };
     });
-
-    return parseResults;
   }
 
   /**

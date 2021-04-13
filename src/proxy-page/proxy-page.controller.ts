@@ -39,7 +39,7 @@ export class ProxyPageController {
     @Query() queries: PageQueryDTO,
   ) {
     this.logger.verbose(`Rendering... /${params.spaceKey}/${params.pageId}`);
-    return await this.proxyPage.renderPage(
+    return this.proxyPage.renderPage(
       params.spaceKey,
       params.pageId,
       queries.theme,
@@ -63,7 +63,7 @@ export class ProxyPageController {
     this.logger.verbose(
       `Rendering Slides for ... /${params.spaceKey}/${params.pageId} with theme ${queries.theme}`,
     );
-    return await this.proxyPage.renderSlides(
+    return this.proxyPage.renderSlides(
       params.spaceKey,
       params.pageId,
       queries.theme,
