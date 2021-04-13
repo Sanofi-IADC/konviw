@@ -1,6 +1,6 @@
 import Toc from './Toc';
-import TocFlatRendringStrategy from './TocFlatRenderingStrategy';
-import TocListRendringStrategy from './TocListRenderingStrategy';
+import TocFlatRenderingStrategy from './TocFlatRenderingStrategy';
+import TocListRenderingStrategy from './TocListRenderingStrategy';
 import TocFilter from './TocFilter';
 import TocSectionLevelFilter from './TocSectionLevelFilter';
 import TocIncludeRegexFilter from './TocIncludeRegexFilter';
@@ -23,8 +23,8 @@ export default class TocBuilder {
     // Rendering strategy
     const tocRenderingStrategy =
       settings.structure === 'flat'
-        ? new TocFlatRendringStrategy(settings.midseparator || '')
-        : new TocListRendringStrategy();
+        ? new TocFlatRenderingStrategy(settings.midseparator || '')
+        : new TocListRenderingStrategy();
 
     // Filters
     const filters: TocFilter[] = [];

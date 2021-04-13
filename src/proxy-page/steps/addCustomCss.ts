@@ -9,10 +9,6 @@ export default (config: ConfigService): Step => {
     const $ = context.getCheerioBody();
     const version = config.get<Config>('version');
 
-    // $('head').append(
-    //   '<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/aui/5.2/css/aui.css" media="all">',
-    // );
-
     $('head').append(
       `<link rel="stylesheet" type="text/css" href="/css/custom.css?cache=${version}" />`,
     );
