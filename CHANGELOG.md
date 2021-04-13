@@ -1,3 +1,10 @@
+# [0.16.0](https://github.com/Sanofi-IADC/konviw/compare/v0.15.0...v0.16.0) (2021-04-13)
+
+
+### Features
+
+* add http exception filter ([3f80b91](https://github.com/Sanofi-IADC/konviw/commit/3f80b916069dc92a1595619ff1e9f8aa7e04ce06))
+
 # [0.15.0](https://github.com/Sanofi-IADC/konviw/compare/v0.14.0...v0.15.0) (2021-04-11)
 
 
