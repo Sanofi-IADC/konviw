@@ -11,12 +11,12 @@ export class HttpExceptionFilter implements ExceptionFilter {
   catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
-    const { statusCode, message, error } = JSON.parse(
-      JSON.stringify(exception.getResponse()),
-    );
+    const message = exception.message;
+    const status = exception.getStatus();
+    const error = exception.name;
 
-    response.status(statusCode).json({
-      statusCode,
+    response.status(status).json({
+      status,
       message,
       error,
       docs: 'https://sanofi-iadc.github.io/konviw/',
