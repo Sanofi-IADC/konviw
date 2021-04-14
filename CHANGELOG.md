@@ -1,3 +1,10 @@
+## [0.16.1](https://github.com/Sanofi-IADC/konviw/compare/v0.16.0...v0.16.1) (2021-04-14)
+
+
+### Bug Fixes
+
+* **ExceptionFilter:** use the right error properties from the exception ([46c4b3d](https://github.com/Sanofi-IADC/konviw/commit/46c4b3dc7ed20014d89e8d4a14e404f8bb08dcd6))
+
 # [0.16.0](https://github.com/Sanofi-IADC/konviw/compare/v0.15.0...v0.16.0) (2021-04-13)
 
 
