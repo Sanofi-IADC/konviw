@@ -1,3 +1,5 @@
+import { LogLevel } from '@nestjs/common';
+
 interface Config {
   env: string;
 
@@ -25,6 +27,11 @@ interface Config {
   cache: {
     cacheTTL: number;
     cacheMax: number;
+  };
+
+  logging: {
+    enableLoggerMiddleware: boolean;
+    level: LogLevel;
   };
 }
 
