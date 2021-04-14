@@ -59,6 +59,13 @@ export default (config: ConfigService): Step => {
       replaceAttributeLink('src', link);
     });
 
+    // Remove links from user mentions
+    $('a.confluence-userlink.user-mention').each(
+      (_index: number, link: CheerioElement) => {
+        delete link.attribs.href;
+      },
+    );
+
     // We have improved this code by parsing links and images with Cheerio
     // and replace them instead of doing a big regex on the whole HTML page.
     // Because it may break some real texts containing "/wiki" that we don't want to replace.
