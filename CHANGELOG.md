@@ -1,3 +1,10 @@
+## [0.16.3](https://github.com/Sanofi-IADC/konviw/compare/v0.16.2...v0.16.3) (2021-04-14)
+
+
+### Bug Fixes
+
+* **fixLinks:** remove links from user mentions ([ce6844b](https://github.com/Sanofi-IADC/konviw/commit/ce6844b0c3a4f1acbde4501efe0ea4984b0045ea))
+
 ## [0.16.2](https://github.com/Sanofi-IADC/konviw/compare/v0.16.1...v0.16.2) (2021-04-14)
 
 
