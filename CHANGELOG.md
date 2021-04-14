@@ -1,3 +1,10 @@
+## [0.16.2](https://github.com/Sanofi-IADC/konviw/compare/v0.16.1...v0.16.2) (2021-04-14)
+
+
+### Bug Fixes
+
+* **getPage:** throw forbidden error if the label iadc-private is present in metadata ([8dfa9e2](https://github.com/Sanofi-IADC/konviw/commit/8dfa9e255309b8342bf2a42eab3d72a1ad190307))
+
 ## [0.16.1](https://github.com/Sanofi-IADC/konviw/compare/v0.16.0...v0.16.1) (2021-04-14)
 
 
