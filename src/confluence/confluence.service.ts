@@ -1,4 +1,11 @@
-import { Logger, HttpException, HttpService, Injectable } from '@nestjs/common';
+import {
+  Logger,
+  HttpException,
+  HttpService,
+  Injectable,
+  ForbiddenException,
+} from '@nestjs/common';
+import { AxiosResponse } from 'axios';
 
 @Injectable()
 export class ConfluenceService {
@@ -13,8 +20,9 @@ export class ConfluenceService {
    * @param pageId {string} '639243960' - id of the page to retrieve
    */
   async getPage(spaceKey: string, pageId: string): Promise<any> {
+    let results: AxiosResponse;
     try {
-      const results = await this.http
+      results = await this.http
         .get(`/rest/api/content/${pageId}`, {
           params: {
             type: 'page',
@@ -30,19 +38,26 @@ export class ConfluenceService {
         })
         .toPromise();
       this.logger.log(`Retrieving page ${pageId}`);
-      // TODO: Check first metadata.labels!=='iadc-private' or return error 403 Forbidden
-      return results.data;
     } catch (err) {
       this.logger.log(err, 'error:getPage');
       throw new HttpException(`error:getPage for page ${pageId} > ${err}`, 404);
     }
+    // Check if the label iadc-private is present in the metadata labels
+    if (
+      results.data.metadata.labels.results.find(
+        (label) => label.name === 'iadc-private',
+      )
+    ) {
+      throw new ForbiddenException('This page is private.');
+    }
+    return results.data;
   }
 
   /**
    * @function getRedirectUrlForMedia Service
    * @description Route to retrieve the standard media files like images and videos (usually attachments)
    * @return Promise {string} 'url' - URL of the media to display
-   * @param spaceKey {string} 'iadc' - space key where the page belongs
+   * @param uri {string}
    */
   async getRedirectUrlForMedia(uri: string): Promise<string> {
     try {
@@ -70,7 +85,6 @@ export class ConfluenceService {
    * @return Promise {any}
    * @param spaceKey {string} 'iadc' - space key where the page belongs
    * @param query {string} - space key identifying the document space from Confluence
-   * @param scope {string} - space key identifying the document space from Confluence
    */
   async getResults(spaceKey: string, query: string): Promise<any> {
     const spaces: string[] = spaceKey.split('|');
