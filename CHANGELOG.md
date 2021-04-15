@@ -1,3 +1,10 @@
+## [0.16.4](https://github.com/Sanofi-IADC/konviw/compare/v0.16.3...v0.16.4) (2021-04-15)
+
+
+### Bug Fixes
+
+* update basepath for static files ([be0c885](https://github.com/Sanofi-IADC/konviw/commit/be0c8851f96cfbe1349c5b40009d7e1cb18e34a6))
+
 ## [0.16.3](https://github.com/Sanofi-IADC/konviw/compare/v0.16.2...v0.16.3) (2021-04-14)
 
 
