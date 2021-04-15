@@ -5,13 +5,15 @@ import path from 'path';
 import { AppModule } from './app.module';
 import sassMiddleware from 'node-sass-middleware';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
+import { ConfigService } from '@nestjs/config';
+import Config from './config/config';
 
 async function bootstrap() {
   const logger = new Logger('bootstrap');
   // as we need to access the Express API
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   // logger: ['error', 'warn'];
-
+  const basePath = app.get(ConfigService).get<Config>('web.basePath');
   app.useGlobalPipes(
     // Reference: https://docs.nestjs.com/techniques/validation#auto-validation
     new ValidationPipe({
@@ -28,7 +30,7 @@ async function bootstrap() {
 
   app.useGlobalFilters(new HttpExceptionFilter());
 
-  app.setGlobalPrefix('cpv');
+  app.setGlobalPrefix(`${basePath}`);
   app.disable('x-powered-by');
   app.enableCors();
   app.use(
@@ -43,7 +45,7 @@ async function bootstrap() {
       prefix: '/css',
     }),
   );
-  app.useStaticAssets(path.resolve('./static'));
+  app.useStaticAssets(path.resolve('./static'), { prefix: `${basePath}` });
 
   await app.listen(process.env.PORT || 3000);
 }

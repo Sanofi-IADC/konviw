@@ -8,9 +8,10 @@ export default (config: ConfigService): Step => {
     context.setPerfMark('addCustomCss');
     const $ = context.getCheerioBody();
     const version = config.get<Config>('version');
+    const basePath = config.get<Config>('web.basePath');
 
     $('head').append(
-      `<link rel="stylesheet" type="text/css" href="/css/custom.css?cache=${version}" />`,
+      `<link rel="stylesheet" type="text/css" href="${basePath}/css/custom.css?cache=${version}" />`,
     );
 
     // ! Do not insert internal CSS styles because the function removeUnnecessaryCode will remove them later
