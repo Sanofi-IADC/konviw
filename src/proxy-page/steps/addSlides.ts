@@ -1,10 +1,13 @@
+import { ConfigService } from '@nestjs/config';
+import Config from 'src/config/config';
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
 
-export default (): Step => {
+export default (config: ConfigService): Step => {
   return (context: ContextService): void => {
     context.setPerfMark('addSlides');
     const $ = context.getCheerioBody();
+    const basePath = config.get<Config>('web.basePath');
 
     // Handle the source code block to be syntax highlighted by highlight.js (auto language detection by default)
     $('pre.syntaxhighlighter-pre').each(
@@ -53,11 +56,11 @@ export default (): Step => {
 
     // Let's add the JS library for reveal.js and required CSS styles
     $('head').append(
-      `<link rel="stylesheet" href="/reveal/reset.css">
-      <link rel="stylesheet" href="/reveal/reveal.css">
-      <link rel="stylesheet" href="/reveal/theme/${theme}.css" id="theme">
-      <link rel="stylesheet" href="/highlight/zenburn.min.css">
-      <script src="/reveal/reveal.js"></script>`,
+      `<link rel="stylesheet" href="${basePath}/reveal/reset.css">
+      <link rel="stylesheet" href="${basePath}/reveal/reveal.css">
+      <link rel="stylesheet" href="${basePath}/reveal/theme/${theme}.css" id="theme">
+      <link rel="stylesheet" href="${basePath}/highlight/zenburn.min.css">
+      <script src="${basePath}/reveal/reveal.js"></script>`,
     );
 
     const newHtmlBody = `<div id="Content" class="reveal"><div class="slides">${sections}</div></div>`;
@@ -65,8 +68,8 @@ export default (): Step => {
 
     // When the DOM content is loaded call the initialization of Reveal (https://revealjs.com/)
     $('#Content').append(
-      `<script src="/reveal/plugin/zoom/zoom.js"></script>
-      <script src="/reveal/plugin/highlight/highlight.js"></script>
+      `<script src="${basePath}/reveal/plugin/zoom/zoom.js"></script>
+      <script src="${basePath}/reveal/plugin/highlight/highlight.js"></script>
       <script>
         document.addEventListener('DOMContentLoaded', function () {
           Reveal.initialize({ 

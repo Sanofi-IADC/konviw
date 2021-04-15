@@ -8,12 +8,13 @@ export default (config: ConfigService): Step => {
     context.setPerfMark('addZooming');
     const $ = context.getCheerioBody();
     const version = config.get<Config>('version');
+    const basePath = config.get<Config>('web.basePath');
 
     // Library to include the zooming effect to Drawio images
     // https://unpkg.com/zooming@2.1.1/build/zooming.min.js
     // When the DOM content is loaded call the initialization of the Zooming library
     $('body').append(
-      `<script defer src="/zooming/zooming-2.1.1.min.js?cache=${version}"></script>
+      `<script defer src="${basePath}/zooming/zooming-2.1.1.min.js?cache=${version}"></script>
       <script type="module">
         document.addEventListener('DOMContentLoaded', function () {
           new Zooming({}).listen('.img-zoomable');

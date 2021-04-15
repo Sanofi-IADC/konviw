@@ -63,7 +63,7 @@ export class ProxyPageService {
     ) {
       this.context.setFullWidth(true);
     }
-    fixHtmlHead()(this.context);
+    fixHtmlHead(this.config)(this.context);
     fixContentWidth()(this.context);
     fixLinks(this.config)(this.context);
     fixToc()(this.context);
@@ -119,7 +119,7 @@ export class ProxyPageService {
     ) {
       this.context.setFullWidth(true);
     }
-    fixHtmlHead()(this.context);
+    fixHtmlHead(this.config)(this.context);
     fixLinks(this.config)(this.context);
     fixEmojis()(this.context);
     fixDrawio(this.config)(this.context);
@@ -129,7 +129,7 @@ export class ProxyPageService {
     fixTableColGroup()(this.context);
     fixEmptyLineIncludePage()(this.context);
     delUnnecessaryCode()(this.context);
-    addSlides()(this.context);
+    addSlides(this.config)(this.context);
     this.context.Close();
     return this.context.getHtmlBody();
   }

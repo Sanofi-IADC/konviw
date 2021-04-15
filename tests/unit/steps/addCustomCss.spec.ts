@@ -19,12 +19,13 @@ describe('ConfluenceProxy / addCustomCss', () => {
   it('should add custom CSS', () => {
     const step = addCustomCss(config);
     const version = config.get<Config>('version');
+    const basePath = config.get<Config>('web.basePath');
     context.setHtmlBody(
       '<html><head><title>test</title><style default-inline-css>/* confluence CSS */</style></head><body></body></html>',
     );
     step(context);
     expect(context.getHtmlBody()).toEqual(
-      `<html><head><title>test</title><style default-inline-css>/* confluence CSS */</style><link rel="stylesheet" type="text/css" href="/css/custom.css?cache=${version}"></head><body></body></html>`,
+      `<html><head><title>test</title><style default-inline-css>/* confluence CSS */</style><link rel="stylesheet" type="text/css" href="${basePath}/css/custom.css?cache=${version}"></head><body></body></html>`,
     );
   });
 });
