@@ -34,6 +34,28 @@ export class ProxyPageService {
     private context: ContextService,
   ) {}
 
+  private initContext(
+    spaceKey: string,
+    pageId: string,
+    theme: string,
+    results: any,
+  ) {
+    this.context.Init(spaceKey, pageId, theme);
+    this.context.setTitle(results.title);
+    this.context.setHtmlBody(results.body.styled_view.value);
+    this.context.setAuthor(results.history.createdBy.displayName);
+    this.context.setEmail(results.history.createdBy.email);
+    this.context.setAvatar(results.history.createdBy.profilePicture.path);
+    this.context.setWhen(results.history.createdDate);
+    if (
+      results.metadata.properties['content-appearance-published'] &&
+      results.metadata.properties['content-appearance-published'].value ===
+        'full-width'
+    ) {
+      this.context.setFullWidth(true);
+    }
+  }
+
   /**
    * @function renderPage Service
    * @return Promise {string}
@@ -49,20 +71,7 @@ export class ProxyPageService {
     type: string,
   ): Promise<string> {
     const results = await this.confluence.getPage(spaceKey, pageId);
-    this.context.Init(spaceKey, pageId, theme);
-    this.context.setTitle(results.title);
-    this.context.setHtmlBody(results.body.styled_view.value);
-    this.context.setAuthor(results.history.createdBy.displayName);
-    this.context.setEmail(results.history.createdBy.email);
-    this.context.setAvatar(results.history.createdBy.profilePicture.path);
-    this.context.setWhen(results.history.createdDate);
-    if (
-      results.metadata.properties['content-appearance-published'] &&
-      results.metadata.properties['content-appearance-published'].value ===
-        'full-width'
-    ) {
-      this.context.setFullWidth(true);
-    }
+    this.initContext(spaceKey, pageId, theme, results);
     fixHtmlHead(this.config)(this.context);
     fixContentWidth()(this.context);
     fixLinks(this.config)(this.context);
@@ -104,21 +113,7 @@ export class ProxyPageService {
     theme: string,
   ): Promise<string> {
     const results = await this.confluence.getPage(spaceKey, pageId);
-    this.logger.log(`Starting the restyling of /${spaceKey}/${pageId}`);
-    this.context.Init(spaceKey, pageId, theme);
-    this.context.setTitle(results.title);
-    this.context.setHtmlBody(results.body.styled_view.value);
-    this.context.setAuthor(results.history.createdBy.displayName);
-    this.context.setEmail(results.history.createdBy.email);
-    this.context.setAvatar(results.history.createdBy.profilePicture.path);
-    this.context.setWhen(results.history.createdDate);
-    if (
-      results.metadata.properties['content-appearance-published'] &&
-      results.metadata.properties['content-appearance-published'].value ===
-        'full-width'
-    ) {
-      this.context.setFullWidth(true);
-    }
+    this.initContext(spaceKey, pageId, theme, results);
     fixHtmlHead(this.config)(this.context);
     fixLinks(this.config)(this.context);
     fixEmojis()(this.context);
