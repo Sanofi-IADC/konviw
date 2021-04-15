@@ -8,6 +8,7 @@ import {
 } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import Config from '../config/config';
+import { JiraService } from './jira.service';
 
 @Module({
   imports: [
@@ -25,7 +26,8 @@ import Config from '../config/config';
       inject: [ConfigService],
     }),
   ],
-  exports: [BaseHttpModule],
+  providers: [JiraService],
+  exports: [BaseHttpModule, JiraService],
 })
 export class HttpModule implements OnModuleInit {
   constructor(private readonly httpService: HttpService) {}
