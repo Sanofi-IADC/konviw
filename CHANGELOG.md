@@ -1,3 +1,10 @@
+## [0.16.5](https://github.com/Sanofi-IADC/konviw/compare/v0.16.4...v0.16.5) (2021-04-15)
+
+
+### Bug Fixes
+
+* static assets correct path ([69e7a9e](https://github.com/Sanofi-IADC/konviw/commit/69e7a9e1ffc1ae9b5be3f6f6cf6e60ecbcdedb30))
+
 ## [0.16.4](https://github.com/Sanofi-IADC/konviw/compare/v0.16.3...v0.16.4) (2021-04-15)
 
 
