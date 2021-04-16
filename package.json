@@ -1,6 +1,6 @@
 {
   "name": "confluence-cms-api",
-  "version": "0.17.0",
+  "version": "0.17.1",
   "description": "Enterprise public viewer for your Confluence pages",
   "author": "Jose Gascon",
   "private": true,
@@ -75,7 +75,9 @@
     "vuepress": "1.8.2"
   },
   "jest": {
-    "setupFiles": ["./setup.ts"],
+    "setupFiles": [
+      "./setup.ts"
+    ],
     "moduleFileExtensions": [
       "js",
       "json",
