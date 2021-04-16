@@ -1,3 +1,10 @@
+## [0.16.6](https://github.com/Sanofi-IADC/konviw/compare/v0.16.5...v0.16.6) (2021-04-16)
+
+
+### Bug Fixes
+
+* static assets path for development mode ([#83](https://github.com/Sanofi-IADC/konviw/issues/83)) ([82f8c75](https://github.com/Sanofi-IADC/konviw/commit/82f8c75368d0502bf29cae0bff609a47eceafcea))
+
 ## [0.16.5](https://github.com/Sanofi-IADC/konviw/compare/v0.16.4...v0.16.5) (2021-04-15)
 
 
