@@ -1,3 +1,45 @@
+## [0.16.6](https://github.com/Sanofi-IADC/konviw/compare/v0.16.5...v0.16.6) (2021-04-16)
+
+
+### Bug Fixes
+
+* static assets path for development mode ([#83](https://github.com/Sanofi-IADC/konviw/issues/83)) ([82f8c75](https://github.com/Sanofi-IADC/konviw/commit/82f8c75368d0502bf29cae0bff609a47eceafcea))
+
+## [0.16.5](https://github.com/Sanofi-IADC/konviw/compare/v0.16.4...v0.16.5) (2021-04-15)
+
+
+### Bug Fixes
+
+* static assets correct path ([69e7a9e](https://github.com/Sanofi-IADC/konviw/commit/69e7a9e1ffc1ae9b5be3f6f6cf6e60ecbcdedb30))
+
+## [0.16.4](https://github.com/Sanofi-IADC/konviw/compare/v0.16.3...v0.16.4) (2021-04-15)
+
+
+### Bug Fixes
+
+* update basepath for static files ([be0c885](https://github.com/Sanofi-IADC/konviw/commit/be0c8851f96cfbe1349c5b40009d7e1cb18e34a6))
+
+## [0.16.3](https://github.com/Sanofi-IADC/konviw/compare/v0.16.2...v0.16.3) (2021-04-14)
+
+
+### Bug Fixes
+
+* **fixLinks:** remove links from user mentions ([ce6844b](https://github.com/Sanofi-IADC/konviw/commit/ce6844b0c3a4f1acbde4501efe0ea4984b0045ea))
+
+## [0.16.2](https://github.com/Sanofi-IADC/konviw/compare/v0.16.1...v0.16.2) (2021-04-14)
+
+
+### Bug Fixes
+
+* **getPage:** throw forbidden error if the label iadc-private is present in metadata ([8dfa9e2](https://github.com/Sanofi-IADC/konviw/commit/8dfa9e255309b8342bf2a42eab3d72a1ad190307))
+
+## [0.16.1](https://github.com/Sanofi-IADC/konviw/compare/v0.16.0...v0.16.1) (2021-04-14)
+
+
+### Bug Fixes
+
+* **ExceptionFilter:** use the right error properties from the exception ([46c4b3d](https://github.com/Sanofi-IADC/konviw/commit/46c4b3dc7ed20014d89e8d4a14e404f8bb08dcd6))
+
 # [0.16.0](https://github.com/Sanofi-IADC/konviw/compare/v0.15.0...v0.16.0) (2021-04-13)
 
 
