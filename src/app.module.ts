@@ -18,6 +18,7 @@ import { ProxyApiModule } from './proxy-api/proxy-api.module';
 import configuration from './config/configuration';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import CustomHttpCacheInterceptor from './cache/custom-http-cache.interceptor';
+import Config from './config/config';
 
 @Module({
   imports: [
@@ -50,8 +51,14 @@ import CustomHttpCacheInterceptor from './cache/custom-http-cache.interceptor';
   ],
 })
 export class AppModule implements NestModule {
+  constructor(private config: ConfigService) {}
+
   configure(consumer: MiddlewareConsumer) {
-    // TODO: Improve the logger customization in development mode (* for all routes)
-    consumer.apply(LoggerMiddleware).forRoutes('*');
+    const isLoggerMiddlewareEnabled = this.config.get<Config>(
+      'logging.enableLoggerMiddleware',
+    );
+    if (isLoggerMiddlewareEnabled) {
+      consumer.apply(LoggerMiddleware).forRoutes('*');
+    }
   }
 }
