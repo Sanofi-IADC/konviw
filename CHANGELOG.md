@@ -1,3 +1,10 @@
+# [0.18.0](https://github.com/Sanofi-IADC/konviw/compare/v0.17.1...v0.18.0) (2021-04-16)
+
+
+### Features
+
+* add a new step that put anchors next to headings ([e62301a](https://github.com/Sanofi-IADC/konviw/commit/e62301ac396e824c59716f5eae3254f78b22ae75))
+
 ## [0.17.1](https://github.com/Sanofi-IADC/konviw/compare/v0.17.0...v0.17.1) (2021-04-16)
 
 

@@ -1,6 +1,6 @@
 {
   "name": "confluence-cms-api",
-  "version": "0.17.1",
+  "version": "0.18.0",
   "description": "Enterprise public viewer for your Confluence pages",
   "author": "Jose Gascon",
   "private": true,
