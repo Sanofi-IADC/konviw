@@ -1,3 +1,10 @@
+# [0.17.0](https://github.com/Sanofi-IADC/konviw/compare/v0.16.6...v0.17.0) (2021-04-16)
+
+
+### Features
+
+* LoggerMiddleware customizable via env config ([36a7ae0](https://github.com/Sanofi-IADC/konviw/commit/36a7ae00daca44322a0a029974998c1b43e2359e))
+
 ## [0.16.6](https://github.com/Sanofi-IADC/konviw/compare/v0.16.5...v0.16.6) (2021-04-16)
 
 

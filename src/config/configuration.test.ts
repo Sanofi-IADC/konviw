@@ -1,4 +1,5 @@
 import Config from '../config/config.d';
+import { LogLevel } from '@nestjs/common';
 
 export default (): Config => ({
   env: 'test',
@@ -24,5 +25,10 @@ export default (): Config => ({
       (process.env.CACHE_TTL && parseInt(process.env.CACHE_TTL, 10)) || 86400,
     cacheMax:
       (process.env.CACHE_MAX && parseInt(process.env.CACHE_MAX, 10)) || 10,
+  },
+  logging: {
+    enableLoggerMiddleware:
+      process.env.ENABLE_LOGGER_MIDDLEWARE === 'true' || true,
+    level: (process.env.LOG_LEVEL as LogLevel) || 'debug',
   },
 });
