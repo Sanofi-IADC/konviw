@@ -1,3 +1,17 @@
+## [0.17.1](https://github.com/Sanofi-IADC/konviw/compare/v0.17.0...v0.17.1) (2021-04-16)
+
+
+### Bug Fixes
+
+* update cache key to use query params ([192d094](https://github.com/Sanofi-IADC/konviw/commit/192d0943c196e7f6242df91e5f1d1273a323bad4))
+
+# [0.17.0](https://github.com/Sanofi-IADC/konviw/compare/v0.16.6...v0.17.0) (2021-04-16)
+
+
+### Features
+
+* LoggerMiddleware customizable via env config ([36a7ae0](https://github.com/Sanofi-IADC/konviw/commit/36a7ae00daca44322a0a029974998c1b43e2359e))
+
 ## [0.16.6](https://github.com/Sanofi-IADC/konviw/compare/v0.16.5...v0.16.6) (2021-04-16)
 
 
