@@ -24,6 +24,7 @@ import addNoZoom from './steps/addNoZoom';
 import addHeaderBlog from './steps/addHeaderBlog';
 import addSlides from './steps/addSlides';
 import addMessageBus from './steps/addMessageBus';
+import addCopyLinks from './steps/addCopyLinks';
 
 @Injectable()
 export class ProxyPageService {
@@ -96,6 +97,7 @@ export class ProxyPageService {
     addHighlightjs(this.config)(this.context);
     addTheme()(this.context);
     addScrollToTop()(this.context);
+    addCopyLinks()(this.context);
     this.context.Close();
     return this.context.getHtmlBody();
   }
