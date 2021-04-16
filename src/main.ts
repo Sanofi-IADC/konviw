@@ -13,7 +13,9 @@ async function bootstrap() {
   // as we need to access the Express API
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   // logger: ['error', 'warn'];
-  const basePath = app.get(ConfigService).get<Config>('web.basePath');
+  const config = app.get(ConfigService);
+  const basePath = config.get<Config>('web.basePath');
+  const nodeEnv = config.get<Config>('env');
   app.useGlobalPipes(
     // Reference: https://docs.nestjs.com/techniques/validation#auto-validation
     new ValidationPipe({
@@ -36,7 +38,10 @@ async function bootstrap() {
   app.use(
     sassMiddleware({
       src: path.resolve('./src/assets/scss'),
-      dest: join(__dirname, '..', 'static'),
+      dest:
+        `${nodeEnv}` === 'production'
+          ? join(__dirname, '..', 'static')
+          : path.resolve('./static/css'),
       debug: true,
       outputStyle: 'compressed',
       log: function (severity: string, key: string, value: string) {
@@ -45,9 +50,14 @@ async function bootstrap() {
       prefix: '/css',
     }),
   );
-  app.useStaticAssets(join(__dirname, '..', 'static'), {
-    prefix: `${basePath}`,
-  });
+  app.useStaticAssets(
+    `${nodeEnv}` === 'production'
+      ? join(__dirname, '..', 'static')
+      : path.resolve('./static'),
+    {
+      prefix: `${basePath}`,
+    },
+  );
 
   await app.listen(process.env.PORT || 3000);
 }
