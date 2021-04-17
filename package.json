@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "npm run prebuild && nest build && npm run copy:static",
+    "build": "npm run prebuild && nest build",
     "format": "prettier --write \"src/**/*.ts\"",
     "format:check": "prettier --list-different \"src/**/*.ts\"",
     "start": "nest start",
