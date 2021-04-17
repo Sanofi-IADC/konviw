@@ -1,3 +1,10 @@
+## [0.18.1](https://github.com/Sanofi-IADC/konviw/compare/v0.18.0...v0.18.1) (2021-04-17)
+
+
+### Bug Fixes
+
+* **sass:** add basePath to prefix sassMiddleware ([ad351f8](https://github.com/Sanofi-IADC/konviw/commit/ad351f8dd14260314d71c536e8228b6ec598cad2))
+
 # [0.18.0](https://github.com/Sanofi-IADC/konviw/compare/v0.17.1...v0.18.0) (2021-04-16)
 
 
