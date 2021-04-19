@@ -1,3 +1,10 @@
+## [0.19.1](https://github.com/Sanofi-IADC/konviw/compare/v0.19.0...v0.19.1) (2021-04-19)
+
+
+### Bug Fixes
+
+* **health:** add proxy to healthcheck ([5d933e5](https://github.com/Sanofi-IADC/konviw/commit/5d933e5e9df25b20c21344ae360360ad16b0f308))
+
 # [0.19.0](https://github.com/Sanofi-IADC/konviw/compare/v0.18.1...v0.19.0) (2021-04-19)
 
 
