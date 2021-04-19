@@ -7,10 +7,10 @@ $scrollLength: 100vh;
   // outline: 1px solid red;
   position: absolute;
   top: $scrollLength;
-  right: 0rem;
+  right: var(--fab-btn-right);
   // Optional, extends the final link into the footer at the bottom of the page
   // Set to `0` to stop at the end of `main`
-  bottom: 0em;
+  bottom: 0;
   // Required for best support in browsers not supporting `sticky`
   width: 3em;
   z-index: 99;
@@ -42,5 +42,5 @@ $scrollLength: 100vh;
 }
 
 .back-to-top-link:before {
-  content: "\21EA";
+  content: '\21EA';
 }
