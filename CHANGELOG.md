@@ -1,3 +1,10 @@
+## [0.19.2](https://github.com/Sanofi-IADC/konviw/compare/v0.19.1...v0.19.2) (2021-04-19)
+
+
+### Bug Fixes
+
+* undefined fields does not produce server error ([8320458](https://github.com/Sanofi-IADC/konviw/commit/83204585350a932d97ffac691a9b57e1cc843b46))
+
 ## [0.19.1](https://github.com/Sanofi-IADC/konviw/compare/v0.19.0...v0.19.1) (2021-04-19)
 
 
