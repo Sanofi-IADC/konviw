@@ -19,8 +19,18 @@ export class HealthController {
   @HealthCheck()
   check() {
     const baseURL = this.config.get<Config>('confluence.baseURL');
+    const proxyUrl = (this.config.get<Config>(
+      'httpsProxy',
+    ) as unknown) as string;
+    let options = {};
+    if (proxyUrl) {
+      const host = proxyUrl.slice(0, proxyUrl.length - 5);
+      const port = proxyUrl.slice(-4);
+      options = { proxy: { host, port } };
+    }
     return this.health.check([
-      async () => this.dns.pingCheck('Atlassian API', `${baseURL}`),
+      async () =>
+        this.dns.pingCheck('Atlassian API', `${baseURL}`, { ...options }),
     ]);
   }
 }
