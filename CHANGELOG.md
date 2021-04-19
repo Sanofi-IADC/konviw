@@ -1,3 +1,10 @@
+# [0.19.0](https://github.com/Sanofi-IADC/konviw/compare/v0.18.1...v0.19.0) (2021-04-19)
+
+
+### Features
+
+* add jira step & display issues in gridjs table ([730aaee](https://github.com/Sanofi-IADC/konviw/commit/730aaee54ad6ca3fc53cc04718b08ef643105b55))
+
 ## [0.18.1](https://github.com/Sanofi-IADC/konviw/compare/v0.18.0...v0.18.1) (2021-04-17)
 
 
