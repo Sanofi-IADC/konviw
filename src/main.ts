@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import path from 'path';
+import path, { join } from 'path';
 import { AppModule } from './app.module';
 import sassMiddleware from 'node-sass-middleware';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
@@ -38,16 +38,18 @@ async function bootstrap() {
   app.use(
     sassMiddleware({
       src: path.resolve('./src/assets/scss'),
-      dest: path.resolve('./static/css'),
+      dest: join(__dirname, '..', '/static'),
       debug: true,
       outputStyle: 'compressed',
       log: function (severity: string, key: string, value: string) {
         logger.log(`${key} : ${value}`, `node-sass-middleware : ${severity}`);
       },
-      prefix: `${basePath}/css`,
+      prefix: `/css`,
     }),
   );
-  app.useStaticAssets(path.resolve('./static'), { prefix: `${basePath}` });
+  app.useStaticAssets(join(__dirname, '..', '/static'), {
+    prefix: `${basePath}`,
+  });
 
   await app.listen(process.env.PORT || 3000);
 }
