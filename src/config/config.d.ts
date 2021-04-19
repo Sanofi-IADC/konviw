@@ -5,6 +5,8 @@ interface Config {
 
   version: string;
 
+  httpsProxy?: string;
+
   web: {
     port: number;
     basePath: string;
