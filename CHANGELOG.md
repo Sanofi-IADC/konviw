@@ -1,3 +1,10 @@
+## [0.19.4](https://github.com/Sanofi-IADC/konviw/compare/v0.19.3...v0.19.4) (2021-04-19)
+
+
+### Bug Fixes
+
+* in jira table can search by issue type & fix columns sorting ([9060bfa](https://github.com/Sanofi-IADC/konviw/commit/9060bfaee81b5567444db2e05828f7252b5108e9))
+
 ## [0.19.3](https://github.com/Sanofi-IADC/konviw/compare/v0.19.2...v0.19.3) (2021-04-19)
 
 
