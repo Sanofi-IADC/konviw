@@ -43,20 +43,22 @@ export default (): Step => {
           name: issue.fields.summary,
           link: `https://iadc.atlassian.net/browse/${issue.key}?src=confmacro`,
         },
-        updated: `${new Date(issue.fields.updated).toLocaleString('en-EN', {
-          year: 'numeric',
-          month: 'short',
-          day: '2-digit',
-          hour: '2-digit',
-          minute: '2-digit',
-        })}`,
+        updated: issue.fields.updated
+          ? `${new Date(issue.fields.updated).toLocaleString('en-EN', {
+              year: 'numeric',
+              month: 'short',
+              day: '2-digit',
+              hour: '2-digit',
+              minute: '2-digit',
+            })}`
+          : '',
         assignee: issue.fields.assignee?.displayName,
-        pr: issue.fields.priority.iconUrl,
+        pr: issue.fields.priority?.iconUrl,
         status: {
-          name: issue.fields.status.name,
-          color: issue.fields.status.statusCategory.colorName,
+          name: issue.fields.status?.name,
+          color: issue.fields.status?.statusCategory.colorName,
         },
-        resolution: issue.fields.resolution.name,
+        resolution: issue.fields.resolution?.name,
       });
     });
 
@@ -91,7 +93,7 @@ export default (): Step => {
               {
                 name: 'T',
                 width: '2%',
-                formatter: (cell) => gridjs.html(${'`<img src="${cell}" style="height:2.5rem"/>`'}),
+                formatter: (cell) => gridjs.html(cell ? ${'`<img src="${cell}" style="height:2.5rem"/>`'} : ''),
               },
               {
                 name: 'Updated',
@@ -107,7 +109,7 @@ export default (): Step => {
               {
                 name: 'Pr',
                 width: '3%',
-                formatter: (cell) => gridjs.html(${'`<img src="${cell}" style="height:2.5rem"/>`'}),
+                formatter: (cell) => gridjs.html(cell ? ${'`<img src="${cell}" style="height:2.5rem"/>`'} : ''),
               },
               {
                 name: 'Status',
