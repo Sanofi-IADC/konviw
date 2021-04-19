@@ -38,7 +38,10 @@ export default (): Step => {
           name: issue.key,
           link: `https://iadc.atlassian.net/browse/${issue.key}?src=confmacro`,
         },
-        t: issue.fields.issuetype?.iconUrl,
+        t: {
+          name: issue.fields.issuetype.name,
+          icon: issue.fields.issuetype?.iconUrl,
+        },
         summary: {
           name: issue.fields.summary,
           link: `https://iadc.atlassian.net/browse/${issue.key}?src=confmacro`,
@@ -53,7 +56,10 @@ export default (): Step => {
             })}`
           : '',
         assignee: issue.fields.assignee?.displayName,
-        pr: issue.fields.priority?.iconUrl,
+        pr: {
+          name: issue.fields.priority?.name,
+          icon: issue.fields.priority?.iconUrl,
+        },
         status: {
           name: issue.fields.status?.name,
           color: issue.fields.status?.statusCategory.colorName,
@@ -66,12 +72,18 @@ export default (): Step => {
     let gridjsColumns = `[{
                 name: 'Key',
                 width: '5%',
+                sort: {
+                  compare: (a, b) => (a.name > b.name ? 1 : -1),
+                },
                 formatter: (cell) => gridjs.html(${'`<a href="${cell.link}" target="_blank">${cell.name}</a>`'})
               },`;
     if (requestedFields.includes('summary')) {
       gridjsColumns += `{
                 name: 'Summary',
                 width: '30%',
+                sort: {
+                  compare: (a, b) => (a.name > b.name ? 1 : -1),
+                },
                 formatter: (cell) => gridjs.html(${'`<a href="${cell.link}" target="_blank">${cell.name}</a>`'})
               },`;
     }
@@ -80,13 +92,19 @@ export default (): Step => {
       gridjsColumns += `{
                 name: 'T',
                 width: '2%',
-                formatter: (cell) => gridjs.html(cell ? ${'`<img src="${cell}" style="height:2.5rem"/>`'} : ''),
+                sort: {
+                  compare: (a, b) => (a.name > b.name ? 1 : -1),
+                },
+                formatter: (cell) => gridjs.html(cell ? ${'`<img src="${cell.icon}" style="height:2.5rem"/>`'} : ''),
               },`;
     }
     if (requestedFields.includes('status')) {
       gridjsColumns += `{
                 name: 'Status',
                 width: '5%',
+                sort: {
+                  compare: (a, b) => (a.name > b.name ? 1 : -1),
+                },
                 formatter: (cell) => gridjs.html(${'`<div style="color:${cell.color}">${cell.name}</div>`'})
               },`;
     }
@@ -109,7 +127,10 @@ export default (): Step => {
       gridjsColumns += `{
                 name: 'Pr',
                 width: '3%',
-                formatter: (cell) => gridjs.html(cell ? ${'`<img src="${cell}" style="height:2.5rem"/>`'} : ''),
+                sort: {
+                  compare: (a, b) => (a.name > b.name ? 1 : -1),
+                },
+                formatter: (cell) => gridjs.html(cell ? ${'`<img src="${cell.icon}" style="height:2.5rem"/>`'} : ''),
               },`;
     }
     if (requestedFields.includes('resolution')) {
