@@ -1,3 +1,10 @@
+## [0.21.1](https://github.com/Sanofi-IADC/konviw/compare/v0.21.0...v0.21.1) (2021-04-20)
+
+
+### Bug Fixes
+
+* **deps:** pin dependency node-sass to 5.0.0 ([2dd7b52](https://github.com/Sanofi-IADC/konviw/commit/2dd7b52015a5fedbf7c80d1b93e0e1892529a96a))
+
 # [0.21.0](https://github.com/Sanofi-IADC/konviw/compare/v0.20.0...v0.21.0) (2021-04-20)
 
 
