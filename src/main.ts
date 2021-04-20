@@ -9,7 +9,6 @@ import { ConfigService } from '@nestjs/config';
 import Config from './config/config';
 
 async function bootstrap() {
-  const logger = new Logger('bootstrap');
   // as we need to access the Express API
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   // logger: ['error', 'warn'];
@@ -35,18 +34,6 @@ async function bootstrap() {
   app.disable('x-powered-by');
   app.enableCors();
 
-  app.use(
-    sassMiddleware({
-      src: path.resolve('./src/assets/scss'),
-      dest: join(__dirname, '..', '/static'),
-      debug: true,
-      outputStyle: 'compressed',
-      log: function (severity: string, key: string, value: string) {
-        logger.log(`${key} : ${value}`, `node-sass-middleware : ${severity}`);
-      },
-      prefix: `/css`,
-    }),
-  );
   app.useStaticAssets(join(__dirname, '..', '/static'), {
     prefix: `${basePath}`,
   });
