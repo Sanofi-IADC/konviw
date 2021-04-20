@@ -38,7 +38,10 @@ export default (): Step => {
           name: issue.key,
           link: `https://iadc.atlassian.net/browse/${issue.key}?src=confmacro`,
         },
-        t: issue.fields.issuetype?.iconUrl,
+        t: {
+          name: issue.fields.issuetype.name,
+          icon: issue.fields.issuetype?.iconUrl,
+        },
         summary: {
           name: issue.fields.summary,
           link: `https://iadc.atlassian.net/browse/${issue.key}?src=confmacro`,
@@ -53,7 +56,10 @@ export default (): Step => {
             })}`
           : '',
         assignee: issue.fields.assignee?.displayName,
-        pr: issue.fields.priority?.iconUrl,
+        pr: {
+          name: issue.fields.priority?.name,
+          icon: issue.fields.priority?.iconUrl,
+        },
         status: {
           name: issue.fields.status?.name,
           color: issue.fields.status?.statusCategory.colorName,
@@ -61,6 +67,80 @@ export default (): Step => {
         resolution: issue.fields.resolution?.name,
       });
     });
+
+    const requestedFields = columns.split(',');
+    let gridjsColumns = `[{
+                name: 'Key',
+                width: '5%',
+                sort: {
+                  compare: (a, b) => (a.name > b.name ? 1 : -1),
+                },
+                formatter: (cell) => gridjs.html(${'`<a href="${cell.link}" target="_blank">${cell.name}</a>`'})
+              },`;
+    if (requestedFields.includes('summary')) {
+      gridjsColumns += `{
+                name: 'Summary',
+                width: '30%',
+                sort: {
+                  compare: (a, b) => (a.name > b.name ? 1 : -1),
+                },
+                formatter: (cell) => gridjs.html(${'`<a href="${cell.link}" target="_blank">${cell.name}</a>`'})
+              },`;
+    }
+
+    if (requestedFields.includes('issuetype')) {
+      gridjsColumns += `{
+                name: 'T',
+                width: '2%',
+                sort: {
+                  compare: (a, b) => (a.name > b.name ? 1 : -1),
+                },
+                formatter: (cell) => gridjs.html(cell ? ${'`<img src="${cell.icon}" style="height:2.5rem"/>`'} : ''),
+              },`;
+    }
+    if (requestedFields.includes('status')) {
+      gridjsColumns += `{
+                name: 'Status',
+                width: '5%',
+                sort: {
+                  compare: (a, b) => (a.name > b.name ? 1 : -1),
+                },
+                formatter: (cell) => gridjs.html(${'`<div style="color:${cell.color}">${cell.name}</div>`'})
+              },`;
+    }
+    if (requestedFields.includes('updated')) {
+      gridjsColumns += `{
+                name: 'Updated',
+                width: '7%',
+                sort: {
+                  compare: (a, b) => (new Date(a) > new Date(b) ? 1 : -1),
+                }
+              },`;
+    }
+    if (requestedFields.includes('assignee')) {
+      gridjsColumns += `{
+                name: 'Assignee',
+                width: '10%',
+              },`;
+    }
+    if (requestedFields.includes('priority')) {
+      gridjsColumns += `{
+                name: 'Pr',
+                width: '3%',
+                sort: {
+                  compare: (a, b) => (a.name > b.name ? 1 : -1),
+                },
+                formatter: (cell) => gridjs.html(cell ? ${'`<img src="${cell.icon}" style="height:2.5rem"/>`'} : ''),
+              },`;
+    }
+    if (requestedFields.includes('resolution')) {
+      gridjsColumns += ` {
+                name: 'Resolution',
+                width: '5%',
+              },`;
+    }
+    gridjsColumns += ']';
+    console.log(gridjsColumns);
 
     // remove the header
     $('div[id^="jira-issues-"]').remove();
@@ -79,48 +159,7 @@ export default (): Step => {
       `<script>
         document.addEventListener('DOMContentLoaded', function () {
           new gridjs.Grid({
-            columns: [
-              {
-                name: 'Key',
-                width: '5%',
-                formatter: (cell) => gridjs.html(${'`<a href="${cell.link}" target="_blank">${cell.name}</a>`'})
-              },
-              {
-                name: 'Summary',
-                width: '30%',
-                formatter: (cell) => gridjs.html(${'`<a href="${cell.link}" target="_blank">${cell.name}</a>`'})
-              },
-              {
-                name: 'T',
-                width: '2%',
-                formatter: (cell) => gridjs.html(cell ? ${'`<img src="${cell}" style="height:2.5rem"/>`'} : ''),
-              },
-              {
-                name: 'Updated',
-                width: '7%',
-                sort: {
-                  compare: (a, b) => (new Date(a) > new Date(b) ? 1 : -1),
-                }
-              },
-              {
-                name: 'Assignee',
-                width: '10%',
-              },
-              {
-                name: 'Pr',
-                width: '3%',
-                formatter: (cell) => gridjs.html(cell ? ${'`<img src="${cell}" style="height:2.5rem"/>`'} : ''),
-              },
-              {
-                name: 'Status',
-                width: '5%',
-                formatter: (cell) => gridjs.html(${'`<div style="color:${cell.color}">${cell.name}</div>`'})
-              },
-              {
-                name: 'Resolution',
-                width: '5%',
-              },
-            ],
+            columns: ${gridjsColumns},
             data: ${JSON.stringify(data)},
             sort: true,
             search: {
