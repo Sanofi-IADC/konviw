@@ -35,6 +35,8 @@ $small-text: 12px;
   --highlight-green: #ddfade;
   --highlight-red: #ffe7e7;
   --highlight-yellow: #ffffdd;
+  /* The space beetween the fab buttons and the right edge of the screen */
+  --fab-btn-right: 0rem;
 }
 
 [data-theme='dark'] {
@@ -68,5 +70,18 @@ $small-text: 12px;
     --main-font-size: #{$main-font-mobile};
     --main-font-weight: #{$main-font-weight};
     --title-font-size: #{$title-font-mobile};
+  }
+}
+
+/* Small laptot and tablets */
+@media screen and (max-width: 1024px) {
+  :root {
+    --fab-btn-right: 2rem;
+  }
+}
+/* Mobiles */
+@media screen and (max-width: 425px) {
+  :root {
+    --fab-btn-right: 0rem;
   }
 }
