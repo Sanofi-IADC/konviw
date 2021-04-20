@@ -1,3 +1,15 @@
+# [0.20.0](https://github.com/Sanofi-IADC/konviw/compare/v0.19.5...v0.20.0) (2021-04-20)
+
+
+### Bug Fixes
+
+* static assets build improvements ([7d2e246](https://github.com/Sanofi-IADC/konviw/commit/7d2e2467cab0667f75468cca2e683b899fe66d60))
+
+
+### Features
+
+* load scss files at build time ([3c1829b](https://github.com/Sanofi-IADC/konviw/commit/3c1829b21cf43ad6d41a42e99712cf11facf1d29))
+
 ## [0.19.5](https://github.com/Sanofi-IADC/konviw/compare/v0.19.4...v0.19.5) (2021-04-20)
 
 
