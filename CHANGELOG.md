@@ -1,3 +1,45 @@
+## [0.19.5](https://github.com/Sanofi-IADC/konviw/compare/v0.19.4...v0.19.5) (2021-04-20)
+
+
+### Bug Fixes
+
+* **health:** remove atlassian api call ([#93](https://github.com/Sanofi-IADC/konviw/issues/93)) ([108bd56](https://github.com/Sanofi-IADC/konviw/commit/108bd5634624803cb733069df311744d08c2bb50))
+
+## [0.19.4](https://github.com/Sanofi-IADC/konviw/compare/v0.19.3...v0.19.4) (2021-04-19)
+
+
+### Bug Fixes
+
+* in jira table can search by issue type & fix columns sorting ([9060bfa](https://github.com/Sanofi-IADC/konviw/commit/9060bfaee81b5567444db2e05828f7252b5108e9))
+
+## [0.19.3](https://github.com/Sanofi-IADC/konviw/compare/v0.19.2...v0.19.3) (2021-04-19)
+
+
+### Bug Fixes
+
+* columns in the jira table are automatically added if fields are included in the request ([04b55cf](https://github.com/Sanofi-IADC/konviw/commit/04b55cfbe2a691ad71c524899197c5605e47d834))
+
+## [0.19.2](https://github.com/Sanofi-IADC/konviw/compare/v0.19.1...v0.19.2) (2021-04-19)
+
+
+### Bug Fixes
+
+* undefined fields does not produce server error ([8320458](https://github.com/Sanofi-IADC/konviw/commit/83204585350a932d97ffac691a9b57e1cc843b46))
+
+## [0.19.1](https://github.com/Sanofi-IADC/konviw/compare/v0.19.0...v0.19.1) (2021-04-19)
+
+
+### Bug Fixes
+
+* **health:** add proxy to healthcheck ([5d933e5](https://github.com/Sanofi-IADC/konviw/commit/5d933e5e9df25b20c21344ae360360ad16b0f308))
+
+# [0.19.0](https://github.com/Sanofi-IADC/konviw/compare/v0.18.1...v0.19.0) (2021-04-19)
+
+
+### Features
+
+* add jira step & display issues in gridjs table ([730aaee](https://github.com/Sanofi-IADC/konviw/commit/730aaee54ad6ca3fc53cc04718b08ef643105b55))
+
 ## [0.18.1](https://github.com/Sanofi-IADC/konviw/compare/v0.18.0...v0.18.1) (2021-04-17)
 
 

@@ -43,7 +43,7 @@ describe('Speed / Steps', () => {
   /**
    * Time expected for each step to be execute within, in ms.
    */
-  const timeExpected = 50;
+  const timeExpected = 80;
   /**
    * Number of time we check the step execution time.
    */

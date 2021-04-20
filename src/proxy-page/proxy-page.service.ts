@@ -25,6 +25,8 @@ import addHeaderBlog from './steps/addHeaderBlog';
 import addSlides from './steps/addSlides';
 import addMessageBus from './steps/addMessageBus';
 import addCopyLinks from './steps/addCopyLinks';
+import addJira from './steps/addJira';
+import { JiraService } from 'src/http/jira.service';
 
 @Injectable()
 export class ProxyPageService {
@@ -33,6 +35,7 @@ export class ProxyPageService {
     private config: ConfigService,
     private confluence: ConfluenceService,
     private context: ContextService,
+    private jiraService: JiraService,
   ) {}
 
   private initContext(
@@ -73,6 +76,7 @@ export class ProxyPageService {
   ): Promise<string> {
     const results = await this.confluence.getPage(spaceKey, pageId);
     this.initContext(spaceKey, pageId, theme, results);
+    const addJiraPromise = addJira()(this.context, this.jiraService);
     fixHtmlHead(this.config)(this.context);
     fixContentWidth()(this.context);
     fixLinks(this.config)(this.context);
@@ -98,6 +102,7 @@ export class ProxyPageService {
     addTheme()(this.context);
     addScrollToTop()(this.context);
     addCopyLinks()(this.context);
+    await addJiraPromise;
     this.context.Close();
     return this.context.getHtmlBody();
   }
