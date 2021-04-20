@@ -1,3 +1,10 @@
+## [0.19.5](https://github.com/Sanofi-IADC/konviw/compare/v0.19.4...v0.19.5) (2021-04-20)
+
+
+### Bug Fixes
+
+* **health:** remove atlassian api call ([#93](https://github.com/Sanofi-IADC/konviw/issues/93)) ([108bd56](https://github.com/Sanofi-IADC/konviw/commit/108bd5634624803cb733069df311744d08c2bb50))
+
 ## [0.19.4](https://github.com/Sanofi-IADC/konviw/compare/v0.19.3...v0.19.4) (2021-04-19)
 
 
