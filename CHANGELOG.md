@@ -1,3 +1,10 @@
+# [0.21.0](https://github.com/Sanofi-IADC/konviw/compare/v0.20.0...v0.21.0) (2021-04-20)
+
+
+### Features
+
+* add floating TOC ([9158c60](https://github.com/Sanofi-IADC/konviw/commit/9158c609e00ff222605ff288c35a4be32c89ca3f))
+
 # [0.20.0](https://github.com/Sanofi-IADC/konviw/compare/v0.19.5...v0.20.0) (2021-04-20)
 
 
