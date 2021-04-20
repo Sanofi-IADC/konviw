@@ -7,11 +7,11 @@
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "npm run prebuild && nest build",
+    "build": "npm run prebuild && npm run scss && nest build",
     "format": "prettier --write \"src/**/*.ts\"",
     "format:check": "prettier --list-different \"src/**/*.ts\"",
     "start": "nest start",
-    "start:dev": "nest start --watch",
+    "start:dev": "npm run scss && nest start --watch & npm run scss -- --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix --max-warnings 3",
@@ -24,7 +24,8 @@
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
     "docs:deploy": "npm run docs:prebuild && npm run docs:build && gh-pages -d docs/.vuepress/dist",
-    "copy:static": "cpx 'static/**' 'dist/static'"
+    "copy:static": "cpx 'static/**' 'dist/static'",
+    "scss": "node-sass ./src/assets/scss -o dist/static/css/ --output-style compressed --recursive"
   },
   "dependencies": {
     "@nestjs/common": "7.6.15",
@@ -33,10 +34,11 @@
     "@nestjs/platform-express": "7.6.15",
     "@nestjs/serve-static": "2.1.4",
     "@nestjs/terminus": "7.1.2",
-    "cheerio": "1.0.0-rc.3",
     "cache-manager": "3.4.3",
+    "cheerio": "1.0.0-rc.3",
     "class-transformer": "0.4.0",
     "class-validator": "0.13.1",
+    "node-sass": "^5.0.0",
     "node-sass-middleware": "0.11.0",
     "reflect-metadata": "0.1.13",
     "rxjs": "6.6.7"
