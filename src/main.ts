@@ -1,9 +1,8 @@
 import { NestFactory } from '@nestjs/core';
-import { Logger, ValidationPipe } from '@nestjs/common';
+import { ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import path, { join } from 'path';
+import { join } from 'path';
 import { AppModule } from './app.module';
-import sassMiddleware from 'node-sass-middleware';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { ConfigService } from '@nestjs/config';
 import Config from './config/config';
