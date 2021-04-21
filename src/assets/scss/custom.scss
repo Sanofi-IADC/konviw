@@ -1,6 +1,7 @@
 // Default font IADC ======================================
-@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;600&display=swap');
-@import url('https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+@import 'rubik.scss';
+@import 'patrick-hand.scss';
+@import url('../css/fontawesome.min.css');
 @import 'variables.scss';
 @import 'expander-panel.scss';
 @import 'media.scss';
