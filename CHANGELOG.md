@@ -1,3 +1,10 @@
+# [0.22.0](https://github.com/Sanofi-IADC/konviw/compare/v0.21.1...v0.22.0) (2021-04-22)
+
+
+### Features
+
+* **theme:** add theme style param to change theme ([4a1a68b](https://github.com/Sanofi-IADC/konviw/commit/4a1a68b2adbb2f21f15df5635e5bf46b317d8d25))
+
 ## [0.21.1](https://github.com/Sanofi-IADC/konviw/compare/v0.21.0...v0.21.1) (2021-04-20)
 
 
