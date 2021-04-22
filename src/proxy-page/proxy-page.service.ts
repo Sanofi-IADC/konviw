@@ -26,7 +26,7 @@ import addSlides from './steps/addSlides';
 import addMessageBus from './steps/addMessageBus';
 import addCopyLinks from './steps/addCopyLinks';
 import addJira from './steps/addJira';
-import { JiraService } from 'src/http/jira.service';
+import { JiraService } from 'src/jira/jira.service';
 import Config from '../config/config';
 
 @Injectable()

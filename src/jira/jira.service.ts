@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class JiraService {
-  baseUrl = 'https://iadc.atlassian.net/rest/api/2';
+  baseUrl = `${this.configService.get('jira.baseURL')}/rest/api/2`;
 
   headers = {};
 
@@ -12,8 +12,8 @@ export class JiraService {
     private configService: ConfigService,
   ) {
     const credentials = `${this.configService.get(
-      'confluence.apiUsername',
-    )}:${this.configService.get('confluence.apiToken')}`;
+      'jira.apiUsername',
+    )}:${this.configService.get('jira.apiToken')}`;
 
     this.headers = {
       Authorization: `Basic ${credentials}`,

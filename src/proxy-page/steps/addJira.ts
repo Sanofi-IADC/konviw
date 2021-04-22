@@ -1,7 +1,7 @@
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
 import cheerio from 'cheerio';
-import { JiraService } from 'src/http/jira.service';
+import { JiraService } from 'src/jira/jira.service';
 
 export default (): Step => {
   return async (
@@ -140,7 +140,6 @@ export default (): Step => {
               },`;
     }
     gridjsColumns += ']';
-    console.log(gridjsColumns);
 
     // remove the header
     $('div[id^="jira-issues-"]').remove();

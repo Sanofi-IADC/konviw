@@ -18,6 +18,11 @@ export default (): Config => ({
     apiTimeOut: process.env.CPV_CONFLUENCE_API_TIMEOUT,
     apiMaxRedirects: process.env.CPV_CONFLUENCE_API_MAX_REDIRECTS || '5',
   },
+  jira: {
+    baseURL: process.env.CPV_JIRA_BASE_URL || '',
+    apiUsername: process.env.CPV_JIRA_API_USERNAME || '',
+    apiToken: process.env.CPV_JIRA_API_TOKEN || '',
+  },
   matomo: {
     baseURL: process.env.CPV_MATOMO_BASE_URL || '',
     idSite: process.env.CPV_MATOMO_ID_SITE || '',
