@@ -21,6 +21,10 @@ interface Config {
     apiMaxRedirects: string;
   };
 
+  jira: {
+    baseURL: string;
+  };
+
   matomo: {
     baseURL: string;
     idSite: string;

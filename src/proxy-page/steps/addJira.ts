@@ -1,9 +1,10 @@
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
 import cheerio from 'cheerio';
-import { JiraService } from 'src/http/jira.service';
+import { JiraService } from 'src/jira/jira.service';
+import { ConfigService } from '@nestjs/config';
 
-export default (): Step => {
+export default (config: ConfigService): Step => {
   return async (
     context: ContextService,
     jiraService: JiraService,
@@ -36,7 +37,9 @@ export default (): Step => {
       data.push({
         key: {
           name: issue.key,
-          link: `https://iadc.atlassian.net/browse/${issue.key}?src=confmacro`,
+          link: `${config.get('jira.baseURL')}/browse/${
+            issue.key
+          }?src=confmacro`,
         },
         t: {
           name: issue.fields.issuetype.name,
@@ -44,7 +47,9 @@ export default (): Step => {
         },
         summary: {
           name: issue.fields.summary,
-          link: `https://iadc.atlassian.net/browse/${issue.key}?src=confmacro`,
+          link: `${config.get('jira.baseURL')}/browse/${
+            issue.key
+          }?src=confmacro`,
         },
         updated: issue.fields.updated
           ? `${new Date(issue.fields.updated).toLocaleString('en-EN', {
@@ -140,7 +145,6 @@ export default (): Step => {
               },`;
     }
     gridjsColumns += ']';
-    console.log(gridjsColumns);
 
     // remove the header
     $('div[id^="jira-issues-"]').remove();
