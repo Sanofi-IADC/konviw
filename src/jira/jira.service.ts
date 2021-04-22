@@ -12,8 +12,8 @@ export class JiraService {
     private configService: ConfigService,
   ) {
     const credentials = `${this.configService.get(
-      'jira.apiUsername',
-    )}:${this.configService.get('jira.apiToken')}`;
+      'confluence.apiUsername',
+    )}:${this.configService.get('confluence.apiToken')}`;
 
     this.headers = {
       Authorization: `Basic ${credentials}`,

@@ -1,0 +1,151 @@
+$floating-toc-btn-size: 3.5em;
+
+button#floating-toc-btn {
+  opacity: 0.7;
+
+  position: fixed;
+  top: 3rem;
+  /* Used to align the button with the scroll to top button */
+  right: calc(
+    var(--fab-btn-right) + 10px + ((100vw - 1200px) / 2) -
+      (#{$floating-toc-btn-size} / 2)
+  );
+
+  width: $floating-toc-btn-size;
+  height: $floating-toc-btn-size;
+
+  border: none;
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  z-index: 100;
+
+  transition: opacity 0.2s ease, background-color 0.2s ease,
+    border-radius 0.2s ease;
+
+  &:focus {
+    outline: none;
+  }
+  &:hover,
+  &.active {
+    background-color: var(--primary-color);
+    svg {
+      path {
+        fill: var(--bg-color);
+      }
+    }
+  }
+  &.active {
+    border-top-right-radius: 10px;
+    border-top-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  svg {
+    path {
+      fill: var(--secondary-color);
+    }
+  }
+}
+
+/* The floating TOC */
+div.toc-macro.client-side-toc-macro {
+  position: fixed;
+  top: calc(3rem);
+  right: calc(
+    var(--fab-btn-right) + 10px + ((100vw - 1200px) / 2) -
+      (#{$floating-toc-btn-size} / 2) + 5px
+  );
+
+  opacity: 0;
+
+  width: 0;
+  height: 0;
+
+  border: none;
+
+  background-color: var(--bg-color);
+
+  white-space: nowrap;
+  overflow-x: hidden;
+  overflow-y: scroll;
+
+  z-index: 100;
+
+  transition: opacity 0.2s ease, width 0.5s ease, height 0.5s ease;
+
+  > ul:first-child {
+    padding-left: 10px;
+    /* Table of Contents label */
+    > li:first-child {
+      padding-top: 10px;
+      padding-bottom: 10px;
+      a.toc-link {
+        color: var(--font-color);
+        font-weight: bold;
+      }
+    }
+  }
+  ul {
+    list-style: none;
+    padding-left: 20px;
+    li {
+      a.toc-link {
+        padding-bottom: 5px;
+        &:hover {
+          text-decoration: underline;
+        }
+        &::after {
+          content: none;
+        }
+      }
+    }
+    li:not(:first-child) a {
+      display: block;
+      text-overflow: ellipsis;
+    }
+  }
+
+  /* When we show the TOC */
+  &.active {
+    opacity: 0.5;
+    width: 20vw;
+    height: 50vh;
+    border: 1px solid var(--secondary-color);
+    border-radius: 10px;
+    &::before {
+      content: none;
+    }
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  button#floating-toc-btn {
+    right: calc(var(--fab-btn-right) + 10px);
+  }
+  div.toc-macro.client-side-toc-macro {
+    right: calc(var(--fab-btn-right) + 10px);
+  }
+}
+/* Small laptot and tablets */
+@media screen and (max-width: 1024px) {
+  div.toc-macro.client-side-toc-macro {
+    &.active {
+      width: 40vw;
+      height: 60vh;
+    }
+  }
+}
+/* Mobiles */
+@media screen and (max-width: 425px) {
+  div.toc-macro.client-side-toc-macro {
+    &.active {
+      width: 80vw;
+      height: 80vh;
+    }
+  }
+}

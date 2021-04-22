@@ -1,0 +1,87 @@
+$base-width: 1200px;
+$main-font-mobile: 16px;
+$main-font-screen: 20px;
+$main-font-weight: 300;
+$title-font-mobile: 26px;
+$title-font-screen: 38px;
+$user-mention: 14px;
+$small-text: 12px;
+
+:root {
+  --main-font-size: #{$main-font-screen};
+  --main-font-weight: #{$main-font-weight};
+  --title-font-size: #{$title-font-screen};
+  --user-mention-size: #{$user-mention};
+  --user-mention-bg: #92b5f7;
+  --primary-color: #2e51c4;
+  --primary-color-link: #2e95c4;
+  --secondary-color: #7785ab;
+  --font-color: #424242;
+  --bg-color: #fff;
+  --heading-color: #292922;
+  --bg-blockquote: #f4f0f0;
+  --bg-expander: #fafafa;
+  --border-expander: #e1e1e1;
+  --bg-error: #ffd9d9;
+  --border-error: #f36565;
+  --bg-warning: #fffae6;
+  --border-warning: #edd130;
+  --bg-success: #e3fcef;
+  --border-success: #86ec57;
+  --bg-info: #deebff;
+  --border-info: #7aa8fd;
+  --highlight-grey: #f0f0f0;
+  --highlight-blue: #e0f0ff;
+  --highlight-green: #ddfade;
+  --highlight-red: #ffe7e7;
+  --highlight-yellow: #ffffdd;
+  /* The space beetween the fab buttons and the right edge of the screen */
+  --fab-btn-right: 0rem;
+}
+
+[data-theme='dark'] {
+  --user-mention-bg: #75a2f7;
+  --primary-color: #f1f1f1; // #9a97f3;
+  --primary-color-link: #9792f5;
+  --secondary-color: #818cab;
+  --font-color: #f2f2f2d2; // #d4d4f9;
+  --bg-color: #121212; // #202034;
+  --heading-color: #818cab;
+  --bg-blockquote: #656464;
+  --bg-expander: #7b7979;
+  --border-expander: #716e6e;
+  --bg-error: #b05b5b;
+  --border-error: #f36565;
+  --bg-warning: #d0b105;
+  --border-warning: #fadf41;
+  --bg-success: #06964c;
+  --border-success: #74e93d;
+  --bg-info: #0b55c6;
+  --border-info: #4e71e4;
+  --highlight-grey: #414040;
+  --highlight-blue: #2b8fed;
+  --highlight-green: #2e8e31;
+  --highlight-red: #9f2f2f;
+  --highlight-yellow: #ebeb3f;
+}
+
+@media (max-width: #{$base-width}) {
+  :root {
+    --main-font-size: #{$main-font-mobile};
+    --main-font-weight: #{$main-font-weight};
+    --title-font-size: #{$title-font-mobile};
+  }
+}
+
+/* Small laptot and tablets */
+@media screen and (max-width: 1024px) {
+  :root {
+    --fab-btn-right: 2rem;
+  }
+}
+/* Mobiles */
+@media screen and (max-width: 425px) {
+  :root {
+    --fab-btn-right: 0rem;
+  }
+}

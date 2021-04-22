@@ -23,8 +23,6 @@ interface Config {
 
   jira: {
     baseURL: string;
-    apiUsername: string;
-    apiToken: string;
   };
 
   matomo: {

@@ -20,8 +20,6 @@ export default (): Config => ({
   },
   jira: {
     baseURL: process.env.CPV_JIRA_BASE_URL || '',
-    apiUsername: process.env.CPV_JIRA_API_USERNAME || '',
-    apiToken: process.env.CPV_JIRA_API_TOKEN || '',
   },
   matomo: {
     baseURL: process.env.CPV_MATOMO_BASE_URL || '',
