@@ -15,7 +15,6 @@ export default (): Step => {
       context.getPerfMeasure('addJira');
       return;
     }
-
     const wikimarkup: string = $('.refresh-wiki').data().wikimarkup;
     const xmlWikimarkup = cheerio.load(wikimarkup, { xmlMode: true });
     const filter = xmlWikimarkup('ac\\:parameter[ac\\:name="jqlQuery"]').text();
@@ -69,6 +68,7 @@ export default (): Step => {
     });
 
     const requestedFields = columns.split(',');
+
     let gridjsColumns = `[{
                 name: 'Key',
                 width: '5%',
@@ -140,7 +140,6 @@ export default (): Step => {
               },`;
     }
     gridjsColumns += ']';
-    console.log(gridjsColumns);
 
     // remove the header
     $('div[id^="jira-issues-"]').remove();
