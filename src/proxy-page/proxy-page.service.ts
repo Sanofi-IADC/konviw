@@ -74,6 +74,7 @@ export class ProxyPageService {
     pageId: string,
     theme: string,
     type: string,
+    style: string,
   ): Promise<string> {
     const results = await this.confluence.getPage(spaceKey, pageId);
     this.initContext(spaceKey, pageId, theme, results);
@@ -97,7 +98,7 @@ export class ProxyPageService {
       addHeaderTitle()(this.context);
     }
     delUnnecessaryCode()(this.context);
-    addCustomCss(this.config)(this.context);
+    addCustomCss(this.config, style)(this.context);
     addMessageBus()(this.context);
     addZooming(this.config)(this.context);
     addNoZoom()(this.context);

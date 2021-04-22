@@ -44,6 +44,7 @@ export class ProxyPageController {
       params.pageId,
       queries.theme,
       queries.type,
+      queries.style,
     );
   }
 
