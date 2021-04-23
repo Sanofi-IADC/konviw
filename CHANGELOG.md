@@ -1,3 +1,10 @@
+# [0.24.0](https://github.com/Sanofi-IADC/konviw/compare/v0.23.1...v0.24.0) (2021-04-23)
+
+
+### Features
+
+* font weight is lighter for titles & strong ([3d3265f](https://github.com/Sanofi-IADC/konviw/commit/3d3265f473dfbdb40e87839423072f9120b90ed2))
+
 ## [0.23.1](https://github.com/Sanofi-IADC/konviw/compare/v0.23.0...v0.23.1) (2021-04-23)
 
 
