@@ -1,3 +1,10 @@
+## [0.23.1](https://github.com/Sanofi-IADC/konviw/compare/v0.23.0...v0.23.1) (2021-04-23)
+
+
+### Bug Fixes
+
+* **FontAwesome:** add webfonts and fix pseudo-element icons ([e58a803](https://github.com/Sanofi-IADC/konviw/commit/e58a8038ba07581409419a28790e81298e3c7f23))
+
 # [0.23.0](https://github.com/Sanofi-IADC/konviw/compare/v0.22.0...v0.23.0) (2021-04-22)
 
 
