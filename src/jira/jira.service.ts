@@ -1,32 +1,25 @@
 import { HttpService, Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class JiraService {
-  baseUrl = `${this.configService.get('jira.baseURL')}/rest/api/2`;
+  constructor(private http: HttpService) {}
 
-  headers = {};
-
-  constructor(
-    private httpService: HttpService,
-    private configService: ConfigService,
-  ) {
-    const credentials = `${this.configService.get(
-      'confluence.apiUsername',
-    )}:${this.configService.get('confluence.apiToken')}`;
-
-    this.headers = {
-      Authorization: `Basic ${credentials}`,
-    };
-  }
-
-  findTickets(jqlSearch: string, fields: string, maxResult = 100) {
-    const url = `${this.baseUrl}/search?jql=${jqlSearch}&fields=${fields}&maxResults=${maxResult}`;
-
-    return this.httpService
-      .get(url, {
-        headers: this.headers,
-      })
+  /**
+   * @function findTickets Service
+   * @description Return a the tickets selected in the Jira macro
+   * @return Promise {any}
+   * @param jqlSearch {string} 'project = FND ORDER BY resolution DESC' - Jira Query Language to filter the issues to retrieve
+   * @param maxResult {number} 100 - maximum number of issues retrieved
+   */
+  findTickets(
+    jqlSearch: string,
+    fields: string,
+    maxResult = 100,
+  ): Promise<any> {
+    return this.http
+      .get(
+        `/rest/api/2/search?jql=${jqlSearch}&fields=${fields}&maxResults=${maxResult}`,
+      )
       .toPromise()
       .then((res) => res.data);
   }

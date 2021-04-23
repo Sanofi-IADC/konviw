@@ -23,7 +23,7 @@ export class ConfluenceService {
     let results: AxiosResponse;
     try {
       results = await this.http
-        .get(`/rest/api/content/${pageId}`, {
+        .get(`/wiki/rest/api/content/${pageId}`, {
           params: {
             type: 'page',
             spaceKey,
@@ -62,7 +62,7 @@ export class ConfluenceService {
   async getRedirectUrlForMedia(uri: string): Promise<string> {
     try {
       const results = await this.http
-        .get(uri, {
+        .get(`/wiki/${uri}`, {
           maxRedirects: 0,
           validateStatus: (status) => {
             return status === 302;
@@ -99,7 +99,7 @@ export class ConfluenceService {
     cql = query ? `${cql} AND (text ~ "${query}")` : cql;
     try {
       const results = await this.http
-        .get('/rest/api/search', {
+        .get('/wiki/rest/api/search', {
           params: {
             limit: 999, // number of item per page
             cql,
@@ -133,7 +133,7 @@ export class ConfluenceService {
     cpl = `${cpl} AND (space=${spaceKey})`;
     try {
       const results = await this.http
-        .get('/rest/api/search', {
+        .get('/wiki/rest/api/search', {
           params: {
             limit: 999,
             cql: cpl,
