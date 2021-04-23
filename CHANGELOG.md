@@ -1,3 +1,10 @@
+## [0.24.1](https://github.com/Sanofi-IADC/konviw/compare/v0.24.0...v0.24.1) (2021-04-23)
+
+
+### Bug Fixes
+
+* **http:** unify url user token jira/confluence ([e352bb6](https://github.com/Sanofi-IADC/konviw/commit/e352bb67c5119c76f46b03180c8838b0daeb4100))
+
 # [0.24.0](https://github.com/Sanofi-IADC/konviw/compare/v0.23.1...v0.24.0) (2021-04-23)
 
 
