@@ -63,7 +63,7 @@ Konviw will detect your draw.io diagrams and present the .png view automatically
 
 ## Advance features
 
-### Embedded konviw pages
+## Embedded konviw pages in iframes
 
 You can simply embed your konviw pages in websites, MS Teams tabs or in other applications via iframes. To provide advance integration features konviw automatically pushes some post messages with metadata with the parent window so you can resize the iframe dynamically based on the content or display the Url being loaded in the iframe.
 
@@ -108,7 +108,16 @@ For instance you can retrieve metadata in a Vue component with a method like thi
   },
 ```
 
-### Cache management
+## Use Jira Macro in konviw pages
+
+When you use Jira macro in your Conflence pages they will be also visible as dynamic tables in konviw.
+We use the awesome open-source JavaScript table plugin [Grid.js](https://gridjs.io/) to render the table with the Jira tickets. It comes out of the box with sorting by column and search by keywords 🤪.
+
+Access to Jira API works with the same variables used for Confluence API.
+
+Check in the demo section in this documentation a [konviw page with a Jira table embedded](demoJira).
+
+## Cache management
 
 By default Konviw comes with an in-memory cache for both pages and API endpoints.
 You can manually specify a TTL (expiration time) for the cache, via the `env` variable:
@@ -119,7 +128,7 @@ CACHE_TTL = 86400    # Default to 24h
 
 In some cases you may want to skip the cache to force to render a page with the last content served from the Confluence API. In those cases use the parameter `cache=no-cache`.
 
-### Add comments to pages
+## Add comments to pages
 
 We will use [Utterances](https://utteranc.es/) to host comments in GitHub and linked to konviw pages.
 Follow the installation and configuration instructions from their website.
@@ -162,7 +171,7 @@ title: Demo Comments
 <Comment pageId='32981'/>
 ```
 
-### Turn pages into beatiful blog posts
+## Turn pages into beatiful blog posts
 
 How to create your first blog post in Confluence and publish it via Konviw.
 
@@ -184,7 +193,7 @@ To add a header banner with a nice image make sure the first element in the docu
 Which will be processed and rendered via Konviw as follows:
 ![](blog-post-header.png)
 
-Check in the demo section in this documentation an [online example with blog post](/demoBlogPost).
+Check in the demo section in this documentation an [online example with blog post](demoBlogPost).
 
 Like for any other Confluence page you can render the blog posts also composing the following URL:
 `CPV_BASEHOST:PORT + CPV_BASEPATH + /wiki/spaces/ + spaceKey + /pages/ + pageId`
@@ -206,9 +215,9 @@ For the blog post above both URL examples will render the same result:
 The parameter `type` is used to define the header format for the page and accept 3 values:
 
 - `blog` to display the blog header image and headline text
-- `notitle` to avoid the title in the header. See [example without title](/demoNoTitle)
+- `notitle` to avoid the title in the header. See [example without title](demoNoTitle)
 - `title` or undefined will render the standard Konviw page with just title
 
-### Turn pages into online web presentations
+## Turn pages into online web presentations
 
 You can read a konviw page with instructions to create web slides from your Confluence content in the demo section of these docs.

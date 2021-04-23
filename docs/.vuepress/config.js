@@ -22,17 +22,17 @@ module.exports = {
       {
         title: 'Introduction', // required
         path: '/introduction', // optional, link of the title, which should be an absolute path and must exist
-        collapsable: false, // optional, defaults to true
         // sidebarDepth: 2, // optional, defaults to 1
       },
       {
         title: 'Installation',
         path: '/installation', // optional, link of the title, which should be an absolute path and must exist
-        // sidebarDepth: 2, // optional, defaults to 1
       },
       {
         title: 'Usage',
         path: '/usage', // optional, link of the title, which should be an absolute path and must exist
+        collapsable: false, // optional, defaults to true
+        sidebarDepth: 3, // optional, defaults to 1
       },
       {
         title: 'Demo', // required
@@ -44,6 +44,7 @@ module.exports = {
           '/demoComments',
           '/demoBlogPost',
           '/demoSlidesDocs',
+          '/demoJira',
         ],
       },
       '/about',
