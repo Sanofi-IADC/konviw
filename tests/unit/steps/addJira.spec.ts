@@ -1,3 +1,4 @@
+import { ConfigService } from '@nestjs/config';
 import { ContextService } from '../../../src/context/context.service';
 import { Step } from '../../../src/proxy-page/proxy-page.step';
 import addJira from '../../../src/proxy-page/steps/addJira';
@@ -19,7 +20,6 @@ class JiraServiceMock {
             assignee: { displayName: 'an assignee' },
             priority: { name: 'low', iconUrl: 'image.png' },
             resolution: { name: 'resolved' },
-            updated: '2020-10-27T00:32:34.001+0100',
             status: { name: 'a status', statusCategory: { color: 'green' } },
           },
         },
@@ -30,11 +30,13 @@ class JiraServiceMock {
 
 describe('Confluence Proxy / addJira', () => {
   let context: ContextService;
+  let config: ConfigService;
   let step: Step;
 
   beforeEach(async () => {
     const moduleRef = await createModuleRefForStep();
-    step = addJira();
+    config = moduleRef.get<ConfigService>(ConfigService);
+    step = addJira(config);
     context = moduleRef.get<ContextService>(ContextService);
     context.Init('XXX', '123456', 'dark');
   });
@@ -48,10 +50,10 @@ describe('Confluence Proxy / addJira', () => {
         <ac:structured-macro ac:name="jira" ac:schema-version="1" ac:macro-id="macro-id">
         <ac:parameter ac:name="server">System JIRA</ac:parameter>
         <ac:parameter ac:name="maximumIssues">100</ac:parameter>
-        <ac:parameter ac:name="columns">key,summary,type,updated,assignee,priority,status,resolution</ac:parameter>
+        <ac:parameter ac:name="columns">key,summary,type,assignee,priority,status,resolution</ac:parameter>
         <ac:parameter ac:name="jqlQuery">project = FND AND "Epic Link" = FND-303 ORDER BY resolution DESC, priority </ac:parameter>
         <ac:parameter ac:name="serverId">server-id</ac:parameter>
-        <ac:parameter ac:name=": = | RAW | = :">server=System JIRA|maximumIssues=100|columns=key,summary,type,updated,assignee,priority,status,resolution|jqlQuery=project = FND AND "Epic Link" = FND-303 ORDER BY resolution DESC, priority |serverId=server-id</ac:parameter>
+        <ac:parameter ac:name=": = | RAW | = :">server=System JIRA|maximumIssues=100|columns=key,summary,type,assignee,priority,status,resolution|jqlQuery=project = FND AND "Epic Link" = FND-303 ORDER BY resolution DESC, priority |serverId=server-id</ac:parameter>
         <ac:parameter ac:name=": = | TOKEN_TYPE | = :">BLOCK</ac:parameter>
         </ac:structured-macro>' data-pageid="page-id">`;
 
@@ -64,14 +66,14 @@ describe('Confluence Proxy / addJira', () => {
       {
         key: {
           name: 'FND-319',
-          link: 'https://iadc.atlassian.net/browse/FND-319?src=confmacro',
+          link: `${config.get('jira.baseURL')}/browse/FND-319?src=confmacro`,
         },
         t: { name: 'issue', icon: 'image.png' },
         summary: {
           name: 'Awesome Summary',
-          link: 'https://iadc.atlassian.net/browse/FND-319?src=confmacro',
+          link: `${config.get('jira.baseURL')}/browse/FND-319?src=confmacro`,
         },
-        updated: 'Oct 27, 2020, 12:32 AM',
+        updated: '',
         assignee: 'an assignee',
         pr: { name: 'low', icon: 'image.png' },
         status: { name: 'a status' },
