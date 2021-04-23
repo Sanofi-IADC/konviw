@@ -16,7 +16,6 @@ export default (config: ConfigService): Step => {
       context.getPerfMeasure('addJira');
       return;
     }
-
     const wikimarkup: string = $('.refresh-wiki').data().wikimarkup;
     const xmlWikimarkup = cheerio.load(wikimarkup, { xmlMode: true });
     const filter = xmlWikimarkup('ac\\:parameter[ac\\:name="jqlQuery"]').text();
@@ -74,6 +73,7 @@ export default (config: ConfigService): Step => {
     });
 
     const requestedFields = columns.split(',');
+
     let gridjsColumns = `[{
                 name: 'Key',
                 width: '5%',
