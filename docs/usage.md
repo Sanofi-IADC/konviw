@@ -113,7 +113,9 @@ For instance you can retrieve metadata in a Vue component with a method like thi
 When you use Jira macro in your Conflence pages they will be also visible as dynamic tables in konviw.
 We use the awesome open-source JavaScript table plugin [Grid.js](https://gridjs.io/) to render the table with the Jira tickets. It comes out of the box with sorting by column and search by keywords 🤪.
 
-Access to Jira API works with the same variables used for Confluence API.
+Konviw will render the table with the same columns selected in the Jira macro and using the JQL or filter defined in the macro.
+
+The access to the Jira API works with the same variables used for Confluence API.
 
 Check in the demo section in this documentation a [konviw page with a Jira table embedded](demoJira).
 
@@ -220,4 +222,37 @@ The parameter `type` is used to define the header format for the page and accept
 
 ## Turn pages into online web presentations
 
-You can read a konviw page with instructions to create web slides from your Confluence content in the demo section of these docs.
+You can mix content that will be visible into slides and content which will stay visible only in the page mode.
+
+Every slide is contained within the frame of a Confluence macro `Page Properties` like in the following example:
+
+![](slides-page-properties.png)
+
+Use `heading 1` for your cover slides or to create intermediate sections in your slide deck.
+
+![](https://konviw.vercel.app/cpv/wiki/download/thumbnails/14647304/image-20210410-164120.png?version=1&modificationDate=1618072885631&cacheVersion=1&api=v2&width=442&height=280)
+
+Use `heading 2` for the default and most common slides.
+
+![](https://konviw.vercel.app/cpv/wiki/download/thumbnails/14647304/image-20210410-164104.png?version=1&modificationDate=1618072868390&cacheVersion=1&api=v2&width=442&height=280)
+
+And you have a 3rd type of slides with the `heading 3` which display the title as bubble comment.
+
+![](https://konviw.vercel.app/cpv/wiki/download/thumbnails/14647304/image-20210410-164203.png?version=1&modificationDate=1618072928360&cacheVersion=1&api=v2&width=442&height=280)
+
+Add an image as the first object in your `Page Properties` macro to display it full size as background for the current slide.
+
+So for any Confluence page with slides like :
+[https://konviw.atlassian.net/wiki/spaces/KONVIW/pages/14647304/Slides](https://konviw.atlassian.net/wiki/spaces/KONVIW/pages/14647304/Slides)
+
+just replace the begining of the URL by your custom Konviw domain like:
+`CPV_BASEHOST:PORT + CPV_BASEPATH + /wiki/slides/konviw/ + PageID + ?theme=konviw`
+
+You can define custom themes and select your favorite with the param `theme`.
+
+Examples:
+
+- [https://konviw.vercel.app/cpv/wiki/slides/konviw/14647304?theme=konviw](https://konviw.vercel.app/cpv/wiki/slides/konviw/14647304?theme=konviw)
+- [https://konviw.vercel.app/cpv/wiki/slides/konviw/14647304?theme=iadc](https://konviw.vercel.app/cpv/wiki/slides/konviw/14647304?theme=iadc)
+
+You can read a [konviw page with instructions to create web slides](demoSlidesDocs) from your Confluence content in the demo section of these docs.
