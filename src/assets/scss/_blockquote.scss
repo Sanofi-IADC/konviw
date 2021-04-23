@@ -13,9 +13,10 @@ blockquote {
   border-radius: 5px;
   &::before {
     position: absolute;
-    font-family: 'FontAwesome', sans-serif;
     top: -30px;
     left: -120px;
+    font-family: 'Font Awesome 5 Free', sans-serif;
+    font-weight: 900; // fa-solid for free usage
     content: '\f10d';
     font-size: 100px;
     color: var(--font-color);
