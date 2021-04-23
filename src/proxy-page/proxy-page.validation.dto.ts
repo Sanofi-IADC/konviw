@@ -36,6 +36,10 @@ export class PageQueryDTO {
 
   @IsOptional()
   @IsString()
+  style: string;
+
+  @IsOptional()
+  @IsString()
   @IsIn(['blog', 'notitle', 'title'])
   type: string;
 

@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class JiraService {
-  baseUrl = 'https://iadc.atlassian.net/rest/api/2';
+  baseUrl = `${this.configService.get('jira.baseURL')}/rest/api/2`;
 
   headers = {};
 

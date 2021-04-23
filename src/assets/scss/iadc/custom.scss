@@ -1,7 +1,6 @@
 // Default font IADC ======================================
-@import 'rubik.scss';
-@import 'patrick-hand.scss';
-@import url('../css/fontawesome.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;600&display=swap');
+@import url('https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
 @import 'variables.scss';
 @import 'expander-panel.scss';
 @import 'media.scss';
@@ -25,14 +24,14 @@ html {
 
 body {
   background-color: var(--bg-color);
-  color: var(--font-color);
+  color: red;
   font-family: 'Rubik', sans-serif;
   font-size: var(--main-font-size);
   font-weight: var(--main-font-weight);
 }
 
 h1.titlePage {
-  color: var(--heading-color);
+  color: yellow;
   font-size: var(--title-font-size);
 }
 

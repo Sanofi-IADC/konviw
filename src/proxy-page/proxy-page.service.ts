@@ -26,7 +26,7 @@ import addSlides from './steps/addSlides';
 import addMessageBus from './steps/addMessageBus';
 import addCopyLinks from './steps/addCopyLinks';
 import addJira from './steps/addJira';
-import { JiraService } from 'src/http/jira.service';
+import { JiraService } from 'src/jira/jira.service';
 import Config from '../config/config';
 
 @Injectable()
@@ -74,10 +74,11 @@ export class ProxyPageService {
     pageId: string,
     theme: string,
     type: string,
+    style: string,
   ): Promise<string> {
     const results = await this.confluence.getPage(spaceKey, pageId);
     this.initContext(spaceKey, pageId, theme, results);
-    const addJiraPromise = addJira()(this.context, this.jiraService);
+    const addJiraPromise = addJira(this.config)(this.context, this.jiraService);
     fixHtmlHead(this.config)(this.context);
     fixContentWidth()(this.context);
     fixLinks(this.config)(this.context);
@@ -97,7 +98,7 @@ export class ProxyPageService {
       addHeaderTitle()(this.context);
     }
     delUnnecessaryCode()(this.context);
-    addCustomCss(this.config)(this.context);
+    addCustomCss(this.config, style)(this.context);
     addMessageBus()(this.context);
     addZooming(this.config)(this.context);
     addNoZoom()(this.context);
