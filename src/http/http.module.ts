@@ -14,7 +14,7 @@ import Config from '../config/config';
     BaseHttpModule.registerAsync({
       imports: [ConfigModule],
       useFactory: (config: ConfigService): HttpModuleOptions => ({
-        baseURL: `${config.get<Config>('confluence.baseURL')}/wiki`,
+        baseURL: `${config.get<Config>('confluence.baseURL')}`,
         auth: {
           username: config.get<Config>('confluence.apiUsername').toString(),
           password: config.get<Config>('confluence.apiToken').toString(),
