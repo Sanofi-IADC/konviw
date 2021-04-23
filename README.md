@@ -35,10 +35,11 @@ Konviw is an open source public viewer for Confluence pages in Enterprise privat
 ### Roadmap
 
 - [ ] Plugin system
-- [ ] Comments
+- [x] Comments
 - [ ] Dockerized deployment
-- [ ] Make the 'perf_hooks' measurement optional via .env configuration
-- [ ] Enhanced configuration of slides functionality
+- [x] Make the 'perf_hooks' measurement optional via .env configuration
+- [x] Enhanced configuration of slides functionality with custom themes
+- [x] Jira macro renders issues as a table
 
 ## Architecture
 
