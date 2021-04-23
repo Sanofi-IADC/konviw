@@ -14,7 +14,7 @@ $blog-header-font: white;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  padding: 150 0;
+  padding: 150px 0;
   -webkit-clip-path: polygon(0% 0%, 100% 0%, 100% calc(100% - 1em), 0% 100%);
   clip-path: polygon(0% 0%, 100% 0%, 100% calc(100% - 3em), 0% 100%);
 }
@@ -63,7 +63,8 @@ section.blog--excerpt {
   border-radius: 5px;
   &::before {
     position: absolute;
-    font-family: 'FontAwesome', sans-serif;
+    font-family: 'Font Awesome 5 Free', sans-serif;
+    font-weight: 900; // fa-solid for free usage
     top: -30px;
     left: -120px;
     content: '\f10d';
