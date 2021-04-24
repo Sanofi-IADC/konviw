@@ -15,13 +15,27 @@ export default (config: ConfigService): Step => {
         const thisBlock = $(element).html();
         if (thisBlock) {
           // Finding a block with the pattern diagramDisplayName=<name-file> is enought the determine the name of the file
-          const foundBlock = thisBlock.match(/diagramDisplayName=s*([^|]*)/g);
+          // const foundBlock = thisBlock.match(/diagramDisplayName=s*([^|]*)/g);
+          const foundBlock = thisBlock.match(
+            /pageId=s*([^|]*)|diagramDisplayName=s*([^|]*)/g,
+          );
           if (foundBlock) {
+            // $(element).prepend(
+            //   `<figure><img class="img-zoomable" src="${webBasePath}/wiki/download/attachments/${context.getPageId()}/${foundBlock[0].replace(
+            //     /diagramDisplayName=s*([^|]*)/g,
+            //     '$1.png',
+            //   )}" alt="${foundBlock[0]}" /></figure>`,
+            // );
             $(element).prepend(
-              `<figure><img class="img-zoomable" src="${webBasePath}/wiki/download/attachments/${context.getPageId()}/${foundBlock[0].replace(
-                /diagramDisplayName=s*([^|]*)/g,
-                '$1.png',
-              )}" alt="${foundBlock[0]}" /></figure>`,
+              `<figure><img class="img-zoomable" 
+                  src="${webBasePath}/wiki/download/attachments/${foundBlock[0].replace(
+                /pageId=s*([^|]*)|diagramDisplayName=s*([^|]*)/g,
+                '$1',
+              )}/${foundBlock[1].replace(
+                /pageId=s*([^|]*)|diagramDisplayName=s*([^|]*)/g,
+                '$2.png',
+              )}" 
+                  alt="${foundBlock[1]}" /></figure>`,
             );
           }
         }
