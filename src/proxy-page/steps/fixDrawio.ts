@@ -27,8 +27,7 @@ export default (config: ConfigService): Step => {
             //   )}" alt="${foundBlock[0]}" /></figure>`,
             // );
             $(element).prepend(
-              `<figure>
-                <img class="img-zoomable" 
+              `<figure><img class="img-zoomable" 
                   src="${webBasePath}/wiki/download/attachments/${foundBlock[0].replace(
                 /pageId=s*([^|]*)|diagramDisplayName=s*([^|]*)/g,
                 '$1',
@@ -36,8 +35,7 @@ export default (config: ConfigService): Step => {
                 /pageId=s*([^|]*)|diagramDisplayName=s*([^|]*)/g,
                 '$2.png',
               )}" 
-                  alt="${foundBlock[1]}" />
-              </figure>`,
+                  alt="${foundBlock[1]}" /></figure>`,
             );
           }
         }
