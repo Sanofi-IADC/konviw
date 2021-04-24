@@ -1,3 +1,10 @@
+## [0.24.3](https://github.com/Sanofi-IADC/konviw/compare/v0.24.2...v0.24.3) (2021-04-24)
+
+
+### Bug Fixes
+
+* **drawio:** diagrams not working in include pages ([#109](https://github.com/Sanofi-IADC/konviw/issues/109)) ([4a493a0](https://github.com/Sanofi-IADC/konviw/commit/4a493a0b950aa7d512a974a9070bff92ea89f07c))
+
 ## [0.24.2](https://github.com/Sanofi-IADC/konviw/compare/v0.24.1...v0.24.2) (2021-04-24)
 
 
