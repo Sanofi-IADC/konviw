@@ -1,3 +1,10 @@
+## [0.24.2](https://github.com/Sanofi-IADC/konviw/compare/v0.24.1...v0.24.2) (2021-04-24)
+
+
+### Bug Fixes
+
+* **health:** with Atlassian API check ([#108](https://github.com/Sanofi-IADC/konviw/issues/108)) ([f592660](https://github.com/Sanofi-IADC/konviw/commit/f592660ee0b0783b98e4373c8601e9fa20ffa128))
+
 ## [0.24.1](https://github.com/Sanofi-IADC/konviw/compare/v0.24.0...v0.24.1) (2021-04-23)
 
 
