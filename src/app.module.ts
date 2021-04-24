@@ -10,6 +10,7 @@ import { TerminusModule } from '@nestjs/terminus';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { HealthController } from './health/health.controller';
+import { ApiHealthService } from './health/health-atlassian.service';
 import { ContextService } from './context/context.service';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { ConfluenceModule } from './confluence/confluence.module';
@@ -43,6 +44,7 @@ import Config from './config/config';
   controllers: [AppController, HealthController],
   providers: [
     AppService,
+    ApiHealthService,
     ContextService,
     {
       provide: APP_INTERCEPTOR,

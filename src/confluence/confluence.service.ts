@@ -146,7 +146,7 @@ export class ConfluenceService {
           },
         })
         .toPromise();
-      this.logger.log('Retrieving all blog posts published via REST API');
+      this.logger.log(`Retrieving all blog posts published in ${spaceKey}`);
       return results.data;
     } catch (err) {
       this.logger.log(err, 'error:getAllPosts');
