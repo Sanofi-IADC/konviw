@@ -3,7 +3,7 @@ import { Step } from '../proxy-page.step';
 import { ConfigService } from '@nestjs/config';
 import Config from '../../config/config';
 import fs from 'fs';
-import { join, dirname } from 'path';
+import { dirname } from 'path';
 
 export default (config: ConfigService, style?: string): Step => {
   return (context: ContextService): void => {
