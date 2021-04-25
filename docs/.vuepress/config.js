@@ -11,9 +11,8 @@ module.exports = {
     logo: '/konviw.svg',
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Introduction', link: '/introduction' },
-      { text: 'Installation', link: '/installation' },
-      { text: 'Usage', link: '/usage' },
+      { text: 'Documentation', link: '/introduction' },
+      { text: 'Demo', link: '/demoIntroduction' },
       { text: 'About', link: '/about' },
       { text: 'GitHub', link: 'https://github.com/Sanofi-IADC/konviw' },
     ],
@@ -26,7 +25,11 @@ module.exports = {
       },
       {
         title: 'Installation',
-        path: '/installation', // optional, link of the title, which should be an absolute path and must exist
+        path: '/installation',
+      },
+      {
+        title: 'Architecture',
+        path: '/architecture',
       },
       {
         title: 'Usage',

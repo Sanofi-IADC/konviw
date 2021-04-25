@@ -54,6 +54,8 @@ This sequence represents the common steps handled by the proxy server:
 5. Example of transformations are fixEmojis, fixDrawio, fixExpander... or addCustomCss, addHighlightjs...
 6. After all the transformations are applied the HTML page is returned to the user browser.
 
+For a more detailed deep dive check the docs section for [the konviw architecture](architecture).
+
 ### Tech Stack
 
 - [Nest.js](https://nestjs.com). A progressive Node.js framework for building efficient, reliable and scalable server-side applications. Guess what, we use NestJS to serve the backend proxy.
