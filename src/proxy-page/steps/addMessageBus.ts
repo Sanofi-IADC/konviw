@@ -25,6 +25,7 @@ export default (): Step => {
           if (height !== document.getElementsByTagName("BODY")[0].offsetHeight) {
             height = document.getElementsByTagName("BODY")[0].offsetHeight;
             window.parent.postMessage({
+              pageId: "${context.getPageId()}",
               frameHeight: height
             }, '*');
           }
