@@ -90,8 +90,8 @@ export default {
   computed: {
     url: function () {
       const theme = this.darkMode ? 'dark' : 'light';
-      // return `https://konviw.vercel.app/cpv/wiki/spaces/konviw/pages/${this.pageId}?type=${this.type}&theme=${theme}`;
-      return `http://localhost:3000/cpv/wiki/spaces/konviw/pages/${this.pageId}?type=${this.type}&theme=${theme}&cache=no-cache`;
+      return `https://konviw.vercel.app/cpv/wiki/spaces/konviw/pages/${this.pageId}?type=${this.type}&theme=${theme}`;
+      // return `http://localhost:3000/cpv/wiki/spaces/konviw/pages/${this.pageId}?type=${this.type}&theme=${theme}&cache=no-cache`;
     },
   },
 };
