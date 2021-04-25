@@ -6,6 +6,12 @@
         Title: <i>{{ msgTitle }}</i>
       </p>
       <p>
+        Space Key: <i>{{ msgSpaceKey }}</i>
+      </p>
+      <p>
+        Page ID: <i>{{ msgPageId }}</i>
+      </p>
+      <p>
         Excerpt: <i>{{ msgExcerpt }}</i>
       </p>
       <p>
@@ -22,19 +28,20 @@
       <br />
       <br />
     </div>
-    <!-- id="konviw-iframe" -->
+
     <iframe
       :id="iframeId"
-      class="konviw--page"
       :src="url"
-      @load="LoadFrame((resize = true))"
+      @load="iframeLoaded(iframeId)"
       scrolling="no"
-    >
-    </iframe>
+      class="konviw--page"
+    />
   </div>
 </template>
 
 <script>
+import iFrameResize from 'iframe-resizer/js/iframeResizer';
+
 export default {
   name: 'ConfluencePage',
   props: {
@@ -50,39 +57,31 @@ export default {
       msgExcerpt: '',
       msgIframeUrl: '',
       msgPageId: '',
-      msgSlug: '',
-      directUrl: '',
+      msgSpaceKey: '',
       iframeId: `konviw-iframe-${this.pageId}`,
     };
   },
   methods: {
-    LoadFrame(resize) {
+    iframeLoaded(iframeId) {
+      iFrameResize(
+        {
+          log: false,
+          checkOrigin: false,
+          onMessage: function (messageData) {
+            // Callback fn when message is received
+            // TODO: Send and receive messages via iFrameResizer instead of via plain postMessage
+            // alert(messageData.message.konviwPageId);
+          },
+        },
+        `#${iframeId}`,
+      );
       window.onmessage = (e) => {
-        if (resize) {
-          if (Object.prototype.hasOwnProperty.call(e.data, 'frameHeight')) {
-            if (e.data.pageId === this.pageId) {
-              document.getElementById(
-                this.iframeId,
-              ).style.height = `${e.data.frameHeight}px`;
-            }
-          }
-        }
-
-        if (Object.prototype.hasOwnProperty.call(e.data, 'iframeUrl')) {
-          this.msgIframeUrl = e.data.iframeUrl;
-        }
-        if (Object.prototype.hasOwnProperty.call(e.data, 'title')) {
-          this.msgTitle = e.data.title;
-        }
-        if (Object.prototype.hasOwnProperty.call(e.data, 'excerpt')) {
-          this.msgExcerpt = e.data.excerpt;
-        }
-        if (Object.prototype.hasOwnProperty.call(e.data, 'pageId')) {
-          this.msgPageId = e.data.pageId;
-        }
-        if (Object.prototype.hasOwnProperty.call(e.data, 'slug')) {
-          this.msgSlug = e.data.slug;
-          this.directUrl = `/${this.slug}/${this.pageId}`;
+        if (Object.prototype.hasOwnProperty.call(e.data, 'konviwPageId')) {
+          this.msgPageId = e.data.konviwPageId;
+          this.msgTitle = e.data.konviwTitle;
+          this.msgExcerpt = e.data.konviwExcerpt;
+          this.msgIframeUrl = e.data.konviwFrameUrl;
+          this.msgSpaceKey = e.data.konviwSpaceKey;
         }
       };
     },
@@ -106,7 +105,7 @@ export default {
 }
 iframe.konviw--page {
   position: relative;
-  width: 100%;
+  min-width: 100%;
   overflow: hidden;
   border: 1px solid lightgray;
   border-radius: 5px;
