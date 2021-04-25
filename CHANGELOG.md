@@ -1,3 +1,10 @@
+## [0.24.4](https://github.com/Sanofi-IADC/konviw/compare/v0.24.3...v0.24.4) (2021-04-25)
+
+
+### Bug Fixes
+
+* **MessageBus:** context pageId if multiple iframe ([491b124](https://github.com/Sanofi-IADC/konviw/commit/491b124e73ff298fff1a19834e270c85fb02f53f))
+
 ## [0.24.3](https://github.com/Sanofi-IADC/konviw/compare/v0.24.2...v0.24.3) (2021-04-24)
 
 
