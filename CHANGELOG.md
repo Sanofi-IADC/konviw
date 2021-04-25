@@ -1,3 +1,10 @@
+# [0.25.0](https://github.com/Sanofi-IADC/konviw/compare/v0.24.4...v0.25.0) (2021-04-25)
+
+
+### Features
+
+* **iframe:** resize iframes via iframe-resizer ([a250f8d](https://github.com/Sanofi-IADC/konviw/commit/a250f8d73b6569544b30fd8dc3f2a83e67fcaccf))
+
 ## [0.24.4](https://github.com/Sanofi-IADC/konviw/compare/v0.24.3...v0.24.4) (2021-04-25)
 
 
