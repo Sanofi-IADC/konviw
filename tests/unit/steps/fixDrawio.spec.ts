@@ -15,7 +15,7 @@ const example =
   `<script>document.addEventListener('DOMContentLoaded', function () {new Zooming({}).listen('.img-zoomable');new Zooming({}).listen('.confluence-embedded-image')})</script><script>var coll = document.getElementsByClassName("expand-control");        var i;        for (i = 0; i < coll.length; i++) {          coll[i].addEventListener("click", function() {            this.classList.toggle("active");            var content = this.nextElementSibling;            if (content.style.display === "block") {              content.style.display = "none";            } else {              content.style.display = "block";            }          });        }</script></div>` +
   `</body></html>`;
 
-const image0 = `<img class="img-zoomable" src="/cpv/wiki/download/attachments/473006389/Test Styles Content Confluence.drawio.png" alt="diagramDisplayName=Test Styles Content Confluence.drawio">`;
+const image0 = `<img class="img-zoomable" src="/cpv/wiki/download/attachments/123456/Test Styles Content Confluence.drawio.png" alt="diagramDisplayName=Test Styles Content Confluence.drawio">`;
 const image1 = `<img class="img-zoomable" src="/cpv/wiki/download/attachments/123456/MS-Whispr-iObeya-Architecture-079f65948d008454029450fc73f0e032de29ca68.png" alt="diagramDisplayName=MS-Whispr-iObeya-Architecture">`;
 
 describe('ConfluenceProxy / fixDrawio', () => {
