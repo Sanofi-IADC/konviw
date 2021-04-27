@@ -11,23 +11,29 @@ export default (config: ConfigService): Step => {
 
     // Div class with data-macro-name='drawio' is used for Drawio diagrams created in the same page
     $("div.ap-container[data-macro-name='drawio']").each(
-      (_index: number, element: CheerioElement) => {
+      (_: number, element: CheerioElement) => {
         const thisBlock = $(element).html();
-        if (thisBlock) {
-          // Finding a block with the pattern diagramDisplayName=<name-file> is enought the determine the name of the file
-          const foundBlock = thisBlock.match(
-            /pageId=s*([^|]*)|diagramDisplayName=s*([^|]*)/g,
+        if (!thisBlock) {
+          return;
+        }
+        const pageIdRegex = new RegExp(
+          // Will find <pageId> in => "productCtx": { ... "page.id": "<pageId>" ... }
+          /"productCtx".*"page.id\\":\\"(\d*)\\"/g,
+        ).exec(thisBlock);
+        const diagramNameRegex = new RegExp(
+          // Will find <diagramName> in => "productCtx": { ... ": = | RAW | = :": ... |<diagramName>| ..." ... }
+          '"productCtx".*diagramName=([^|]*).*,',
+        ).exec(thisBlock);
+
+        const [, pageId] = pageIdRegex ?? [];
+        const [, diagramName] = diagramNameRegex ?? [];
+
+        if (pageId && diagramName) {
+          $(element).prepend(
+            `<figure><img class="img-zoomable" 
+                  src="${webBasePath}/wiki/download/attachments/${pageId}/${diagramName}.png" 
+                  alt="${diagramName}" /></figure>`,
           );
-          if (foundBlock) {
-            $(element).prepend(
-              `<figure><img class="img-zoomable" 
-                  src="${webBasePath}/wiki/download/attachments/${context.getPageId()}/${foundBlock[1].replace(
-                /pageId=s*([^|]*)|diagramDisplayName=s*([^|]*)/g,
-                '$2.png',
-              )}" 
-                  alt="${foundBlock[1]}" /></figure>`,
-            );
-          }
         }
       },
     );
@@ -36,22 +42,26 @@ export default (config: ConfigService): Step => {
     $("div.ap-container[data-macro-name='inc-drawio']").each(
       (_index: number, element: CheerioElement) => {
         const thisBlock = $(element).html();
-        if (thisBlock) {
-          // In this case finding a block with the pattern diagramDisplayName=<name-file>
-          // is not enought and to  determine the name of the file we need also a hash linked to the file name
-          const foundBlock = thisBlock.match(/diagramDisplayName=s*([^|]*)/g);
-          const foundHash = thisBlock.match(/\|aspectHash=s*([^|]*)/g);
-          if (foundBlock && foundHash) {
-            $(element).prepend(
-              `<figure><img class="img-zoomable" src="${webBasePath}/wiki/download/attachments/${context.getPageId()}/${foundBlock[0].replace(
-                /diagramDisplayName=s*([^|]*)/g,
-                '$1',
-              )}-${foundHash[0].replace(
-                /\|aspectHash=s*([^|]*)/g,
-                '$1.png',
-              )}" alt="${foundBlock[0]}" /></figure>`,
-            );
-          }
+        if (!thisBlock) {
+          return;
+        }
+        // In this case finding a block with the pattern diagramDisplayName=<name-file>
+        // is not enought and to  determine the name of the file we need also a hash linked to the file name
+        const diagramNameRegex = new RegExp(
+          // Will find <diagramName> in => "productCtx": { ... ": = | RAW | = :": ... |<diagramName>| ..." ... }
+          '"productCtx".*diagramName=([^|]*).*,',
+        ).exec(thisBlock);
+        const aspectHashRegex = new RegExp(
+          '"productCtx".*aspectHash=([^|]*).*,',
+        ).exec(thisBlock);
+
+        const [, diagramName] = diagramNameRegex ?? [];
+        const [, aspectHash] = aspectHashRegex ?? [];
+
+        if (diagramName && aspectHash) {
+          $(element).prepend(
+            `<figure><img class="img-zoomable" src="${webBasePath}/wiki/download/attachments/${context.getPageId()}/${diagramName}-${aspectHash}.png" alt="${diagramName}" /></figure>`,
+          );
         }
       },
     );
