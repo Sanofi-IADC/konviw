@@ -1,21 +1,25 @@
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
 import TocBuilder from './toc/TocBuilder';
+import Config from '../../config/config';
+import { ConfigService } from '@nestjs/config';
 
-export default (): Step => {
+export default (config: ConfigService): Step => {
   return (context: ContextService): void => {
     const $ = context.getCheerioBody();
 
-    // Add the button to open the floating TOC
-    $('#Content').append(
-      `<button id="floating-toc-btn">
-        <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-          <path fill="currentColor" d="M3,9H17V7H3V9M3,13H17V11H3V13M3,17H17V15H3V17M19,17H21V15H19V17M19,7V9H21V7H19M19,13H21V11H19V13Z" />
+    if (config.get<Config>('appearance.showFloatingToc')) {
+      // Add the button to open the floating TOC
+      $('#Content').append(
+        `<button id='floating-toc-btn'>
+        <svg style='width:24px;height:24px' viewBox='0 0 24 24'>
+          <path fill='currentColor' d='M3,9H17V7H3V9M3,13H17V11H3V13M3,17H17V15H3V17M19,17H21V15H19V17M19,7V9H21V7H19M19,13H21V11H19V13Z' />
         </svg>
       </button>`,
-    );
-    // Script used to manipulate the floating TOC with the user's intercations
-    $('body').append(`
+      );
+      $('div.toc-macro.client-side-toc-macro').addClass('floating');
+      // Script used to manipulate the floating TOC with the user's intercations
+      $('body').append(`
       <script lang='js'>
         const floatingTocBtn = document.getElementById('floating-toc-btn');
         const floatingToc = document.querySelector('div.toc-macro.client-side-toc-macro');
@@ -53,6 +57,7 @@ export default (): Step => {
           })
         });
       </script>`);
+    }
 
     $('div.client-side-toc-macro').each(
       (_macroIndex: number, macro: CheerioElement) => {

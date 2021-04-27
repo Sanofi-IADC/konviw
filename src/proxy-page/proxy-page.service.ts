@@ -27,7 +27,6 @@ import addMessageBus from './steps/addMessageBus';
 import addCopyLinks from './steps/addCopyLinks';
 import addJira from './steps/addJira';
 import { JiraService } from 'src/jira/jira.service';
-import Config from '../config/config';
 
 @Injectable()
 export class ProxyPageService {
@@ -82,9 +81,7 @@ export class ProxyPageService {
     fixHtmlHead(this.config)(this.context);
     fixContentWidth()(this.context);
     fixLinks(this.config)(this.context);
-    if (this.config.get<Config>('appearance.showFloatingToc')) {
-      fixToc()(this.context);
-    }
+    fixToc(this.config)(this.context);
     fixEmojis()(this.context);
     fixDrawio(this.config)(this.context);
     fixExpander()(this.context);
