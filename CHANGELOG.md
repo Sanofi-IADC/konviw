@@ -1,3 +1,10 @@
+# [0.26.0](https://github.com/Sanofi-IADC/konviw/compare/v0.25.1...v0.26.0) (2021-04-27)
+
+
+### Features
+
+* can display multiple jira tables in same page ([262337a](https://github.com/Sanofi-IADC/konviw/commit/262337a984e2bb11e043f147360a7cf94e07daf6))
+
 ## [0.25.1](https://github.com/Sanofi-IADC/konviw/compare/v0.25.0...v0.25.1) (2021-04-27)
 
 
