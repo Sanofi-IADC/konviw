@@ -1,3 +1,10 @@
+## [0.25.1](https://github.com/Sanofi-IADC/konviw/compare/v0.25.0...v0.25.1) (2021-04-27)
+
+
+### Bug Fixes
+
+* **scss:** update deprecated hsl format ([#122](https://github.com/Sanofi-IADC/konviw/issues/122)) ([b1bd9a4](https://github.com/Sanofi-IADC/konviw/commit/b1bd9a40097cd55385bb7164cfc73cc7d6fde264))
+
 # [0.25.0](https://github.com/Sanofi-IADC/konviw/compare/v0.24.4...v0.25.0) (2021-04-25)
 
 
