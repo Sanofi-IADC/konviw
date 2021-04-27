@@ -16,151 +16,162 @@ export default (config: ConfigService): Step => {
       context.getPerfMeasure('addJira');
       return;
     }
-    const wikimarkup: string = $('.refresh-wiki').data().wikimarkup;
-    const xmlWikimarkup = cheerio.load(wikimarkup, { xmlMode: true });
-    const filter = xmlWikimarkup('ac\\:parameter[ac\\:name="jqlQuery"]').text();
-    const columns =
-      xmlWikimarkup('ac\\:parameter[ac\\:name="columns"]').text() +
-      ',issuetype';
-    const maximumIssues = xmlWikimarkup(
-      'ac\\:parameter[ac\\:name="maximumIssues"]',
-    ).text();
-    const { issues } = await jiraService.findTickets(
-      filter,
-      columns,
-      Number(maximumIssues),
-    );
 
-    const data = [];
-    issues.forEach((issue) => {
-      data.push({
-        key: {
-          name: issue.key,
-          link: `${config.get('confluence.baseURL')}/browse/${
-            issue.key
-          }?src=confmacro`,
+    const jiraIssuesPromises = [];
+    $('.refresh-wiki').each((_, jira) => {
+      const wikimarkup: string = jira.attribs['data-wikimarkup'];
+      const xmlWikimarkup = cheerio.load(wikimarkup, { xmlMode: true });
+      const filter = xmlWikimarkup(
+        'ac\\:parameter[ac\\:name="jqlQuery"]',
+      ).text();
+      const columns =
+        xmlWikimarkup('ac\\:parameter[ac\\:name="columns"]').text() +
+        ',issuetype';
+      const maximumIssues = xmlWikimarkup(
+        'ac\\:parameter[ac\\:name="maximumIssues"]',
+      ).text();
+
+      jiraIssuesPromises.push({
+        issues: {
+          issues: jiraService
+            .findTickets(filter, columns, Number(maximumIssues))
+            .then((res) => res.issues),
         },
-        t: {
-          name: issue.fields.issuetype.name,
-          icon: issue.fields.issuetype?.iconUrl,
-        },
-        summary: {
-          name: issue.fields.summary,
-          link: `${config.get('confluence.baseURL')}/browse/${
-            issue.key
-          }?src=confmacro`,
-        },
-        updated: issue.fields.updated
-          ? `${new Date(issue.fields.updated).toLocaleString('en-EN', {
-              year: 'numeric',
-              month: 'short',
-              day: '2-digit',
-              hour: '2-digit',
-              minute: '2-digit',
-            })}`
-          : '',
-        assignee: issue.fields.assignee?.displayName,
-        pr: {
-          name: issue.fields.priority?.name,
-          icon: issue.fields.priority?.iconUrl,
-        },
-        status: {
-          name: issue.fields.status?.name,
-          color: issue.fields.status?.statusCategory.colorName,
-        },
-        resolution: issue.fields.resolution?.name,
+        columns,
       });
     });
 
-    const requestedFields = columns.split(',');
+    const jirasIssues = await Promise.all(
+      jiraIssuesPromises.map((j) => j.issues.issues),
+    );
+    const issuesColumns = jiraIssuesPromises.map((jira, i) => ({
+      columns: jira.columns,
+      issues: jirasIssues[i],
+    }));
 
-    let gridjsColumns = `[{
+    issuesColumns.forEach(({ issues, columns }, index) => {
+      const data = [];
+      issues.forEach((issue) => {
+        data.push({
+          key: {
+            name: issue.key,
+            link: `${config.get('confluence.baseURL')}/browse/${
+              issue.key
+            }?src=confmacro`,
+          },
+          t: {
+            name: issue.fields.issuetype.name,
+            icon: issue.fields.issuetype?.iconUrl,
+          },
+          summary: {
+            name: issue.fields.summary,
+            link: `${config.get('confluence.baseURL')}/browse/${
+              issue.key
+            }?src=confmacro`,
+          },
+          updated: issue.fields.updated
+            ? `${new Date(issue.fields.updated).toLocaleString('en-EN', {
+                year: 'numeric',
+                month: 'short',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+              })}`
+            : '',
+          assignee: issue.fields.assignee?.displayName,
+          pr: {
+            name: issue.fields.priority?.name,
+            icon: issue.fields.priority?.iconUrl,
+          },
+          status: {
+            name: issue.fields.status?.name,
+            color: issue.fields.status?.statusCategory.colorName,
+          },
+          resolution: issue.fields.resolution?.name,
+        });
+      });
+
+      const requestedFields = columns.split(',');
+
+      let gridjsColumns = `[{
                 name: 'Key',
-                width: '5%',
                 sort: {
                   compare: (a, b) => (a.name > b.name ? 1 : -1),
                 },
                 formatter: (cell) => gridjs.html(${'`<a href="${cell.link}" target="_blank">${cell.name}</a>`'})
               },`;
-    if (requestedFields.includes('summary')) {
-      gridjsColumns += `{
+      if (requestedFields.includes('summary')) {
+        gridjsColumns += `{
                 name: 'Summary',
-                width: '30%',
                 sort: {
                   compare: (a, b) => (a.name > b.name ? 1 : -1),
                 },
                 formatter: (cell) => gridjs.html(${'`<a href="${cell.link}" target="_blank">${cell.name}</a>`'})
               },`;
-    }
+      }
 
-    if (requestedFields.includes('issuetype')) {
-      gridjsColumns += `{
+      if (requestedFields.includes('issuetype')) {
+        gridjsColumns += `{
                 name: 'T',
-                width: '2%',
                 sort: {
                   compare: (a, b) => (a.name > b.name ? 1 : -1),
                 },
-                formatter: (cell) => gridjs.html(cell ? ${'`<img src="${cell.icon}" style="height:2.5rem"/>`'} : ''),
+                formatter: (cell) => gridjs.html(cell ? ${'`<img src="${cell.icon}" style="height:25px;padding:0"/>`'} : ''),
               },`;
-    }
-    if (requestedFields.includes('status')) {
-      gridjsColumns += `{
+      }
+      if (requestedFields.includes('status')) {
+        gridjsColumns += `{
                 name: 'Status',
-                width: '5%',
                 sort: {
                   compare: (a, b) => (a.name > b.name ? 1 : -1),
                 },
                 formatter: (cell) => gridjs.html(${'`<div style="color:${cell.color}">${cell.name}</div>`'})
               },`;
-    }
-    if (requestedFields.includes('updated')) {
-      gridjsColumns += `{
+      }
+      if (requestedFields.includes('updated')) {
+        gridjsColumns += `{
                 name: 'Updated',
-                width: '7%',
                 sort: {
                   compare: (a, b) => (new Date(a) > new Date(b) ? 1 : -1),
                 }
               },`;
-    }
-    if (requestedFields.includes('assignee')) {
-      gridjsColumns += `{
+      }
+      if (requestedFields.includes('assignee')) {
+        gridjsColumns += `{
                 name: 'Assignee',
-                width: '10%',
               },`;
-    }
-    if (requestedFields.includes('priority')) {
-      gridjsColumns += `{
+      }
+      if (requestedFields.includes('priority')) {
+        gridjsColumns += `{
                 name: 'Pr',
-                width: '3%',
                 sort: {
                   compare: (a, b) => (a.name > b.name ? 1 : -1),
                 },
-                formatter: (cell) => gridjs.html(cell ? ${'`<img src="${cell.icon}" style="height:2.5rem"/>`'} : ''),
+                formatter: (cell) => gridjs.html(cell ? ${'`<img src="${cell.icon}" style="height:25px;padding:0"/>`'} : ''),
               },`;
-    }
-    if (requestedFields.includes('resolution')) {
-      gridjsColumns += ` {
+      }
+      if (requestedFields.includes('resolution')) {
+        gridjsColumns += ` {
                 name: 'Resolution',
-                width: '5%',
               },`;
-    }
-    gridjsColumns += ']';
+      }
+      gridjsColumns += ']';
 
-    // remove the header
-    $('div[id^="jira-issues-"]').remove();
+      // remove the header
+      $('div[id^="jira-issues-"]').remove();
 
-    // remove the 'loading...' text
-    $('div[id^="refresh-issues-loading-"]').remove();
+      // remove the 'loading...' text
+      $('div[id^="refresh-issues-loading-"]').remove();
 
-    // remove the actualize link
-    $('.refresh-issues-bottom').remove();
+      // remove the actualize link
+      $('.refresh-issues-bottom').remove();
 
-    // add the grid using http://gridjs.io library
-    $('#Content').append(
-      '<script src="https://unpkg.com/gridjs/dist/gridjs.production.min.js"></script>',
-      '<link href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" rel="stylesheet" />',
-      '<div id="gridjs"></div>',
-      `<script>
+      // add the grid using http://gridjs.io library
+      $('#Content').append(
+        '<script src="https://unpkg.com/gridjs/dist/gridjs.production.min.js"></script>',
+        '<link href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" rel="stylesheet" />',
+        `<div id="gridjs${index}"></div>`,
+        `<script>
         document.addEventListener('DOMContentLoaded', function () {
           new gridjs.Grid({
             columns: ${gridjsColumns},
@@ -170,6 +181,7 @@ export default (config: ConfigService): Step => {
               enabled: true,
               selector: (cell, rowIndex, cellIndex) => cell ? cell.name || cell : ''
             },
+            width: '100%',
             style: {
               td: {
                 padding: '5px 5px'
@@ -178,11 +190,10 @@ export default (config: ConfigService): Step => {
                 padding: '5px 5px'
               }
             }
-          }).render(document.getElementById("gridjs"));
+          }).render(document.getElementById("gridjs${index}"));
         })
       </script>`,
-    );
-
-    context.getPerfMeasure('addJira');
+      );
+    });
   };
 };
