@@ -24,7 +24,7 @@
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
     "docs:deploy": "npm run docs:prebuild && npm run docs:build && gh-pages -d docs/.vuepress/dist",
-    "scss": "node-sass ./src/assets/scss -o dist/static/css/ --output-style compressed --recursive"
+    "scss": "sass ./src/assets/scss:dist/static/css/ --style compressed --no-source-map"
   },
   "dependencies": {
     "@nestjs/common": "7.6.15",
@@ -37,10 +37,9 @@
     "cheerio": "1.0.0-rc.3",
     "class-transformer": "0.4.0",
     "class-validator": "0.13.1",
-    "node-sass": "5.0.0",
-    "node-sass-middleware": "0.11.0",
     "reflect-metadata": "0.1.13",
-    "rxjs": "6.6.7"
+    "rxjs": "6.6.7",
+    "sass": "^1.32.11"
   },
   "devDependencies": {
     "@nestjs/cli": "7.6.0",
