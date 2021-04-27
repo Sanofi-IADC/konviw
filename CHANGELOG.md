@@ -1,3 +1,11 @@
+## [0.26.1](https://github.com/Sanofi-IADC/konviw/compare/v0.26.0...v0.26.1) (2021-04-27)
+
+
+### Bug Fixes
+
+* display draw.io macro ([52bd9d9](https://github.com/Sanofi-IADC/konviw/commit/52bd9d92474abfce6ed652675333505fc9f860f3))
+* get the good page id & get diagramName instead of displayName ([2a0c650](https://github.com/Sanofi-IADC/konviw/commit/2a0c650d36b57418ad458530f7d73dc984a9fd23))
+
 # [0.26.0](https://github.com/Sanofi-IADC/konviw/compare/v0.25.1...v0.26.0) (2021-04-27)
 
 
