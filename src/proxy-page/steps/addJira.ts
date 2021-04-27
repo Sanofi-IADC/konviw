@@ -55,7 +55,7 @@ export default (config: ConfigService): Step => {
         data.push({
           key: {
             name: issue.key,
-            link: `${config.get('jira.baseURL')}/browse/${
+            link: `${config.get('confluence.baseURL')}/browse/${
               issue.key
             }?src=confmacro`,
           },
@@ -65,7 +65,7 @@ export default (config: ConfigService): Step => {
           },
           summary: {
             name: issue.fields.summary,
-            link: `${config.get('jira.baseURL')}/browse/${
+            link: `${config.get('confluence.baseURL')}/browse/${
               issue.key
             }?src=confmacro`,
           },

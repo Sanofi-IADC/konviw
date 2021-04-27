@@ -62,20 +62,17 @@ describe('Confluence Proxy / addJira', () => {
     );
     await step(context, new JiraServiceMock() as any);
     const $ = context.getCheerioBody();
+    const baseUrl = config.get('confluence.baseURL');
     const data = JSON.stringify([
       {
         key: {
           name: 'FND-319',
-          link: `${config.get(
-            'confluence.baseURL',
-          )}/browse/FND-319?src=confmacro`,
+          link: `${baseUrl}/browse/FND-319?src=confmacro`,
         },
         t: { name: 'issue', icon: 'image.png' },
         summary: {
           name: 'Awesome Summary',
-          link: `${config.get(
-            'confluence.baseURL',
-          )}/browse/FND-319?src=confmacro`,
+          link: `${baseUrl}/browse/FND-319?src=confmacro`,
         },
         updated: '',
         assignee: 'an assignee',
