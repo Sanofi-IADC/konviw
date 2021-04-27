@@ -67,46 +67,63 @@ Konviw will detect your draw.io diagrams and present the .png view automatically
 
 You can simply embed your konviw pages in websites, MS Teams tabs or in other applications via iframes. To provide advance integration features konviw automatically pushes some post messages with metadata with the parent window so you can resize the iframe dynamically based on the content or display the Url being loaded in the iframe.
 
-- `frameHeight` dynamically share the height of the content
-- `iframeUrl` with the full page Url
-- `slug` of the space key
-- `pageId` with the ID of the page
-- `title` of the page
-- `excerpt` of the page
+- `konviwFrameUrl` with the full page Url
+- `konviwSpaceKey` of the space key
+- `konviwPageId` with the ID of the page
+- `konviwTitle` of the page
+- `konviwExcerpt` of the page
 
 For instance you can retrieve metadata in a Vue component with a method like this
 
 ```js
   methods: {
-    LoadFrame(resize) {
+    LoadFrame() {
       window.onmessage = (e) => {
-        if (resize) {
-          if (Object.prototype.hasOwnProperty.call(e.data, 'frameHeight')) {
-            document.getElementById('cpv-iframe').style.height = `${e.data.frameHeight + 30}px`
-          }
-          this.frameHeight = e.data.frameHeight
+        if (Object.prototype.hasOwnProperty.call(e.data, 'konviwPageId')) {
+          this.msgPageId = e.data.konviwPageId;
+          this.msgTitle = e.data.konviwTitle;
+          this.msgExcerpt = e.data.konviwExcerpt;
+          this.msgIframeUrl = e.data.konviwFrameUrl;
+          this.msgSpaceKey = e.data.konviwSpaceKey;
         }
-
-        if (Object.prototype.hasOwnProperty.call(e.data, 'iframeUrl')) {
-          this.iframe = e.data.iframeUrl
-        }
-        if (Object.prototype.hasOwnProperty.call(e.data, 'title')) {
-          this.title = e.data.title
-        }
-        if (Object.prototype.hasOwnProperty.call(e.data, 'excerpt')) {
-          this.excerpt = e.data.excerpt
-        }
-        if (Object.prototype.hasOwnProperty.call(e.data, 'pageId')) {
-          this.pageId = e.data.pageId
-        }
-        if (Object.prototype.hasOwnProperty.call(e.data, 'slug')) {
-          this.slug = e.data.slug
-          this.directUrl = `/${this.slug}/${this.pageId}`
-        }
-      }
+      };
     },
   },
 ```
+
+We have also plugged natively in konviw the great JavaScript library iFrame-Resizer so you can automatically resize the iframes where konviw is loaded.
+
+As an example of implementation you have to provide a unique id for each iframe, the url of the konviw page and load iframe-resizer true a custom method function:
+
+```html
+<iframe
+  :id="iframeId"
+  :src="url"
+  @load="iframeLoaded(iframeId)"
+  scrolling="no"
+  class="konviw--page"
+/>
+```
+
+```js
+  methods: {
+    iframeLoaded(iframeId) {
+      iFrameResize(
+        {
+          log: false,
+          checkOrigin: false,
+          onMessage: function (messageData) {
+            // Callback fn when message is received
+            alert(messageData.message.konviwPageId);
+          },
+        },
+        `#${iframeId}`,
+      );
+    },
+  },
+```
+
+You can find a great example of this implementation with 3 iframes in the [Architecture page](architecture)
 
 ## Use Jira Macro in konviw pages
 
@@ -124,7 +141,7 @@ Check in the demo section in this documentation a [konviw page with a Jira table
 By default Konviw comes with an in-memory cache for both pages and API endpoints.
 You can manually specify a TTL (expiration time) for the cache, via the `env` variable:
 
-```
+```txt
 CACHE_TTL = 86400    # Default to 24h
 ```
 
@@ -173,6 +190,8 @@ title: Demo Comments
 <Comment pageId='32981'/>
 ```
 
+You can find an example of this implementation in the [demo comments page](demoComments).
+
 ## Turn pages into beatiful blog posts
 
 How to create your first blog post in Confluence and publish it via Konviw.
@@ -190,10 +209,10 @@ Then you can start writing the main body of the article or post as per your own 
 
 To add a header banner with a nice image make sure the first element in the document is a “Page Properties” macro as showed in this example with an image and a blockquote headline.
 
-![](create-blog-post.png)
+![create blog post](create-blog-post.png)
 
 Which will be processed and rendered via Konviw as follows:
-![](blog-post-header.png)
+![blog post header](blog-post-header.png)
 
 Check in the demo section in this documentation an [online example with blog post](demoBlogPost).
 
@@ -226,19 +245,19 @@ You can mix content that will be visible into slides and content which will stay
 
 Every slide is contained within the frame of a Confluence macro `Page Properties` like in the following example:
 
-![](slides-page-properties.png)
+![Page Properties](slides-page-properties.png)
 
 Use `heading 1` for your cover slides or to create intermediate sections in your slide deck.
 
-![](https://konviw.vercel.app/cpv/wiki/download/thumbnails/14647304/image-20210410-164120.png?version=1&modificationDate=1618072885631&cacheVersion=1&api=v2&width=442&height=280)
+![heading 1 slide type](https://konviw.vercel.app/cpv/wiki/download/thumbnails/14647304/image-20210410-164120.png?version=1&modificationDate=1618072885631&cacheVersion=1&api=v2&width=442&height=280)
 
 Use `heading 2` for the default and most common slides.
 
-![](https://konviw.vercel.app/cpv/wiki/download/thumbnails/14647304/image-20210410-164104.png?version=1&modificationDate=1618072868390&cacheVersion=1&api=v2&width=442&height=280)
+![heading 2 slide type](https://konviw.vercel.app/cpv/wiki/download/thumbnails/14647304/image-20210410-164104.png?version=1&modificationDate=1618072868390&cacheVersion=1&api=v2&width=442&height=280)
 
 And you have a 3rd type of slides with the `heading 3` which display the title as bubble comment.
 
-![](https://konviw.vercel.app/cpv/wiki/download/thumbnails/14647304/image-20210410-164203.png?version=1&modificationDate=1618072928360&cacheVersion=1&api=v2&width=442&height=280)
+![heading 3 slide type](https://konviw.vercel.app/cpv/wiki/download/thumbnails/14647304/image-20210410-164203.png?version=1&modificationDate=1618072928360&cacheVersion=1&api=v2&width=442&height=280)
 
 Add an image as the first object in your `Page Properties` macro to display it full size as background for the current slide.
 
