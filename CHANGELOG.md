@@ -1,3 +1,10 @@
+## [0.26.2](https://github.com/Sanofi-IADC/konviw/compare/v0.26.1...v0.26.2) (2021-04-27)
+
+
+### Bug Fixes
+
+* **toc:** toc is now displayed even without floating ([79afd0f](https://github.com/Sanofi-IADC/konviw/commit/79afd0f3356ace9eb6d9b66ac6ce138af0c9d910))
+
 ## [0.26.1](https://github.com/Sanofi-IADC/konviw/compare/v0.26.0...v0.26.1) (2021-04-27)
 
 
