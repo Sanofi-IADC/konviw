@@ -1,7 +1,6 @@
 import fixToc from '../../../src/proxy-page/steps/fixToc';
 import { ContextService } from '../../../src/context/context.service';
 import { createModuleRefForStep } from './utils';
-import { ConfigService } from '@nestjs/config';
 import { Step } from '../../../src/proxy-page/proxy-page.step';
 
 const example =
@@ -22,14 +21,12 @@ const example =
 
 describe('ConfluenceProxy / fix TOC', () => {
   let context: ContextService;
-  let config: ConfigService;
   let step: Step;
 
   beforeEach(async () => {
     const moduleRef = await createModuleRefForStep();
     context = moduleRef.get<ContextService>(ContextService);
-    config = moduleRef.get<ConfigService>(ConfigService);
-    step = fixToc(config);
+    step = fixToc();
 
     context.Init('XXX', '123456', 'dark');
     context.setHtmlBody(example);
