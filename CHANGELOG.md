@@ -1,3 +1,10 @@
+## [0.26.4](https://github.com/Sanofi-IADC/konviw/compare/v0.26.3...v0.26.4) (2021-04-28)
+
+
+### Bug Fixes
+
+* **floating-toc:** css problems + remove env variable ([585eb61](https://github.com/Sanofi-IADC/konviw/commit/585eb6115fcc52800f9b80c73af0520d6cc42faa))
+
 ## [0.26.3](https://github.com/Sanofi-IADC/konviw/compare/v0.26.2...v0.26.3) (2021-04-28)
 
 
