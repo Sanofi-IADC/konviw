@@ -14,12 +14,12 @@ By the way, the below's documentation are also Confluence pages embedded via kon
 
 ## Level 1: System Context diagram
 
-<ConfluencePage v-bind:metadata="false" v-bind:switchTheme="false" type='notitle' pageId='28213297'/>
+<ConfluencePage v-bind:switchTheme="false" v-bind:metadata="false" type='notitle' pageId='28213297'/>
 
 ## Level 2: System Context diagram
 
-<ConfluencePage v-bind:metadata="false" v-bind:switchTheme="false" type='notitle' pageId='28278849'/>
+<ConfluencePage v-bind:switchTheme="false" v-bind:metadata="false" type='notitle' pageId='28278849'/>
 
 ## Level 3: Component diagram
 
-<ConfluencePage v-bind:metadata="false" v-bind:switchTheme="false" type='notitle' pageId='28246116'/>
+<ConfluencePage v-bind:switchTheme="false" v-bind:metadata="false" type='notitle' pageId='28246116'/>

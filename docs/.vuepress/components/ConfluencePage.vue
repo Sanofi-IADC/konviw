@@ -67,23 +67,17 @@ export default {
         {
           log: false,
           checkOrigin: false,
-          onMessage: function (messageData) {
+          onMessage: (messageData) => {
             // Callback fn when message is received
-            // TODO: Send and receive messages via iFrameResizer instead of via plain postMessage
-            // alert(messageData.message.konviwPageId);
+            this.msgPageId = messageData.message.konviwPageId;
+            this.msgTitle = messageData.message.konviwTitle;
+            this.msgExcerpt = messageData.message.konviwExcerpt;
+            this.msgIframeUrl = messageData.message.konviwFrameUrl;
+            this.msgSpaceKey = messageData.message.konviwSpaceKey;
           },
         },
         `#${iframeId}`,
       );
-      window.onmessage = (e) => {
-        if (Object.prototype.hasOwnProperty.call(e.data, 'konviwPageId')) {
-          this.msgPageId = e.data.konviwPageId;
-          this.msgTitle = e.data.konviwTitle;
-          this.msgExcerpt = e.data.konviwExcerpt;
-          this.msgIframeUrl = e.data.konviwFrameUrl;
-          this.msgSpaceKey = e.data.konviwSpaceKey;
-        }
-      };
     },
   },
   computed: {

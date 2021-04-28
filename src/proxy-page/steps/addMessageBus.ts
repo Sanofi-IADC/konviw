@@ -38,12 +38,6 @@ export default (config: ConfigService): Step => {
             if ('parentIFrame' in window) window.parentIFrame.sendMessage(konviwMessage);
           }
         }
-        const sendMetadataMsg = () => {
-          window.parent.postMessage(konviwMessage, '*');
-        }
-        window.onload = () => {
-          sendMetadataMsg();
-        }
       </script>`,
     );
 
