@@ -81,7 +81,7 @@ export class ProxyPageService {
     fixHtmlHead(this.config)(this.context);
     fixContentWidth()(this.context);
     fixLinks(this.config)(this.context);
-    fixToc(this.config)(this.context);
+    fixToc()(this.context);
     fixEmojis()(this.context);
     fixDrawio(this.config)(this.context);
     fixExpander()(this.context);

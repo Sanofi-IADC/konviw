@@ -50,7 +50,8 @@ button#floating-toc-btn {
 }
 
 /* The floating TOC */
-div.toc-macro.client-side-toc-macro.floating {
+/* The class konviw-float-TOC is provided by a macro in Confluence */
+div.toc-macro.client-side-toc-macro.konviw-float-TOC {
   position: fixed;
   top: calc(3rem);
   right: calc(
@@ -127,13 +128,13 @@ div.toc-macro.client-side-toc-macro.floating {
   button#floating-toc-btn {
     right: calc(var(--fab-btn-right) + 10px);
   }
-  div.toc-macro.client-side-toc-macro {
+  div.toc-macro.client-side-toc-macro.konviw-float-TOC {
     right: calc(var(--fab-btn-right) + 10px);
   }
 }
 /* Small laptot and tablets */
 @media screen and (max-width: 1024px) {
-  div.toc-macro.client-side-toc-macro {
+  div.toc-macro.client-side-toc-macro.konviw-float-TOC {
     &.active {
       width: 40vw;
       height: 60vh;
@@ -142,7 +143,7 @@ div.toc-macro.client-side-toc-macro.floating {
 }
 /* Mobiles */
 @media screen and (max-width: 425px) {
-  div.toc-macro.client-side-toc-macro {
+  div.toc-macro.client-side-toc-macro.konviw-float-TOC {
     &.active {
       width: 80vw;
       height: 80vh;
