@@ -1,3 +1,10 @@
+## [0.26.3](https://github.com/Sanofi-IADC/konviw/compare/v0.26.2...v0.26.3) (2021-04-28)
+
+
+### Bug Fixes
+
+* **search:** update url ([d33ff1b](https://github.com/Sanofi-IADC/konviw/commit/d33ff1ba30e056c581b2db8e9c9d48bd619c58db))
+
 ## [0.26.2](https://github.com/Sanofi-IADC/konviw/compare/v0.26.1...v0.26.2) (2021-04-27)
 
 

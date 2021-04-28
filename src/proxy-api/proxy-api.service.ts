@@ -79,7 +79,7 @@ export class ProxyApiService {
         title: doc.content.title,
         type: doc.content.type,
         url: doc.content.id
-          ? `${baseHost}${basePath}wiki/spaces/iadc/pages/${doc.content.id}?type=blog`
+          ? `${baseHost}${basePath}/wiki/spaces/iadc/pages/${doc.content.id}?type=blog`
           : false,
         createdAt: doc.content.history.createdDate,
         createdBy: doc.content.history.createdBy.displayName,
