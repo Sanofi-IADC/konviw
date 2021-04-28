@@ -35,11 +35,11 @@ module.exports = {
         title: 'Usage',
         path: '/usage', // optional, link of the title, which should be an absolute path and must exist
         collapsable: false, // optional, defaults to true
-        sidebarDepth: 3, // optional, defaults to 1
       },
       {
         title: 'Demo', // required
         collapsable: true, // optional, defaults to true
+        sidebarDepth: 1, // optional, defaults to 1
         children: [
           '/demoIntroduction',
           '/demoNoTitle',
@@ -48,6 +48,7 @@ module.exports = {
           '/demoBlogPost',
           '/demoSlidesDocs',
           '/demoJira',
+          '/demoMultiFrame',
         ],
       },
       '/about',
