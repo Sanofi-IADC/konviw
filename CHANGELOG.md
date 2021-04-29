@@ -1,3 +1,11 @@
+## [0.26.5](https://github.com/Sanofi-IADC/konviw/compare/v0.26.4...v0.26.5) (2021-04-29)
+
+
+### Bug Fixes
+
+* **floating-toc:** adapt the height to the TOC length ([1f9e6cc](https://github.com/Sanofi-IADC/konviw/commit/1f9e6ccaad46fffc1f8de6f9a2b6ca6e2c159e22))
+* **floating-toc:** display all lines equally ([0aa1cf9](https://github.com/Sanofi-IADC/konviw/commit/0aa1cf9128d794a438ded844ff60072a85f768b9))
+
 ## [0.26.4](https://github.com/Sanofi-IADC/konviw/compare/v0.26.3...v0.26.4) (2021-04-28)
 
 
