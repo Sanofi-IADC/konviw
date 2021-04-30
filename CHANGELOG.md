@@ -1,3 +1,10 @@
+## [0.26.6](https://github.com/Sanofi-IADC/konviw/compare/v0.26.5...v0.26.6) (2021-04-30)
+
+
+### Bug Fixes
+
+* **proxy-page:** full-width not working correctly ([d5f5f31](https://github.com/Sanofi-IADC/konviw/commit/d5f5f3191f9cab6b74485e5fd256ba035b425c96))
+
 ## [0.26.5](https://github.com/Sanofi-IADC/konviw/compare/v0.26.4...v0.26.5) (2021-04-29)
 
 
