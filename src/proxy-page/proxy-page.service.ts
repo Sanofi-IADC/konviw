@@ -57,6 +57,8 @@ export class ProxyPageService {
         'full-width'
     ) {
       this.context.setFullWidth(true);
+    } else {
+      this.context.setFullWidth(false);
     }
   }
 

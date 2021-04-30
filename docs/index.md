@@ -17,5 +17,5 @@ features:
 ---
 
 <p align="center">
-MIT licensed and made with 💚 Sanofi IADC • Version {{ $themeConfig.version }}
+MIT licensed and made with 💚 &nbsp;Sanofi IADC • Version {{ $themeConfig.version }}
 </p>
