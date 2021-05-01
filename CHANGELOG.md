@@ -1,3 +1,11 @@
+# [0.29.0](https://github.com/Sanofi-IADC/konviw/compare/v0.28.0...v0.29.0) (2021-05-01)
+
+
+### Features
+
+* **TOC:** better display TOC on mobile w/o hover ([3bd783d](https://github.com/Sanofi-IADC/konviw/commit/3bd783d162efe9fe1afcfce1993696380da2684b))
+* **WebStats:** add google analytics web tracker ([e6a829a](https://github.com/Sanofi-IADC/konviw/commit/e6a829a400d4e2f486f5ef325869e00bb9944c0d))
+
 # [0.28.0](https://github.com/Sanofi-IADC/konviw/compare/v0.27.0...v0.28.0) (2021-05-01)
 
 
