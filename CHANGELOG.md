@@ -1,3 +1,10 @@
+# [0.28.0](https://github.com/Sanofi-IADC/konviw/compare/v0.27.0...v0.28.0) (2021-05-01)
+
+
+### Features
+
+* **WebStats:** add matomo web tracker ([523c262](https://github.com/Sanofi-IADC/konviw/commit/523c262fbffe21afa75ab68258d66349587014f3))
+
 # [0.27.0](https://github.com/Sanofi-IADC/konviw/compare/v0.26.6...v0.27.0) (2021-05-01)
 
 
