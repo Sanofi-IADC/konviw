@@ -25,6 +25,7 @@ import addHeaderBlog from './steps/addHeaderBlog';
 import addSlides from './steps/addSlides';
 import addMessageBus from './steps/addMessageBus';
 import addCopyLinks from './steps/addCopyLinks';
+import addReadingProgressBar from './steps/addReadingProgressBar';
 import addJira from './steps/addJira';
 import { JiraService } from 'src/jira/jira.service';
 
@@ -104,6 +105,7 @@ export class ProxyPageService {
     addHighlightjs(this.config)(this.context);
     addTheme()(this.context);
     addScrollToTop()(this.context);
+    addReadingProgressBar()(this.context);
     addCopyLinks()(this.context);
     await addJiraPromise;
     this.context.Close();

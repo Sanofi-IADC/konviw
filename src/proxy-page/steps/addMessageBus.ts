@@ -22,13 +22,14 @@ export default (config: ConfigService): Step => {
         context.setExcerpt(excerptPage.text());
       });
 
-    // TODO: Send and receive messages via iFrameResizer instead of via plain postMessage
+    // iframe-resizer library is used for both sending messages to the iframe (if any)
+    // and auto resizer of the iframe to the content of the konviw page
     $('body').append(
       `<script type="text/javascript" defer src="${basePath}/iframeResizer/iframeResizer.contentWindow.min.js?cache=${version}"></script>
       <script type="module">
         const konviwMessage = {
           konviwFrameUrl: window.location.href,
-          konviwSpaceKey: "${context.getSpaceKey().toLowerCase()}",
+          konviwSpaceKey: "${context.getSpaceKey()}",
           konviwPageId: "${context.getPageId()}",
           konviwTitle: "${context.getTitle()}",
           konviwExcerpt: "${context.getExcerpt()}"

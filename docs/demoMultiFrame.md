@@ -6,7 +6,6 @@ title: Demo multi iframe displayed in one page
 
 The below's documentation are 3 Confluence pages embedded via konviw.
 
-
 ### Level 1: System Context diagram
 
 <ConfluencePage v-bind:switchTheme="false" v-bind:metadata="true" type='notitle' pageId='28213297'/>
