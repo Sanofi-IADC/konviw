@@ -82,10 +82,10 @@ div.toc-macro.client-side-toc-macro.konviw-float-TOC {
   ul {
     list-style: none;
     padding-top: 5px;
+    padding-bottom: 40px;
     padding-left: 20px;
     li {
       a.toc-link {
-        padding-bottom: 5px;
         &:hover {
           text-decoration: underline;
         }
@@ -95,6 +95,13 @@ div.toc-macro.client-side-toc-macro.konviw-float-TOC {
       }
     }
     li:not(:first-child) a {
+      padding-bottom: 5px;
+      display: block;
+      text-overflow: ellipsis;
+    }
+    li:first-child a {
+      padding-top: 40px;
+      padding-bottom: 5px;
       display: block;
       text-overflow: ellipsis;
     }
@@ -102,7 +109,7 @@ div.toc-macro.client-side-toc-macro.konviw-float-TOC {
 
   /* When we show the TOC */
   &.active {
-    opacity: 0.5;
+    opacity: 1;
     width: 20vw;
     height: max-content;
     max-height: 50vh;
