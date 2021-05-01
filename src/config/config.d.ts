@@ -26,6 +26,10 @@ interface Config {
     idSite: string;
   };
 
+  google: {
+    tag: string;
+  };
+
   cache: {
     cacheTTL: number;
     cacheMax: number;

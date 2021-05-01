@@ -20,6 +20,9 @@ export default (): Config => ({
     baseURL: process.env.CPV_MATOMO_BASE_URL || '',
     idSite: process.env.CPV_MATOMO_ID_SITE || '',
   },
+  google: {
+    tag: process.env.CPV_GOOGLE_ANALYTICS || '',
+  },
   cache: {
     cacheTTL:
       (process.env.CACHE_TTL && parseInt(process.env.CACHE_TTL, 10)) || 86400,
