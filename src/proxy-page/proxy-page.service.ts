@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfluenceService } from '../confluence/confluence.service';
+import { JiraService } from '../jira/jira.service';
 import { ContextService } from '../context/context.service';
 import { ConfigService } from '@nestjs/config';
 import delUnnecessaryCode from './steps/delUnnecessaryCode';
@@ -27,7 +28,7 @@ import addMessageBus from './steps/addMessageBus';
 import addCopyLinks from './steps/addCopyLinks';
 import addReadingProgressBar from './steps/addReadingProgressBar';
 import addJira from './steps/addJira';
-import { JiraService } from 'src/jira/jira.service';
+import addWebStatsTracker from './steps/addWebStatsTracker';
 
 @Injectable()
 export class ProxyPageService {
@@ -107,6 +108,7 @@ export class ProxyPageService {
     addScrollToTop()(this.context);
     addReadingProgressBar()(this.context);
     addCopyLinks()(this.context);
+    addWebStatsTracker(this.config)(this.context);
     await addJiraPromise;
     this.context.Close();
     return this.context.getHtmlBody();
