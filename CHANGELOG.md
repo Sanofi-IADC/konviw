@@ -1,3 +1,15 @@
+# [0.27.0](https://github.com/Sanofi-IADC/konviw/compare/v0.26.6...v0.27.0) (2021-05-01)
+
+
+### Bug Fixes
+
+* **addMessageBus:** send plain JSON ([fd2a311](https://github.com/Sanofi-IADC/konviw/commit/fd2a31157d24f4914bf766c54168aa7c77383738))
+
+
+### Features
+
+* new step to display the reading progress ([5d2531a](https://github.com/Sanofi-IADC/konviw/commit/5d2531ade9582132c227af8a113acf3c434347ef))
+
 ## [0.26.6](https://github.com/Sanofi-IADC/konviw/compare/v0.26.5...v0.26.6) (2021-04-30)
 
 
