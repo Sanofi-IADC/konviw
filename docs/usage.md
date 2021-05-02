@@ -243,6 +243,16 @@ The parameter `type` is used to define the header format for the page and accept
 - `notitle` to avoid the title in the header. See [example without title](demoNoTitle)
 - `title` or undefined will render the standard Konviw page with just title
 
+## Link images and media
+
+Konviw also renders your media files and images, so you can combine other publishing tools like Wordpress and place your images directly from Confluence.
+
+For example the following image is from the [Architecture page](archiecture) and it is composed by the following structure:
+
+`CPV_BASEHOST:PORT + CPV_BASEPATH + /wiki/download/attachments/ + pageId + `/` + file name`
+
+![Image from Confluence](https://konviw.vercel.app/cpv/wiki/download/attachments/28213297/Konviw-C4M-Level1.png)
+
 ## Turn pages into online web presentations
 
 You can mix content that will be visible into slides and content which will stay visible only in the page mode.

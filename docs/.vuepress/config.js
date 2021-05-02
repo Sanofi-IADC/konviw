@@ -32,6 +32,10 @@ module.exports = {
         path: '/architecture',
       },
       {
+        title: 'Performance',
+        path: '/performance',
+      },
+      {
         title: 'Usage',
         path: '/usage', // optional, link of the title, which should be an absolute path and must exist
         collapsable: false, // optional, defaults to true
