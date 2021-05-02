@@ -2,6 +2,8 @@
 title: Usage
 ---
 
+<!-- markdownlint-disable MD033 -->
+
 ## Getting started
 
 After following the [installation](/installation) and configuration steps you can render any Confluence page composing
@@ -63,9 +65,21 @@ Konviw will detect your draw.io diagrams and present the .png view automatically
 
 ## Advance features
 
+## Floating TOC
+
+You do not like the classical TOC (Table of Content) that Confluence shows inline in your page because you have to go back to the top to see it. This will be your favourite feature soon.
+
+Now you can hide the classic TOC and make it visible on demand as part of a floating button that will show up in the top right page of your pages.
+
+How to activate it? Edit the properties of the ‘Table of Contents’ macro and add ‘konviw-float-TOC’ in the CSS Class Name property, like in the example below.
+
+![Properties TOC macro](Properties-TOC-macro.png)
+
 ## Embedded konviw pages in iframes
 
-You can simply embed your konviw pages in websites, MS Teams tabs or in other applications via iframes. To provide advance integration features konviw automatically pushes some post messages with metadata with the parent window so you can resize the iframe dynamically based on the content or display the Url being loaded in the iframe.
+You can simply embed your konviw pages in websites, MS Teams tabs or in other applications via iframes. To provide advance integration features konviw automatically pushes some post messages with metadata to the parent window and also provides several methods for auto-resizing so you can resize the iframe dynamically or display the Url being loaded in the iframe.
+
+The variables passed from konviw to the parent page are:
 
 - `konviwFrameUrl` with the full page Url
 - `konviwSpaceKey` of the space key
@@ -73,25 +87,7 @@ You can simply embed your konviw pages in websites, MS Teams tabs or in other ap
 - `konviwTitle` of the page
 - `konviwExcerpt` of the page
 
-For instance you can retrieve metadata in a Vue component with a method like this
-
-```js
-  methods: {
-    LoadFrame() {
-      window.onmessage = (e) => {
-        if (Object.prototype.hasOwnProperty.call(e.data, 'konviwPageId')) {
-          this.msgPageId = e.data.konviwPageId;
-          this.msgTitle = e.data.konviwTitle;
-          this.msgExcerpt = e.data.konviwExcerpt;
-          this.msgIframeUrl = e.data.konviwFrameUrl;
-          this.msgSpaceKey = e.data.konviwSpaceKey;
-        }
-      };
-    },
-  },
-```
-
-We have also plugged natively in konviw the great JavaScript library iFrame-Resizer so you can automatically resize the iframes where konviw is loaded.
+Use load the JavaScript library iFrame-Resizer so you can automatically resize the iframes where konviw is loaded.
 
 As an example of implementation you have to provide a unique id for each iframe, the url of the konviw page and load iframe-resizer true a custom method function:
 
@@ -105,6 +101,8 @@ As an example of implementation you have to provide a unique id for each iframe,
 />
 ```
 
+For instance you can retrieve metadata in a Vue component with a method like this:
+
 ```js
   methods: {
     iframeLoaded(iframeId) {
@@ -112,9 +110,13 @@ As an example of implementation you have to provide a unique id for each iframe,
         {
           log: false,
           checkOrigin: false,
-          onMessage: function (messageData) {
+          onMessage: (messageData) => {
             // Callback fn when message is received
-            alert(messageData.message.konviwPageId);
+            this.msgPageId = messageData.message.konviwPageId;
+            this.msgTitle = messageData.message.konviwTitle;
+            this.msgExcerpt = messageData.message.konviwExcerpt;
+            this.msgIframeUrl = messageData.message.konviwFrameUrl;
+            this.msgSpaceKey = messageData.message.konviwSpaceKey;
           },
         },
         `#${iframeId}`,
@@ -132,6 +134,8 @@ We use the awesome open-source JavaScript table plugin [Grid.js](https://gridjs.
 
 Konviw will render the table with the same columns selected in the Jira macro and using the JQL or filter defined in the macro.
 
+<ConfluencePage v-bind:switchTheme="false" v-bind:metadata="false" type='notitle' pageId='35160094'/>
+
 The access to the Jira API works with the same variables used for Confluence API.
 
 Check in the demo section in this documentation a [konviw page with a Jira table embedded](demoJira).
@@ -141,7 +145,7 @@ Check in the demo section in this documentation a [konviw page with a Jira table
 By default Konviw comes with an in-memory cache for both pages and API endpoints.
 You can manually specify a TTL (expiration time) for the cache, via the `env` variable:
 
-```txt
+```text
 CACHE_TTL = 86400    # Default to 24h
 ```
 
