@@ -1,3 +1,10 @@
+## [0.29.1](https://github.com/Sanofi-IADC/konviw/compare/v0.29.0...v0.29.1) (2021-05-02)
+
+
+### Bug Fixes
+
+* new google analytics tracker for the docs ([d7680a5](https://github.com/Sanofi-IADC/konviw/commit/d7680a5edc19f583b1db05ae693a4f8b744e0cb5))
+
 # [0.29.0](https://github.com/Sanofi-IADC/konviw/compare/v0.28.0...v0.29.0) (2021-05-01)
 
 
