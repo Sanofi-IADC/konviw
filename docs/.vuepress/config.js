@@ -58,7 +58,7 @@ module.exports = {
     '@vuepress/back-to-top',
     '@vuepress/google-analytics',
     {
-      ga: 'G-SQELX6PDBT',
+      ga: 'G-2VWWHG99CK',
     },
   ],
   markdown: {
