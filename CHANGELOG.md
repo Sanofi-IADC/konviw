@@ -1,3 +1,11 @@
+## [0.29.2](https://github.com/Sanofi-IADC/konviw/compare/v0.29.1...v0.29.2) (2021-05-02)
+
+
+### Performance Improvements
+
+* **jira:** load gridjs from local assets ([640bdba](https://github.com/Sanofi-IADC/konviw/commit/640bdba5430d5108378097ce140f2fbb5144889b))
+* **scss:** avoid import css load parallel assets ([214c6a9](https://github.com/Sanofi-IADC/konviw/commit/214c6a911d10287c8cf53ee07ce7167307dd569b))
+
 ## [0.29.1](https://github.com/Sanofi-IADC/konviw/compare/v0.29.0...v0.29.1) (2021-05-02)
 
 
