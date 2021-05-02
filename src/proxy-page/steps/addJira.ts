@@ -11,6 +11,8 @@ export default (config: ConfigService): Step => {
   ): Promise<void> => {
     context.setPerfMark('addJira');
     const $ = context.getCheerioBody();
+    const basePath = config.get('web.basePath');
+    const version = config.get('version');
 
     if (!$('.refresh-wiki') || !$('.refresh-wiki').data()) {
       context.getPerfMeasure('addJira');
@@ -167,9 +169,13 @@ export default (config: ConfigService): Step => {
       $('.refresh-issues-bottom').remove();
 
       // add the grid using http://gridjs.io library
-      $('#Content').append(
-        '<script src="https://unpkg.com/gridjs/dist/gridjs.production.min.js"></script>',
-        '<link href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" rel="stylesheet" />',
+
+      $('head').append(
+        `<link href="${basePath}/gridjs/mermaid.min.css?cache=${version}" rel="stylesheet" />`,
+      );
+
+      $('body').append(
+        `<script defer src="${basePath}/gridjs/gridjs.production.min.js?cache=${version}"></script>`,
         `<div id="gridjs${index}"></div>`,
         `<script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -195,5 +201,6 @@ export default (config: ConfigService): Step => {
       </script>`,
       );
     });
+    context.getPerfMeasure('addJira');
   };
 };

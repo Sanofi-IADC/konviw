@@ -81,6 +81,6 @@ describe('Confluence Proxy / addJira', () => {
         resolution: 'resolved',
       },
     ]);
-    expect($('#Content').html()).toContain(`data: ${data}`);
+    expect($('body').html()).toContain(`data: ${data}`);
   });
 });
