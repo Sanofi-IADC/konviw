@@ -54,7 +54,13 @@ module.exports = {
       '/about',
     ],
   },
-  plugins: ['@vuepress/back-to-top'],
+  plugins: [
+    '@vuepress/back-to-top',
+    '@vuepress/google-analytics',
+    {
+      ga: 'G-SQELX6PDBT',
+    },
+  ],
   markdown: {
     extendMarkdown: (md) => {
       md.set({ breaks: true });
