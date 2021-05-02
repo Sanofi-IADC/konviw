@@ -1,14 +1,13 @@
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
 import { ConfigService } from '@nestjs/config';
-import Config from '../../config/config';
 
 export default (config: ConfigService): Step => {
   return (context: ContextService): void => {
     context.setPerfMark('addZooming');
     const $ = context.getCheerioBody();
-    const version = config.get<Config>('version');
-    const basePath = config.get<Config>('web.basePath');
+    const version = config.get('version');
+    const basePath = config.get('web.basePath');
 
     // Library to include the zooming effect to Drawio images
     // https://unpkg.com/zooming@2.1.1/build/zooming.min.js

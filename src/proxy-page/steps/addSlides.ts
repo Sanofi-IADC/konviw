@@ -1,5 +1,4 @@
 import { ConfigService } from '@nestjs/config';
-import Config from 'src/config/config';
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
 
@@ -7,7 +6,8 @@ export default (config: ConfigService): Step => {
   return (context: ContextService): void => {
     context.setPerfMark('addSlides');
     const $ = context.getCheerioBody();
-    const basePath = config.get<Config>('web.basePath');
+    const basePath = config.get('web.basePath');
+    const version = config.get('version');
 
     // Handle the source code block to be syntax highlighted by highlight.js (auto language detection by default)
     $('pre.syntaxhighlighter-pre').each(
@@ -56,21 +56,29 @@ export default (config: ConfigService): Step => {
 
     // Let's add the JS library for reveal.js and required CSS styles
     $('head').append(
-      `<link rel="stylesheet" href="${basePath}/reveal/reset.css">
-      <link rel="stylesheet" href="${basePath}/reveal/reveal.css">
-      <link rel="stylesheet" href="${basePath}/reveal/theme/${theme}.css" id="theme">
-      <link rel="stylesheet" href="${basePath}/highlight/zenburn.min.css">
-      <script src="${basePath}/reveal/reveal.js"></script>`,
+      // Standard load of stylesheets
+      // `<link rel="stylesheet" href="${basePath}/reveal/reset.css">
+      // <link rel="stylesheet" href="${basePath}/reveal/reveal.css">
+      // <link rel="stylesheet" href="${basePath}/reveal/theme/${theme}.css" id="theme">
+      // <link rel="stylesheet" href="${basePath}/highlight/zenburn.min.css">`,
+      // Modern deferred load of stylesheets that are not critical for the first page render
+      `<link href="${basePath}/reveal/reset.css?cache=${version}" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" />`,
+      `<link href="${basePath}/reveal/reveal.css?cache=${version}" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"/>`,
+      `<link href="${basePath}/reveal/theme/${theme}.css?cache=${version}" id="theme" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" />`,
+      `<link href="${basePath}/highlight/zenburn.min.css?cache=${version}" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" />`,
+    );
+    $('body').append(
+      `<script defer src="${basePath}/reveal/reveal.js?cache=${version}"></script>`,
     );
 
     const newHtmlBody = `<div id="Content" class="reveal"><div class="slides">${sections}</div></div>`;
     $('#Content').replaceWith(newHtmlBody);
 
     // When the DOM content is loaded call the initialization of Reveal (https://revealjs.com/)
-    $('#Content').append(
-      `<script src="${basePath}/reveal/plugin/zoom/zoom.js"></script>
-      <script src="${basePath}/reveal/plugin/highlight/highlight.js"></script>
-      <script>
+    $('body').append(
+      `<script defer src="${basePath}/reveal/plugin/zoom/zoom.js?cache=${version}"></script>
+      <script defer src="${basePath}/reveal/plugin/highlight/highlight.js?cache=${version}"></script>
+      <script defer>
         document.addEventListener('DOMContentLoaded', function () {
           Reveal.initialize({ 
             hash: true,

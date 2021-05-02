@@ -1,13 +1,12 @@
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
 import { ConfigService } from '@nestjs/config';
-import Config from '../../config/config';
 
 export default (config: ConfigService): Step => {
   return (context: ContextService): void => {
     context.setPerfMark('fixDrawio');
     const $ = context.getCheerioBody();
-    const webBasePath = config.get<Config>('web.basePath');
+    const webBasePath = config.get('web.basePath');
 
     // Div class with data-macro-name='drawio' is used for Drawio diagrams created in the same page
     $("div.ap-container[data-macro-name='drawio']").each(

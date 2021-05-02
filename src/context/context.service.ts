@@ -2,7 +2,6 @@ import { Injectable, Logger } from '@nestjs/common';
 import cheerio from 'cheerio';
 import { performance, PerformanceObserver } from 'perf_hooks';
 import { ConfigService } from '@nestjs/config';
-import Config from '../config/config';
 
 @Injectable()
 export class ContextService {
@@ -34,7 +33,7 @@ export class ContextService {
     this.theme = theme;
     const logger = new Logger();
     // Activate the observer in development
-    if (this.config.get<Config>('env').toString() === 'development') {
+    if (this.config.get('env').toString() === 'development') {
       this.observer = new PerformanceObserver((list) => {
         const entry = list.getEntries()[0];
         logger.log(`Time for [${entry.name}] = ${entry.duration}ms`);
@@ -45,21 +44,21 @@ export class ContextService {
 
   Close() {
     // Disconnect the PerformanceObserver only in development
-    if (this.config.get<Config>('env').toString() === 'development') {
+    if (this.config.get('env').toString() === 'development') {
       this.observer.disconnect();
     }
   }
 
   setPerfMark(mark: string): void {
     // Activate PerformanceObserver only in development
-    if (this.config.get<Config>('env').toString() === 'development') {
+    if (this.config.get('env').toString() === 'development') {
       performance.mark(`${mark}-init`);
     }
   }
 
   getPerfMeasure(mark: string): void {
     // Get PerformanceObserver metrics only in development
-    if (this.config.get<Config>('env').toString() === 'development') {
+    if (this.config.get('env').toString() === 'development') {
       performance.mark(`${mark}-end`);
       performance.measure(`${mark}`, `${mark}-init`, `${mark}-end`);
     }

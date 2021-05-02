@@ -2,7 +2,6 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ConfluenceService } from '../confluence/confluence.service';
 import { ContextService } from '../context/context.service';
 import { ConfigService } from '@nestjs/config';
-import Config from '../config/config.d';
 import parseHeaderBlog from './steps/parseHeaderBlog';
 
 @Injectable()
@@ -21,9 +20,9 @@ export class ProxyApiService {
    */
   async getAllPosts(spaceKey: string): Promise<any> {
     const data = await this.confluence.getAllPosts(spaceKey);
-    const baseURL = this.config.get<Config>('confluence.baseURL');
-    const baseHost = this.config.get<Config>('web.baseHost');
-    const basePath = this.config.get<Config>('web.basePath');
+    const baseURL = this.config.get('confluence.baseURL');
+    const baseHost = this.config.get('web.baseHost');
+    const basePath = this.config.get('web.basePath');
 
     return data.results.map((doc: any) => {
       this.context.Init(spaceKey, doc.content.id);
@@ -66,9 +65,9 @@ export class ProxyApiService {
    */
   async getSearchResults(spaceKey: string, query: string): Promise<string> {
     const data = await this.confluence.getResults(spaceKey, query);
-    const baseURL = this.config.get<Config>('confluence.baseURL');
-    const baseHost = this.config.get<Config>('web.baseHost');
-    const basePath = this.config.get<Config>('web.basePath');
+    const baseURL = this.config.get('confluence.baseURL');
+    const baseHost = this.config.get('web.baseHost');
+    const basePath = this.config.get('web.basePath');
 
     const parseResults = data.results.map((doc: any) => {
       this.context.Init(spaceKey, doc.content.id); //// TODO

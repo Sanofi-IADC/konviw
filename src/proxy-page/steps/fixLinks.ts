@@ -1,7 +1,6 @@
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
 import { ConfigService } from '@nestjs/config';
-import Config from '../../config/config';
 import { Logger } from '@nestjs/common';
 
 export default (config: ConfigService): Step => {
@@ -10,8 +9,8 @@ export default (config: ConfigService): Step => {
     context.setPerfMark('fixLinks');
 
     const $ = context.getCheerioBody();
-    const confluenceBaseURL = config.get<Config>('confluence.baseURL');
-    const webBasePath = config.get<Config>('web.basePath');
+    const confluenceBaseURL = config.get('confluence.baseURL');
+    const webBasePath = config.get('web.basePath');
 
     // External links are tagged with the class external-link
     $('a.external-link').each((_index: number, element: CheerioElement) => {

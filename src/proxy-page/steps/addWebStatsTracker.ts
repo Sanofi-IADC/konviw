@@ -1,15 +1,14 @@
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
 import { ConfigService } from '@nestjs/config';
-import Config from '../../config/config';
 
 export default (config: ConfigService): Step => {
   return (context: ContextService): void => {
     context.setPerfMark('addWebStatsTracker');
     const $ = context.getCheerioBody();
-    const matomoBaseURL = config.get<Config>('matomo.baseURL');
-    const matomoIdSite = config.get<Config>('matomo.idSite');
-    const googleTag = config.get<Config>('google.tag');
+    const matomoBaseURL = config.get('matomo.baseURL');
+    const matomoIdSite = config.get('matomo.idSite');
+    const googleTag = config.get('google.tag');
 
     if (matomoBaseURL && matomoIdSite) {
       $('head').append(
