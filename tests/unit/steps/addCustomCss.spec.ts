@@ -1,7 +1,6 @@
 import { ContextService } from '../../../src/context/context.service';
 import { ConfigService } from '@nestjs/config';
 import addCustomCss from '../../../src/proxy-page/steps/addCustomCss';
-import Config from '../../../src/config/config';
 import { createModuleRefForStep } from './utils';
 
 describe('ConfluenceProxy / addCustomCss', () => {
@@ -18,14 +17,14 @@ describe('ConfluenceProxy / addCustomCss', () => {
 
   it('should add custom CSS', () => {
     const step = addCustomCss(config);
-    const version = config.get<Config>('version');
-    const basePath = config.get<Config>('web.basePath');
+    const version = config.get('version');
+    const basePath = config.get('web.basePath');
     context.setHtmlBody(
       '<html><head><title>test</title><style default-inline-css>/* confluence CSS */</style></head><body></body></html>',
     );
     step(context);
     expect(context.getHtmlBody()).toEqual(
-      `<html><head><title>test</title><style default-inline-css>/* confluence CSS */</style><link rel="stylesheet" type="text/css" href="${basePath}/css/custom.css?cache=${version}"></head><body></body></html>`,
+      `<html><head><title>test</title><style default-inline-css>/* confluence CSS */</style><link rel="stylesheet" type="text/css" href="${basePath}/css/custom.css?cache=${version}"><link href="${basePath}/css/all.min.css?cache=${version}" rel="preload" as="style" onload="this.onload=null;this.rel=&apos;stylesheet&apos;"></head><body></body></html>`,
     );
   });
 });
