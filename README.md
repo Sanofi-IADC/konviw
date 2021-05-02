@@ -94,6 +94,16 @@ For configuration check the [docs](https://sanofi-iadc.github.io/konviw/installa
 
 [Reveal.js](https://revealjs.com) is a MIT-licensed open source HTML presentation framework copyright (C) by Hakim El Hattab, (https://hakim.se). Support the project via [GitHub Sponsors](https://github.com/sponsors/hakimel).
 
+## Performance
+
+One of the main reasons for building Konviw is performance. A medium complex page in Confluence may take between 6 an 7s to load completely. Of course this is because Confluence is loading all the heavy assets to edit pages, create new content, search, navigate thru the complete page hierarchy of the space... But who wants to wait for 7s when you just want to read the content.
+
+![konviw Lighthouse report](https://konviw.vercel.app/cpv/wiki/download/attachments/35225651/image-20210502-141206.png?version=1&modificationDate=1619964728448&cacheVersion=1&api=v2)
+
+Our objective with konviw is to deliver pages in average below 1 second. Obviously while Atlassian API delivers the content in the current levels of performance so around 500 ms per page.
+
+We will continue to add features but always looking to keep the current levels of performance and speed to deliver beautifully rendered pages. We will not compromise the performance for new features in any case.
+
 ## License
 
 [MIT licensed](https://github.com/Sanofi-IADC/konviw/blob/main/LICENCE) made by Sanofi IADC
