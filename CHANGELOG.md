@@ -1,3 +1,15 @@
+# [1.0.0](https://github.com/Sanofi-IADC/konviw/compare/v0.29.2...v1.0.0) (2021-05-04)
+
+
+### Documentation
+
+* bullet point support section ([0e8a847](https://github.com/Sanofi-IADC/konviw/commit/0e8a84780994f59f6c8809dd5cb1381b589892a2))
+
+
+### BREAKING CHANGES
+
+* first stable release at v1.0.0
+
 ## [0.29.2](https://github.com/Sanofi-IADC/konviw/compare/v0.29.1...v0.29.2) (2021-05-02)
 
 
