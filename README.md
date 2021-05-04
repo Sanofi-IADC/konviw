@@ -88,11 +88,11 @@ For configuration check the [docs](https://sanofi-iadc.github.io/konviw/installa
 
 ## Support
 
-[NestJS](https://nestjs.com) is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+- [NestJS](https://nestjs.com) is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
-[Cheerio](https://cheerio.js.org) is a MIT-licensed open source blazingly fast DOM parser for nodejs servers. Support the project via [GitHub Sponsors](https://github.com/sponsors/cheeriojs)
+- [Cheerio](https://cheerio.js.org) is a MIT-licensed open source blazingly fast DOM parser for nodejs servers. Support the project via [GitHub Sponsors](https://github.com/sponsors/cheeriojs)
 
-[Reveal.js](https://revealjs.com) is a MIT-licensed open source HTML presentation framework copyright (C) by Hakim El Hattab, (https://hakim.se). Support the project via [GitHub Sponsors](https://github.com/sponsors/hakimel).
+- [Reveal.js](https://revealjs.com) is a MIT-licensed open source HTML presentation framework copyright (C) by Hakim El Hattab, (https://hakim.se). Support the project via [GitHub Sponsors](https://github.com/sponsors/hakimel).
 
 ## Performance
 
