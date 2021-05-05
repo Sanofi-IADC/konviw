@@ -1,6 +1,7 @@
 const package = require('../../package.json');
 
 module.exports = {
+  title: package.name,
   description: package.description,
   version: package.version,
   base: '/konviw/', // when published to GitHub Pages
