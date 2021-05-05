@@ -1,6 +1,7 @@
 const package = require('../../package.json');
 
 module.exports = {
+  title: package.name,
   description: package.description,
   version: package.version,
   base: '/konviw/', // when published to GitHub Pages
@@ -8,7 +9,7 @@ module.exports = {
   head: [['link', { rel: 'icon', href: '/konviw.png' }]],
   themeConfig: {
     version: package.version,
-    logo: '/konviw.svg',
+    logo: '/konviw.png',
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Documentation', link: '/introduction' },
