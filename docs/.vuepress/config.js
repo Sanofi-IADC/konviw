@@ -9,7 +9,7 @@ module.exports = {
   head: [['link', { rel: 'icon', href: '/konviw.png' }]],
   themeConfig: {
     version: package.version,
-    logo: '/konviw.svg',
+    logo: '/konviw.png',
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Documentation', link: '/introduction' },
