@@ -2,6 +2,6 @@
   "collection": "@nestjs/schematics",
   "sourceRoot": "src",
   "compilerOptions": {
-    "assets": ["static/**/*"]
+    "assets": [{ "include": "static/**/*", "watchAssets": true }]
   }
 }
