@@ -1,3 +1,15 @@
+# [1.1.0](https://github.com/Sanofi-IADC/konviw/compare/v1.0.0...v1.1.0) (2021-05-07)
+
+
+### Bug Fixes
+
+* **scroll:** back to top of the page also for blog ([354d482](https://github.com/Sanofi-IADC/konviw/commit/354d4828541965000c7d46c4c8210f24a2ca7e3d))
+
+
+### Features
+
+* **slides:** responsive themes ([adcacbf](https://github.com/Sanofi-IADC/konviw/commit/adcacbf6fbdb263f83213056d7109666ccc8e971))
+
 # [1.0.0](https://github.com/Sanofi-IADC/konviw/compare/v0.29.2...v1.0.0) (2021-05-04)
 
 
