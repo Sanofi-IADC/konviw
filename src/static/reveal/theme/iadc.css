@@ -3,6 +3,8 @@
 /* *           Author: Jose Gascon             * */
 /* ********************************************* */
 
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;600&display=swap');
+
 section.has-light-background,
 section.has-light-background h1,
 section.has-light-background h2,
@@ -18,31 +20,35 @@ section.has-light-background h6 {
 /* ********************************************* */
 :root {
   --background-color: #fafafa;
-  --main-font: "Rubik", sans-serif;
-  --main-font-size: 20px;
+  --main-font: 'Rubik', sans-serif;
+  --main-font-size: 3.5vmin;
   --main-color: #343434;
+  --main-line-height: 1em;
   --block-margin: 10px;
   --heading-margin: 0 0 20px 0;
-  --heading-font: "Rubik", Impact, sans-serif;
+  --heading-font: 'Rubik', sans-serif;
   --heading-color: #1d2b91;
-  --heading-line-height: 1.2;
+  --heading-line-height: 1.1;
   --heading-letter-spacing: normal;
   --heading-text-transform: uppercase;
   --heading-text-shadow: none;
   --heading-font-weight: normal;
   --heading1-text-shadow: none;
   --heading1-size: 1.77em;
-  --heading2-size: 2.11em;
-  --heading3-size: 1.55em;
+  --heading2-size: 1.77em;
+  --heading3-size: 1.77em;
   --heading4-size: 1em;
-  --code-font: monospace;
+  --code-font-family: monospace;
+  --code-font-size: 0.5em;
   --link-color: #268bd2;
   --link-color-hover: #78b9e6;
   --selection-background-color: #a1d23f;
   --selection-color: #fff;
   --selection: #a1d23f;
-  --iadc-blue: #2b3bb6;
-  --iadc-brown: #c1c1c1;
+  --theme-background: #1d2b91;
+  --theme-blackground-blockquote: #83a1da;
+  --theme-blackground-light: #fee2cc;
+  --theme-blackground-code: #554131;
   --default-text: #343434;
   --progress-color: #2b3bb6;
 }
@@ -57,7 +63,7 @@ section.has-light-background h6 {
 }
 
 .reveal {
-  font-family: "Rubik", sans-serif;
+  font-family: var(--main-font);
   font-size: var(--main-font-size);
   font-weight: normal;
   color: var(--main-color);
@@ -98,7 +104,7 @@ section.has-light-background h6 {
   color: var(--heading-color);
   font-family: var(--heading-font);
   font-weight: bolder;
-  line-height: 1;
+  line-height: var(--heading-line-height);
   letter-spacing: normal;
   text-transform: none;
   text-shadow: none;
@@ -106,19 +112,19 @@ section.has-light-background h6 {
 }
 
 .reveal h1 {
-  font-size: 2em;
+  font-size: var(--heading1-size);
 }
 
 .reveal h2 {
-  font-size: 1.55em;
+  font-size: var(--heading2-size);
 }
 
 .reveal h3 {
-  font-size: 1.55em;
+  font-size: var(--heading3-size);
 }
 
 .reveal h4 {
-  font-size: 1em;
+  font-size: var(--heading4-size);
 }
 
 /* ********************************************* */
@@ -136,7 +142,7 @@ section.has-light-background h6 {
   transition: background 800ms ease;
 }
 .cover .reveal {
-  background: var(--iadc-blue);
+  background: var(--theme-background);
 }
 
 .cover .reveal.cube .slides section:not(.stack):before {
@@ -144,7 +150,7 @@ section.has-light-background h6 {
 }
 
 .cover .reveal h1 {
-  color: var(--iadc-blue);
+  color: var(--theme-background);
 }
 
 .cover .reveal h1 {
@@ -156,7 +162,7 @@ section.has-light-background h6 {
 }
 
 .cover .reveal h1:after {
-  content: "";
+  content: '';
   display: inline-block;
   width: 0;
   height: 0;
@@ -178,7 +184,7 @@ section.has-light-background h6 {
 }
 
 .bubble h3 {
-  background-color: var(--iadc-blue);
+  background-color: var(--theme-background);
   color: white;
   padding: 30px;
   border-radius: 5px;
@@ -187,13 +193,13 @@ section.has-light-background h6 {
 }
 
 .bubble h3::after {
-  content: "";
+  content: '';
   display: inline-block;
   width: 0;
   height: 0;
   border-left: 20px solid transparent;
   border-right: 20px solid transparent;
-  border-top: 20px solid var(--iadc-blue);
+  border-top: 20px solid var(--theme-background);
   position: absolute;
   left: 30px;
   bottom: -20px;
@@ -208,7 +214,7 @@ section.has-light-background h6 {
  *********************************************/
 .reveal p {
   margin: 20px 0;
-  line-height: var(--heading-line-height);
+  line-height: var(--main-line-height);
 }
 
 /* Remove trailing margins after titles */
@@ -226,7 +232,6 @@ section.has-light-background h6 {
 .reveal video,
 .reveal iframe {
   max-width: 75%;
-  /* max-height: 65%; */
 }
 
 .reveal strong,
@@ -243,6 +248,7 @@ section.has-light-background h6 {
 .reveal ul {
   display: inline-block;
   text-align: left;
+  line-height: 1.2em;
   margin: 0 0 0 1em;
 }
 
@@ -279,10 +285,10 @@ section.has-light-background h6 {
 }
 
 .reveal blockquote {
-  background-color: var(--iadc-brown);
+  background-color: var(--theme-blackground-blockquote);
   color: var(--default-text);
   padding: 30px;
-  border-radius: 5px;
+  border-radius: 10px;
   position: relative;
   margin-bottom: 1em;
   font-style: normal;
@@ -292,13 +298,13 @@ section.has-light-background h6 {
   content: none;
 }
 .reveal blockquote:after {
-  content: "";
+  content: '';
   display: inline-block;
   width: 0;
   height: 0;
   border-left: 20px solid transparent;
   border-right: 20px solid transparent;
-  border-top: 20px solid var(--iadc-brown);
+  border-top: 20px solid var(--theme-blackground-blockquote);
   position: absolute;
   left: 30px;
   bottom: -20px;
@@ -314,16 +320,18 @@ section.has-light-background h6 {
   width: 90%;
   margin: 20px auto;
   text-align: left;
-  font-size: 0.7em;
-  font-family: monospace;
-  line-height: 1.2em;
+  font-size: var(--code-font-size);
+  font-family: var(--code-font-family);
   word-wrap: break-word;
-  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
 }
 
 .reveal code {
-  font-family: monospace;
+  font-family: var(--code-font);
   text-transform: none;
+  background-color: var(--theme-blackground-light);
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 5px;
 }
 
 .reveal pre code {
@@ -332,6 +340,9 @@ section.has-light-background h6 {
   overflow: auto;
   max-height: 400px;
   word-wrap: normal;
+  background-color: var(--theme-blackground-code);
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.297);
+  border-radius: 5px;
 }
 
 .reveal table {
@@ -352,13 +363,13 @@ section.has-light-background h6 {
   border-bottom: 1px solid;
 }
 
-.reveal table th[align="center"],
-.reveal table td[align="center"] {
+.reveal table th[align='center'],
+.reveal table td[align='center'] {
   text-align: center;
 }
 
-.reveal table th[align="right"],
-.reveal table td[align="right"] {
+.reveal table th[align='right'],
+.reveal table td[align='right'] {
   text-align: right;
 }
 
@@ -388,13 +399,19 @@ section.has-light-background h6 {
   vertical-align: top;
 }
 
-.reveal img {
-  margin: 20px 0;
+/**********************************************/
+/*****         IMAGE with links          ******/
+/**********************************************/
+.reveal a img.image-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
 }
 
-/*********************************************
- * LINKS
- *********************************************/
+/**********************************************/
+/*****                LINKS              ******/
+/**********************************************/
 .reveal a {
   color: var(--link-color);
   text-decoration: none;

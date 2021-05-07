@@ -87,7 +87,12 @@ export default (config: ConfigService): Step => {
             backgroundTransition: 'slide',
             slideNumber: true,
             disableLayout: false,
+            // This will make the slide responsive
             margin: 0.1,
+            width: "100%",
+            height: "100%",
+            minScale: 1,
+            maxScale: 1
           });
         })
       </script>`,
