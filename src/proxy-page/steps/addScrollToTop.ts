@@ -8,7 +8,7 @@ export default (): Step => {
 
     $('#Content').append(
       `<div class="back-to-top-wrapper">
-        <a href="#Content" class="back-to-top-link" aria-label="Scroll to Top"></a>
+        <a href="#" class="back-to-top-link" aria-label="Scroll to Top"></a>
       </div>`,
     );
     context.getPerfMeasure('addScrollToTop');
