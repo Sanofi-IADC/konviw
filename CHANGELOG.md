@@ -1,3 +1,15 @@
+# [1.2.0](https://github.com/Sanofi-IADC/konviw/compare/v1.1.0...v1.2.0) (2021-05-08)
+
+
+### Bug Fixes
+
+* **style:** add hidden div style with display none ([baca437](https://github.com/Sanofi-IADC/konviw/commit/baca437a38dfb12c0f1e919e598e906afd7bf92c))
+
+
+### Features
+
+* **chartMacro:** display image for chart macro ([715b472](https://github.com/Sanofi-IADC/konviw/commit/715b472f93665307866816b96640777b34e6c8ba))
+
 # [1.1.0](https://github.com/Sanofi-IADC/konviw/compare/v1.0.0...v1.1.0) (2021-05-07)
 
 
