@@ -289,3 +289,30 @@ Examples:
 - [https://konviw.vercel.app/cpv/wiki/slides/konviw/14647304?theme=iadc](https://konviw.vercel.app/cpv/wiki/slides/konviw/14647304?theme=iadc)
 
 You can read a [konviw page with instructions to create web slides](demoSlidesDocs) from your Confluence content in the demo section of these docs.
+
+## Add charts to pages
+
+The Chart macro allows you to display a chart based on tabular data. When you add the macro to a page, you:
+
+- supply the data to be charted by the macro as a table in the placeholder of the macro.
+- edit the macro parameters in the Macro Browser to configure the format of the chart.
+
+To display charts in konviw pages you have to set up the advanced options for chart versioning and generate images to be saved as an attachment.
+
+Parameter: `Attachment`
+The name and location with which the chart image will be saved as an attachment. Currently konviw only supports the first option:
+
+- `^attachmentName.png` — the chart is saved as an attachment to the current page.
+- `page^attachmentName.png` — the chart is saved as an attachment to the page name provided.
+- `space:page^attachmentName.png` — the chart is saved as an attachment to the page name provided in the space indicated.
+
+Parameter: `Attachment Version`
+Defines the the versioning mechanism for saved charts. For optimal behaviour in konviw select `replace`.
+
+- `new` — creates new version of the attachment.
+- `replace` — replaces all previous versions of the chart. To replace an existing attachment, the user must be authorized to remove attachments for the page specified.
+- `keep` — only saves a new attachment if an existing export of the same name does not exist. An existing attachment will not be changed or updated.
+
+![Radar Chart Example](https://konviw.vercel.app/cpv/wiki/download/attachments/44007425/RadarChartExample.png)
+
+You can read the full documentation of how to [insert the chart macro and attachment parameters](https://support.atlassian.com/confluence-cloud/docs/insert-the-chart-macro/#ChartMacro-AttachmentParameters).

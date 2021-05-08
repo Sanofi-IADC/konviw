@@ -1,5 +1,5 @@
 ---
-title: Demo multi iframe displayed in one page
+title: Demo multi iframe in a page
 ---
 
 <!-- markdownlint-disable MD033 -->

@@ -54,6 +54,7 @@ module.exports = {
           '/demoSlidesDocs',
           '/demoJira',
           '/demoMultiFrame',
+          '/demoCharts',
         ],
       },
       '/about',

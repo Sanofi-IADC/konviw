@@ -2,6 +2,8 @@
 title: Introduction
 ---
 
+<!-- markdownlint-disable MD033 -->
+
 <p align="center">
   <a href="https://sanofi-iadc.github.io/konviw/" target="blank"><img :src="$withBase('/konviw.svg')" width="320" alt="Nest Logo" /></a>
 </p>
