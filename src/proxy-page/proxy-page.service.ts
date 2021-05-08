@@ -6,7 +6,6 @@ import { ConfigService } from '@nestjs/config';
 import delUnnecessaryCode from './steps/delUnnecessaryCode';
 import fixLinks from './steps/fixLinks';
 import fixEmojis from './steps/fixEmojis';
-import fixDrawio from './steps/fixDrawio';
 import fixExpander from './steps/fixExpander';
 import fixToc from './steps/fixToc';
 import fixHtmlHead from './steps/fixHtmlHead';
@@ -29,6 +28,8 @@ import addCopyLinks from './steps/addCopyLinks';
 import addReadingProgressBar from './steps/addReadingProgressBar';
 import addJira from './steps/addJira';
 import addWebStatsTracker from './steps/addWebStatsTracker';
+import fixDrawioMacro from './steps/fixDrawio';
+import fixChartMacro from './steps/fixChart';
 
 @Injectable()
 export class ProxyPageService {
@@ -87,7 +88,8 @@ export class ProxyPageService {
     fixLinks(this.config)(this.context);
     fixToc()(this.context);
     fixEmojis()(this.context);
-    fixDrawio(this.config)(this.context);
+    fixDrawioMacro(this.config)(this.context);
+    fixChartMacro(this.config)(this.context);
     fixExpander()(this.context);
     fixUserProfile()(this.context);
     fixVideo()(this.context);
@@ -131,7 +133,7 @@ export class ProxyPageService {
     fixHtmlHead(this.config)(this.context);
     fixLinks(this.config)(this.context);
     fixEmojis()(this.context);
-    fixDrawio(this.config)(this.context);
+    fixDrawioMacro(this.config)(this.context);
     fixExpander()(this.context);
     fixUserProfile()(this.context);
     fixVideo()(this.context);

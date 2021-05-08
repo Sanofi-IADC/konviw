@@ -12,10 +12,19 @@ export default (): Step => {
     // Remove <base ...> to fix TOC links
     $('base').remove();
 
-    // Remove this Drawio script that crashes
+    // Remove this Drawio script to remove unnecessary noise in the final HTML
+    // Already parsed by fixDraw
     $('script.ap-iframe-body-script').each(
       (_index: number, element: CheerioElement) => {
         $(element).replaceWith('');
+      },
+    );
+
+    // Remove this Drawio script to remove unnecessary noise in the final HTML
+    // Already parsed by fixChar
+    $('script.chart-render-data').each(
+      (_index: number, element: CheerioElement) => {
+        $(element).remove();
       },
     );
 
