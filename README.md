@@ -1,7 +1,13 @@
+<!-- markdownlint-disable MD033 -->
+
+<center>
+
 [![CI][ci-shield]][ci-url]
 [![Sonarcloud quality][sonarcloud-shield]][sonarcloud-url]
-[![MIT License][license-shield]][license-url]
 [![Gitpod ready-to-code][gp-shield]][gp-url]
+[![MIT License][license-shield]][license-url]
+
+</center>
 
 <p align="center">
   <a href="https://sanofi-iadc.github.io/konviw/" target="blank"><img src="https://sanofi-iadc.github.io/konviw/konviw.svg" width="320" alt="Nest Logo" /></a>
@@ -69,13 +75,13 @@ This sequence represents the common steps handled by the proxy server:
 ## Installation
 
 ```bash
-$ git clone https://github.com/Sanofi-IADC/konviw.git
+git clone https://github.com/Sanofi-IADC/konviw.git
 
-$ cd konviw && npm install
+cd konviw && npm install
 
-$ npm run build
+npm run build
 
-$ npm run start
+npm run start
 ```
 
 For configuration check the [docs](https://sanofi-iadc.github.io/konviw/installation).
@@ -92,7 +98,7 @@ For configuration check the [docs](https://sanofi-iadc.github.io/konviw/installa
 
 - [Cheerio](https://cheerio.js.org) is a MIT-licensed open source blazingly fast DOM parser for nodejs servers. Support the project via [GitHub Sponsors](https://github.com/sponsors/cheeriojs)
 
-- [Reveal.js](https://revealjs.com) is a MIT-licensed open source HTML presentation framework copyright (C) by Hakim El Hattab, (https://hakim.se). Support the project via [GitHub Sponsors](https://github.com/sponsors/hakimel).
+- [Reveal.js](https://revealjs.com) is a MIT-licensed open source HTML presentation framework copyright (C) by Hakim El Hattab, (<https://hakim.se>). Support the project via [GitHub Sponsors](https://github.com/sponsors/hakimel).
 
 ## Performance
 

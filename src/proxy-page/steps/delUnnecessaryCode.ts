@@ -12,22 +12,6 @@ export default (): Step => {
     // Remove <base ...> to fix TOC links
     $('base').remove();
 
-    // Remove this Drawio script to remove unnecessary noise in the final HTML
-    // Already parsed by fixDraw
-    $('script.ap-iframe-body-script').each(
-      (_index: number, element: CheerioElement) => {
-        $(element).replaceWith('');
-      },
-    );
-
-    // Remove this Drawio script to remove unnecessary noise in the final HTML
-    // Already parsed by fixChar
-    $('script.chart-render-data').each(
-      (_index: number, element: CheerioElement) => {
-        $(element).remove();
-      },
-    );
-
     // Remove button to insert templates in Confluence
     $('button.create-from-template-button').remove();
     context.getPerfMeasure('delUnnecessaryCode');

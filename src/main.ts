@@ -7,6 +7,11 @@ import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { ConfigService } from '@nestjs/config';
 import Config from './config/config';
 
+/**
+ * Entry point of application. By using the NestFactory.create() method a new Nest application instance is created.
+ * @return {string} 'html' - full html of the rendered Confluence page
+ * @param spaceKey {string} 'iadc' - space key where the page belongs
+ */
 async function bootstrap() {
   // as we need to access the Express API
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
