@@ -1,7 +1,13 @@
+<!-- markdownlint-disable MD033 -->
+
+<center>
+
 [![CI][ci-shield]][ci-url]
 [![Sonarcloud quality][sonarcloud-shield]][sonarcloud-url]
-[![MIT License][license-shield]][license-url]
 [![Gitpod ready-to-code][gp-shield]][gp-url]
+[![MIT License][license-shield]][license-url]
+
+</center>
 
 <p align="center">
   <a href="https://sanofi-iadc.github.io/konviw/" target="blank"><img src="https://sanofi-iadc.github.io/konviw/konviw.svg" width="320" alt="Nest Logo" /></a>

@@ -18,9 +18,10 @@ export class ProxyPageController {
   constructor(private readonly proxyPage: ProxyPageService) {}
 
   /**
+   * Route to get a read-only fully rendered Confluence page or blog post
+   *
    * @GET (controller) /spaces/:spaceKey/pages/:pageId/:pageSlug?
    * @GET (controller) /spaces/:spaceKey/blog/:year/:month/:day/:pageId/:pageSlug?
-   * @description Route to get a read-only fully rendered Confluence page or blog post
    * @return {string} 'html' - full html of the rendered Confluence page
    * @param spaceKey {string} 'iadc' - space key where the page belongs
    * @param year {string} [optional] '2021' - year of publication of the blog post
@@ -49,8 +50,9 @@ export class ProxyPageController {
   }
 
   /**
+   * Route to get a full reveal.js slides from a single Confluence page
+   *
    * @GET (controller) /slides/:spaceKey/:pageId/:pageSlug?
-   * @description Route to get a full reveal.js slides from a single Confluence page
    * @return {string} 'html' - full html of the rendered page as reveal.js slides
    * @param spaceKey {string} 'iadc' - space key where the page belongs
    * @param pageId {string} '639243960' - id of the page to retrieve
@@ -72,8 +74,9 @@ export class ProxyPageController {
   }
 
   /**
+   * Route to retrieve the standard media files like images, videos or user profile avatar
+   *
    * @GET (controller) /download/* or /aa-avatar/*
-   * @description Route to retrieve the standard media files like images, videos or user profile avatar
    * @return {string} 'url' - URL of the media to display
    */
   @Get(['/download/*', '/aa-avatar/*'])

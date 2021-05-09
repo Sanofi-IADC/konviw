@@ -22,7 +22,6 @@ module.exports = {
       {
         title: 'Introduction', // required
         path: '/introduction', // optional, link of the title, which should be an absolute path and must exist
-        // sidebarDepth: 2, // optional, defaults to 1
       },
       {
         title: 'Installation',
@@ -38,13 +37,10 @@ module.exports = {
       },
       {
         title: 'Usage',
-        path: '/usage', // optional, link of the title, which should be an absolute path and must exist
-        collapsable: false, // optional, defaults to true
+        path: '/usage',
       },
       {
-        title: 'Demo', // required
-        collapsable: true, // optional, defaults to true
-        sidebarDepth: 1, // optional, defaults to 1
+        title: 'Demo',
         children: [
           '/demoIntroduction',
           '/demoNoTitle',
@@ -56,6 +52,10 @@ module.exports = {
           '/demoMultiFrame',
           '/demoCharts',
         ],
+      },
+      {
+        title: 'Code',
+        path: '/code/modules',
       },
       '/about',
     ],
