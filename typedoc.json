@@ -1,0 +1,7 @@
+{
+  "entryPoints": ["./src"],
+  "out": "./docs/code",
+  "entryDocument": "",
+  "hideBreadcrumbs": false,
+  "hideInPageTOC": true
+}
