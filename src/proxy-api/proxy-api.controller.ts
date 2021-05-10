@@ -23,6 +23,12 @@ export class ProxyApiController {
    */
   @Get('search')
   async getSearchResults(@Query() queries: SearchQueryDTO): Promise<any> {
-    return this.proxyApi.getSearchResults(queries.spaceKey, queries.query);
+    // console.log('cursor is ', queries.cursorSearch);
+    return this.proxyApi.getSearchResults(
+      queries.spaceKey,
+      queries.query,
+      queries.maxResults,
+      queries.cursorResults,
+    );
   }
 }

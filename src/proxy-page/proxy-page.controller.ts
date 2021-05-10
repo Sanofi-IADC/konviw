@@ -64,12 +64,12 @@ export class ProxyPageController {
     @Query() queries: PageQueryDTO,
   ) {
     this.logger.verbose(
-      `Rendering Slides for ... /${params.spaceKey}/${params.pageId} with theme ${queries.theme}`,
+      `Rendering Slides for ... /${params.spaceKey}/${params.pageId} with style ${queries.style}`,
     );
     return this.proxyPage.renderSlides(
       params.spaceKey,
       params.pageId,
-      queries.theme,
+      queries.style,
     );
   }
 

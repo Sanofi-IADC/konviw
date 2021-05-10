@@ -32,16 +32,18 @@ export class PageParamsDTO {
 export class PageQueryDTO {
   @IsOptional()
   @IsString()
+  // to select between 'light' and 'dark' mode
   theme: string;
 
   @IsOptional()
   @IsString()
-  style: string;
+  // to select the css stylesheet for the page or slides
+  style = 'konviw';
 
   @IsOptional()
   @IsString()
   @IsIn(['blog', 'notitle', 'title'])
-  type: string;
+  type = 'title';
 
   @IsOptional()
   @IsString()

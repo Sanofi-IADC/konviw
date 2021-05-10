@@ -19,7 +19,7 @@ export class ProxyApiService {
    * @param spaceKey {string} 'iadc' - space key where the page belongs
    */
   async getAllPosts(spaceKey: string): Promise<any> {
-    const data = await this.confluence.getAllPosts(spaceKey);
+    const { data } = await this.confluence.getAllPosts(spaceKey);
     const baseURL = this.config.get('confluence.baseURL');
     const baseHost = this.config.get('web.baseHost');
     const basePath = this.config.get('web.basePath');
@@ -58,13 +58,26 @@ export class ProxyApiService {
   }
 
   /**
-   * @function getSearchResults Service
+   * getSearchResults Service to search content in Confluence
+   *
    * @return Promise {string}
    * @param spaceKey {string} 'iadc' - space key where the page belongs
    * @param query {string} 'vision factory' - words to be searched
+   * @param maxResults {number} '15' - limit of records to be retrieved
+   * @param cursorResults {string} 'URI' - one of the two URIs provided by Confluence to navigate to the next or previous set of records
    */
-  async getSearchResults(spaceKey: string, query: string): Promise<string> {
-    const data = await this.confluence.getResults(spaceKey, query);
+  async getSearchResults(
+    spaceKey: string,
+    query: string,
+    maxResults: number,
+    cursorResults: string,
+  ): Promise<any> {
+    const { data } = await this.confluence.getResults(
+      spaceKey,
+      query,
+      maxResults,
+      cursorResults,
+    );
     const baseURL = this.config.get('confluence.baseURL');
     const baseHost = this.config.get('web.baseHost');
     const basePath = this.config.get('web.basePath');
@@ -104,19 +117,18 @@ export class ProxyApiService {
       };
     });
 
-    const summary = {
+    const meta = {
       limit: data.limit,
       size: data.size,
       totalSize: data.totalSize,
       query: data.cqlQuery,
+      next: data._links.next,
+      prev: data._links.prev,
     };
 
-    const combined = {
-      summary,
+    return {
+      meta,
       results: parseResults,
     };
-
-    return JSON.parse(JSON.stringify(combined));
-    // return combined;  // why this is not working?
   }
 }

@@ -8,7 +8,8 @@ export class ContextService {
   private readonly logger = new Logger(ContextService.name);
   private spaceKey = '';
   private pageId = '';
-  private theme = 'light';
+  private theme = '';
+  private style = '';
   private cheerioBody = cheerio.load('');
   private title = '';
   private author = '';
@@ -27,10 +28,11 @@ export class ContextService {
   // ! Somehow not working with the @Injectable decorator
   // constructor(private spaceKey: string, private pageId: string, private theme:s tring) {}
 
-  Init(spaceKey: string, pageId: string, theme = '') {
+  Init(spaceKey: string, pageId: string, theme = '', style = '') {
     this.spaceKey = spaceKey;
     this.pageId = pageId;
     this.theme = theme;
+    this.style = style;
     const logger = new Logger();
     // Activate the observer in development
     if (this.config.get('env').toString() === 'development') {
@@ -116,6 +118,10 @@ export class ContextService {
 
   getTheme(): string {
     return this.theme;
+  }
+
+  getStyle(): string {
+    return this.style;
   }
 
   getAuthor(): string {
