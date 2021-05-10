@@ -1,3 +1,11 @@
+# [1.3.0](https://github.com/Sanofi-IADC/konviw/compare/v1.2.0...v1.3.0) (2021-05-10)
+
+
+### Features
+
+* **search:** search with cursor and maxResults ([a5255ba](https://github.com/Sanofi-IADC/konviw/commit/a5255bac197fea6e4d687c3e875c82cc4bfe6cb5))
+* **slides:** default style konviw if not defined ([f7a5bfc](https://github.com/Sanofi-IADC/konviw/commit/f7a5bfcbb77cea00ec08a3104d7198183d295e2a))
+
 # [1.2.0](https://github.com/Sanofi-IADC/konviw/compare/v1.1.0...v1.2.0) (2021-05-08)
 
 
