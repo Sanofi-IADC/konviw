@@ -52,7 +52,7 @@ export default (config: ConfigService): Step => {
       },
     );
 
-    const theme = context.getTheme();
+    const style = context.getStyle();
 
     // Let's add the JS library for reveal.js and required CSS styles
     $('head').append(
@@ -64,7 +64,7 @@ export default (config: ConfigService): Step => {
       // Modern deferred load of stylesheets that are not critical for the first page render
       `<link href="${basePath}/reveal/reset.css?cache=${version}" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" />`,
       `<link href="${basePath}/reveal/reveal.css?cache=${version}" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"/>`,
-      `<link href="${basePath}/reveal/theme/${theme}.css?cache=${version}" id="theme" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" />`,
+      `<link href="${basePath}/reveal/theme/${style}.css?cache=${version}" id="theme" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" />`,
       `<link href="${basePath}/highlight/zenburn.min.css?cache=${version}" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" />`,
     );
     $('body').append(
