@@ -19,9 +19,9 @@ export class ApiHealthService extends HealthIndicator {
    * @return Promise {HealthIndicatorResult}
    */
   async apiCheck(): Promise<HealthIndicatorResult> {
-    let isHealthy = false;
+    let isHealthy = true;
     try {
-      isHealthy = await this.confluence.getAllPosts('konviw');
+      await this.confluence.getAllPosts('konviw');
     } catch (error) {
       isHealthy = false;
     }

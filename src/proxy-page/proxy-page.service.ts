@@ -36,18 +36,19 @@ export class ProxyPageService {
   private readonly logger = new Logger(ProxyPageService.name);
   constructor(
     private config: ConfigService,
-    private confluence: ConfluenceService,
     private context: ContextService,
-    private jiraService: JiraService,
+    private confluence: ConfluenceService,
+    private jira: JiraService,
   ) {}
 
   private initContext(
     spaceKey: string,
     pageId: string,
     theme: string,
+    style: string,
     results: any,
   ) {
-    this.context.Init(spaceKey, pageId, theme);
+    this.context.Init(spaceKey, pageId, theme, style);
     this.context.setTitle(results.title);
     this.context.setHtmlBody(results.body.styled_view.value);
     this.context.setAuthor(results.history.createdBy.displayName);
@@ -66,12 +67,14 @@ export class ProxyPageService {
   }
 
   /**
-   * @function renderPage Service
+   * Function renderPage Service
+   *
    * @return Promise {string}
    * @param spaceKey {string} 'iadc' - space key where the page belongs
    * @param pageId {string} '639243960' - id of the page to retrieve
-   * @param theme {string} '#FFFFFF' - theme used by the page
+   * @param theme {string} 'dark' - light or dark theme used by the page
    * @param type {string} 'blog' - type of the page
+   * @param style {string} 'iadc' - theme to style the page
    */
   async renderPage(
     spaceKey: string,
@@ -80,9 +83,9 @@ export class ProxyPageService {
     type: string,
     style: string,
   ): Promise<string> {
-    const results = await this.confluence.getPage(spaceKey, pageId);
-    this.initContext(spaceKey, pageId, theme, results);
-    const addJiraPromise = addJira(this.config)(this.context, this.jiraService);
+    const { data } = await this.confluence.getPage(spaceKey, pageId);
+    this.initContext(spaceKey, pageId, theme, style, data);
+    const addJiraPromise = addJira(this.config)(this.context, this.jira);
     fixHtmlHead(this.config)(this.context);
     fixContentWidth()(this.context);
     fixLinks(this.config)(this.context);
@@ -126,10 +129,10 @@ export class ProxyPageService {
   async renderSlides(
     spaceKey: string,
     pageId: string,
-    theme: string,
+    style: string,
   ): Promise<string> {
-    const results = await this.confluence.getPage(spaceKey, pageId);
-    this.initContext(spaceKey, pageId, theme, results);
+    const { data } = await this.confluence.getPage(spaceKey, pageId);
+    this.initContext(spaceKey, pageId, 'light', style, data);
     fixHtmlHead(this.config)(this.context);
     fixLinks(this.config)(this.context);
     fixEmojis()(this.context);

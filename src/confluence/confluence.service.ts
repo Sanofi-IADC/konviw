@@ -19,7 +19,7 @@ export class ConfluenceService {
    * @param spaceKey {string} 'iadc' - space key where the page belongs
    * @param pageId {string} '639243960' - id of the page to retrieve
    */
-  async getPage(spaceKey: string, pageId: string): Promise<any> {
+  async getPage(spaceKey: string, pageId: string): Promise<AxiosResponse> {
     let results: AxiosResponse;
     try {
       results = await this.http
@@ -45,12 +45,12 @@ export class ConfluenceService {
     // Check if the label iadc-private is present in the metadata labels
     if (
       results.data.metadata.labels.results.find(
-        (label) => label.name === 'iadc-private',
+        (label: { name: string }) => label.name === 'iadc-private',
       )
     ) {
       throw new ForbiddenException('This page is private.');
     }
-    return results.data;
+    return results;
   }
 
   /**
@@ -86,35 +86,49 @@ export class ConfluenceService {
    * @param spaceKey {string} 'iadc' - space key where the page belongs
    * @param query {string} - space key identifying the document space from Confluence
    */
-  async getResults(spaceKey: string, query: string): Promise<any> {
-    const spaces: string[] = spaceKey.split('|');
-    let cql = `(type=blogpost OR type=page)`;
-    cql = `${cql} AND (label!="draft") AND (label="public")`;
-    const cqlSpacesStr = spaces
-      .map((space: any): string => {
-        return `(space=${space})`;
-      })
-      .join(' OR ');
-    cql = `${cql} AND (${cqlSpacesStr})`;
-    cql = query ? `${cql} AND (text ~ "${query}")` : cql;
-    try {
-      const results = await this.http
-        .get('/wiki/rest/api/search', {
-          params: {
-            limit: 999, // number of item per page
-            cql,
-            excerpt: 'highlight', // use "highlight" to enclosed word found in @@@hl@@@ and @@@endhl@@@
-            expand: [
-              // fields to retrieve
-              'content.history',
-              'content.metadata.labels',
-              'content.body.styled_view',
-            ].join(','),
-          },
+  async getResults(
+    spaceKey: string,
+    query: string,
+    maxResult = 999,
+    cursorResults = '',
+  ): Promise<AxiosResponse> {
+    let uriSearch: string;
+    let params: any = {};
+    let cql: string;
+    if (cursorResults !== '') {
+      uriSearch = `/wiki${cursorResults}`;
+    } else {
+      uriSearch = '/wiki/rest/api/search';
+      const spaces: string[] = spaceKey.split('|');
+      cql = `(type=blogpost OR type=page)`;
+      cql = `${cql} AND (label!=draft) AND (label=public)`;
+      const cqlSpacesStr = spaces
+        .map((space: any): string => {
+          return `(space=${space})`;
         })
+        .join(' OR ');
+      cql = `${cql} AND (${cqlSpacesStr})`;
+      cql = query ? `${cql} AND (text ~ "${query}")` : cql;
+      params = {
+        limit: maxResult, // number of item per page
+        cql: cql,
+        excerpt: 'highlight', // use "highlight" to enclosed word found in @@@hl@@@ and @@@endhl@@@
+        expand: [
+          // fields to retrieve
+          'content.history',
+          'content.metadata.labels',
+          'content.body.styled_view',
+        ].join(','),
+      };
+    }
+    try {
+      this.logger.log(
+        `Searching ${uriSearch} with ${maxResult} maximum results and CQL ${cql} or cursor ${cursorResults} via REST API`,
+      );
+      const results: AxiosResponse = await this.http
+        .get(uriSearch, { params })
         .toPromise();
-      this.logger.log(`Searching ${cql} via REST API`);
-      return results.data;
+      return results;
     } catch (err) {
       this.logger.log(err, 'error:getResults');
       throw new HttpException(`error:getResults > ${err}`, 404);
@@ -127,12 +141,12 @@ export class ConfluenceService {
    * @return Promise {any}
    * @param spaceKey {string} 'iadc' - space key where the page belongs
    */
-  async getAllPosts(spaceKey: string): Promise<any> {
+  async getAllPosts(spaceKey: string): Promise<AxiosResponse> {
     let cpl = `(type=blogpost)`;
-    cpl = `${cpl} AND (label !="draft") AND (label ="published")`;
+    cpl = `${cpl} AND (label!=draft) AND (label=published)`;
     cpl = `${cpl} AND (space=${spaceKey})`;
     try {
-      const results = await this.http
+      const results: AxiosResponse = await this.http
         .get('/wiki/rest/api/search', {
           params: {
             limit: 999,
@@ -147,7 +161,8 @@ export class ConfluenceService {
         })
         .toPromise();
       this.logger.log(`Retrieving all blog posts published in ${spaceKey}`);
-      return results.data;
+      // return results.data;
+      return results;
     } catch (err) {
       this.logger.log(err, 'error:getAllPosts');
       throw new HttpException(`error:getAllPosts > ${err}`, 404);
