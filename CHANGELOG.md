@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/Sanofi-IADC/konviw/compare/v1.3.0...v1.3.1) (2021-05-14)
+
+
+### Bug Fixes
+
+* **link:** KVW-14 #close #comment Fix link css ([387793f](https://github.com/Sanofi-IADC/konviw/commit/387793f1c88f215deac2c6063dfb60e1a97a9890))
+
 # [1.3.0](https://github.com/Sanofi-IADC/konviw/compare/v1.2.0...v1.3.0) (2021-05-10)
 
 
