@@ -18,24 +18,51 @@ export default (config: ConfigService): Step => {
     });
 
     const domain = confluenceBaseURL.toString().replace(/https?:\/\//, '');
-    // We look for two patterns $1 the domain to remove and $2 the rest of the URL to keep
-    const searchUrl = new RegExp(`(https?://${domain}/wiki)(.*)`, 'g');
-    const searchUri = new RegExp(`(\/wiki)(.*)`, 'g');
+    // For direct Url and Uri we look for two patterns
+    // $1 the domain to remove and $2 the rest of the URL to keep
+    const searchUrl = new RegExp(`(https?://${domain}/wiki)(.*)`);
+    const searchUri = new RegExp(`(\/wiki)(.*)`);
+    // For Url and Uri with anchor we look for four patterns
+    // $1 the domain to remove, $2 the path of the pag, $3 the title and $4 the heading achor
+    const searchUrlwithAnchor = new RegExp(
+      `(https?:\/\/konviw\.atlassian\.net\/wiki)(.*\/)(.*)#(.*)`,
+    );
+    const searchUriwithAnchor = new RegExp(`(\/wiki)(.*\/)(.*)#(.*)`);
 
     const replaceAttributeLink = (attr: string, link: CheerioElement) => {
-      if ($(link).attr(attr)?.match(searchUrl)) {
+      const [, , pathPageAnchorUrl, titlePageUrl, headingPageUrl] =
+        searchUrlwithAnchor.exec($(link).attr(attr)) ?? [];
+      const [, , pathPageAnchorUri, titlePageUri, headingPageUri] =
+        searchUriwithAnchor.exec($(link).attr(attr)) ?? [];
+      const [, , pathPageUrl] = searchUrl.exec($(link).attr(attr)) ?? [];
+      const [, , pathPageUri] = searchUri.exec($(link).attr(attr)) ?? [];
+
+      if (pathPageAnchorUrl) {
+        console.log('foundUrlwithAnchor', pathPageAnchorUrl);
+        $(link).attr(
+          attr,
+          `${webBasePath}/wiki${pathPageAnchorUrl}#` +
+            `${titlePageUrl.replace(/\+/g, '')}-` +
+            `${headingPageUrl.replace(/\-/g, '')}`,
+        );
+      } else if (pathPageAnchorUri) {
+        console.log('foundUrlwithAnchor', pathPageAnchorUri);
+        $(link).attr(
+          attr,
+          `${webBasePath}/wiki${pathPageAnchorUri}#` +
+            `${titlePageUri.replace(/\+/g, '')}-` +
+            `${headingPageUri.replace(/\-/g, '')}`,
+        );
+      } else if (pathPageUrl) {
+        console.log('foundUrl', pathPageUrl);
         // Step 1: replace absolute URLs by absolute URIs
-        $(link).attr(
-          attr,
-          $(link).attr(attr).replace(searchUrl, `${webBasePath}/wiki$2`),
-        );
-      } else if ($(link).attr(attr)?.match(searchUri)) {
+        $(link).attr(attr, `${webBasePath}/wiki${pathPageUrl}`);
+      } else if (pathPageUri) {
+        console.log('foundUri', pathPageUri);
         // Step 2: replace URIs with the correct base path
-        $(link).attr(
-          attr,
-          $(link).attr(attr).replace(searchUri, `${webBasePath}/wiki$2`),
-        );
+        $(link).attr(attr, `${webBasePath}/wiki${pathPageUri}`);
       }
+
       // (Optional) Step 3: add resized URLs in srcset attribute on resized images
       if (link.tagName === 'img') {
         const imgWidth = link.attribs.width;
@@ -64,21 +91,6 @@ export default (config: ConfigService): Step => {
         delete link.attribs.href;
       },
     );
-
-    // We have improved this code by parsing links and images with Cheerio
-    // and replace them instead of doing a big regex on the whole HTML page.
-    // Because it may break some real texts containing "/wiki" that we don't want to replace.
-
-    // Step 1: replace absolute URLs by absolute URIs
-    // const domain = confluenceBaseURL.toString().replace(/https?:\/\//, '');
-    // const searchUrl = new RegExp(`"(https?://)?${domain}/wiki`, 'g');
-    // const replaceUrl = '"/wiki';
-    // context.setHtmlBody(context.getHtmlBody().replace(searchUrl, replaceUrl));
-
-    // Step 2: replace URIs with the correct base path
-    // const searchUri = new RegExp(`"/wiki`, 'g');
-    // const replaceUri = `"${webBasePath}/wiki`;
-    // context.setHtmlBody(context.getHtmlBody().replace(searchUri, replaceUri));
 
     context.getPerfMeasure('fixLinks');
   };
