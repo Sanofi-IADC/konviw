@@ -94,7 +94,7 @@ code {
   border-radius: 5px;
 }
 
-// Hyperlinks ============================================
+// Internal Hyperlinks ============================================
 a {
   transition: background-size 0.4s ease;
   background-image: linear-gradient(180deg, transparent 80%, #42c46b 0em);
@@ -108,30 +108,23 @@ a {
   }
 }
 
-// TODO: Remove when fully tested
-// a {
-//   position: relative;
-//   overflow: hidden;
-//   text-decoration: none;
-//   color: var(--primary-color-link);
-//   &::after {
-//     content: '';
-//     background: rgba(rgb(221, 235, 132), 0.25);
-//     position: absolute;
-//     left: 0px;
-//     bottom: -2px;
-//     width: 100%;
-//     height: 4px;
-//     z-index: -1;
-//     transition: 0.35s cubic-bezier(0.15, 0, 0, 2.05);
-//   }
-//   &:hover:after {
-//     left: 0;
-//     bottom: -2px;
-//     width: 100%;
-//     height: 100%;
-//   }
-// }
+// External Hyperlinks ============================================
+a.external-link {
+  transition: background-size 0.4s ease;
+  background-image: linear-gradient(180deg, transparent 80%, #4b85e8 0em);
+  background-size: 0 100%;
+  background-repeat: no-repeat;
+  color: var(--primary-color-link);
+  text-decoration: none;
+  &:hover {
+    background-size: 100% 100%;
+    color: #000c34;
+  }
+  &::before {
+    // content: '\1F517';
+    content: '⇢ ';
+  }
+}
 
 // User mention with @ ===================================
 a.user-mention {
