@@ -72,8 +72,8 @@ describe('ConfluenceProxy / fixLinks', () => {
       '<h3 id="HelloWorld-ThisIsAnotherHeading">' +
       'Nulla tempus vitae ipsum vitae rhoncus.' +
       '</h3> ' +
-      '<a href="/cpv/wiki/spaces/XXX/pages/4242/#HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">test</a>' +
-      '<a href="/cpv/wiki/spaces/XXX/pages/4343/#HelloWorld-ThisIsAnotherHeading">test2</a>' +
+      '<a href="/cpv/wiki/spaces/XXX/pages/4242/#HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">Hello World | Nulla tempus vitae ipsum vitae rhoncus.</a>' +
+      '<a href="/cpv/wiki/spaces/XXX/pages/4343/#HelloWorld-ThisIsAnotherHeading">Hello World | This Is Another Heading</a>' +
       '</body></html>';
     expect(context.getHtmlBody()).toEqual(expected);
   });
@@ -101,8 +101,8 @@ describe('ConfluenceProxy / fixLinks', () => {
       '<h3 id="HelloWorld-ThisIsAnotherHeading">' +
       'Nulla tempus vitae ipsum vitae rhoncus.' +
       '</h3> ' +
-      '<a href="/cpv/wiki/spaces/XXX/pages/4242/#HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">test</a>' +
-      '<a href="/cpv/wiki/spaces/XXX/pages/4343/#HelloWorld-ThisIsAnotherHeading">test2</a>' +
+      '<a href="/cpv/wiki/spaces/XXX/pages/4242/#HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">Hello World | Nulla tempus vitae ipsum vitae rhoncus.</a>' +
+      '<a href="/cpv/wiki/spaces/XXX/pages/4343/#HelloWorld-ThisIsAnotherHeading">Hello World | This Is Another Heading</a>' +
       '</body></html>';
     expect(context.getHtmlBody()).toEqual(expected);
   });
