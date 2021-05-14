@@ -1,3 +1,10 @@
+## [1.3.3](https://github.com/Sanofi-IADC/konviw/compare/v1.3.2...v1.3.3) (2021-05-14)
+
+
+### Bug Fixes
+
+* **links:** FND-599 update text with title ([a2787fc](https://github.com/Sanofi-IADC/konviw/commit/a2787fccfe11af6925d3984b09f3a120b4a14f07))
+
 ## [1.3.2](https://github.com/Sanofi-IADC/konviw/compare/v1.3.1...v1.3.2) (2021-05-14)
 
 
