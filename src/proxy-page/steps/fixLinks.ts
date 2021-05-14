@@ -44,12 +44,24 @@ export default (config: ConfigService): Step => {
             `${titlePageUrl.replace(/\+/g, '')}-` +
             `${headingPageUrl.replace(/\-/g, '')}`,
         );
+        $(link).text(
+          `${titlePageUrl.replace(/\+/g, ' ')} | ${headingPageUrl.replace(
+            /\-/g,
+            ' ',
+          )}`,
+        );
       } else if (pathPageAnchorUri) {
         $(link).attr(
           attr,
           `${webBasePath}/wiki${pathPageAnchorUri}#` +
             `${titlePageUri.replace(/\+/g, '')}-` +
             `${headingPageUri.replace(/\-/g, '')}`,
+        );
+        $(link).text(
+          `${titlePageUri.replace(/\+/g, ' ')} | ${headingPageUri.replace(
+            /\-/g,
+            ' ',
+          )}`,
         );
       } else if (pathPageUrl) {
         // Step 1: replace absolute URLs by absolute URIs
