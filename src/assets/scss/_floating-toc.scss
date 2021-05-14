@@ -86,6 +86,7 @@ div.toc-macro.client-side-toc-macro.konviw-float-TOC {
     padding-left: 20px;
     li {
       a.toc-link {
+        background-image: none;
         &:hover {
           text-decoration: underline;
         }

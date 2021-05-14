@@ -16,6 +16,13 @@ $scrollLength: 100vh;
   z-index: 99;
 }
 
+a.back-to-top-link {
+  background-image: none;
+  &:hover {
+    text-decoration: none;
+  }
+}
+
 .back-to-top-link {
   position: sticky;
   // achieves desired positioning within the viewport
