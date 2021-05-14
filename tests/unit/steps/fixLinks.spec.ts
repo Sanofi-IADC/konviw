@@ -49,6 +49,64 @@ describe('ConfluenceProxy / fixLinks', () => {
     expect(context.getHtmlBody()).toEqual(expected);
   });
 
+  it('should replace page absolute URLs with Anchors', () => {
+    const step = fixLinks(config);
+    const example =
+      '<html><head></head><body>' +
+      '<h2 id="HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">' +
+      'Nulla tempus vitae ipsum vitae rhoncus.' +
+      '</h2> ' +
+      '<h3 id="HelloWorld-ThisIsAnotherHeading">' +
+      'Nulla tempus vitae ipsum vitae rhoncus.' +
+      '</h3> ' +
+      '<a href="https://test.atlassian.net/wiki/spaces/XXX/pages/4242/Hello+World#Nulla-tempus-vitae-ipsum-vitae-rhoncus.">test</a>' +
+      '<a href="https://test.atlassian.net/wiki/spaces/XXX/pages/4343/Hello+World#This-Is-Another-Heading">test2</a>' +
+      '</body></html>';
+    context.setHtmlBody(example);
+    step(context);
+    const expected =
+      '<html><head></head><body>' +
+      '<h2 id="HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">' +
+      'Nulla tempus vitae ipsum vitae rhoncus.' +
+      '</h2> ' +
+      '<h3 id="HelloWorld-ThisIsAnotherHeading">' +
+      'Nulla tempus vitae ipsum vitae rhoncus.' +
+      '</h3> ' +
+      '<a href="/cpv/wiki/spaces/XXX/pages/4242/#HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">test</a>' +
+      '<a href="/cpv/wiki/spaces/XXX/pages/4343/#HelloWorld-ThisIsAnotherHeading">test2</a>' +
+      '</body></html>';
+    expect(context.getHtmlBody()).toEqual(expected);
+  });
+
+  it('should replace page absolute URIs with Anchors', () => {
+    const step = fixLinks(config);
+    const example =
+      '<html><head></head><body>' +
+      '<h2 id="HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">' +
+      'Nulla tempus vitae ipsum vitae rhoncus.' +
+      '</h2> ' +
+      '<h3 id="HelloWorld-ThisIsAnotherHeading">' +
+      'Nulla tempus vitae ipsum vitae rhoncus.' +
+      '</h3> ' +
+      '<a href="/wiki/spaces/XXX/pages/4242/Hello+World#Nulla-tempus-vitae-ipsum-vitae-rhoncus.">test</a>' +
+      '<a href="/wiki/spaces/XXX/pages/4343/Hello+World#This-Is-Another-Heading">test2</a>' +
+      '</body></html>';
+    context.setHtmlBody(example);
+    step(context);
+    const expected =
+      '<html><head></head><body>' +
+      '<h2 id="HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">' +
+      'Nulla tempus vitae ipsum vitae rhoncus.' +
+      '</h2> ' +
+      '<h3 id="HelloWorld-ThisIsAnotherHeading">' +
+      'Nulla tempus vitae ipsum vitae rhoncus.' +
+      '</h3> ' +
+      '<a href="/cpv/wiki/spaces/XXX/pages/4242/#HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">test</a>' +
+      '<a href="/cpv/wiki/spaces/XXX/pages/4343/#HelloWorld-ThisIsAnotherHeading">test2</a>' +
+      '</body></html>';
+    expect(context.getHtmlBody()).toEqual(expected);
+  });
+
   it('should replace image URLs', () => {
     const step = fixLinks(config);
     const example =

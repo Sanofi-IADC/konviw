@@ -38,7 +38,6 @@ export default (config: ConfigService): Step => {
       const [, , pathPageUri] = searchUri.exec($(link).attr(attr)) ?? [];
 
       if (pathPageAnchorUrl) {
-        console.log('foundUrlwithAnchor', pathPageAnchorUrl);
         $(link).attr(
           attr,
           `${webBasePath}/wiki${pathPageAnchorUrl}#` +
@@ -46,7 +45,6 @@ export default (config: ConfigService): Step => {
             `${headingPageUrl.replace(/\-/g, '')}`,
         );
       } else if (pathPageAnchorUri) {
-        console.log('foundUrlwithAnchor', pathPageAnchorUri);
         $(link).attr(
           attr,
           `${webBasePath}/wiki${pathPageAnchorUri}#` +
@@ -54,11 +52,9 @@ export default (config: ConfigService): Step => {
             `${headingPageUri.replace(/\-/g, '')}`,
         );
       } else if (pathPageUrl) {
-        console.log('foundUrl', pathPageUrl);
         // Step 1: replace absolute URLs by absolute URIs
         $(link).attr(attr, `${webBasePath}/wiki${pathPageUrl}`);
       } else if (pathPageUri) {
-        console.log('foundUri', pathPageUri);
         // Step 2: replace URIs with the correct base path
         $(link).attr(attr, `${webBasePath}/wiki${pathPageUri}`);
       }
