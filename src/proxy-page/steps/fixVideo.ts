@@ -31,7 +31,7 @@ export default (): Step => {
           $(fileWrapper)
             .parent()
             .append(
-              `<video poster="${pathMedia}/${titleMedia}.webp" controls>
+              `<video poster="${pathMedia}/${titleMedia}.jpg" controls>
                 <source src="${$(fileWrapper).attr(
                   'href',
                 )}" type="video/mp4"></video>`,
