@@ -19,7 +19,7 @@ describe('ConfluenceProxy / add html5 video tag to visualize video attachment', 
     context.Init('XXX', '123456', 'dark');
   });
 
-  it('Remove CDATA blocks fro Drawio ap-iframe-body-script', () => {
+  it('Adds video tag and poster image as preview', () => {
     const step = fixVideo();
     const example =
       `<html><head></head><body><span class="confluence-embedded-file-wrapper image-center-wrapper">` +
