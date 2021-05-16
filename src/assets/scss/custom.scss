@@ -1,21 +1,24 @@
 // Default font IADC ======================================
-@import 'rubik.scss';
-@import 'patrick-hand.scss';
-@import 'variables.scss';
-@import 'expander-panel.scss';
-@import 'media.scss';
-@import 'profile.scss';
-@import 'checkboxes.scss';
-@import 'info-panels.scss';
-@import 'decisions.scss';
-@import 'tables.scss';
-@import 'blog.scss';
-@import 'scrolltotop.scss';
-@import 'reading-progress.scss';
-@import 'status.scss';
-@import 'blockquote.scss';
-@import 'copy-link.scss';
+@import 'rubik';
+@import 'patrick-hand';
+@import 'variables';
+@import 'content-layout';
+@import 'expander-panel';
+@import 'media';
+@import 'profile';
+@import 'checkboxes';
+@import 'info-panels';
+@import 'excerpt';
+@import 'decisions';
+@import 'tables';
+@import 'blog';
+@import 'scrolltotop';
+@import 'reading-progress';
+@import 'status';
+@import 'blockquote';
+@import 'copy-link';
 @import 'floating-toc';
+@import 'macro-content-by-label';
 
 // Basic styles ===========================================
 html {
@@ -50,6 +53,7 @@ ul {
 
 .smalltext {
   font-size: $small-text;
+  padding-left: 10px;
 }
 
 strong {
@@ -120,10 +124,12 @@ a.external-link {
     background-size: 100% 100%;
     color: #000c34;
   }
-  &::before {
-    // content: '\1F517';
-    content: '⇢ ';
-  }
+  // TODO: remove the 'a' effects from img when wrapped around a link
+  // then we will be able to add a prefix icon for external links
+  // &::before {
+  //   content: '⇢';
+  //   padding-right: 5px;
+  // }
 }
 
 // User mention with @ ===================================
@@ -139,175 +145,6 @@ a.user-mention {
   &::before {
     content: '@ ';
   }
-}
-
-// Main content of the page =============================
-#Content {
-  position: relative;
-  max-width: $base-width;
-  margin: auto;
-  // margin-left: 20px;
-  padding: 20px !important;
-
-  &.fullWidth {
-    max-width: 100%;
-  }
-
-  .columnLayout {
-    padding-top: 10px;
-    // 2 equal columns layout
-    &.two-equal {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-
-      .cell {
-        &.normal {
-          flex-basis: 50%;
-          margin-left: 32px;
-          @media screen and (max-width: 1024px) {
-            margin-left: 0px;
-          }
-        }
-        p {
-          padding-top: 10px;
-        }
-      }
-      @media screen and (max-width: 1024px) {
-        width: 100%;
-        flex-direction: column;
-      }
-    }
-
-    // 2 columns layout with smaller in the right
-    &.two-right-sidebar {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-
-      .cell {
-        &.normal {
-          flex-basis: 66.6%;
-        }
-        &.aside {
-          flex-basis: 33.3%;
-          margin-left: 32px;
-          @media screen and (max-width: 1024px) {
-            margin-left: 0px;
-          }
-        }
-        p {
-          padding-top: 10px;
-        }
-      }
-      @media screen and (max-width: 1024px) {
-        width: 100%;
-        flex-direction: column;
-      }
-    }
-
-    // 2 columns layout with smaller in the left
-    &.two-left-sidebar {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-
-      .cell {
-        &.normal {
-          flex-basis: 66.6%;
-          margin-left: 32px;
-        }
-        &.aside {
-          flex-basis: 33.3%;
-          @media screen and (max-width: 1024px) {
-            margin-left: 30px;
-          }
-        }
-        p {
-          padding-top: 10px;
-        }
-      }
-      @media screen and (max-width: 1024px) {
-        width: 100%;
-        flex-direction: column;
-      }
-    }
-
-    // 3 equal columns layout
-    &.three-equal {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-
-      .cell {
-        &.normal {
-          flex-basis: 33.3%;
-          margin-left: 32px;
-          @media screen and (max-width: 1024px) {
-            margin-left: 0px;
-          }
-        }
-        p {
-          padding-top: 10px;
-        }
-      }
-      @media screen and (max-width: 1024px) {
-        width: 100%;
-        flex-direction: column;
-      }
-    }
-
-    // 3 columns layout with 2 sides smaller
-    &.three-with-sidebars {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-
-      .cell {
-        &.normal {
-          flex-basis: 50%;
-          margin-left: 32px;
-          margin-right: 32px;
-        }
-        &.sidebars {
-          flex-basis: 25%;
-          @media screen and (max-width: 1024px) {
-            margin-left: 0px;
-          }
-        }
-        p {
-          padding-top: 10px;
-        }
-      }
-      @media screen and (max-width: 1024px) {
-        width: 100%;
-        flex-direction: column;
-      }
-    }
-  }
-}
-
-// Macro Content by Label ==================================
-ul.content-by-label li div span.icon {
-  display: none;
-}
-
-ul.content-by-label {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-ul.content-by-label li {
-  display: flex;
-  padding-left: 15px;
-  padding-top: 10px;
-  text-decoration: none;
-}
-
-ul.content-by-label li::before {
-  content: '\1F4CB'; // notebook 📋 emoji
-  padding-right: 5px;
 }
 
 // Macro Child Pages ==================================

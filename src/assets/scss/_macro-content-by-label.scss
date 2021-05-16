@@ -1,0 +1,72 @@
+// =====================================================
+// Macro 'Content by Label' styles
+// Styling lists of pages and labels (if shown)
+// =====================================================
+
+// Macro Content by Label ==================================
+ul.content-by-label li div span.icon {
+  // to hide a label 'Page:' shown before the title page as we replace it by an emoji
+  display: none;
+}
+
+ul.content-by-label {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    display: flex;
+    padding-top: 5px;
+    text-decoration: none;
+    // display a page emoji before each page displayed
+
+    &::before {
+      content: '📄'; // other options may be notebook 📋 or book 📖 emoji
+      padding-top: 5px;
+      font-size: 1.5em;
+      padding-right: 10px;
+    }
+  }
+}
+
+// Label details ==================================
+.label-details {
+  ul.label-list {
+    padding: 5px;
+    margin: 0;
+    list-style-type: none;
+    line-height: 1em;
+
+    &::before {
+      content: '🏷';
+      padding-right: 10px;
+      text-align: center;
+    }
+
+    li.aui-label {
+      // inline-block to display labels horizontally and breaking in multiple lines if needed
+      display: inline-block;
+      padding: 0;
+      margin: 2.5px 5px 2.5px 0;
+      background-color: var(--highlight-grey);
+      border: 1px solid var(--highlight-grey);
+      border-radius: 5px;
+
+      &::before {
+        content: ''; // to reset for labels
+        padding: 0;
+        margin: 0;
+      }
+
+      a.aui-label-split-main {
+        cursor: default;
+        // Disable the link frorm the labels. Confluence goes to a search page with all content by label
+        pointer-events: none;
+        margin: 0px 5px 0px 5px;
+        text-decoration: none;
+        color: var(--font-color);
+        font-size: 0.6em;
+      }
+    }
+  }
+}
