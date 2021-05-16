@@ -1,3 +1,19 @@
+# [1.4.0](https://github.com/Sanofi-IADC/konviw/compare/v1.3.3...v1.4.0) (2021-05-16)
+
+
+### Bug Fixes
+
+* **css:** remove prefix icon for external links ([2579c11](https://github.com/Sanofi-IADC/konviw/commit/2579c115220333d1595f0cf57fade609581d706e))
+* **media:** use .jpg as default for preview image ([9636bc2](https://github.com/Sanofi-IADC/konviw/commit/9636bc22707acf6cab00cf901afeea0b9d95741d))
+
+
+### Features
+
+* **css:** better style macro content by label ([5f1bdaa](https://github.com/Sanofi-IADC/konviw/commit/5f1bdaa09039f7905439f8882375c156b14bf190))
+* **css:** remove padding & margin from attachment ([cce1470](https://github.com/Sanofi-IADC/konviw/commit/cce1470ac7d66a0963b5b4b89f669c4e21516712))
+* **macro:** styles for content embedded via macro ([c0b1630](https://github.com/Sanofi-IADC/konviw/commit/c0b16300b65a0823df5fb19455619431b0f20441))
+* **video:** add poster with preview for the video ([5182752](https://github.com/Sanofi-IADC/konviw/commit/51827526cdae81f60092243c4583150b863b5e09))
+
 ## [1.3.3](https://github.com/Sanofi-IADC/konviw/compare/v1.3.2...v1.3.3) (2021-05-14)
 
 
