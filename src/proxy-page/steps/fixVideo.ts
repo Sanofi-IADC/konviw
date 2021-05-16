@@ -31,18 +31,18 @@ export default (): Step => {
           $(fileWrapper)
             .parent()
             .append(
-              `<video poster="${pathMedia}/${titleMedia}.jpg" controls>
-                <source src="${$(fileWrapper).attr(
-                  'href',
-                )}" type="video/mp4"></video>`,
+              `<video poster="${pathMedia}/${titleMedia}.jpg" controls><source src="${$(
+                fileWrapper,
+              ).attr('href')}" type="video/mp4"></video>`,
             );
 
           // Append the name of the file as caption for the video
           $(fileWrapper)
             .parent()
             .append(
-              `<span class="smalltext">${decodeURI(titleMedia)}.${extMedia}
-            </span>`,
+              `<span class="smalltext">${decodeURI(
+                titleMedia,
+              )}.${extMedia}</span>`,
             );
 
           $(fileWrapper).remove();
