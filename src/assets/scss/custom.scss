@@ -1,23 +1,24 @@
 // Default font IADC ======================================
-@import 'rubik.scss';
-@import 'patrick-hand.scss';
-@import 'variables.scss';
-@import 'content-layout.scss';
-@import 'expander-panel.scss';
-@import 'media.scss';
-@import 'profile.scss';
-@import 'checkboxes.scss';
-@import 'info-panels.scss';
-@import 'excerpt.scss';
-@import 'decisions.scss';
-@import 'tables.scss';
-@import 'blog.scss';
-@import 'scrolltotop.scss';
-@import 'reading-progress.scss';
-@import 'status.scss';
-@import 'blockquote.scss';
-@import 'copy-link.scss';
+@import 'rubik';
+@import 'patrick-hand';
+@import 'variables';
+@import 'content-layout';
+@import 'expander-panel';
+@import 'media';
+@import 'profile';
+@import 'checkboxes';
+@import 'info-panels';
+@import 'excerpt';
+@import 'decisions';
+@import 'tables';
+@import 'blog';
+@import 'scrolltotop';
+@import 'reading-progress';
+@import 'status';
+@import 'blockquote';
+@import 'copy-link';
 @import 'floating-toc';
+@import 'macro-content-by-label';
 
 // Basic styles ===========================================
 html {
@@ -142,31 +143,6 @@ a.user-mention {
   &::before {
     content: '@ ';
   }
-}
-
-// Macro Content by Label ==================================
-ul.content-by-label li div span.icon {
-  display: none;
-}
-
-ul.content-by-label {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-ul.content-by-label li {
-  display: flex;
-  // padding-left: 15px;
-  padding-top: 5px;
-  text-decoration: none;
-}
-
-ul.content-by-label li::before {
-  content: '📄'; // other options may be notebook 📋 or book 📖 emoji
-  padding-top: 5px;
-  font-size: 1.5em;
-  padding-right: 10px;
 }
 
 // Macro Child Pages ==================================
