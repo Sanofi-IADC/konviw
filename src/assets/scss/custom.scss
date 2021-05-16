@@ -7,6 +7,7 @@
 @import 'profile.scss';
 @import 'checkboxes.scss';
 @import 'info-panels.scss';
+@import 'excerpt.scss';
 @import 'decisions.scss';
 @import 'tables.scss';
 @import 'blog.scss';
@@ -50,6 +51,7 @@ ul {
 
 .smalltext {
   font-size: $small-text;
+  padding-left: 10px;
 }
 
 strong {
@@ -170,7 +172,7 @@ a.user-mention {
           }
         }
         p {
-          padding-top: 10px;
+          // padding-top: 10px;
         }
       }
       @media screen and (max-width: 1024px) {
@@ -197,7 +199,7 @@ a.user-mention {
           }
         }
         p {
-          padding-top: 10px;
+          // padding-top: 10px;
         }
       }
       @media screen and (max-width: 1024px) {
@@ -224,7 +226,7 @@ a.user-mention {
           }
         }
         p {
-          padding-top: 10px;
+          // padding-top: 10px;
         }
       }
       @media screen and (max-width: 1024px) {
@@ -248,7 +250,7 @@ a.user-mention {
           }
         }
         p {
-          padding-top: 10px;
+          // padding-top: 10px;
         }
       }
       @media screen and (max-width: 1024px) {
@@ -276,7 +278,7 @@ a.user-mention {
           }
         }
         p {
-          padding-top: 10px;
+          // padding-top: 10px;
         }
       }
       @media screen and (max-width: 1024px) {
