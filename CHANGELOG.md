@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/Sanofi-IADC/konviw/compare/v1.4.0...v1.5.0) (2021-05-18)
+
+
+### Features
+
+* add arrow before links ([febc9b8](https://github.com/Sanofi-IADC/konviw/commit/febc9b82158f6a8b681030369fd3d07a2eddd68f))
+
 # [1.4.0](https://github.com/Sanofi-IADC/konviw/compare/v1.3.3...v1.4.0) (2021-05-16)
 
 
