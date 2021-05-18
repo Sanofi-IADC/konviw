@@ -124,12 +124,10 @@ a.external-link {
     background-size: 100% 100%;
     color: #000c34;
   }
-  // TODO: remove the 'a' effects from img when wrapped around a link
-  // then we will be able to add a prefix icon for external links
-  // &::before {
-  //   content: '⇢';
-  //   padding-right: 5px;
-  // }
+  &:only-child::before {
+    content: '⇢';
+    padding-right: 5px;
+  }
 }
 
 // User mention with @ ===================================
