@@ -1,3 +1,10 @@
+## [1.5.2](https://github.com/Sanofi-IADC/konviw/compare/v1.5.1...v1.5.2) (2021-05-21)
+
+
+### Bug Fixes
+
+* **css:** remove duplicate img tag ([7f71f0f](https://github.com/Sanofi-IADC/konviw/commit/7f71f0fccda8a2d186d4ccc55141df2344148e74))
+
 ## [1.5.1](https://github.com/Sanofi-IADC/konviw/compare/v1.5.0...v1.5.1) (2021-05-21)
 
 
