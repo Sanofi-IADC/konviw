@@ -1,3 +1,12 @@
+## [1.5.1](https://github.com/Sanofi-IADC/konviw/compare/v1.5.0...v1.5.1) (2021-05-21)
+
+
+### Bug Fixes
+
+* **css:** conflict margin and margin-top ([0d4c854](https://github.com/Sanofi-IADC/konviw/commit/0d4c8544cc5d3bfda1433a5a8d6f191da2b7d277))
+* **css:** correct display lists content by label ([27d6c02](https://github.com/Sanofi-IADC/konviw/commit/27d6c02ac76e296467c23f73e0a912454463d570))
+* **css:** update default styles 'iadc' theme ([dc500e0](https://github.com/Sanofi-IADC/konviw/commit/dc500e064fe77664eba3bfead4ccc4a57e51a6d8))
+
 # [1.5.0](https://github.com/Sanofi-IADC/konviw/compare/v1.4.0...v1.5.0) (2021-05-18)
 
 
