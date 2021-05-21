@@ -50,7 +50,8 @@ button#floating-toc-btn {
 }
 
 /* The floating TOC */
-div.toc-macro.client-side-toc-macro {
+/* The class konviw-float-TOC is provided by a macro in Confluence */
+div.toc-macro.client-side-toc-macro.konviw-float-TOC {
   position: fixed;
   top: calc(3rem);
   right: calc(
@@ -61,7 +62,10 @@ div.toc-macro.client-side-toc-macro {
   opacity: 0;
 
   width: 0;
-  height: 0;
+  height: max-content;
+  max-height: 50vh;
+  transform: scaleY(0);
+  transform-origin: top right;
 
   border: none;
 
@@ -73,26 +77,16 @@ div.toc-macro.client-side-toc-macro {
 
   z-index: 100;
 
-  transition: opacity 0.2s ease, width 0.5s ease, height 0.5s ease;
+  transition: opacity 0.2s ease, width 0.5s ease, transform 0.5s ease;
 
-  > ul:first-child {
-    padding-left: 10px;
-    /* Table of Contents label */
-    > li:first-child {
-      padding-top: 10px;
-      padding-bottom: 10px;
-      a.toc-link {
-        color: var(--font-color);
-        font-weight: bold;
-      }
-    }
-  }
   ul {
     list-style: none;
+    padding-top: 5px;
+    padding-bottom: 40px;
     padding-left: 20px;
     li {
       a.toc-link {
-        padding-bottom: 5px;
+        background-image: none;
         &:hover {
           text-decoration: underline;
         }
@@ -102,6 +96,13 @@ div.toc-macro.client-side-toc-macro {
       }
     }
     li:not(:first-child) a {
+      padding-bottom: 5px;
+      display: block;
+      text-overflow: ellipsis;
+    }
+    li:first-child a {
+      padding-top: 40px;
+      padding-bottom: 5px;
       display: block;
       text-overflow: ellipsis;
     }
@@ -109,9 +110,11 @@ div.toc-macro.client-side-toc-macro {
 
   /* When we show the TOC */
   &.active {
-    opacity: 0.5;
+    opacity: 1;
     width: 20vw;
-    height: 50vh;
+    height: max-content;
+    max-height: 50vh;
+    transform: scaleY(1);
     border: 1px solid var(--secondary-color);
     border-radius: 10px;
     &::before {
@@ -127,25 +130,27 @@ div.toc-macro.client-side-toc-macro {
   button#floating-toc-btn {
     right: calc(var(--fab-btn-right) + 10px);
   }
-  div.toc-macro.client-side-toc-macro {
+  div.toc-macro.client-side-toc-macro.konviw-float-TOC {
     right: calc(var(--fab-btn-right) + 10px);
   }
 }
 /* Small laptot and tablets */
 @media screen and (max-width: 1024px) {
-  div.toc-macro.client-side-toc-macro {
+  div.toc-macro.client-side-toc-macro.konviw-float-TOC {
     &.active {
       width: 40vw;
-      height: 60vh;
+      height: max-content;
+      max-height: 60vh;
     }
   }
 }
 /* Mobiles */
 @media screen and (max-width: 425px) {
-  div.toc-macro.client-side-toc-macro {
+  div.toc-macro.client-side-toc-macro.konviw-float-TOC {
     &.active {
       width: 80vw;
-      height: 80vh;
+      height: max-content;
+      max-height: 50vh;
     }
   }
 }

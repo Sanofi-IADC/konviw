@@ -8,7 +8,6 @@
 @import 'profile';
 @import 'checkboxes';
 @import 'info-panels';
-@import 'excerpt';
 @import 'decisions';
 @import 'tables';
 @import 'blog';
@@ -18,6 +17,7 @@
 @import 'blockquote';
 @import 'copy-link';
 @import 'floating-toc';
+@import 'macro-insert-excerpt';
 @import 'macro-content-by-label';
 
 // Basic styles ===========================================
@@ -40,7 +40,7 @@ h1.titlePage {
 }
 
 p {
-  margin-bottom: 20px;
+  margin-bottom: 0px;
 }
 
 li p {
