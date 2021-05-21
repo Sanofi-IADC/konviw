@@ -10,29 +10,75 @@ ul.content-by-label li div span.icon {
 }
 
 ul.content-by-label {
-  list-style-type: none;
+  // list-style-type: none;
+  // margin-left: -2em;
   margin: 0;
   padding: 0;
 
-  li {
+  > li {
     display: flex;
     padding-top: 5px;
     text-decoration: none;
-    // display a page emoji before each page displayed
+  }
+}
 
+// DIV '.details' used in ‘Content by Label’ Macro =====================
+.details {
+  color: #333;
+  margin: 0;
+  padding: 10px;
+  border: 1px solid #d2cdcd;
+  overflow: hidden;
+  border-radius: 5px;
+  width: 100%;
+  // insert the emoji before the URL link to the page
+  > a {
     &::before {
       content: '📄'; // other options may be notebook 📋 or book 📖 emoji
       padding-top: 5px;
-      font-size: 1.5em;
+      font-size: 1em;
       padding-right: 10px;
     }
+  }
+  .smalltext {
+    p {
+      margin: 0;
+    }
+    font-size: 0.9em;
+  }
+}
+
+.details blockquote {
+  width: 70%;
+  margin: 20px auto;
+  color: var(--font-color);
+  border-left: 8px solid #578ff0;
+  line-height: 1.2;
+  font-size: 1em;
+  padding: 10px;
+  background: var(--bg-blockquote);
+  border-radius: 5px;
+  &::before {
+    position: absolute;
+    top: -5px;
+    left: -60px;
+    font-family: 'Font Awesome 5 Free', sans-serif;
+    font-weight: 600; // fa-solid for free usage
+    content: '\f10d';
+    font-size: 40px;
+    color: gray;
+  }
+  &::after {
+    content: '';
   }
 }
 
 // Label details ==================================
+// style to show the labels for a certain page while shown in the macro content by labels
 .label-details {
   ul.label-list {
     padding: 5px;
+    margin-top: 100;
     margin: 0;
     list-style-type: none;
     line-height: 1em;
@@ -43,7 +89,7 @@ ul.content-by-label {
       text-align: center;
     }
 
-    li.aui-label {
+    > li.aui-label {
       // inline-block to display labels horizontally and breaking in multiple lines if needed
       display: inline-block;
       padding: 0;
@@ -51,12 +97,6 @@ ul.content-by-label {
       background-color: var(--highlight-grey);
       border: 1px solid var(--highlight-grey);
       border-radius: 5px;
-
-      &::before {
-        content: ''; // to reset for labels
-        padding: 0;
-        margin: 0;
-      }
 
       a.aui-label-split-main {
         cursor: default;
