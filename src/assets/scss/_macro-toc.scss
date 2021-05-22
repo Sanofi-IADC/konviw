@@ -1,3 +1,27 @@
+// Macro TOC  ============================================
+
+.toc-macro ul.toc-indentation {
+  margin-top: 0;
+}
+.toc-macro {
+  // font-size: 16px;
+  span.toc-outline {
+    padding-right: 5px;
+  }
+}
+.hidden-outline span.toc-outline {
+  display: none;
+}
+.toc-macro li.toc-empty-item {
+  list-style-type: none;
+}
+@media print {
+  .toc-macro.non-printable {
+    display: none;
+  }
+}
+
+// Macro konviw floating TOC =============================
 $floating-toc-btn-size: 3.5em;
 
 button#floating-toc-btn {
@@ -51,7 +75,7 @@ button#floating-toc-btn {
 
 /* The floating TOC */
 /* The class konviw-float-TOC is provided by a macro in Confluence */
-div.toc-macro.client-side-toc-macro.konviw-float-TOC {
+div.toc-macro.konviw-float-TOC {
   position: fixed;
   top: calc(3rem);
   right: calc(

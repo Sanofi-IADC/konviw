@@ -16,7 +16,7 @@
 @import 'status';
 @import 'blockquote';
 @import 'copy-link';
-@import 'floating-toc';
+@import 'macro-toc';
 @import 'macro-insert-excerpt';
 @import 'macro-content-by-label';
 
@@ -151,28 +151,6 @@ ul.childpages-macro {
 }
 ul.childpages-macro li {
   padding-top: 5px;
-}
-
-// Macro TOC===============================================
-.toc-macro ul.toc-indentation {
-  margin-top: 0;
-}
-.toc-macro {
-  font-size: 16px;
-}
-.toc-macro span.toc-outline {
-  padding-right: 5px;
-}
-.toc-macro.hidden-outline span.toc-outline {
-  display: none;
-}
-.toc-macro li.toc-empty-item {
-  list-style-type: none;
-}
-@media print {
-  .toc-macro.non-printable {
-    display: none;
-  }
 }
 
 // Tables embedded in a ‘Page Properties’ Macro will be displayed borderless
