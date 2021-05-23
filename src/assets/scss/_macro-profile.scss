@@ -1,6 +1,6 @@
-// People Profile Macro =======================
+// 'User Profile' Macro =======================
+// and ‘Profile Picture’ Macro styles
 div.vcard {
-  // display: flex;
   padding-top: 5px;
   position: relative;
   white-space: nowrap;
@@ -11,7 +11,7 @@ div.vcard {
 img.logo {
   padding: 5px;
   margin-right: 5px;
-  border-radius: 50%;
+  border-radius: var(--user-avatar-radius);
   vertical-align: middle;
   display: inline-block;
   &.userLogo,

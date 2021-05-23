@@ -11,6 +11,7 @@ $small-text: 12px;
   --main-font-size: #{$main-font-screen};
   --main-font-weight: #{$main-font-weight};
   --title-font-size: #{$title-font-screen};
+  --user-avatar-radius: 50%; // for macro-profile from 0% for square to 50% for circle avatar
   --user-mention-size: #{$user-mention};
   --user-mention-bg: #92b5f7;
   --primary-color: #2e51c4;
