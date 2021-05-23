@@ -11,7 +11,6 @@ $small-text: 12px;
   --main-font-size: #{$main-font-screen};
   --main-font-weight: #{$main-font-weight};
   --title-font-size: #{$title-font-screen};
-  --user-avatar-radius: 50%; // for macro-profile from 0% for square to 50% for circle avatar
   --user-mention-size: #{$user-mention};
   --user-mention-bg: #92b5f7;
   --primary-color: #2e51c4;
@@ -21,8 +20,18 @@ $small-text: 12px;
   --bg-color: #fff;
   --heading-color: #292922;
   --bg-blockquote: #f4f0f0;
-  --bg-expander: #fafafa;
-  --border-expander: #e1e1e1;
+
+  // macro-profile variables
+  --user-avatar-radius: 50%; // for macro-profile from 0% for square to 50% for circle avatar
+
+  // macro-expand variables
+  --macro-expand-symbol-open: '\2795'; // in this case + or 25B7 if you prefer arrows
+  --macro-expand-symbol-close: '\2796'; // in this case - or 25BD if you prefer arrows
+  --macro-expand-bg: #fafafa;
+  --macro-expand-header-bg: #e1e1e1;
+  --macro-expand-radius: 5px;
+  --macro-expand-border: solid 1px #e1e1e1;
+
   --bg-error: #ffd9d9;
   --border-error: #f36565;
   --bg-warning: #fffae6;
