@@ -8,6 +8,7 @@ $user-mention: 14px;
 $small-text: 12px;
 
 :root {
+  --base-width: #{$base-width};
   --main-font-size: #{$main-font-screen};
   --main-font-weight: #{$main-font-weight};
   --title-font-size: #{$title-font-screen};
