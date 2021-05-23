@@ -4,12 +4,12 @@
 // =====================================================
 
 // Macro Content by Label ==================================
-ul.content-by-label li div span.icon {
-  // to hide a label 'Page:' shown before the title page as we replace it by an emoji
-  display: none;
-}
-
 ul.content-by-label {
+  li div span.icon {
+    // to hide a label 'Page:' shown before the title page as we replace it by an emoji
+    display: none;
+  }
+
   // list-style-type: none;
   // margin-left: -2em;
   margin: 0;
@@ -17,59 +17,56 @@ ul.content-by-label {
 
   > li {
     display: flex;
-    padding-top: 5px;
+    padding-top: 10px;
     text-decoration: none;
   }
-}
 
-// DIV '.details' used in ‘Content by Label’ Macro =====================
-.details {
-  color: #333;
-  margin: 0;
-  padding: 10px;
-  border: 1px solid #d2cdcd;
-  overflow: hidden;
-  border-radius: 5px;
-  width: 100%;
-  // insert the emoji before the URL link to the page
-  > a {
-    &::before {
-      content: '📄'; // other options may be notebook 📋 or book 📖 emoji
-      padding-top: 5px;
+  // DIV '.details' used in ‘Content by Label’ Macro =====================
+  .details {
+    color: var(--font-color);
+    padding: 15px;
+    border: var(--macro-content-by-label-border);
+    border-radius: var(--macro-content-by-label-radius);
+    width: 100%;
+    // insert the emoji before the URL link to the page
+    > a {
+      &::before {
+        content: var(--macro-content-by-label-symbol-page);
+        padding-top: 5px;
+        font-size: 1em;
+        padding-right: 10px;
+      }
+    }
+    span.smalltext {
+      p {
+        margin: 0;
+      }
+      font-size: 0.9em;
+    }
+    blockquote {
+      width: 70%;
+      margin: 20px auto;
+      color: var(--font-color);
+      border-left: 8px solid #578ff0;
+      line-height: 1.2;
       font-size: 1em;
-      padding-right: 10px;
+      padding: 10px;
+      background: var(--bg-blockquote);
+      border-radius: 5px;
+      &::before {
+        position: absolute;
+        top: -5px;
+        left: -60px;
+        font-family: 'Font Awesome 5 Free', sans-serif;
+        font-weight: 600; // fa-solid for free usage
+        content: '\f10d';
+        font-size: 40px;
+        color: gray;
+      }
+      &::after {
+        content: '';
+      }
     }
-  }
-  .smalltext {
-    p {
-      margin: 0;
-    }
-    font-size: 0.9em;
-  }
-}
-
-.details blockquote {
-  width: 70%;
-  margin: 20px auto;
-  color: var(--font-color);
-  border-left: 8px solid #578ff0;
-  line-height: 1.2;
-  font-size: 1em;
-  padding: 10px;
-  background: var(--bg-blockquote);
-  border-radius: 5px;
-  &::before {
-    position: absolute;
-    top: -5px;
-    left: -60px;
-    font-family: 'Font Awesome 5 Free', sans-serif;
-    font-weight: 600; // fa-solid for free usage
-    content: '\f10d';
-    font-size: 40px;
-    color: gray;
-  }
-  &::after {
-    content: '';
   }
 }
 
@@ -77,15 +74,16 @@ ul.content-by-label {
 // style to show the labels for a certain page while shown in the macro content by labels
 .label-details {
   ul.label-list {
-    padding: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 0px;
     margin: 0;
     list-style-type: none;
     line-height: 1em;
 
     &::before {
-      content: '🏷';
-      padding-right: 10px;
-      text-align: center;
+      content: var(--macro-content-by-label-symbol-label); // example '🏷'
+      vertical-align: middle;
     }
 
     > li.aui-label {
