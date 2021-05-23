@@ -1,0 +1,77 @@
+// Information Panels =====================================
+
+// Note
+div.panel[data-macro-name='panel'] {
+  color: darkslategray;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #083476;
+  border-radius: 3px;
+  box-shadow: var(--macro-info-panel-shadow);
+  background-color: var(--macro-info-panel-bg-warning);
+
+  .panelContent {
+    padding: 10px;
+    &::before {
+      padding: 5px;
+      content: var(--macro-info-panel-symbol-note);
+      float: right;
+    }
+  }
+}
+
+div.confluence-information-macro {
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+  .confluence-information-macro-body {
+    border-radius: 3px;
+    padding: 10px;
+    box-shadow: var(--macro-info-panel-shadow);
+  }
+}
+
+// Info
+div.confluence-information-macro-information
+  .confluence-information-macro-body {
+  background-color: var(--macro-info-panel-bg-info);
+  border: solid 1px var(--macro-info-panel-border-info);
+  border-left: 5px solid var(--macro-info-panel-border-info);
+  &::before {
+    content: var(--macro-info-panel-symbol-info);
+    float: right;
+  }
+}
+
+// Success
+div.confluence-information-macro-tip .confluence-information-macro-body {
+  background-color: var(--macro-info-panel-bg-success);
+  border: solid 1px var(--macro-info-panel-border-success);
+  border-left: 5px solid var(--macro-info-panel-border-success);
+  &::before {
+    content: var(--macro-info-panel-symbol-success);
+    float: right;
+  }
+}
+
+// Warning
+div.confluence-information-macro-note .confluence-information-macro-body {
+  background-color: var(--macro-info-panel-bg-warning);
+  border: solid 1px var(--macro-info-panel-border-warning);
+  border-left: 5px solid var(--macro-info-panel-border-warning);
+  &::before {
+    content: var(--macro-info-panel-symbol-warning);
+    float: right;
+  }
+}
+
+// Error
+div.confluence-information-macro-warning .confluence-information-macro-body {
+  background-color: var(--macro-info-panel-bg-error);
+  border: solid 1px var(--macro-info-panel-border-error);
+  border-left: 5px solid var(--macro-info-panel-border-error);
+  &::before {
+    float: right;
+    content: var(--macro-info-panel-symbol-error);
+  }
+}

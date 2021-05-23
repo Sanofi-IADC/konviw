@@ -36,14 +36,22 @@ $small-text: 12px;
   --macro-expand-radius: 5px;
   --macro-expand-border: solid 1px #e1e1e1;
 
-  --bg-error: #ffd9d9;
-  --border-error: #f36565;
-  --bg-warning: #fffae6;
-  --border-warning: #edd130;
-  --bg-success: #e3fcef;
-  --border-success: #86ec57;
-  --bg-info: #deebff;
-  --border-info: #7aa8fd;
+  // macro-info-panel variables
+  --macro-info-panel-shadow: 0; // shadow for the panels like 0 5px 5px rgba(0, 0, 0, 0.1);
+  --macro-info-panel-symbol-note: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='15' height='15' color='darkblue' viewBox='0 0 391.654 391.654' focusable='false' role='presentation'><path d='M369.679,391.654H21.976c-6.629,0-12-5.373-12-12V12c0-6.627,5.371-12,12-12h347.703c6.627,0,12,5.373,12,12v367.654C381.679,386.281,376.306,391.654,369.679,391.654z M33.976,367.654h323.703V24H33.976V367.654z' fill='currentColor'/><path d='M305.229,100.855H86.425c-6.627,0-12-5.371-12-12c0-6.627,5.373-12,12-12h218.805c6.627,0,12,5.373,12,12C317.229,95.484,311.856,100.855,305.229,100.855z' fill='currentColor'/><path d='M305.229,172.17H86.425c-6.627,0-12-5.371-12-12c0-6.627,5.373-12,12-12h218.805c6.627,0,12,5.373,12,12C317.229,166.799,311.856,172.17,305.229,172.17z' fill='currentColor'/><path d='M305.229,243.484H86.425c-6.627,0-12-5.371-12-12c0-6.627,5.373-12,12-12h218.805c6.627,0,12,5.373,12,12C317.229,238.113,311.856,243.484,305.229,243.484z' fill='currentColor'/><path d='M178.007,314.799H86.425c-6.627,0-12-5.372-12-12c0-6.627,5.373-12,12-12h91.582c6.627,0,12,5.373,12,12C190.007,309.427,184.634,314.799,178.007,314.799z' fill='currentColor'/></svg>");
+  --macro-info-panel-symbol-info: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' color='blue' viewBox='0 0 24 24' focusable='false' role='presentation'><path d='M12 20a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm0-8.5a1 1 0 0 0-1 1V15a1 1 0 0 0 2 0v-2.5a1 1 0 0 0-1-1zm0-1.125a1.375 1.375 0 1 0 0-2.75 1.375 1.375 0 0 0 0 2.75z' fill='currentColor' fill-rule='evenodd'/></svg>");
+  --macro-info-panel-bg-info: #deebff;
+  --macro-info-panel-border-info: #7aa8fd;
+  --macro-info-panel-symbol-success: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' color='green' viewBox='0 0 24 24' focusable='false' role='presentation'><path d='M12 20a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm1.364-10.964l-2.152 4.11-1.543-1.39a1 1 0 1 0-1.338 1.487l2.5 2.25a1 1 0 0 0 1.555-.279l2.75-5.25a1 1 0 0 0-1.772-.928z' fill='currentColor' fill-rule='evenodd'/></svg>");
+  --macro-info-panel-bg-success: #e3fcef;
+  --macro-info-panel-border-success: #86ec57;
+  --macro-info-panel-symbol-error: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' color='red' viewBox='0 0 24 24' focusable='false' role='presentation'><path d='M13.485 11.929l2.122-2.121a1 1 0 0 0-1.415-1.415l-2.12 2.122L9.95 8.393a1 1 0 0 0-1.414 1.415l2.12 2.12-2.12 2.122a1 1 0 0 0 1.414 1.414l2.121-2.12 2.121 2.12a1 1 0 1 0 1.415-1.414l-2.122-2.121zM12 20a8 8 0 1 1 0-16 8 8 0 0 1 0 16z' fill='currentColor' fill-rule='evenodd'/></svg>");
+  --macro-info-panel-bg-error: #ffd9d9;
+  --macro-info-panel-border-error: #f36565;
+  --macro-info-panel-symbol-warning: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' color='orange' viewBox='0 0 24 24' focusable='false' role='presentation'><path d='M12.938 4.967c-.518-.978-1.36-.974-1.876 0L3.938 18.425c-.518.978-.045 1.771 1.057 1.771h14.01c1.102 0 1.573-.797 1.057-1.771L12.938 4.967z' fill='currentColor' fill-rule='evenodd'/><path d='M12 15a1 1 0 0 1-1-1V9a1 1 0 0 1 2 0v5a1 1 0 0 1-1 1m0 3a1 1 0 0 1 0-2 1 1 0 0 1 0 2' fill='white'/></svg>");
+  --macro-info-panel-bg-warning: #fffae6;
+  --macro-info-panel-border-warning: #edd130;
+
   --highlight-grey: #f0f0f0;
   --highlight-blue: #e0f0ff;
   --highlight-green: #ddfade;
@@ -64,14 +72,21 @@ $small-text: 12px;
   --bg-blockquote: #656464;
   --bg-expander: #7b7979;
   --border-expander: #716e6e;
-  --bg-error: #b05b5b;
-  --border-error: #f36565;
-  --bg-warning: #d0b105;
-  --border-warning: #fadf41;
-  --bg-success: #06964c;
-  --border-success: #74e93d;
-  --bg-info: #0b55c6;
-  --border-info: #4e71e4;
+
+  // macro-info-panel variables
+  --macro-info-panel-symbol-info: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' color='lightblue' viewBox='0 0 24 24' focusable='false' role='presentation'><path d='M12 20a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm0-8.5a1 1 0 0 0-1 1V15a1 1 0 0 0 2 0v-2.5a1 1 0 0 0-1-1zm0-1.125a1.375 1.375 0 1 0 0-2.75 1.375 1.375 0 0 0 0 2.75z' fill='currentColor' fill-rule='evenodd'/></svg>");
+  --macro-info-panel-bg-info: #0b55c6;
+  --macro-info-panel-border-info: #4e71e4;
+  --macro-info-panel-symbol-success: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' color='lightgreen' viewBox='0 0 24 24' focusable='false' role='presentation'><path d='M12 20a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm1.364-10.964l-2.152 4.11-1.543-1.39a1 1 0 1 0-1.338 1.487l2.5 2.25a1 1 0 0 0 1.555-.279l2.75-5.25a1 1 0 0 0-1.772-.928z' fill='currentColor' fill-rule='evenodd'/></svg>");
+  --macro-info-panel-bg-success: #06964c;
+  --macro-info-panel-border-success: #74e93d;
+  --macro-info-panel-symbol-error: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' color='pink' viewBox='0 0 24 24' focusable='false' role='presentation'><path d='M13.485 11.929l2.122-2.121a1 1 0 0 0-1.415-1.415l-2.12 2.122L9.95 8.393a1 1 0 0 0-1.414 1.415l2.12 2.12-2.12 2.122a1 1 0 0 0 1.414 1.414l2.121-2.12 2.121 2.12a1 1 0 1 0 1.415-1.414l-2.122-2.121zM12 20a8 8 0 1 1 0-16 8 8 0 0 1 0 16z' fill='currentColor' fill-rule='evenodd'/></svg>");
+  --macro-info-panel-bg-error: #b05b5b;
+  --macro-info-panel-border-error: #f36565;
+  --macro-info-panel-symbol-warning: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' color='yellow' viewBox='0 0 24 24' focusable='false' role='presentation'><path d='M12.938 4.967c-.518-.978-1.36-.974-1.876 0L3.938 18.425c-.518.978-.045 1.771 1.057 1.771h14.01c1.102 0 1.573-.797 1.057-1.771L12.938 4.967z' fill='currentColor' fill-rule='evenodd'/><path d='M12 15a1 1 0 0 1-1-1V9a1 1 0 0 1 2 0v5a1 1 0 0 1-1 1m0 3a1 1 0 0 1 0-2 1 1 0 0 1 0 2' fill='orange'/></svg>");
+  --macro-info-panel-bg-warning: #d0b105;
+  --macro-info-panel-border-warning: #edd130;
+
   --highlight-grey: #414040;
   --highlight-blue: #2b8fed;
   --highlight-green: #2e8e31;
