@@ -5,7 +5,8 @@
 //
 
 // DIV '.panel' used in 'Excerpt Include’ Macro =====================
-.panel[data-macro-name='excerpt-include'] {
+.panel[data-macro-name='excerpt-include'],
+.panel[data-macro-name='include'] {
   color: #333;
   margin: 0;
   border: 1px solid #d2cdcd;
@@ -25,28 +26,27 @@
 
 .panelContent {
   padding: 20px;
-}
-
-.panelContent blockquote {
-  width: 70%;
-  margin: 20px auto;
-  color: var(--font-color);
-  padding: 10px 15px 10px 15px;
-  border-left: 8px solid #578ff0;
-  line-height: 1.2;
-  background: var(--bg-blockquote);
-  border-radius: 5px;
-  &::before {
-    position: absolute;
-    top: -10px;
-    left: -80px;
-    font-family: 'Font Awesome 5 Free', sans-serif;
-    font-weight: 600; // fa-solid for free usage
-    content: '\f10d';
-    font-size: 50px;
-    color: gray;
-  }
-  &::after {
-    content: '';
+  blockquote {
+    width: 70%;
+    margin: 20px auto;
+    color: var(--font-color);
+    padding: 10px 15px 10px 15px;
+    border-left: 8px solid #578ff0;
+    line-height: 1.2;
+    background: var(--bg-blockquote);
+    border-radius: 5px;
+    &::before {
+      position: absolute;
+      top: -10px;
+      left: -80px;
+      font-family: 'Font Awesome 5 Free', sans-serif;
+      font-weight: 600; // fa-solid for free usage
+      content: '\f10d';
+      font-size: 50px;
+      color: gray;
+    }
+    &::after {
+      content: '';
+    }
   }
 }
