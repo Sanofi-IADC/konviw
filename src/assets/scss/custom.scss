@@ -126,8 +126,9 @@ a.external-link {
     background-size: 100% 100%;
     color: #000c34;
   }
-  &:only-child::before {
-    content: '⇢';
+  &:only-child:before {
+    content: var(--external-link-symbol);
+    padding-left: 2px;
     padding-right: 5px;
   }
 }
