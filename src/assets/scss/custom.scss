@@ -110,7 +110,7 @@ a {
   text-decoration: none;
   &:hover {
     background-size: 100% 100%;
-    color: #000c34;
+    color: var(--font-color);
   }
 }
 
@@ -124,7 +124,7 @@ a.external-link {
   text-decoration: none;
   &:hover {
     background-size: 100% 100%;
-    color: #000c34;
+    color: var(--font-color);
   }
   &:only-child:before {
     content: var(--external-link-symbol);

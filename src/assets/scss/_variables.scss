@@ -23,7 +23,7 @@ $small-text: 12px;
 
   // external links
   // or alternatively just an emoji works --external-link-symbol: '⇢';
-  --external-link-symbol: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='15' height='15' color='steelblue' viewBox='0 0 512 512' x='0px' y='0px' style='enable-background:new 0 0 512 512;' focusable='false' role='presentation'><path d='M341.1,34.3h90.5l-206.9,207c-6.7,6.7-6.7,17.6,0,24.3c3.3,3.3,7.7,5,12.1,5s8.8-1.7,12.1-5l207-207v90.5c0,9.5,7.7,17.2,17.1,17.2c9.5,0,17.2-7.7,17.2-17.2V17.2C490.2,7.7,482.5,0,473,0H341.1c-9.5,0-17.2,7.7-17.2,17.2C324,26.6,331.6,34.3,341.1,34.3z'/><path d='M102.9,490.2h284.3c56.8,0,102.9-46.2,102.9-102.9V253.4c0-9.5-7.7-17.1-17.2-17.1s-17.1,7.7-17.1,17.1v133.8c0,37.8-30.8,68.6-68.6,68.6H102.9c-37.8,0-68.6-30.8-68.6-68.6V161.4V103c0-37.8,30.8-68.6,68.6-68.6h132.7c9.5,0,17.1-7.7,17.1-17.2S245,0,235.6,0H102.9C46.1,0,0,46.2,0,102.9v58.4v225.9C0,444,46.2,490.2,102.9,490.2z'/></svg>");
+  --external-link-symbol: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='15' height='15' color='black' viewBox='0 0 512 512' x='0px' y='0px' style='enable-background:new 0 0 512 512;' focusable='false' role='presentation'><path d='M341.1,34.3h90.5l-206.9,207c-6.7,6.7-6.7,17.6,0,24.3c3.3,3.3,7.7,5,12.1,5s8.8-1.7,12.1-5l207-207v90.5c0,9.5,7.7,17.2,17.1,17.2c9.5,0,17.2-7.7,17.2-17.2V17.2C490.2,7.7,482.5,0,473,0H341.1c-9.5,0-17.2,7.7-17.2,17.2C324,26.6,331.6,34.3,341.1,34.3z' fill='currentColor'/><path d='M102.9,490.2h284.3c56.8,0,102.9-46.2,102.9-102.9V253.4c0-9.5-7.7-17.1-17.2-17.1s-17.1,7.7-17.1,17.1v133.8c0,37.8-30.8,68.6-68.6,68.6H102.9c-37.8,0-68.6-30.8-68.6-68.6V161.4V103c0-37.8,30.8-68.6,68.6-68.6h132.7c9.5,0,17.1-7.7,17.1-17.2S245,0,235.6,0H102.9C46.1,0,0,46.2,0,102.9v58.4v225.9C0,444,46.2,490.2,102.9,490.2z' fill='currentColor'/></svg>");
 
   // macro-profile variables
   --user-avatar-radius: 50%; // for macro-profile from 0% for square to 50% for circle avatar
@@ -70,8 +70,15 @@ $small-text: 12px;
   --bg-color: #121212; // #202034;
   --heading-color: #818cab;
   --bg-blockquote: #656464;
-  --bg-expander: #7b7979;
-  --border-expander: #716e6e;
+
+  // external links
+  // or alternatively just an emoji works --external-link-symbol: '⇢';
+  --external-link-symbol: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='15' height='15' color='white' viewBox='0 0 512 512' x='0px' y='0px' style='enable-background:new 0 0 512 512;' focusable='false' role='presentation'><path d='M341.1,34.3h90.5l-206.9,207c-6.7,6.7-6.7,17.6,0,24.3c3.3,3.3,7.7,5,12.1,5s8.8-1.7,12.1-5l207-207v90.5c0,9.5,7.7,17.2,17.1,17.2c9.5,0,17.2-7.7,17.2-17.2V17.2C490.2,7.7,482.5,0,473,0H341.1c-9.5,0-17.2,7.7-17.2,17.2C324,26.6,331.6,34.3,341.1,34.3z' fill='currentColor'/><path d='M102.9,490.2h284.3c56.8,0,102.9-46.2,102.9-102.9V253.4c0-9.5-7.7-17.1-17.2-17.1s-17.1,7.7-17.1,17.1v133.8c0,37.8-30.8,68.6-68.6,68.6H102.9c-37.8,0-68.6-30.8-68.6-68.6V161.4V103c0-37.8,30.8-68.6,68.6-68.6h132.7c9.5,0,17.1-7.7,17.1-17.2S245,0,235.6,0H102.9C46.1,0,0,46.2,0,102.9v58.4v225.9C0,444,46.2,490.2,102.9,490.2z' fill='currentColor'/></svg>");
+
+  // macro-expand variables
+  --macro-expand-bg: #7b7979;
+  --macro-expand-header-bg: #716e6e;
+  --macro-expand-border: solid 1px #716e6e;
 
   // macro-info-panel variables
   --macro-info-panel-symbol-info: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' color='lightblue' viewBox='0 0 24 24' focusable='false' role='presentation'><path d='M12 20a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm0-8.5a1 1 0 0 0-1 1V15a1 1 0 0 0 2 0v-2.5a1 1 0 0 0-1-1zm0-1.125a1.375 1.375 0 1 0 0-2.75 1.375 1.375 0 0 0 0 2.75z' fill='currentColor' fill-rule='evenodd'/></svg>");
