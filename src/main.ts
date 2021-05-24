@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { ValidationPipe } from '@nestjs/common';
+import { LogLevel, ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import { AppModule } from './app.module';
@@ -12,10 +12,15 @@ import { ConfigService } from '@nestjs/config';
  * @param spaceKey {string} 'iadc' - space key where the page belongs
  */
 async function bootstrap() {
+  let logLevel: Array<LogLevel>;
+  if (process.env.LOG_LEVEL) {
+    logLevel = [<LogLevel>process.env.LOG_LEVEL];
+  } else {
+    logLevel = ['warn', 'error'];
+  }
   // as we need to access the Express API
-  // const logLevel = process.env.LOG_LEVEL as LogLevel;
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
-    logger: ['warn', 'error'],
+    logger: logLevel,
   });
   const config = app.get(ConfigService);
   const basePath = config.get('web.basePath');

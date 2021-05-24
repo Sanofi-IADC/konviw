@@ -83,7 +83,7 @@ export class ProxyApiService {
     const basePath = this.config.get('web.basePath');
 
     const parseResults = data.results.map((doc: any) => {
-      this.context.Init(spaceKey, doc.content.id); //// TODO
+      this.context.Init(spaceKey, doc.content.id);
       const atlassianIadcRegEx = new RegExp(`${baseURL}/wiki/`);
       parseHeaderBlog(doc.content.body.styled_view.value)(this.context);
       return {

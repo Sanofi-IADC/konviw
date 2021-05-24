@@ -7,22 +7,22 @@ export default (): Config => ({
   httpsProxy: process.env.HTTPS_PROXY,
   web: {
     port: (process.env.PORT && parseInt(process.env.PORT, 10)) || 3000,
-    basePath: process.env.CPV_BASEPATH || '/',
-    baseHost: process.env.CPV_BASEHOST || '',
+    basePath: process.env.CPV_BASEPATH,
+    baseHost: process.env.CPV_BASEHOST,
   },
   confluence: {
-    baseURL: process.env.CPV_CONFLUENCE_BASE_URL || '',
-    apiUsername: process.env.CPV_CONFLUENCE_API_USERNAME || '',
-    apiToken: process.env.CPV_CONFLUENCE_API_TOKEN || '',
+    baseURL: process.env.CPV_CONFLUENCE_BASE_URL,
+    apiUsername: process.env.CPV_CONFLUENCE_API_USERNAME,
+    apiToken: process.env.CPV_CONFLUENCE_API_TOKEN,
     apiTimeOut: process.env.CPV_CONFLUENCE_API_TIMEOUT,
     apiMaxRedirects: process.env.CPV_CONFLUENCE_API_MAX_REDIRECTS || '5',
   },
   matomo: {
-    baseURL: process.env.CPV_MATOMO_BASE_URL || '',
-    idSite: process.env.CPV_MATOMO_ID_SITE || '',
+    baseURL: process.env.CPV_MATOMO_BASE_URL,
+    idSite: process.env.CPV_MATOMO_ID_SITE,
   },
   google: {
-    tag: process.env.CPV_GOOGLE_ANALYTICS || '',
+    tag: process.env.CPV_GOOGLE_ANALYTICS,
   },
   cache: {
     cacheTTL:
