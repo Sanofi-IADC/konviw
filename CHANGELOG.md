@@ -1,3 +1,14 @@
+## [1.6.1](https://github.com/Sanofi-IADC/konviw/compare/v1.6.0...v1.6.1) (2021-05-24)
+
+
+### Bug Fixes
+
+* **conf:** remove log level ([c1a33b1](https://github.com/Sanofi-IADC/konviw/commit/c1a33b1dc54df138ec68247d223da34d0402b1cb))
+* **config:** assertion is unnecessary ([e499f9c](https://github.com/Sanofi-IADC/konviw/commit/e499f9c4456e52cc53be4f8f46f7505882e413cd))
+* **context.service:** specify the logger name ([87ce467](https://github.com/Sanofi-IADC/konviw/commit/87ce46791aadc1d480a235b297cd223822765292))
+* **lmain:** fix logger with 'warn' and 'error' ([18e23f9](https://github.com/Sanofi-IADC/konviw/commit/18e23f9c818cf877a81ce527dab3ca91e3ca2492))
+* **sonarqube:** solve smell code ([b733a05](https://github.com/Sanofi-IADC/konviw/commit/b733a0530f4d9e7713002ff4951a325deadebc3b))
+
 # [1.6.0](https://github.com/Sanofi-IADC/konviw/compare/v1.5.2...v1.6.0) (2021-05-24)
 
 
