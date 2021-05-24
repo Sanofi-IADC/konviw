@@ -5,9 +5,8 @@
 
 #Content {
   position: relative;
-  max-width: $base-width;
+  max-width: var(--base-width);
   margin: auto;
-  // margin-left: 20px;
   padding: 20px !important;
 
   &.fullWidth {
@@ -30,9 +29,6 @@
             margin-left: 0px;
           }
         }
-        // p {
-        // padding-top: 10px;
-        // }
       }
       @media screen and (max-width: 1024px) {
         width: 100%;
@@ -57,9 +53,6 @@
             margin-left: 0px;
           }
         }
-        // p {
-        // padding-top: 10px;
-        // }
       }
       @media screen and (max-width: 1024px) {
         width: 100%;
@@ -84,9 +77,6 @@
             margin-left: 30px;
           }
         }
-        // p {
-        // padding-top: 10px;
-        // }
       }
       @media screen and (max-width: 1024px) {
         width: 100%;
@@ -108,9 +98,6 @@
             margin-left: 0px;
           }
         }
-        // p {
-        // padding-top: 10px;
-        // }
       }
       @media screen and (max-width: 1024px) {
         width: 100%;
@@ -136,9 +123,6 @@
             margin-left: 0px;
           }
         }
-        // p {
-        // padding-top: 10px;
-        // }
       }
       @media screen and (max-width: 1024px) {
         width: 100%;

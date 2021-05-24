@@ -1,14 +1,10 @@
 // Default font IADC ======================================
-@import 'rubik';
-@import 'patrick-hand';
+@import url('https://fonts.googleapis.com/css2?family=Volkhov&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Antic+Slab&display=swap');
 @import 'variables';
 @import 'content-layout';
-@import 'expander-panel';
 @import 'media';
-@import 'profile';
 @import 'checkboxes';
-@import 'info-panels';
-@import 'decisions';
 @import 'tables';
 @import 'blog';
 @import 'scrolltotop';
@@ -16,6 +12,10 @@
 @import 'status';
 @import 'blockquote';
 @import 'copy-link';
+@import 'macro-decisions';
+@import 'macro-expand-panel';
+@import 'macro-info-panel';
+@import 'macro-profile';
 @import 'macro-toc';
 @import 'macro-insert-excerpt';
 @import 'macro-content-by-label';
@@ -29,7 +29,7 @@ html {
 body {
   background-color: var(--bg-color);
   color: var(--font-color);
-  font-family: 'Rubik', sans-serif;
+  font-family: 'Antic Slab', sans-serif;
   font-size: var(--main-font-size);
   font-weight: var(--main-font-weight);
 }
@@ -48,11 +48,6 @@ li p {
   margin: 0;
 }
 
-// ul {
-//   margin: 0;
-//   // padding: 0;
-// }
-
 .smalltext {
   font-size: $small-text;
   padding-left: 10px;
@@ -63,29 +58,50 @@ strong {
 }
 
 // Headers ===========================================
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Volkhov';
+  font-weight: normal;
+}
+
 h1 {
-  font-size: 1.6em;
-  font-weight: normal;
+  font-size: 2.1em;
 }
+
 h2 {
-  font-size: 1.4em;
-  font-weight: normal;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 2em;
+  &:after {
+    content: '';
+    border-top: 1px solid #959ba0;
+    height: 1px;
+    width: 100%;
+    display: block;
+    position: relative;
+    top: 0px;
+    z-index: -1;
+  }
 }
+
 h3 {
   font-size: 1.2em;
-  font-weight: normal;
 }
+
 h4 {
   font-size: 1em;
-  font-weight: normal;
 }
+
 h5 {
   font-size: 0.8em;
-  font-weight: normal;
 }
+
 h6 {
   font-size: 0.6em;
-  font-weight: normal;
 }
 
 // Hidden section ===========================================
@@ -110,7 +126,7 @@ a {
   text-decoration: none;
   &:hover {
     background-size: 100% 100%;
-    color: #000c34;
+    color: var(--font-color);
   }
 }
 
@@ -124,10 +140,11 @@ a.external-link {
   text-decoration: none;
   &:hover {
     background-size: 100% 100%;
-    color: #000c34;
+    color: var(--font-color);
   }
-  &:only-child::before {
-    content: '⇢';
+  &:only-child:before {
+    content: var(--external-link-symbol);
+    padding-left: 2px;
     padding-right: 5px;
   }
 }
