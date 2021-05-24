@@ -31,6 +31,6 @@ export default (): Config => ({
   },
   logging: {
     enableLoggerMiddleware: process.env.ENABLE_LOGGER_MIDDLEWARE === 'true',
-    level: (process.env.LOG_LEVEL as LogLevel) || 'debug',
+    level: process.env.LOG_LEVEL as LogLevel,
   },
 });
