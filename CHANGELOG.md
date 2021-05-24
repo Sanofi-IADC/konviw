@@ -1,3 +1,21 @@
+# [1.6.0](https://github.com/Sanofi-IADC/konviw/compare/v1.5.2...v1.6.0) (2021-05-24)
+
+
+### Bug Fixes
+
+* **css:** copy last changes to iadc theme ([c86b932](https://github.com/Sanofi-IADC/konviw/commit/c86b932f3da0e8843e1b4bc980e25b380f40a29a))
+* **css:** dark mode fixes ([e05515a](https://github.com/Sanofi-IADC/konviw/commit/e05515a4bd035dcf42be07917e69be421c8d6957))
+* **css:** default font ([c8d08db](https://github.com/Sanofi-IADC/konviw/commit/c8d08dbaa533ff4302c774c8268a5d192d0adf8f))
+* **css:** floating toc menu indentation ([23d2c11](https://github.com/Sanofi-IADC/konviw/commit/23d2c11a53c9a268b75f66b76c72f5e76f87c361))
+* **css:** move TOC styles to a single file ([39b3a02](https://github.com/Sanofi-IADC/konviw/commit/39b3a02b173d222852bd10169eca13e61c7cfb95))
+* **css:** panel with data-macro-name ([7dac561](https://github.com/Sanofi-IADC/konviw/commit/7dac5619487313d1ee87ede1231d4799ad412b86))
+
+
+### Features
+
+* **css:** external link icon ([514dceb](https://github.com/Sanofi-IADC/konviw/commit/514dceb2da69e40ed0808620b8888de49292bb53))
+* **css:** new theme iadc ([43112c3](https://github.com/Sanofi-IADC/konviw/commit/43112c347d0b3520ccc120be9954a5c761e379fb))
+
 ## [1.5.2](https://github.com/Sanofi-IADC/konviw/compare/v1.5.1...v1.5.2) (2021-05-21)
 
 
