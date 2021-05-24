@@ -5,7 +5,6 @@ import { join } from 'path';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { ConfigService } from '@nestjs/config';
-import Config from './config/config';
 
 /**
  * Entry point of application. By using the NestFactory.create() method a new Nest application instance is created.
@@ -15,9 +14,9 @@ import Config from './config/config';
 async function bootstrap() {
   // as we need to access the Express API
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  // logger: ['error', 'warn'];
+  logger: ['warn', 'error'];
   const config = app.get(ConfigService);
-  const basePath = config.get<Config>('web.basePath');
+  const basePath = config.get('web.basePath');
   app.useGlobalPipes(
     // Reference: https://docs.nestjs.com/techniques/validation#auto-validation
     new ValidationPipe({
