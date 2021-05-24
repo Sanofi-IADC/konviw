@@ -79,7 +79,7 @@ export class ConfluenceService {
 
   /**
    * TODO: Make this function generic enough to serve standard search or
-   * TODO: get blog posts. Include options like 'type', 'date-range', 'ancestor' ...
+   * get blog posts. Include options like 'type', 'date-range', 'ancestor' ...
    * @function getResults Service
    * @description Search results from Confluence API /rest/api/search
    * @return Promise {any}
