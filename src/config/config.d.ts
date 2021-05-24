@@ -35,10 +35,6 @@ interface Config {
     cacheMax: number;
   };
 
-  appearance: {
-    showFloatingToc: boolean;
-  };
-
   logging: {
     enableLoggerMiddleware: boolean;
     level: LogLevel;

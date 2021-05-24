@@ -31,9 +31,6 @@ export default (): Config => ({
     cacheMax:
       (process.env.CACHE_MAX && parseInt(process.env.CACHE_MAX, 10)) || 10,
   },
-  appearance: {
-    showFloatingToc: process.env.CPV_TOC_FLOATING_MENU === 'true',
-  },
   logging: {
     enableLoggerMiddleware: process.env.ENABLE_LOGGER_MIDDLEWARE === 'true',
     level: (process.env.LOG_LEVEL as LogLevel) || 'warn',

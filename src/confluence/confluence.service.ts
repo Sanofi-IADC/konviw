@@ -122,12 +122,12 @@ export class ConfluenceService {
       };
     }
     try {
-      this.logger.log(
-        `Searching ${uriSearch} with ${maxResult} maximum results and CQL ${cql} or cursor ${cursorResults} via REST API`,
-      );
       const results: AxiosResponse = await this.http
         .get(uriSearch, { params })
         .toPromise();
+      this.logger.log(
+        `Searching ${uriSearch} with ${maxResult} maximum results and CQL ${cql} or cursor ${cursorResults} via REST API`,
+      );
       return results;
     } catch (err) {
       this.logger.log(err, 'error:getResults');
@@ -161,7 +161,6 @@ export class ConfluenceService {
         })
         .toPromise();
       this.logger.log(`Retrieving all blog posts published in ${spaceKey}`);
-      // return results.data;
       return results;
     } catch (err) {
       this.logger.log(err, 'error:getAllPosts');
