@@ -1,3 +1,10 @@
+## [1.6.2](https://github.com/Sanofi-IADC/konviw/compare/v1.6.1...v1.6.2) (2021-05-24)
+
+
+### Bug Fixes
+
+* **main:** config logger via LOG_LEVEL env var ([e3a4c20](https://github.com/Sanofi-IADC/konviw/commit/e3a4c2049699505afea3bd80a3dec84a84a3c7b7))
+
 ## [1.6.1](https://github.com/Sanofi-IADC/konviw/compare/v1.6.0...v1.6.1) (2021-05-24)
 
 
