@@ -7,8 +7,6 @@ import {
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { HttpModule } from './http/http.module';
 import { TerminusModule } from '@nestjs/terminus';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { HealthController } from './health/health.controller';
 import { ApiHealthService } from './health/health-atlassian.service';
 import { ContextService } from './context/context.service';
@@ -19,7 +17,6 @@ import { ProxyApiModule } from './proxy-api/proxy-api.module';
 import configuration from './config/configuration';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import CustomHttpCacheInterceptor from './cache/custom-http-cache.interceptor';
-import Config from './config/config';
 
 @Module({
   imports: [
@@ -41,9 +38,8 @@ import Config from './config/config';
       inject: [ConfigService],
     }),
   ],
-  controllers: [AppController, HealthController],
+  controllers: [HealthController],
   providers: [
-    AppService,
     ApiHealthService,
     ContextService,
     {
@@ -56,10 +52,7 @@ export class AppModule implements NestModule {
   constructor(private config: ConfigService) {}
 
   configure(consumer: MiddlewareConsumer) {
-    const isLoggerMiddlewareEnabled = this.config.get<Config>(
-      'logging.enableLoggerMiddleware',
-    );
-    if (isLoggerMiddlewareEnabled) {
+    if (this.config.get('logging.enableLoggerMiddleware')) {
       consumer.apply(LoggerMiddleware).forRoutes('*');
     }
   }

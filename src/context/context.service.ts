@@ -33,7 +33,7 @@ export class ContextService {
     this.pageId = pageId;
     this.theme = theme;
     this.style = style;
-    const logger = new Logger();
+    const logger = new Logger(ContextService.name);
     // Activate the observer in development
     if (this.config.get('env').toString() === 'development') {
       this.observer = new PerformanceObserver((list) => {

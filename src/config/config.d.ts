@@ -1,5 +1,3 @@
-import { LogLevel } from '@nestjs/common';
-
 interface Config {
   env: string;
 
@@ -35,13 +33,8 @@ interface Config {
     cacheMax: number;
   };
 
-  appearance: {
-    showFloatingToc: boolean;
-  };
-
   logging: {
     enableLoggerMiddleware: boolean;
-    level: LogLevel;
   };
 }
 
