@@ -7,8 +7,6 @@ import {
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { HttpModule } from './http/http.module';
 import { TerminusModule } from '@nestjs/terminus';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { HealthController } from './health/health.controller';
 import { ApiHealthService } from './health/health-atlassian.service';
 import { ContextService } from './context/context.service';
@@ -41,9 +39,8 @@ import Config from './config/config';
       inject: [ConfigService],
     }),
   ],
-  controllers: [AppController, HealthController],
+  controllers: [HealthController],
   providers: [
-    AppService,
     ApiHealthService,
     ContextService,
     {
