@@ -1,6 +1,6 @@
-$base-width: 1200px;
-$main-font-mobile: 16px;
-$main-font-screen: 20px;
+$base-width: 600px;
+$main-font-mobile: 12px;
+$main-font-screen: 16px;
 $main-font-weight: 300;
 $title-font-mobile: 26px;
 $title-font-screen: 38px;
@@ -8,6 +8,7 @@ $user-mention: 14px;
 $small-text: 12px;
 
 :root {
+  --base-width: #{$base-width};
   --main-font-size: #{$main-font-screen};
   --main-font-weight: #{$main-font-weight};
   --title-font-size: #{$title-font-screen};
@@ -20,23 +21,58 @@ $small-text: 12px;
   --bg-color: #fff;
   --heading-color: #292922;
   --bg-blockquote: #f4f0f0;
-  --bg-expander: #fafafa;
-  --border-expander: #e1e1e1;
-  --bg-error: #ffd9d9;
-  --border-error: #f36565;
-  --bg-warning: #fffae6;
-  --border-warning: #edd130;
-  --bg-success: #e3fcef;
-  --border-success: #86ec57;
-  --bg-info: #deebff;
-  --border-info: #7aa8fd;
   --highlight-grey: #f0f0f0;
   --highlight-blue: #e0f0ff;
   --highlight-green: #ddfade;
   --highlight-red: #ffe7e7;
   --highlight-yellow: #ffffdd;
+  --reading-progress-color: #61a786;
   /* The space beetween the fab buttons and the right edge of the screen */
   --fab-btn-right: 0rem;
+
+  // external links or alternatively just an emoji works --external-link-symbol: '⇢';
+  --external-link-symbol: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='15' height='15' color='gray' viewBox='0 0 512 512' x='0px' y='0px' style='enable-background:new 0 0 512 512;' focusable='false' role='presentation'><path d='M341.1,34.3h90.5l-206.9,207c-6.7,6.7-6.7,17.6,0,24.3c3.3,3.3,7.7,5,12.1,5s8.8-1.7,12.1-5l207-207v90.5c0,9.5,7.7,17.2,17.1,17.2c9.5,0,17.2-7.7,17.2-17.2V17.2C490.2,7.7,482.5,0,473,0H341.1c-9.5,0-17.2,7.7-17.2,17.2C324,26.6,331.6,34.3,341.1,34.3z' fill='currentColor'/><path d='M102.9,490.2h284.3c56.8,0,102.9-46.2,102.9-102.9V253.4c0-9.5-7.7-17.1-17.2-17.1s-17.1,7.7-17.1,17.1v133.8c0,37.8-30.8,68.6-68.6,68.6H102.9c-37.8,0-68.6-30.8-68.6-68.6V161.4V103c0-37.8,30.8-68.6,68.6-68.6h132.7c9.5,0,17.1-7.7,17.1-17.2S245,0,235.6,0H102.9C46.1,0,0,46.2,0,102.9v58.4v225.9C0,444,46.2,490.2,102.9,490.2z' fill='currentColor'/></svg>");
+
+  // macro-decision variables
+  // --macro-decision-symbol: '\1F396'; // medal with star 🎖 emoji
+  --macro-decision-symbol: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='35' height='35' color='green' viewBox='0 -5 24 24'><path d='M9.414 8l3.293 3.293c.187.187.293.442.293.707v5a1 1 0 01-2 0v-4.586l-3-3V10.5a1 1 0 01-2 0V7a1 1 0 011-1h3.5a1 1 0 010 2H9.414zm8.293-1.707a.999.999 0 010 1.414l-2.5 2.5a.997.997 0 01-1.414 0 .999.999 0 010-1.414l2.5-2.5a.999.999 0 011.414 0z' fill='currentColor'/></svg>");
+  --macro-decision-font-size: 20px;
+
+  // macro-content-by-label variables
+  // '📄' other options may be notebook 📋 or book 📖 emoji
+  // --macro-content-by-label-symbol: '📄';
+  --macro-content-by-label-symbol-page: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='21' height='20' color='gray' viewBox='0 0 21 20' focusable='false' role='presentation'><g fill='currentColor' fill-rule='evenodd' clip-rule='evenodd'><path d='M3.5 0C1.84315 0 0.5 1.34315 0.5 3V17C0.5 18.6569 1.84315 20 3.5 20H17.5C19.1569 20 20.5 18.6569 20.5 17V3C20.5 1.34315 19.1569 0 17.5 0H3.5ZM2.5 3C2.5 2.44772 2.94772 2 3.5 2H17.5C18.0523 2 18.5 2.44772 18.5 3V17C18.5 17.5523 18.0523 18 17.5 18H3.5C2.94772 18 2.5 17.5523 2.5 17V3ZM5.5 5C4.94772 5 4.5 5.44772 4.5 6C4.5 6.55228 4.94771 7 5.5 7H15.5C16.0523 7 16.5 6.55228 16.5 6C16.5 5.44772 16.0523 5 15.5 5H5.5ZM4.5 10C4.5 9.44771 4.94772 9 5.5 9H15.5C16.0523 9 16.5 9.44771 16.5 10C16.5 10.5523 16.0523 11 15.5 11H5.5C4.94771 11 4.5 10.5523 4.5 10ZM5.5 13C4.94772 13 4.5 13.4477 4.5 14C4.5 14.5523 4.94772 15 5.5 15H11.5C12.0523 15 12.5 14.5523 12.5 14C12.5 13.4477 12.0523 13 11.5 13H5.5Z'></path></g></svg>");
+  --macro-content-by-label-symbol-label: '🏷';
+  // --macro-content-by-label-symbol-label: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' color='gray' viewBox='5 0 24 24' focusable='false' role='presentation'><path d='M11.433 5.428l-4.207.6A2 2 0 005.53 7.727l-.6 4.207a1 1 0 00.281.849l6.895 6.894a.999.999 0 001.414 0l5.657-5.657a1 1 0 000-1.414L12.282 5.71a.998.998 0 00-.849-.283m-.647 5.858A1.666 1.666 0 118.43 8.929a1.666 1.666 0 012.357 2.357' fill='currentColor' fill-rule='evenodd'></path></svg>");
+  --macro-content-by-label-border: 1px solid #c7c5c5;
+  --macro-content-by-label-radius: 5px;
+
+  // macro-profile variables
+  --user-avatar-radius: 50%; // for macro-profile from 0% for square to 50% for circle avatar
+
+  // macro-expand variables
+  --macro-expand-symbol-open: '\2795'; // in this case + or 25B7 if you prefer arrows
+  --macro-expand-symbol-close: '\2796'; // in this case - or 25BD if you prefer arrows
+  --macro-expand-bg: #fafafa;
+  --macro-expand-header-bg: #e1e1e1;
+  --macro-expand-radius: 5px;
+  --macro-expand-border: 1px solid #e1e1e1;
+
+  // macro-info-panel variables
+  --macro-info-panel-shadow: 0; // shadow for the panels like 0 5px 5px rgba(0, 0, 0, 0.1);
+  --macro-info-panel-symbol-note: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='15' height='15' color='darkblue' viewBox='0 0 391.654 391.654' focusable='false' role='presentation'><path d='M369.679,391.654H21.976c-6.629,0-12-5.373-12-12V12c0-6.627,5.371-12,12-12h347.703c6.627,0,12,5.373,12,12v367.654C381.679,386.281,376.306,391.654,369.679,391.654z M33.976,367.654h323.703V24H33.976V367.654z' fill='currentColor'/><path d='M305.229,100.855H86.425c-6.627,0-12-5.371-12-12c0-6.627,5.373-12,12-12h218.805c6.627,0,12,5.373,12,12C317.229,95.484,311.856,100.855,305.229,100.855z' fill='currentColor'/><path d='M305.229,172.17H86.425c-6.627,0-12-5.371-12-12c0-6.627,5.373-12,12-12h218.805c6.627,0,12,5.373,12,12C317.229,166.799,311.856,172.17,305.229,172.17z' fill='currentColor'/><path d='M305.229,243.484H86.425c-6.627,0-12-5.371-12-12c0-6.627,5.373-12,12-12h218.805c6.627,0,12,5.373,12,12C317.229,238.113,311.856,243.484,305.229,243.484z' fill='currentColor'/><path d='M178.007,314.799H86.425c-6.627,0-12-5.372-12-12c0-6.627,5.373-12,12-12h91.582c6.627,0,12,5.373,12,12C190.007,309.427,184.634,314.799,178.007,314.799z' fill='currentColor'/></svg>");
+  --macro-info-panel-symbol-info: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' color='blue' viewBox='0 0 24 24' focusable='false' role='presentation'><path d='M12 20a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm0-8.5a1 1 0 0 0-1 1V15a1 1 0 0 0 2 0v-2.5a1 1 0 0 0-1-1zm0-1.125a1.375 1.375 0 1 0 0-2.75 1.375 1.375 0 0 0 0 2.75z' fill='currentColor' fill-rule='evenodd'/></svg>");
+  --macro-info-panel-bg-info: #deebff;
+  --macro-info-panel-border-info: #7aa8fd;
+  --macro-info-panel-symbol-success: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' color='green' viewBox='0 0 24 24' focusable='false' role='presentation'><path d='M12 20a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm1.364-10.964l-2.152 4.11-1.543-1.39a1 1 0 1 0-1.338 1.487l2.5 2.25a1 1 0 0 0 1.555-.279l2.75-5.25a1 1 0 0 0-1.772-.928z' fill='currentColor' fill-rule='evenodd'/></svg>");
+  --macro-info-panel-bg-success: #e3fcef;
+  --macro-info-panel-border-success: #86ec57;
+  --macro-info-panel-symbol-error: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' color='red' viewBox='0 0 24 24' focusable='false' role='presentation'><path d='M13.485 11.929l2.122-2.121a1 1 0 0 0-1.415-1.415l-2.12 2.122L9.95 8.393a1 1 0 0 0-1.414 1.415l2.12 2.12-2.12 2.122a1 1 0 0 0 1.414 1.414l2.121-2.12 2.121 2.12a1 1 0 1 0 1.415-1.414l-2.122-2.121zM12 20a8 8 0 1 1 0-16 8 8 0 0 1 0 16z' fill='currentColor' fill-rule='evenodd'/></svg>");
+  --macro-info-panel-bg-error: #ffd9d9;
+  --macro-info-panel-border-error: #f36565;
+  --macro-info-panel-symbol-warning: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' color='orange' viewBox='0 0 24 24' focusable='false' role='presentation'><path d='M12.938 4.967c-.518-.978-1.36-.974-1.876 0L3.938 18.425c-.518.978-.045 1.771 1.057 1.771h14.01c1.102 0 1.573-.797 1.057-1.771L12.938 4.967z' fill='currentColor' fill-rule='evenodd'/><path d='M12 15a1 1 0 0 1-1-1V9a1 1 0 0 1 2 0v5a1 1 0 0 1-1 1m0 3a1 1 0 0 1 0-2 1 1 0 0 1 0 2' fill='white'/></svg>");
+  --macro-info-panel-bg-warning: #fffae6;
+  --macro-info-panel-border-warning: #edd130;
 }
 
 [data-theme='dark'] {
@@ -48,21 +84,34 @@ $small-text: 12px;
   --bg-color: #121212; // #202034;
   --heading-color: #818cab;
   --bg-blockquote: #656464;
-  --bg-expander: #7b7979;
-  --border-expander: #716e6e;
-  --bg-error: #b05b5b;
-  --border-error: #f36565;
-  --bg-warning: #d0b105;
-  --border-warning: #fadf41;
-  --bg-success: #06964c;
-  --border-success: #74e93d;
-  --bg-info: #0b55c6;
-  --border-info: #4e71e4;
   --highlight-grey: #414040;
   --highlight-blue: #2b8fed;
   --highlight-green: #2e8e31;
   --highlight-red: #9f2f2f;
   --highlight-yellow: #ebeb3f;
+
+  // external links
+  // or alternatively just an emoji works --external-link-symbol: '⇢';
+  --external-link-symbol: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='15' height='15' color='white' viewBox='0 0 512 512' x='0px' y='0px' style='enable-background:new 0 0 512 512;' focusable='false' role='presentation'><path d='M341.1,34.3h90.5l-206.9,207c-6.7,6.7-6.7,17.6,0,24.3c3.3,3.3,7.7,5,12.1,5s8.8-1.7,12.1-5l207-207v90.5c0,9.5,7.7,17.2,17.1,17.2c9.5,0,17.2-7.7,17.2-17.2V17.2C490.2,7.7,482.5,0,473,0H341.1c-9.5,0-17.2,7.7-17.2,17.2C324,26.6,331.6,34.3,341.1,34.3z' fill='currentColor'/><path d='M102.9,490.2h284.3c56.8,0,102.9-46.2,102.9-102.9V253.4c0-9.5-7.7-17.1-17.2-17.1s-17.1,7.7-17.1,17.1v133.8c0,37.8-30.8,68.6-68.6,68.6H102.9c-37.8,0-68.6-30.8-68.6-68.6V161.4V103c0-37.8,30.8-68.6,68.6-68.6h132.7c9.5,0,17.1-7.7,17.1-17.2S245,0,235.6,0H102.9C46.1,0,0,46.2,0,102.9v58.4v225.9C0,444,46.2,490.2,102.9,490.2z' fill='currentColor'/></svg>");
+
+  // macro-expand variables
+  --macro-expand-bg: #7b7979;
+  --macro-expand-header-bg: #716e6e;
+  --macro-expand-border: 1px solid #716e6e;
+
+  // macro-info-panel variables
+  --macro-info-panel-symbol-info: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' color='lightblue' viewBox='0 0 24 24' focusable='false' role='presentation'><path d='M12 20a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm0-8.5a1 1 0 0 0-1 1V15a1 1 0 0 0 2 0v-2.5a1 1 0 0 0-1-1zm0-1.125a1.375 1.375 0 1 0 0-2.75 1.375 1.375 0 0 0 0 2.75z' fill='currentColor' fill-rule='evenodd'/></svg>");
+  --macro-info-panel-bg-info: #0b55c6;
+  --macro-info-panel-border-info: #4e71e4;
+  --macro-info-panel-symbol-success: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' color='lightgreen' viewBox='0 0 24 24' focusable='false' role='presentation'><path d='M12 20a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm1.364-10.964l-2.152 4.11-1.543-1.39a1 1 0 1 0-1.338 1.487l2.5 2.25a1 1 0 0 0 1.555-.279l2.75-5.25a1 1 0 0 0-1.772-.928z' fill='currentColor' fill-rule='evenodd'/></svg>");
+  --macro-info-panel-bg-success: #06964c;
+  --macro-info-panel-border-success: #74e93d;
+  --macro-info-panel-symbol-error: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' color='pink' viewBox='0 0 24 24' focusable='false' role='presentation'><path d='M13.485 11.929l2.122-2.121a1 1 0 0 0-1.415-1.415l-2.12 2.122L9.95 8.393a1 1 0 0 0-1.414 1.415l2.12 2.12-2.12 2.122a1 1 0 0 0 1.414 1.414l2.121-2.12 2.121 2.12a1 1 0 1 0 1.415-1.414l-2.122-2.121zM12 20a8 8 0 1 1 0-16 8 8 0 0 1 0 16z' fill='currentColor' fill-rule='evenodd'/></svg>");
+  --macro-info-panel-bg-error: #b05b5b;
+  --macro-info-panel-border-error: #f36565;
+  --macro-info-panel-symbol-warning: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' color='yellow' viewBox='0 0 24 24' focusable='false' role='presentation'><path d='M12.938 4.967c-.518-.978-1.36-.974-1.876 0L3.938 18.425c-.518.978-.045 1.771 1.057 1.771h14.01c1.102 0 1.573-.797 1.057-1.771L12.938 4.967z' fill='currentColor' fill-rule='evenodd'/><path d='M12 15a1 1 0 0 1-1-1V9a1 1 0 0 1 2 0v5a1 1 0 0 1-1 1m0 3a1 1 0 0 1 0-2 1 1 0 0 1 0 2' fill='orange'/></svg>");
+  --macro-info-panel-bg-warning: #d0b105;
+  --macro-info-panel-border-warning: #edd130;
 }
 
 @media (max-width: #{$base-width}) {

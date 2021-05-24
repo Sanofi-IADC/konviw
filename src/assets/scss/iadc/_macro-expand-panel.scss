@@ -1,0 +1,38 @@
+// 'Expand pannel' macro styles  =============================
+div.expand-container {
+  border-radius: var(--macro-expand-radius);
+  border: var(--macro-expand-border);
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 5px;
+  background-color: var(--macro-expand-bg);
+  // style header panel with icons to identify open/close
+  div.expand-control {
+    cursor: pointer;
+    padding: 10px;
+    font-weight: bold;
+    &:before {
+      content: var(--macro-expand-symbol-open);
+    }
+    &:hover {
+      background-color: var(--macro-expand-header-bg);
+      border-radius: var(--macro-expand-radius);
+    }
+    &.active:before {
+      content: var(--macro-expand-symbol-close);
+    }
+    // style text header panel
+    span.expand-control-text {
+      padding: 5px;
+      word-wrap: break-word;
+      white-space: normal;
+    }
+  }
+  // style content expanded
+  div.expand-content {
+    transition: max-height 0.3s ease-out;
+    padding: 0 18px;
+    max-height: 0;
+    overflow: hidden;
+  }
+}

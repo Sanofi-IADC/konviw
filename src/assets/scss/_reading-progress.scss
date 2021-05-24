@@ -1,7 +1,7 @@
 // Reading Progress Bar =================================
 // used by the script in addReadingProgressBar.ts
 .reading-progress {
-  background: #61a786;
+  background: var(--reading-progress-color);
   position: fixed;
   top: 0;
   bottom: auto;

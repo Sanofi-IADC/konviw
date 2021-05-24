@@ -1,14 +1,9 @@
 // Default font IADC ======================================
 @import 'rubik';
-@import 'patrick-hand';
 @import 'variables';
 @import 'content-layout';
-@import 'expander-panel';
 @import 'media';
-@import 'profile';
 @import 'checkboxes';
-@import 'info-panels';
-@import 'decisions';
 @import 'tables';
 @import 'blog';
 @import 'scrolltotop';
@@ -16,7 +11,11 @@
 @import 'status';
 @import 'blockquote';
 @import 'copy-link';
-@import 'floating-toc';
+@import 'macro-decisions';
+@import 'macro-expand-panel';
+@import 'macro-info-panel';
+@import 'macro-profile';
+@import 'macro-toc';
 @import 'macro-insert-excerpt';
 @import 'macro-content-by-label';
 
@@ -43,11 +42,8 @@ p {
   margin-bottom: 0px;
 }
 
+ul,
 li p {
-  margin-bottom: 0px;
-}
-
-ul {
   margin: 0;
 }
 
@@ -61,29 +57,37 @@ strong {
 }
 
 // Headers ===========================================
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+}
+
 h1 {
   font-size: 1.6em;
-  font-weight: normal;
 }
+
 h2 {
   font-size: 1.4em;
-  font-weight: normal;
 }
+
 h3 {
   font-size: 1.2em;
-  font-weight: normal;
 }
+
 h4 {
   font-size: 1em;
-  font-weight: normal;
 }
+
 h5 {
   font-size: 0.8em;
-  font-weight: normal;
 }
+
 h6 {
   font-size: 0.6em;
-  font-weight: normal;
 }
 
 // Hidden section ===========================================
@@ -108,7 +112,7 @@ a {
   text-decoration: none;
   &:hover {
     background-size: 100% 100%;
-    color: #000c34;
+    color: var(--font-color);
   }
 }
 
@@ -122,10 +126,11 @@ a.external-link {
   text-decoration: none;
   &:hover {
     background-size: 100% 100%;
-    color: #000c34;
+    color: var(--font-color);
   }
-  &:only-child::before {
-    content: '⇢';
+  &:only-child:before {
+    content: var(--external-link-symbol);
+    padding-left: 2px;
     padding-right: 5px;
   }
 }
@@ -151,28 +156,6 @@ ul.childpages-macro {
 }
 ul.childpages-macro li {
   padding-top: 5px;
-}
-
-// Macro TOC===============================================
-.toc-macro ul.toc-indentation {
-  margin-top: 0;
-}
-.toc-macro {
-  font-size: 16px;
-}
-.toc-macro span.toc-outline {
-  padding-right: 5px;
-}
-.toc-macro.hidden-outline span.toc-outline {
-  display: none;
-}
-.toc-macro li.toc-empty-item {
-  list-style-type: none;
-}
-@media print {
-  .toc-macro.non-printable {
-    display: none;
-  }
 }
 
 // Tables embedded in a ‘Page Properties’ Macro will be displayed borderless
