@@ -1,5 +1,3 @@
-import { LogLevel } from '@nestjs/common';
-
 interface Config {
   env: string;
 
@@ -37,7 +35,6 @@ interface Config {
 
   logging: {
     enableLoggerMiddleware: boolean;
-    level: LogLevel;
   };
 }
 

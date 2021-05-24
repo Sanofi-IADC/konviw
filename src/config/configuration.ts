@@ -1,6 +1,5 @@
 import packageJson from '../../package.json';
 import Config from '../config/config.d';
-import { LogLevel } from '@nestjs/common';
 
 export default (): Config => ({
   env: process.env.NODE_ENV || 'production',
@@ -33,6 +32,5 @@ export default (): Config => ({
   },
   logging: {
     enableLoggerMiddleware: process.env.ENABLE_LOGGER_MIDDLEWARE === 'true',
-    level: process.env.LOG_LEVEL as LogLevel,
   },
 });
