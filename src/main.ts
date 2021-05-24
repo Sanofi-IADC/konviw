@@ -13,8 +13,10 @@ import { ConfigService } from '@nestjs/config';
  */
 async function bootstrap() {
   // as we need to access the Express API
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  logger: ['warn', 'error'];
+  // const logLevel = process.env.LOG_LEVEL as LogLevel;
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    logger: ['warn', 'error'],
+  });
   const config = app.get(ConfigService);
   const basePath = config.get('web.basePath');
   app.useGlobalPipes(
