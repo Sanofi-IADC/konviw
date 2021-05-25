@@ -13,8 +13,8 @@ import { ConfigService } from '@nestjs/config';
  */
 async function bootstrap() {
   let logLevel: Array<LogLevel>;
-  if (process.env.LOG_LEVEL) {
-    logLevel = [<LogLevel>process.env.LOG_LEVEL];
+  if (process.env.NODE_ENV === 'development') {
+    logLevel = ['log', 'warn', 'error'];
   } else {
     logLevel = ['warn', 'error'];
   }
