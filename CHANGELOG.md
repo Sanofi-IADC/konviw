@@ -1,3 +1,10 @@
+## [1.6.3](https://github.com/Sanofi-IADC/konviw/compare/v1.6.2...v1.6.3) (2021-05-25)
+
+
+### Bug Fixes
+
+* **main:** activate logger with log level in dev ([cf06602](https://github.com/Sanofi-IADC/konviw/commit/cf06602419098f0234c168f321f88bd2b09ca723))
+
 ## [1.6.2](https://github.com/Sanofi-IADC/konviw/compare/v1.6.1...v1.6.2) (2021-05-24)
 
 
