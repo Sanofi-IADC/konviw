@@ -1,3 +1,10 @@
+## [1.6.4](https://github.com/Sanofi-IADC/konviw/compare/v1.6.3...v1.6.4) (2021-05-28)
+
+
+### Bug Fixes
+
+* **fixVideo:** remove buggy code until final fix ([f051e08](https://github.com/Sanofi-IADC/konviw/commit/f051e087926c54c86330c852cbd9b63c81b0e5e6))
+
 ## [1.6.3](https://github.com/Sanofi-IADC/konviw/compare/v1.6.2...v1.6.3) (2021-05-25)
 
 
