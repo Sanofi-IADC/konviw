@@ -56,15 +56,11 @@ export default (config: ConfigService): Step => {
 
     // Let's add the JS library for reveal.js and required CSS styles
     $('head').append(
-      // Standard load of stylesheets
-      // `<link rel="stylesheet" href="${basePath}/reveal/reset.css">
-      // <link rel="stylesheet" href="${basePath}/reveal/reveal.css">
-      // <link rel="stylesheet" href="${basePath}/reveal/theme/${theme}.css" id="theme">
-      // <link rel="stylesheet" href="${basePath}/highlight/zenburn.min.css">`,
+      // Standard load of stylesheets prioritary for redering the first page
+      `<link rel="stylesheet" href="${basePath}/reveal/reset.css?cache=${version}">`,
+      `<link rel="stylesheet" href="${basePath}/reveal/reveal.css?cache=${version}">`,
+      `<link rel="stylesheet" href="${basePath}/reveal/theme/${style}.css?cache=${version}" id="theme">`,
       // Modern deferred load of stylesheets that are not critical for the first page render
-      `<link href="${basePath}/reveal/reset.css?cache=${version}" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" />`,
-      `<link href="${basePath}/reveal/reveal.css?cache=${version}" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"/>`,
-      `<link href="${basePath}/reveal/theme/${style}.css?cache=${version}" id="theme" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" />`,
       `<link href="${basePath}/highlight/zenburn.min.css?cache=${version}" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" />`,
     );
     $('body').append(
