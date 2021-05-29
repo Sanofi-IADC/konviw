@@ -24,6 +24,7 @@ export default (): Step => {
       (_index: number, fileWrapper: CheerioElement) => {
         const searchMedia = new RegExp(`(\/.*)\/(.*).(mp4|avi|mov|flv|wmv)`);
         // Search for the path $1, title $2 and extension $3 (not used)
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const [, pathMedia, titleMedia, extMedia] =
           searchMedia.exec($(fileWrapper).attr('href')) ?? [];
         if (pathMedia) {

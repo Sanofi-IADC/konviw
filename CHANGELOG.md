@@ -1,3 +1,10 @@
+## [1.7.2](https://github.com/Sanofi-IADC/konviw/compare/v1.7.1...v1.7.2) (2021-05-29)
+
+
+### Bug Fixes
+
+* **fixVideo:** extMedia not used as code commented ([b4e45b4](https://github.com/Sanofi-IADC/konviw/commit/b4e45b4e161d1bfe33f26fb52e20e663cf087f4c))
+
 ## [1.7.1](https://github.com/Sanofi-IADC/konviw/compare/v1.7.0...v1.7.1) (2021-05-29)
 
 
