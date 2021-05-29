@@ -1,3 +1,10 @@
+## [1.7.1](https://github.com/Sanofi-IADC/konviw/compare/v1.7.0...v1.7.1) (2021-05-29)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @nestjs/terminus to v7.2.0 ([2569440](https://github.com/Sanofi-IADC/konviw/commit/25694404ee721b7615bed085887e13a0ec8d7f1d))
+
 # [1.7.0](https://github.com/Sanofi-IADC/konviw/compare/v1.6.4...v1.7.0) (2021-05-29)
 
 
