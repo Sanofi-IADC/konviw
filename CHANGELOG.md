@@ -1,3 +1,10 @@
+## [1.7.3](https://github.com/Sanofi-IADC/konviw/compare/v1.7.2...v1.7.3) (2021-05-29)
+
+
+### Bug Fixes
+
+* **deps:** pin dependencies ([49c4bfd](https://github.com/Sanofi-IADC/konviw/commit/49c4bfdc2dc20c497f3c0576aa2725cb31d5b8c8))
+
 ## [1.7.2](https://github.com/Sanofi-IADC/konviw/compare/v1.7.1...v1.7.2) (2021-05-29)
 
 
