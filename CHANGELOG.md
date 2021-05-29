@@ -1,3 +1,15 @@
+# [1.7.0](https://github.com/Sanofi-IADC/konviw/compare/v1.6.4...v1.7.0) (2021-05-29)
+
+
+### Features
+
+* **docs:** swagger OpenAPI online docs ([348f1e8](https://github.com/Sanofi-IADC/konviw/commit/348f1e853ee9c2dc527a7b6e944e8677295484d5))
+
+
+### Performance Improvements
+
+* **slides:** load faster priority stylesheets ([82585ac](https://github.com/Sanofi-IADC/konviw/commit/82585ac045d7f5d8c620fb8894edf68fefc7355c))
+
 ## [1.6.4](https://github.com/Sanofi-IADC/konviw/compare/v1.6.3...v1.6.4) (2021-05-28)
 
 
