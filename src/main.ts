@@ -69,7 +69,7 @@ async function bootstrap() {
   };
 
   const document = SwaggerModule.createDocument(app, configSwagger);
-  SwaggerModule.setup('/cpv/docs/', app, document, customOptions);
+  SwaggerModule.setup('cpv/docs/', app, document, customOptions);
 
   await app.listen(process.env.PORT || 3000);
 }
