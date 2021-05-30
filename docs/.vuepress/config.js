@@ -15,7 +15,7 @@ module.exports = {
       { text: 'Documentation', link: '/introduction' },
       { text: 'Demo', link: '/demoIntroduction' },
       { text: 'About', link: '/about' },
-      { text: 'API', link: 'https://konviw.vercel.app/cpv/docs' },
+      { text: 'API', link: 'https://konviw.vercel.app/cpv/oas3' },
       { text: 'GitHub', link: 'https://github.com/Sanofi-IADC/konviw' },
     ],
     // sidebar: 'auto',
