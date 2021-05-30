@@ -1,6 +1,12 @@
-$base-width: 600px;
-$main-font-mobile: 12px;
-$main-font-screen: 16px;
+@import url('https://fonts.googleapis.com/css2?family=Gotu&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital@1&display=swap');
+
+$font-body: 'Lora', serif;
+$font-title: 'Gotu', serif;
+
+$base-width: 700px;
+$main-font-mobile: 18px;
+$main-font-screen: 20px;
 $main-font-weight: 300;
 $title-font-mobile: 26px;
 $title-font-screen: 38px;
@@ -8,6 +14,8 @@ $user-mention: 14px;
 $small-text: 12px;
 
 :root {
+  --font-body: #{$font-body};
+  --font-title: #{$font-title};
   --base-width: #{$base-width};
   --main-font-size: #{$main-font-screen};
   --main-font-weight: #{$main-font-weight};
