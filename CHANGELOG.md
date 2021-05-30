@@ -1,3 +1,10 @@
+## [1.7.4](https://github.com/Sanofi-IADC/konviw/compare/v1.7.3...v1.7.4) (2021-05-30)
+
+
+### Bug Fixes
+
+* **deps:** update nest monorepo to v7.6.17 ([645a8ea](https://github.com/Sanofi-IADC/konviw/commit/645a8ea5e567dc183c4a859ecda3d4e2ccd1dcfc))
+
 ## [1.7.3](https://github.com/Sanofi-IADC/konviw/compare/v1.7.2...v1.7.3) (2021-05-29)
 
 
