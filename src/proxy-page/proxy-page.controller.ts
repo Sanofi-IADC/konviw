@@ -87,7 +87,7 @@ export class ProxyPageController {
    */
   @Get(['/download/*', '/aa-avatar/*'])
   async getMedia(@Req() req: Request, @Res() res: Response) {
-    const reqUrl = req.url.replace(/\/cpv\/wiki/, '');
+    const reqUrl = req.url.replace(/\/cpv\/wiki\//, '');
     const mediaCdnUrl = await this.proxyPage.getMediaCdnUrl(reqUrl);
     res.redirect(mediaCdnUrl);
   }

@@ -90,7 +90,7 @@ export class ProxyPageService {
     fixContentWidth()(this.context);
     fixLinks(this.config)(this.context);
     fixToc()(this.context);
-    fixEmojis()(this.context);
+    fixEmojis(this.config)(this.context);
     fixDrawioMacro(this.config)(this.context);
     fixChartMacro(this.config)(this.context);
     fixExpander()(this.context);
@@ -135,7 +135,7 @@ export class ProxyPageService {
     this.initContext(spaceKey, pageId, 'light', style, data);
     fixHtmlHead(this.config)(this.context);
     fixLinks(this.config)(this.context);
-    fixEmojis()(this.context);
+    fixEmojis(this.config)(this.context);
     fixDrawioMacro(this.config)(this.context);
     fixExpander()(this.context);
     fixUserProfile()(this.context);
