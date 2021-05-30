@@ -1,5 +1,4 @@
 // Default font IADC ======================================
-@import 'rubik';
 @import 'variables';
 @import 'content-layout';
 @import 'media';
@@ -28,7 +27,7 @@ html {
 body {
   background-color: var(--bg-color);
   color: var(--font-color);
-  font-family: 'Rubik', sans-serif;
+  font-family: var(--font-body);
   font-size: var(--main-font-size);
   font-weight: var(--main-font-weight);
 }

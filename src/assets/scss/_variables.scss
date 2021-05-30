@@ -1,3 +1,8 @@
+@import 'rubik';
+
+$font-body: 'Rubik', sans-serif;
+$font-title: 'Rubik', sans-serif;
+
 $base-width: 1200px;
 $main-font-mobile: 16px;
 $main-font-screen: 20px;
@@ -8,6 +13,8 @@ $user-mention: 14px;
 $small-text: 12px;
 
 :root {
+  --font-body: #{$font-body};
+  --font-title: #{$font-title};
   --base-width: #{$base-width};
   --main-font-size: #{$main-font-screen};
   --main-font-weight: #{$main-font-weight};

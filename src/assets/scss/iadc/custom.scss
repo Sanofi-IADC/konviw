@@ -1,6 +1,4 @@
 // Default font IADC ======================================
-@import url('https://fonts.googleapis.com/css2?family=Volkhov&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Antic+Slab&display=swap');
 @import 'variables';
 @import 'content-layout';
 @import 'media';
@@ -29,7 +27,7 @@ html {
 body {
   background-color: var(--bg-color);
   color: var(--font-color);
-  font-family: 'Antic Slab', serif;
+  font-family: var(--font-body);
   font-size: var(--main-font-size);
   font-weight: var(--main-font-weight);
 }
@@ -57,6 +55,10 @@ strong {
   font-weight: 500;
 }
 
+.emoticon {
+  padding: 0;
+}
+
 // Headers ===========================================
 h1,
 h2,
@@ -64,7 +66,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Volkhov', serif;
+  font-family: var(--font-title);
   font-weight: normal;
 }
 
