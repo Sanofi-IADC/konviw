@@ -1,3 +1,10 @@
+## [1.7.7](https://github.com/Sanofi-IADC/konviw/compare/v1.7.6...v1.7.7) (2021-05-30)
+
+
+### Bug Fixes
+
+* **swagger:** change path swagger ([0cc8c2c](https://github.com/Sanofi-IADC/konviw/commit/0cc8c2ceb1ff8b129c6a269d3b83e7cf2ed30aa1))
+
 ## [1.7.6](https://github.com/Sanofi-IADC/konviw/compare/v1.7.5...v1.7.6) (2021-05-30)
 
 
