@@ -71,7 +71,7 @@ You do not like the classical TOC (Table of Content) that Confluence shows inlin
 
 Now you can hide the classic TOC and make it visible on demand as part of a floating button that will show up in the top right page of your pages.
 
-How to activate it? Edit the properties of the ‘Table of Contents’ macro and add ‘konviw-float-TOC’ in the CSS Class Name property, like in the example below.
+How to activate it? Edit the properties of the **Table of Contents** macro and add `konviw-float-TOC` in the CSS Class Name property, like in the example below.
 
 ![Properties TOC macro](Properties-TOC-macro.png)
 
@@ -255,7 +255,7 @@ For example the following image is from the [Architecture page](archiecture) and
 
 ## Turn pages into online web presentations
 
-You can mix content that will be visible into slides and content which will stay visible only in the page mode.
+You can mix content that will be visible into slides and content that will stay visible only in the page mode. This is a great way to build pages that serves simultaneously the purpose of documentation and presentation when you have to talk about it.
 
 Every slide is contained within the frame of a Confluence macro `Page Properties` like in the following example:
 
@@ -279,14 +279,14 @@ So for any Confluence page with slides like :
 [https://konviw.atlassian.net/wiki/spaces/KONVIW/pages/14647304/Slides](https://konviw.atlassian.net/wiki/spaces/KONVIW/pages/14647304/Slides)
 
 just replace the begining of the URL by your custom Konviw domain like:
-`CPV_BASEHOST:PORT + CPV_BASEPATH + /wiki/slides/konviw/ + PageID + ?theme=konviw`
+`CPV_BASEHOST:PORT + CPV_BASEPATH + /wiki/slides/konviw/ + PageID + ?style=konviw`
 
-You can define custom themes and select your favorite with the param `theme`.
+You can define custom themes and select your favorite with the param `style`. Default style is `konviw`.
 
 Examples:
 
-- [https://konviw.vercel.app/cpv/wiki/slides/konviw/14647304?theme=konviw](https://konviw.vercel.app/cpv/wiki/slides/konviw/14647304?theme=konviw)
-- [https://konviw.vercel.app/cpv/wiki/slides/konviw/14647304?theme=iadc](https://konviw.vercel.app/cpv/wiki/slides/konviw/14647304?theme=iadc)
+- [https://konviw.vercel.app/cpv/wiki/slides/konviw/14647304?style=konviw](https://konviw.vercel.app/cpv/wiki/slides/konviw/14647304?style=konviw)
+- [https://konviw.vercel.app/cpv/wiki/slides/konviw/14647304?style=iadc](https://konviw.vercel.app/cpv/wiki/slides/konviw/14647304?style=iadc)
 
 You can read a [konviw page with instructions to create web slides](demoSlidesDocs) from your Confluence content in the demo section of these docs.
 
