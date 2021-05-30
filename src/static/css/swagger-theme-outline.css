@@ -1,12 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Concert+One:wght@300;600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;600&display=swap');
+@charset "UTF-8";
+
+@import url('https://fonts.googleapis.com/css2?family=Concert+One&family=Roboto+Mono&family=Rubik&display=swap');
+@import 'swagger-ui.css';
 
 :root {
   --source-code: 'Roboto Mono', 'Source Code Pro', monospace;
-  --standard-font: 'Concert One', 'Open Sans', sans-serif;
+  --title-font: 'Concert One', 'Open Sans', sans-serif;
+  --standard-font: 'Rubik', 'Open Sans', sans-serif;
 }
 
-@charset "UTF-8";
 .swagger-ui html {
   box-sizing: border-box;
 }
@@ -20,7 +22,7 @@
 .swagger-ui body {
   margin: 0;
   background: #fafafa;
-  font-family: 'Concert One';
+  font-family: var(--standard-font);
 }
 
 .swagger-ui .wrapper {
@@ -135,7 +137,7 @@
   font-size: 12px;
   font-weight: 700;
   margin: 0;
-  font-family: Titillium Web, sans-serif;
+  font-family: var(--title-font);
   color: #3b4151;
 }
 
@@ -149,12 +151,12 @@
   -webkit-box-flex: 1;
   -ms-flex: 1;
   flex: 1;
-  font-family: Titillium Web, sans-serif;
+  font-family: var(--title-font);
   color: #3b4151;
 }
 
 .swagger-ui .opblock .opblock-summary-method {
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 700;
   min-width: 80px;
   padding: 6px 15px;
@@ -162,7 +164,7 @@
   border-radius: 3px;
   background: #000;
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
-  font-family: Titillium Web, sans-serif;
+  font-family: var(--title-font);
   color: #fff;
 }
 
@@ -342,7 +344,7 @@
   min-width: 90px;
   padding: 0;
   cursor: pointer;
-  font-family: Titillium Web, sans-serif;
+  font-family: var(--title-font);
   color: #3b4151;
 }
 
@@ -376,7 +378,7 @@
 .swagger-ui .opblock-title_normal h4 {
   font-size: 12px;
   margin: 0 0 5px;
-  font-family: var(--standard-font);
+  font-family: var(--title-font);
   color: #3b4151;
 }
 
@@ -384,7 +386,7 @@
 .swagger-ui .opblock-title_normal p {
   font-size: 14px;
   margin: 0;
-  font-family: var(--standard-font);
+  font-family: var(--title-font);
   color: #3b4151;
 }
 
@@ -505,7 +507,7 @@
   -ms-flex-direction: column;
   flex-direction: column;
   margin: -20px 15px 0 0;
-  font-family: Titillium Web, sans-serif;
+  font-family: var(--title-font);
   color: #3b4151;
 }
 
@@ -532,7 +534,7 @@
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   text-transform: uppercase;
-  font-family: Titillium Web, sans-serif;
+  font-family: var(--title-font);
   color: #3b4151;
 }
 
@@ -582,7 +584,7 @@
 }
 
 .swagger-ui .btn {
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 700;
   padding: 5px 23px;
   -webkit-transition: all 0.3s;
@@ -591,7 +593,7 @@
   border-radius: 4px;
   background: transparent;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  font-family: Titillium Web, sans-serif;
+  font-family: var(--title-font);
   color: #3b4151;
 }
 
@@ -606,7 +608,7 @@
 
 .swagger-ui .btn.cancel {
   border-color: #ff6060;
-  font-family: Titillium Web, sans-serif;
+  font-family: var(--title-font);
   color: #ff6060;
 }
 
@@ -742,7 +744,7 @@
     right 10px center no-repeat;
   background-size: 20px;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.25);
-  font-family: Titillium Web, sans-serif;
+  font-family: var(--title-font);
   color: #3b4151;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -763,7 +765,7 @@
   font-size: 12px;
   font-weight: 700;
   margin: 0 0 5px;
-  font-family: Titillium Web, sans-serif;
+  font-family: var(--standard-font);
   color: #3b4151;
 }
 
@@ -856,7 +858,7 @@
 }
 
 .swagger-ui textarea.curl {
-  font-size: 12px;
+  font-size: 16px;
   min-height: 100px;
   margin: 0;
   padding: 10px;
@@ -974,7 +976,7 @@
   font-size: 18px;
   font-weight: 600;
   margin: 15px 0 0;
-  font-family: Titillium Web, sans-serif;
+  font-family: var(--title-font);
   color: #3b4151;
 }
 
@@ -1006,7 +1008,7 @@
   -webkit-box-flex: 1;
   -ms-flex: 1;
   flex: 1;
-  font-family: Titillium Web, sans-serif;
+  font-family: var(--title-font);
   color: #3b4151;
 }
 
@@ -1110,7 +1112,7 @@
   cursor: pointer;
   -webkit-transition: all 0.2s;
   transition: all 0.2s;
-  font-family: Titillium Web, sans-serif;
+  font-family: var(--title-font);
   color: #777;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -1135,7 +1137,7 @@
 .swagger-ui section.models h5 {
   font-size: 16px;
   margin: 0 0 10px;
-  font-family: Titillium Web, sans-serif;
+  font-family: var(--title-font);
   color: #777;
 }
 
@@ -1181,7 +1183,7 @@
 
 .swagger-ui .model-title {
   font-size: 16px;
-  font-family: Titillium Web, sans-serif;
+  font-family: var(--title-font);
   color: #555;
 }
 
@@ -1249,7 +1251,7 @@
 }
 
 .swagger-ui .parameters-col_description p {
-  font-size: 14px;
+  font-size: 18px;
   margin: 0;
   font-family: var(--standard-font);
   color: #3b4151;
@@ -1261,9 +1263,9 @@
 }
 
 .swagger-ui .parameter__name {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 400;
-  font-family: Titillium Web, sans-serif;
+  font-family: var(--standard-font);
   color: #3b4151;
 }
 
@@ -1319,7 +1321,7 @@
   -ms-flex: 1;
   flex: 1;
   -ms-flex-align: center;
-  font-family: Titillium Web, sans-serif;
+  font-family: var(--title-font);
   color: #fff;
 }
 
@@ -1349,7 +1351,7 @@
   border: none;
   border-radius: 0 4px 4px 0;
   background: #547f00;
-  font-family: Titillium Web, sans-serif;
+  font-family: var(--title-font);
   color: #fff;
 }
 
@@ -1358,7 +1360,7 @@
 }
 
 .swagger-ui .info hgroup.main {
-  margin: 0 0 20px;
+  margin: 0;
 }
 
 .swagger-ui .info hgroup.main a {
@@ -1366,8 +1368,8 @@
 }
 
 .swagger-ui .info p {
-  font-size: 20px;
-  font-family: var(--standard-font);
+  font-size: 25px;
+  font-family: var(--title-font);
   color: #3b4151;
 }
 
@@ -1406,9 +1408,9 @@
 }
 
 .swagger-ui .info .title {
-  font-size: 36px;
+  font-size: 46px;
   margin: 0;
-  font-family: 'Concert One', 'Open Sans', sans-serif;
+  font-family: var(--title-font);
   color: #3b4151;
 }
 
@@ -1426,7 +1428,7 @@
 
 .swagger-ui .info .title small pre {
   margin: 0;
-  font-family: Titillium Web, sans-serif;
+  font-family: var(--title-font);
   color: #fff;
 }
 
@@ -1493,7 +1495,7 @@
 
 .swagger-ui .scopes h2 {
   font-size: 14px;
-  font-family: Titillium Web, sans-serif;
+  font-family: var(--title-font);
   color: #3b4151;
 }
 
@@ -1538,7 +1540,7 @@
   -webkit-box-flex: 1;
   -ms-flex: 1;
   flex: 1;
-  font-family: Titillium Web, sans-serif;
+  font-family: var(--standard-font);
   color: #3b4151;
 }
 

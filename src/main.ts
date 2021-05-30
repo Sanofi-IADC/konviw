@@ -64,12 +64,12 @@ async function bootstrap() {
       persistAuthorization: true,
     },
     customSiteTitle: 'konviw OpenAPI Docs',
-    customfavIcon: '/cpv/favicon/favicon.ico',
-    customCssUrl: '/cpv/css/swagger-theme-outline.css',
+    customfavIcon: `${basePath}/favicon/favicon.ico`,
+    customCssUrl: `${basePath}/css/swagger-theme-outline.css`,
   };
 
   const document = SwaggerModule.createDocument(app, configSwagger);
-  SwaggerModule.setup('cpv/docs/', app, document, customOptions);
+  SwaggerModule.setup(`${basePath}/oas3`, app, document, customOptions);
 
   await app.listen(process.env.PORT || 3000);
 }
