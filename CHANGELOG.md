@@ -1,3 +1,11 @@
+## [1.7.5](https://github.com/Sanofi-IADC/konviw/compare/v1.7.4...v1.7.5) (2021-05-30)
+
+
+### Bug Fixes
+
+* **fixEmojis:** display img with Atlassian emojis ([f1d0a4f](https://github.com/Sanofi-IADC/konviw/commit/f1d0a4f4a725f8047b68fb8e0cd121a21fcf89d9))
+* **proxy-page.controller:** correct path ([363a618](https://github.com/Sanofi-IADC/konviw/commit/363a61897ae2f89ab1bdecb38aaeb909e219d0c7))
+
 ## [1.7.4](https://github.com/Sanofi-IADC/konviw/compare/v1.7.3...v1.7.4) (2021-05-30)
 
 
