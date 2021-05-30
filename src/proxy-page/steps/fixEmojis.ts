@@ -18,7 +18,6 @@ export default (config: ConfigService): Step => {
           .replace(/\/cpv/, confluenceBaseUrl);
         $(element).attr('src', fullUrl);
         $(element).attr('srcset', fullUrl);
-        console.log(fullUrl);
       } else {
         // go for the fallback emoticon provided by the API
         $(element).replaceWith(thisEmoji.emojiFallback);
