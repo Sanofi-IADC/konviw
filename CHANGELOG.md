@@ -1,3 +1,10 @@
+## [1.7.6](https://github.com/Sanofi-IADC/konviw/compare/v1.7.5...v1.7.6) (2021-05-30)
+
+
+### Bug Fixes
+
+* **addCustomCss:** correct filepath check ([2514c82](https://github.com/Sanofi-IADC/konviw/commit/2514c828a3ac9a27ec54e8754ff9f43128fe05e3))
+
 ## [1.7.5](https://github.com/Sanofi-IADC/konviw/compare/v1.7.4...v1.7.5) (2021-05-30)
 
 
