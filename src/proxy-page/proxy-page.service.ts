@@ -30,6 +30,7 @@ import addJira from './steps/addJira';
 import addWebStatsTracker from './steps/addWebStatsTracker';
 import fixDrawioMacro from './steps/fixDrawio';
 import fixChartMacro from './steps/fixChart';
+import fixRoadmap from './steps/fixRoadmap';
 
 @Injectable()
 export class ProxyPageService {
@@ -98,6 +99,7 @@ export class ProxyPageService {
     fixVideo()(this.context);
     fixTableColGroup()(this.context);
     fixEmptyLineIncludePage()(this.context);
+    fixRoadmap(this.config)(this.context);
     if (type === 'blog') {
       addHeaderBlog()(this.context);
     } else if (type !== 'notitle') {
@@ -142,6 +144,7 @@ export class ProxyPageService {
     fixVideo()(this.context);
     fixTableColGroup()(this.context);
     fixEmptyLineIncludePage()(this.context);
+    fixRoadmap(this.config)(this.context);
     delUnnecessaryCode()(this.context);
     addSlides(this.config)(this.context);
     this.context.Close();
