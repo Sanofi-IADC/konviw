@@ -12,7 +12,6 @@ export default (config: ConfigService): Step => {
     // Excerpt macro is parsed as a span block with classes 'conf-macro' and 'output-inline'
     // and data-macro-name='excerpt'
     // Unfortunately if the property hidden=true the styled_body will not return the excerpt
-    // TODO: Probably this part would be better in a context.SetMetadata dedicated step
     context.setExcerpt('');
     $("span.conf-macro.output-inline[data-macro-name='excerpt']")
       .first()
