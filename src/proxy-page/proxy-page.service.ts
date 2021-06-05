@@ -148,6 +148,7 @@ export class ProxyPageService {
     fixRoadmap(this.config)(this.context);
     delUnnecessaryCode()(this.context);
     addSlides(this.config)(this.context);
+    addWebStatsTracker(this.config)(this.context);
     this.context.Close();
     return this.context.getHtmlBody();
   }
