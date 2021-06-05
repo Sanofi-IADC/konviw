@@ -17,36 +17,40 @@ export default (config: ConfigService): Step => {
     const webBasePath = config.get('web.basePath');
 
     // Div  with div.chart-bootstrap-wrapper is used for Chart marcros
-    $('.chart-bootstrap-wrapper').each((_: number, element: CheerioElement) => {
-      const thisBlock = $(element).html();
-      if (!thisBlock) {
-        return;
-      }
-      const attachmentRegex = new RegExp(
-        // Will find <^FileName.png> in => "parameters":{ ... "attachment":"<^FileName.png>" ... }
-        /"parameters":.*"attachment":"\^(.*?)"/g,
-      ).exec(thisBlock);
-      // The previous RegExp is not taking into account the option to save attachment in another pag
-      // like the Conflence documentation describe in https://support.atlassian.com/confluence-cloud/docs/insert-the-chart-macro/#ChartMacro-AttachmentParameters
-      // with options (only covering today the first one)
-      // - ^attachmentName.png — the chart is saved as an attachment to the current page.
-      // - page^attachmentName.png — the chart is saved as an attachment to the page name provided.
-      // - space:page^attachmentName.png — the chart is saved as an attachment to the page name provided in the space indicated.
-      const [, attachment] = attachmentRegex ?? [];
+    $('.chart-bootstrap-wrapper').each(
+      (_index: number, elementChart: CheerioElement) => {
+        const thisBlock = $(elementChart).html();
+        if (!thisBlock) {
+          return;
+        }
+        const attachmentRegex = new RegExp(
+          // Will find <^FileName.png> in => "parameters":{ ... "attachment":"<^FileName.png>" ... }
+          /"parameters":.*"attachment":"(.*?)\^(.*?)"/g,
+        ).exec(thisBlock);
+        // The previous RegExp is not taking into account the option to save attachment in another space
+        // like the Conflence documentation describe in https://support.atlassian.com/confluence-cloud/docs/insert-the-chart-macro/#ChartMacro-AttachmentParameters
+        // with options (only covering today the two first ones)
+        // - ^attachmentName.png — the chart is saved as an attachment to the current page.
+        // - page^attachmentName.png — the chart is saved as an attachment to the page name provided.
+        // - space:page^attachmentName.png — the chart is saved as an attachment to the page name provided in the space indicated.
+        const [, page, attachment] = attachmentRegex ?? [];
 
-      if (attachment) {
-        $(element).prepend(
-          `<figure><img class="img-zoomable" 
-                  src="${webBasePath}/wiki/download/attachments/${context.getPageId()}/${attachment}" 
+        if (attachment) {
+          $(elementChart).prepend(
+            `<figure><img class="img-zoomable" 
+                  src="${webBasePath}/wiki/download/attachments/${
+              page !== '' ? page : context.getPageId()
+            }/${attachment}" 
                   alt="${attachment}" /></figure>`,
-        );
-      }
-    });
+          );
+        }
+      },
+    );
 
     // Remove this Drawio script to remove unnecessary noise in the final HTML
     $('script.chart-render-data').each(
-      (_index: number, element: CheerioElement) => {
-        $(element).remove();
+      (_index: number, elementChart: CheerioElement) => {
+        $(elementChart).remove();
       },
     );
 

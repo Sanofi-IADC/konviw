@@ -139,6 +139,7 @@ export class ProxyPageService {
     fixLinks(this.config)(this.context);
     fixEmojis(this.config)(this.context);
     fixDrawioMacro(this.config)(this.context);
+    fixChartMacro(this.config)(this.context);
     fixExpander()(this.context);
     fixUserProfile()(this.context);
     fixVideo()(this.context);
