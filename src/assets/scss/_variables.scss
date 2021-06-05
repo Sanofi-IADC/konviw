@@ -9,7 +9,6 @@ $main-font-screen: 20px;
 $main-font-weight: 300;
 $title-font-mobile: 26px;
 $title-font-screen: 38px;
-$user-mention: 14px;
 $small-text: 12px;
 
 :root {
@@ -19,7 +18,6 @@ $small-text: 12px;
   --main-font-size: #{$main-font-screen};
   --main-font-weight: #{$main-font-weight};
   --title-font-size: #{$title-font-screen};
-  --user-mention-size: #{$user-mention};
   --user-mention-bg: #92b5f7;
   --primary-color: #2e51c4;
   --primary-color-link: #2e95c4;
