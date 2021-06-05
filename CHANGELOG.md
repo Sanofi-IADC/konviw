@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/Sanofi-IADC/konviw/compare/v1.7.8...v1.8.0) (2021-06-05)
+
+
+### Features
+
+* **fixRoadmap:** correct visualization Roadmap ([78c74eb](https://github.com/Sanofi-IADC/konviw/commit/78c74eb915c85ea1f26218348aa7304816b3b9bc))
+
 ## [1.7.8](https://github.com/Sanofi-IADC/konviw/compare/v1.7.7...v1.7.8) (2021-05-30)
 
 
