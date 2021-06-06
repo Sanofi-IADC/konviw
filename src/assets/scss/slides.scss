@@ -1,0 +1,170 @@
+// Default font IADC ======================================
+@import 'variables';
+@import 'content-layout';
+@import 'media';
+@import 'checkboxes';
+@import 'status';
+@import 'macro-decisions';
+@import 'macro-expand-panel';
+@import 'macro-info-panel';
+@import 'macro-profile';
+@import 'macro-toc';
+@import 'macro-insert-excerpt';
+@import 'macro-content-by-label';
+@import 'macro-roadmap';
+
+// Basic styles ===========================================
+html {
+  transition: color 300ms, background-color 300ms;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--font-color);
+  font-family: var(--font-body);
+  font-size: var(--main-font-size);
+  font-weight: var(--main-font-weight);
+}
+
+h1.titlePage {
+  color: var(--heading-color);
+  font-size: var(--title-font-size);
+}
+
+p {
+  margin-bottom: 0px;
+}
+
+ul,
+li p {
+  margin: 0;
+}
+
+.smalltext {
+  font-size: $small-text;
+  padding-left: 10px;
+}
+
+strong {
+  font-weight: 500;
+}
+
+.emoticon {
+  padding: 0;
+}
+
+// Headers ===========================================
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+}
+
+h1 {
+  font-size: 1.6em;
+}
+
+h2 {
+  font-size: 1.4em;
+}
+
+h3 {
+  font-size: 1.2em;
+}
+
+h4 {
+  font-size: 1em;
+}
+
+h5 {
+  font-size: 0.8em;
+}
+
+h6 {
+  font-size: 0.6em;
+}
+
+// Hidden section ===========================================
+.hidden {
+  display: none;
+}
+
+// Source code ===========================================
+// although most of the configuration and syntax highlights comes from addHighlights step
+code {
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+// Internal Hyperlinks ============================================
+a {
+  transition: background-size 0.4s ease;
+  background-image: linear-gradient(180deg, transparent 80%, #42c46b 0em);
+  background-size: 0 100%;
+  background-repeat: no-repeat;
+  color: var(--primary-color-link);
+  text-decoration: none;
+  &:hover {
+    background-size: 100% 100%;
+    color: var(--font-color);
+  }
+}
+
+// External Hyperlinks ============================================
+a.external-link {
+  transition: background-size 0.4s ease;
+  background-image: linear-gradient(180deg, transparent 80%, #4b85e8 0em);
+  background-size: 0 100%;
+  background-repeat: no-repeat;
+  color: var(--primary-color-link);
+  text-decoration: none;
+  &:hover {
+    background-size: 100% 100%;
+    color: var(--font-color);
+  }
+  &:only-child:before {
+    content: var(--external-link-symbol);
+    padding-left: 2px;
+    padding-right: 5px;
+  }
+}
+
+// User mention with @ ===================================
+a.user-mention {
+  background: var(--user-mention-bg);
+  padding: 2px;
+  border-radius: 15px;
+  color: var(--font-color);
+  &:hover {
+    color: white;
+  }
+  &::before {
+    content: '@ ';
+  }
+}
+
+// Macro Child Pages ==================================
+ul.childpages-macro {
+  font-size: 16px;
+}
+ul.childpages-macro li {
+  padding-top: 5px;
+}
+
+// Tables embedded in a ‘Page Properties’ Macro will be displayed borderless
+// this technique will be used to embed footers or menus with tables used for better layout organization
+.conf-macro .plugin-tabmeta-details {
+  padding-top: 40px;
+  .table-wrap {
+    .confluenceTd {
+      border: 0px;
+      padding: 10px;
+      vertical-align: top;
+      font-size: 12px;
+    }
+  }
+}

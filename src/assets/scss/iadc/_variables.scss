@@ -10,7 +10,6 @@ $main-font-screen: 20px;
 $main-font-weight: 300;
 $title-font-mobile: 26px;
 $title-font-screen: 38px;
-$user-mention: 14px;
 $small-text: 12px;
 
 :root {
@@ -20,7 +19,6 @@ $small-text: 12px;
   --main-font-size: #{$main-font-screen};
   --main-font-weight: #{$main-font-weight};
   --title-font-size: #{$title-font-screen};
-  --user-mention-size: #{$user-mention};
   --user-mention-bg: #92b5f7;
   --primary-color: #2e51c4;
   --primary-color-link: #2e95c4;
@@ -44,7 +42,6 @@ $small-text: 12px;
   // macro-decision variables
   // --macro-decision-symbol: '\1F396'; // medal with star 🎖 emoji
   --macro-decision-symbol: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='35' height='35' color='green' viewBox='0 -5 24 24'><path d='M9.414 8l3.293 3.293c.187.187.293.442.293.707v5a1 1 0 01-2 0v-4.586l-3-3V10.5a1 1 0 01-2 0V7a1 1 0 011-1h3.5a1 1 0 010 2H9.414zm8.293-1.707a.999.999 0 010 1.414l-2.5 2.5a.997.997 0 01-1.414 0 .999.999 0 010-1.414l2.5-2.5a.999.999 0 011.414 0z' fill='currentColor'/></svg>");
-  --macro-decision-font-size: 20px;
 
   // macro-content-by-label variables
   // '📄' other options may be notebook 📋 or book 📖 emoji

@@ -58,6 +58,7 @@ export default (config: ConfigService): Step => {
     $('head').append(
       // Standard load of stylesheets prioritary for redering the first page
       `<link rel="stylesheet" href="${basePath}/reveal/reset.css?cache=${version}">`,
+      `<link rel="stylesheet" href="${basePath}/css/slides.css?cache=${version}">`,
       `<link rel="stylesheet" href="${basePath}/reveal/reveal.css?cache=${version}">`,
       `<link rel="stylesheet" href="${basePath}/reveal/theme/${style}.css?cache=${version}" id="theme">`,
       // Modern deferred load of stylesheets that are not critical for the first page render

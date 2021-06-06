@@ -300,7 +300,7 @@ The Chart macro allows you to display a chart based on tabular data. When you ad
 To display charts in konviw pages you have to set up the advanced options for chart versioning and generate images to be saved as an attachment.
 
 Parameter: `Attachment`
-The name and location with which the chart image will be saved as an attachment. Currently konviw only supports the first option:
+The name and location with which the chart image will be saved as an attachment. Currently konviw only supports the first two options. To make sure your charts are properly displayed also when used in `Include Page`, we recommend to use the 2nd option even to include explicitly the ID of the current page.
 
 - `^attachmentName.png` — the chart is saved as an attachment to the current page.
 - `page^attachmentName.png` — the chart is saved as an attachment to the page name provided.
@@ -316,3 +316,12 @@ Defines the the versioning mechanism for saved charts. For optimal behaviour in 
 ![Radar Chart Example](https://konviw.vercel.app/cpv/wiki/download/attachments/44007425/RadarChartExample.png)
 
 You can read the full documentation of how to [insert the chart macro and attachment parameters](https://support.atlassian.com/confluence-cloud/docs/insert-the-chart-macro/#ChartMacro-AttachmentParameters).
+
+## Visualize Roadmaps
+
+One very cool feature in Confluence is the macro Roadmap planner that allows you to show to your users a planning of actions and milestones in a timeline.
+You can have multiple roadmaps in a single page. You can also embed them in a Page Properties macro so they are ready to be shown in your awesome konviw slides.
+
+<ConfluencePage v-bind:switchTheme="false" v-bind:metadata="false" type='notitle' pageId='77594631'/>
+
+You can read the full documentation of how to [insert the roadmap planner macro](https://support.atlassian.com/confluence-cloud/docs/insert-the-roadmap-planner-macro/).

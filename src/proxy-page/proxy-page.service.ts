@@ -139,6 +139,7 @@ export class ProxyPageService {
     fixLinks(this.config)(this.context);
     fixEmojis(this.config)(this.context);
     fixDrawioMacro(this.config)(this.context);
+    fixChartMacro(this.config)(this.context);
     fixExpander()(this.context);
     fixUserProfile()(this.context);
     fixVideo()(this.context);
@@ -147,6 +148,7 @@ export class ProxyPageService {
     fixRoadmap(this.config)(this.context);
     delUnnecessaryCode()(this.context);
     addSlides(this.config)(this.context);
+    addWebStatsTracker(this.config)(this.context);
     this.context.Close();
     return this.context.getHtmlBody();
   }

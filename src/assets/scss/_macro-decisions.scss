@@ -1,16 +1,14 @@
 // Decisions ===========================================
 ul.decision-list {
-  list-style-type: none;
+  list-style-type: none !important;
   margin: 0;
   padding: 0;
 
   > li {
     padding: 5px 20px 0px;
-    font-size: var(--macro-decision-font-size);
 
     &::before {
       content: var(--macro-decision-symbol);
-      font-size: 25px;
       padding-right: 5px;
     }
   }
