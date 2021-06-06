@@ -348,7 +348,7 @@ section.has-light-background h6 {
 .reveal table {
   margin: auto;
   width: 100%;
-  /* border-collapse: collapse; */
+  border-collapse: collapse;
   border-spacing: 0;
 }
 
@@ -361,6 +361,7 @@ section.has-light-background h6 {
   text-align: left;
   padding: 0.2em 0.5em 0.2em 0.5em;
   border-bottom: 1px solid;
+  vertical-align: top;
 }
 
 .reveal table th[align='center'],
