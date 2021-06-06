@@ -1,3 +1,18 @@
+# [1.9.0](https://github.com/Sanofi-IADC/konviw/compare/v1.8.0...v1.9.0) (2021-06-06)
+
+
+### Bug Fixes
+
+* **css:** default font size for user mention ([4903e1e](https://github.com/Sanofi-IADC/konviw/commit/4903e1e808783fdbb92d82594544a61ac5524d18))
+
+
+### Features
+
+* **checkbox:** better checkbox & decision slides ([ccc8f69](https://github.com/Sanofi-IADC/konviw/commit/ccc8f69f0047a860d5478dbfc5b96feeba594920))
+* **fixChart:** retrieve chart from page ([9e95531](https://github.com/Sanofi-IADC/konviw/commit/9e955318a3c6d3448ad699c7a7a53e7edc1e297c))
+* **slides:** add web stats tracker also in slides ([f8fd908](https://github.com/Sanofi-IADC/konviw/commit/f8fd908d3654cc50cad3151fa4db405685be98f2))
+* **slides:** now macros also works on slides ([8c80c05](https://github.com/Sanofi-IADC/konviw/commit/8c80c05ea3ce8d88190f03f7d1c9d5e2554d21a9))
+
 # [1.8.0](https://github.com/Sanofi-IADC/konviw/compare/v1.7.8...v1.8.0) (2021-06-05)
 
 
