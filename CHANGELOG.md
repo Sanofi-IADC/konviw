@@ -1,3 +1,10 @@
+## [1.9.2](https://github.com/Sanofi-IADC/konviw/compare/v1.9.1...v1.9.2) (2021-06-09)
+
+
+### Bug Fixes
+
+* **style:** avoid to break user mention names ([6a34763](https://github.com/Sanofi-IADC/konviw/commit/6a34763e813097aecad358a4340b88c9fa81ad88))
+
 ## [1.9.1](https://github.com/Sanofi-IADC/konviw/compare/v1.9.0...v1.9.1) (2021-06-09)
 
 
