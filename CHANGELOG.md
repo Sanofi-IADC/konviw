@@ -1,3 +1,10 @@
+## [1.9.1](https://github.com/Sanofi-IADC/konviw/compare/v1.9.0...v1.9.1) (2021-06-09)
+
+
+### Bug Fixes
+
+* **proxy-api:** missing slash in getAllPosts API ([8d00d30](https://github.com/Sanofi-IADC/konviw/commit/8d00d3035a633ca2ac5dd591eeb5b37b134a4dc0))
+
 # [1.9.0](https://github.com/Sanofi-IADC/konviw/compare/v1.8.0...v1.9.0) (2021-06-06)
 
 
