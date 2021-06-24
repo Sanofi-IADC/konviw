@@ -1,3 +1,11 @@
+## [1.9.4](https://github.com/Sanofi-IADC/konviw/compare/v1.9.3...v1.9.4) (2021-06-24)
+
+
+### Bug Fixes
+
+* **deps:** update dependency cache-manager to v3.4.4 ([23eb039](https://github.com/Sanofi-IADC/konviw/commit/23eb03973c574de93a4450f5be896a328f486fb6))
+* **deps:** update nest monorepo to v7.6.18 ([3a3438d](https://github.com/Sanofi-IADC/konviw/commit/3a3438d24832000ca9067ab031b318f0b7d6090d))
+
 ## [1.9.3](https://github.com/Sanofi-IADC/konviw/compare/v1.9.2...v1.9.3) (2021-06-24)
 
 
