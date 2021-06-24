@@ -25,7 +25,7 @@ export default (config: ConfigService): Step => {
     // For Url and Uri with anchor we look for four patterns
     // $1 the domain to remove, $2 the path of the pag, $3 the title and $4 the heading achor
     const searchUrlwithAnchor = new RegExp(
-      `(https?:\/\/konviw\.atlassian\.net\/wiki)(.*\/)(.*)#(.*)`,
+      `(https?://${domain}/wiki)(.*\/)(.*)#(.*)`,
     );
     const searchUriwithAnchor = new RegExp(`(\/wiki)(.*\/)(.*)#(.*)`);
 
@@ -37,6 +37,7 @@ export default (config: ConfigService): Step => {
       const [, , pathPageUrl] = searchUrl.exec($(link).attr(attr)) ?? [];
       const [, , pathPageUri] = searchUri.exec($(link).attr(attr)) ?? [];
 
+      // ! Yet no solved the pattern when hyphen symbol is partin the title
       if (pathPageAnchorUrl) {
         $(link).attr(
           attr,
@@ -44,12 +45,15 @@ export default (config: ConfigService): Step => {
             `${titlePageUrl.replace(/\+/g, '')}-` +
             `${headingPageUrl.replace(/\-/g, '')}`,
         );
-        $(link).text(
-          `${titlePageUrl.replace(/\+/g, ' ')} | ${headingPageUrl.replace(
-            /\-/g,
-            ' ',
-          )}`,
-        );
+        // if there is no display text for the Url we try to compose one
+        if ($(link).html() === '') {
+          $(link).text(
+            `${titlePageUrl.replace(/\+/g, ' ')} | ${headingPageUrl.replace(
+              /\-/g,
+              ' ',
+            )}`,
+          );
+        }
       } else if (pathPageAnchorUri) {
         $(link).attr(
           attr,
@@ -57,12 +61,15 @@ export default (config: ConfigService): Step => {
             `${titlePageUri.replace(/\+/g, '')}-` +
             `${headingPageUri.replace(/\-/g, '')}`,
         );
-        $(link).text(
-          `${titlePageUri.replace(/\+/g, ' ')} | ${headingPageUri.replace(
-            /\-/g,
-            ' ',
-          )}`,
-        );
+        // if there is no display text for the Url we try to compose one
+        if ($(link).html() === '') {
+          $(link).text(
+            `${titlePageUri.replace(/\+/g, ' ')} | ${headingPageUri.replace(
+              /\-/g,
+              ' ',
+            )}`,
+          );
+        }
       } else if (pathPageUrl) {
         // Step 1: replace absolute URLs by absolute URIs
         $(link).attr(attr, `${webBasePath}/wiki${pathPageUrl}`);
