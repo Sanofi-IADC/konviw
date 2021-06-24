@@ -35,7 +35,7 @@
     "@nestjs/serve-static": "2.1.4",
     "@nestjs/swagger": "4.8.0",
     "@nestjs/terminus": "7.2.0",
-    "cache-manager": "3.4.3",
+    "cache-manager": "3.4.4",
     "cheerio": "1.0.0-rc.3",
     "class-transformer": "0.4.0",
     "class-validator": "0.13.1",
