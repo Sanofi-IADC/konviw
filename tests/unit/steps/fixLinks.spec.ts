@@ -49,7 +49,36 @@ describe('ConfluenceProxy / fixLinks', () => {
     expect(context.getHtmlBody()).toEqual(expected);
   });
 
-  it('should replace page absolute URLs with Anchors', () => {
+  it('should replace page absolute URLs with Anchors and without title', () => {
+    const step = fixLinks(config);
+    const example =
+      '<html><head></head><body>' +
+      '<h2 id="HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">' +
+      'Nulla tempus vitae ipsum vitae rhoncus.' +
+      '</h2> ' +
+      '<h3 id="HelloWorld-ThisIsAnotherHeading">' +
+      'Nulla tempus vitae ipsum vitae rhoncus.' +
+      '</h3> ' +
+      '<a href="https://test.atlassian.net/wiki/spaces/XXX/pages/4242/Hello+World#Nulla-tempus-vitae-ipsum-vitae-rhoncus."></a>' +
+      '<a href="https://test.atlassian.net/wiki/spaces/XXX/pages/4343/Hello+World#This-Is-Another-Heading"></a>' +
+      '</body></html>';
+    context.setHtmlBody(example);
+    step(context);
+    const expected =
+      '<html><head></head><body>' +
+      '<h2 id="HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">' +
+      'Nulla tempus vitae ipsum vitae rhoncus.' +
+      '</h2> ' +
+      '<h3 id="HelloWorld-ThisIsAnotherHeading">' +
+      'Nulla tempus vitae ipsum vitae rhoncus.' +
+      '</h3> ' +
+      '<a href="/cpv/wiki/spaces/XXX/pages/4242/#HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">Hello World | Nulla tempus vitae ipsum vitae rhoncus.</a>' +
+      '<a href="/cpv/wiki/spaces/XXX/pages/4343/#HelloWorld-ThisIsAnotherHeading">Hello World | This Is Another Heading</a>' +
+      '</body></html>';
+    expect(context.getHtmlBody()).toEqual(expected);
+  });
+
+  it('should replace page absolute URLs with Anchors and respect original title', () => {
     const step = fixLinks(config);
     const example =
       '<html><head></head><body>' +
@@ -72,13 +101,42 @@ describe('ConfluenceProxy / fixLinks', () => {
       '<h3 id="HelloWorld-ThisIsAnotherHeading">' +
       'Nulla tempus vitae ipsum vitae rhoncus.' +
       '</h3> ' +
+      '<a href="/cpv/wiki/spaces/XXX/pages/4242/#HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">test</a>' +
+      '<a href="/cpv/wiki/spaces/XXX/pages/4343/#HelloWorld-ThisIsAnotherHeading">test2</a>' +
+      '</body></html>';
+    expect(context.getHtmlBody()).toEqual(expected);
+  });
+
+  it('should replace page absolute URIs with Anchors and without title', () => {
+    const step = fixLinks(config);
+    const example =
+      '<html><head></head><body>' +
+      '<h2 id="HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">' +
+      'Nulla tempus vitae ipsum vitae rhoncus.' +
+      '</h2> ' +
+      '<h3 id="HelloWorld-ThisIsAnotherHeading">' +
+      'Nulla tempus vitae ipsum vitae rhoncus.' +
+      '</h3> ' +
+      '<a href="/wiki/spaces/XXX/pages/4242/Hello+World#Nulla-tempus-vitae-ipsum-vitae-rhoncus."></a>' +
+      '<a href="/wiki/spaces/XXX/pages/4343/Hello+World#This-Is-Another-Heading"></a>' +
+      '</body></html>';
+    context.setHtmlBody(example);
+    step(context);
+    const expected =
+      '<html><head></head><body>' +
+      '<h2 id="HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">' +
+      'Nulla tempus vitae ipsum vitae rhoncus.' +
+      '</h2> ' +
+      '<h3 id="HelloWorld-ThisIsAnotherHeading">' +
+      'Nulla tempus vitae ipsum vitae rhoncus.' +
+      '</h3> ' +
       '<a href="/cpv/wiki/spaces/XXX/pages/4242/#HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">Hello World | Nulla tempus vitae ipsum vitae rhoncus.</a>' +
       '<a href="/cpv/wiki/spaces/XXX/pages/4343/#HelloWorld-ThisIsAnotherHeading">Hello World | This Is Another Heading</a>' +
       '</body></html>';
     expect(context.getHtmlBody()).toEqual(expected);
   });
 
-  it('should replace page absolute URIs with Anchors', () => {
+  it('should replace page absolute URIs with Anchors and respect original title', () => {
     const step = fixLinks(config);
     const example =
       '<html><head></head><body>' +
@@ -101,8 +159,8 @@ describe('ConfluenceProxy / fixLinks', () => {
       '<h3 id="HelloWorld-ThisIsAnotherHeading">' +
       'Nulla tempus vitae ipsum vitae rhoncus.' +
       '</h3> ' +
-      '<a href="/cpv/wiki/spaces/XXX/pages/4242/#HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">Hello World | Nulla tempus vitae ipsum vitae rhoncus.</a>' +
-      '<a href="/cpv/wiki/spaces/XXX/pages/4343/#HelloWorld-ThisIsAnotherHeading">Hello World | This Is Another Heading</a>' +
+      '<a href="/cpv/wiki/spaces/XXX/pages/4242/#HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">test</a>' +
+      '<a href="/cpv/wiki/spaces/XXX/pages/4343/#HelloWorld-ThisIsAnotherHeading">test2</a>' +
       '</body></html>';
     expect(context.getHtmlBody()).toEqual(expected);
   });
