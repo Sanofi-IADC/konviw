@@ -1,3 +1,10 @@
+## [1.9.3](https://github.com/Sanofi-IADC/konviw/compare/v1.9.2...v1.9.3) (2021-06-24)
+
+
+### Bug Fixes
+
+* **fixLinks:** missing domain var in RegEx ([d2d9808](https://github.com/Sanofi-IADC/konviw/commit/d2d98083855d40dec9cab63b40a3ff7d02be36c9))
+
 ## [1.9.2](https://github.com/Sanofi-IADC/konviw/compare/v1.9.1...v1.9.2) (2021-06-09)
 
 
