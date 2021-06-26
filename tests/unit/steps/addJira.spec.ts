@@ -42,10 +42,10 @@ describe('Confluence Proxy / addJira', () => {
   });
 
   it('should add the jira grid', async () => {
-    const cheerioBody = `<input 
-      type="hidden" 
-      class="refresh-wiki" 
-      id="refresh-wiki-1366834209" 
+    const cheerioBody = `<input
+      type="hidden"
+      class="refresh-wiki"
+      id="refresh-wiki-1366834209"
       data-wikimarkup='
         <ac:structured-macro ac:name="jira" ac:schema-version="1" ac:macro-id="macro-id">
         <ac:parameter ac:name="server">System JIRA</ac:parameter>
@@ -58,7 +58,7 @@ describe('Confluence Proxy / addJira', () => {
         </ac:structured-macro>' data-pageid="page-id">`;
 
     context.setHtmlBody(
-      `<html><head><title>test</title><style default-inline-css></style></head><body>${cheerioBody} <div id='Content'></div></body></html>`,
+      `<html><head><title>test</title></head><body>${cheerioBody} <div id='Content'></div></body></html>`,
     );
     await step(context, new JiraServiceMock() as any);
     const $ = context.getCheerioBody();

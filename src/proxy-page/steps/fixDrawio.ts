@@ -22,8 +22,8 @@ export default (config: ConfigService): Step => {
 
     // Div class with data-macro-name='drawio' is used for Drawio diagrams created in the same page
     $(".ap-container[data-macro-name='drawio']").each(
-      (_: number, element: CheerioElement) => {
-        const thisBlock = $(element).html();
+      (_: number, elementDrawio: cheerio.TagElement) => {
+        const thisBlock = $(elementDrawio).html();
         if (!thisBlock) {
           return;
         }
@@ -40,9 +40,9 @@ export default (config: ConfigService): Step => {
         const [, diagramName] = diagramNameRegex ?? [];
 
         if (pageId && diagramName) {
-          $(element).prepend(
-            `<figure><img class="img-zoomable" 
-                  src="${webBasePath}/wiki/download/attachments/${pageId}/${diagramName}.png" 
+          $(elementDrawio).prepend(
+            `<figure><img class="img-zoomable"
+                  src="${webBasePath}/wiki/download/attachments/${pageId}/${diagramName}.png"
                   alt="${diagramName}" /></figure>`,
           );
         }
@@ -51,8 +51,8 @@ export default (config: ConfigService): Step => {
 
     // Div class with data-macro-name='inc-drawio' is used for Drawio diagrams included from other pages
     $(".ap-container[data-macro-name='inc-drawio']").each(
-      (_index: number, element: CheerioElement) => {
-        const thisBlock = $(element).html();
+      (_index: number, elementDrawio: cheerio.TagElement) => {
+        const thisBlock = $(elementDrawio).html();
         if (!thisBlock) {
           return;
         }
@@ -70,7 +70,7 @@ export default (config: ConfigService): Step => {
         const [, aspectHash] = aspectHashRegex ?? [];
 
         if (diagramName && aspectHash) {
-          $(element).prepend(
+          $(elementDrawio).prepend(
             `<figure><img class="img-zoomable" src="${webBasePath}/wiki/download/attachments/${context.getPageId()}/${diagramName}-${aspectHash}.png" alt="${diagramName}" /></figure>`,
           );
         }
@@ -79,8 +79,8 @@ export default (config: ConfigService): Step => {
 
     // Remove this Drawio script to remove unnecessary noise in the final HTML
     $('script.ap-iframe-body-script').each(
-      (_index: number, element: CheerioElement) => {
-        $(element).replaceWith('');
+      (_index: number, elementDrawio: cheerio.TagElement) => {
+        $(elementDrawio).replaceWith('');
       },
     );
 

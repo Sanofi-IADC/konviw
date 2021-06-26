@@ -7,27 +7,31 @@ export default (): Step => {
     const $ = context.getCheerioBody();
 
     // Div with class profile-macro is used for User Profile VCard
-    $('div.profile-macro').each((_index: number, macro: CheerioElement) => {
-      const thisBlock = $(macro);
-      const imgProfile = $(macro).find('a.userLogoLink');
-      const nameProfile = $(macro).find('a.confluence-userlink');
-      const emailProfile = $(macro).find('a.email');
-      if (thisBlock) {
-        $(macro).after(
-          `<div class="vcard">${imgProfile.html()}<div class="values"><div>${nameProfile.html()}</div><a href="mailto:${emailProfile.html()}" class="email">${emailProfile.html()}</a></div></div>`,
-        );
-      }
-      $(macro).remove();
-    });
+    $('div.profile-macro').each(
+      (_index: number, elementProfile: cheerio.TagElement) => {
+        const thisBlock = $(elementProfile);
+        const imgProfile = $(elementProfile).find('a.userLogoLink');
+        const nameProfile = $(elementProfile).find('a.confluence-userlink');
+        const emailProfile = $(elementProfile).find('a.email');
+        if (thisBlock) {
+          $(elementProfile).after(
+            `<div class="vcard">${imgProfile.html()}<div class="values"><div>${nameProfile.html()}</div><a href="mailto:${emailProfile.html()}" class="email">${emailProfile.html()}</a></div></div>`,
+          );
+        }
+        $(elementProfile).remove();
+      },
+    );
 
     // a with class profile-macro is used for User Profile single avatar
-    $('a.userLogoLink').each((_index: number, macro: CheerioElement) => {
-      const imgProfile = $(macro);
-      if (imgProfile) {
-        $(macro).after(`${imgProfile.html()}`);
-      }
-      $(macro).remove();
-    });
+    $('a.userLogoLink').each(
+      (_index: number, elementProfile: cheerio.TagElement) => {
+        const imgProfile = $(elementProfile);
+        if (imgProfile) {
+          $(elementProfile).after(`${imgProfile.html()}`);
+        }
+        $(elementProfile).remove();
+      },
+    );
 
     context.getPerfMeasure('fixUserProfile');
   };

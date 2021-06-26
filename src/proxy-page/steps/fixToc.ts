@@ -17,11 +17,11 @@ export default (): Step => {
     }
 
     $('div.client-side-toc-macro').each(
-      (_macroIndex: number, macro: CheerioElement) => {
-        const tocBuilder = new TocBuilder($(macro).data());
+      (_macroIndex: number, elementTOC: cheerio.TagElement) => {
+        const tocBuilder = new TocBuilder($(elementTOC).data());
 
         $('h1,h2,h3,h4,h5,h6').each(
-          (_headerIndex: number, header: CheerioElement) => {
+          (_headerIndex: number, header: cheerio.TagElement) => {
             const level = parseInt(header.tagName.replace('h', ''), 10);
             const id = $(header).attr('id');
             if (id === undefined) {
@@ -31,19 +31,19 @@ export default (): Step => {
           },
         );
 
-        $(macro).html(tocBuilder.getToc().render());
+        $(elementTOC).html(tocBuilder.getToc().render());
 
         // CssListStyle is managed thanks to inline CSS on every <ul>
-        if ($(macro).data('cssliststyle')) {
-          $('ul', macro).attr(
+        if ($(elementTOC).data('cssliststyle')) {
+          $('ul', elementTOC).attr(
             'style',
-            `list-style: ${$(macro).data('cssliststyle')};`,
+            `list-style: ${$(elementTOC).data('cssliststyle')};`,
           );
         }
 
         // Outline is managed thanks to a CSS class
-        if ($(macro).data('numberedoutline') !== true) {
-          $(macro).addClass('hidden-outline');
+        if ($(elementTOC).data('numberedoutline') !== true) {
+          $(elementTOC).addClass('hidden-outline');
         }
       },
     );
@@ -54,7 +54,7 @@ export default (): Step => {
  *  Add the button to open the floating TOC.
  *  Also add some javascript to manipulate the floating TOC.
  */
-const addFloatingTocBtn = ($: CheerioStatic) => {
+const addFloatingTocBtn = ($: cheerio.Root) => {
   $('#Content').append(
     `<button id='floating-toc-btn'>
         <svg style='width:24px;height:24px' viewBox='0 0 24 24'>

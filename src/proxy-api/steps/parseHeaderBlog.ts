@@ -1,17 +1,17 @@
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-api.step';
 
-// This module search for the first excerpt in the page and collects the image
-// and a blockquote to set them as blog post header image and blog excerpt
+// This module search for the first Page Properties macro in the page and collects the image
+// and a blockquote to set them as blog post header image and blog blockquote
 export default (body: string): Step => {
   return (context: ContextService): void => {
     context.setHtmlBody(body);
     const $ = context.getCheerioBody();
     $(".plugin-tabmeta-details[data-macro-name='details']")
       .first()
-      .each((_index: number, element: CheerioElement) => {
-        const imgBlog = $(element).find('img');
-        const excerptBlog = $(element).find('blockquote');
+      .each((_index: number, elementProperties: cheerio.TagElement) => {
+        const imgBlog = $(elementProperties).find('img');
+        const excerptBlog = $(elementProperties).find('blockquote');
         context.setImgBlog(imgBlog.attr('src'));
         context.setExcerpt(excerptBlog.html());
       });

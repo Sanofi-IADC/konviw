@@ -2,6 +2,7 @@ import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
 import { ConfigService } from '@nestjs/config';
 import { Logger } from '@nestjs/common';
+import cheerio from 'cheerio';
 
 export default (config: ConfigService): Step => {
   return (context: ContextService): void => {
@@ -13,7 +14,7 @@ export default (config: ConfigService): Step => {
     const webBasePath = config.get('web.basePath');
 
     // External links are tagged with the class external-link
-    $('a.external-link').each((_index: number, element: CheerioElement) => {
+    $('a.external-link').each((_index: number, element: cheerio.TagElement) => {
       $(element).attr('target', '_blank');
     });
 
@@ -29,7 +30,7 @@ export default (config: ConfigService): Step => {
     );
     const searchUriwithAnchor = new RegExp(`(\/wiki)(.*\/)(.*)#(.*)`);
 
-    const replaceAttributeLink = (attr: string, link: CheerioElement) => {
+    const replaceAttributeLink = (attr: string, link: cheerio.TagElement) => {
       const [, , pathPageAnchorUrl, titlePageUrl, headingPageUrl] =
         searchUrlwithAnchor.exec($(link).attr(attr)) ?? [];
       const [, , pathPageAnchorUri, titlePageUri, headingPageUri] =
@@ -91,18 +92,18 @@ export default (config: ConfigService): Step => {
 
     // Let's find Confluence links to pages
     logger.log('Replacing links URLs');
-    $('a').each((_index: number, link: CheerioElement) => {
+    $('a').each((_index: number, link: cheerio.TagElement) => {
       replaceAttributeLink('href', link);
     });
     // Let's find Confluence links to images
     logger.log('Replacing images URLs');
-    $('img').each((_index: number, link: CheerioElement) => {
+    $('img').each((_index: number, link: cheerio.TagElement) => {
       replaceAttributeLink('src', link);
     });
 
     // Remove links from user mentions
     $('a.confluence-userlink.user-mention').each(
-      (_index: number, link: CheerioElement) => {
+      (_index: number, link: cheerio.TagElement) => {
         delete link.attribs.href;
       },
     );

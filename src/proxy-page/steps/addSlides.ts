@@ -11,7 +11,7 @@ export default (config: ConfigService): Step => {
 
     // Handle the source code block to be syntax highlighted by highlight.js (auto language detection by default)
     $('pre.syntaxhighlighter-pre').each(
-      (_index: number, codeBlock: CheerioElement) => {
+      (_index: number, codeBlock: cheerio.TagElement) => {
         $(codeBlock).replaceWith(
           `<pre><code>${$(codeBlock).html()}</code></pre>`,
         );
@@ -20,7 +20,7 @@ export default (config: ConfigService): Step => {
     let sections = '';
     // Div with class plugin-tabmeta-details (Confluence macro "properties") is framing the sections for each slide
     $(".plugin-tabmeta-details[data-macro-name='details']").each(
-      (_index: number, pageProperties: CheerioElement) => {
+      (_index: number, pageProperties: cheerio.TagElement) => {
         const thisBlock = $(pageProperties).children().first().attr('class');
         if (thisBlock) {
           // First element is an image so let's fill the full background
@@ -77,7 +77,7 @@ export default (config: ConfigService): Step => {
       <script defer src="${basePath}/reveal/plugin/highlight/highlight.js?cache=${version}"></script>
       <script defer>
         document.addEventListener('DOMContentLoaded', function () {
-          Reveal.initialize({ 
+          Reveal.initialize({
             hash: true,
             center: false,
             plugins: [ RevealZoom, RevealHighlight],

@@ -9,7 +9,7 @@ const example = `
 <html>
   <body>
     <div id="Content">
-    
+
       <h3>Chart macro in this page</h3>
 
       <div class="chart-macro conf-macro output-block">
@@ -22,7 +22,7 @@ const example = `
 
         </div>
       </div>
-      
+
     </div> <!-- #Content -->
   </body>
 </html>
@@ -44,7 +44,7 @@ describe('ConfluenceProxy / fixChartMacro', () => {
     step(context);
     const $ = context.getCheerioBody();
 
-    $('figure').each((index: number, element: CheerioElement) => {
+    $('figure').each((index: number, element: cheerio.TagElement) => {
       const thisBlock = $(element).html();
       if (thisBlock) {
         images[index] = thisBlock;

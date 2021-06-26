@@ -15,7 +15,7 @@ export default (config: ConfigService): Step => {
     context.setExcerpt('');
     $("span.conf-macro.output-inline[data-macro-name='excerpt']")
       .first()
-      .each((_index: number, elementExcerpt: CheerioElement) => {
+      .each((_index: number, elementExcerpt: cheerio.TagElement) => {
         const excerptPage = $(elementExcerpt);
         context.setExcerpt(excerptPage.text());
       });

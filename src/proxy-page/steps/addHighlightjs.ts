@@ -10,8 +10,10 @@ export default (config: ConfigService): Step => {
     const basePath = config.get('web.basePath');
 
     $('pre.syntaxhighlighter-pre').each(
-      (_index: number, macro: CheerioElement) => {
-        $(macro).replaceWith(`<pre><code>${$(macro).html()}</code></pre>`);
+      (_index: number, elementCode: cheerio.TagElement) => {
+        $(elementCode).replaceWith(
+          `<pre><code>${$(elementCode).html()}</code></pre>`,
+        );
       },
     );
 

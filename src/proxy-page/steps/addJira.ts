@@ -20,8 +20,8 @@ export default (config: ConfigService): Step => {
     }
 
     const jiraIssuesPromises = [];
-    $('.refresh-wiki').each((_, jira) => {
-      const wikimarkup: string = jira.attribs['data-wikimarkup'];
+    $('.refresh-wiki').each((_, elementJira: cheerio.TagElement) => {
+      const wikimarkup: string = elementJira.attribs['data-wikimarkup'];
       const xmlWikimarkup = cheerio.load(wikimarkup, { xmlMode: true });
       const filter = xmlWikimarkup(
         'ac\\:parameter[ac\\:name="jqlQuery"]',
