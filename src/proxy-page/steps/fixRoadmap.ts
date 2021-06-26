@@ -10,16 +10,19 @@ export default (config: ConfigService): Step => {
 
     // Add link to pages when defined for a bar
     $('div.roadmap-macro-view .bar-title').each(
-      (_index: number, titleElement: CheerioElement) => {
+      (_index: number, titleElement: cheerio.TagElement) => {
         const thisTitle = $(titleElement).data();
         if (thisTitle.roadmapBar.pageLink.id) {
-          $(titleElement).children().first().replaceWith(
-            `<div class="bar-title-page">
+          $(titleElement)
+            .children()
+            .first()
+            .replaceWith(
+              `<div class="bar-title-page">
               <a href="${basePath}/wiki/spaces/${thisTitle.roadmapBar.pageLink.spaceKey}/pages/${thisTitle.roadmapBar.pageLink.id}">
               ${thisTitle.roadmapBar.title}
               </a>
             </div>`,
-          );
+            );
         }
       },
     );

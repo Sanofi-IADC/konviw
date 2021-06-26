@@ -13,7 +13,7 @@ const example = `
 <html>
   <body>
     <div id="Content">
-    
+
       <h3>New Drawio chart created in this page</h3>
       <div class="ap-container" data-macro-name="drawio">
         <script>
@@ -23,7 +23,7 @@ const example = `
           })();
         </script>
       </div>
-      
+
       <h3>Drawio included from the repository</h3>
       <div class="ap-container" data-macro-name="inc-drawio">
         <script>
@@ -33,7 +33,7 @@ const example = `
           })();
         </script>
       </div>
-      
+
     </div> <!-- #Content -->
   </body>
 </html>
@@ -55,7 +55,7 @@ describe('ConfluenceProxy / fixDrawio', () => {
     step(context);
     const $ = context.getCheerioBody();
 
-    $('figure').each((index: number, element: CheerioElement) => {
+    $('figure').each((index: number, element: cheerio.TagElement) => {
       const thisBlock = $(element).html();
       if (thisBlock) {
         images[index] = thisBlock;

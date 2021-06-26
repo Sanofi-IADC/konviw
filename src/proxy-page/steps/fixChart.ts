@@ -18,7 +18,7 @@ export default (config: ConfigService): Step => {
 
     // Div  with div.chart-bootstrap-wrapper is used for Chart marcros
     $('.chart-bootstrap-wrapper').each(
-      (_index: number, elementChart: CheerioElement) => {
+      (_index: number, elementChart: cheerio.TagElement) => {
         const thisBlock = $(elementChart).html();
         if (!thisBlock) {
           return;
@@ -37,19 +37,19 @@ export default (config: ConfigService): Step => {
 
         if (attachment) {
           $(elementChart).prepend(
-            `<figure><img class="img-zoomable" 
+            `<figure><img class="img-zoomable"
                   src="${webBasePath}/wiki/download/attachments/${
               page !== '' ? page : context.getPageId()
-            }/${attachment}" 
+            }/${attachment}"
                   alt="${attachment}" /></figure>`,
           );
         }
       },
     );
 
-    // Remove this Drawio script to remove unnecessary noise in the final HTML
+    // Remove this Chart script to remove unnecessary noise in the final HTML
     $('script.chart-render-data').each(
-      (_index: number, elementChart: CheerioElement) => {
+      (_index: number, elementChart: cheerio.TagElement) => {
         $(elementChart).remove();
       },
     );

@@ -8,7 +8,7 @@ export default (): Step => {
 
     // Div with class profile-macro is used for User Profile VCard
     $('img.confluence-embedded-image').each(
-      (_index: number, embeddedImage: CheerioElement) => {
+      (_index: number, embeddedImage: cheerio.TagElement) => {
         const thisBlock = $(embeddedImage).attr('alt');
         if (thisBlock) {
           const foundBlock = thisBlock.match(/\(nozoom\)/g);

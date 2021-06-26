@@ -10,15 +10,15 @@ export default (): Step => {
     $(".plugin-tabmeta-details[data-macro-name='details']")
       // We just look for the first Page-Properties macro
       .first()
-      .each((_index: number, pageProperties: CheerioElement) => {
+      .each((_index: number, pageProperties: cheerio.TagElement) => {
         const thisBlock = $(pageProperties);
         const imgBlog = $(pageProperties).find('img');
         const excerptBlog = $(pageProperties).find('blockquote');
         // and take the image and quote to display in the header of the blog post
         if (thisBlock) {
           $('#Content').before(
-            `<div class="blog--header" 
-               style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+            `<div class="blog--header"
+               style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
                url('${imgBlog.attr('src')}');">
            <div class="blog--box">
              <div class="blog--title">

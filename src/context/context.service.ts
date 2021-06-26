@@ -10,7 +10,7 @@ export class ContextService {
   private pageId = '';
   private theme = '';
   private style = '';
-  private cheerioBody = cheerio.load('');
+  private cheerioBody = cheerio.load('html');
   private title = '';
   private author = '';
   private email = '';
@@ -82,8 +82,7 @@ export class ContextService {
     this.title = title;
   }
 
-  getCheerioBody(): CheerioStatic {
-    // getCheerioBody(): any {
+  getCheerioBody(): cheerio.Root {
     return this.cheerioBody;
   }
 

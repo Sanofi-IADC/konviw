@@ -9,7 +9,7 @@ export default (config: ConfigService): Step => {
     const confluenceBaseUrl = config.get('confluence.baseURL');
 
     // img tag with class emoticon is used to wrap the Confluence emoticons
-    $('img.emoticon').each((_index: number, element: CheerioElement) => {
+    $('img.emoticon').each((_index: number, element: cheerio.TagElement) => {
       const thisEmoji = $(element).data();
       // condition to detect special Atlassian emoticons
       if (thisEmoji.emojiId.substring(0, 9) === 'atlassian') {
