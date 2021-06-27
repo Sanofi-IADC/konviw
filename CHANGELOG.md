@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/Sanofi-IADC/konviw/compare/v1.9.5...v1.10.0) (2021-06-27)
+
+
+### Features
+
+* **addJira:** improvements jira macro integration ([78aba86](https://github.com/Sanofi-IADC/konviw/commit/78aba86ea071d7d517ddd7f5249cb9064feca597))
+
 ## [1.9.5](https://github.com/Sanofi-IADC/konviw/compare/v1.9.4...v1.9.5) (2021-06-24)
 
 
