@@ -58,7 +58,7 @@ describe('Confluence Proxy / addJira', () => {
         </ac:structured-macro>' data-pageid="page-id">`;
 
     context.setHtmlBody(
-      `<html><head><title>test</title></head><body>${cheerioBody} <div id='Content'></div></body></html>`,
+      `<html><head><title>test</title></head><body><div id='Content'><div class='confluence-jim-macro'>${cheerioBody}</div></div></body></html>`,
     );
     await step(context, new JiraServiceMock() as any);
     const $ = context.getCheerioBody();
