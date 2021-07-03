@@ -12,13 +12,6 @@ export default (): Step => {
     // Remove <base ...> to fix TOC links
     $('base').remove();
 
-    // Remove this Drawio script that crashes
-    $('script.ap-iframe-body-script').each(
-      (_index: number, element: CheerioElement) => {
-        $(element).replaceWith('');
-      },
-    );
-
     // Remove button to insert templates in Confluence
     $('button.create-from-template-button').remove();
     context.getPerfMeasure('delUnnecessaryCode');

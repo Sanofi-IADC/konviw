@@ -1,7 +1,13 @@
+<!-- markdownlint-disable MD033 -->
+
+<center>
+
 [![CI][ci-shield]][ci-url]
 [![Sonarcloud quality][sonarcloud-shield]][sonarcloud-url]
-[![MIT License][license-shield]][license-url]
 [![Gitpod ready-to-code][gp-shield]][gp-url]
+[![MIT License][license-shield]][license-url]
+
+</center>
 
 <p align="center">
   <a href="https://sanofi-iadc.github.io/konviw/" target="blank"><img src="https://sanofi-iadc.github.io/konviw/konviw.svg" width="320" alt="Nest Logo" /></a>
@@ -35,10 +41,11 @@ Konviw is an open source public viewer for Confluence pages in Enterprise privat
 ### Roadmap
 
 - [ ] Plugin system
-- [ ] Comments
+- [x] Comments
 - [ ] Dockerized deployment
-- [ ] Make the 'perf_hooks' measurement optional via .env configuration
-- [ ] Enhanced configuration of slides functionality
+- [x] Make the 'perf_hooks' measurement optional via .env configuration
+- [x] Enhanced configuration of slides functionality with custom themes
+- [x] Jira macro renders issues as a table
 
 ## Architecture
 
@@ -68,13 +75,13 @@ This sequence represents the common steps handled by the proxy server:
 ## Installation
 
 ```bash
-$ git clone https://github.com/Sanofi-IADC/konviw.git
+git clone https://github.com/Sanofi-IADC/konviw.git
 
-$ cd konviw && npm install
+cd konviw && npm install
 
-$ npm run build
+npm run build
 
-$ npm run start
+npm run start
 ```
 
 For configuration check the [docs](https://sanofi-iadc.github.io/konviw/installation).
@@ -87,11 +94,21 @@ For configuration check the [docs](https://sanofi-iadc.github.io/konviw/installa
 
 ## Support
 
-[NestJS](https://nestjs.com) is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+- [NestJS](https://nestjs.com) is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
-[Cheerio](https://cheerio.js.org) is a MIT-licensed open source blazingly fast DOM parser for nodejs servers. Support the project via [GitHub Sponsors](https://github.com/sponsors/cheeriojs)
+- [Cheerio](https://cheerio.js.org) is a MIT-licensed open source blazingly fast DOM parser for nodejs servers. Support the project via [GitHub Sponsors](https://github.com/sponsors/cheeriojs)
 
-[Reveal.js](https://revealjs.com) is a MIT-licensed open source HTML presentation framework copyright (C) by Hakim El Hattab, (https://hakim.se). Support the project via [GitHub Sponsors](https://github.com/sponsors/hakimel).
+- [Reveal.js](https://revealjs.com) is a MIT-licensed open source HTML presentation framework copyright (C) by Hakim El Hattab, (<https://hakim.se>). Support the project via [GitHub Sponsors](https://github.com/sponsors/hakimel).
+
+## Performance
+
+One of the main reasons for building Konviw is performance. A medium complex page in Confluence may take between 6 an 7s to load completely. Of course this is because Confluence is loading all the heavy assets to edit pages, create new content, search, navigate thru the complete page hierarchy of the space... But who wants to wait for 7s when you just want to read the content.
+
+![konviw Lighthouse report](https://konviw.vercel.app/cpv/wiki/download/attachments/35225651/image-20210502-141206.png?version=1&modificationDate=1619964728448&cacheVersion=1&api=v2)
+
+Our objective with konviw is to deliver pages in average below 1 second. Obviously while Atlassian API delivers the content in the current levels of performance so around 500 ms per page.
+
+We will continue to add features but always looking to keep the current levels of performance and speed to deliver beautifully rendered pages. We will not compromise the performance for new features in any case.
 
 ## License
 

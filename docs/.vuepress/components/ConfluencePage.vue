@@ -3,15 +3,21 @@
   <div class="container">
     <div v-if="metadata">
       <p>
-        Title: <i>{{ title }}</i>
+        Title: <i>{{ msgTitle }}</i>
       </p>
       <p>
-        Excerpt: <i>{{ excerpt }}</i>
+        Space Key: <i>{{ msgSpaceKey }}</i>
+      </p>
+      <p>
+        Page ID: <i>{{ msgPageId }}</i>
+      </p>
+      <p>
+        Excerpt: <i>{{ msgExcerpt }}</i>
       </p>
       <p>
         iFrame Url:
-        <a :href="iframeUrl"
-          ><i>{{ iframeUrl }}</i></a
+        <a :href="msgIframeUrl"
+          ><i>{{ msgIframeUrl }}</i></a
         >
       </p>
     </div>
@@ -22,19 +28,22 @@
       <br />
       <br />
     </div>
+
     <iframe
-      id="konviw-iframe"
-      class="konviw--page"
+      :id="iframeId"
       :src="url"
-      @load="LoadFrame((resize = true))"
+      @load="iframeLoaded(iframeId)"
       scrolling="no"
-    >
-    </iframe>
+      class="konviw--page"
+    />
   </div>
 </template>
 
 <script>
+import iFrameResize from 'iframe-resizer/js/iframeResizer';
+
 export default {
+  name: 'ConfluencePage',
   props: {
     pageId: { type: String, required: true },
     type: { type: String, required: true },
@@ -44,46 +53,38 @@ export default {
   data() {
     return {
       darkMode: false,
-      title: '',
-      excerpt: '',
-      iframeUrl: '',
+      msgTitle: '',
+      msgExcerpt: '',
+      msgIframeUrl: '',
+      msgPageId: '',
+      msgSpaceKey: '',
+      iframeId: `konviw-iframe-${this.pageId}`,
     };
   },
   methods: {
-    LoadFrame(resize) {
-      window.onmessage = (e) => {
-        if (resize) {
-          if (Object.prototype.hasOwnProperty.call(e.data, 'frameHeight')) {
-            document.getElementById(
-              'konviw-iframe',
-            ).style.height = `${e.data.frameHeight}px`;
-          }
-          this.frameHeight = e.data.frameHeight;
-        }
-
-        if (Object.prototype.hasOwnProperty.call(e.data, 'iframeUrl')) {
-          this.iframeUrl = e.data.iframeUrl;
-        }
-        if (Object.prototype.hasOwnProperty.call(e.data, 'title')) {
-          this.title = e.data.title;
-        }
-        if (Object.prototype.hasOwnProperty.call(e.data, 'excerpt')) {
-          this.excerpt = e.data.excerpt;
-        }
-        if (Object.prototype.hasOwnProperty.call(e.data, 'pageId')) {
-          this.pageId = e.data.pageId;
-        }
-        if (Object.prototype.hasOwnProperty.call(e.data, 'slug')) {
-          this.slug = e.data.slug;
-          this.directUrl = `/${this.slug}/${this.pageId}`;
-        }
-      };
+    iframeLoaded(iframeId) {
+      iFrameResize(
+        {
+          log: false,
+          checkOrigin: false,
+          onMessage: (messageData) => {
+            // Callback fn when message is received
+            this.msgPageId = messageData.message.konviwPageId;
+            this.msgTitle = messageData.message.konviwTitle;
+            this.msgExcerpt = messageData.message.konviwExcerpt;
+            this.msgIframeUrl = messageData.message.konviwFrameUrl;
+            this.msgSpaceKey = messageData.message.konviwSpaceKey;
+          },
+        },
+        `#${iframeId}`,
+      );
     },
   },
   computed: {
     url: function () {
       const theme = this.darkMode ? 'dark' : 'light';
-      return `https://konviw.vercel.app/cpv/wiki/spaces/konviw/pages/${this.pageId}?type=${this.type}&theme=${theme}&cache=no-cache`;
+      return `https://konviw.vercel.app/cpv/wiki/spaces/konviw/pages/${this.pageId}?type=${this.type}&theme=${theme}`;
+      // return `http://localhost:3000/cpv/wiki/spaces/konviw/pages/${this.pageId}?type=${this.type}&theme=${theme}&cache=no-cache`;
     },
   },
 };
@@ -98,7 +99,7 @@ export default {
 }
 iframe.konviw--page {
   position: relative;
-  width: 100%;
+  min-width: 100%;
   overflow: hidden;
   border: 1px solid lightgray;
   border-radius: 5px;

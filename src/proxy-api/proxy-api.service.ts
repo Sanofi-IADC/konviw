@@ -2,7 +2,6 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ConfluenceService } from '../confluence/confluence.service';
 import { ContextService } from '../context/context.service';
 import { ConfigService } from '@nestjs/config';
-import Config from '../config/config.d';
 import parseHeaderBlog from './steps/parseHeaderBlog';
 
 @Injectable()
@@ -20,10 +19,10 @@ export class ProxyApiService {
    * @param spaceKey {string} 'iadc' - space key where the page belongs
    */
   async getAllPosts(spaceKey: string): Promise<any> {
-    const data = await this.confluence.getAllPosts(spaceKey);
-    const baseURL = this.config.get<Config>('confluence.baseURL');
-    const baseHost = this.config.get<Config>('web.baseHost');
-    const basePath = this.config.get<Config>('web.basePath');
+    const { data } = await this.confluence.getAllPosts(spaceKey);
+    const baseURL = this.config.get('confluence.baseURL');
+    const baseHost = this.config.get('web.baseHost');
+    const basePath = this.config.get('web.basePath');
 
     return data.results.map((doc: any) => {
       this.context.Init(spaceKey, doc.content.id);
@@ -33,7 +32,7 @@ export class ProxyApiService {
         docId: doc.content.id,
         title: doc.content.title,
         url: doc.content.id
-          ? `${baseHost}${basePath}wiki/spaces/iadc/pages/${doc.content.id}?type=blog`
+          ? `${baseHost}${basePath}/wiki/spaces/iadc/pages/${doc.content.id}?type=blog`
           : false,
         createdAt: doc.content.history.createdDate,
         createdBy: doc.content.history.createdBy.displayName,
@@ -59,19 +58,32 @@ export class ProxyApiService {
   }
 
   /**
-   * @function getSearchResults Service
+   * getSearchResults Service to search content in Confluence
+   *
    * @return Promise {string}
    * @param spaceKey {string} 'iadc' - space key where the page belongs
    * @param query {string} 'vision factory' - words to be searched
+   * @param maxResults {number} '15' - limit of records to be retrieved
+   * @param cursorResults {string} 'URI' - one of the two URIs provided by Confluence to navigate to the next or previous set of records
    */
-  async getSearchResults(spaceKey: string, query: string): Promise<string> {
-    const data = await this.confluence.getResults(spaceKey, query);
-    const baseURL = this.config.get<Config>('confluence.baseURL');
-    const baseHost = this.config.get<Config>('web.baseHost');
-    const basePath = this.config.get<Config>('web.basePath');
+  async getSearchResults(
+    spaceKey: string,
+    query: string,
+    maxResults: number,
+    cursorResults: string,
+  ): Promise<any> {
+    const { data } = await this.confluence.getResults(
+      spaceKey,
+      query,
+      maxResults,
+      cursorResults,
+    );
+    const baseURL = this.config.get('confluence.baseURL');
+    const baseHost = this.config.get('web.baseHost');
+    const basePath = this.config.get('web.basePath');
 
     const parseResults = data.results.map((doc: any) => {
-      this.context.Init(spaceKey, doc.content.id); //// TODO
+      this.context.Init(spaceKey, doc.content.id);
       const atlassianIadcRegEx = new RegExp(`${baseURL}/wiki/`);
       parseHeaderBlog(doc.content.body.styled_view.value)(this.context);
       return {
@@ -79,7 +91,7 @@ export class ProxyApiService {
         title: doc.content.title,
         type: doc.content.type,
         url: doc.content.id
-          ? `${baseHost}${basePath}wiki/spaces/iadc/pages/${doc.content.id}?type=blog`
+          ? `${baseHost}${basePath}/wiki/spaces/iadc/pages/${doc.content.id}?type=blog`
           : false,
         createdAt: doc.content.history.createdDate,
         createdBy: doc.content.history.createdBy.displayName,
@@ -105,19 +117,18 @@ export class ProxyApiService {
       };
     });
 
-    const summary = {
+    const meta = {
       limit: data.limit,
       size: data.size,
       totalSize: data.totalSize,
       query: data.cqlQuery,
+      next: data._links.next,
+      prev: data._links.prev,
     };
 
-    const combined = {
-      summary,
+    return {
+      meta,
       results: parseResults,
     };
-
-    return JSON.parse(JSON.stringify(combined));
-    // return combined;  // why this is not working?
   }
 }

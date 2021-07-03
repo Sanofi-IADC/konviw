@@ -2,15 +2,15 @@ import { Injectable, Logger } from '@nestjs/common';
 import cheerio from 'cheerio';
 import { performance, PerformanceObserver } from 'perf_hooks';
 import { ConfigService } from '@nestjs/config';
-import Config from '../config/config';
 
 @Injectable()
 export class ContextService {
   private readonly logger = new Logger(ContextService.name);
   private spaceKey = '';
   private pageId = '';
-  private theme = 'light';
-  private cheerioBody = cheerio.load('');
+  private theme = '';
+  private style = '';
+  private cheerioBody = cheerio.load('html');
   private title = '';
   private author = '';
   private email = '';
@@ -28,13 +28,14 @@ export class ContextService {
   // ! Somehow not working with the @Injectable decorator
   // constructor(private spaceKey: string, private pageId: string, private theme:s tring) {}
 
-  Init(spaceKey: string, pageId: string, theme = '') {
+  Init(spaceKey: string, pageId: string, theme = '', style = '') {
     this.spaceKey = spaceKey;
     this.pageId = pageId;
     this.theme = theme;
-    const logger = new Logger();
+    this.style = style;
+    const logger = new Logger(ContextService.name);
     // Activate the observer in development
-    if (this.config.get<Config>('env').toString() === 'development') {
+    if (this.config.get('env').toString() === 'development') {
       this.observer = new PerformanceObserver((list) => {
         const entry = list.getEntries()[0];
         logger.log(`Time for [${entry.name}] = ${entry.duration}ms`);
@@ -45,21 +46,21 @@ export class ContextService {
 
   Close() {
     // Disconnect the PerformanceObserver only in development
-    if (this.config.get<Config>('env').toString() === 'development') {
+    if (this.config.get('env').toString() === 'development') {
       this.observer.disconnect();
     }
   }
 
   setPerfMark(mark: string): void {
     // Activate PerformanceObserver only in development
-    if (this.config.get<Config>('env').toString() === 'development') {
+    if (this.config.get('env').toString() === 'development') {
       performance.mark(`${mark}-init`);
     }
   }
 
   getPerfMeasure(mark: string): void {
     // Get PerformanceObserver metrics only in development
-    if (this.config.get<Config>('env').toString() === 'development') {
+    if (this.config.get('env').toString() === 'development') {
       performance.mark(`${mark}-end`);
       performance.measure(`${mark}`, `${mark}-init`, `${mark}-end`);
     }
@@ -81,8 +82,7 @@ export class ContextService {
     this.title = title;
   }
 
-  getCheerioBody(): CheerioStatic {
-    // getCheerioBody(): any {
+  getCheerioBody(): cheerio.Root {
     return this.cheerioBody;
   }
 
@@ -117,6 +117,10 @@ export class ContextService {
 
   getTheme(): string {
     return this.theme;
+  }
+
+  getStyle(): string {
+    return this.style;
   }
 
   getAuthor(): string {

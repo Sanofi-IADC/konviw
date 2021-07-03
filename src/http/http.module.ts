@@ -7,20 +7,19 @@ import {
   HttpModule as BaseHttpModule,
 } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import Config from '../config/config';
 
 @Module({
   imports: [
     BaseHttpModule.registerAsync({
       imports: [ConfigModule],
       useFactory: (config: ConfigService): HttpModuleOptions => ({
-        baseURL: `${config.get<Config>('confluence.baseURL')}/wiki`,
+        baseURL: `${config.get('confluence.baseURL')}`,
         auth: {
-          username: config.get<Config>('confluence.apiUsername').toString(),
-          password: config.get<Config>('confluence.apiToken').toString(),
+          username: config.get('confluence.apiUsername').toString(),
+          password: config.get('confluence.apiToken').toString(),
         },
-        timeout: Number(config.get<Config>('confluence.apiTimeOut')),
-        maxRedirects: Number(config.get<Config>('confluence.apiMaxRedirects')),
+        timeout: Number(config.get('confluence.apiTimeOut')),
+        maxRedirects: Number(config.get('confluence.apiMaxRedirects')),
       }),
       inject: [ConfigService],
     }),

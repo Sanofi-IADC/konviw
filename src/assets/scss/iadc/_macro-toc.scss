@@ -1,0 +1,163 @@
+// Macro TOC  ============================================
+
+// Hide outline numbers when disabled by the macro
+.toc-macro.hidden-outline span.toc-outline {
+  display: none;
+}
+.toc-macro ul.toc-indentation {
+  margin-top: 0;
+}
+.toc-macro {
+  padding: 20px;
+  span.toc-outline {
+    padding-right: 5px;
+  }
+
+  ul {
+    list-style: disc;
+    padding-left: 20px;
+    li {
+      text-overflow: ellipsis;
+      a.toc-link {
+        background-image: none;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+      &.toc-empty-item {
+        list-style-type: none;
+      }
+    }
+  }
+}
+
+@media print {
+  .toc-macro.non-printable {
+    display: none;
+  }
+}
+
+// Macro konviw floating TOC =============================
+$floating-toc-btn-size: 3.5em;
+
+button#floating-toc-btn {
+  opacity: 0.7;
+
+  position: fixed;
+  top: 3rem;
+  /* Used to align the button with the scroll to top button */
+  right: calc(
+    var(--fab-btn-right) + ((100vw - 1200px) / 2) -
+      (#{$floating-toc-btn-size} / 2) + 10px
+  );
+
+  width: $floating-toc-btn-size;
+  height: $floating-toc-btn-size;
+
+  border: none;
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  z-index: 100;
+
+  transition: opacity 0.2s ease, background-color 0.2s ease,
+    border-radius 0.2s ease;
+
+  &:focus {
+    outline: none;
+  }
+  &:hover,
+  &.active {
+    background-color: var(--primary-color);
+    svg {
+      path {
+        fill: var(--bg-color);
+      }
+    }
+  }
+  &.active {
+    border-top-right-radius: 10px;
+    border-top-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  svg {
+    path {
+      fill: var(--secondary-color);
+    }
+  }
+}
+
+/* The floating TOC */
+/* The class konviw-float-TOC is provided by a macro in Confluence */
+.toc-macro.konviw-float-TOC {
+  position: fixed;
+  top: calc(3rem);
+  right: calc(
+    var(--fab-btn-right) + ((100vw - 1200px) / 2) -
+      (#{$floating-toc-btn-size} / 2) + 20px
+  );
+
+  opacity: 0;
+
+  width: 0;
+  height: max-content;
+  max-height: 50vh;
+  transform: scaleY(0);
+  transform-origin: top right;
+
+  border: none;
+
+  background-color: var(--bg-color);
+
+  white-space: wrap;
+  overflow-x: hidden;
+  overflow-y: scroll;
+
+  z-index: 100;
+
+  transition: opacity 0.2s ease, width 0.5s ease, transform 0.5s ease;
+
+  /* When we show the TOC */
+  &.active {
+    opacity: 1;
+    width: 20vw;
+    height: max-content;
+    max-height: 50vh;
+    transform: scaleY(1);
+    border: 1px solid var(--secondary-color);
+    border-radius: 10px;
+    &::before {
+      content: none;
+    }
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  button#floating-toc-btn {
+    right: calc(var(--fab-btn-right) + 10px);
+  }
+  div.toc-macro.konviw-float-TOC {
+    right: calc(var(--fab-btn-right) + 10px);
+    &.active {
+      width: 40vw;
+      height: max-content;
+      max-height: 60vh;
+    }
+  }
+}
+
+/* Mobiles */
+@media screen and (max-width: 425px) {
+  div.toc-macro.konviw-float-TOC {
+    &.active {
+      width: 80vw;
+      height: max-content;
+      max-height: 50vh;
+    }
+  }
+}

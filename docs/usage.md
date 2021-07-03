@@ -2,6 +2,8 @@
 title: Usage
 ---
 
+<!-- markdownlint-disable MD033 -->
+
 ## Getting started
 
 After following the [installation](/installation) and configuration steps you can render any Confluence page composing
@@ -63,63 +65,93 @@ Konviw will detect your draw.io diagrams and present the .png view automatically
 
 ## Advance features
 
-### Embedded konviw pages
+## Floating TOC
 
-You can simply embed your konviw pages in websites, MS Teams tabs or in other applications via iframes. To provide advance integration features konviw automatically pushes some post messages with metadata with the parent window so you can resize the iframe dynamically based on the content or display the Url being loaded in the iframe.
+You do not like the classical TOC (Table of Content) that Confluence shows inline in your page because you have to go back to the top to see it. This will be your favourite feature soon.
 
-- `frameHeight` dynamically share the height of the content
-- `iframeUrl` with the full page Url
-- `slug` of the space key
-- `pageId` with the ID of the page
-- `title` of the page
-- `excerpt` of the page
+Now you can hide the classic TOC and make it visible on demand as part of a floating button that will show up in the top right page of your pages.
 
-For instance you can retrieve metadata in a Vue component with a method like this
+How to activate it? Edit the properties of the **Table of Contents** macro and add `konviw-float-TOC` in the CSS Class Name property, like in the example below.
+
+![Properties TOC macro](Properties-TOC-macro.png)
+
+## Embedded konviw pages in iframes
+
+You can simply embed your konviw pages in websites, MS Teams tabs or in other applications via iframes. To provide advance integration features konviw automatically pushes some post messages with metadata to the parent window and also provides several methods for auto-resizing so you can resize the iframe dynamically or display the Url being loaded in the iframe.
+
+The variables passed from konviw to the parent page are:
+
+- `konviwFrameUrl` with the full page Url
+- `konviwSpaceKey` of the space key
+- `konviwPageId` with the ID of the page
+- `konviwTitle` of the page
+- `konviwExcerpt` of the page
+
+Use load the JavaScript library iFrame-Resizer so you can automatically resize the iframes where konviw is loaded.
+
+As an example of implementation you have to provide a unique id for each iframe, the url of the konviw page and load iframe-resizer true a custom method function:
+
+```html
+<iframe
+  :id="iframeId"
+  :src="url"
+  @load="iframeLoaded(iframeId)"
+  scrolling="no"
+  class="konviw--page"
+/>
+```
+
+For instance you can retrieve metadata in a Vue component with a method like this:
 
 ```js
   methods: {
-    LoadFrame(resize) {
-      window.onmessage = (e) => {
-        if (resize) {
-          if (Object.prototype.hasOwnProperty.call(e.data, 'frameHeight')) {
-            document.getElementById('cpv-iframe').style.height = `${e.data.frameHeight + 30}px`
-          }
-          this.frameHeight = e.data.frameHeight
-        }
-
-        if (Object.prototype.hasOwnProperty.call(e.data, 'iframeUrl')) {
-          this.iframe = e.data.iframeUrl
-        }
-        if (Object.prototype.hasOwnProperty.call(e.data, 'title')) {
-          this.title = e.data.title
-        }
-        if (Object.prototype.hasOwnProperty.call(e.data, 'excerpt')) {
-          this.excerpt = e.data.excerpt
-        }
-        if (Object.prototype.hasOwnProperty.call(e.data, 'pageId')) {
-          this.pageId = e.data.pageId
-        }
-        if (Object.prototype.hasOwnProperty.call(e.data, 'slug')) {
-          this.slug = e.data.slug
-          this.directUrl = `/${this.slug}/${this.pageId}`
-        }
-      }
+    iframeLoaded(iframeId) {
+      iFrameResize(
+        {
+          log: false,
+          checkOrigin: false,
+          onMessage: (messageData) => {
+            // Callback fn when message is received
+            this.msgPageId = messageData.message.konviwPageId;
+            this.msgTitle = messageData.message.konviwTitle;
+            this.msgExcerpt = messageData.message.konviwExcerpt;
+            this.msgIframeUrl = messageData.message.konviwFrameUrl;
+            this.msgSpaceKey = messageData.message.konviwSpaceKey;
+          },
+        },
+        `#${iframeId}`,
+      );
     },
   },
 ```
 
-### Cache management
+You can find a great example of this implementation with 3 iframes in the [Architecture page](architecture)
+
+## Use Jira Macro in konviw pages
+
+When you use Jira macro in your Conflence pages they will be also visible as dynamic tables in konviw.
+We use the awesome open-source JavaScript table plugin [Grid.js](https://gridjs.io/) to render the table with the Jira tickets. It comes out of the box with sorting by column and search by keywords 🤪.
+
+Konviw will render the table with the same columns selected in the Jira macro and using the JQL or filter defined in the macro.
+
+<ConfluencePage v-bind:switchTheme="false" v-bind:metadata="false" type='notitle' pageId='35160094'/>
+
+The access to the Jira API works with the same variables used for Confluence API.
+
+Check in the demo section in this documentation a [konviw page with a Jira table embedded](demoJira).
+
+## Cache management
 
 By default Konviw comes with an in-memory cache for both pages and API endpoints.
 You can manually specify a TTL (expiration time) for the cache, via the `env` variable:
 
-```
+```text
 CACHE_TTL = 86400    # Default to 24h
 ```
 
 In some cases you may want to skip the cache to force to render a page with the last content served from the Confluence API. In those cases use the parameter `cache=no-cache`.
 
-### Add comments to pages
+## Add comments to pages
 
 We will use [Utterances](https://utteranc.es/) to host comments in GitHub and linked to konviw pages.
 Follow the installation and configuration instructions from their website.
@@ -162,7 +194,9 @@ title: Demo Comments
 <Comment pageId='32981'/>
 ```
 
-### Turn pages into beatiful blog posts
+You can find an example of this implementation in the [demo comments page](demoComments).
+
+## Turn pages into beatiful blog posts
 
 How to create your first blog post in Confluence and publish it via Konviw.
 
@@ -179,12 +213,12 @@ Then you can start writing the main body of the article or post as per your own 
 
 To add a header banner with a nice image make sure the first element in the document is a “Page Properties” macro as showed in this example with an image and a blockquote headline.
 
-![](create-blog-post.png)
+![create blog post](create-blog-post.png)
 
 Which will be processed and rendered via Konviw as follows:
-![](blog-post-header.png)
+![blog post header](blog-post-header.png)
 
-Check in the demo section in this documentation an [online example with blog post](/demoBlogPost).
+Check in the demo section in this documentation an [online example with blog post](demoBlogPost).
 
 Like for any other Confluence page you can render the blog posts also composing the following URL:
 `CPV_BASEHOST:PORT + CPV_BASEPATH + /wiki/spaces/ + spaceKey + /pages/ + pageId`
@@ -206,9 +240,88 @@ For the blog post above both URL examples will render the same result:
 The parameter `type` is used to define the header format for the page and accept 3 values:
 
 - `blog` to display the blog header image and headline text
-- `notitle` to avoid the title in the header. See [example without title](/demoNoTitle)
+- `notitle` to avoid the title in the header. See [example without title](demoNoTitle)
 - `title` or undefined will render the standard Konviw page with just title
 
-### Turn pages into online web presentations
+## Link images and media
 
-You can read a konviw page with instructions to create web slides from your Confluence content in the demo section of these docs.
+Konviw also renders your media files and images, so you can combine other publishing tools like Wordpress and place your images directly from Confluence.
+
+For example the following image is from the [Architecture page](archiecture) and it is composed by the following structure:
+
+`CPV_BASEHOST:PORT + CPV_BASEPATH + /wiki/download/attachments/ + pageId + `/` + file name`
+
+![Image from Confluence](https://konviw.vercel.app/cpv/wiki/download/attachments/28213297/Konviw-C4M-Level1.png)
+
+## Turn pages into online web presentations
+
+You can mix content that will be visible into slides and content that will stay visible only in the page mode. This is a great way to build pages that serves simultaneously the purpose of documentation and presentation when you have to talk about it.
+
+Every slide is contained within the frame of a Confluence macro `Page Properties` like in the following example:
+
+![Page Properties](slides-page-properties.png)
+
+Use `heading 1` for your cover slides or to create intermediate sections in your slide deck.
+
+![heading 1 slide type](https://konviw.vercel.app/cpv/wiki/download/thumbnails/14647304/image-20210410-164120.png?version=1&modificationDate=1618072885631&cacheVersion=1&api=v2&width=442&height=280)
+
+Use `heading 2` for the default and most common slides.
+
+![heading 2 slide type](https://konviw.vercel.app/cpv/wiki/download/thumbnails/14647304/image-20210410-164104.png?version=1&modificationDate=1618072868390&cacheVersion=1&api=v2&width=442&height=280)
+
+And you have a 3rd type of slides with the `heading 3` which display the title as bubble comment.
+
+![heading 3 slide type](https://konviw.vercel.app/cpv/wiki/download/thumbnails/14647304/image-20210410-164203.png?version=1&modificationDate=1618072928360&cacheVersion=1&api=v2&width=442&height=280)
+
+Add an image as the first object in your `Page Properties` macro to display it full size as background for the current slide.
+
+So for any Confluence page with slides like :
+[https://konviw.atlassian.net/wiki/spaces/KONVIW/pages/14647304/Slides](https://konviw.atlassian.net/wiki/spaces/KONVIW/pages/14647304/Slides)
+
+just replace the begining of the URL by your custom Konviw domain like:
+`CPV_BASEHOST:PORT + CPV_BASEPATH + /wiki/slides/konviw/ + PageID + ?style=konviw`
+
+You can define custom themes and select your favorite with the param `style`. Default style is `konviw`.
+
+Examples:
+
+- [https://konviw.vercel.app/cpv/wiki/slides/konviw/14647304?style=konviw](https://konviw.vercel.app/cpv/wiki/slides/konviw/14647304?style=konviw)
+- [https://konviw.vercel.app/cpv/wiki/slides/konviw/14647304?style=iadc](https://konviw.vercel.app/cpv/wiki/slides/konviw/14647304?style=iadc)
+
+You can read a [konviw page with instructions to create web slides](demoSlidesDocs) from your Confluence content in the demo section of these docs.
+
+## Add charts to pages
+
+The Chart macro allows you to display a chart based on tabular data. When you add the macro to a page, you:
+
+- supply the data to be charted by the macro as a table in the placeholder of the macro.
+- edit the macro parameters in the Macro Browser to configure the format of the chart.
+
+To display charts in konviw pages you have to set up the advanced options for chart versioning and generate images to be saved as an attachment.
+
+Parameter: `Attachment`
+The name and location with which the chart image will be saved as an attachment. Currently konviw only supports the first two options. To make sure your charts are properly displayed also when used in `Include Page`, we recommend to use the 2nd option even to include explicitly the ID of the current page.
+
+- `^attachmentName.png` — the chart is saved as an attachment to the current page.
+- `page^attachmentName.png` — the chart is saved as an attachment to the page name provided.
+- `space:page^attachmentName.png` — the chart is saved as an attachment to the page name provided in the space indicated.
+
+Parameter: `Attachment Version`
+Defines the the versioning mechanism for saved charts. For optimal behaviour in konviw select `replace`.
+
+- `new` — creates new version of the attachment.
+- `replace` — replaces all previous versions of the chart. To replace an existing attachment, the user must be authorized to remove attachments for the page specified.
+- `keep` — only saves a new attachment if an existing export of the same name does not exist. An existing attachment will not be changed or updated.
+
+![Radar Chart Example](https://konviw.vercel.app/cpv/wiki/download/attachments/44007425/RadarChartExample.png)
+
+You can read the full documentation of how to [insert the chart macro and attachment parameters](https://support.atlassian.com/confluence-cloud/docs/insert-the-chart-macro/#ChartMacro-AttachmentParameters).
+
+## Visualize Roadmaps
+
+One very cool feature in Confluence is the macro Roadmap planner that allows you to show to your users a planning of actions and milestones in a timeline.
+You can have multiple roadmaps in a single page. You can also embed them in a Page Properties macro so they are ready to be shown in your awesome konviw slides.
+
+<ConfluencePage v-bind:switchTheme="false" v-bind:metadata="false" type='notitle' pageId='77594631'/>
+
+You can read the full documentation of how to [insert the roadmap planner macro](https://support.atlassian.com/confluence-cloud/docs/insert-the-roadmap-planner-macro/).

@@ -2,6 +2,8 @@
 title: Introduction
 ---
 
+<!-- markdownlint-disable MD033 -->
+
 <p align="center">
   <a href="https://sanofi-iadc.github.io/konviw/" target="blank"><img :src="$withBase('/konviw.svg')" width="320" alt="Nest Logo" /></a>
 </p>
@@ -36,9 +38,10 @@ Konviw is an open source public viewer for Confluence pages in Enterprise privat
 ### Roadmap
 
 - [ ] Plugin system
-- [ ] Comments
+- [x] Comments
 - [ ] Dockerized deployment
-- [ ] Make the 'perf_hooks' measurement optional via .env configuration
+- [x] Make the 'perf_hooks' measurement optional via .env configuration
+- [x] Jira macro renders issues as a table
 
 ## Architecture
 
@@ -52,6 +55,8 @@ This sequence represents the common steps handled by the proxy server:
 4. The Proxy page service starts from the initial version of the HTML returned by the API and goes thru a sequence of steps to reformat the page accordingly to our needs.
 5. Example of transformations are fixEmojis, fixDrawio, fixExpander... or addCustomCss, addHighlightjs...
 6. After all the transformations are applied the HTML page is returned to the user browser.
+
+For a more detailed deep dive check the docs section for [the konviw architecture](architecture).
 
 ### Tech Stack
 

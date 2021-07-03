@@ -1,18 +1,23 @@
 // Default font IADC ======================================
-@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;600&display=swap');
-@import url('https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
-@import 'variables.scss';
-@import 'expander-panel.scss';
-@import 'media.scss';
-@import 'profile.scss';
-@import 'checkboxes.scss';
-@import 'info-panels.scss';
-@import 'decisions.scss';
-@import 'tables.scss';
-@import 'blog.scss';
-@import 'scrolltotop.scss';
-@import 'status.scss';
-@import 'blockquote.scss';
+@import 'variables';
+@import 'content-layout';
+@import 'media';
+@import 'checkboxes';
+@import 'tables';
+@import 'blog';
+@import 'scrolltotop';
+@import 'reading-progress';
+@import 'status';
+@import 'blockquote';
+@import 'copy-link';
+@import 'macro-decisions';
+@import 'macro-expand-panel';
+@import 'macro-info-panel';
+@import 'macro-profile';
+@import 'macro-toc';
+@import 'macro-insert-excerpt';
+@import 'macro-content-by-label';
+@import 'macro-roadmap';
 
 // Basic styles ===========================================
 html {
@@ -23,7 +28,7 @@ html {
 body {
   background-color: var(--bg-color);
   color: var(--font-color);
-  font-family: 'Rubik', sans-serif;
+  font-family: var(--font-body);
   font-size: var(--main-font-size);
   font-weight: var(--main-font-weight);
 }
@@ -34,39 +39,64 @@ h1.titlePage {
 }
 
 p {
-  margin-bottom: 20px;
-}
-
-li p {
   margin-bottom: 0px;
 }
 
-ul {
+ul,
+li p {
   margin: 0;
 }
 
 .smalltext {
   font-size: $small-text;
+  padding-left: 10px;
+}
+
+strong {
+  font-weight: 500;
+}
+
+.emoticon {
+  padding: 0;
 }
 
 // Headers ===========================================
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+}
+
 h1 {
   font-size: 1.6em;
 }
+
 h2 {
   font-size: 1.4em;
 }
+
 h3 {
   font-size: 1.2em;
 }
+
 h4 {
   font-size: 1em;
 }
+
 h5 {
   font-size: 0.8em;
 }
+
 h6 {
   font-size: 0.6em;
+}
+
+// Hidden section ===========================================
+.hidden {
+  display: none;
 }
 
 // Source code ===========================================
@@ -76,28 +106,36 @@ code {
   border-radius: 5px;
 }
 
-// Hyperlinks ============================================
+// Internal Hyperlinks ============================================
 a {
-  position: relative;
-  overflow: hidden;
-  text-decoration: none;
+  transition: background-size 0.4s ease;
+  background-image: linear-gradient(180deg, transparent 80%, #42c46b 0em);
+  background-size: 0 100%;
+  background-repeat: no-repeat;
   color: var(--primary-color-link);
-  &::after {
-    content: '';
-    background: rgba(rgb(221, 235, 132), 0.25);
-    position: absolute;
-    left: 0px;
-    bottom: -2px;
-    width: 100%;
-    height: 4px;
-    z-index: -1;
-    transition: 0.35s cubic-bezier(0.15, 0, 0, 2.05);
+  text-decoration: none;
+  &:hover {
+    background-size: 100% 100%;
+    color: var(--font-color);
   }
-  &:hover:after {
-    left: 0;
-    bottom: -2px;
-    width: 100%;
-    height: 100%;
+}
+
+// External Hyperlinks ============================================
+a.external-link {
+  transition: background-size 0.4s ease;
+  background-image: linear-gradient(180deg, transparent 80%, #4b85e8 0em);
+  background-size: 0 100%;
+  background-repeat: no-repeat;
+  color: var(--primary-color-link);
+  text-decoration: none;
+  &:hover {
+    background-size: 100% 100%;
+    color: var(--font-color);
+  }
+  &:only-child:before {
+    content: var(--external-link-symbol);
+    padding-left: 2px;
+    padding-right: 5px;
   }
 }
 
@@ -108,6 +146,7 @@ a.user-mention {
   border-radius: 15px;
   color: var(--font-color);
   font-size: var(--user-mention-size);
+  white-space: nowrap;
   &:hover {
     color: white;
   }
@@ -116,203 +155,12 @@ a.user-mention {
   }
 }
 
-// Main content of the page =============================
-#Content {
-  position: relative;
-  max-width: $base-width;
-  margin: auto;
-  // margin-left: 20px;
-  padding: 20px !important;
-
-  &.fullWidth {
-    max-width: 100%;
-  }
-
-  .columnLayout {
-    padding-top: 10px;
-    // 2 equal columns layout
-    &.two-equal {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-
-      .cell {
-        &.normal {
-          flex-basis: 50%;
-          margin-left: 32px;
-          @media screen and (max-width: 1024px) {
-            margin-left: 0px;
-          }
-        }
-        p {
-          padding-top: 10px;
-        }
-      }
-      @media screen and (max-width: 1024px) {
-        width: 100%;
-        flex-direction: column;
-      }
-    }
-
-    // 2 columns layout with smaller in the right
-    &.two-right-sidebar {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-
-      .cell {
-        &.normal {
-          flex-basis: 66.6%;
-        }
-        &.aside {
-          flex-basis: 33.3%;
-          margin-left: 32px;
-          @media screen and (max-width: 1024px) {
-            margin-left: 0px;
-          }
-        }
-        p {
-          padding-top: 10px;
-        }
-      }
-      @media screen and (max-width: 1024px) {
-        width: 100%;
-        flex-direction: column;
-      }
-    }
-
-    // 2 columns layout with smaller in the left
-    &.two-left-sidebar {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-
-      .cell {
-        &.normal {
-          flex-basis: 66.6%;
-          margin-left: 32px;
-        }
-        &.aside {
-          flex-basis: 33.3%;
-          @media screen and (max-width: 1024px) {
-            margin-left: 30px;
-          }
-        }
-        p {
-          padding-top: 10px;
-        }
-      }
-      @media screen and (max-width: 1024px) {
-        width: 100%;
-        flex-direction: column;
-      }
-    }
-
-    // 3 equal columns layout
-    &.three-equal {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-
-      .cell {
-        &.normal {
-          flex-basis: 33.3%;
-          margin-left: 32px;
-          @media screen and (max-width: 1024px) {
-            margin-left: 0px;
-          }
-        }
-        p {
-          padding-top: 10px;
-        }
-      }
-      @media screen and (max-width: 1024px) {
-        width: 100%;
-        flex-direction: column;
-      }
-    }
-
-    // 3 columns layout with 2 sides smaller
-    &.three-with-sidebars {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-
-      .cell {
-        &.normal {
-          flex-basis: 50%;
-          margin-left: 32px;
-          margin-right: 32px;
-        }
-        &.sidebars {
-          flex-basis: 25%;
-          @media screen and (max-width: 1024px) {
-            margin-left: 0px;
-          }
-        }
-        p {
-          padding-top: 10px;
-        }
-      }
-      @media screen and (max-width: 1024px) {
-        width: 100%;
-        flex-direction: column;
-      }
-    }
-  }
-}
-
-// Macro Content by Label ==================================
-ul.content-by-label li div span.icon {
-  display: none;
-}
-
-ul.content-by-label {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-ul.content-by-label li {
-  display: flex;
-  padding-left: 15px;
-  padding-top: 10px;
-  text-decoration: none;
-}
-
-ul.content-by-label li::before {
-  content: '\1F4CB'; // notebook 📋 emoji
-  padding-right: 5px;
-}
-
 // Macro Child Pages ==================================
 ul.childpages-macro {
   font-size: 16px;
 }
 ul.childpages-macro li {
   padding-top: 5px;
-}
-
-// Macro TOC===============================================
-.toc-macro ul.toc-indentation {
-  margin-top: 0;
-}
-.toc-macro {
-  font-size: 16px;
-}
-.toc-macro span.toc-outline {
-  padding-right: 5px;
-}
-.toc-macro.hidden-outline span.toc-outline {
-  display: none;
-}
-.toc-macro li.toc-empty-item {
-  list-style-type: none;
-}
-@media print {
-  .toc-macro.non-printable {
-    display: none;
-  }
 }
 
 // Tables embedded in a ‘Page Properties’ Macro will be displayed borderless

@@ -19,10 +19,16 @@ export default (): Config => ({
     baseURL: process.env.CPV_MATOMO_BASE_URL || '',
     idSite: process.env.CPV_MATOMO_ID_SITE || '',
   },
+  google: {
+    tag: process.env.CPV_GOOGLE_ANALYTICS || '',
+  },
   cache: {
     cacheTTL:
       (process.env.CACHE_TTL && parseInt(process.env.CACHE_TTL, 10)) || 86400,
     cacheMax:
       (process.env.CACHE_MAX && parseInt(process.env.CACHE_MAX, 10)) || 10,
+  },
+  logging: {
+    enableLoggerMiddleware: process.env.ENABLE_LOGGER_MIDDLEWARE === 'true',
   },
 });

@@ -1,0 +1,109 @@
+// =====================================================
+// Macro 'Content by Label' styles
+// Styling lists of pages and labels (if shown)
+// =====================================================
+
+// Macro Content by Label ==================================
+ul.content-by-label {
+  li div span.icon {
+    // to hide a label 'Page:' shown before the title page as we replace it by an emoji
+    display: none;
+  }
+
+  // list-style-type: none;
+  // margin-left: -2em;
+  margin: 0;
+  padding: 0;
+
+  > li {
+    display: flex;
+    padding-top: 10px;
+    text-decoration: none;
+  }
+
+  // DIV '.details' used in ‘Content by Label’ Macro =====================
+  .details {
+    color: var(--font-color);
+    padding: 15px;
+    border: var(--macro-content-by-label-border);
+    border-radius: var(--macro-content-by-label-radius);
+    width: 100%;
+    // insert the emoji before the URL link to the page
+    > a {
+      &::before {
+        content: var(--macro-content-by-label-symbol-page);
+        padding-top: 5px;
+        font-size: 1em;
+        padding-right: 10px;
+      }
+    }
+    span.smalltext {
+      p {
+        margin: 0;
+      }
+      font-size: 0.9em;
+    }
+    blockquote {
+      width: 70%;
+      margin: 20px auto;
+      color: var(--font-color);
+      border-left: 8px solid #578ff0;
+      line-height: 1.2;
+      font-size: 1em;
+      padding: 10px;
+      background: var(--bg-blockquote);
+      border-radius: 5px;
+      &::before {
+        position: absolute;
+        top: -5px;
+        left: -60px;
+        font-family: 'Font Awesome 5 Free', sans-serif;
+        font-weight: 600; // fa-solid for free usage
+        content: '\f10d';
+        font-size: 40px;
+        color: gray;
+      }
+      &::after {
+        content: '';
+      }
+    }
+  }
+}
+
+// Label details ==================================
+// style to show the labels for a certain page while shown in the macro content by labels
+.label-details {
+  ul.label-list {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 0px;
+    margin: 0;
+    list-style-type: none;
+    line-height: 1em;
+
+    &::before {
+      content: var(--macro-content-by-label-symbol-label); // example '🏷'
+      vertical-align: middle;
+    }
+
+    > li.aui-label {
+      // inline-block to display labels horizontally and breaking in multiple lines if needed
+      display: inline-block;
+      padding: 0;
+      margin: 2.5px 5px 2.5px 0;
+      background-color: var(--highlight-grey);
+      border: 1px solid var(--highlight-grey);
+      border-radius: 5px;
+
+      a.aui-label-split-main {
+        cursor: default;
+        // Disable the link frorm the labels. Confluence goes to a search page with all content by label
+        pointer-events: none;
+        margin: 0px 5px 0px 5px;
+        text-decoration: none;
+        color: var(--font-color);
+        font-size: 0.6em;
+      }
+    }
+  }
+}

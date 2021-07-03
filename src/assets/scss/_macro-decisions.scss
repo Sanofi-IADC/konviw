@@ -1,0 +1,15 @@
+// Decisions ===========================================
+ul.decision-list {
+  list-style-type: none !important;
+  margin: 0;
+  padding: 0;
+
+  > li {
+    padding: 5px 20px 0px;
+
+    &::before {
+      content: var(--macro-decision-symbol);
+      padding-right: 5px;
+    }
+  }
+}

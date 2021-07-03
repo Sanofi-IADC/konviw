@@ -1,0 +1,30 @@
+// Checkboxes ===========================================
+ul.inline-task-list {
+  list-style-type: none !important;
+  margin: 0;
+  padding-left: 10;
+
+  > li {
+    position: relative;
+    padding: 5px 20px 0px;
+    text-decoration: none;
+
+    &.checked::before {
+      content: '\2611'; /* You can also use UTF-8 character codes*/
+      font-size: 1.5em;
+      color: green;
+      left: -0.5em;
+      position: absolute;
+      top: -2px;
+    }
+
+    &::before {
+      content: '\2610';
+      font-size: 1.5em;
+      color: grey;
+      left: -0.5em;
+      position: absolute;
+      top: -2px;
+    }
+  }
+}

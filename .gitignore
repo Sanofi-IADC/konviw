@@ -3,6 +3,7 @@
 /node_modules
 /docs/.vitepress/dist
 /docs/.vuepress/dist
+/docs/code
 
 # Logs
 logs

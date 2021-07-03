@@ -1,26 +1,27 @@
 import { Controller, Get } from '@nestjs/common';
-import {
-  HealthCheck,
-  HealthCheckService,
-  HttpHealthIndicator,
-} from '@nestjs/terminus';
-import { ConfigService } from '@nestjs/config';
-import Config from '../config/config.d';
-
+import { HealthCheck, HealthCheckService } from '@nestjs/terminus';
+import { ApiHealthService } from './health-atlassian.service';
+import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+@ApiTags('health')
 @Controller('health')
 export class HealthController {
   constructor(
-    private config: ConfigService,
-    private health: HealthCheckService,
-    private dns: HttpHealthIndicator,
+    private readonly apiHealth: ApiHealthService,
+    private readonly health: HealthCheckService,
   ) {}
 
+  /**
+   * @GET (controller)
+   * @description Health check controller to show Konviw and Atlassian API status
+   * @return {JSON} '{"status": "ok"}' - terminus JSON response
+   */
+  @ApiOkResponse({
+    description:
+      'Health check controller to show Konviw and Atlassian API status.',
+  })
   @Get()
   @HealthCheck()
-  check() {
-    const baseURL = this.config.get<Config>('confluence.baseURL');
-    return this.health.check([
-      async () => this.dns.pingCheck('Atlassian API', `${baseURL}`),
-    ]);
+  apiCheck() {
+    return this.health.check([async () => this.apiHealth.apiCheck()]);
   }
 }

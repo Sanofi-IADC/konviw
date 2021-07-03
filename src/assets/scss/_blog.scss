@@ -1,0 +1,77 @@
+// Blog Post header styles ====================================
+/* Some vars */
+$background-color: hsl(50, 5%, 97%);
+$black: hsl(200, 40%, 10%);
+$white: $background-color;
+$base-font-size: 25px;
+$base-line-height: 1.5em;
+$color-contrast-lower: #7785ab;
+$blog-header-font: white;
+
+.blog--header {
+  background-color: $color-contrast-lower;
+  position: relative;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  padding: 150px 0;
+  -webkit-clip-path: polygon(0% 0%, 100% 0%, 100% calc(100% - 1em), 0% 100%);
+  clip-path: polygon(0% 0%, 100% 0%, 100% calc(100% - 3em), 0% 100%);
+}
+
+.blog--box {
+  position: absolute;
+  top: 35%;
+  left: 5%;
+}
+
+.blog--vCard {
+  color: $blog-header-font;
+  display: inline-block;
+  vertical-align: middle;
+}
+.blog--title {
+  color: $blog-header-font;
+  padding: 5px;
+  font-size: 40px;
+  font-weight: bolder;
+  text-align: left;
+}
+
+.blog--when,
+.blog--email {
+  color: $blog-header-font;
+  font-size: $small-text;
+}
+
+section.blog--excerpt {
+  max-width: $base-width;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.blog--excerpt blockquote {
+  font-size: 1.3em;
+  width: 70%;
+  margin: 20px auto;
+  color: var(--font-color);
+  padding: 0.5em 25px 0.5em 25px;
+  border-left: 8px solid #78c0a8;
+  line-height: 1.6;
+  position: relative;
+  background: var(--bg-blockquote);
+  border-radius: 5px;
+  &::before {
+    position: absolute;
+    font-family: 'Font Awesome 5 Free', sans-serif;
+    font-weight: 900; // fa-solid for free usage
+    top: -30px;
+    left: -120px;
+    content: '\f10d';
+    font-size: 100px;
+    color: var(--font-color);
+  }
+  &::after {
+    content: '';
+  }
+}

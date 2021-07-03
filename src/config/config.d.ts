@@ -3,6 +3,8 @@ interface Config {
 
   version: string;
 
+  httpsProxy?: string;
+
   web: {
     port: number;
     basePath: string;
@@ -22,9 +24,17 @@ interface Config {
     idSite: string;
   };
 
+  google: {
+    tag: string;
+  };
+
   cache: {
     cacheTTL: number;
     cacheMax: number;
+  };
+
+  logging: {
+    enableLoggerMiddleware: boolean;
   };
 }
 

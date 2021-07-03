@@ -1,6 +1,7 @@
 import fixToc from '../../../src/proxy-page/steps/fixToc';
 import { ContextService } from '../../../src/context/context.service';
 import { createModuleRefForStep } from './utils';
+import { Step } from '../../../src/proxy-page/proxy-page.step';
 
 const example =
   '<html><head></head><body><div id="Content">' +
@@ -20,11 +21,12 @@ const example =
 
 describe('ConfluenceProxy / fix TOC', () => {
   let context: ContextService;
-  const step = fixToc();
+  let step: Step;
 
   beforeEach(async () => {
     const moduleRef = await createModuleRefForStep();
     context = moduleRef.get<ContextService>(ContextService);
+    step = fixToc();
 
     context.Init('XXX', '123456', 'dark');
     context.setHtmlBody(example);

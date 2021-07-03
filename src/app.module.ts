@@ -7,9 +7,8 @@ import {
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { HttpModule } from './http/http.module';
 import { TerminusModule } from '@nestjs/terminus';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { HealthController } from './health/health.controller';
+import { ApiHealthService } from './health/health-atlassian.service';
 import { ContextService } from './context/context.service';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { ConfluenceModule } from './confluence/confluence.module';
@@ -39,9 +38,9 @@ import CustomHttpCacheInterceptor from './cache/custom-http-cache.interceptor';
       inject: [ConfigService],
     }),
   ],
-  controllers: [AppController, HealthController],
+  controllers: [HealthController],
   providers: [
-    AppService,
+    ApiHealthService,
     ContextService,
     {
       provide: APP_INTERCEPTOR,
@@ -50,8 +49,11 @@ import CustomHttpCacheInterceptor from './cache/custom-http-cache.interceptor';
   ],
 })
 export class AppModule implements NestModule {
+  constructor(private config: ConfigService) {}
+
   configure(consumer: MiddlewareConsumer) {
-    // TODO: Improve the logger customization in development mode (* for all routes)
-    consumer.apply(LoggerMiddleware).forRoutes('*');
+    if (this.config.get('logging.enableLoggerMiddleware')) {
+      consumer.apply(LoggerMiddleware).forRoutes('*');
+    }
   }
 }

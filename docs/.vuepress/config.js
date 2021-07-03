@@ -1,20 +1,22 @@
 const package = require('../../package.json');
 
 module.exports = {
+  title: package.name,
   description: package.description,
+  lang: 'en-US',
   version: package.version,
-  base: '/konviw/', // when published to GitHub Pages
-  // base: '/', // when rendered locally
+  base: '/konviw/',
   head: [['link', { rel: 'icon', href: '/konviw.png' }]],
   themeConfig: {
     version: package.version,
     logo: '/konviw.svg',
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Introduction', link: '/introduction' },
-      { text: 'Installation', link: '/installation' },
-      { text: 'Usage', link: '/usage' },
+      { text: 'Documentation', link: '/introduction' },
+      { text: 'Demo', link: '/demoIntroduction' },
       { text: 'About', link: '/about' },
+      { text: 'Changelog', link: '/changelog' },
+      { text: 'API', link: 'https://konviw.vercel.app/cpv/oas3' },
       { text: 'GitHub', link: 'https://github.com/Sanofi-IADC/konviw' },
     ],
     // sidebar: 'auto',
@@ -22,21 +24,25 @@ module.exports = {
       {
         title: 'Introduction', // required
         path: '/introduction', // optional, link of the title, which should be an absolute path and must exist
-        collapsable: false, // optional, defaults to true
-        // sidebarDepth: 2, // optional, defaults to 1
       },
       {
         title: 'Installation',
-        path: '/installation', // optional, link of the title, which should be an absolute path and must exist
-        // sidebarDepth: 2, // optional, defaults to 1
+        path: '/installation',
+      },
+      {
+        title: 'Architecture',
+        path: '/architecture',
+      },
+      {
+        title: 'Performance',
+        path: '/performance',
       },
       {
         title: 'Usage',
-        path: '/usage', // optional, link of the title, which should be an absolute path and must exist
+        path: '/usage',
       },
       {
-        title: 'Demo', // required
-        collapsable: true, // optional, defaults to true
+        title: 'Demo',
         children: [
           '/demoIntroduction',
           '/demoNoTitle',
@@ -44,12 +50,23 @@ module.exports = {
           '/demoComments',
           '/demoBlogPost',
           '/demoSlidesDocs',
+          '/demoJira',
+          '/demoMultiFrame',
+          '/demoCharts',
         ],
       },
       '/about',
     ],
+    lastUpdated: 'Last Updated',
   },
-  plugins: ['@vuepress/back-to-top'],
+  plugins: [
+    '@vuepress/back-to-top',
+    '@vuepress/google-analytics',
+    // Plugin / Google Analytics options
+    {
+      ga: 'G-2VWWHG99CK',
+    },
+  ],
   markdown: {
     extendMarkdown: (md) => {
       md.set({ breaks: true });
