@@ -1,3 +1,12 @@
+## [1.10.2](https://github.com/Sanofi-IADC/konviw/compare/v1.10.1...v1.10.2) (2021-07-03)
+
+
+### Bug Fixes
+
+* **addJira:** manage servers defined in ENV vars ([725aa6f](https://github.com/Sanofi-IADC/konviw/commit/725aa6f3e18dfad3077daf62b57db35c8bf182db))
+* **docs:** remove typedoc cause issues dependencies ([9d19580](https://github.com/Sanofi-IADC/konviw/commit/9d19580d780f8f2e2603b9c4e5324f0ae7894403))
+* **docs:** restore version 8.2.0 ts-loader ([d4a8957](https://github.com/Sanofi-IADC/konviw/commit/d4a8957a8eb2d25609c8ef746bf8362c9c15650f))
+
 ## [1.10.1](https://github.com/Sanofi-IADC/konviw/compare/v1.10.0...v1.10.1) (2021-06-30)
 
 
