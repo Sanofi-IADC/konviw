@@ -32,13 +32,22 @@ describe('Confluence Proxy / addJira', () => {
   let context: ContextService;
   let config: ConfigService;
   let step: Step;
+  const OLD_ENV = process.env;
 
   beforeEach(async () => {
+    jest.resetModules(); // it clears the cache
+    process.env = { ...OLD_ENV }; // Make a copy
     const moduleRef = await createModuleRefForStep();
     config = moduleRef.get<ConfigService>(ConfigService);
+    process.env['CPV_JIRA_System_JIRA_BASE_URL'] =
+      config.get('confluence.baseURL');
     step = addJira(config);
     context = moduleRef.get<ContextService>(ContextService);
     context.Init('XXX', '123456', 'dark');
+  });
+
+  afterAll(() => {
+    process.env = OLD_ENV; // Restore old environment
   });
 
   it('should add the jira grid', async () => {

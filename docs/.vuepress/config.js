@@ -15,6 +15,7 @@ module.exports = {
       { text: 'Documentation', link: '/introduction' },
       { text: 'Demo', link: '/demoIntroduction' },
       { text: 'About', link: '/about' },
+      { text: 'Changelog', link: '/changelog' },
       { text: 'API', link: 'https://konviw.vercel.app/cpv/oas3' },
       { text: 'GitHub', link: 'https://github.com/Sanofi-IADC/konviw' },
     ],
@@ -54,10 +55,6 @@ module.exports = {
           '/demoCharts',
         ],
       },
-      {
-        title: 'Code',
-        path: '/code/modules',
-      },
       '/about',
     ],
     lastUpdated: 'Last Updated',
@@ -65,6 +62,7 @@ module.exports = {
   plugins: [
     '@vuepress/back-to-top',
     '@vuepress/google-analytics',
+    // Plugin / Google Analytics options
     {
       ga: 'G-2VWWHG99CK',
     },
