@@ -79,9 +79,10 @@ export default (config: ConfigService): Step => {
       ({ issues, columns, element, server, filter }, index) => {
         const data = [];
         // Load new base URL if defined a specific connection for Jira as ENV variables
-        let baseUrl =
-          process.env[`CPV_JIRA_${server.replace(/\s/, '_')}_BASE_URL`];
-        if (!baseUrl) baseUrl = config.get('confluence.baseURL');
+        // otherwise default to standard baseURL defined for main server
+        const baseUrl =
+          process.env[`CPV_JIRA_${server.replace(/\s/, '_')}_BASE_URL`] ??
+          config.get('confluence.baseURL');
         issues.forEach((issue) => {
           data.push({
             key: {
