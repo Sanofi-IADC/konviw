@@ -54,10 +54,6 @@ module.exports = {
           '/demoCharts',
         ],
       },
-      {
-        title: 'Code',
-        path: '/code/modules',
-      },
       '/about',
     ],
     lastUpdated: 'Last Updated',
@@ -65,6 +61,7 @@ module.exports = {
   plugins: [
     '@vuepress/back-to-top',
     '@vuepress/google-analytics',
+    // Plugin / Google Analytics options
     {
       ga: 'G-2VWWHG99CK',
     },

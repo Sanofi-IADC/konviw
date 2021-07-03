@@ -22,9 +22,8 @@
     "test:unit:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config jest-e2e.json --runInBand --forceExit",
     "docs:prebuild": "rimraf docs/.vuepress/dist",
-    "docs:code": "typedoc",
     "docs:dev": "vuepress dev docs",
-    "docs:build": "npm run docs:code && vuepress build docs",
+    "docs:build": "vuepress build docs",
     "docs:deploy": "npm run docs:prebuild && npm run docs:build && gh-pages -d docs/.vuepress/dist",
     "scss": "sass ./src/assets/scss:dist/static/css/ --style compressed --no-source-map"
   },
@@ -76,8 +75,6 @@
     "ts-loader": "8.2.0",
     "ts-node": "10.0.0",
     "tsconfig-paths": "3.9.0",
-    "typedoc": "0.21.1",
-    "typedoc-plugin-markdown": "3.10.2",
     "typescript": "4.2.3",
     "vuepress": "1.8.2"
   },
