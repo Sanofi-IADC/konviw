@@ -1,3 +1,11 @@
+# [1.12.0](https://github.com/Sanofi-IADC/konviw/compare/v1.11.0...v1.12.0) (2021-07-04)
+
+
+### Features
+
+* **getPage:** label for private pages via config ([36c82bc](https://github.com/Sanofi-IADC/konviw/commit/36c82bcaaebebc1f8737b02c4e56e17c8966c6e3))
+* **http-exception:** nice 403 error code ([31ddc71](https://github.com/Sanofi-IADC/konviw/commit/31ddc719e1593196f448ab5049e7abf27ea6c6ba))
+
 # [1.11.0](https://github.com/Sanofi-IADC/konviw/compare/v1.10.2...v1.11.0) (2021-07-04)
 
 
