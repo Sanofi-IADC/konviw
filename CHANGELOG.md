@@ -1,3 +1,10 @@
+# [1.11.0](https://github.com/Sanofi-IADC/konviw/compare/v1.10.2...v1.11.0) (2021-07-04)
+
+
+### Features
+
+* **404:** friendly 404 message ([59ff3dd](https://github.com/Sanofi-IADC/konviw/commit/59ff3ddcec260fb49af8cf723c56ae49e463dc25))
+
 ## [1.10.2](https://github.com/Sanofi-IADC/konviw/compare/v1.10.1...v1.10.2) (2021-07-03)
 
 
