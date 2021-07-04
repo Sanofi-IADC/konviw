@@ -15,6 +15,9 @@ export default (): Config => ({
     apiTimeOut: process.env.CPV_CONFLUENCE_API_TIMEOUT,
     apiMaxRedirects: process.env.CPV_CONFLUENCE_API_MAX_REDIRECTS || '5',
   },
+  konviw: {
+    private: process.env.CPV_KONVIW_PRIVATE_PAGE,
+  },
   matomo: {
     baseURL: process.env.CPV_MATOMO_BASE_URL || '',
     idSite: process.env.CPV_MATOMO_ID_SITE || '',
