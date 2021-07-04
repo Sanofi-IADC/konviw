@@ -43,7 +43,7 @@ async function bootstrap() {
     }),
   );
 
-  app.useGlobalFilters(new HttpExceptionFilter());
+  app.useGlobalFilters(new HttpExceptionFilter(config));
 
   app.setGlobalPrefix(`${basePath}`);
   app.disable('x-powered-by');
