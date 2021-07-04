@@ -1,6 +1,6 @@
 {
   "name": "konviw",
-  "version": "1.10.2",
+  "version": "1.11.0",
   "description": "Enterprise public viewer for your Confluence pages.",
   "author": "Jose Gascon",
   "private": true,
@@ -60,7 +60,7 @@
     "@typescript-eslint/parser": "4.28.0",
     "@vuepress/plugin-back-to-top": "1.8.2",
     "@vuepress/plugin-google-analytics": "1.8.2",
-    "copyfiles": "^2.4.1",
+    "copyfiles": "2.4.1",
     "eslint": "7.27.0",
     "eslint-config-prettier": "7.2.0",
     "eslint-plugin-prettier": "3.3.1",
