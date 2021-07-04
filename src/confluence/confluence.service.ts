@@ -5,12 +5,16 @@ import {
   Injectable,
   ForbiddenException,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { AxiosResponse } from 'axios';
 
 @Injectable()
 export class ConfluenceService {
   private readonly logger = new Logger(ConfluenceService.name);
-  constructor(private http: HttpService) {}
+  constructor(
+    private http: HttpService,
+    private readonly config: ConfigService,
+  ) {}
 
   /**
    * @function getPage Service
@@ -42,12 +46,14 @@ export class ConfluenceService {
       this.logger.log(err, 'error:getPage');
       throw new HttpException(`error:getPage for page ${pageId} > ${err}`, 404);
     }
-    // Check if the label iadc-private is present in the metadata labels
+    // Check if the label defined in configuration for private pages is present in the metadata labels
     if (
       results.data.metadata.labels.results.find(
-        (label: { name: string }) => label.name === 'iadc-private',
+        (label: { name: string }) =>
+          label.name === this.config.get('konviw.private'),
       )
     ) {
+      this.logger.log(`Page ${pageId} can't be rendered because is private`);
       throw new ForbiddenException('This page is private.');
     }
     return results;

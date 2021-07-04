@@ -19,6 +19,10 @@ interface Config {
     apiMaxRedirects: string;
   };
 
+  konviw: {
+    private: string;
+  };
+
   matomo: {
     baseURL: string;
     idSite: string;
