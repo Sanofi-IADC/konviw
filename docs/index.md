@@ -7,7 +7,7 @@ actionText: Get Started →
 actionLink: /introduction
 features:
   - title: Read-only Confluence pages
-    details: Page content formated with configurable CSS stylesheets, zoomable images, draw.io diagrams preview, web statisics, code with syntax highlighted, reading progress bar...
+    details: Page content formated with configurable CSS stylesheets, zoomable images, draw.io diagrams preview, web statistics, code with syntax highlighted, reading progress bar...
   - title: Simpler API
     details: Simplified REST API providing a read-only access to search pages and retrieve page content.
   - title: Create stunning Presentations on the Web

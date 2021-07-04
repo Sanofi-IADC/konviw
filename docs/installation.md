@@ -32,6 +32,17 @@ Configuration is made with environment variables. They can also be defined with 
 - `CPV_MATOMO_ID_SITE`: Id of the Confluence public viewer site in Matomo. _Optional_
 - `CPV_GOOGLE_ANALYTICS`: Tag for tracking web analytics vis Google Analytics. _Optional_
 
+If you have multiple Jira instances connected to your Confluence server you can provide the URL and access credentials so konviw will render properly the Jira Issues/Filter macros for each respective server:
+
+- `CPV_JIRA_System_JIRA_BASE_URL`: Jira server base URL. _Optional_
+- `CPV_JIRA_System_JIRA_API_USERNAME`: Jira API username (usually an email address). _Optional_
+- `CPV_JIRA_System_JIRA_API_TOKEN`: Jira API token. _Optional_
+- `CPV_JIRA_Other_JIRA_BASE_URL`: Jira server base URL. _Optional_
+- `CPV_JIRA_Other_JIRA_API_USERNAME`: Jira API username (usually an email address). _Optional_
+- `CPV_JIRA_Other_JIRA_API_TOKEN`: Jira API token. _Optional_
+
+Credentials for Jira and Confluence servers may be the same if the username has enought rights to access to all the servers.
+
 ## Development
 
 1. Clone the repo:
@@ -125,12 +136,12 @@ As you see we use CSS variables for the most common styles shared across compone
 
 ## Tests
 
-
 ### Introduction
 
 We use [**Jest**](https://jestjs.io/) to implement our unit tests. We will show you our unit testing **strategy** for testing the **Steps**, with an example.
 
 **Reminder:** Unit tests are developers oriented tests. Their purposes are:
+
 - To let developers add new functionnalities without breaking something
 - To make good documentation of what a component should do
 - Ensure that an isolated component is working as expected
@@ -139,6 +150,7 @@ We use [**Jest**](https://jestjs.io/) to implement our unit tests. We will show 
 ### Strategy
 
 A classic unit test is done this way:
+
 1. Set up a context
 2. Set the expected result for the context
 3. Execute the piece of code we want to test on the context
@@ -153,17 +165,20 @@ function multiplication(a: number, b: number) {
 ```
 
 First set the context
+
 ```js
 const a = 2;
 const b = 10;
 ```
 
 Then the expected result
+
 ```js
-const expectedResult = 20 // according to the context
+const expectedResult = 20; // according to the context
 ```
 
 Finally, call the function and check the result
+
 ```js
 const result = multiplication(a, b);
 expect(result).toBe(expectedResult);
@@ -198,7 +213,7 @@ export default (): Step => {
 This Step put a heading tag _h1_ at the top of the html page with the title of the page context. So let's test it:
 
 ```ts
-// 1. Set up the context: Minimal html code needed 
+// 1. Set up the context: Minimal html code needed
 const example = `
 <html>
   <head></head>
@@ -208,7 +223,7 @@ const example = `
       </div>
   </body>
 </html>
-`
+`;
 
 describe('addHeaderTitle', () => {
   let context: ContextService;
@@ -223,11 +238,11 @@ describe('addHeaderTitle', () => {
   it('should add the h1 title', () => {
     const step = addHeaderTitle();
     // 1. Set up the context: Set the ContextService config
-    let title = 'I am the Title'
+    let title = 'I am the Title';
     context.setTitle(title);
     context.setHtmlBody(example);
     // 2. Set the expected result
-    const expectedResult = `<h1 class="titlePage">${title}</h1>`
+    const expectedResult = `<h1 class="titlePage">${title}</h1>`;
     // 3. Execute the code to test
     step(context);
     // 4. Make the assertion
