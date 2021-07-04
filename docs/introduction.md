@@ -25,7 +25,7 @@ Konviw is an open source public viewer for Confluence pages in Enterprise privat
 ### Features
 
 - Simplified REST API providing a read-only access to search pages and retrieve page content
-- Page content formated with configurable CSS stylesheets, zoomable images, draw.io diagrams preview, web statisics, reading progress...
+- Page content rendered with configurable CSS stylesheets, zoomable images, draw.io diagrams preview, web statistics, reading progress...
 - Nicer blog pots with image header, tagline, author and read time estimation
 - Slides (thanks to reveal.js) from a Confluence page
 
@@ -41,7 +41,7 @@ Konviw is an open source public viewer for Confluence pages in Enterprise privat
 - [x] Comments
 - [ ] Dockerized deployment
 - [x] Make the 'perf_hooks' measurement optional via .env configuration
-- [x] Jira macro renders issues as a table
+- [x] Jira macro renders issues as a searchable table
 
 ## Architecture
 
