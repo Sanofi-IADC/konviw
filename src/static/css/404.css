@@ -1,0 +1,57 @@
+/*======================
+    404 page
+=======================*/
+
+@import url('https://fonts.googleapis.com/css?family=Arvo&display=swap');
+
+html {
+  font-family: 'Arvo', serif;
+}
+.page_404 {
+  padding: 10px 0;
+}
+
+.four_zero_four_bg {
+  background-image: url(https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif);
+  height: 400px;
+  background-position: center;
+}
+
+.four_zero_four_bg h1 {
+  font-size: 80px;
+  text-align: center;
+  color: #444444;
+}
+
+.contant_box_404 {
+  margin-top: -70px;
+  text-align: center;
+  color: #444444;
+}
+
+.goToPage-btn {
+  font-size: 16px;
+  padding: 5px 10px;
+  background: #8eca8a;
+  margin: 10px 10px;
+  border-radius: 5px;
+  border: 1px;
+  display: inline-block;
+  font-family: 'Arvo', serif;
+}
+
+.pageID-input {
+  font-size: 16px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid #444444;
+  display: inline-block;
+  font-family: 'Arvo', serif;
+}
+
+.center {
+  margin: auto;
+  width: 80%;
+  max-width: 700px;
+  padding: 10px;
+}
