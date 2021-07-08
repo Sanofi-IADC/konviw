@@ -1,3 +1,10 @@
+# [1.13.0](https://github.com/Sanofi-IADC/konviw/compare/v1.12.0...v1.13.0) (2021-07-08)
+
+
+### Features
+
+* **slides:** jira issues macro now work in slides ([d651fdf](https://github.com/Sanofi-IADC/konviw/commit/d651fdffda13967c411e2448f8d8464d51eefdc6))
+
 # [1.12.0](https://github.com/Sanofi-IADC/konviw/compare/v1.11.0...v1.12.0) (2021-07-04)
 
 
