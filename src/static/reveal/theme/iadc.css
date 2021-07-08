@@ -231,7 +231,7 @@ section.has-light-background h6 {
 .reveal img,
 .reveal video,
 .reveal iframe {
-  max-width: 75%;
+  max-width: 65%;
 }
 
 .reveal strong,
@@ -346,10 +346,13 @@ section.has-light-background h6 {
 }
 
 .reveal table {
-  margin: auto;
-  width: 100%;
+  margin: 0;
+  padding: 0;
+  /* width: 100%; */
   border-collapse: collapse;
   border-spacing: 0;
+  min-width: 100%;
+  width: auto;
 }
 
 .reveal table th {
@@ -359,9 +362,9 @@ section.has-light-background h6 {
 .reveal table th,
 .reveal table td {
   text-align: left;
-  padding: 0.2em 0.5em 0.2em 0.5em;
+  padding: 0.1em 0.1em 0.1em 0.1em;
   border-bottom: 1px solid;
-  vertical-align: top;
+  vertical-align: center;
 }
 
 .reveal table th[align='center'],

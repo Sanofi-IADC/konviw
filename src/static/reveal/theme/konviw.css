@@ -21,7 +21,7 @@ section.has-light-background h6 {
 :root {
   --background-color: #fff;
   --main-font: 'Patrick Hand', sans-serif;
-  --main-font-size: 4.75vmin;
+  --main-font-size: 3.75vmin;
   --main-color: #343434;
   --main-line-height: 1.1em;
   --block-margin: 10px;
@@ -231,7 +231,7 @@ section.has-light-background h6 {
 .reveal img,
 .reveal video,
 .reveal iframe {
-  max-width: 80%;
+  max-width: 65%;
 }
 
 .reveal strong,
@@ -345,10 +345,12 @@ section.has-light-background h6 {
 }
 
 .reveal table {
-  margin: auto;
-  width: 100%;
+  margin: 0;
+  padding: 0;
   border-collapse: collapse;
   border-spacing: 0;
+  min-width: 100%;
+  width: auto;
 }
 
 .reveal table th {
@@ -358,9 +360,9 @@ section.has-light-background h6 {
 .reveal table th,
 .reveal table td {
   text-align: left;
-  padding: 0.2em 0.5em 0.2em 0.5em;
+  padding: 0.1em 0.1em 0.1em 0.1em;
   border-bottom: 1px solid;
-  vertical-align: top;
+  vertical-align: center;
 }
 
 .reveal table th[align='center'],
