@@ -1,3 +1,11 @@
+# [1.14.0](https://github.com/Sanofi-IADC/konviw/compare/v1.13.0...v1.14.0) (2021-07-15)
+
+
+### Features
+
+* **proxy-api:** endpoint to list jira categories ([4a3268f](https://github.com/Sanofi-IADC/konviw/commit/4a3268ff0bf534d32d6ad7bca9ac5aac98d3c461))
+* **proxy-api:** new endpoint to find jira projects ([956c1fd](https://github.com/Sanofi-IADC/konviw/commit/956c1fdf6fd346060a0ce7c0a337ee0ed36fca61))
+
 # [1.13.0](https://github.com/Sanofi-IADC/konviw/compare/v1.12.0...v1.13.0) (2021-07-08)
 
 
