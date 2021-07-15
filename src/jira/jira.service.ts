@@ -1,5 +1,6 @@
-import { HttpService, Injectable, Logger } from '@nestjs/common';
+import { HttpService, Injectable, Logger, HttpException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { AxiosResponse } from 'axios';
 
 @Injectable()
 export class JiraService {
@@ -46,5 +47,60 @@ export class JiraService {
       .catch((e) => {
         this.logger.log(e, 'error:findTickets');
       });
+  }
+
+  /**
+   * @function findProjects Service
+   * @description Return a the projects matching the filter criteria
+   * @return Promise {any}
+   * @param server {string} 'project = FND ORDER BY resolution DESC' - Jira Query Language to filter the issues to retrieve
+   * @param search {string} 'iadc - word to be searched
+   * @param startAt {number} 15 - starting position to handle paginated results
+   */
+  async findProjects(
+    server: string,
+    search: string,
+    startAt: number,
+    maxResults: number,
+    categoryId,
+  ): Promise<AxiosResponse> {
+    // Load new base URL and credencials if defined a specific connection for Jira as ENV variables
+    const key = `CPV_JIRA_${server.replace(/\s/, '_')}`;
+    const baseUrl = process.env[`${key}_BASE_URL`];
+    if (baseUrl) {
+      this.baseUrl = baseUrl;
+      this.apiUsername = process.env[`${key}_API_USERNAME`];
+      this.apiToken = process.env[`${key}_API_TOKEN`];
+    }
+    let params: any = {
+      startAt,
+      maxResults,
+      orderBy: 'name',
+      searchBy: 'key, name',
+      expand: 'description,lead,insight',
+      query: search,
+    };
+    if (categoryId !== 0) {
+      params = {
+        ...params,
+        categoryId: categoryId,
+      };
+    }
+    try {
+      const results: AxiosResponse = await this.http
+        .get(`${this.baseUrl}/rest/api/3/project/search`, {
+          auth: { username: this.apiUsername, password: this.apiToken },
+          params,
+        })
+        .toPromise();
+      this.logger.log(`Retrieving projects from ${server}`);
+      return results;
+    } catch (err) {
+      this.logger.log(err, 'error:findProjects');
+      throw new HttpException(
+        `error:API findProjects for server ${server} > ${err}`,
+        404,
+      );
+    }
   }
 }

@@ -1,7 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { ConfluenceService } from '../confluence/confluence.service';
 import { ContextService } from '../context/context.service';
 import { ConfigService } from '@nestjs/config';
+import { ConfluenceService } from '../confluence/confluence.service';
+import { JiraService } from 'src/jira/jira.service';
 import parseHeaderBlog from './steps/parseHeaderBlog';
 
 @Injectable()
@@ -10,6 +11,7 @@ export class ProxyApiService {
   constructor(
     private config: ConfigService,
     private confluence: ConfluenceService,
+    private jira: JiraService,
     private context: ContextService,
   ) {}
 
@@ -129,6 +131,66 @@ export class ProxyApiService {
     return {
       meta,
       results: parseResults,
+    };
+  }
+
+  /**
+   * getJiraProjects Service to search content in Confluence
+   *
+   * @return Promise {string}
+   * @param server {string} 'System Jira' - Jira server to list projects from
+   * @param search {string} 'iadc' - word to be searched
+   * @param startAt {number} 15 - starting position to handle paginated results
+   */
+  async getJiraProjects(
+    server: string,
+    search: string,
+    startAt: number,
+    maxResults: number,
+    categoryId,
+  ): Promise<any> {
+    const { data } = await this.jira.findProjects(
+      server,
+      search,
+      startAt,
+      maxResults,
+      categoryId,
+    );
+
+    const parseResults = data.values.map((project: any) => {
+      return {
+        key: project.key,
+        name: project.name,
+        description: project.description,
+        avatar48: project.avatarUrls['48x48'],
+        avatar24: project.avatarUrls['24x24'],
+        categoryId: (project.projectCategory ?? '').id,
+        categoryName: (project.projectCategory ?? '').name,
+        categoryDescription: (project.projectCategory ?? '').descriptiom,
+        projectType: project.projectTypeKey,
+        projectStyle: project.style,
+        leadId: project.lead.accountId,
+        leadName: project.lead.displayName,
+        leadActive: project.lead.active,
+        leadAvatar48: project.lead.avatarUrls['48x48'],
+        leadAvatar24: project.lead.avatarUrls['24x24'],
+        totalIssueCount: project.insight.totalIssueCount,
+        lastIssueUpdateTime: project.insight.lastIssueUpdateTime,
+      };
+    });
+
+    const meta = {
+      maxResults: data.maxResults,
+      totalSize: data.total,
+      server,
+      search,
+      next: data.self,
+      prev: data.nextPage,
+    };
+
+    return {
+      meta,
+      projects: parseResults,
     };
   }
 }
