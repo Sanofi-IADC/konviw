@@ -193,4 +193,32 @@ export class ProxyApiService {
       projects: parseResults,
     };
   }
+
+  /**
+   * getJiraProjectCategories Service to retrieve Jira project categories
+   *
+   * @return Promise {string}
+   * @param server {string} 'System Jira' - Jira server to list categories from
+   */
+  async getJiraProjectCategories(server: string): Promise<any> {
+    const { data } = await this.jira.findProjectCategories(server);
+
+    const parseResults = data.map((category: any) => {
+      return {
+        id: category.id,
+        name: category.name,
+        description: category.description ?? '',
+      };
+    });
+
+    const meta = {
+      totalSize: parseResults.length,
+      server,
+    };
+
+    return {
+      meta,
+      categories: parseResults,
+    };
+  }
 }

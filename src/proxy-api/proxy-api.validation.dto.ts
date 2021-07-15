@@ -97,3 +97,14 @@ export class SearchProjectsQueryDTO {
   @Type(() => Number)
   categoryId: number;
 }
+
+export class SearchProjectCategoriesQueryDTO {
+  @ApiProperty({
+    type: String,
+    description: `The Jira server to search in`,
+    example: 'System JIRA',
+  })
+  @IsNotEmpty()
+  @IsString()
+  server: string;
+}

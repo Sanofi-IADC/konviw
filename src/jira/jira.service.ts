@@ -103,4 +103,35 @@ export class JiraService {
       );
     }
   }
+
+  /**
+   * @function findProjectCategories Service
+   * @description Return a the categories created to classify Jira projects
+   * @return Promise {any}
+   */
+  async findProjectCategories(server: string): Promise<AxiosResponse> {
+    // Load new base URL and credencials if defined a specific connection for Jira as ENV variables
+    const key = `CPV_JIRA_${server.replace(/\s/, '_')}`;
+    const baseUrl = process.env[`${key}_BASE_URL`];
+    if (baseUrl) {
+      this.baseUrl = baseUrl;
+      this.apiUsername = process.env[`${key}_API_USERNAME`];
+      this.apiToken = process.env[`${key}_API_TOKEN`];
+    }
+    try {
+      const results: AxiosResponse = await this.http
+        .get(`${this.baseUrl}/rest/api/3/projectCategory`, {
+          auth: { username: this.apiUsername, password: this.apiToken },
+        })
+        .toPromise();
+      this.logger.log(`Retrieving project categories from ${server}`);
+      return results;
+    } catch (err) {
+      this.logger.log(err, 'error:findProjectCategories');
+      throw new HttpException(
+        `error:API findProjectCategories for server ${server} > ${err}`,
+        404,
+      );
+    }
+  }
 }

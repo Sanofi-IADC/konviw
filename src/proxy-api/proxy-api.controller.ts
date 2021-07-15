@@ -4,6 +4,7 @@ import {
   PostsParamsDTO,
   SearchQueryDTO,
   SearchProjectsQueryDTO,
+  SearchProjectCategoriesQueryDTO,
 } from './proxy-api.validation.dto';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 @ApiTags('proxy-api')
@@ -60,5 +61,20 @@ export class ProxyApiController {
       queries.maxResults,
       queries.categoryId,
     );
+  }
+
+  /**
+   * @GET (controller) projects/categories
+   * @description Route to retrieve the list of project categories from a Jira server
+   * @return {string} 'JSON' - JSON with the list of Jira project categories
+   */
+  @ApiOkResponse({
+    description: 'List project categories from a Jira server',
+  })
+  @Get('projects/categories')
+  async getJiraProjectCategories(
+    @Query() queries: SearchProjectCategoriesQueryDTO,
+  ): Promise<any> {
+    return this.proxyApi.getJiraProjectCategories(queries.server);
   }
 }
