@@ -8,7 +8,7 @@ module.exports = {
   base: '/konviw/',
   head: [
     ['link', { rel: 'icon', href: '/konviw.png' }],
-    ['meta', { property: 'og:image', content: '/konviw.svg' }],
+    ['meta', { property: 'og:image', content: '/konviw/konviw.svg' }],
     ['meta', { property: 'og:title', content: package.name }],
     ['meta', { property: 'og:description', content: package.description }],
     [
@@ -18,7 +18,10 @@ module.exports = {
     ['meta', { property: 'og:site_name', content: package.name }],
     ['meta', { name: 'twitter:card', content: 'summary' }],
     ['meta', { name: 'twitter:site', content: '@jhgascon' }],
+    ['meta', { name: 'twitter:title', content: package.name }],
+    ['meta', { name: 'twitter:description', content: package.description }],
     ['meta', { name: 'twitter:creator', content: '@jhgascon' }],
+    ['meta', { name: 'twitter:image', content: '/konviw/konviw.svg' }],
   ],
   themeConfig: {
     version: package.version,
