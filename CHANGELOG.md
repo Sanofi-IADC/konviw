@@ -1,3 +1,10 @@
+## [1.15.1](https://github.com/Sanofi-IADC/konviw/compare/v1.15.0...v1.15.1) (2021-07-18)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @nestjs/serve-static to v2.2.2 ([2539bfb](https://github.com/Sanofi-IADC/konviw/commit/2539bfb5a6f5345f57687f33ad248fd560616208))
+
 # [1.15.0](https://github.com/Sanofi-IADC/konviw/compare/v1.14.0...v1.15.0) (2021-07-18)
 
 
