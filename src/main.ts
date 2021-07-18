@@ -1,7 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { LogLevel, ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { join } from 'path';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { ConfigService } from '@nestjs/config';
@@ -10,6 +9,8 @@ import {
   SwaggerCustomOptions,
   SwaggerModule,
 } from '@nestjs/swagger';
+import { join } from 'path';
+import hbs from 'hbs';
 
 /**
  * Entry point of application. By using the NestFactory.create() method a new Nest application instance is created.
@@ -45,14 +46,24 @@ async function bootstrap() {
 
   app.useGlobalFilters(new HttpExceptionFilter(config));
 
+  // Default path for all routes
   app.setGlobalPrefix(`${basePath}`);
+
+  // Define headers defaults
   app.disable('x-powered-by');
   app.enableCors();
 
+  // Static assets folder
   app.useStaticAssets(join(__dirname, '..', '/static'), {
     prefix: `${basePath}`,
   });
 
+  // Views folder for Handlebar templates
+  app.setBaseViewsDir(join(__dirname, '..', '/views'));
+  app.setViewEngine('hbs');
+  hbs.registerPartials(join(__dirname, '..', '/views/partials'));
+
+  // Set up Swagger
   const configSwagger = new DocumentBuilder()
     .setTitle('konviw')
     .setDescription('Enterprise public viewer for your Confluence pages')
@@ -71,6 +82,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, configSwagger);
   SwaggerModule.setup(`${basePath}/oas3`, app, document, customOptions);
 
+  // Listen to server PORT
   await app.listen(process.env.PORT || 3000);
 }
 bootstrap();

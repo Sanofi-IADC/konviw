@@ -7,6 +7,7 @@ import {
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { HttpModule } from './http/http.module';
 import { TerminusModule } from '@nestjs/terminus';
+import { AppController } from './app.controller';
 import { HealthController } from './health/health.controller';
 import { ApiHealthService } from './health/health-atlassian.service';
 import { ContextService } from './context/context.service';
@@ -38,7 +39,7 @@ import CustomHttpCacheInterceptor from './cache/custom-http-cache.interceptor';
       inject: [ConfigService],
     }),
   ],
-  controllers: [HealthController],
+  controllers: [HealthController, AppController],
   providers: [
     ApiHealthService,
     ContextService,

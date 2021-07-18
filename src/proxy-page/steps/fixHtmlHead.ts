@@ -9,7 +9,22 @@ export default (config: ConfigService): Step => {
     const basePath = config.get('web.basePath');
 
     $('head').prepend(
-      `<link rel="apple-touch-icon" sizes="180x180" href="${basePath}/favicon/apple-touch-icon.png">`,
+      `<meta name="description" content="konviw • Enterprise public viewer for Confluence pages.">`,
+      `<meta property="og:image" content="${basePath}/favicon/konviw.png">`,
+      `<meta property="og:title" content="${context.getTitle()}">`,
+      `<meta property="og:description" content="Enterprise public viewer for your Confluence pages.">`,
+      `<meta property="og:url" content="https://sanofi-iadc.github.io/konviw/">`,
+      `<meta property="og:site_name" content="konviw">`,
+      `<meta name="twitter:card" content="summary">`,
+      `<meta name="twitter:site" content="konviw">`,
+      `<meta name="twitter:title" content="${context.getTitle()}">`,
+      `<meta name="twitter:description" content="konviw • Enterprise public viewer for Confluence pages.">`,
+      `<meta name="twitter:creator" content="${context.getAuthor()}">`,
+      `<meta name="twitter:image" content="${basePath}/favicon/konviw.png">`,
+    );
+
+    $('head').prepend(
+      `<link rel="apple-touch-icon" sizes="120x120" href="${basePath}/favicon/apple-touch-icon.png">`,
       `<link rel="icon" type="image/png" sizes="32x32" href="${basePath}/favicon/favicon-32x32.png">`,
       `<link rel="icon" type="image/png" sizes="16x16" href="${basePath}/favicon/favicon-16x16.png">`,
       `<link rel="shortcut icon" href="${basePath}/favicon/favicon.ico">`,

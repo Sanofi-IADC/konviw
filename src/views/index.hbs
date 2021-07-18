@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{{>head}}
+
+<body>
+
+<main class="home">
+  <header class="hero">
+    <img src="{{ basePath }}/images/konviw.svg" alt="hero">
+    <p class="description">Enterprise public viewer for your Confluence pages</p>
+  </header>
+  <div class="features">
+    <div class="feature">
+      <h2>Read-only Confluence pages</h2>
+      <p>Page content formated with configurable CSS stylesheets, zoomable images, draw.io diagrams preview, web statistics, code with syntax highlighted, reading progress bar...</p>
+    </div>
+    <div class="feature">
+      <h2>Simpler API</h2>
+      <p>Simplified REST API providing a read-only access to search pages and retrieve page content.</p>
+    </div>
+    <div class="feature">
+      <h2>Create stunning Presentations on the Web</h2>
+      <p>Web slides deck directly from your Confluence pages. Thanks to the awesome job done by reveal.js</p>
+    </div>
+  </div>
+          <div class="center">
+          <p>To get started just paste a page ID from your Confluence instance and we will bring you there or read the <a
+              href="https://sanofi-iadc.github.io/konviw/">konviw documentation</a>.
+          <p><input type="text" id="pageID" class="pageID-input" size="15" placeholder="Type a Page ID">
+            <button type="button" onclick="goToPage();" class="goToPage-btn">Go to Page</button>
+          </p>
+      </div>
+
+  <p class="home--footer">
+    Made with 💚 Sanofi IADC • Version {{ version }}
+  </p>
+</main>
+
+  {{>gotoPage}}
+
+</body>
+
+</html>

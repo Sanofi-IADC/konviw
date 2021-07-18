@@ -1,10 +1,18 @@
 /* 404 page ================================== */
 
-@import url('https://fonts.googleapis.com/css?family=Arvo&display=swap');
+@import 'rubik';
 
 html {
-  font-family: 'Arvo', serif;
+  font-family: 'Rubik', serif;
   background: #fff;
+}
+
+.konviw_logo {
+  height: 10px;
+  margin: auto;
+  width: 80%;
+  padding: 10px;
+  text-align: center;
 }
 
 .page_404 {
@@ -12,7 +20,6 @@ html {
 }
 
 .page_404_bg {
-  background-image: url(https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif);
   height: 400px;
   background-position: center;
 }
@@ -52,6 +59,7 @@ html {
   width: 80%;
   max-width: 700px;
   padding: 10px;
+  text-align: center;
 }
 
 /* 403 page ================================== */
@@ -88,8 +96,74 @@ h1.page_403 {
   font-weight: 800;
 }
 
-h2.page_403 {
+h2.message_error {
   color: #455d7a;
   text-align: center;
   font-size: 30px;
+}
+
+// Home page
+@media (max-width: 768px) {
+  /*breakpoint*/
+  .container {
+    flex-direction: column;
+  }
+}
+
+.home {
+  padding: 3.6rem 2rem 0;
+  max-width: 960px;
+  margin: 0 auto;
+  display: block;
+
+  .hero {
+    text-align: center;
+
+    img {
+      max-width: 100%;
+      max-height: 280px;
+      display: block;
+      margin: 3rem auto 1.5rem;
+    }
+
+    p.description {
+      font-size: 1.6rem;
+      line-height: 1.3;
+      color: #6a8bad;
+      text-align: center;
+    }
+  }
+
+  .features {
+    border-top: 1px solid #eaecef;
+    padding: 1.2rem 0;
+    margin-top: 2.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    align-content: stretch;
+    justify-content: space-between;
+  }
+
+  .feature {
+    flex: 1;
+    flex-basis: 30%;
+    max-width: 30%;
+    color: #3a5169;
+
+    h2 {
+      font-size: 1.4rem;
+      font-weight: 500;
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+  }
+}
+
+p.home--footer {
+  border-top: 1px solid #eaecef;
+  padding: 1.2rem 0;
+  margin-top: 2.5rem;
+  text-align: center;
+  justify-content: space-between;
 }
