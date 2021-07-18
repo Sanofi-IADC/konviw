@@ -1,0 +1,169 @@
+/* 404 page ================================== */
+
+@import 'rubik';
+
+html {
+  font-family: 'Rubik', serif;
+  background: #fff;
+}
+
+.konviw_logo {
+  height: 10px;
+  margin: auto;
+  width: 80%;
+  padding: 10px;
+  text-align: center;
+}
+
+.page_404 {
+  padding: 10px 0;
+}
+
+.page_404_bg {
+  height: 400px;
+  background-position: center;
+}
+
+.page_404_bg h1 {
+  font-size: 80px;
+  text-align: center;
+  color: #444444;
+}
+
+.page_404_content {
+  margin-top: -70px;
+  text-align: center;
+  color: #444444;
+}
+
+.goToPage-btn {
+  font-size: 16px;
+  padding: 5px 10px;
+  background: #8eca8a;
+  margin: 10px 10px;
+  border-radius: 5px;
+  border: 1px;
+  display: inline-block;
+}
+
+.pageID-input {
+  font-size: 16px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid #444444;
+  display: inline-block;
+}
+
+.center {
+  margin: auto;
+  width: 80%;
+  max-width: 700px;
+  padding: 10px;
+  text-align: center;
+}
+
+/* 403 page ================================== */
+
+.whistle {
+  width: 20%;
+  fill: #f95959;
+  margin: 100px 40%;
+  text-align: left;
+  transform: translate(-50%, -50%);
+  transform: rotate(0);
+  transform-origin: 80% 30%;
+  animation: wiggle 0.2s infinite;
+}
+
+@keyframes wiggle {
+  0% {
+    transform: rotate(3deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(3deg);
+  }
+}
+
+h1.page_403 {
+  margin-top: -100px;
+  margin-bottom: 10px;
+  color: #facf5a;
+  text-align: center;
+  font-size: 90px;
+  font-weight: 800;
+}
+
+h2.message_error {
+  color: #455d7a;
+  text-align: center;
+  font-size: 30px;
+}
+
+// Home page
+@media (max-width: 768px) {
+  /*breakpoint*/
+  .container {
+    flex-direction: column;
+  }
+}
+
+.home {
+  padding: 3.6rem 2rem 0;
+  max-width: 960px;
+  margin: 0 auto;
+  display: block;
+
+  .hero {
+    text-align: center;
+
+    img {
+      max-width: 100%;
+      max-height: 280px;
+      display: block;
+      margin: 3rem auto 1.5rem;
+    }
+
+    p.description {
+      font-size: 1.6rem;
+      line-height: 1.3;
+      color: #6a8bad;
+      text-align: center;
+    }
+  }
+
+  .features {
+    border-top: 1px solid #eaecef;
+    padding: 1.2rem 0;
+    margin-top: 2.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    align-content: stretch;
+    justify-content: space-between;
+  }
+
+  .feature {
+    flex: 1;
+    flex-basis: 30%;
+    max-width: 30%;
+    color: #3a5169;
+
+    h2 {
+      font-size: 1.4rem;
+      font-weight: 500;
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+  }
+}
+
+p.home--footer {
+  border-top: 1px solid #eaecef;
+  padding: 1.2rem 0;
+  margin-top: 2.5rem;
+  text-align: center;
+  justify-content: space-between;
+}
