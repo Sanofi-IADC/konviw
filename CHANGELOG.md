@@ -1,3 +1,12 @@
+# [1.15.0](https://github.com/Sanofi-IADC/konviw/compare/v1.14.0...v1.15.0) (2021-07-18)
+
+
+### Features
+
+* **40x-errors:** custom hbs pages for 403 and 404 ([c361a1a](https://github.com/Sanofi-IADC/konviw/commit/c361a1ab4646b53368f9c534f1806dbb80e61517))
+* **hbs:** add home page and handlebars template ([744a96e](https://github.com/Sanofi-IADC/konviw/commit/744a96e8d2eb477e27c47941f15b33b036f59c41))
+* **meta:** new favicon and twitter card metadata ([c5f0427](https://github.com/Sanofi-IADC/konviw/commit/c5f0427e4785cc47b9871572a6858bc06dda9f36))
+
 # [1.14.0](https://github.com/Sanofi-IADC/konviw/compare/v1.13.0...v1.14.0) (2021-07-15)
 
 
