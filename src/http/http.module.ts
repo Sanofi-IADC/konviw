@@ -7,6 +7,7 @@ import {
   HttpModule as BaseHttpModule,
 } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import httpsProxyAgent from 'https-proxy-agent';
 
 @Module({
   imports: [
@@ -20,6 +21,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         },
         timeout: Number(config.get('confluence.apiTimeOut')),
         maxRedirects: Number(config.get('confluence.apiMaxRedirects')),
+        proxy: false,
+        httpsAgent: httpsProxyAgent(
+          process.env.https_proxy || process.env.http_proxy,
+        ),
       }),
       inject: [ConfigService],
     }),
