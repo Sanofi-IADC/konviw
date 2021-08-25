@@ -31,6 +31,7 @@ import addWebStatsTracker from './steps/addWebStatsTracker';
 import fixDrawioMacro from './steps/fixDrawio';
 import fixChartMacro from './steps/fixChart';
 import fixRoadmap from './steps/fixRoadmap';
+import addFrameMaximize from './steps/addFrameMaximize';
 
 @Injectable()
 export class ProxyPageService {
@@ -110,6 +111,7 @@ export class ProxyPageService {
     addMessageBus(this.config)(this.context);
     addZooming(this.config)(this.context);
     addNoZoom()(this.context);
+    addFrameMaximize()(this.context);
     addHighlightjs(this.config)(this.context);
     addTheme()(this.context);
     addScrollToTop()(this.context);
