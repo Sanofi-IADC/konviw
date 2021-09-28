@@ -22,9 +22,9 @@ import httpsProxyAgent from 'https-proxy-agent';
         timeout: Number(config.get('confluence.apiTimeOut')),
         maxRedirects: Number(config.get('confluence.apiMaxRedirects')),
         proxy: false,
-        httpsAgent: httpsProxyAgent(
-          process.env.https_proxy || process.env.http_proxy,
-        ),
+        httpsAgent: process.env.https_proxy
+          ? new (httpsProxyAgent as any)(process.env.https_proxy)
+          : undefined,
       }),
       inject: [ConfigService],
     }),
