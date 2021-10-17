@@ -39,37 +39,19 @@ export default (config: ConfigService): Step => {
         chartRenderData = JSON.parse(chartRenderData);
 
         // ==== get in separate variables each of the parameters of the chart ====
-        // get the type of chart
-        const typeofChart = chartRenderData['parameters']['type'] ?? 'pie';
-        // vertical columns or horizontal bars
-        const orientationChart =
-          chartRenderData['parameters']['orientation'] ?? 'vertical';
-        // display chart legend
-        const legendChart = chartRenderData['parameters']['legend'] ?? 'true';
-        // show markers
-        const markersChart =
-          chartRenderData['parameters']['showShapes'] ?? 'true';
-        // display stacked bar or area
-        const stackedChart =
-          chartRenderData['parameters']['stacked'] ?? 'false';
-        // display alternative chart display
-        const alternativeChart = chartRenderData['parameters']['3D'] ?? 'false';
-        // colors to fill the chart series
-        const colorsChart = chartRenderData['parameters']['colors'] ?? '';
-        // get the orientation of the series is 'vertical' or 'horizontal'
-        const dataOrientation =
-          chartRenderData['parameters']['dataOrientation'] ?? '';
-        // get the color of the border
-        // const borderColorChart =
-        //   chartRenderData['parameters']['borderColor'] ?? '';
-        // get the parameter color of the background
-        // const bgColorChart = chartRenderData['parameters']['bgColor'] ?? '';
-        // get the parameter chart title
-        const titleChart = chartRenderData['parameters']['title'] ?? '';
-        // get the parameter chart subtitle
-        const subtitleChart = chartRenderData['parameters']['subTitle'] ?? '';
-        // get the parameter for the attachment name
-        const attachmentChart = chartRenderData['parameters']['attachment'];
+        const {
+          typeofChart,
+          orientationChart,
+          legendChart,
+          markersChart,
+          stackedChart,
+          alternativeChart,
+          colorsChart,
+          dataOrientation,
+          titleChart,
+          subtitleChart,
+          attachmentChart,
+        } = getChartParams(chartRenderData);
 
         if (attachmentChart) {
           // Will find <^FileName.png> in => "parameters":{ ... "attachment":"<^FileName.png>" ... }
@@ -247,5 +229,49 @@ export default (config: ConfigService): Step => {
     );
 
     context.getPerfMeasure('fixChartMacro');
+  };
+};
+
+const getChartParams = (chartData) => {
+  // get the type of chart
+  const typeofChart = chartData['parameters']['type'] ?? 'pie';
+  // vertical columns or horizontal bars
+  const orientationChart = chartData['parameters']['orientation'] ?? 'vertical';
+  // display chart legend
+  const legendChart = chartData['parameters']['legend'] ?? 'true';
+  // show markers
+  const markersChart = chartData['parameters']['showShapes'] ?? 'true';
+  // display stacked bar or area
+  const stackedChart = chartData['parameters']['stacked'] ?? 'false';
+  // display alternative chart display
+  const alternativeChart = chartData['parameters']['3D'] ?? 'false';
+  // colors to fill the chart series
+  const colorsChart = chartData['parameters']['colors'] ?? '';
+  // get the orientation of the series is 'vertical' or 'horizontal'
+  const dataOrientation = chartData['parameters']['dataOrientation'] ?? '';
+  // get the color of the border
+  // const borderColorChart =
+  //   chartData['parameters']['borderColor'] ?? '';
+  // get the parameter color of the background
+  // const bgColorChart = chartData['parameters']['bgColor'] ?? '';
+  // get the parameter chart title
+  const titleChart = chartData['parameters']['title'] ?? '';
+  // get the parameter chart subtitle
+  const subtitleChart = chartData['parameters']['subTitle'] ?? '';
+  // get the parameter for the attachment name
+  const attachmentChart = chartData['parameters']['attachment'];
+
+  return {
+    typeofChart,
+    orientationChart,
+    legendChart,
+    markersChart,
+    stackedChart,
+    alternativeChart,
+    colorsChart,
+    dataOrientation,
+    titleChart,
+    subtitleChart,
+    attachmentChart,
   };
 };
