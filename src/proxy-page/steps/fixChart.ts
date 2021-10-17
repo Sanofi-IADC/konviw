@@ -26,8 +26,6 @@ export default (config: ConfigService): Step => {
           return;
         }
 
-        // console.log(`\n====== RENDERING Chart #${index} ======`);
-
         const $2 = cheerio.load(thisBlock);
         let chartRenderData = $2('script').html();
         // remove the wrapper //<![CDATA[ .. //]]>
@@ -74,18 +72,20 @@ export default (config: ConfigService): Step => {
         const attachmentChart = chartRenderData['parameters']['attachment'];
 
         if (attachmentChart) {
-          const attachmentRegex = new RegExp(
-            // Will find <^FileName.png> in => "parameters":{ ... "attachment":"<^FileName.png>" ... }
-            /"parameters":(.|\n)*"attachment":"(.*?)\^(.*?)"/g,
-          ).exec(thisBlock);
+          // Will find <^FileName.png> in => "parameters":{ ... "attachment":"<^FileName.png>" ... }
+          // const attachmentRegex = new RegExp(
+          //   /"parameters":(.|\n)*"attachment":"(.*?)\^(.*?)"/g,
+          // ).exec(thisBlock);
+
           // The previous RegExp is not taking into account the option to save attachment in another space
           // like the Confluence documentation describe in https://support.atlassian.com/confluence-cloud/docs/insert-the-chart-macro/#ChartMacro-AttachmentParameters
           // with options (only covering today the two first ones)
           // - ^attachmentName.png — the chart is saved as an attachment to the current page.
           // - page^attachmentName.png — the chart is saved as an attachment to the page name provided.
           // - space:page^attachmentName.png — the chart is saved as an attachment to the page name provided in the space indicated.
-          const [, , page, attachment] = attachmentRegex ?? [];
-
+          // const [, , page, attachment] = attachmentRegex ?? [];
+          const page = '';
+          const attachment = attachmentChart.replace(new RegExp(/.*\^/g), '');
           if (attachment) {
             $(elementChart).prepend(
               `<figure><img class="img-zoomable"
@@ -104,10 +104,6 @@ export default (config: ConfigService): Step => {
 
           // Let's convert the HTML table(s) to JSON via the npm package tabletojson
           const tables = Tabletojson.convert(tablesHtml);
-          // console.log('typeofChart is ', typeofChart);
-          // console.log('dataOrientation is ', dataOrientation);
-          // console.log('number of tables is ', tables.length);
-          // console.log('converted table is ', tables);
 
           let opXaxis: string;
           let opSeries = 'series: [';
@@ -117,9 +113,9 @@ export default (config: ConfigService): Step => {
               (m, r) => (r.forEach((v, i) => ((m[i] ??= []), m[i].push(v))), m),
               [],
             );
-          for (let i = 0; i < tables.length; i++) {
+          for (const table of tables) {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            Object.entries(tables[i]).forEach(([key, row]) => {
+            Object.entries(table).forEach(([key, row]) => {
               matrix.push(Object.values(row));
             });
             // Object.keys(converted[i][0])) gets the name of the fields
@@ -143,7 +139,7 @@ export default (config: ConfigService): Step => {
                   opSeries =
                     opSeries +
                     '{ name:"' +
-                    Object.keys(tables[i][0])[j] +
+                    Object.keys(table[0])[j] +
                     '", data: [' +
                     element +
                     ']},';
