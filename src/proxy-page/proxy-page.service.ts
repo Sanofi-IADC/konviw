@@ -86,7 +86,7 @@ export class ProxyPageService {
   ): Promise<string> {
     const { data } = await this.confluence.getPage(spaceKey, pageId);
     this.initContext(spaceKey, pageId, theme, style, data);
-    const addJiraPromise = addJira(this.config)(this.context, this.jira);
+    // const addJiraPromise = addJira(this.config)(this.context, this.jira);
     fixHtmlHead(this.config)(this.context);
     fixContentWidth()(this.context);
     fixLinks(this.config)(this.context);
@@ -116,7 +116,7 @@ export class ProxyPageService {
     addReadingProgressBar()(this.context);
     addCopyLinks()(this.context);
     addWebStatsTracker(this.config)(this.context);
-    await addJiraPromise;
+    // await addJiraPromise;
     this.context.Close();
     return this.context.getHtmlBody();
   }
