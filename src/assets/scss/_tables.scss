@@ -33,9 +33,9 @@ table.confluenceTable th.confluenceTh {
 /* all tables should have a top margin of 10px */
 .confluenceTable,
 .table-wrap {
+  margin: auto;
   margin-top: 20px;
   // overflow-x: auto;
-  margin: auto;
 }
 
 /* an exception to above rule for tables that are first child */

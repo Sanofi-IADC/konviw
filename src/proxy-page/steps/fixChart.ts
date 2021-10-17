@@ -32,7 +32,8 @@ export default (config: ConfigService): Step => {
         let chartRenderData = $2('script').html();
         // remove the wrapper //<![CDATA[ .. //]]>
         const chartRenderDataRegex = new RegExp(
-          /\/\/<!\[CDATA\[(\s*(?:.(?<!\]\]>)\s*)*)\/\/\]\]>/g,
+          // /\/\/<!\[CDATA\[(\s*(?:.(?<!\]\]>)\s*)*)\/\/\]\]>/g,
+          /\/\/\<\!\[CDATA\[((.|\n)*)\/\/\]\]>/g,
         ).exec(chartRenderData);
         [, chartRenderData] = chartRenderDataRegex ?? [];
 
