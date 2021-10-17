@@ -67,7 +67,7 @@ export default (config: ConfigService): Step => {
           // - space:page^attachmentName.png — the chart is saved as an attachment to the page name provided in the space indicated.
           // const [, , page, attachment] = attachmentRegex ?? [];
           const page = '';
-          const attachment = attachmentChart.replace(new RegExp(/.*\^/g), '');
+          const attachment = attachmentChart.replace(new RegExp(/.*\^/), '');
           if (attachment) {
             $(elementChart).prepend(
               `<figure><img class="img-zoomable"
@@ -90,24 +90,14 @@ export default (config: ConfigService): Step => {
           let opXaxis: string;
           let opSeries = 'series: [';
           const matrix = [];
-          const transpose = (arr) =>
-            arr.reduce(
-              (m, r) => (r.forEach((v, i) => ((m[i] ??= []), m[i].push(v))), m),
-              [],
-            );
+
           for (const table of tables) {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             Object.entries(table).forEach(([key, row]) => {
               matrix.push(Object.values(row));
             });
-            // Object.keys(converted[i][0])) gets the name of the fields
-            let series = [];
-            // TODO: the horizontal data is not yet working with all charts
-            if (dataOrientation === 'horizontal') {
-              series = matrix;
-            } else {
-              series = transpose(matrix);
-            }
+
+            const series = getSeries(matrix, dataOrientation);
             const labels = series[0];
 
             // ==== set up the opXaxis and opSeries to define labels and series in the chart ====
@@ -290,3 +280,20 @@ const opColors = (colorsChart) => {
     ? `colors: ${JSON.stringify(colorsChart.replace(/\s/g, '').split(','))},`
     : '';
 };
+
+// Function to get the series data in the right sequence
+// TODO: the horizontal data is not yet working with all charts
+const getSeries = (matrix, dataOrientation) => {
+  if (dataOrientation === 'horizontal') {
+    return matrix;
+  } else {
+    return transpose(matrix);
+  }
+};
+
+// Function to transpose an array
+const transpose = (arr) =>
+  arr.reduce(
+    (m, r) => (r.forEach((v, i) => ((m[i] ??= []), m[i].push(v))), m),
+    [],
+  );
