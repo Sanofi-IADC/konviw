@@ -132,30 +132,7 @@ export default (config: ConfigService): Step => {
           opSeries = opSeries + '],';
 
           // ==== Let's prepare all the options to configure accordingly ApexCharts ====
-          const opTitle =
-            titleChart !== ''
-              ? `title: { text: "${titleChart}", align: "center", floating: false},`
-              : `title: { text: undefined},`;
-          const opSubtitle =
-            subtitleChart !== ''
-              ? `subtitle: { text: "${subtitleChart}", align: "center", floating: false},`
-              : `subtitle: { text: undefined},`;
-          const opLegend =
-            legendChart === 'true'
-              ? `legend: { position: "bottom"}`
-              : `legend: { show: false}`;
-          const opMarkers =
-            markersChart === 'true' ? `markers: {size: 7},` : ``;
-          const opBar =
-            orientationChart === 'vertical'
-              ? `bar: {borderRadius: 6, dataLabels: {position: 'top'}}`
-              : `bar: {borderRadius: 6, horizontal: true, dataLabels: {position: 'right'}}`;
-          const opColors =
-            colorsChart !== ''
-              ? `colors: ${JSON.stringify(
-                  colorsChart.replace(/\s/g, '').split(','),
-                )},`
-              : '';
+
           let opGrid = '';
           // grid does not look nice with the radar chart
           if (typeofChart !== 'radar') {
@@ -187,15 +164,17 @@ export default (config: ConfigService): Step => {
              <script type="module">
              document.addEventListener('DOMContentLoaded', function () {
                var options = {
-                 chart: { ${opTypeofChart}, ${opShadow}, ${opLegend} },
+                 chart: { ${opTypeofChart}, ${opShadow}, ${opLegend(
+              legendChart,
+            )} },
                  plotOptions: {
-                  ${opBar}
+                  ${opBar(orientationChart)}
                  },
-                 ${opColors}
-                 ${opTitle}
-                 ${opSubtitle}
+                 ${opColors(colorsChart)}
+                 ${opTitle(titleChart)}
+                 ${opSubtitle(subtitleChart)}
                  ${opStroke}
-                 ${opMarkers}
+                 ${opMarkers(markersChart)}
                  ${opGrid}
                   dataLabels: {
                     enabled: true,
@@ -274,4 +253,40 @@ const getChartParams = (chartData) => {
     subtitleChart,
     attachmentChart,
   };
+};
+
+// ==== Functions to prepare all the options to configure accordingly ApexCharts ====
+
+const opTitle = (titleChart): string => {
+  return titleChart !== ''
+    ? `title: { text: "${titleChart}", align: "center", floating: false},`
+    : `title: { text: undefined},`;
+};
+
+const opSubtitle = (subtitleChart): string => {
+  return subtitleChart !== ''
+    ? `subtitle: { text: "${subtitleChart}", align: "center", floating: false},`
+    : `subtitle: { text: undefined},`;
+};
+
+const opLegend = (legendChart): string => {
+  return legendChart === 'true'
+    ? `legend: { position: "bottom"}`
+    : `legend: { show: false}`;
+};
+
+const opMarkers = (markersChart): string => {
+  return markersChart === 'true' ? `markers: {size: 7},` : ``;
+};
+
+const opBar = (orientationChart) => {
+  return orientationChart === 'vertical'
+    ? `bar: {borderRadius: 6, dataLabels: {position: 'top'}}`
+    : `bar: {borderRadius: 6, horizontal: true, dataLabels: {position: 'right'}}`;
+};
+
+const opColors = (colorsChart) => {
+  return colorsChart !== ''
+    ? `colors: ${JSON.stringify(colorsChart.replace(/\s/g, '').split(','))},`
+    : '';
 };
