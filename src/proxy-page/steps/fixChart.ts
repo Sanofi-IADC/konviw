@@ -54,20 +54,17 @@ export default (config: ConfigService): Step => {
         } = getChartParams(chartRenderData);
 
         if (attachmentChart) {
-          // Will find <^FileName.png> in => "parameters":{ ... "attachment":"<^FileName.png>" ... }
-          // const attachmentRegex = new RegExp(
-          //   /"parameters":(.|\n)*"attachment":"(.*?)\^(.*?)"/g,
-          // ).exec(thisBlock);
-
-          // The previous RegExp is not taking into account the option to save attachment in another space
-          // like the Confluence documentation describe in https://support.atlassian.com/confluence-cloud/docs/insert-the-chart-macro/#ChartMacro-AttachmentParameters
+          // The attachment parameter follows the structure
+          // described in https://support.atlassian.com/confluence-cloud/docs/insert-the-chart-macro/#ChartMacro-AttachmentParameters
           // with options (only covering today the two first ones)
           // - ^attachmentName.png — the chart is saved as an attachment to the current page.
           // - page^attachmentName.png — the chart is saved as an attachment to the page name provided.
           // - space:page^attachmentName.png — the chart is saved as an attachment to the page name provided in the space indicated.
-          // const [, , page, attachment] = attachmentRegex ?? [];
-          const page = '';
-          const attachment = attachmentChart.replace(new RegExp(/.*\^/), '');
+          const page = attachmentChart.slice(0, attachmentChart.indexOf('^'));
+          const attachment = attachmentChart.slice(
+            attachmentChart.indexOf('^') + 1,
+            attachmentChart.length,
+          );
           if (attachment) {
             $(elementChart).prepend(
               `<figure><img class="img-zoomable"
@@ -78,48 +75,13 @@ export default (config: ConfigService): Step => {
             );
           }
         } else {
-          // no attachment file is defined
-          // Render with ApexChart
+          // no attachment file is defined so let's render it with ApexChart
 
           // get the body of the macro, suposed to be several html tables
           const tablesHtml = chartRenderData['bodyHtml'];
 
           // Let's convert the HTML table(s) to JSON via the npm package tabletojson
           const tables = Tabletojson.convert(tablesHtml);
-
-          let opXaxis: string;
-          let opSeries = 'series: [';
-          const matrix = [];
-
-          for (const table of tables) {
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            Object.entries(table).forEach(([key, row]) => {
-              matrix.push(Object.values(row));
-            });
-
-            const series = getSeries(matrix, dataOrientation);
-            const labels = series[0];
-
-            // ==== set up the opXaxis and opSeries to define labels and series in the chart ====
-            if (typeofChart === 'pie') {
-              opXaxis = 'labels: ' + JSON.stringify(labels) + ',';
-              opSeries = 'series: [' + series[1];
-            } else {
-              opXaxis = 'xaxis: {categories: ' + JSON.stringify(labels) + '},';
-              series.forEach((element, j) => {
-                if (j > 0) {
-                  opSeries =
-                    opSeries +
-                    '{ name:"' +
-                    Object.keys(table[0])[j] +
-                    '", data: [' +
-                    element +
-                    ']},';
-                }
-              });
-            }
-          }
-          opSeries = opSeries + '],';
 
           // ==== Let's prepare all the options to configure accordingly ApexCharts ====
 
@@ -149,14 +111,13 @@ export default (config: ConfigService): Step => {
           }
 
           // ==== Everything ready to intance ApexChart and render the chart ====
-          const addChart =
-            `<div id="chart${index}"></div>
+          const addChart = `<div id="chart${index}"></div>
              <script type="module">
              document.addEventListener('DOMContentLoaded', function () {
                var options = {
                  chart: { ${opTypeofChart}, ${opShadow}, ${opLegend(
-              legendChart,
-            )} },
+            legendChart,
+          )} },
                  plotOptions: {
                   ${opBar(orientationChart)}
                  },
@@ -170,10 +131,10 @@ export default (config: ConfigService): Step => {
                     enabled: true,
                     offsetY: -20,
                     style: { fontSize: '12px', colors: ["#304758"] }
-                  },` +
-            opSeries +
-            opXaxis +
-            `}
+                  },
+            ${opSeries(tables, typeofChart, dataOrientation)}
+            ${opXaxis(tables, typeofChart, dataOrientation)}
+            }
 
               const chart${index} = new ApexCharts(document.querySelector("#chart${index}"), options);
               chart${index}.render();
@@ -297,3 +258,55 @@ const transpose = (arr) =>
     (m, r) => (r.forEach((v, i) => ((m[i] ??= []), m[i].push(v))), m),
     [],
   );
+
+// ==== Functions to prepare axis and series as data sources for ApexCharts ====
+
+const opXaxis = (tables, typeofChart, dataOrientation): string => {
+  const matrix = [];
+
+  for (const table of tables) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    Object.entries(table).forEach(([key, row]) => {
+      matrix.push(Object.values(row));
+    });
+
+    const labels = getSeries(matrix, dataOrientation)[0];
+    console.log('labels are ', labels);
+
+    if (typeofChart === 'pie') {
+      return 'labels: ' + JSON.stringify(labels) + ',';
+    } else {
+      return 'xaxis: {categories: ' + JSON.stringify(labels) + '},';
+    }
+  }
+};
+
+const opSeries = (tables, typeofChart, dataOrientation): string => {
+  let tmpSeries = 'series: [';
+  const matrix = [];
+
+  for (const table of tables) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    Object.entries(table).forEach(([key, row]) => {
+      matrix.push(Object.values(row));
+    });
+
+    const series = getSeries(matrix, dataOrientation).slice(1);
+    console.log('series are ', series);
+
+    if (typeofChart === 'pie') {
+      tmpSeries = 'series: [' + series[0];
+    } else {
+      series.forEach((element, j) => {
+        tmpSeries =
+          tmpSeries +
+          '{ name:"' +
+          Object.keys(table[0])[j] +
+          '", data: [' +
+          element +
+          ']},';
+      });
+    }
+  }
+  return tmpSeries + '],';
+};
