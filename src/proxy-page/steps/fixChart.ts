@@ -230,49 +230,30 @@ const opMarkers = (markersChart): string => {
 
 const opDataLabels = (typeofChart: string, markersChart: string): string => {
   if (markersChart === 'true') {
-    switch (typeofChart) {
-      case 'pie': {
-        return `dataLabels: {
+    if (typeofChart === 'pie') {
+      return `dataLabels: {
           enabled: true,
           textAnchor: 'middle',
           style: { fontSize: '20px' },
         },`;
-        break;
-      }
-      case 'bar': {
-        return `dataLabels: {
+    } else if (typeofChart === 'bar') {
+      return `dataLabels: {
           enabled: true,
           offsetY: -20,
           textAnchor: 'middle',
           style: { fontSize: '14px', colors: ["#304758"] },
         },`;
-        break;
-      }
-      case 'radar': {
-        return `dataLabels: {
+    } else if (typeofChart === 'radar') {
+      return `dataLabels: {
           enabled: true,
           offsetY: -10,
           style: { fontSize: '12px', colors: ["#304758"] },
           background: { enabled: false },
         },`;
-        break;
-      }
-      case 'area': {
-        return `dataLabels: {
+    } else {
+      return `dataLabels: {
           enabled: true,
         },`;
-        break;
-      }
-      case 'line': {
-        return `dataLabels: {
-          enabled: true,
-        },`;
-        break;
-      }
-      default: {
-        return ``;
-        break;
-      }
     }
   } else {
     return ``;
