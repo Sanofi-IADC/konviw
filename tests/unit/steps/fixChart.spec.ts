@@ -109,7 +109,7 @@ const exampleAttachmentDifferentPage = `
 describe('ConfluenceProxy / fixChartMacro', () => {
   let context: ContextService;
   let config: ConfigService;
-  const images: Array<string> = [];
+  let images: Array<string> = [];
 
   beforeEach(async () => {
     const moduleRef = await createModuleRefForStep();
@@ -126,12 +126,7 @@ describe('ConfluenceProxy / fixChartMacro', () => {
       step(context);
       const $ = context.getCheerioBody();
 
-      $('figure').each((index: number, element: cheerio.TagElement) => {
-        const thisBlock = $(element).html();
-        if (thisBlock) {
-          images[index] = thisBlock;
-        }
-      });
+      images = getImages($, 'figure');
       const image = images[0];
       const expectedSrc = `/cpv/wiki/download/attachments/123456/${attachmentFileName}`;
       const imgSrc = getImgSrc(image);
@@ -146,12 +141,7 @@ describe('ConfluenceProxy / fixChartMacro', () => {
       step(context);
       const $ = context.getCheerioBody();
 
-      $('figure').each((index: number, element: cheerio.TagElement) => {
-        const thisBlock = $(element).html();
-        if (thisBlock) {
-          images[index] = thisBlock;
-        }
-      });
+      images = getImages($, 'figure');
       const image = images[0];
       const expectedSrc = `/cpv/wiki/download/attachments/${page}/${attachmentFileName}`;
       const imgSrc = getImgSrc(image);
@@ -163,4 +153,15 @@ describe('ConfluenceProxy / fixChartMacro', () => {
 const getImgSrc = (image): string => {
   const regex = new RegExp('src="([^"]*)');
   return regex.exec(image)[1];
+};
+
+const getImages = (objCheerio: cheerio.Root, tag: string): Array<string> => {
+  const tmpImages: Array<string> = [];
+  objCheerio(tag).each((index: number, element: cheerio.TagElement) => {
+    const thisBlock = objCheerio(element).html();
+    if (thisBlock) {
+      tmpImages[index] = thisBlock;
+    }
+  });
+  return tmpImages;
 };

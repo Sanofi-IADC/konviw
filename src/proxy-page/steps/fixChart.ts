@@ -112,30 +112,27 @@ export default (config: ConfigService): Step => {
 
           // ==== Everything ready to intance ApexChart and render the chart ====
           const addChart = `<div id="chart${index}"></div>
-             <script type="module">
-             document.addEventListener('DOMContentLoaded', function () {
-               var options = {
-                 chart: { ${opTypeofChart}, ${opShadow}, ${opLegend(
-            legendChart,
-          )} },
-                 plotOptions: {
-                  ${opBar(orientationChart)}
-                 },
-                 ${opColors(colorsChart)}
-                 ${opTitle(titleChart)}
-                 ${opSubtitle(subtitleChart)}
-                 ${opStroke}
-                 ${opMarkers(markersChart)}
-                 ${opGrid}
-                  dataLabels: {
-                    enabled: true,
-                    offsetY: -20,
-                    style: { fontSize: '12px', colors: ["#304758"] }
+              <script type="module">
+              document.addEventListener('DOMContentLoaded', function () {
+                var options = {
+                  chart: {
+                  ${opTypeofChart},
+                    ${opShadow},
+                    ${opLegend(legendChart)}
                   },
-            ${opSeries(tables, typeofChart, dataOrientation)}
-            ${opXaxis(tables, typeofChart, dataOrientation)}
-            }
-
+                  plotOptions: {
+                    ${opBar(orientationChart)}
+                  },
+                  ${opColors(colorsChart)}
+                  ${opTitle(titleChart)}
+                  ${opSubtitle(subtitleChart)}
+                  ${opStroke}
+                  ${opMarkers(markersChart)}
+                  ${opGrid}
+                  ${opDataLabels(typeofChart, markersChart)}
+                  ${opSeries(tables, typeofChart, dataOrientation)}
+                  ${opXaxis(tables, typeofChart, dataOrientation)}
+              }
               const chart${index} = new ApexCharts(document.querySelector("#chart${index}"), options);
               chart${index}.render();
             })
@@ -147,7 +144,8 @@ export default (config: ConfigService): Step => {
 
     // add apexchart  library
     $('body').append(
-      // `<script defer src="${basePath}/gridjs/gridjs.production.min.js?cache=${version}"></script>`,
+      // TODO: install ApexCharts via npm package and include the script via a local publich folder
+      // `<script defer src="${basePath}/apexcharts/apexchartsjs.production.min.js?cache=${version}"></script>`,
       `<script defer src="https://cdn.jsdelivr.net/npm/apexcharts"></script>`,
     );
 
@@ -230,6 +228,57 @@ const opMarkers = (markersChart): string => {
   return markersChart === 'true' ? `markers: {size: 7},` : ``;
 };
 
+const opDataLabels = (typeofChart: string, markersChart: string): string => {
+  if (markersChart === 'true') {
+    switch (typeofChart) {
+      case 'pie': {
+        return `dataLabels: {
+          enabled: true,
+          textAnchor: 'middle',
+          style: { fontSize: '20px' },
+        },`;
+        break;
+      }
+      case 'bar': {
+        return `dataLabels: {
+          enabled: true,
+          offsetY: -20,
+          textAnchor: 'middle',
+          style: { fontSize: '14px', colors: ["#304758"] },
+        },`;
+        break;
+      }
+      case 'radar': {
+        return `dataLabels: {
+          enabled: true,
+          offsetY: -10,
+          style: { fontSize: '12px', colors: ["#304758"] },
+          background: { enabled: false },
+        },`;
+        break;
+      }
+      case 'area': {
+        return `dataLabels: {
+          enabled: true,
+        },`;
+        break;
+      }
+      case 'line': {
+        return `dataLabels: {
+          enabled: true,
+        },`;
+        break;
+      }
+      default: {
+        return ``;
+        break;
+      }
+    }
+  } else {
+    return ``;
+  }
+};
+
 const opBar = (orientationChart) => {
   return orientationChart === 'vertical'
     ? `bar: {borderRadius: 6, dataLabels: {position: 'top'}}`
@@ -243,7 +292,7 @@ const opColors = (colorsChart) => {
 };
 
 // Function to get the series data in the right sequence
-// TODO: the horizontal data is not yet working with all charts
+// TODO: horizontal series are not yet working with all charts
 const getSeries = (matrix, dataOrientation) => {
   if (dataOrientation === 'horizontal') {
     return matrix;
@@ -253,14 +302,12 @@ const getSeries = (matrix, dataOrientation) => {
 };
 
 // Function to transpose an array
-const transpose = (arr) =>
-  arr.reduce(
-    (m, r) => (r.forEach((v, i) => ((m[i] ??= []), m[i].push(v))), m),
-    [],
-  );
+const transpose = (arr: Array<any>) => {
+  return arr[0].map((_, colIndex: number) => arr.map((row) => row[colIndex]));
+};
 
 // ==== Functions to prepare axis and series as data sources for ApexCharts ====
-
+// TODO: replace both functions by a single one returning an object with 2 values { opXaxis, opSeries}
 const opXaxis = (tables, typeofChart, dataOrientation): string => {
   const matrix = [];
 
@@ -271,7 +318,6 @@ const opXaxis = (tables, typeofChart, dataOrientation): string => {
     });
 
     const labels = getSeries(matrix, dataOrientation)[0];
-    console.log('labels are ', labels);
 
     if (typeofChart === 'pie') {
       return 'labels: ' + JSON.stringify(labels) + ',';
@@ -292,7 +338,6 @@ const opSeries = (tables, typeofChart, dataOrientation): string => {
     });
 
     const series = getSeries(matrix, dataOrientation).slice(1);
-    console.log('series are ', series);
 
     if (typeofChart === 'pie') {
       tmpSeries = 'series: [' + series[0];
