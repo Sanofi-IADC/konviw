@@ -28,6 +28,7 @@
     "scss": "sass ./src/assets/scss:dist/static/css/ --style compressed --no-source-map"
   },
   "dependencies": {
+    "@instana/collector": "^1.137.0",
     "@nestjs/common": "7.6.18",
     "@nestjs/config": "1.0.1",
     "@nestjs/core": "7.6.18",
