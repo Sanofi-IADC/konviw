@@ -173,4 +173,43 @@ export class ConfluenceService {
       throw new HttpException(`error:getAllPosts > ${err}`, 404);
     }
   }
+
+  /**
+   * @function getAllSpaces Service
+   * @description Retrieve all spaces from endpoint /wiki/rest/api/space
+   * @return Promise {any}
+   * @param type {string} 'global' - type of space with possible values 'global' or 'personal'
+   * @param startAt {number} 15 - starting position to handle paginated results
+   * @param maxResults {number} 999 - limit of results to be returned
+   */
+  async getAllSpaces(
+    type = 'global',
+    startAt = 0,
+    maxResults = 999,
+  ): Promise<AxiosResponse> {
+    const params = {
+      type: type,
+      start: startAt,
+      limit: maxResults,
+      expand: [
+        // extra fields to retrieve
+        'icon',
+        'metadata.labels',
+        'description.plain',
+        'permissions',
+      ].join(','),
+    };
+    try {
+      const results: AxiosResponse = await this.http
+        .get('/wiki/rest/api/space', { params })
+        .toPromise();
+      this.logger.log(
+        `Retrieving all spaces of type ${type} with ${maxResults} maximum records via REST API`,
+      );
+      return results;
+    } catch (err: any) {
+      this.logger.log(err, 'error:getAllSpaces');
+      throw new HttpException(`error:getAllSpaces > ${err}`, 404);
+    }
+  }
 }
