@@ -1,3 +1,22 @@
+# [1.16.0](https://github.com/Sanofi-IADC/konviw/compare/v1.15.2...v1.16.0) (2021-11-06)
+
+
+### Bug Fixes
+
+* **fixChart:** more func to reduce cognit. complex ([eef68a0](https://github.com/Sanofi-IADC/konviw/commit/eef68a0759ee55d42645fdfcb78748fad4276a9e))
+* **fixChart:** move options prep to separate funct ([4bb25c5](https://github.com/Sanofi-IADC/konviw/commit/4bb25c586eeb89f30df6fec4a8b5e94b9d5b37c1))
+* **fixChart:** reduce its Cognitive Complexity ([e8afc14](https://github.com/Sanofi-IADC/konviw/commit/e8afc141dd385b7aa2f36b25144e9b8e90c9268e))
+* **fixChart:** remove RegExp by slice ([a9c23c0](https://github.com/Sanofi-IADC/konviw/commit/a9c23c0914748a397d9eb35eda16e85143046032))
+* **fixChart:** remove switch statement ([a0effbc](https://github.com/Sanofi-IADC/konviw/commit/a0effbc796d1d8cbb2aa444528edfcf8af1b0a99))
+* **fixChart:** simple RegEx and move for to for-of ([0d04e93](https://github.com/Sanofi-IADC/konviw/commit/0d04e93ec8713cfb8f6d76d6e52093af2a6169fb))
+* **fixChart:** sonarCloud bugs ([397f514](https://github.com/Sanofi-IADC/konviw/commit/397f514edd0a1250844ddd472001969255c90ada))
+* **fixChart:** sonarCloud fixes ([1e174c0](https://github.com/Sanofi-IADC/konviw/commit/1e174c0628d115c26e7a76dda1b2c351f17900ea))
+
+
+### Features
+
+* **fixChart:** render charts with ApexChart ([3e8bef2](https://github.com/Sanofi-IADC/konviw/commit/3e8bef26b8f8c74588e282cbcc4aea99842891df))
+
 ## [1.15.2](https://github.com/Sanofi-IADC/konviw/compare/v1.15.1...v1.15.2) (2021-07-25)
 
 
