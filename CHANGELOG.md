@@ -1,3 +1,10 @@
+# [1.17.0](https://github.com/Sanofi-IADC/konviw/compare/v1.16.0...v1.17.0) (2021-11-15)
+
+
+### Features
+
+* update instana ([e1fcc1c](https://github.com/Sanofi-IADC/konviw/commit/e1fcc1c44e6105685816b88148eea31a91413e8a))
+
 # [1.16.0](https://github.com/Sanofi-IADC/konviw/compare/v1.15.2...v1.16.0) (2021-11-06)
 
 
