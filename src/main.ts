@@ -1,3 +1,12 @@
+if (
+  process.env.NODE_ENV !== 'local' &&
+  process.env.NODE_ENV !== 'test' &&
+  process.env.INSTANA_ENDPOINT_URL
+) {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
+  require('@instana/collector')();
+}
+
 import { NestFactory } from '@nestjs/core';
 import { LogLevel, ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
