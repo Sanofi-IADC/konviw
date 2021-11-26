@@ -1,3 +1,16 @@
+# [1.18.0](https://github.com/Sanofi-IADC/konviw/compare/v1.17.0...v1.18.0) (2021-11-26)
+
+
+### Bug Fixes
+
+* **api:** code smell from sonar ([2e6ff48](https://github.com/Sanofi-IADC/konviw/commit/2e6ff48dd1007134f896c1ea728f008f28b205d5))
+
+
+### Features
+
+* **api:** getAllSpaces to get Confluence spaces ([72f45d5](https://github.com/Sanofi-IADC/konviw/commit/72f45d5fb04df7fbfefbdc356f09caab4dccaa36))
+* **api:** new endpoint getSpaces ([044a352](https://github.com/Sanofi-IADC/konviw/commit/044a352e29993f48c81f3652a1529b4cc207fb1c))
+
 # [1.17.0](https://github.com/Sanofi-IADC/konviw/compare/v1.16.0...v1.17.0) (2021-11-15)
 
 
