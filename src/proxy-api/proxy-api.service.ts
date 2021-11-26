@@ -221,4 +221,85 @@ export class ProxyApiService {
       categories: parseResults,
     };
   }
+
+  /**
+   * @function getAllSpaces Service
+   * @description Retrieve all spaces from a Confluence server
+   * @return Promise {any}
+   * @param type {string} 'global' - type of space with possible values 'global' or 'personal'
+   * @param startAt {number} 15 - starting position to handle paginated results
+   * @param maxResults {number} 999 - limit of results to be returned
+   */
+  async getAllSpaces(
+    type: string,
+    startAt: number,
+    maxResults: number,
+    getFields: number,
+  ): Promise<any> {
+    const baseHost = this.config.get('web.baseHost');
+    const port = this.config.get('web.port');
+    const basePath = this.config.get('web.basePath');
+
+    const { data } = await this.confluence.getAllSpaces(
+      type,
+      startAt,
+      maxResults,
+      getFields,
+    );
+
+    const parseResults = data.results.map((space: any) => {
+      const labels =
+        space.metadata === undefined
+          ? []
+          : space.metadata.labels.results.map((label: any) => {
+              return label.name;
+            });
+
+      const permissions =
+        space.permissions === undefined
+          ? []
+          : space.permissions.reduce((permissionsTmp, permission) => {
+              if (permission.subjects?.user) {
+                if (
+                  permission.subjects.user.results[0].accountType ===
+                  'atlassian'
+                ) {
+                  const name = permission.subjects.user.results[0].displayName;
+                  const avatar = `${baseHost}:${port}${basePath}${permission.subjects.user.results[0].profilePicture.path}`;
+                  const operation = permission.operation;
+                  permissionsTmp.push({ name, avatar, operation });
+                }
+              }
+              return permissionsTmp;
+            }, []);
+
+      const icon =
+        space.icon === undefined
+          ? undefined
+          : `${baseHost}:${port}${basePath}/wiki${space.icon.path}`;
+
+      return {
+        id: space.id,
+        key: space.key,
+        name: space.name,
+        description: space.description?.plain.value,
+        icon,
+        type: space.type,
+        status: space.status,
+        labels,
+        permissions,
+      };
+    });
+
+    const meta = {
+      start: startAt,
+      maxResults: data.limit,
+      totalSize: data.size,
+    };
+
+    return {
+      meta,
+      spaces: parseResults,
+    };
+  }
 }

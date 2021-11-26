@@ -173,4 +173,55 @@ export class ConfluenceService {
       throw new HttpException(`error:getAllPosts > ${err}`, 404);
     }
   }
+
+  /**
+   * @function getAllSpaces Service
+   * @description Retrieve all spaces from endpoint /wiki/rest/api/space
+   * @return Promise {any}
+   * @param type {string} 'global' - type of space with possible values 'global' or 'personal'
+   * @param startAt {number} 15 - starting position to handle paginated results
+   * @param maxResults {number} 999 - limit of results to be returned
+   * @param getFields {number} 1 - '1' to get icon, labels, description and permissions or '0' for simple list of spaces
+   */
+  async getAllSpaces(
+    type = 'global',
+    startAt = 0,
+    maxResults = 999,
+    getFields = 0,
+  ): Promise<AxiosResponse> {
+    const defaultParms = {
+      type: type,
+      start: startAt,
+      limit: maxResults,
+      status: 'current',
+    };
+
+    // we expand extra fields if fields === 1 otherwise retrieve the default reponse
+    const params =
+      getFields === 1
+        ? {
+            ...defaultParms,
+            expand: [
+              // extra fields to retrieve
+              'icon',
+              'metadata.labels',
+              'description.plain',
+              'permissions',
+            ].join(','),
+          }
+        : defaultParms;
+
+    try {
+      const results: AxiosResponse = await this.http
+        .get('/wiki/rest/api/space', { params })
+        .toPromise();
+      this.logger.log(
+        `Retrieving all spaces of type ${type} with ${maxResults} maximum records via REST API`,
+      );
+      return results;
+    } catch (err: any) {
+      this.logger.log(err, 'error:getAllSpaces');
+      throw new HttpException(`error:getAllSpaces > ${err}`, 404);
+    }
+  }
 }

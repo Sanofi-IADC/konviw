@@ -5,6 +5,8 @@ import {
   SearchQueryDTO,
   SearchProjectsQueryDTO,
   SearchProjectCategoriesQueryDTO,
+  GetSpacesParamsDTO,
+  GetSpacesQueryDTO,
 } from './proxy-api.validation.dto';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 @ApiTags('proxy-api')
@@ -42,7 +44,7 @@ export class ProxyApiController {
   }
 
   /**
-   * @GET (controller) projects
+   * @GET (controller) api/projects
    * @description Route to retrieve the Jira projects matching the filter criteria
    * @return {string} 'JSON' - JSON with the list of Jira projects
    */
@@ -64,7 +66,7 @@ export class ProxyApiController {
   }
 
   /**
-   * @GET (controller) projects/categories
+   * @GET (controller) api/projects/categories
    * @description Route to retrieve the list of project categories from a Jira server
    * @return {string} 'JSON' - JSON with the list of Jira project categories
    */
@@ -76,5 +78,26 @@ export class ProxyApiController {
     @Query() queries: SearchProjectCategoriesQueryDTO,
   ): Promise<any> {
     return this.proxyApi.getJiraProjectCategories(queries.server);
+  }
+
+  /**
+   * @GET (controller) api/spaces
+   * @description Route to retrieve the Confluence spaces of a type
+   * @return {string} 'JSON' - JSON with the list of Confluence spaces
+   */
+  @ApiOkResponse({
+    description: 'List spaces from a Confluence server for the given type',
+  })
+  @Get('spaces/:type')
+  async getSpaces(
+    @Param() params: GetSpacesParamsDTO,
+    @Query() queries: GetSpacesQueryDTO,
+  ): Promise<any> {
+    return this.proxyApi.getAllSpaces(
+      params.type,
+      queries.startAt,
+      queries.maxResults,
+      queries.getFields,
+    );
   }
 }
