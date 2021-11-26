@@ -128,7 +128,7 @@ export class GetSpacesQueryDTO {
   @IsNotEmpty()
   @IsInt()
   @Type(() => Number)
-  startAt: number;
+  startAt = 0;
 
   @ApiProperty({
     type: Number,
@@ -138,5 +138,15 @@ export class GetSpacesQueryDTO {
   @IsNotEmpty()
   @IsInt()
   @Type(() => Number)
-  maxResults: number;
+  maxResults = 50;
+
+  @ApiProperty({
+    type: Number,
+    description: `Retrieve expanded fields`,
+    example: '0 | 1',
+  })
+  @IsOptional()
+  @IsInt()
+  @Type(() => Number)
+  getFields = 0;
 }

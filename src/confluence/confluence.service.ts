@@ -181,24 +181,36 @@ export class ConfluenceService {
    * @param type {string} 'global' - type of space with possible values 'global' or 'personal'
    * @param startAt {number} 15 - starting position to handle paginated results
    * @param maxResults {number} 999 - limit of results to be returned
+   * @param getFields {number} 1 - '1' to get icon, labels, description and permissions or '0' for simple list of spaces
    */
   async getAllSpaces(
     type = 'global',
     startAt = 0,
     maxResults = 999,
+    getFields,
   ): Promise<AxiosResponse> {
-    const params = {
+    const defaultParms = {
       type: type,
       start: startAt,
       limit: maxResults,
-      expand: [
-        // extra fields to retrieve
-        'icon',
-        'metadata.labels',
-        'description.plain',
-        'permissions',
-      ].join(','),
+      status: 'current',
     };
+
+    // we expand extra fields if fields === 1 otherwise retrieve the default reponse
+    const params =
+      getFields === 1
+        ? {
+            ...defaultParms,
+            expand: [
+              // extra fields to retrieve
+              'icon',
+              'metadata.labels',
+              'description.plain',
+              'permissions',
+            ].join(','),
+          }
+        : defaultParms;
+
     try {
       const results: AxiosResponse = await this.http
         .get('/wiki/rest/api/space', { params })

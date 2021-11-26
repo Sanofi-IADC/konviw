@@ -93,11 +93,11 @@ export class ProxyApiController {
     @Param() params: GetSpacesParamsDTO,
     @Query() queries: GetSpacesQueryDTO,
   ): Promise<any> {
-    console.log(`running query spaces for ${params.type}`);
     return this.proxyApi.getAllSpaces(
       params.type,
       queries.startAt,
       queries.maxResults,
+      queries.getFields,
     );
   }
 }
