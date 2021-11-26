@@ -258,7 +258,7 @@ export class ProxyApiService {
       const permissions =
         space.permissions === undefined
           ? []
-          : space.permissions.reduce((permissions, permission) => {
+          : space.permissions.reduce((permissionsTmp, permission) => {
               if (permission.subjects?.user) {
                 if (
                   permission.subjects.user.results[0].accountType ===
@@ -267,10 +267,10 @@ export class ProxyApiService {
                   const name = permission.subjects.user.results[0].displayName;
                   const avatar = `${baseHost}:${port}${basePath}${permission.subjects.user.results[0].profilePicture.path}`;
                   const operation = permission.operation;
-                  permissions.push({ name, avatar, operation });
+                  permissionsTmp.push({ name, avatar, operation });
                 }
               }
-              return permissions;
+              return permissionsTmp;
             }, []);
 
       const icon =

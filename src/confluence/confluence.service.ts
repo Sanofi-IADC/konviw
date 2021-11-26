@@ -187,7 +187,7 @@ export class ConfluenceService {
     type = 'global',
     startAt = 0,
     maxResults = 999,
-    getFields,
+    getFields = 0,
   ): Promise<AxiosResponse> {
     const defaultParms = {
       type: type,
