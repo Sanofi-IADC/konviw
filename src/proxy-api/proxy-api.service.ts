@@ -229,6 +229,7 @@ export class ProxyApiService {
    * @param type {string} 'global' - type of space with possible values 'global' or 'personal'
    * @param startAt {number} 15 - starting position to handle paginated results
    * @param maxResults {number} 999 - limit of results to be returned
+   * @param getFields {number} 1 - '1' to get icon, labels, description and permissions or '0' for simple list of spaces
    */
   async getAllSpaces(
     type: string,
@@ -237,7 +238,6 @@ export class ProxyApiService {
     getFields: number,
   ): Promise<any> {
     const baseHost = this.config.get('web.baseHost');
-    const port = this.config.get('web.port');
     const basePath = this.config.get('web.basePath');
 
     const { data } = await this.confluence.getAllSpaces(
@@ -265,7 +265,7 @@ export class ProxyApiService {
                   'atlassian'
                 ) {
                   const name = permission.subjects.user.results[0].displayName;
-                  const avatar = `${baseHost}:${port}${basePath}${permission.subjects.user.results[0].profilePicture.path}`;
+                  const avatar = `${baseHost}${basePath}${permission.subjects.user.results[0].profilePicture.path}`;
                   const operation = permission.operation;
                   permissionsTmp.push({ name, avatar, operation });
                 }
@@ -276,7 +276,7 @@ export class ProxyApiService {
       const icon =
         space.icon === undefined
           ? undefined
-          : `${baseHost}:${port}${basePath}/wiki${space.icon.path}`;
+          : `${baseHost}${basePath}/wiki${space.icon.path}`;
 
       return {
         id: space.id,
