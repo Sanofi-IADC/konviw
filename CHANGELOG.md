@@ -1,3 +1,10 @@
+## [1.18.1](https://github.com/Sanofi-IADC/konviw/compare/v1.18.0...v1.18.1) (2021-11-27)
+
+
+### Bug Fixes
+
+* **api:** remove port from image url ([9f295b2](https://github.com/Sanofi-IADC/konviw/commit/9f295b2d985c395ecdb4c68f7481f2d24bcfe106))
+
 # [1.18.0](https://github.com/Sanofi-IADC/konviw/compare/v1.17.0...v1.18.0) (2021-11-26)
 
 
