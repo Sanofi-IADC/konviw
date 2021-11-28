@@ -21,33 +21,33 @@ export default (config: ConfigService): Step => {
     const webBasePath = config.get('web.basePath');
 
     // Div class with data-macro-name='drawio' is used for Drawio diagrams created in the same page
-    $(".ap-container[data-macro-name='drawio']").each(
-      (_: number, elementDrawio: cheerio.TagElement) => {
-        const thisBlock = $(elementDrawio).html();
-        if (!thisBlock) {
-          return;
-        }
-        const pageIdRegex = new RegExp(
-          // Will find <pageId> in => "productCtx": { ... "page.id": "<pageId>" ... }
-          /"productCtx".*"page.id\\":\\"(\d*)\\"/g,
-        ).exec(thisBlock);
-        const diagramNameRegex = new RegExp(
-          // Will find <diagramName> in => "productCtx": { ... ": = | RAW | = :": ... |<diagramName>| ..." ... }
-          '"productCtx".*diagramName=([^|]*).*,',
-        ).exec(thisBlock);
+    $(
+      ".ap-container[data-macro-name='drawio'], .ap-container[data-macro-name='drawio-sketch']",
+    ).each((_: number, elementDrawio: cheerio.TagElement) => {
+      const thisBlock = $(elementDrawio).html();
+      if (!thisBlock) {
+        return;
+      }
+      const pageIdRegex = new RegExp(
+        // Will find <pageId> in => "productCtx": { ... "page.id": "<pageId>" ... }
+        /"productCtx".*"page.id\\":\\"(\d*)\\"/g,
+      ).exec(thisBlock);
+      const diagramNameRegex = new RegExp(
+        // Will find <diagramName> in => "productCtx": { ... ": = | RAW | = :": ... |<diagramName>| ..." ... }
+        '"productCtx".*diagramName=([^|]*).*,',
+      ).exec(thisBlock);
 
-        const [, pageId] = pageIdRegex ?? [];
-        const [, diagramName] = diagramNameRegex ?? [];
+      const [, pageId] = pageIdRegex ?? [];
+      const [, diagramName] = diagramNameRegex ?? [];
 
-        if (pageId && diagramName) {
-          $(elementDrawio).prepend(
-            `<figure><img class="img-zoomable"
+      if (pageId && diagramName) {
+        $(elementDrawio).prepend(
+          `<figure><img class="img-zoomable"
                   src="${webBasePath}/wiki/download/attachments/${pageId}/${diagramName}.png"
                   alt="${diagramName}" /></figure>`,
-          );
-        }
-      },
-    );
+        );
+      }
+    });
 
     // Div class with data-macro-name='inc-drawio' is used for Drawio diagrams included from other pages
     $(".ap-container[data-macro-name='inc-drawio']").each(
