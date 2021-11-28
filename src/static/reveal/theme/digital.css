@@ -4,7 +4,7 @@
 /* ********************************************* */
 
 @import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
 
 section.has-light-background,
 section.has-light-background h1,
@@ -27,12 +27,12 @@ section.has-light-background h6 {
   text-indent: 10%;
   white-space: nowrap;
   overflow: hidden;
-  background-image: url('konviw.png');
+  background-image: url('digital.png');
   background-repeat: no-repeat;
   display: block;
-  height: 50px;
+  height: 60px;
   width: 150px;
-  top: -5px;
+  top: -2px;
   z-index: 2;
 }
 
@@ -40,24 +40,24 @@ section.has-light-background h6 {
 /* *               GLOBAL STYLES          * */
 /* ********************************************* */
 :root {
-  --background-color: #fff;
-  --main-font: Raleway, sans-serif;
-  --main-font-size: 3.75vmin;
+  --background-color: #fafafa;
+  --main-font: Quicksand, sans-serif;
+  --main-font-size: 3.2vmin;
   --main-color: #343434;
-  --main-line-height: 1.1em;
+  --main-line-height: 1em;
   --block-margin: 10px;
   --heading-margin: 0 0 20px 0;
   --heading-font: Oswald, Impact, sans-serif;
-  --heading-color: #272d5b;
+  --heading-color: #1563ac;
   --heading-line-height: 1em;
   --heading-letter-spacing: normal;
   --heading-text-transform: uppercase;
   --heading-text-shadow: none;
   --heading-font-weight: normal;
   --heading1-text-shadow: none;
-  --heading1-size: 2.1em;
-  --heading2-size: 1.5em;
-  --heading3-size: 1.5em;
+  --heading1-size: 2em;
+  --heading2-size: 1.7em;
+  --heading3-size: 1.7em;
   --heading4-size: 1em;
   --code-font-family: monospace;
   --code-font-size: 0.5em;
@@ -66,7 +66,7 @@ section.has-light-background h6 {
   --selection-background-color: #a1d23f;
   --selection-color: #fff;
   --selection: #d2c63f;
-  --theme-background: #885f16;
+  --theme-background: #1563ac;
   --theme-blackground-blockquote: #daa983;
   --theme-blackground-light: #fee2cc;
   --theme-blackground-code: #554131;
@@ -167,10 +167,7 @@ section.has-light-background h6 {
 }
 
 .cover .reveal h1 {
-  color: var(--theme-background);
-}
-
-.cover .reveal h1 {
+  color: var(--heading-color);
   background-color: #fff;
   padding: 30px;
   border-radius: 5px;
@@ -204,7 +201,7 @@ section.has-light-background h6 {
   background-color: var(--theme-background);
   color: white;
   padding: 30px;
-  border-radius: 10px;
+  border-radius: 20px;
   position: relative;
   margin-bottom: 1em;
 }
