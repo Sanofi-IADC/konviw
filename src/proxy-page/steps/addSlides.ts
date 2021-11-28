@@ -68,7 +68,11 @@ export default (config: ConfigService): Step => {
       `<script defer src="${basePath}/reveal/reveal.js?cache=${version}"></script>`,
     );
 
-    const newHtmlBody = `<div id="Content" class="reveal"><div class="slides">${sections}</div></div>`;
+    const newHtmlBody = `<div id="Content">
+    <section id="slides-logo"></section>
+    <div class="reveal slide">
+      <div class="slides">${sections}</div>
+    </div></div>`;
     $('#Content').replaceWith(newHtmlBody);
 
     // When the DOM content is loaded call the initialization of Reveal (https://revealjs.com/)
