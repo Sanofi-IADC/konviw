@@ -1,3 +1,12 @@
+# [1.19.0](https://github.com/Sanofi-IADC/konviw/compare/v1.18.1...v1.19.0) (2021-11-28)
+
+
+### Features
+
+* **slides:** add logo to slides ([35581d2](https://github.com/Sanofi-IADC/konviw/commit/35581d2a246f7d843c5863e2a173d23f9b01990f))
+* **slides:** add new slides style digital ([a0ed5f4](https://github.com/Sanofi-IADC/konviw/commit/a0ed5f4e6b8f05d84bc4e57560cc3081e5c99ed7))
+* **slides:** new style digitall with logo ([88994de](https://github.com/Sanofi-IADC/konviw/commit/88994de8f7276165ecead4b4014da862f6eadcdb))
+
 ## [1.18.1](https://github.com/Sanofi-IADC/konviw/compare/v1.18.0...v1.18.1) (2021-11-27)
 
 
