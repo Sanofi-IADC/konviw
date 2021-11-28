@@ -1,3 +1,10 @@
+## [1.19.1](https://github.com/Sanofi-IADC/konviw/compare/v1.19.0...v1.19.1) (2021-11-28)
+
+
+### Bug Fixes
+
+* drawio-sketch rendering ([77353ca](https://github.com/Sanofi-IADC/konviw/commit/77353ca3cbc090a572ecd500e606ed50c5974200))
+
 # [1.19.0](https://github.com/Sanofi-IADC/konviw/compare/v1.18.1...v1.19.0) (2021-11-28)
 
 
