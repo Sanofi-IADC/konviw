@@ -1,3 +1,11 @@
+## [1.19.3](https://github.com/Sanofi-IADC/konviw/compare/v1.19.2...v1.19.3) (2021-12-03)
+
+
+### Bug Fixes
+
+* **400-errors:** include 400 error on managed ones ([4543352](https://github.com/Sanofi-IADC/konviw/commit/45433520c753e131720ca92ba12bf8e9c65f8583))
+* **cache:** make cache global and shorter ([21d3893](https://github.com/Sanofi-IADC/konviw/commit/21d3893b8d01cc50f474d186a95b677a11cdb986))
+
 ## [1.19.2](https://github.com/Sanofi-IADC/konviw/compare/v1.19.1...v1.19.2) (2021-11-28)
 
 
