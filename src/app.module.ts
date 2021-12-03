@@ -35,6 +35,7 @@ import CustomHttpCacheInterceptor from './cache/custom-http-cache.interceptor';
       useFactory: async (configService: ConfigService) => ({
         ttl: configService.get('cacheTTL'),
         max: configService.get('cacheMax'),
+        isGlobal: true,
       }),
       inject: [ConfigService],
     }),

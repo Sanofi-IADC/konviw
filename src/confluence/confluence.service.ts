@@ -44,7 +44,7 @@ export class ConfluenceService {
       this.logger.log(`Retrieving page ${pageId}`);
     } catch (err) {
       this.logger.log(err, 'error:getPage');
-      throw new HttpException(`error:getPage for page ${pageId} > ${err}`, 404);
+      throw new HttpException(`${err}\nPage ${pageId} Not Found`, 404);
     }
     // Check if the label defined in configuration for private pages is present in the metadata labels
     if (

@@ -29,9 +29,9 @@ export default (): Config => ({
   },
   cache: {
     cacheTTL:
-      (process.env.CACHE_TTL && parseInt(process.env.CACHE_TTL, 10)) || 86400,
+      (process.env.CACHE_TTL && parseInt(process.env.CACHE_TTL, 10)) || 60,
     cacheMax:
-      (process.env.CACHE_MAX && parseInt(process.env.CACHE_MAX, 10)) || 10,
+      (process.env.CACHE_MAX && parseInt(process.env.CACHE_MAX, 10)) || 100,
   },
   logging: {
     enableLoggerMiddleware: process.env.ENABLE_LOGGER_MIDDLEWARE === 'true',
