@@ -20,10 +20,13 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const version = this.config.get('version');
     const basePath = this.config.get('web.basePath');
 
-    if (status === 404) {
-      response
-        .status(404)
-        .render('404', { basePath: basePath, version: version });
+    if (status === 404 || status === 400) {
+      response.status(status).render('404', {
+        basePath: basePath,
+        version: version,
+        error: status,
+        message: message,
+      });
     } else if (status === 403) {
       response
         .status(403)

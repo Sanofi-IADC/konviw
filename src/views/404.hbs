@@ -11,10 +11,11 @@
 
       <div class="center">
         <div class="page_404_bg" style="background-image: url({{ basePath }}/images/404.gif)">
-          <h1>404</h1>
+          <h1>{{ error }}</h1>
         </div>
         <div class="page_404_content">
-          <h2 class="message_error">Looks like you are lost</h3>
+          <h2 class="message_error">{{ message }}</h3>
+          {{!-- <h2 class="message_error">Looks like you are lost</h3> --}}
           <p>I'm afraid you've found a page that doesn't exist. Sorry about that.</p>
           <p>That can happen when you follow a link to something that has since been deleted.<br>Or the link was
             incorrect to begin with.</p>
