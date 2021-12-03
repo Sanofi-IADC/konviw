@@ -4,11 +4,8 @@ import cheerio from 'cheerio';
 import { JiraService } from 'src/jira/jira.service';
 import { ConfigService } from '@nestjs/config';
 
-export default (config: ConfigService): Step => {
-  return async (
-    context: ContextService,
-    jiraService: JiraService,
-  ): Promise<void> => {
+export default (config: ConfigService, jiraService: JiraService): Step => {
+  return async (context: ContextService): Promise<void> => {
     context.setPerfMark('addJira');
     const $ = context.getCheerioBody();
     const basePath = config.get('web.basePath');

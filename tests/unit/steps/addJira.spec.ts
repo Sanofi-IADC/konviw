@@ -41,7 +41,7 @@ describe('Confluence Proxy / addJira', () => {
     config = moduleRef.get<ConfigService>(ConfigService);
     process.env['CPV_JIRA_System_JIRA_BASE_URL'] =
       config.get('confluence.baseURL');
-    step = addJira(config);
+    step = addJira(config, new JiraServiceMock() as any);
     context = moduleRef.get<ContextService>(ContextService);
     context.Init('XXX', '123456', 'dark');
   });
@@ -69,7 +69,7 @@ describe('Confluence Proxy / addJira', () => {
     context.setHtmlBody(
       `<html><head><title>test</title></head><body><div id='Content'><div class='confluence-jim-macro'>${cheerioBody}</div></div></body></html>`,
     );
-    await step(context, new JiraServiceMock() as any);
+    await step(context);
     const $ = context.getCheerioBody();
     const baseUrl = config.get('confluence.baseURL');
     const data = JSON.stringify([
