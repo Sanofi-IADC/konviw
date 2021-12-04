@@ -259,7 +259,7 @@ For example the following image is from the [Architecture page](archiecture) and
 
 ## Turn pages into online web presentations
 
-You can mix content that will be visible into slides and content that will stay visible only in the page mode. This is a great way to build pages that serves simultaneously the purpose of documentation and presentation when you have to talk about it.
+You can mix content that will be visible into slides and content that will stay visible only in the page mode. This is a great way to build pages that serve simultaneously the purpose of documentation and presentation when you have to make a public talk about it.
 
 Every slide is contained within the frame of a Confluence macro `Page Properties` like in the following example:
 
@@ -289,8 +289,11 @@ You can define custom themes and select your favorite with the param `style`. De
 
 Examples:
 
-- [https://konviw.vercel.app/cpv/wiki/slides/konviw/14647304?style=konviw](https://konviw.vercel.app/cpv/wiki/slides/konviw/14647304?style=konviw)
-- [https://konviw.vercel.app/cpv/wiki/slides/konviw/14647304?style=iadc](https://konviw.vercel.app/cpv/wiki/slides/konviw/14647304?style=iadc)
+[https://konviw.vercel.app/cpv/wiki/slides/konviw/14647304?style=konviw](https://konviw.vercel.app/cpv/wiki/slides/konviw/14647304?style=konviw)
+<ConfluenceSlides styleId='konviw' pageId='14647304' />
+
+[https://konviw.vercel.app/cpv/wiki/slides/konviw/14647304?style=iadc](https://konviw.vercel.app/cpv/wiki/slides/konviw/14647304?style=iadc)
+<ConfluenceSlides styleId='iadc' pageId='14647304' />
 
 You can read a [konviw page with instructions to create web slides](demoSlidesDocs) from your Confluence content in the demo section of these docs.
 

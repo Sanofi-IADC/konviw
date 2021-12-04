@@ -14,6 +14,12 @@ features:
     details: Web slides deck directly from your Confluence pages. Thanks to the awesome job done by reveal.js
 ---
 
+<!-- markdownlint-disable MD033 -->
+
+<h1 align="center"> You wanna see some examples? </h1>
+
+<ConfluenceCarousel />
+
 ---
 
 <p align="center">

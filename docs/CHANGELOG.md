@@ -1,3 +1,103 @@
+## [1.19.3](https://github.com/Sanofi-IADC/konviw/compare/v1.19.2...v1.19.3) (2021-12-03)
+
+
+### Bug Fixes
+
+* **400-errors:** include 400 error on managed ones ([4543352](https://github.com/Sanofi-IADC/konviw/commit/45433520c753e131720ca92ba12bf8e9c65f8583))
+* **cache:** make cache global and shorter ([21d3893](https://github.com/Sanofi-IADC/konviw/commit/21d3893b8d01cc50f474d186a95b677a11cdb986))
+
+## [1.19.2](https://github.com/Sanofi-IADC/konviw/compare/v1.19.1...v1.19.2) (2021-11-28)
+
+
+### Bug Fixes
+
+* **deps:** pin dependencies ([ccbb04d](https://github.com/Sanofi-IADC/konviw/commit/ccbb04d297241f818a47c70794d37850b2a9396a))
+
+## [1.19.1](https://github.com/Sanofi-IADC/konviw/compare/v1.19.0...v1.19.1) (2021-11-28)
+
+
+### Bug Fixes
+
+* drawio-sketch rendering ([77353ca](https://github.com/Sanofi-IADC/konviw/commit/77353ca3cbc090a572ecd500e606ed50c5974200))
+
+# [1.19.0](https://github.com/Sanofi-IADC/konviw/compare/v1.18.1...v1.19.0) (2021-11-28)
+
+
+### Features
+
+* **slides:** add logo to slides ([35581d2](https://github.com/Sanofi-IADC/konviw/commit/35581d2a246f7d843c5863e2a173d23f9b01990f))
+* **slides:** add new slides style digital ([a0ed5f4](https://github.com/Sanofi-IADC/konviw/commit/a0ed5f4e6b8f05d84bc4e57560cc3081e5c99ed7))
+* **slides:** new style digitall with logo ([88994de](https://github.com/Sanofi-IADC/konviw/commit/88994de8f7276165ecead4b4014da862f6eadcdb))
+
+## [1.18.1](https://github.com/Sanofi-IADC/konviw/compare/v1.18.0...v1.18.1) (2021-11-27)
+
+
+### Bug Fixes
+
+* **api:** remove port from image url ([9f295b2](https://github.com/Sanofi-IADC/konviw/commit/9f295b2d985c395ecdb4c68f7481f2d24bcfe106))
+
+# [1.18.0](https://github.com/Sanofi-IADC/konviw/compare/v1.17.0...v1.18.0) (2021-11-26)
+
+
+### Bug Fixes
+
+* **api:** code smell from sonar ([2e6ff48](https://github.com/Sanofi-IADC/konviw/commit/2e6ff48dd1007134f896c1ea728f008f28b205d5))
+
+
+### Features
+
+* **api:** getAllSpaces to get Confluence spaces ([72f45d5](https://github.com/Sanofi-IADC/konviw/commit/72f45d5fb04df7fbfefbdc356f09caab4dccaa36))
+* **api:** new endpoint getSpaces ([044a352](https://github.com/Sanofi-IADC/konviw/commit/044a352e29993f48c81f3652a1529b4cc207fb1c))
+
+# [1.17.0](https://github.com/Sanofi-IADC/konviw/compare/v1.16.0...v1.17.0) (2021-11-15)
+
+
+### Features
+
+* update instana ([e1fcc1c](https://github.com/Sanofi-IADC/konviw/commit/e1fcc1c44e6105685816b88148eea31a91413e8a))
+
+# [1.16.0](https://github.com/Sanofi-IADC/konviw/compare/v1.15.2...v1.16.0) (2021-11-06)
+
+
+### Bug Fixes
+
+* **fixChart:** more func to reduce cognit. complex ([eef68a0](https://github.com/Sanofi-IADC/konviw/commit/eef68a0759ee55d42645fdfcb78748fad4276a9e))
+* **fixChart:** move options prep to separate funct ([4bb25c5](https://github.com/Sanofi-IADC/konviw/commit/4bb25c586eeb89f30df6fec4a8b5e94b9d5b37c1))
+* **fixChart:** reduce its Cognitive Complexity ([e8afc14](https://github.com/Sanofi-IADC/konviw/commit/e8afc141dd385b7aa2f36b25144e9b8e90c9268e))
+* **fixChart:** remove RegExp by slice ([a9c23c0](https://github.com/Sanofi-IADC/konviw/commit/a9c23c0914748a397d9eb35eda16e85143046032))
+* **fixChart:** remove switch statement ([a0effbc](https://github.com/Sanofi-IADC/konviw/commit/a0effbc796d1d8cbb2aa444528edfcf8af1b0a99))
+* **fixChart:** simple RegEx and move for to for-of ([0d04e93](https://github.com/Sanofi-IADC/konviw/commit/0d04e93ec8713cfb8f6d76d6e52093af2a6169fb))
+* **fixChart:** sonarCloud bugs ([397f514](https://github.com/Sanofi-IADC/konviw/commit/397f514edd0a1250844ddd472001969255c90ada))
+* **fixChart:** sonarCloud fixes ([1e174c0](https://github.com/Sanofi-IADC/konviw/commit/1e174c0628d115c26e7a76dda1b2c351f17900ea))
+
+
+### Features
+
+* **fixChart:** render charts with ApexChart ([3e8bef2](https://github.com/Sanofi-IADC/konviw/commit/3e8bef26b8f8c74588e282cbcc4aea99842891df))
+
+## [1.15.2](https://github.com/Sanofi-IADC/konviw/compare/v1.15.1...v1.15.2) (2021-07-25)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @nestjs/config to v1 ([200563f](https://github.com/Sanofi-IADC/konviw/commit/200563f7777f33a735282885bee61a633fc49dc9))
+
+## [1.15.1](https://github.com/Sanofi-IADC/konviw/compare/v1.15.0...v1.15.1) (2021-07-18)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @nestjs/serve-static to v2.2.2 ([2539bfb](https://github.com/Sanofi-IADC/konviw/commit/2539bfb5a6f5345f57687f33ad248fd560616208))
+
+# [1.15.0](https://github.com/Sanofi-IADC/konviw/compare/v1.14.0...v1.15.0) (2021-07-18)
+
+
+### Features
+
+* **40x-errors:** custom hbs pages for 403 and 404 ([c361a1a](https://github.com/Sanofi-IADC/konviw/commit/c361a1ab4646b53368f9c534f1806dbb80e61517))
+* **hbs:** add home page and handlebars template ([744a96e](https://github.com/Sanofi-IADC/konviw/commit/744a96e8d2eb477e27c47941f15b33b036f59c41))
+* **meta:** new favicon and twitter card metadata ([c5f0427](https://github.com/Sanofi-IADC/konviw/commit/c5f0427e4785cc47b9871572a6858bc06dda9f36))
+
 # [1.14.0](https://github.com/Sanofi-IADC/konviw/compare/v1.13.0...v1.14.0) (2021-07-15)
 
 
