@@ -2,7 +2,7 @@ import { ConfigService } from '@nestjs/config';
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
 
-export default (config: ConfigService): Step => {
+export default (config: ConfigService, transition: string): Step => {
   return (context: ContextService): void => {
     context.setPerfMark('addSlides');
     const $ = context.getCheerioBody();
@@ -83,10 +83,12 @@ export default (config: ConfigService): Step => {
         document.addEventListener('DOMContentLoaded', function () {
           Reveal.initialize({
             hash: true,
+            history: true,
             center: false,
             plugins: [ RevealZoom, RevealHighlight],
-            backgroundTransition: 'slide',
-            slideNumber: true,
+            transition: '${transition}',
+            backgroundTransition: '${transition}',
+            slideNumber: 'c/t',
             disableLayout: false,
             // This will make the slide responsive
             margin: 0.1,

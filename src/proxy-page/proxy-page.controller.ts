@@ -9,7 +9,11 @@ import {
 } from '@nestjs/common';
 import { ProxyPageService } from './proxy-page.service';
 import { Response, Request } from 'express';
-import { PageParamsDTO, PageQueryDTO } from './proxy-page.validation.dto';
+import {
+  PageParamsDTO,
+  PageQueryDTO,
+  SlidesQueryDTO,
+} from './proxy-page.validation.dto';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 @ApiTags('proxy-page')
 @Controller('wiki')
@@ -31,6 +35,7 @@ export class ProxyPageController {
    * @param pageId {string} '639243960' - id of the page to retrieve
    * @query theme {string} 'dark' - switch between light and dark themes
    * @query type {string} 'blog' - 'blog' to display a post header or 'notitle' to remove the title of the page
+   * @query style {string} 'konviw' - style to render the page
    */
 
   @ApiOkResponse({ description: 'Full html of the rendered Confluence page' })
@@ -42,7 +47,7 @@ export class ProxyPageController {
     @Param() params: PageParamsDTO,
     @Query() queries: PageQueryDTO,
   ) {
-    this.logger.verbose(`Rendering... /${params.spaceKey}/${params.pageId}`);
+    this.logger.log(`Rendering... /${params.spaceKey}/${params.pageId}`);
     return this.proxyPage.renderPage(
       params.spaceKey,
       params.pageId,
@@ -60,6 +65,7 @@ export class ProxyPageController {
    * @param spaceKey {string} 'iadc' - space key where the page belongs
    * @param pageId {string} '639243960' - id of the page to retrieve
    * @query style {string} 'konviw' - select the theme to use for your slide deck
+   * @query transition {string} 'slide' - transition animation for the slide deck
    */
   @ApiOkResponse({
     description: 'Full html of the rendered page as reveal.js slides',
@@ -67,15 +73,16 @@ export class ProxyPageController {
   @Get('/slides/:spaceKey/:pageId/:pageSlug?')
   async getSlides(
     @Param() params: PageParamsDTO,
-    @Query() queries: PageQueryDTO,
+    @Query() queries: SlidesQueryDTO,
   ) {
-    this.logger.verbose(
+    this.logger.log(
       `Rendering Slides for ... /${params.spaceKey}/${params.pageId} with style ${queries.style}`,
     );
     return this.proxyPage.renderSlides(
       params.spaceKey,
       params.pageId,
       queries.style,
+      queries.transition,
     );
   }
 

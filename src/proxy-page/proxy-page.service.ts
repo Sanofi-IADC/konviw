@@ -132,6 +132,7 @@ export class ProxyPageService {
     spaceKey: string,
     pageId: string,
     style: string,
+    transition: string,
   ): Promise<string> {
     const { data } = await this.confluence.getPage(spaceKey, pageId);
     this.initContext(spaceKey, pageId, 'light', style, data);
@@ -149,7 +150,7 @@ export class ProxyPageService {
     fixRoadmap(this.config)(this.context);
     delUnnecessaryCode()(this.context);
     await addJiraPromise;
-    addSlides(this.config)(this.context);
+    addSlides(this.config, transition)(this.context);
     addWebStatsTracker(this.config)(this.context);
     this.context.Close();
     return this.context.getHtmlBody();
