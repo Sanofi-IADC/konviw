@@ -82,6 +82,16 @@ export class PageQueryDTO {
   @ApiPropertyOptional({
     type: String,
     required: false,
+    description: `Disable zoom effect in images`,
+    example: '',
+  })
+  @IsOptional()
+  @IsString()
+  nozoom: string;
+
+  @ApiPropertyOptional({
+    type: String,
+    required: false,
     description: `Use 'no-cache' to get fresh data bypassing the NestJS cache`,
     example: 'no-cache',
   })

@@ -36,6 +36,7 @@ export class ProxyPageController {
    * @query theme {string} 'dark' - switch between light and dark themes
    * @query type {string} 'blog' - 'blog' to display a post header or 'notitle' to remove the title of the page
    * @query style {string} 'konviw' - style to render the page
+   * @query nozoom {string} '' - disable zoom effect in images
    */
 
   @ApiOkResponse({ description: 'Full html of the rendered Confluence page' })
@@ -54,6 +55,7 @@ export class ProxyPageController {
       queries.theme,
       queries.type,
       queries.style,
+      queries.nozoom,
     );
   }
 
