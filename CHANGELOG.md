@@ -1,3 +1,11 @@
+# [1.20.0](https://github.com/Sanofi-IADC/konviw/compare/v1.19.3...v1.20.0) (2021-12-07)
+
+
+### Features
+
+* **addSlides:** query param for slide transition ([bd5528a](https://github.com/Sanofi-IADC/konviw/commit/bd5528a01ac9e71012d2d7c5bba0353ce2aeecf2))
+* **proxy-page:** disable zoom in images by param ([91b4a64](https://github.com/Sanofi-IADC/konviw/commit/91b4a6446525ce7dc3524d0a5ba57dde8f7ee5dd))
+
 ## [1.19.3](https://github.com/Sanofi-IADC/konviw/compare/v1.19.2...v1.19.3) (2021-12-03)
 
 
