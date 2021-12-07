@@ -83,6 +83,7 @@ export class ProxyPageService {
     theme: string,
     type: string,
     style: string,
+    nozoom: string,
   ): Promise<string> {
     const { data } = await this.confluence.getPage(spaceKey, pageId);
     this.initContext(spaceKey, pageId, theme, style, data);
@@ -108,8 +109,10 @@ export class ProxyPageService {
     delUnnecessaryCode()(this.context);
     addCustomCss(this.config, style)(this.context);
     addMessageBus(this.config)(this.context);
-    addZooming(this.config)(this.context);
-    addNoZoom()(this.context);
+    if (nozoom == undefined) {
+      addZooming(this.config)(this.context);
+      addNoZoom()(this.context);
+    }
     addHighlightjs(this.config)(this.context);
     addTheme()(this.context);
     addScrollToTop()(this.context);
@@ -132,6 +135,7 @@ export class ProxyPageService {
     spaceKey: string,
     pageId: string,
     style: string,
+    transition: string,
   ): Promise<string> {
     const { data } = await this.confluence.getPage(spaceKey, pageId);
     this.initContext(spaceKey, pageId, 'light', style, data);
@@ -149,7 +153,7 @@ export class ProxyPageService {
     fixRoadmap(this.config)(this.context);
     delUnnecessaryCode()(this.context);
     await addJiraPromise;
-    addSlides(this.config)(this.context);
+    addSlides(this.config, transition)(this.context);
     addWebStatsTracker(this.config)(this.context);
     this.context.Close();
     return this.context.getHtmlBody();
