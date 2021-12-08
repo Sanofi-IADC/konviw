@@ -1,4 +1,5 @@
 import { ConfigService } from '@nestjs/config';
+import cheerio from 'cheerio';
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
 
@@ -17,38 +18,47 @@ export default (config: ConfigService, transition: string): Step => {
         );
       },
     );
-    let sections = '';
+    let sectionsHtml = '';
     // Div with class plugin-tabmeta-details (Confluence macro "properties") is framing the sections for each slide
     $(".plugin-tabmeta-details[data-macro-name='details']").each(
       (_index: number, pageProperties: cheerio.TagElement) => {
-        const thisBlock = $(pageProperties).children().first().attr('class');
-        if (thisBlock) {
-          // First element is an image so let's fill the full background
-          if (thisBlock.match(/confluence-embedded-file-wrapper/g)) {
-            const srcImage =
-              $(pageProperties).children().first().children().attr('src') || '';
-            $(pageProperties).children().first().remove();
-            sections += `<section data-background-image=${srcImage}>
-                  ${$(pageProperties).html()}</section>`;
+        // we will generate vertical slides if there are 'hr' tags
+        const verticalSlides =
+          ($(pageProperties).html() as string).split('<hr>').length > 1
+            ? true
+            : false;
+        const sections = ($(pageProperties).html() as string)
+          .split('<hr>')
+          .map((body) => {
+            return cheerio.load(body);
+          });
+        // Iterate thru the sections split by the 'hr' horizontal lines
+        // only one if no split done
+        sectionsHtml += verticalSlides ? `<section>` : '';
+        sections.forEach((section: cheerio.Root) => {
+          // Based on the 'tag' name of the first element we will design the slide format
+          switch (section('body').first().children().get(0).tagName) {
+            case 'h1':
+              sectionsHtml += getSlideCover(section);
+              break;
+            case 'h3':
+              sectionsHtml += getSlideBubble(section);
+              break;
+            case 'span':
+              // gets the span tag element : section('body').first().
+              const spanClass =
+                section('body').children().first().attr('class') ?? '';
+              // If first element is an image so let's fill the full background
+              if (spanClass.match(/confluence-embedded-file-wrapper/g)) {
+                sectionsHtml += getSlideImageBackground(section);
+              }
+              break;
+            default:
+              // otherwise plain standard slide
+              sectionsHtml += getSlideDefault(section);
           }
-        } else if (
-          // if heading 1 let's make it a cover
-          $(pageProperties).children().first().get(0).tagName === 'h1'
-        ) {
-          sections += `<section data-state="cover">${$(
-            pageProperties,
-          ).html()}</section>`;
-        } else if (
-          // heading 3 will be a nice blue bubble to wrap the title
-          $(pageProperties).children().first().get(0).tagName === 'h3'
-        ) {
-          sections += `<section data-state="bubble">${$(
-            pageProperties,
-          ).html()}</section>`;
-        } else {
-          // otherwise plain standard slide
-          sections += `<section>${$(pageProperties).html()}</section>`;
-        }
+        });
+        sectionsHtml += verticalSlides ? `</section>` : '';
       },
     );
 
@@ -71,7 +81,7 @@ export default (config: ConfigService, transition: string): Step => {
     const newHtmlBody = `<div id="Content">
     <section id="slides-logo"></section>
     <div class="reveal slide">
-      <div class="slides">${sections}</div>
+      <div class="slides">${sectionsHtml}</div>
     </div></div>`;
     $('#Content').replaceWith(newHtmlBody);
 
@@ -103,4 +113,31 @@ export default (config: ConfigService, transition: string): Step => {
 
     context.getPerfMeasure('addSlides');
   };
+};
+
+// Cover slide
+const getSlideCover = (section: cheerio.Root): string => {
+  return `<section data-state="cover">${section('body').html()}</section>`;
+};
+
+// Special slide with title as a bubble
+const getSlideBubble = (section: cheerio.Root): string => {
+  return `<section data-state="bubble">${section('body').html()}</section>`;
+};
+
+// Default slide style
+const getSlideDefault = (section: cheerio.Root): string => {
+  return `<section>${section('body').html()}</section>`;
+};
+
+// Slide with a background image
+const getSlideImageBackground = (section: cheerio.Root): string => {
+  // gets the image tag element: section('body').children().first().
+  // gets the image 'src' attr : section('body').children().first().children().first().attr('src')
+  const srcImage =
+    section('body').children().first().children().first().attr('src') || '';
+  // remove the image as we will place it already as background
+  section('body').children().first().remove();
+  return `<section data-background-image=${srcImage}>
+  ${section('body').html()}</section>`;
 };
