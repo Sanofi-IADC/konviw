@@ -1,3 +1,15 @@
+# [1.21.0](https://github.com/Sanofi-IADC/konviw/compare/v1.20.0...v1.21.0) (2021-12-08)
+
+
+### Bug Fixes
+
+* **addSlides:** sonarcloud use forEach instead map ([d387843](https://github.com/Sanofi-IADC/konviw/commit/d387843b379d3535c827b71b2a90ef79370d5bd3))
+
+
+### Features
+
+* **addSlides:** FND-1042 vertical slides ([6d80c7f](https://github.com/Sanofi-IADC/konviw/commit/6d80c7fe18bf047bc6560599a714682c2ae7687d))
+
 # [1.20.0](https://github.com/Sanofi-IADC/konviw/compare/v1.19.3...v1.20.0) (2021-12-07)
 
 
