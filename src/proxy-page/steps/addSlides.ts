@@ -35,7 +35,7 @@ export default (config: ConfigService, transition: string): Step => {
         // Iterate thru the sections split by the 'hr' horizontal lines
         // only one if no split done
         sectionsHtml += verticalSlides ? `<section>` : '';
-        sections.map((section: cheerio.Root) => {
+        sections.forEach((section: cheerio.Root) => {
           // Based on the 'tag' name of the first element we will design the slide format
           switch (section('body').first().children().get(0).tagName) {
             case 'h1':
