@@ -28,6 +28,7 @@ Configuration is made with environment variables. They can also be defined with 
 - `CPV_CONFLUENCE_BASE_URL`: Confluence server base URL. **Required**
 - `CPV_CONFLUENCE_API_USERNAME`: Confluence API username (usually an email address). **Required**
 - `CPV_CONFLUENCE_API_TOKEN`: Confluence API token (can be created [here](https://id.atlassian.com/manage/api-tokens)). **Required**
+- `CPV_KONVIW_PRIVATE_PAGE`: A label to tag pages as private. **Required**
 - `CPV_MATOMO_BASE_URL`: Matomo server base URL. _Optional_
 - `CPV_MATOMO_ID_SITE`: Id of the Confluence public viewer site in Matomo. _Optional_
 - `CPV_GOOGLE_ANALYTICS`: Tag for tracking web analytics vis Google Analytics. _Optional_

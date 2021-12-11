@@ -4,11 +4,8 @@ import cheerio from 'cheerio';
 import { JiraService } from 'src/jira/jira.service';
 import { ConfigService } from '@nestjs/config';
 
-export default (config: ConfigService): Step => {
-  return async (
-    context: ContextService,
-    jiraService: JiraService,
-  ): Promise<void> => {
+export default (config: ConfigService, jiraService: JiraService): Step => {
+  return async (context: ContextService): Promise<void> => {
     context.setPerfMark('addJira');
     const $ = context.getCheerioBody();
     const basePath = config.get('web.basePath');
@@ -153,7 +150,7 @@ export default (config: ConfigService): Step => {
                 sort: {
                   compare: (a, b) => (a.name > b.name ? 1 : -1),
                 },
-                formatter: (cell) => gridjs.html(${'`<div style="color:${cell.color}">${cell.name}</div>`'})
+                formatter: (cell) => gridjs.html(${'`<div class="aui-lozenge" style="background-color:${cell.color};color:darkgrey;font-size: 11px;">${cell.name}</div>`'})
               },`;
         }
         if (requestedFields.includes('updated')) {

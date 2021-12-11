@@ -40,13 +40,11 @@ const htmlContext =
 describe('Speed / Steps', () => {
   let context: ContextService;
   let config: ConfigService;
-  /**
-   * Time expected for each step to be execute within, in ms.
-   */
-  const timeExpected = 80;
-  /**
-   * Number of time we check the step execution time.
-   */
+
+  // Time expected for each step to be execute within, in ms.
+  const timeExpected = 150;
+
+  // Number of time we check the step execution time.
   const iteration = 100;
 
   beforeEach(async () => {

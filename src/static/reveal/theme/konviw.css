@@ -1,9 +1,10 @@
 /* ********************************************* */
-/* *        IADC theme for reveal.js           * */
-/* *           Author: Jose Gascon             * */
+/* *        IADC theme for reveal.js        * */
+/* *           Author: Jose Gascon         * */
 /* ********************************************* */
 
-@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
 
 section.has-light-background,
 section.has-light-background h1,
@@ -15,19 +16,39 @@ section.has-light-background h6 {
   color: #222;
 }
 
+#Content {
+  border-top: 2px solid white;
+  max-width: 100% !important;
+}
+
+#slides-logo {
+  float: right;
+  position: relative;
+  text-indent: 10%;
+  white-space: nowrap;
+  overflow: hidden;
+  background-image: url('konviw.png');
+  background-repeat: no-repeat;
+  display: block;
+  height: 50px;
+  width: 150px;
+  top: -5px;
+  z-index: 2;
+}
+
 /* ********************************************* */
 /* *               GLOBAL STYLES               * */
 /* ********************************************* */
 :root {
-  --background-color: #fff;
-  --main-font: 'Patrick Hand', sans-serif;
-  --main-font-size: 4.75vmin;
+  --background-color: #fafafa;
+  --main-font: Lato, sans-serif;
+  --main-font-size: 3.75vmin;
   --main-color: #343434;
   --main-line-height: 1.1em;
   --block-margin: 10px;
   --heading-margin: 0 0 20px 0;
-  --heading-font: 'Patrick Hand', Impact, sans-serif;
-  --heading-color: #1d287b;
+  --heading-font: Oswald, Impact, sans-serif;
+  --heading-color: #3b4388;
   --heading-line-height: 1em;
   --heading-letter-spacing: normal;
   --heading-text-transform: uppercase;
@@ -51,10 +72,6 @@ section.has-light-background h6 {
   --theme-blackground-code: #554131;
   --default-text: #343434;
   --progress-color: #2bb640;
-}
-
-#Content {
-  max-width: 100% !important;
 }
 
 .reveal-viewport {
@@ -156,7 +173,7 @@ section.has-light-background h6 {
 .cover .reveal h1 {
   background-color: #fff;
   padding: 30px;
-  border-radius: 5px;
+  border-radius: 10px;
   position: relative;
   margin-bottom: 1em;
 }
@@ -187,7 +204,7 @@ section.has-light-background h6 {
   background-color: var(--theme-background);
   color: white;
   padding: 30px;
-  border-radius: 10px;
+  border-radius: 20px;
   position: relative;
   margin-bottom: 1em;
 }
@@ -231,7 +248,7 @@ section.has-light-background h6 {
 .reveal img,
 .reveal video,
 .reveal iframe {
-  max-width: 80%;
+  max-width: 65%;
 }
 
 .reveal strong,
@@ -345,10 +362,12 @@ section.has-light-background h6 {
 }
 
 .reveal table {
-  margin: auto;
-  width: 100%;
+  margin: 0;
+  padding: 0;
   border-collapse: collapse;
   border-spacing: 0;
+  min-width: 100%;
+  width: auto;
 }
 
 .reveal table th {
@@ -358,9 +377,9 @@ section.has-light-background h6 {
 .reveal table th,
 .reveal table td {
   text-align: left;
-  padding: 0.2em 0.5em 0.2em 0.5em;
+  padding: 0.1em 0.1em 0.1em 0.1em;
   border-bottom: 1px solid;
-  vertical-align: top;
+  vertical-align: center;
 }
 
 .reveal table th[align='center'],

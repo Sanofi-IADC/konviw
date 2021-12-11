@@ -84,10 +84,11 @@ export class ProxyPageService {
     theme: string,
     type: string,
     style: string,
+    nozoom: string,
   ): Promise<string> {
     const { data } = await this.confluence.getPage(spaceKey, pageId);
     this.initContext(spaceKey, pageId, theme, style, data);
-    const addJiraPromise = addJira(this.config)(this.context, this.jira);
+    const addJiraPromise = addJira(this.config, this.jira)(this.context);
     fixHtmlHead(this.config)(this.context);
     fixContentWidth()(this.context);
     fixLinks(this.config)(this.context);
@@ -109,9 +110,11 @@ export class ProxyPageService {
     delUnnecessaryCode()(this.context);
     addCustomCss(this.config, style)(this.context);
     addMessageBus(this.config)(this.context);
-    addZooming(this.config)(this.context);
-    addNoZoom()(this.context);
     addFrameMaximize()(this.context);
+    if (nozoom == undefined) {
+      addZooming(this.config)(this.context);
+      addNoZoom()(this.context);
+    }
     addHighlightjs(this.config)(this.context);
     addTheme()(this.context);
     addScrollToTop()(this.context);
@@ -134,9 +137,11 @@ export class ProxyPageService {
     spaceKey: string,
     pageId: string,
     style: string,
+    transition: string,
   ): Promise<string> {
     const { data } = await this.confluence.getPage(spaceKey, pageId);
     this.initContext(spaceKey, pageId, 'light', style, data);
+    const addJiraPromise = addJira(this.config, this.jira)(this.context);
     fixHtmlHead(this.config)(this.context);
     fixLinks(this.config)(this.context);
     fixEmojis(this.config)(this.context);
@@ -149,7 +154,8 @@ export class ProxyPageService {
     fixEmptyLineIncludePage()(this.context);
     fixRoadmap(this.config)(this.context);
     delUnnecessaryCode()(this.context);
-    addSlides(this.config)(this.context);
+    await addJiraPromise;
+    addSlides(this.config, transition)(this.context);
     addWebStatsTracker(this.config)(this.context);
     this.context.Close();
     return this.context.getHtmlBody();

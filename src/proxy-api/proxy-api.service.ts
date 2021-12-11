@@ -1,7 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { ConfluenceService } from '../confluence/confluence.service';
 import { ContextService } from '../context/context.service';
 import { ConfigService } from '@nestjs/config';
+import { ConfluenceService } from '../confluence/confluence.service';
+import { JiraService } from 'src/jira/jira.service';
 import parseHeaderBlog from './steps/parseHeaderBlog';
 
 @Injectable()
@@ -10,6 +11,7 @@ export class ProxyApiService {
   constructor(
     private config: ConfigService,
     private confluence: ConfluenceService,
+    private jira: JiraService,
     private context: ContextService,
   ) {}
 
@@ -129,6 +131,175 @@ export class ProxyApiService {
     return {
       meta,
       results: parseResults,
+    };
+  }
+
+  /**
+   * getJiraProjects Service to search content in Confluence
+   *
+   * @return Promise {string}
+   * @param server {string} 'System Jira' - Jira server to list projects from
+   * @param search {string} 'iadc' - word to be searched
+   * @param startAt {number} 15 - starting position to handle paginated results
+   */
+  async getJiraProjects(
+    server: string,
+    search: string,
+    startAt: number,
+    maxResults: number,
+    categoryId,
+  ): Promise<any> {
+    const { data } = await this.jira.findProjects(
+      server,
+      search,
+      startAt,
+      maxResults,
+      categoryId,
+    );
+
+    const parseResults = data.values.map((project: any) => {
+      return {
+        key: project.key,
+        name: project.name,
+        description: project.description,
+        avatar48: project.avatarUrls['48x48'],
+        avatar24: project.avatarUrls['24x24'],
+        categoryId: (project.projectCategory ?? '').id,
+        categoryName: (project.projectCategory ?? '').name,
+        categoryDescription: (project.projectCategory ?? '').descriptiom,
+        projectType: project.projectTypeKey,
+        projectStyle: project.style,
+        leadId: project.lead.accountId,
+        leadName: project.lead.displayName,
+        leadActive: project.lead.active,
+        leadAvatar48: project.lead.avatarUrls['48x48'],
+        leadAvatar24: project.lead.avatarUrls['24x24'],
+        totalIssueCount: project.insight.totalIssueCount,
+        lastIssueUpdateTime: project.insight.lastIssueUpdateTime,
+      };
+    });
+
+    const meta = {
+      maxResults: data.maxResults,
+      totalSize: data.total,
+      server,
+      search,
+      next: data.self,
+      prev: data.nextPage,
+    };
+
+    return {
+      meta,
+      projects: parseResults,
+    };
+  }
+
+  /**
+   * getJiraProjectCategories Service to retrieve Jira project categories
+   *
+   * @return Promise {string}
+   * @param server {string} 'System Jira' - Jira server to list categories from
+   */
+  async getJiraProjectCategories(server: string): Promise<any> {
+    const { data } = await this.jira.findProjectCategories(server);
+
+    const parseResults = data.map((category: any) => {
+      return {
+        id: category.id,
+        name: category.name,
+        description: category.description ?? '',
+      };
+    });
+
+    const meta = {
+      totalSize: parseResults.length,
+      server,
+    };
+
+    return {
+      meta,
+      categories: parseResults,
+    };
+  }
+
+  /**
+   * @function getAllSpaces Service
+   * @description Retrieve all spaces from a Confluence server
+   * @return Promise {any}
+   * @param type {string} 'global' - type of space with possible values 'global' or 'personal'
+   * @param startAt {number} 15 - starting position to handle paginated results
+   * @param maxResults {number} 999 - limit of results to be returned
+   * @param getFields {number} 1 - '1' to get icon, labels, description and permissions or '0' for simple list of spaces
+   */
+  async getAllSpaces(
+    type: string,
+    startAt: number,
+    maxResults: number,
+    getFields: number,
+  ): Promise<any> {
+    const baseHost = this.config.get('web.baseHost');
+    const basePath = this.config.get('web.basePath');
+
+    const { data } = await this.confluence.getAllSpaces(
+      type,
+      startAt,
+      maxResults,
+      getFields,
+    );
+
+    const parseResults = data.results.map((space: any) => {
+      const labels =
+        space.metadata === undefined
+          ? []
+          : space.metadata.labels.results.map((label: any) => {
+              return label.name;
+            });
+
+      const permissions =
+        space.permissions === undefined
+          ? []
+          : space.permissions.reduce((permissionsTmp, permission) => {
+              if (permission.subjects?.user) {
+                if (
+                  permission.subjects.user.results[0].accountType ===
+                  'atlassian'
+                ) {
+                  const name = permission.subjects.user.results[0].displayName;
+                  const avatar = `${baseHost}${basePath}${permission.subjects.user.results[0].profilePicture.path}`;
+                  const operation = permission.operation;
+                  permissionsTmp.push({ name, avatar, operation });
+                }
+              }
+              return permissionsTmp;
+            }, []);
+
+      const icon =
+        space.icon === undefined
+          ? undefined
+          : `${baseHost}${basePath}/wiki${space.icon.path}`;
+
+      return {
+        id: space.id,
+        key: space.key,
+        name: space.name,
+        description: space.description?.plain.value,
+        icon,
+        type: space.type,
+        status: space.status,
+        labels,
+        permissions,
+      };
+    });
+
+    const meta = {
+      start: startAt,
+      maxResults: data.limit,
+      totalSize: data.size,
+    };
+
+    return {
+      meta,
+      spaces: parseResults,
     };
   }
 }
