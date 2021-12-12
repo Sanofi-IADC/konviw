@@ -12,11 +12,16 @@ export default (): Step => {
 
     // Processing the iframes in the page
     $('iframe').each((_index: number, elementFrame: cheerio.TagElement) => {
-      // allow fullscreen for media
+      // allow fullscreen and other feature-policy features
       $(elementFrame).attr(
         'allow',
-        'autoplay *; fullscreen *; encrypted-media *',
+        'autoplay; fullscreen; encrypted-media; accelerometer; gyroscope; picture-in-picture',
       );
+
+      // lazy loading in modern browsers
+      $(elementFrame).attr('loading', 'auto');
+      // The Referer header will be omitted: sent requests do not include any referrer information
+      $(elementFrame).attr('referrerpolicy', 'no-referrer');
 
       // if aspect ratio and 100% are both as properties then
       // we make the iframe responsive to the defined aspect ratio
@@ -26,7 +31,9 @@ export default (): Step => {
       ) {
         $(elementFrame).attr(
           'style',
-          'position: absolute; top: 0; left: 0; width: 100%; height: 100%',
+          'position: absolute; top: 0; left: 0; width: 100%; height: 100%; '.concat(
+            $(elementFrame).attr('style') ?? '',
+          ),
         );
         $(elementFrame).wrap(`<div style="width: 100%">`);
         if ($(elementFrame).attr('name') === '4:3') {
@@ -47,7 +54,7 @@ export default (): Step => {
       if ($(elementFrame).attr('frameborder') === '1') {
         $(elementFrame).attr(
           'style',
-          'border-radius: 10px; border: 2px solid #eee;'.concat(
+          'border-radius: 10px; border: 2px solid #eee; '.concat(
             $(elementFrame).attr('style') ?? '',
           ),
         );
