@@ -1,3 +1,12 @@
+# [1.22.0](https://github.com/Sanofi-IADC/konviw/compare/v1.21.0...v1.22.0) (2021-12-12)
+
+
+### Features
+
+* **iframe:** add lazzy loading FND-764 ([5616346](https://github.com/Sanofi-IADC/konviw/commit/5616346e5a4ad0a5992e044d480327c3acd1207e))
+* **iframe:** maximize effect for iframes ([544a023](https://github.com/Sanofi-IADC/konviw/commit/544a023a80f4e6c578a2e5aa8085dc557471aa5c))
+* **iframe:** media fullscreen feature FND-764 ([6259b34](https://github.com/Sanofi-IADC/konviw/commit/6259b347c631357c04acf4e33c03a4fa28cbe5ba))
+
 # [1.21.0](https://github.com/Sanofi-IADC/konviw/compare/v1.20.0...v1.21.0) (2021-12-08)
 
 
