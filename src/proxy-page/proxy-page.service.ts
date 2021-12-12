@@ -31,6 +31,7 @@ import addWebStatsTracker from './steps/addWebStatsTracker';
 import fixDrawioMacro from './steps/fixDrawio';
 import fixChartMacro from './steps/fixChart';
 import fixRoadmap from './steps/fixRoadmap';
+import fixFrameAllowFullscreen from './steps/fixFrameAllowFullscreen';
 
 @Injectable()
 export class ProxyPageService {
@@ -101,6 +102,7 @@ export class ProxyPageService {
     fixTableColGroup()(this.context);
     fixEmptyLineIncludePage()(this.context);
     fixRoadmap(this.config)(this.context);
+    fixFrameAllowFullscreen()(this.context);
     if (type === 'blog') {
       addHeaderBlog()(this.context);
     } else if (type !== 'notitle') {
@@ -151,6 +153,7 @@ export class ProxyPageService {
     fixTableColGroup()(this.context);
     fixEmptyLineIncludePage()(this.context);
     fixRoadmap(this.config)(this.context);
+    fixFrameAllowFullscreen()(this.context);
     delUnnecessaryCode()(this.context);
     await addJiraPromise;
     addSlides(this.config, transition)(this.context);
