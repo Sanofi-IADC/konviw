@@ -31,7 +31,7 @@ import addWebStatsTracker from './steps/addWebStatsTracker';
 import fixDrawioMacro from './steps/fixDrawio';
 import fixChartMacro from './steps/fixChart';
 import fixRoadmap from './steps/fixRoadmap';
-import addFrameMaximize from './steps/addFrameMaximize';
+import fixFrameAllowFullscreen from './steps/fixFrameAllowFullscreen';
 
 @Injectable()
 export class ProxyPageService {
@@ -102,6 +102,7 @@ export class ProxyPageService {
     fixTableColGroup()(this.context);
     fixEmptyLineIncludePage()(this.context);
     fixRoadmap(this.config)(this.context);
+    fixFrameAllowFullscreen()(this.context);
     if (type === 'blog') {
       addHeaderBlog()(this.context);
     } else if (type !== 'notitle') {
@@ -110,7 +111,6 @@ export class ProxyPageService {
     delUnnecessaryCode()(this.context);
     addCustomCss(this.config, style)(this.context);
     addMessageBus(this.config)(this.context);
-    addFrameMaximize()(this.context);
     if (nozoom == undefined) {
       addZooming(this.config)(this.context);
       addNoZoom()(this.context);
@@ -153,6 +153,7 @@ export class ProxyPageService {
     fixTableColGroup()(this.context);
     fixEmptyLineIncludePage()(this.context);
     fixRoadmap(this.config)(this.context);
+    fixFrameAllowFullscreen()(this.context);
     delUnnecessaryCode()(this.context);
     await addJiraPromise;
     addSlides(this.config, transition)(this.context);
