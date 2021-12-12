@@ -83,7 +83,7 @@ export default {
   computed: {
     url: function () {
       const theme = this.darkMode ? 'dark' : 'light';
-      return `https://konviw.vercel.app/cpv/wiki/spaces/konviw/pages/${this.pageId}?type=${this.type}&theme=${theme}`;
+      return `https://konviw.vercel.app/cpv/wiki/spaces/konviw/pages/${this.pageId}?type=${this.type}&theme=${theme}&nozoom`;
     },
   },
 };

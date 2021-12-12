@@ -34,6 +34,9 @@ describe('ConfluenceProxy / fixFrameAllowFullscreen', () => {
       );
       expect($(elementFrame).attr('loading')).toEqual('auto');
       expect($(elementFrame).attr('referrerpolicy')).toEqual('no-referrer');
+      expect($(elementFrame).attr('allowfullscreen')).toEqual('');
+      expect($(elementFrame).attr('webkitallowfullscreen')).toEqual('');
+      expect($(elementFrame).attr('mozallowfullscreen')).toEqual('');
     });
   });
 

@@ -1,3 +1,32 @@
+# [1.22.0](https://github.com/Sanofi-IADC/konviw/compare/v1.21.0...v1.22.0) (2021-12-12)
+
+
+### Features
+
+* **iframe:** add lazzy loading FND-764 ([5616346](https://github.com/Sanofi-IADC/konviw/commit/5616346e5a4ad0a5992e044d480327c3acd1207e))
+* **iframe:** maximize effect for iframes ([544a023](https://github.com/Sanofi-IADC/konviw/commit/544a023a80f4e6c578a2e5aa8085dc557471aa5c))
+* **iframe:** media fullscreen feature FND-764 ([6259b34](https://github.com/Sanofi-IADC/konviw/commit/6259b347c631357c04acf4e33c03a4fa28cbe5ba))
+
+# [1.21.0](https://github.com/Sanofi-IADC/konviw/compare/v1.20.0...v1.21.0) (2021-12-08)
+
+
+### Bug Fixes
+
+* **addSlides:** sonarcloud use forEach instead map ([d387843](https://github.com/Sanofi-IADC/konviw/commit/d387843b379d3535c827b71b2a90ef79370d5bd3))
+
+
+### Features
+
+* **addSlides:** FND-1042 vertical slides ([6d80c7f](https://github.com/Sanofi-IADC/konviw/commit/6d80c7fe18bf047bc6560599a714682c2ae7687d))
+
+# [1.20.0](https://github.com/Sanofi-IADC/konviw/compare/v1.19.3...v1.20.0) (2021-12-07)
+
+
+### Features
+
+* **addSlides:** query param for slide transition ([bd5528a](https://github.com/Sanofi-IADC/konviw/commit/bd5528a01ac9e71012d2d7c5bba0353ce2aeecf2))
+* **proxy-page:** disable zoom in images by param ([91b4a64](https://github.com/Sanofi-IADC/konviw/commit/91b4a6446525ce7dc3524d0a5ba57dde8f7ee5dd))
+
 ## [1.19.3](https://github.com/Sanofi-IADC/konviw/compare/v1.19.2...v1.19.3) (2021-12-03)
 
 

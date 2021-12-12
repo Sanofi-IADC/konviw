@@ -17,6 +17,9 @@ export default (): Step => {
         'allow',
         'autoplay; fullscreen; encrypted-media; accelerometer; gyroscope; picture-in-picture',
       );
+      $(elementFrame).attr('allowfullscreen', '');
+      $(elementFrame).attr('webkitallowfullscreen', '');
+      $(elementFrame).attr('mozAllowFullScreen', '');
 
       // lazy loading in modern browsers
       $(elementFrame).attr('loading', 'auto');
