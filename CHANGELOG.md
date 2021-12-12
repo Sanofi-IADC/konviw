@@ -1,3 +1,10 @@
+## [1.22.1](https://github.com/Sanofi-IADC/konviw/compare/v1.22.0...v1.22.1) (2021-12-12)
+
+
+### Bug Fixes
+
+* **iframe:** add allowfullscreen attribute FND-764 ([a0c7b17](https://github.com/Sanofi-IADC/konviw/commit/a0c7b17719915edc63fe7658e0024caedfdc385b))
+
 # [1.22.0](https://github.com/Sanofi-IADC/konviw/compare/v1.21.0...v1.22.0) (2021-12-12)
 
 
