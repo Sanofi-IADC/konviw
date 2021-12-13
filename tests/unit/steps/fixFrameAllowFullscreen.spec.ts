@@ -30,7 +30,7 @@ describe('ConfluenceProxy / fixFrameAllowFullscreen', () => {
     const $ = cheerio.load(context.getHtmlBody());
     $('iframe').each((_index: number, elementFrame: cheerio.TagElement) => {
       expect($(elementFrame).attr('allow')).toEqual(
-        'autoplay; fullscreen; encrypted-media; accelerometer; gyroscope; picture-in-picture',
+        'autoplay *; fullscreen *; encrypted-media *; accelerometer; gyroscope; picture-in-picture',
       );
       expect($(elementFrame).attr('loading')).toEqual('auto');
       expect($(elementFrame).attr('referrerpolicy')).toEqual('no-referrer');
