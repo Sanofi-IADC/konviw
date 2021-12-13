@@ -1,3 +1,10 @@
+## [1.22.2](https://github.com/Sanofi-IADC/konviw/compare/v1.22.1...v1.22.2) (2021-12-13)
+
+
+### Bug Fixes
+
+* **iframe:** allow fullscreen * for kaltura videos ([dfe049f](https://github.com/Sanofi-IADC/konviw/commit/dfe049f84e612cef095b368cbeb87ea8b88ab699))
+
 ## [1.22.1](https://github.com/Sanofi-IADC/konviw/compare/v1.22.0...v1.22.1) (2021-12-12)
 
 
