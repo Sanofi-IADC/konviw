@@ -22,7 +22,7 @@ export default (): Step => {
     // This narrow filter improves the performance as now the function only goes thru the videos.
     $('span.confluence-embedded-file-wrapper a').each(
       (_index: number, fileWrapper: cheerio.TagElement) => {
-        const searchMedia = new RegExp(`(\/.*)\/(.*).(mp4|avi|mov|flv|wmv)`);
+        const searchMedia = new RegExp(`(\/.*)\/(.*).(mp4|avi|mov|flv|wmv|webm)`);
         // Search for the path $1, title $2 and extension $3 (not used)
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const [, pathMedia, titleMedia, extMedia] =
