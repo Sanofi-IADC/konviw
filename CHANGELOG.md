@@ -1,3 +1,10 @@
+## [1.22.3](https://github.com/Sanofi-IADC/konviw/compare/v1.22.2...v1.22.3) (2021-12-15)
+
+
+### Bug Fixes
+
+* rendering of webm video player in konview ([e02da50](https://github.com/Sanofi-IADC/konviw/commit/e02da50b20a322607454d2ce91c5008d08351682))
+
 ## [1.22.2](https://github.com/Sanofi-IADC/konviw/compare/v1.22.1...v1.22.2) (2021-12-13)
 
 
