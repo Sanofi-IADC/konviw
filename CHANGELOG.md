@@ -1,3 +1,10 @@
+## [1.22.4](https://github.com/Sanofi-IADC/konviw/compare/v1.22.3...v1.22.4) (2021-12-16)
+
+
+### Bug Fixes
+
+* prettier ([4b4ba40](https://github.com/Sanofi-IADC/konviw/commit/4b4ba40daae1be23a1830eab4384e956b466b3b8))
+
 ## [1.22.3](https://github.com/Sanofi-IADC/konviw/compare/v1.22.2...v1.22.3) (2021-12-15)
 
 
