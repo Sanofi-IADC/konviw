@@ -21,10 +21,10 @@ describe('ConfluenceProxy / addSlides', () => {
     const version = config.get('version');
     const basePath = config.get('web.basePath');
     context.setHtmlBody(
-      '<html><head><title>test</title><style default-inline-css="">/* slides */</style></head><body></body></html>',
+      `<html><head><title>test</title><style default-inline-css="">/* slides */</style></head><body><pre class="syntaxhighlighter-pre"><?php echo "hello world"; ?></pre></body></html>`,
     );
 
-    const expectedResult = `<html><head><title>test</title><style default-inline-css="">/* slides */</style><link rel="stylesheet" href="${basePath}/reveal/reset.css?cache=${version}"><link rel="stylesheet" href="${basePath}/css/slides.css?cache=${version}"><link rel="stylesheet" href="${basePath}/reveal/reveal.css?cache=${version}"><link rel="stylesheet" href="${basePath}/reveal/theme/.css?cache=${version}" id="theme"><link href="${basePath}/highlight/zenburn.min.css?cache=${version}" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"></head><body><script defer="" src="${basePath}/reveal/reveal.js?cache=${version}"></script><script defer="" src="${basePath}/reveal/plugin/zoom/zoom.js?cache=${version}"></script>
+    const expectedResult = `<html><head><title>test</title><style default-inline-css="">/* slides */</style><link rel="stylesheet" href="${basePath}/reveal/reset.css?cache=${version}"><link rel="stylesheet" href="${basePath}/css/slides.css?cache=${version}"><link rel="stylesheet" href="${basePath}/reveal/reveal.css?cache=${version}"><link rel="stylesheet" href="${basePath}/reveal/theme/.css?cache=${version}" id="theme"><link href="${basePath}/highlight/zenburn.min.css?cache=${version}" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"></head><body><pre><code><!--?php echo "hello world"; ?--></code></pre><script defer="" src="${basePath}/reveal/reveal.js?cache=${version}"></script><script defer="" src="${basePath}/reveal/plugin/zoom/zoom.js?cache=${version}"></script>
       <script defer="" src="${basePath}/reveal/plugin/highlight/highlight.js?cache=${version}"></script>
       <script defer="">
         document.addEventListener('DOMContentLoaded', function () {
