@@ -1,6 +1,7 @@
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
 import { ConfigService } from '@nestjs/config';
+import * as cheerio from 'cheerio';
 
 export default (config: ConfigService): Step => {
   return (context: ContextService): void => {
@@ -15,7 +16,7 @@ export default (config: ConfigService): Step => {
     context.setExcerpt('');
     $("span.conf-macro.output-inline[data-macro-name='excerpt']")
       .first()
-      .each((_index: number, elementExcerpt: cheerio.TagElement) => {
+      .each((_index: number, elementExcerpt: cheerio.Element) => {
         const excerptPage = $(elementExcerpt);
         context.setExcerpt(excerptPage.text());
       });

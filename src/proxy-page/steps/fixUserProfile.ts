@@ -1,5 +1,6 @@
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
+import * as cheerio from 'cheerio';
 
 export default (): Step => {
   return (context: ContextService): void => {
@@ -8,7 +9,7 @@ export default (): Step => {
 
     // Div with class profile-macro is used for User Profile VCard
     $('div.profile-macro').each(
-      (_index: number, elementProfile: cheerio.TagElement) => {
+      (_index: number, elementProfile: cheerio.Element) => {
         const thisBlock = $(elementProfile);
         const imgProfile = $(elementProfile).find('a.userLogoLink');
         const nameProfile = $(elementProfile).find('a.confluence-userlink');
@@ -24,7 +25,7 @@ export default (): Step => {
 
     // a with class profile-macro is used for User Profile single avatar
     $('a.userLogoLink').each(
-      (_index: number, elementProfile: cheerio.TagElement) => {
+      (_index: number, elementProfile: cheerio.Element) => {
         const imgProfile = $(elementProfile);
         if (imgProfile) {
           $(elementProfile).after(`${imgProfile.html()}`);

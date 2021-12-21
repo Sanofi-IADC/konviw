@@ -1,7 +1,7 @@
 import fixFrameAllowFullscreen from '../../../src/proxy-page/steps/fixFrameAllowFullscreen';
 import { ContextService } from '../../../src/context/context.service';
 import { createModuleRefForStep } from './utils';
-import cheerio from 'cheerio';
+import * as cheerio from 'cheerio';
 
 describe('ConfluenceProxy / fixFrameAllowFullscreen', () => {
   let context: ContextService;
@@ -28,7 +28,7 @@ describe('ConfluenceProxy / fixFrameAllowFullscreen', () => {
     context.setHtmlBody(inputHtml);
     step(context);
     const $ = cheerio.load(context.getHtmlBody());
-    $('iframe').each((_index: number, elementFrame: cheerio.TagElement) => {
+    $('iframe').each((_index: number, elementFrame: cheerio.Element) => {
       expect($(elementFrame).attr('allow')).toEqual(
         'autoplay *; fullscreen *; encrypted-media *; accelerometer; gyroscope; picture-in-picture',
       );
@@ -56,7 +56,7 @@ describe('ConfluenceProxy / fixFrameAllowFullscreen', () => {
     context.setHtmlBody(inputHtml);
     step(context);
     const $ = cheerio.load(context.getHtmlBody());
-    $('iframe').each((_index: number, elementFrame: cheerio.TagElement) => {
+    $('iframe').each((_index: number, elementFrame: cheerio.Element) => {
       expect($(elementFrame).attr('style')).toEqual(
         'border-radius: 10px; border: 2px solid #eee; color: #fafafa',
       );
@@ -80,7 +80,7 @@ describe('ConfluenceProxy / fixFrameAllowFullscreen', () => {
     context.setHtmlBody(inputHtml);
     step(context);
     const $ = cheerio.load(context.getHtmlBody());
-    $('iframe').each((_index: number, elementFrame: cheerio.TagElement) => {
+    $('iframe').each((_index: number, elementFrame: cheerio.Element) => {
       expect($(elementFrame).attr('height')).toBeUndefined();
       expect($(elementFrame).attr('style')).toEqual(
         'border-radius: 10px; border: 2px solid #eee; position: absolute; top: 0; left: 0; width: 100%; height: 100%; color: #fafafa',
@@ -111,7 +111,7 @@ describe('ConfluenceProxy / fixFrameAllowFullscreen', () => {
     context.setHtmlBody(inputHtml);
     step(context);
     const $ = cheerio.load(context.getHtmlBody());
-    $('iframe').each((_index: number, elementFrame: cheerio.TagElement) => {
+    $('iframe').each((_index: number, elementFrame: cheerio.Element) => {
       expect($(elementFrame).attr('height')).toBeUndefined();
       expect($(elementFrame).attr('style')).toEqual(
         'border-radius: 10px; border: 2px solid #eee; position: absolute; top: 0; left: 0; width: 100%; height: 100%; color: #fafafa',

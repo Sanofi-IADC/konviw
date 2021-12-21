@@ -1,5 +1,6 @@
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
+import * as cheerio from 'cheerio';
 
 export default (): Step => {
   return (context: ContextService): void => {
@@ -28,7 +29,7 @@ export default (): Step => {
       </script>`);
     // Add the link button next to the headings
     $('h1:not(.titlePage),h2,h3,h4,h5,h6').each(
-      (_index: number, elementHeading: cheerio.TagElement) => {
+      (_index: number, elementHeading: cheerio.Element) => {
         $(elementHeading).append(
           `<span role="presentation" class="🔗">
             <button onclick="copyToClipboard('${elementHeading.attribs.id}')">

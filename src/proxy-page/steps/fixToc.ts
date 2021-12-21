@@ -2,6 +2,7 @@ import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
 import TocBuilder from './toc/TocBuilder';
 import { selectOne } from 'css-select';
+import * as cheerio from 'cheerio';
 
 export default (): Step => {
   return (context: ContextService): void => {
@@ -17,11 +18,11 @@ export default (): Step => {
     }
 
     $('div.client-side-toc-macro').each(
-      (_macroIndex: number, elementTOC: cheerio.TagElement) => {
+      (_macroIndex: number, elementTOC: cheerio.Element) => {
         const tocBuilder = new TocBuilder($(elementTOC).data());
 
         $('h1,h2,h3,h4,h5,h6').each(
-          (_headerIndex: number, header: cheerio.TagElement) => {
+          (_headerIndex: number, header: cheerio.Element) => {
             const level = parseInt(header.tagName.replace('h', ''), 10);
             const id = $(header).attr('id');
             if (id === undefined) {
@@ -54,7 +55,7 @@ export default (): Step => {
  *  Add the button to open the floating TOC.
  *  Also add some javascript to manipulate the floating TOC.
  */
-const addFloatingTocBtn = ($: cheerio.Root) => {
+const addFloatingTocBtn = ($: cheerio.CheerioAPI) => {
   $('#Content').append(
     `<button id='floating-toc-btn'>
         <svg style='width:24px;height:24px' viewBox='0 0 24 24'>

@@ -1,5 +1,6 @@
 import { ContextService } from '../../../src/context/context.service';
 import { ConfigService } from '@nestjs/config';
+import * as cheerio from 'cheerio';
 import fixChartMacro from '../../../src/proxy-page/steps/fixChart';
 import { createModuleRefForStep } from './utils';
 
@@ -155,9 +156,12 @@ const getImgSrc = (image): string => {
   return regex.exec(image)[1];
 };
 
-const getImages = (objCheerio: cheerio.Root, tag: string): Array<string> => {
+const getImages = (
+  objCheerio: cheerio.CheerioAPI,
+  tag: string,
+): Array<string> => {
   const tmpImages: Array<string> = [];
-  objCheerio(tag).each((index: number, element: cheerio.TagElement) => {
+  objCheerio(tag).each((index: number, element: cheerio.Element) => {
     const thisBlock = objCheerio(element).html();
     if (thisBlock) {
       tmpImages[index] = thisBlock;
