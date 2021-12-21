@@ -90,6 +90,18 @@ export class ContextService {
     return this.getCheerioBody().html();
   }
 
+  getHtmlInnerBody(): string {
+    const $ = this.cheerioBody;
+    return $('Body').unwrap().html();
+  }
+
+  getHtmlHeader(): string {
+    const $ = this.cheerioBody;
+    const header = $('Head').unwrap();
+    header.find('title').remove();
+    return header.html();
+  }
+
   getTextBody(): string {
     const $ = this.cheerioBody;
     return $('<div>').html($.html()).text().trim();

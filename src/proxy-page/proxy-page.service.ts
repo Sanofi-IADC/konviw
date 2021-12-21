@@ -127,6 +127,72 @@ export class ProxyPageService {
   }
 
   /**
+   * Function buildPage Service
+   *
+   * @return Promise {string}
+   * @param spaceKey {string} 'iadc' - space key where the page belongs
+   * @param pageId {string} '639243960' - id of the page to retrieve
+   * @param theme {string} 'dark' - light or dark theme used by the page
+   * @param type {string} 'blog' - type of the page
+   * @param style {string} 'iadc' - theme to style the page
+   */
+  async buildPageObject(
+    spaceKey: string,
+    pageId: string,
+    theme: string,
+    type: string,
+    style: string,
+    nozoom: string,
+  ): Promise<any> {
+    const { data } = await this.confluence.getPage(spaceKey, pageId);
+    console.log(data);
+    this.initContext(spaceKey, pageId, theme, style, data);
+    const addJiraPromise = addJira(this.config, this.jira)(this.context);
+    // fixHtmlHead(this.config)(this.context);
+    fixContentWidth()(this.context);
+    fixLinks(this.config)(this.context);
+    fixToc()(this.context);
+    fixEmojis(this.config)(this.context);
+    fixDrawioMacro(this.config)(this.context);
+    fixChartMacro(this.config)(this.context);
+    fixExpander()(this.context);
+    fixUserProfile()(this.context);
+    fixVideo()(this.context);
+    fixTableColGroup()(this.context);
+    fixEmptyLineIncludePage()(this.context);
+    fixRoadmap(this.config)(this.context);
+    fixFrameAllowFullscreen()(this.context);
+    // if (type === 'blog') {
+    //   addHeaderBlog()(this.context);
+    // } else if (type !== 'notitle') {
+    //   addHeaderTitle()(this.context);
+    // }
+    delUnnecessaryCode()(this.context);
+    addCustomCss(this.config, style)(this.context);
+    // addMessageBus(this.config)(this.context);
+    if (nozoom == undefined) {
+      addZooming(this.config)(this.context);
+      addNoZoom()(this.context);
+    }
+    addHighlightjs(this.config)(this.context);
+    addTheme()(this.context);
+    addScrollToTop()(this.context);
+    addReadingProgressBar()(this.context);
+    addCopyLinks()(this.context);
+    // addWebStatsTracker(this.config)(this.context);
+    await addJiraPromise;
+    this.context.Close();
+    return {
+      html_body: this.context.getHtmlInnerBody(),
+      html_head: this.context.getHtmlHeader(),
+      read_count: 1,
+      title: this.context.getTitle(),
+      author: this.context.getAuthor(),
+      read_time: this.context.getReadTime(),
+    };
+  }
+
+  /**
    * @function renderSlides Service
    * @return Promise {string}
    * @param spaceKey {string} 'iadc' - space key where the page belongs

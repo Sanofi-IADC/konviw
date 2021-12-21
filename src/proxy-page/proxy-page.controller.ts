@@ -59,6 +59,26 @@ export class ProxyPageController {
     );
   }
 
+  @ApiOkResponse({ description: 'Get Konviw page API object' })
+  @Get([
+    '/api/spaces/:spaceKey/pages/:pageId/:pageSlug?',
+    '/spaces/:spaceKey/blog/:year/:month/:day/:pageId/:pageSlug?',
+  ])
+  async getPageAPIResponse(
+    @Param() params: PageParamsDTO,
+    @Query() queries: PageQueryDTO,
+  ) {
+    this.logger.log(`Rendering... /${params.spaceKey}/${params.pageId}`);
+    return this.proxyPage.buildPageObject(
+      params.spaceKey,
+      params.pageId,
+      queries.theme,
+      queries.type,
+      queries.style,
+      queries.nozoom,
+    );
+  }
+
   /**
    * Route to get a full reveal.js slides from a single Confluence page
    *
