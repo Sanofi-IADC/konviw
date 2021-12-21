@@ -1,5 +1,6 @@
 import { ContextService } from '../../../src/context/context.service';
 import { ConfigService } from '@nestjs/config';
+import * as cheerio from 'cheerio';
 import fixDrawio from '../../../src/proxy-page/steps/fixDrawio';
 import { createModuleRefForStep } from './utils';
 
@@ -55,7 +56,7 @@ describe('ConfluenceProxy / fixDrawio', () => {
     step(context);
     const $ = context.getCheerioBody();
 
-    $('figure').each((index: number, element: cheerio.TagElement) => {
+    $('figure').each((index: number, element: cheerio.Element) => {
       const thisBlock = $(element).html();
       if (thisBlock) {
         images[index] = thisBlock;

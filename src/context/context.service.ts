@@ -1,8 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
-import cheerio from 'cheerio';
+import * as cheerio from 'cheerio';
 import { performance, PerformanceObserver } from 'perf_hooks';
 import { ConfigService } from '@nestjs/config';
-
 @Injectable()
 export class ContextService {
   private readonly logger = new Logger(ContextService.name);
@@ -82,7 +81,7 @@ export class ContextService {
     this.title = title;
   }
 
-  getCheerioBody(): cheerio.Root {
+  getCheerioBody(): cheerio.CheerioAPI {
     return this.cheerioBody;
   }
 

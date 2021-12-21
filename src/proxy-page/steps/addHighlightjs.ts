@@ -1,6 +1,7 @@
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
 import { ConfigService } from '@nestjs/config';
+import * as cheerio from 'cheerio';
 
 export default (config: ConfigService): Step => {
   return (context: ContextService): void => {
@@ -10,7 +11,7 @@ export default (config: ConfigService): Step => {
     const basePath = config.get('web.basePath');
 
     $('pre.syntaxhighlighter-pre').each(
-      (_index: number, elementCode: cheerio.TagElement) => {
+      (_index: number, elementCode: cheerio.Element) => {
         $(elementCode).replaceWith(
           `<pre><code>${$(elementCode).html()}</code></pre>`,
         );

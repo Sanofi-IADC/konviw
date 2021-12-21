@@ -1,5 +1,5 @@
 import { ConfigService } from '@nestjs/config';
-import cheerio from 'cheerio';
+import * as cheerio from 'cheerio';
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
 
@@ -12,7 +12,7 @@ export default (config: ConfigService, transition: string): Step => {
 
     // Handle the source code block to be syntax highlighted by highlight.js (auto language detection by default)
     $('pre.syntaxhighlighter-pre').each(
-      (_index: number, codeBlock: cheerio.TagElement) => {
+      (_index: number, codeBlock: cheerio.Element) => {
         $(codeBlock).replaceWith(
           `<pre><code>${$(codeBlock).html()}</code></pre>`,
         );
@@ -21,7 +21,7 @@ export default (config: ConfigService, transition: string): Step => {
     let sectionsHtml = '';
     // Div with class plugin-tabmeta-details (Confluence macro "properties") is framing the sections for each slide
     $(".plugin-tabmeta-details[data-macro-name='details']").each(
-      (_index: number, pageProperties: cheerio.TagElement) => {
+      (_index: number, pageProperties: cheerio.Element) => {
         // we will generate vertical slides if there are 'hr' tags
         const verticalSlides =
           ($(pageProperties).html() as string).split('<hr>').length > 1
@@ -35,7 +35,7 @@ export default (config: ConfigService, transition: string): Step => {
         // Iterate thru the sections split by the 'hr' horizontal lines
         // only one if no split done
         sectionsHtml += verticalSlides ? `<section>` : '';
-        sections.forEach((section: cheerio.Root) => {
+        sections.forEach((section: cheerio.CheerioAPI) => {
           // Based on the 'tag' name of the first element we will design the slide format
           switch (section('body').first().children().get(0).tagName) {
             case 'h1':
@@ -116,22 +116,22 @@ export default (config: ConfigService, transition: string): Step => {
 };
 
 // Cover slide
-const getSlideCover = (section: cheerio.Root): string => {
+const getSlideCover = (section: cheerio.CheerioAPI): string => {
   return `<section data-state="cover">${section('body').html()}</section>`;
 };
 
 // Special slide with title as a bubble
-const getSlideBubble = (section: cheerio.Root): string => {
+const getSlideBubble = (section: cheerio.CheerioAPI): string => {
   return `<section data-state="bubble">${section('body').html()}</section>`;
 };
 
 // Default slide style
-const getSlideDefault = (section: cheerio.Root): string => {
+const getSlideDefault = (section: cheerio.CheerioAPI): string => {
   return `<section>${section('body').html()}</section>`;
 };
 
 // Slide with a background image
-const getSlideImageBackground = (section: cheerio.Root): string => {
+const getSlideImageBackground = (section: cheerio.CheerioAPI): string => {
   // gets the image tag element: section('body').children().first().
   // gets the image 'src' attr : section('body').children().first().children().first().attr('src')
   const srcImage =

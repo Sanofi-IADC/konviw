@@ -1,5 +1,6 @@
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
+import * as cheerio from 'cheerio';
 
 /**
  * ### Proxy page step to add Video tag to display mp4 video attachments.
@@ -21,7 +22,7 @@ export default (): Step => {
     // while only the videos come with an 'a' pointing to the video attachment.
     // This narrow filter improves the performance as now the function only goes thru the videos.
     $('span.confluence-embedded-file-wrapper a').each(
-      (_index: number, fileWrapper: cheerio.TagElement) => {
+      (_index: number, fileWrapper: cheerio.Element) => {
         const searchMedia = new RegExp(
           `(\/.*)\/(.*).(mp4|avi|mov|flv|wmv|webm)`,
         );

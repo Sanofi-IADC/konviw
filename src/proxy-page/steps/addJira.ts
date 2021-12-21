@@ -1,6 +1,6 @@
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
-import cheerio from 'cheerio';
+import * as cheerio from 'cheerio';
 import { JiraService } from 'src/jira/jira.service';
 import { ConfigService } from '@nestjs/config';
 
@@ -19,13 +19,13 @@ export default (config: ConfigService, jiraService: JiraService): Step => {
     const elementTags = [];
     // this is the outer div used to wrap the Jira issues macro
     // which it is saved to place the tables just before
-    $('.confluence-jim-macro').each((_, elementJira: cheerio.TagElement) => {
+    $('.confluence-jim-macro').each((_, elementJira: cheerio.Element) => {
       elementTags.push(elementJira);
     });
 
     const jiraIssuesPromises = [];
     // this is the div holding the data to scrap the list of issues
-    $('.refresh-wiki').each((_, elementJira: cheerio.TagElement) => {
+    $('.refresh-wiki').each((_, elementJira: cheerio.Element) => {
       const wikimarkup: string = elementJira.attribs['data-wikimarkup'];
       const xmlWikimarkup = cheerio.load(wikimarkup, { xmlMode: true });
       const server = xmlWikimarkup('ac\\:parameter[ac\\:name="server"]').text();
