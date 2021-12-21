@@ -2,7 +2,7 @@ import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
 import { ConfigService } from '@nestjs/config';
 import { Logger } from '@nestjs/common';
-import cheerio from 'cheerio';
+import * as cheerio from 'cheerio';
 
 export default (config: ConfigService): Step => {
   return (context: ContextService): void => {
@@ -14,7 +14,7 @@ export default (config: ConfigService): Step => {
     const webBasePath = config.get('web.basePath');
 
     // External links are tagged with the class external-link
-    $('a.external-link').each((_index: number, element: cheerio.TagElement) => {
+    $('a.external-link').each((_index: number, element: cheerio.Element) => {
       $(element).attr('target', '_blank');
     });
 
@@ -30,7 +30,7 @@ export default (config: ConfigService): Step => {
     );
     const searchUriwithAnchor = new RegExp(`(\/wiki)(.*\/)(.*)#(.*)`);
 
-    const replaceAttributeLink = (attr: string, link: cheerio.TagElement) => {
+    const replaceAttributeLink = (attr: string, link: cheerio.Element) => {
       const [, , pathPageAnchorUrl, titlePageUrl, headingPageUrl] =
         searchUrlwithAnchor.exec($(link).attr(attr)) ?? [];
       const [, , pathPageAnchorUri, titlePageUri, headingPageUri] =
@@ -92,18 +92,18 @@ export default (config: ConfigService): Step => {
 
     // Let's find Confluence links to pages
     logger.log('Replacing links URLs');
-    $('a').each((_index: number, link: cheerio.TagElement) => {
+    $('a').each((_index: number, link: cheerio.Element) => {
       replaceAttributeLink('href', link);
     });
     // Let's find Confluence links to images
     logger.log('Replacing images URLs');
-    $('img').each((_index: number, link: cheerio.TagElement) => {
+    $('img').each((_index: number, link: cheerio.Element) => {
       replaceAttributeLink('src', link);
     });
 
     // Remove links from user mentions
     $('a.confluence-userlink.user-mention').each(
-      (_index: number, link: cheerio.TagElement) => {
+      (_index: number, link: cheerio.Element) => {
         delete link.attribs.href;
       },
     );

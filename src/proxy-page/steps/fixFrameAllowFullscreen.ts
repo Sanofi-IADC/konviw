@@ -1,5 +1,6 @@
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
+import * as cheerio from 'cheerio';
 
 /**
  * ### Proxy page step to improve the visualization of the iframe macro with a maximize effect to the full size of the viewport
@@ -11,7 +12,7 @@ export default (): Step => {
     const $ = context.getCheerioBody();
 
     // Processing the iframes in the page
-    $('iframe').each((_index: number, elementFrame: cheerio.TagElement) => {
+    $('iframe').each((_index: number, elementFrame: cheerio.Element) => {
       // allow fullscreen and other feature-policy features
       $(elementFrame).attr(
         'allow',

@@ -1,5 +1,6 @@
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
+import * as cheerio from 'cheerio';
 
 export default (): Step => {
   return (context: ContextService): void => {
@@ -10,7 +11,7 @@ export default (): Step => {
     $(".plugin-tabmeta-details[data-macro-name='details']")
       // We just look for the first Page-Properties macro
       .first()
-      .each((_index: number, pageProperties: cheerio.TagElement) => {
+      .each((_index: number, pageProperties: cheerio.Element) => {
         const thisBlock = $(pageProperties);
         const imgBlog = $(pageProperties).find('img');
         const excerptBlog = $(pageProperties).find('blockquote');

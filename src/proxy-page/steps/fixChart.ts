@@ -1,7 +1,7 @@
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
 import { ConfigService } from '@nestjs/config';
-import cheerio from 'cheerio';
+import * as cheerio from 'cheerio';
 import { Tabletojson } from 'tabletojson';
 
 /**
@@ -20,7 +20,7 @@ export default (config: ConfigService): Step => {
 
     // Div with div.chart-bootstrap-wrapper is used for Chart marcros
     $('.chart-bootstrap-wrapper').each(
-      (index: number, elementChart: cheerio.TagElement) => {
+      (index: number, elementChart: cheerio.Element) => {
         const thisBlock = $(elementChart).html();
         if (!thisBlock) {
           return;
@@ -151,7 +151,7 @@ export default (config: ConfigService): Step => {
 
     // Remove this Chart script to remove unnecessary noise in the final HTML
     $('script.chart-render-data').each(
-      (_index: number, elementChart: cheerio.TagElement) => {
+      (_index: number, elementChart: cheerio.Element) => {
         $(elementChart).remove();
       },
     );
