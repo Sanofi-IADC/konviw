@@ -161,7 +161,7 @@ export class ProxyPageService {
     fixTableColGroup()(this.context);
     fixEmptyLineIncludePage()(this.context);
     fixRoadmap(this.config)(this.context);
-    fixFrameAllowFullscreen()(this.context);
+    // fixFrameAllowFullscreen()(this.context);
     // if (type === 'blog') {
     //   addHeaderBlog()(this.context);
     // } else if (type !== 'notitle') {
@@ -175,7 +175,7 @@ export class ProxyPageService {
       addNoZoom()(this.context);
     }
     addHighlightjs(this.config)(this.context);
-    addTheme()(this.context);
+    // addTheme()(this.context);
     addScrollToTop()(this.context);
     addReadingProgressBar()(this.context);
     addCopyLinks()(this.context);
@@ -185,7 +185,6 @@ export class ProxyPageService {
     return {
       html_body: this.context.getHtmlInnerBody(),
       html_head: this.context.getHtmlHeader(),
-      read_count: 1,
       title: this.context.getTitle(),
       author: this.context.getAuthor(),
       read_time: this.context.getReadTime(),
