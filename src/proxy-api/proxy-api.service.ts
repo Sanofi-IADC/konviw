@@ -4,6 +4,24 @@ import { ConfigService } from '@nestjs/config';
 import { ConfluenceService } from '../confluence/confluence.service';
 import { JiraService } from 'src/jira/jira.service';
 import parseHeaderBlog from './steps/parseHeaderBlog';
+import fixContentWidth from '../proxy-page/steps/fixContentWidth';
+import fixLinks from '../proxy-page/steps/fixLinks';
+import fixToc from '../proxy-page/steps/fixToc';
+import fixEmojis from '../proxy-page/steps/fixEmojis';
+import fixExpander from '../proxy-page/steps/fixExpander';
+import fixUserProfile from '../proxy-page/steps/fixUserProfile';
+import fixVideo from '../proxy-page/steps/fixVideo';
+import fixTableColGroup from '../proxy-page/steps/fixTableColGroup';
+import fixEmptyLineIncludePage from '../proxy-page/steps/fixEmptyLineIncludePage';
+import fixDrawio from '../proxy-page/steps/fixDrawio';
+import fixChart from '../proxy-page/steps/fixChart';
+import fixRoadmap from '../proxy-page/steps/fixRoadmap';
+import delUnnecessaryCode from '../proxy-page/steps/delUnnecessaryCode';
+import addHighlightjs from '../proxy-page/steps/addHighlightjs';
+import addScrollToTop from '../proxy-page/steps/addScrollToTop';
+import addReadingProgressBar from '../proxy-page/steps/addReadingProgressBar';
+import addCopyLinks from '../proxy-page/steps/addCopyLinks';
+import addJira from '../proxy-page/steps/addJira';
 
 @Injectable()
 export class ProxyApiService {
@@ -302,4 +320,96 @@ export class ProxyApiService {
       spaces: parseResults,
     };
   }
+
+  /**
+   * Function buildPage Service
+   *
+   * @return Promise {string}
+   * @param spaceKey {string} 'iadc' - space key where the page belongs
+   * @param pageId {string} '639243960' - id of the page to retrieve
+   * @param theme {string} 'dark' - light or dark theme used by the page
+   * @param type {string} 'blog' - type of the page
+   * @param style {string} 'iadc' - theme to style the page
+   */
+  async getPage(
+    spaceKey: string,
+    pageId: string,
+    theme: string,
+    type: string,
+    style: string,
+  ): Promise<any> {
+    const { data } = await this.confluence.getPage(spaceKey, pageId);
+    console.log(data);
+    this.initContext(spaceKey, pageId, theme, style, data);
+    const addJiraPromise = addJira(this.config, this.jira)(this.context);
+    // fixHtmlHead(this.config)(this.context);
+    fixContentWidth()(this.context);
+    fixLinks(this.config)(this.context);
+    fixToc()(this.context);
+    fixEmojis(this.config)(this.context);
+    fixDrawio(this.config)(this.context);
+    fixChart(this.config)(this.context);
+    fixExpander()(this.context);
+    fixUserProfile()(this.context);
+    fixVideo()(this.context);
+    fixTableColGroup()(this.context);
+    fixEmptyLineIncludePage()(this.context);
+    fixRoadmap(this.config)(this.context);
+    // fixFrameAllowFullscreen()(this.context);
+    // if (type === 'blog') {
+    //   addHeaderBlog()(this.context);
+    // } else if (type !== 'notitle') {
+    //   addHeaderTitle()(this.context);
+    // }
+    delUnnecessaryCode()(this.context);
+    // addCustomCss(this.config, style)(this.context);
+    // addMessageBus(this.config)(this.context);
+    // if (nozoom == undefined) {
+    //   addZooming(this.config)(this.context);
+    //   addNoZoom()(this.context);
+    // }
+    addHighlightjs(this.config)(this.context);
+    // addTheme()(this.context);
+    addScrollToTop()(this.context);
+    addReadingProgressBar()(this.context);
+    addCopyLinks()(this.context);
+    // addWebStatsTracker(this.config)(this.context);
+    await addJiraPromise;
+    this.context.Close();
+    return {
+      html_body: this.context.getHtmlInnerBody(),
+      html_head: this.context.getHtmlHeader(),
+      title: this.context.getTitle(),
+      author: this.context.getAuthor(),
+      read_time: this.context.getReadTime(),
+      created_date: this.context.getWhen(),
+      created_date_friendly: this.context.getFriendlyWhen(),
+      excerpt: this.context.getExcerpt(),
+    };
+  }
+  initContext(
+    spaceKey: string,
+    pageId: string,
+    theme: string,
+    style: string,
+    results: any,
+  ) {
+    this.context.Init(spaceKey, pageId, theme, style);
+    this.context.setTitle(results.title);
+    this.context.setHtmlBody(results.body.styled_view.value);
+    this.context.setAuthor(results.history.createdBy.displayName);
+    this.context.setEmail(results.history.createdBy.email);
+    this.context.setAvatar(results.history.createdBy.profilePicture.path);
+    this.context.setWhen(results.history.createdDate);
+    if (
+      results.metadata.properties['content-appearance-published'] &&
+      results.metadata.properties['content-appearance-published'].value ===
+        'full-width'
+    ) {
+      this.context.setFullWidth(true);
+    } else {
+      this.context.setFullWidth(false);
+    }
+  }
+
 }

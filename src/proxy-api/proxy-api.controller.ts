@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get, Logger, Param, Query } from '@nestjs/common';
 import { ProxyApiService } from './proxy-api.service';
 import {
   PostsParamsDTO,
@@ -9,10 +9,15 @@ import {
   GetSpacesQueryDTO,
 } from './proxy-api.validation.dto';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import {
+  PageParamsDTO,
+  PageQueryDTO,
+} from 'src/proxy-page/proxy-page.validation.dto';
 @ApiTags('proxy-api')
 @Controller('api')
 export class ProxyApiController {
   constructor(private readonly proxyApi: ProxyApiService) {}
+  private readonly logger = new Logger(ProxyApiController.name);
 
   /**
    * @GET (controller) api/getAllPosts/:spaceKey
@@ -98,6 +103,27 @@ export class ProxyApiController {
       queries.startAt,
       queries.maxResults,
       queries.getFields,
+    );
+  }
+
+  @ApiOkResponse({ description: 'Get Konviw page API object' })
+  @Get([
+    '/getPage/spaces/:spaceKey/pages/:pageId/:pageSlug?',
+    '/getPage/spaces/:spaceKey/blog/:year/:month/:day/:pageId/:pageSlug?',
+  ])
+  async getPageAPIResponse(
+    @Param() params: PageParamsDTO,
+    @Query() queries: PageQueryDTO,
+  ) {
+    this.logger.log(
+      `Getting page through API ... /${params.spaceKey}/${params.pageId}`,
+    );
+    return this.proxyApi.getPage(
+      params.spaceKey,
+      params.pageId,
+      queries.theme,
+      queries.type,
+      queries.style,
     );
   }
 }
