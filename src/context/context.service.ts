@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import * as cheerio from 'cheerio';
 import { performance, PerformanceObserver } from 'perf_hooks';
 import { ConfigService } from '@nestjs/config';
+
 @Injectable()
 export class ContextService {
   private readonly logger = new Logger(ContextService.name);
@@ -52,7 +53,7 @@ export class ContextService {
   ) {
     this.Init(spaceKey, pageId, theme, style);
     this.setTitle(results.title);
-    this.setHtmlBody(results.body.styled_view.value);
+    this.setHtmlBody(results.body.view.value);
     this.setAuthor(results.history.createdBy.displayName);
     this.setEmail(results.history.createdBy.email);
     this.setAvatar(results.history.createdBy.profilePicture.path);
@@ -131,8 +132,18 @@ export class ContextService {
     return $('<div>').html($.html()).text().trim();
   }
 
-  setHtmlBody(body: string): void {
-    this.cheerioBody = cheerio.load(body);
+  setHtmlBody(
+    body: string,
+    loadAsDocument = false,
+    divId = 'konviw-ontent',
+  ): void {
+    const $ = cheerio.load(body);
+    // we wrap the body in a div with ID Content
+    this.cheerioBody = cheerio.load(
+      $('html').wrapInner(`<div id="${divId}">`).html(),
+      null,
+      loadAsDocument,
+    );
   }
 
   getResults(): string {

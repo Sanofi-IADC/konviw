@@ -47,7 +47,7 @@ export class ProxyApiService {
     return data.results.map((doc: any) => {
       this.context.Init(spaceKey, doc.content.id);
       const atlassianIadcRegEx = new RegExp(`${baseURL}/wiki/`);
-      parseHeaderBlog(doc.content.body.styled_view.value)(this.context);
+      parseHeaderBlog(doc.content.body.view.value)(this.context);
       return {
         docId: doc.content.id,
         title: doc.content.title,
@@ -105,7 +105,7 @@ export class ProxyApiService {
     const parseResults = data.results.map((doc: any) => {
       this.context.Init(spaceKey, doc.content.id);
       const atlassianIadcRegEx = new RegExp(`${baseURL}/wiki/`);
-      parseHeaderBlog(doc.content.body.styled_view.value)(this.context);
+      parseHeaderBlog(doc.content.body.view.value)(this.context);
       return {
         docId: doc.content.id,
         title: doc.content.title,
@@ -368,7 +368,7 @@ export class ProxyApiService {
     //   addZooming(this.config)(this.context);
     //   addNoZoom()(this.context);
     // }
-    addHighlightjs(this.config)(this.context);
+    // addHighlightjs(this.config)(this.context);
     // addTheme()(this.context);
     // addScrollToTop()(this.context);
     // addReadingProgressBar()(this.context);
@@ -377,7 +377,7 @@ export class ProxyApiService {
     await addJiraPromise;
     this.context.Close();
     return {
-      html_body: this.context.getHtmlInnerBody(),
+      html_body: this.context.getHtmlBody(),
       html_head: this.context.getHtmlHeader(),
       title: this.context.getTitle(),
       author: this.context.getAuthor(),

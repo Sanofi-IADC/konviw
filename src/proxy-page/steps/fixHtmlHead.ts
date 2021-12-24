@@ -21,6 +21,7 @@ export default (config: ConfigService): Step => {
       `<meta name="twitter:description" content="konviw • Enterprise public viewer for Confluence pages.">`,
       `<meta name="twitter:creator" content="${context.getAuthor()}">`,
       `<meta name="twitter:image" content="${basePath}/favicon/konviw.png">`,
+      `<title>${context.getTitle()}</title>`,
     );
 
     $('head').prepend(
