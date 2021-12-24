@@ -1,3 +1,10 @@
+## [1.22.5](https://github.com/Sanofi-IADC/konviw/compare/v1.22.4...v1.22.5) (2021-12-23)
+
+
+### Bug Fixes
+
+* **cheerio:** remove old [@types](https://github.com/types) + fix code ([b0610b7](https://github.com/Sanofi-IADC/konviw/commit/b0610b7329019814513f4471913a3f057d417571))
+
 ## [1.22.4](https://github.com/Sanofi-IADC/konviw/compare/v1.22.3...v1.22.4) (2021-12-16)
 
 
