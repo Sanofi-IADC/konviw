@@ -33,7 +33,7 @@ export class ConfluenceService {
             spaceKey,
             expand: [
               // fields to retrieve
-              'body.styled_view',
+              'body.view',
               'metadata.properties.content_appearance_published',
               'metadata.labels',
               'version,history',
@@ -123,7 +123,7 @@ export class ConfluenceService {
           // fields to retrieve
           'content.history',
           'content.metadata.labels',
-          'content.body.styled_view',
+          'content.body.view',
         ].join(','),
       };
     }
@@ -161,7 +161,7 @@ export class ConfluenceService {
               // fields to retrieve
               'content.history',
               'content.metadata.labels',
-              'content.body.styled_view',
+              'content.body.view',
             ].join(','),
           },
         })

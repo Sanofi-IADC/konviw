@@ -95,7 +95,11 @@ export class ContextService {
   }
 
   setHtmlBody(body: string): void {
-    this.cheerioBody = cheerio.load(body);
+    const $ = cheerio.load(body);
+    // we wrap the body in a div with ID Content
+    this.cheerioBody = cheerio.load(
+      $('html').wrapInner('<div id="Content">').html(),
+    );
   }
 
   getResults(): string {

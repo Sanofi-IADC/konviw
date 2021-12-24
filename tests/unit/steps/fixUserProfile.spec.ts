@@ -18,12 +18,12 @@ const example =
   `</div></div></div></body></html>`;
 
 const expected =
-  `<html><head></head><body>` +
+  `<html><head></head><body><div id="Content">` +
   `<div class="vcard"><img class="userLogo logo" src="/cpv/wiki/aa-avatar/5da80c30f273020c44682e47" alt="User icon: 5da80c30f273020c44682e47" title="5da80c30f273020c44682e47">` +
   `<div class="values"><div>Aymeric Douyere</div><a href="mailto:aymeric.douyere@sanofi.com" class="email">aymeric.douyere@sanofi.com</a></div></div>` +
   `<div class="vcard"><img class="userLogo logo" src="/cpv/wiki/aa-avatar/5e282026c55f580c9fc9bc89" alt="User icon: 5e282026c55f580c9fc9bc89" title="5e282026c55f580c9fc9bc89">` +
   `<div class="values"><div>Khaoula Chaieb-ext</div><a href="mailto:khaoula.chaieb-ext@sanofi.com" class="email">khaoula.chaieb-ext@sanofi.com</a></div></div>` +
-  `</body></html>`;
+  `</div></body></html>`;
 
 describe('ConfluenceProxy / fixUserProfile', () => {
   let context: ContextService;
@@ -35,7 +35,7 @@ describe('ConfluenceProxy / fixUserProfile', () => {
     context.Init('XXX', '123456', 'dark');
   });
 
-  it('New Drawio chart created in this page', () => {
+  it('User Profiles fixed', () => {
     const step = fixUserProfile();
     context.setHtmlBody(example);
     step(context);
