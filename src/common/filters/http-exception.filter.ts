@@ -20,8 +20,18 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const version = this.config.get('version');
     const basePath = this.config.get('web.basePath');
 
-    if (status === 404 || status === 400) {
-      response.status(status).render('404', {
+    const INCOMING_MESSAGE_IDX = 0;
+    const WIKI_ENDPOINT = `${basePath}/wiki`;
+
+    const route = String(
+      host.getArgByIndex(INCOMING_MESSAGE_IDX)['route']['path'],
+    );
+
+    if (
+      route.indexOf(WIKI_ENDPOINT) > -1 &&
+      (status === 404 || status === 400)
+    ) {
+      response.status(status).render(status.toString(), {
         basePath: basePath,
         version: version,
         error: status,
@@ -29,8 +39,8 @@ export class HttpExceptionFilter implements ExceptionFilter {
       });
     } else if (status === 403) {
       response
-        .status(403)
-        .render('403', { basePath: basePath, version: version });
+        .status(status)
+        .render(status.toString(), { basePath: basePath, version: version });
     } else {
       response.status(status).json({
         status,
