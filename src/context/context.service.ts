@@ -43,6 +43,31 @@ export class ContextService {
     }
   }
 
+  initPageContext(
+    spaceKey: string,
+    pageId: string,
+    theme: string,
+    style: string,
+    results: any,
+  ) {
+    this.Init(spaceKey, pageId, theme, style);
+    this.setTitle(results.title);
+    this.setHtmlBody(results.body.styled_view.value);
+    this.setAuthor(results.history.createdBy.displayName);
+    this.setEmail(results.history.createdBy.email);
+    this.setAvatar(results.history.createdBy.profilePicture.path);
+    this.setWhen(results.history.createdDate);
+    if (
+      results.metadata.properties['content-appearance-published'] &&
+      results.metadata.properties['content-appearance-published'].value ===
+        'full-width'
+    ) {
+      this.setFullWidth(true);
+    } else {
+      this.setFullWidth(false);
+    }
+  }
+
   Close() {
     // Disconnect the PerformanceObserver only in development
     if (this.config.get('env').toString() === 'development') {

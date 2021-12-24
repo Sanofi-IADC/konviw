@@ -340,7 +340,7 @@ export class ProxyApiService {
   ): Promise<any> {
     const { data } = await this.confluence.getPage(spaceKey, pageId);
     console.log(data);
-    this.initContext(spaceKey, pageId, theme, style, data);
+    this.context.initPageContext(spaceKey, pageId, theme, style, data);
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
     // fixHtmlHead(this.config)(this.context);
     fixContentWidth()(this.context);
@@ -370,8 +370,8 @@ export class ProxyApiService {
     // }
     addHighlightjs(this.config)(this.context);
     // addTheme()(this.context);
-    addScrollToTop()(this.context);
-    addReadingProgressBar()(this.context);
+    // addScrollToTop()(this.context);
+    // addReadingProgressBar()(this.context);
     addCopyLinks()(this.context);
     // addWebStatsTracker(this.config)(this.context);
     await addJiraPromise;
@@ -385,31 +385,7 @@ export class ProxyApiService {
       created_date: this.context.getWhen(),
       created_date_friendly: this.context.getFriendlyWhen(),
       excerpt: this.context.getExcerpt(),
+      page_type: type,
     };
   }
-  initContext(
-    spaceKey: string,
-    pageId: string,
-    theme: string,
-    style: string,
-    results: any,
-  ) {
-    this.context.Init(spaceKey, pageId, theme, style);
-    this.context.setTitle(results.title);
-    this.context.setHtmlBody(results.body.styled_view.value);
-    this.context.setAuthor(results.history.createdBy.displayName);
-    this.context.setEmail(results.history.createdBy.email);
-    this.context.setAvatar(results.history.createdBy.profilePicture.path);
-    this.context.setWhen(results.history.createdDate);
-    if (
-      results.metadata.properties['content-appearance-published'] &&
-      results.metadata.properties['content-appearance-published'].value ===
-        'full-width'
-    ) {
-      this.context.setFullWidth(true);
-    } else {
-      this.context.setFullWidth(false);
-    }
-  }
-
 }

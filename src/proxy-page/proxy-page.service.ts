@@ -43,31 +43,6 @@ export class ProxyPageService {
     private jira: JiraService,
   ) {}
 
-  private initContext(
-    spaceKey: string,
-    pageId: string,
-    theme: string,
-    style: string,
-    results: any,
-  ) {
-    this.context.Init(spaceKey, pageId, theme, style);
-    this.context.setTitle(results.title);
-    this.context.setHtmlBody(results.body.styled_view.value);
-    this.context.setAuthor(results.history.createdBy.displayName);
-    this.context.setEmail(results.history.createdBy.email);
-    this.context.setAvatar(results.history.createdBy.profilePicture.path);
-    this.context.setWhen(results.history.createdDate);
-    if (
-      results.metadata.properties['content-appearance-published'] &&
-      results.metadata.properties['content-appearance-published'].value ===
-        'full-width'
-    ) {
-      this.context.setFullWidth(true);
-    } else {
-      this.context.setFullWidth(false);
-    }
-  }
-
   /**
    * Function renderPage Service
    *
@@ -87,7 +62,7 @@ export class ProxyPageService {
     nozoom: string,
   ): Promise<string> {
     const { data } = await this.confluence.getPage(spaceKey, pageId);
-    this.initContext(spaceKey, pageId, theme, style, data);
+    this.context.initPageContext(spaceKey, pageId, theme, style, data);
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
     fixHtmlHead(this.config)(this.context);
     fixContentWidth()(this.context);
@@ -140,7 +115,7 @@ export class ProxyPageService {
     transition: string,
   ): Promise<string> {
     const { data } = await this.confluence.getPage(spaceKey, pageId);
-    this.initContext(spaceKey, pageId, 'light', style, data);
+    this.context.initPageContext(spaceKey, pageId, 'light', style, data);
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
     fixHtmlHead(this.config)(this.context);
     fixLinks(this.config)(this.context);
