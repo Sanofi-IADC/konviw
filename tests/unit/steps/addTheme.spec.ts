@@ -15,12 +15,10 @@ describe('Confluence Proxy / addTheme', () => {
 
   it('should add dark theme', () => {
     context.Init('XXX', '123456', 'dark');
-    context.setHtmlBody(
-      '<html><head><title>test</title><style default-inline-css="">/* confluence CSS */</style></head><body></body></html>',
-    );
+    context.setHtmlBody('<html><head></head><body>BODY CONTENT</body></html>');
     step(context);
     expect(context.getHtmlBody())
-      .toEqual(`<html><head><title>test</title><style default-inline-css="">/* confluence CSS */</style></head><body><script type="module">
+      .toEqual(`<html><head></head><body><div id="Content">BODY CONTENT</div><script type="module">
             document.addEventListener('DOMContentLoaded', function () {
               document.documentElement.setAttribute('data-theme', 'dark');
               localStorage.setItem('theme', 'dark');
@@ -30,12 +28,10 @@ describe('Confluence Proxy / addTheme', () => {
 
   it('should add light theme', () => {
     context.Init('XXX', '123456', 'light');
-    context.setHtmlBody(
-      '<html><head><title>test</title><style default-inline-css="">/* confluence CSS */</style></head><body></body></html>',
-    );
+    context.setHtmlBody('<html><head></head><body>BODY CONTENT</body></html>');
     step(context);
     expect(context.getHtmlBody())
-      .toEqual(`<html><head><title>test</title><style default-inline-css="">/* confluence CSS */</style></head><body><script type="module">
+      .toEqual(`<html><head></head><body><div id="Content">BODY CONTENT</div><script type="module">
             document.addEventListener('DOMContentLoaded', function () {
               document.documentElement.setAttribute('data-theme', 'light');
               localStorage.setItem('theme', 'light');

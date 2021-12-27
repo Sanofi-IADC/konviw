@@ -51,7 +51,7 @@ This sequence represents the common steps handled by the proxy server:
 
 1. A user request a Confluence page via the Page ID.
 2. The Proxy page service request a new page to the Confluence API service.
-3. The Confluence API service calls the Confluence API and expands some fields with special focus on 'body.styled_view' which returns the HTML version of the page.
+3. The Confluence API service calls the Confluence API and expands some fields with special focus on 'body.view' which returns the HTML version of the page.
 4. The Proxy page service starts from the initial version of the HTML returned by the API and goes thru a sequence of steps to reformat the page accordingly to our needs.
 5. Example of transformations are fixEmojis, fixDrawio, fixExpander... or addCustomCss, addHighlightjs...
 6. After all the transformations are applied the HTML page is returned to the user browser.

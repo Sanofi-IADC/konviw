@@ -7,7 +7,7 @@ export default (): Step => {
     const $ = context.getCheerioBody();
 
     // Remove buggy inline CSS from <head> (mix of CSS and SaSS) -> replaced by aui.css
-    $('head > style').remove();
+    // $('head > style').remove();
 
     // Remove <base ...> to fix TOC links
     $('base').remove();

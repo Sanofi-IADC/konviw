@@ -2,8 +2,7 @@ import fixContentWidth from '../../../src/proxy-page/steps/fixContentWidth';
 import { ContextService } from '../../../src/context/context.service';
 import { createModuleRefForStep } from './utils';
 
-const example =
-  '<html><head></head><body><div id="Content" style="padding: 5px;">...</div></body></html>';
+const example = '<html><head></head><body>...</body></html>';
 
 describe('ConfluenceProxy / fixContentWidth', () => {
   let context: ContextService;
