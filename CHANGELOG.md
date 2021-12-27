@@ -1,3 +1,16 @@
+# [1.23.0](https://github.com/Sanofi-IADC/konviw/compare/v1.22.5...v1.23.0) (2021-12-27)
+
+
+### Bug Fixes
+
+* **context:** setHtmlBody allowing fragmented mode ([be34269](https://github.com/Sanofi-IADC/konviw/commit/be342698ce0a7061dbe8c413d8ebba132bf42886))
+* generic setHtmlBody for Page and API modules ([00cb812](https://github.com/Sanofi-IADC/konviw/commit/00cb8127491e88ec8ac2813a2b8a442db31f2432))
+
+
+### Features
+
+* switch to body.view (implement [#285](https://github.com/Sanofi-IADC/konviw/issues/285)) ([2b7714d](https://github.com/Sanofi-IADC/konviw/commit/2b7714ddb30b7ebe0d8f243e580c03f61195b79e))
+
 ## [1.22.5](https://github.com/Sanofi-IADC/konviw/compare/v1.22.4...v1.22.5) (2021-12-23)
 
 
