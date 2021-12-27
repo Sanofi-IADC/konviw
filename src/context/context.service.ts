@@ -50,10 +50,11 @@ export class ContextService {
     theme: string,
     style: string,
     results: any,
+    loadAsDocument = true,
   ) {
     this.Init(spaceKey, pageId, theme, style);
     this.setTitle(results.title);
-    this.setHtmlBody(results.body.view.value);
+    this.setHtmlBody(results.body.view.value, loadAsDocument);
     this.setAuthor(results.history.createdBy.displayName);
     this.setEmail(results.history.createdBy.email);
     this.setAvatar(results.history.createdBy.profilePicture.path);

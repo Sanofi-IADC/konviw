@@ -340,7 +340,7 @@ export class ProxyApiService {
   ): Promise<any> {
     const { data } = await this.confluence.getPage(spaceKey, pageId);
     console.log(data);
-    this.context.initPageContext(spaceKey, pageId, theme, style, data);
+    this.context.initPageContext(spaceKey, pageId, theme, style, data, false);
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
     // fixHtmlHead(this.config)(this.context);
     fixContentWidth()(this.context);
