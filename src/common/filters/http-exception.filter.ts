@@ -21,14 +21,15 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const basePath = this.config.get('web.basePath');
 
     const INCOMING_MESSAGE_IDX = 0;
-    const WIKI_ENDPOINT = `${basePath}/wiki`;
+    const API_ENDPOINT = `${basePath}/api`;
 
-    const route = String(
-      host.getArgByIndex(INCOMING_MESSAGE_IDX)['route']['path'],
-    );
+    const incomingMsg = host.getArgByIndex(INCOMING_MESSAGE_IDX);
+    const route = incomingMsg['route']
+      ? String(host.getArgByIndex(INCOMING_MESSAGE_IDX)['route']['path'])
+      : '';
 
     if (
-      route.indexOf(WIKI_ENDPOINT) > -1 &&
+      route.indexOf(API_ENDPOINT) == -1 &&
       (status === 404 || status === 400)
     ) {
       response.status(status).render(status.toString(), {
