@@ -1,10 +1,10 @@
 import {
   Logger,
   HttpException,
-  HttpService,
   Injectable,
   ForbiddenException,
 } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import { AxiosResponse } from 'axios';
 

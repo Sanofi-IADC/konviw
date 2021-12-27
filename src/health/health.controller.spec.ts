@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { HealthCheckService, HttpHealthIndicator } from '@nestjs/terminus';
-import { HttpModule } from '@nestjs/common';
+import { HttpModule } from '@nestjs/axios';
 import { HealthCheckExecutor } from '@nestjs/terminus/dist/health-check/health-check-executor.service';
 import { ConfigService } from '@nestjs/config';
 
