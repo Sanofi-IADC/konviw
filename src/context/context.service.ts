@@ -94,8 +94,14 @@ export class ContextService {
     return $('<div>').html($.html()).text().trim();
   }
 
-  setHtmlBody(body: string): void {
-    this.cheerioBody = cheerio.load(body);
+  setHtmlBody(body: string, loadAsDocument = true): void {
+    const $ = cheerio.load(body);
+    // we wrap the body in a div with ID Content
+    this.cheerioBody = cheerio.load(
+      $('html').wrapInner(`<div id="Content">`).html(),
+      null,
+      loadAsDocument,
+    );
   }
 
   getResults(): string {

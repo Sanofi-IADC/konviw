@@ -78,18 +78,19 @@ export default (config: ConfigService, transition: string): Step => {
       `<script defer src="${basePath}/reveal/reveal.js?cache=${version}"></script>`,
     );
 
-    const newHtmlBody = `<div id="Content">
-    <section id="slides-logo"></section>
-    <div class="reveal slide">
-      <div class="slides">${sectionsHtml}</div>
-    </div></div>`;
+    const newHtmlBody =
+      `<div id="Content">` +
+      `<section id="slides-logo"></section>` +
+      `<div class="reveal slide">` +
+      `<div class="slides">${sectionsHtml}</div>` +
+      `</div></div>`;
     $('#Content').replaceWith(newHtmlBody);
 
     // When the DOM content is loaded call the initialization of Reveal (https://revealjs.com/)
     $('body').append(
-      `<script defer src="${basePath}/reveal/plugin/zoom/zoom.js?cache=${version}"></script>
-      <script defer src="${basePath}/reveal/plugin/highlight/highlight.js?cache=${version}"></script>
-      <script defer>
+      `<script defer src="${basePath}/reveal/plugin/zoom/zoom.js?cache=${version}"></script>`,
+      `<script defer src="${basePath}/reveal/plugin/highlight/highlight.js?cache=${version}"></script>`,
+      `<script defer>
         document.addEventListener('DOMContentLoaded', function () {
           Reveal.initialize({
             hash: true,

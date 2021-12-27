@@ -11,20 +11,17 @@ describe('ConfluenceProxy / addCustomCss', () => {
     const moduleRef = await createModuleRefForStep();
     context = moduleRef.get<ContextService>(ContextService);
     config = moduleRef.get<ConfigService>(ConfigService);
-
-    context.Init('XXX', '123456', 'dark');
   });
 
   it('should add custom CSS', () => {
+    context.Init('XXX', '123456', 'dark');
     const step = addCustomCss(config);
     const version = config.get('version');
     const basePath = config.get('web.basePath');
-    context.setHtmlBody(
-      '<html><head><title>test</title><style default-inline-css="">/* confluence CSS */</style></head><body></body></html>',
-    );
+    context.setHtmlBody('<html><head></head><body></body></html>');
     step(context);
     expect(context.getHtmlBody()).toEqual(
-      `<html><head><title>test</title><style default-inline-css="">/* confluence CSS */</style><link rel="stylesheet" type="text/css" href="${basePath}/css/custom.css?cache=${version}"><link href="${basePath}/css/all.min.css?cache=${version}" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"></head><body></body></html>`,
+      `<html><head><link rel="stylesheet" type="text/css" href="${basePath}/css/custom.css?cache=${version}"><link href="${basePath}/css/all.min.css?cache=${version}" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"></head><body><div id="Content"></div></body></html>`,
     );
   });
 });

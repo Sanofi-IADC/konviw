@@ -52,7 +52,7 @@ export class ProxyPageService {
   ) {
     this.context.Init(spaceKey, pageId, theme, style);
     this.context.setTitle(results.title);
-    this.context.setHtmlBody(results.body.styled_view.value);
+    this.context.setHtmlBody(results.body.view.value);
     this.context.setAuthor(results.history.createdBy.displayName);
     this.context.setEmail(results.history.createdBy.email);
     this.context.setAvatar(results.history.createdBy.profilePicture.path);

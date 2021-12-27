@@ -29,7 +29,7 @@ export class ProxyApiService {
     return data.results.map((doc: any) => {
       this.context.Init(spaceKey, doc.content.id);
       const atlassianIadcRegEx = new RegExp(`${baseURL}/wiki/`);
-      parseHeaderBlog(doc.content.body.styled_view.value)(this.context);
+      parseHeaderBlog(doc.content.body.view.value)(this.context);
       return {
         docId: doc.content.id,
         title: doc.content.title,
@@ -87,7 +87,7 @@ export class ProxyApiService {
     const parseResults = data.results.map((doc: any) => {
       this.context.Init(spaceKey, doc.content.id);
       const atlassianIadcRegEx = new RegExp(`${baseURL}/wiki/`);
-      parseHeaderBlog(doc.content.body.styled_view.value)(this.context);
+      parseHeaderBlog(doc.content.body.view.value)(this.context);
       return {
         docId: doc.content.id,
         title: doc.content.title,

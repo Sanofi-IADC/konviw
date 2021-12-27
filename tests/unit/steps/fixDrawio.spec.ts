@@ -13,7 +13,6 @@ const image2AspectHash = '079f65948d008454029450fc73f0e032de29ca68';
 const example = `
 <html>
   <body>
-    <div id="Content">
 
       <h3>New Drawio chart created in this page</h3>
       <div class="ap-container" data-macro-name="drawio">
@@ -34,8 +33,6 @@ const example = `
           })();
         </script>
       </div>
-
-    </div> <!-- #Content -->
   </body>
 </html>
 `;
