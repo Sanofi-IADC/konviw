@@ -1,4 +1,5 @@
-import { HttpService, Injectable, Logger, HttpException } from '@nestjs/common';
+import { Injectable, Logger, HttpException } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import { AxiosResponse } from 'axios';
 

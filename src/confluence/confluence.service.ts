@@ -1,10 +1,10 @@
 import {
   Logger,
   HttpException,
-  HttpService,
   Injectable,
   ForbiddenException,
 } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import { AxiosResponse } from 'axios';
 
@@ -24,7 +24,7 @@ export class ConfluenceService {
    * @param pageId {string} '639243960' - id of the page to retrieve
    */
   async getPage(spaceKey: string, pageId: string): Promise<AxiosResponse> {
-    let results: AxiosResponse;
+    let results: AxiosResponse<any>;
     try {
       results = await this.http
         .get(`/wiki/rest/api/content/${pageId}`, {
