@@ -7,6 +7,7 @@ import {
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import { AxiosResponse } from 'axios';
+import { Content } from './confluence.interface';
 
 @Injectable()
 export class ConfluenceService {
@@ -23,9 +24,13 @@ export class ConfluenceService {
    * @param spaceKey {string} 'iadc' - space key where the page belongs
    * @param pageId {string} '639243960' - id of the page to retrieve
    */
-  async getPage(spaceKey: string, pageId: string): Promise<AxiosResponse> {
-    let results: AxiosResponse<any>;
+  async getPage(
+    spaceKey: string,
+    pageId: string,
+  ): Promise<AxiosResponse<Content>> {
+    let results: AxiosResponse<Content>;
     try {
+      this.logger.log(`Retrieving page ${pageId}`);
       results = await this.http
         .get(`/wiki/rest/api/content/${pageId}`, {
           params: {
@@ -34,14 +39,15 @@ export class ConfluenceService {
             expand: [
               // fields to retrieve
               'body.view',
+              // TODO: FND-1104 Investigate why this properties is not retrieved via axios while it works in Postman
               'metadata.properties.content_appearance_published',
               'metadata.labels',
-              'version,history',
+              'version',
+              'history',
             ].join(','),
           },
         })
         .toPromise();
-      this.logger.log(`Retrieving page ${pageId}`);
     } catch (err) {
       this.logger.log(err, 'error:getPage');
       throw new HttpException(`${err}\nPage ${pageId} Not Found`, 404);
