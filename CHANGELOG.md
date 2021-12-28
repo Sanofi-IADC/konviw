@@ -1,3 +1,17 @@
+# [1.24.0](https://github.com/Sanofi-IADC/konviw/compare/v1.23.0...v1.24.0) (2021-12-28)
+
+
+### Bug Fixes
+
+* **axios:** temporary cast results.data as any ([74b879d](https://github.com/Sanofi-IADC/konviw/commit/74b879d6a48ee6b49694f534aea0b82eac083b62))
+* **dependency maintenance:** update and pin rxjs to 7.4.0 ([5f2c521](https://github.com/Sanofi-IADC/konviw/commit/5f2c5213475cb5d0ff5c5c052e6378ddddd86822))
+* **nestjs:** update all dependencies ([f888ee6](https://github.com/Sanofi-IADC/konviw/commit/f888ee68fafe9770c52fd4c7a92854a91d619207))
+
+
+### Features
+
+* updated interface for confluence API ([65bed99](https://github.com/Sanofi-IADC/konviw/commit/65bed99abe88c1ed1593266e664e67355189145b))
+
 # [1.23.0](https://github.com/Sanofi-IADC/konviw/compare/v1.22.5...v1.23.0) (2021-12-27)
 
 
