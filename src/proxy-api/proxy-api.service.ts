@@ -4,6 +4,15 @@ import { ConfigService } from '@nestjs/config';
 import { ConfluenceService } from '../confluence/confluence.service';
 import { JiraService } from 'src/jira/jira.service';
 import parseHeaderBlog from './steps/parseHeaderBlog';
+import {
+  SearchResults,
+  ResultsContent,
+} from '../confluence/confluence.interface';
+import {
+  KonviwContent,
+  KonviwResults,
+  MetadataSearch,
+} from './proxy-api.interface';
 
 @Injectable()
 export class ProxyApiService {
@@ -20,43 +29,56 @@ export class ProxyApiService {
    * @return Promise {string}
    * @param spaceKey {string} 'iadc' - space key where the page belongs
    */
-  async getAllPosts(spaceKey: string): Promise<any> {
-    const { data }: any = await this.confluence.getAllPosts(spaceKey);
+  async getAllPosts(spaceKey: string): Promise<KonviwContent[]> {
+    // destructuring data gets implicity typed from the response
+    // while we explicitly type it for better control
+    const { data }: { data: SearchResults } = await this.confluence.getAllPosts(
+      spaceKey,
+    );
     const baseURL = this.config.get('confluence.baseURL');
     const baseHost = this.config.get('web.baseHost');
     const basePath = this.config.get('web.basePath');
 
-    return data.results.map((doc: any) => {
-      this.context.Init(spaceKey, doc.content.id);
-      const atlassianIadcRegEx = new RegExp(`${baseURL}/wiki/`);
-      parseHeaderBlog(doc.content.body.view.value)(this.context);
-      return {
-        docId: doc.content.id,
-        title: doc.content.title,
-        url: doc.content.id
-          ? `${baseHost}${basePath}/wiki/spaces/iadc/pages/${doc.content.id}?type=blog`
-          : false,
-        createdAt: doc.content.history.createdDate,
-        createdBy: doc.content.history.createdBy.displayName,
-        createdByAvatar: doc.content.history.createdBy.profilePicture.path
-          ? `${baseHost}${basePath}/${doc.content.history.createdBy.profilePicture.path.replace(
-              /^\/wiki/,
-              'wiki',
-            )}`
-          : false,
-        labels: doc.content.metadata.labels.results.map((list: any) => ({
-          tag: list.label,
-        })),
-        summary: doc.excerpt,
-        lastModified: doc.friendlyLastModified,
-        excerptBlog: this.context.getExcerpt(),
-        imgblog: this.context
-          .getImgBlog()
-          .replace(atlassianIadcRegEx, `${baseHost}${basePath}/wiki/`),
-        body: this.context.getTextBody(),
-        readTime: this.context.getReadTime(),
-      };
-    });
+    const parseResults: KonviwContent[] = data.results.map(
+      (doc: ResultsContent) => {
+        this.context.Init(spaceKey, doc.content.id);
+        const atlassianIadcRegEx = new RegExp(`${baseURL}/wiki/`);
+        parseHeaderBlog(doc.content.body.view.value)(this.context);
+        const blogPost: KonviwContent = {
+          docId: doc.content.id,
+          title: doc.content.title,
+          type: doc.content.type,
+          url: `${baseHost}${basePath}/wiki/spaces/iadc/pages/${doc.content.id}?type=blog`,
+          createdAt: doc.content.history.createdDate,
+          createdBy: doc.content.history.createdBy.displayName,
+          createdByAvatar: doc.content.history.createdBy.profilePicture.path
+            ? `${baseHost}${basePath}/${doc.content.history.createdBy.profilePicture.path.replace(
+                /^\/wiki/,
+                'wiki',
+              )}`
+            : '',
+          createdByEmail: doc.content.history.createdBy.email,
+          labels: doc.content.metadata.labels.results.map((list: any) => ({
+            tag: list.label,
+          })),
+          imgblog: this.context
+            .getImgBlog()
+            .replace(atlassianIadcRegEx, `${baseHost}${basePath}/wiki/`),
+          summary: doc.excerpt,
+          space: doc.resultGlobalContainer.displayUrl.split('/')[2],
+          lastModified: doc.friendlyLastModified,
+          excerptBlog: this.context.getExcerpt(),
+          body: this.context.getTextBody(),
+          readTime: this.context.getReadTime(),
+        };
+        return blogPost;
+      },
+    );
+
+    // TODO: Add the meta section in the response that will fully harmonize
+    // the response with getSearchResults so we can deprecate this API function
+    // this will represent a breaking change for the schema API
+    return parseResults;
   }
 
   /**
@@ -73,8 +95,8 @@ export class ProxyApiService {
     query: string,
     maxResults: number,
     cursorResults: string,
-  ): Promise<any> {
-    const { data }: any = await this.confluence.getResults(
+  ): Promise<KonviwResults> {
+    const { data }: { data: SearchResults } = await this.confluence.getResults(
       spaceKey,
       query,
       maxResults,
@@ -84,42 +106,43 @@ export class ProxyApiService {
     const baseHost = this.config.get('web.baseHost');
     const basePath = this.config.get('web.basePath');
 
-    const parseResults = data.results.map((doc: any) => {
-      this.context.Init(spaceKey, doc.content.id);
-      const atlassianIadcRegEx = new RegExp(`${baseURL}/wiki/`);
-      parseHeaderBlog(doc.content.body.view.value)(this.context);
-      return {
-        docId: doc.content.id,
-        title: doc.content.title,
-        type: doc.content.type,
-        url: doc.content.id
-          ? `${baseHost}${basePath}/wiki/spaces/iadc/pages/${doc.content.id}?type=blog`
-          : false,
-        createdAt: doc.content.history.createdDate,
-        createdBy: doc.content.history.createdBy.displayName,
-        createdByAvatar: doc.content.history.createdBy.profilePicture.path
-          ? `${baseHost}${basePath}${doc.content.history.createdBy.profilePicture.path.replace(
-              /^\/wiki/,
-              'wiki',
-            )}`
-          : false,
-        createdByEmail: doc.content.history.email,
-        labels: doc.content.metadata.labels.results.map((list: any) => ({
-          tag: list.label,
-        })),
-        imgblog: this.context
-          .getImgBlog()
-          .replace(atlassianIadcRegEx, `${baseHost}${basePath}wiki/`),
-        summary: doc.excerpt,
-        space: doc.resultGlobalContainer.displayUrl.split('/')[2],
-        lastModified: doc.friendlyLastModified,
-        excerptBlog: this.context.getExcerpt(),
-        body: this.context.getTextBody(),
-        readTime: this.context.getReadTime(),
-      };
-    });
+    const parseResults: KonviwContent[] = data.results.map(
+      (doc: ResultsContent) => {
+        this.context.Init(spaceKey, doc.content.id);
+        const atlassianIadcRegEx = new RegExp(`${baseURL}/wiki/`);
+        parseHeaderBlog(doc.content.body.view.value)(this.context);
+        const contentResult: KonviwContent = {
+          docId: doc.content.id,
+          title: doc.content.title,
+          type: doc.content.type,
+          url: `${baseHost}${basePath}/wiki/spaces/iadc/pages/${doc.content.id}?type=blog`,
+          createdAt: doc.content.history.createdDate,
+          createdBy: doc.content.history.createdBy.displayName,
+          createdByAvatar: doc.content.history.createdBy.profilePicture.path
+            ? `${baseHost}${basePath}/${doc.content.history.createdBy.profilePicture.path.replace(
+                /^\/wiki/,
+                'wiki',
+              )}`
+            : '',
+          createdByEmail: doc.content.history.createdBy.email,
+          labels: doc.content.metadata.labels.results.map((list: any) => ({
+            tag: list.label,
+          })),
+          imgblog: this.context
+            .getImgBlog()
+            .replace(atlassianIadcRegEx, `${baseHost}${basePath}wiki/`),
+          summary: doc.excerpt,
+          space: doc.resultGlobalContainer.displayUrl.split('/')[2],
+          lastModified: doc.friendlyLastModified,
+          excerptBlog: this.context.getExcerpt(),
+          body: this.context.getTextBody(),
+          readTime: this.context.getReadTime(),
+        };
+        return contentResult;
+      },
+    );
 
-    const meta = {
+    const meta: MetadataSearch = {
       limit: data.limit,
       size: data.size,
       totalSize: data.totalSize,

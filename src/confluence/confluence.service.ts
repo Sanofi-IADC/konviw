@@ -7,7 +7,7 @@ import {
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import { AxiosResponse } from 'axios';
-import { Content } from './confluence.interface';
+import { Content, SearchResults } from './confluence.interface';
 
 @Injectable()
 export class ConfluenceService {
@@ -32,7 +32,7 @@ export class ConfluenceService {
     try {
       this.logger.log(`Retrieving page ${pageId}`);
       results = await this.http
-        .get(`/wiki/rest/api/content/${pageId}`, {
+        .get<Content>(`/wiki/rest/api/content/${pageId}`, {
           params: {
             type: 'page',
             spaceKey,
@@ -103,7 +103,7 @@ export class ConfluenceService {
     query: string,
     maxResult = 999,
     cursorResults = '',
-  ): Promise<AxiosResponse> {
+  ): Promise<AxiosResponse<SearchResults>> {
     let uriSearch: string;
     let params: any = {};
     let cql: string;
@@ -134,7 +134,7 @@ export class ConfluenceService {
       };
     }
     try {
-      const results: AxiosResponse = await this.http
+      const results: AxiosResponse<SearchResults> = await this.http
         .get(uriSearch, { params })
         .toPromise();
       this.logger.log(
@@ -153,13 +153,13 @@ export class ConfluenceService {
    * @return Promise {any}
    * @param spaceKey {string} 'iadc' - space key where the page belongs
    */
-  async getAllPosts(spaceKey: string): Promise<AxiosResponse> {
+  async getAllPosts(spaceKey: string): Promise<AxiosResponse<SearchResults>> {
     let cpl = `(type=blogpost)`;
     cpl = `${cpl} AND (label!=draft) AND (label=published)`;
     cpl = `${cpl} AND (space=${spaceKey})`;
     try {
-      const results: AxiosResponse = await this.http
-        .get('/wiki/rest/api/search', {
+      const results: AxiosResponse<SearchResults> = await this.http
+        .get<SearchResults>('/wiki/rest/api/search', {
           params: {
             limit: 999,
             cql: cpl,
