@@ -1,6 +1,6 @@
 {
   "name": "konviw",
-  "version": "1.23.0",
+  "version": "1.24.0",
   "description": "Enterprise public viewer for your Confluence pages.",
   "author": "Jose Gascon",
   "private": true,
@@ -44,7 +44,7 @@
     "hbs": "4.1.2",
     "reflect-metadata": "0.1.13",
     "rxjs": "7.4.0",
-    "swagger-ui-express": "4.1.6",
+    "swagger-ui-express": "4.3.0",
     "tabletojson": "2.0.7"
   },
   "devDependencies": {

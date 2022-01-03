@@ -39,7 +39,7 @@ export class ProxyApiService {
    * @param spaceKey {string} 'iadc' - space key where the page belongs
    */
   async getAllPosts(spaceKey: string): Promise<any> {
-    const { data } = await this.confluence.getAllPosts(spaceKey);
+    const { data }: any = await this.confluence.getAllPosts(spaceKey);
     const baseURL = this.config.get('confluence.baseURL');
     const baseHost = this.config.get('web.baseHost');
     const basePath = this.config.get('web.basePath');
@@ -92,7 +92,7 @@ export class ProxyApiService {
     maxResults: number,
     cursorResults: string,
   ): Promise<any> {
-    const { data } = await this.confluence.getResults(
+    const { data }: any = await this.confluence.getResults(
       spaceKey,
       query,
       maxResults,
@@ -167,7 +167,7 @@ export class ProxyApiService {
     maxResults: number,
     categoryId,
   ): Promise<any> {
-    const { data } = await this.jira.findProjects(
+    const { data }: any = await this.jira.findProjects(
       server,
       search,
       startAt,
@@ -219,7 +219,7 @@ export class ProxyApiService {
    * @param server {string} 'System Jira' - Jira server to list categories from
    */
   async getJiraProjectCategories(server: string): Promise<any> {
-    const { data } = await this.jira.findProjectCategories(server);
+    const { data }: any = await this.jira.findProjectCategories(server);
 
     const parseResults = data.map((category: any) => {
       return {
@@ -258,7 +258,7 @@ export class ProxyApiService {
     const baseHost = this.config.get('web.baseHost');
     const basePath = this.config.get('web.basePath');
 
-    const { data } = await this.confluence.getAllSpaces(
+    const { data }: any = await this.confluence.getAllSpaces(
       type,
       startAt,
       maxResults,
