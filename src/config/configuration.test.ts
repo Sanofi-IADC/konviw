@@ -7,7 +7,9 @@ export default (): Config => ({
     port: (process.env.PORT && parseInt(process.env.PORT, 10)) || 3000,
     basePath: '/cpv',
     baseHost: process.env.CPV_BASEHOST || '',
-    absoluteBasePath: 'TODO',
+    absoluteBasePath: `${process.env.CPV_BASEHOST}:${
+      (process.env.PORT && parseInt(process.env.PORT, 10)) || 3000
+    }/cpv`,
   },
   confluence: {
     baseURL: 'https://test.atlassian.net',
