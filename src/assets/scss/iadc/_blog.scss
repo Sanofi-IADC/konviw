@@ -21,7 +21,7 @@ $blog-header-font: white;
 
 .blog--box {
   position: absolute;
-  top: 35%;
+  top: 15%;
   left: 5%;
 }
 
@@ -33,7 +33,7 @@ $blog-header-font: white;
 .blog--title {
   color: $blog-header-font;
   padding: 5px;
-  font-size: 40px;
+  font-size: 2rem;
   font-weight: bolder;
   text-align: left;
 }
@@ -51,11 +51,11 @@ section.blog--excerpt {
 }
 
 .blog--excerpt blockquote {
-  font-size: 1.3em;
-  width: 70%;
-  margin: 20px auto;
+  font-size: 1.1em;
+  width: 50%;
+  margin-right: 2rem auto;
   color: var(--font-color);
-  padding: 0.5em 25px 0.5em 25px;
+  padding: 0.5rem 1rem 1rem 1rem;
   border-left: 8px solid #78c0a8;
   line-height: 1.6;
   position: relative;
@@ -65,10 +65,10 @@ section.blog--excerpt {
     position: absolute;
     font-family: 'Font Awesome 5 Free', sans-serif;
     font-weight: 900; // fa-solid for free usage
-    top: -30px;
-    left: -120px;
+    top: -2rem;
+    left: -6rem;
     content: '\f10d';
-    font-size: 100px;
+    font-size: 5rem;
     color: var(--font-color);
   }
   &::after {
