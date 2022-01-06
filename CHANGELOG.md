@@ -1,3 +1,11 @@
+## [1.24.1](https://github.com/Sanofi-IADC/konviw/compare/v1.24.0...v1.24.1) (2022-01-06)
+
+
+### Bug Fixes
+
+* **blog:** blog heading style to fit mobile view ([9a96ca9](https://github.com/Sanofi-IADC/konviw/commit/9a96ca9e668d2065a4f623fc829df6aab833e10b))
+* **blog:** blog heading style to fit mobile view ([122b5bf](https://github.com/Sanofi-IADC/konviw/commit/122b5bf430b7917209072c75475327788a20ce09))
+
 # [1.24.0](https://github.com/Sanofi-IADC/konviw/compare/v1.23.0...v1.24.0) (2021-12-28)
 
 
