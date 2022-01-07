@@ -23,15 +23,13 @@
 html {
   transition: color 300ms, background-color 300ms;
   scroll-behavior: smooth;
-}
-
-body {
-  background-color: var(--bg-color);
-  color: var(--font-color);
   font-family: var(--font-body);
   font-size: var(--main-font-size);
+  background-color: var(--bg-color);
+  color: var(--font-color);
   font-weight: var(--main-font-weight);
 }
+
 
 h1.titlePage {
   color: var(--heading-color);

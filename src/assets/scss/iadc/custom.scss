@@ -23,9 +23,6 @@
 html {
   transition: color 300ms, background-color 300ms;
   scroll-behavior: smooth;
-}
-
-body {
   background-color: var(--bg-color);
   color: var(--font-color);
   font-family: var(--font-body);
