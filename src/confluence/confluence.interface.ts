@@ -180,16 +180,46 @@ export interface ContentMetadata {
 }
 
 export interface LabelsArray {
-  results: Labels[];
+  results: Label[];
   start: number; // int32
   limit: number; // int32
   size: number; // int32
   _links: GenericLinks;
 }
 
-export interface Labels {
+export interface Label {
   prefix: string;
   name: string;
   id: string;
   label: string;
+}
+
+export interface SearchResults {
+  results: ResultsContent[];
+  start: number;
+  limit: number;
+  size: number;
+  totalSize: number;
+  cqlQuery: string;
+  searchDuration: number;
+  _links: GenericLinks;
+}
+
+export interface ResultsContent {
+  content: Content;
+  title: string;
+  excerpt: string;
+  url: string;
+  resultGlobalContainer: ResultGlobalContainer;
+  breadcrumbs: any[];
+  entityType: string;
+  iconCssClass: string;
+  lastModified: string;
+  friendlyLastModified: string;
+  score: number;
+}
+
+export interface ResultGlobalContainer {
+  title: string;
+  displayUrl: string;
 }

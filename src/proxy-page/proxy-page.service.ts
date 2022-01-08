@@ -32,6 +32,7 @@ import fixDrawioMacro from './steps/fixDrawio';
 import fixChartMacro from './steps/fixChart';
 import fixRoadmap from './steps/fixRoadmap';
 import fixFrameAllowFullscreen from './steps/fixFrameAllowFullscreen';
+import { Content } from '../confluence/confluence.interface';
 
 @Injectable()
 export class ProxyPageService {
@@ -48,19 +49,18 @@ export class ProxyPageService {
     pageId: string,
     theme: string,
     style: string,
-    results: any,
+    data: Content,
   ) {
     this.context.Init(spaceKey, pageId, theme, style);
-    this.context.setTitle(results.title);
-    this.context.setHtmlBody(results.body.view.value);
-    this.context.setAuthor(results.history.createdBy.displayName);
-    this.context.setEmail(results.history.createdBy.email);
-    this.context.setAvatar(results.history.createdBy.profilePicture.path);
-    this.context.setWhen(results.history.createdDate);
+    this.context.setTitle(data.title);
+    this.context.setHtmlBody(data.body.view.value);
+    this.context.setAuthor(data.history.createdBy.displayName);
+    this.context.setEmail(data.history.createdBy.email);
+    this.context.setAvatar(data.history.createdBy.profilePicture.path);
+    this.context.setWhen(data.history.createdDate);
     if (
-      results.metadata.properties['content-appearance-published'] &&
-      results.metadata.properties['content-appearance-published'].value ===
-        'full-width'
+      data.metadata.properties['content-appearance-published']?.value ===
+      'full-width'
     ) {
       this.context.setFullWidth(true);
     } else {
@@ -69,8 +69,8 @@ export class ProxyPageService {
   }
 
   /**
-   * Function renderPage Service
-   *
+   * @function renderPage Service
+   * @description Render a Confluence page as read-only konviw document
    * @return Promise {string}
    * @param spaceKey {string} 'iadc' - space key where the page belongs
    * @param pageId {string} '639243960' - id of the page to retrieve
@@ -128,6 +128,7 @@ export class ProxyPageService {
 
   /**
    * @function renderSlides Service
+   * @description Render a Confluence page as konviw slide deck
    * @return Promise {string}
    * @param spaceKey {string} 'iadc' - space key where the page belongs
    * @param pageId {string} '639243960' - id of the page to retrieve
@@ -163,7 +164,7 @@ export class ProxyPageService {
   }
 
   /**
-   * getMediaCdnUrl Service
+   * @function getMediaCdnUrl Service
    * @return Promise string
    * @param uri {string} 'iadc' - URL of the media file to return
    */

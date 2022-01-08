@@ -21,7 +21,7 @@ export class ApiHealthService extends HealthIndicator {
   async apiCheck(): Promise<HealthIndicatorResult> {
     let isHealthy = true;
     try {
-      await this.confluence.getAllPosts('konviw');
+      await this.confluence.Search('konviw');
     } catch (error) {
       isHealthy = false;
     }
