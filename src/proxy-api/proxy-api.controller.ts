@@ -21,8 +21,8 @@ export class ProxyApiController {
    * @return {string} 'JSON' - JSON with Blog Posts content and metadata
    */
   @ApiOkResponse({ description: 'All blog posts from a given space key' })
-  @Get('getAllPosts/:spaceKey')
-  async getAllPosts(@Param() params: PostsParamsDTO): Promise<KonviwResults> {
+  @Get('BlogPosts/:spaceKey')
+  async getBlogPosts(@Param() params: PostsParamsDTO): Promise<KonviwResults> {
     return this.proxyApi.getSearchResults(
       params.spaceKey,
       '',
