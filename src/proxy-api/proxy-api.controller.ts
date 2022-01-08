@@ -23,7 +23,7 @@ export class ProxyApiController {
   @ApiOkResponse({ description: 'All blog posts from a given space key' })
   @Get('getAllPosts/:spaceKey')
   async getAllPosts(@Param() params: PostsParamsDTO): Promise<KonviwResults> {
-    return await this.proxyApi.getSearchResults(
+    return this.proxyApi.getSearchResults(
       params.spaceKey,
       '',
       'blogpost',
