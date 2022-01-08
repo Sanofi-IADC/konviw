@@ -25,80 +25,28 @@ export class ProxyApiService {
   ) {}
 
   /**
-   * @function getAllPosts Service
-   * @return Promise {string}
-   * @param spaceKey {string} 'iadc' - space key where the page belongs
-   */
-  async getAllPosts(spaceKey: string): Promise<KonviwContent[]> {
-    // destructuring data gets implicity typed from the response
-    // while we explicitly type it for better control
-    const { data }: { data: SearchResults } = await this.confluence.getAllPosts(
-      spaceKey,
-    );
-    const baseURL = this.config.get('confluence.baseURL');
-    const baseHost = this.config.get('web.baseHost');
-    const basePath = this.config.get('web.basePath');
-
-    const parseResults: KonviwContent[] = data.results.map(
-      (doc: ResultsContent) => {
-        this.context.Init(spaceKey, doc.content.id);
-        const atlassianIadcRegEx = new RegExp(`${baseURL}/wiki/`);
-        parseHeaderBlog(doc.content.body.view.value)(this.context);
-        const blogPost: KonviwContent = {
-          docId: doc.content.id,
-          title: doc.content.title,
-          type: doc.content.type,
-          url: `${baseHost}${basePath}/wiki/spaces/iadc/pages/${doc.content.id}?type=blog`,
-          createdAt: doc.content.history.createdDate,
-          createdBy: doc.content.history.createdBy.displayName,
-          createdByAvatar: doc.content.history.createdBy.profilePicture.path
-            ? `${baseHost}${basePath}/${doc.content.history.createdBy.profilePicture.path.replace(
-                /^\/wiki/,
-                'wiki',
-              )}`
-            : '',
-          createdByEmail: doc.content.history.createdBy.email,
-          labels: doc.content.metadata.labels.results.map((list: any) => ({
-            tag: list.label,
-          })),
-          imgblog: this.context
-            .getImgBlog()
-            .replace(atlassianIadcRegEx, `${baseHost}${basePath}/wiki/`),
-          summary: doc.excerpt,
-          space: doc.resultGlobalContainer.displayUrl.split('/')[2],
-          lastModified: doc.friendlyLastModified,
-          excerptBlog: this.context.getExcerpt(),
-          body: this.context.getTextBody(),
-          readTime: this.context.getReadTime(),
-        };
-        return blogPost;
-      },
-    );
-
-    // TODO: Add the meta section in the response that will fully harmonize
-    // the response with getSearchResults so we can deprecate this API function
-    // this will represent a breaking change for the schema API
-    return parseResults;
-  }
-
-  /**
-   * getSearchResults Service to search content in Confluence
-   *
+   * @function getSearchResults Service
+   * @description Search content in Confluence
    * @return Promise {string}
    * @param spaceKey {string} 'iadc' - space key where the page belongs
    * @param query {string} 'vision factory' - words to be searched
+   * @param type {string} 'blogpost' - type of Confluence page, either 'page' or 'blogpost'
    * @param maxResults {number} '15' - limit of records to be retrieved
    * @param cursorResults {string} 'URI' - one of the two URIs provided by Confluence to navigate to the next or previous set of records
    */
   async getSearchResults(
     spaceKey: string,
-    query: string,
-    maxResults: number,
-    cursorResults: string,
+    query = undefined,
+    type = undefined,
+    maxResults = 999,
+    cursorResults = '',
   ): Promise<KonviwResults> {
-    const { data }: { data: SearchResults } = await this.confluence.getResults(
+    // destructuring data gets implicity typed from the response
+    // while we explicitly type it for better control
+    const { data }: { data: SearchResults } = await this.confluence.Search(
       spaceKey,
       query,
+      type,
       maxResults,
       cursorResults,
     );
@@ -130,7 +78,7 @@ export class ProxyApiService {
           })),
           imgblog: this.context
             .getImgBlog()
-            .replace(atlassianIadcRegEx, `${baseHost}${basePath}wiki/`),
+            .replace(atlassianIadcRegEx, `${baseHost}${basePath}/wiki/`),
           summary: doc.excerpt,
           space: doc.resultGlobalContainer.displayUrl.split('/')[2],
           lastModified: doc.friendlyLastModified,
@@ -158,8 +106,8 @@ export class ProxyApiService {
   }
 
   /**
-   * getJiraProjects Service to search content in Confluence
-   *
+   * @function getJiraProjects Service
+   * @description Retrieve Jira projects
    * @return Promise {string}
    * @param server {string} 'System Jira' - Jira server to list projects from
    * @param search {string} 'iadc' - word to be searched
@@ -218,8 +166,8 @@ export class ProxyApiService {
   }
 
   /**
-   * getJiraProjectCategories Service to retrieve Jira project categories
-   *
+   * @function getJiraProjectCategories Service
+   * @description Retrieve all Jira project categories
    * @return Promise {string}
    * @param server {string} 'System Jira' - Jira server to list categories from
    */
@@ -263,7 +211,7 @@ export class ProxyApiService {
     const baseHost = this.config.get('web.baseHost');
     const basePath = this.config.get('web.basePath');
 
-    const { data }: any = await this.confluence.getAllSpaces(
+    const { data }: any = await this.confluence.Spaces(
       type,
       startAt,
       maxResults,

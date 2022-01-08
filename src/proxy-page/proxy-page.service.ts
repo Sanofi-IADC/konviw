@@ -58,7 +58,6 @@ export class ProxyPageService {
     this.context.setEmail(data.history.createdBy.email);
     this.context.setAvatar(data.history.createdBy.profilePicture.path);
     this.context.setWhen(data.history.createdDate);
-    // TODO: FND-1104 Currently not working because this property is not retrieved
     if (
       data.metadata.properties['content-appearance-published']?.value ===
       'full-width'
@@ -70,8 +69,8 @@ export class ProxyPageService {
   }
 
   /**
-   * Function renderPage Service
-   *
+   * @function renderPage Service
+   * @description Render a Confluence page as read-only konviw document
    * @return Promise {string}
    * @param spaceKey {string} 'iadc' - space key where the page belongs
    * @param pageId {string} '639243960' - id of the page to retrieve
@@ -129,6 +128,7 @@ export class ProxyPageService {
 
   /**
    * @function renderSlides Service
+   * @description Render a Confluence page as konviw slide deck
    * @return Promise {string}
    * @param spaceKey {string} 'iadc' - space key where the page belongs
    * @param pageId {string} '639243960' - id of the page to retrieve
@@ -164,7 +164,7 @@ export class ProxyPageService {
   }
 
   /**
-   * getMediaCdnUrl Service
+   * @function getMediaCdnUrl Service
    * @return Promise string
    * @param uri {string} 'iadc' - URL of the media file to return
    */

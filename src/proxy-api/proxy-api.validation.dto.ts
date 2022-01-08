@@ -22,20 +22,32 @@ export class SearchQueryDTO {
   @IsString()
   spaceKey: string;
 
-  @ApiProperty({
+  @ApiPropertyOptional({
+    required: false,
     description: `The combination of words to search.`,
-    example: 'styles',
+    example: 'manifesto',
   })
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   query: string;
 
   @ApiPropertyOptional({
     required: false,
-    description: `The combination of words to search.`,
-    example: '2',
+    description: `The type of page. Options are 'page' or 'blogpage'`,
+    example: 'blogpost',
   })
   @IsOptional()
+  @IsString()
+  type: string;
+
+  @ApiPropertyOptional({
+    required: false,
+    description: `The maximum number of results to retrieve`,
+    example: '20',
+  })
+  @IsOptional()
+  @IsInt()
+  @Type(() => Number)
   maxResults: number;
 
   // This query param must encode all special characters, including: , / ? : @ & = + $ #
@@ -46,6 +58,7 @@ export class SearchQueryDTO {
     example: ' ',
   })
   @IsOptional()
+  @IsString()
   cursorResults: string;
 }
 

@@ -39,7 +39,6 @@ export class ConfluenceService {
             expand: [
               // fields to retrieve
               'body.view',
-              // TODO: FND-1104 Investigate why this properties is not retrieved via axios while it works in Postman
               'metadata.properties.content_appearance_published',
               'metadata.labels',
               'version',
@@ -90,17 +89,19 @@ export class ConfluenceService {
   }
 
   /**
-   * TODO: Make this function generic enough to serve standard search or
-   * get blog posts. Include options like 'type', 'date-range', 'ancestor' ...
-   * @function getResults Service
+   * @function Search Service
    * @description Search results from Confluence API /rest/api/search
    * @return Promise {any}
    * @param spaceKey {string} 'iadc' - space key where the page belongs
    * @param query {string} - space key identifying the document space from Confluence
+   * @param type {string} 'blogpost' - type of Confluence page, either 'page' or 'blogpost'
+   * @param maxResults {number} '15' - limit of records to be retrieved
+   * @param cursorResults {string} 'URI' - one of the two URIs provided by Confluence to navigate to the next or previous set of records
    */
-  async getResults(
+  async Search(
     spaceKey: string,
-    query: string,
+    query = undefined,
+    type = undefined,
     maxResult = 999,
     cursorResults = '',
   ): Promise<AxiosResponse<SearchResults>> {
@@ -111,9 +112,14 @@ export class ConfluenceService {
       uriSearch = `/wiki${cursorResults}`;
     } else {
       uriSearch = '/wiki/rest/api/search';
+      cql = type ? `(type='${type}')` : `(type=blogpost OR type=page)`;
+      // draft documents or tag as private won't be included in the search
+      cql = `${cql} AND (label!=draft) AND (label!='${this.config.get(
+        'konviw.private',
+      )}')`;
+      // there may be multiple spaces separated by '|'
+      // a minimum of one space is mandatory
       const spaces: string[] = spaceKey.split('|');
-      cql = `(type=blogpost OR type=page)`;
-      cql = `${cql} AND (label!=draft) AND (label=public)`;
       const cqlSpacesStr = spaces
         .map((space: any): string => {
           return `(space=${space})`;
@@ -131,11 +137,12 @@ export class ConfluenceService {
           'content.metadata.labels',
           'content.body.view',
         ].join(','),
+        includeArchivedSpaces: false,
       };
     }
     try {
       const results: AxiosResponse<SearchResults> = await this.http
-        .get(uriSearch, { params })
+        .get<SearchResults>(uriSearch, { params })
         .toPromise();
       this.logger.log(
         `Searching ${uriSearch} with ${maxResult} maximum results and CQL ${cql} or cursor ${cursorResults} via REST API`,
@@ -148,39 +155,6 @@ export class ConfluenceService {
   }
 
   /**
-   * @function getAllPosts Service
-   * @description Return all blog posts published in a Confluence space
-   * @return Promise {any}
-   * @param spaceKey {string} 'iadc' - space key where the page belongs
-   */
-  async getAllPosts(spaceKey: string): Promise<AxiosResponse<SearchResults>> {
-    let cpl = `(type=blogpost)`;
-    cpl = `${cpl} AND (label!=draft) AND (label=published)`;
-    cpl = `${cpl} AND (space=${spaceKey})`;
-    try {
-      const results: AxiosResponse<SearchResults> = await this.http
-        .get<SearchResults>('/wiki/rest/api/search', {
-          params: {
-            limit: 999,
-            cql: cpl,
-            expand: [
-              // fields to retrieve
-              'content.history',
-              'content.metadata.labels',
-              'content.body.view',
-            ].join(','),
-          },
-        })
-        .toPromise();
-      this.logger.log(`Retrieving all blog posts published in ${spaceKey}`);
-      return results;
-    } catch (err) {
-      this.logger.log(err, 'error:getAllPosts');
-      throw new HttpException(`error:getAllPosts > ${err}`, 404);
-    }
-  }
-
-  /**
    * @function getAllSpaces Service
    * @description Retrieve all spaces from endpoint /wiki/rest/api/space
    * @return Promise {any}
@@ -189,7 +163,7 @@ export class ConfluenceService {
    * @param maxResults {number} 999 - limit of results to be returned
    * @param getFields {number} 1 - '1' to get icon, labels, description and permissions or '0' for simple list of spaces
    */
-  async getAllSpaces(
+  async Spaces(
     type = 'global',
     startAt = 0,
     maxResults = 999,
