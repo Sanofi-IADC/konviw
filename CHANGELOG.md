@@ -1,3 +1,41 @@
+## [2.0.1](https://github.com/Sanofi-IADC/konviw/compare/v2.0.0...v2.0.1) (2022-01-09)
+
+
+### Bug Fixes
+
+* **api-controller:** rename REST endpoint BlogPost ([a9c2d40](https://github.com/Sanofi-IADC/konviw/commit/a9c2d409715e59347a8f7133d390dcee99a81ace))
+
+# [2.0.0](https://github.com/Sanofi-IADC/konviw/compare/v1.24.1...v2.0.0) (2022-01-08)
+
+
+### Bug Fixes
+
+* code smell unnecessary await ([0f4fe8f](https://github.com/Sanofi-IADC/konviw/commit/0f4fe8fcf9432aa1bcf543ec97d561778e2e0ffc))
+
+
+### Features
+
+* getAllPosts endpoint using generic search ([12f1268](https://github.com/Sanofi-IADC/konviw/commit/12f1268df7ec78f4679b05b1790d682a70948c02))
+* **getPage:** Content type added ([c81b04f](https://github.com/Sanofi-IADC/konviw/commit/c81b04ff69956a3a2fed9bf08ccd3c0170f9eba0))
+* **search:** Search results typed ([faec054](https://github.com/Sanofi-IADC/konviw/commit/faec0542be21e88d9d24c06268f175018e2d84ac))
+
+
+### BREAKING CHANGES
+
+* getAllPosts returns also metadata
+
+API call behind getAllPosts is harmonized to use the same
+search generic API function, so now it contains also a meta section
+and a results section. Previous it resolved directly the results.
+
+## [1.24.1](https://github.com/Sanofi-IADC/konviw/compare/v1.24.0...v1.24.1) (2022-01-06)
+
+
+### Bug Fixes
+
+* **blog:** blog heading style to fit mobile view ([9a96ca9](https://github.com/Sanofi-IADC/konviw/commit/9a96ca9e668d2065a4f623fc829df6aab833e10b))
+* **blog:** blog heading style to fit mobile view ([122b5bf](https://github.com/Sanofi-IADC/konviw/commit/122b5bf430b7917209072c75475327788a20ce09))
+
 # [1.24.0](https://github.com/Sanofi-IADC/konviw/compare/v1.23.0...v1.24.0) (2021-12-28)
 
 

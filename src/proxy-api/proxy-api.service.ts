@@ -22,6 +22,15 @@ import addScrollToTop from '../proxy-page/steps/addScrollToTop';
 import addReadingProgressBar from '../proxy-page/steps/addReadingProgressBar';
 import addCopyLinks from '../proxy-page/steps/addCopyLinks';
 import addJira from '../proxy-page/steps/addJira';
+import {
+  SearchResults,
+  ResultsContent,
+} from '../confluence/confluence.interface';
+import {
+  KonviwContent,
+  KonviwResults,
+  MetadataSearch,
+} from './proxy-api.interface';
 
 @Injectable()
 export class ProxyApiService {
@@ -34,67 +43,28 @@ export class ProxyApiService {
   ) {}
 
   /**
-   * @function getAllPosts Service
-   * @return Promise {string}
-   * @param spaceKey {string} 'iadc' - space key where the page belongs
-   */
-  async getAllPosts(spaceKey: string): Promise<any> {
-    const { data }: any = await this.confluence.getAllPosts(spaceKey);
-    const baseURL = this.config.get('confluence.baseURL');
-    const baseHost = this.config.get('web.baseHost');
-    const basePath = this.config.get('web.basePath');
-
-    return data.results.map((doc: any) => {
-      this.context.Init(spaceKey, doc.content.id);
-      const atlassianIadcRegEx = new RegExp(`${baseURL}/wiki/`);
-      parseHeaderBlog(doc.content.body.view.value)(this.context);
-      return {
-        docId: doc.content.id,
-        title: doc.content.title,
-        url: doc.content.id
-          ? `${baseHost}${basePath}/wiki/spaces/iadc/pages/${doc.content.id}?type=blog`
-          : false,
-        createdAt: doc.content.history.createdDate,
-        createdBy: doc.content.history.createdBy.displayName,
-        createdByAvatar: doc.content.history.createdBy.profilePicture.path
-          ? `${baseHost}${basePath}/${doc.content.history.createdBy.profilePicture.path.replace(
-              /^\/wiki/,
-              'wiki',
-            )}`
-          : false,
-        labels: doc.content.metadata.labels.results.map((list: any) => ({
-          tag: list.label,
-        })),
-        summary: doc.excerpt,
-        lastModified: doc.friendlyLastModified,
-        excerptBlog: this.context.getExcerpt(),
-        imgblog: this.context
-          .getImgBlog()
-          .replace(atlassianIadcRegEx, `${baseHost}${basePath}/wiki/`),
-        body: this.context.getTextBody(),
-        readTime: this.context.getReadTime(),
-      };
-    });
-  }
-
-  /**
-   * getSearchResults Service to search content in Confluence
-   *
+   * @function getSearchResults Service
+   * @description Search content in Confluence
    * @return Promise {string}
    * @param spaceKey {string} 'iadc' - space key where the page belongs
    * @param query {string} 'vision factory' - words to be searched
+   * @param type {string} 'blogpost' - type of Confluence page, either 'page' or 'blogpost'
    * @param maxResults {number} '15' - limit of records to be retrieved
    * @param cursorResults {string} 'URI' - one of the two URIs provided by Confluence to navigate to the next or previous set of records
    */
   async getSearchResults(
     spaceKey: string,
-    query: string,
-    maxResults: number,
-    cursorResults: string,
-  ): Promise<any> {
-    const { data }: any = await this.confluence.getResults(
+    query = undefined,
+    type = undefined,
+    maxResults = 999,
+    cursorResults = '',
+  ): Promise<KonviwResults> {
+    // destructuring data gets implicity typed from the response
+    // while we explicitly type it for better control
+    const { data }: { data: SearchResults } = await this.confluence.Search(
       spaceKey,
       query,
+      type,
       maxResults,
       cursorResults,
     );
@@ -102,42 +72,43 @@ export class ProxyApiService {
     const baseHost = this.config.get('web.baseHost');
     const basePath = this.config.get('web.basePath');
 
-    const parseResults = data.results.map((doc: any) => {
-      this.context.Init(spaceKey, doc.content.id);
-      const atlassianIadcRegEx = new RegExp(`${baseURL}/wiki/`);
-      parseHeaderBlog(doc.content.body.view.value)(this.context);
-      return {
-        docId: doc.content.id,
-        title: doc.content.title,
-        type: doc.content.type,
-        url: doc.content.id
-          ? `${baseHost}${basePath}/wiki/spaces/iadc/pages/${doc.content.id}?type=blog`
-          : false,
-        createdAt: doc.content.history.createdDate,
-        createdBy: doc.content.history.createdBy.displayName,
-        createdByAvatar: doc.content.history.createdBy.profilePicture.path
-          ? `${baseHost}${basePath}${doc.content.history.createdBy.profilePicture.path.replace(
-              /^\/wiki/,
-              'wiki',
-            )}`
-          : false,
-        createdByEmail: doc.content.history.email,
-        labels: doc.content.metadata.labels.results.map((list: any) => ({
-          tag: list.label,
-        })),
-        imgblog: this.context
-          .getImgBlog()
-          .replace(atlassianIadcRegEx, `${baseHost}${basePath}wiki/`),
-        summary: doc.excerpt,
-        space: doc.resultGlobalContainer.displayUrl.split('/')[2],
-        lastModified: doc.friendlyLastModified,
-        excerptBlog: this.context.getExcerpt(),
-        body: this.context.getTextBody(),
-        readTime: this.context.getReadTime(),
-      };
-    });
+    const parseResults: KonviwContent[] = data.results.map(
+      (doc: ResultsContent) => {
+        this.context.Init(spaceKey, doc.content.id);
+        const atlassianIadcRegEx = new RegExp(`${baseURL}/wiki/`);
+        parseHeaderBlog(doc.content.body.view.value)(this.context);
+        const contentResult: KonviwContent = {
+          docId: doc.content.id,
+          title: doc.content.title,
+          type: doc.content.type,
+          url: `${baseHost}${basePath}/wiki/spaces/iadc/pages/${doc.content.id}?type=blog`,
+          createdAt: doc.content.history.createdDate,
+          createdBy: doc.content.history.createdBy.displayName,
+          createdByAvatar: doc.content.history.createdBy.profilePicture.path
+            ? `${baseHost}${basePath}/${doc.content.history.createdBy.profilePicture.path.replace(
+                /^\/wiki/,
+                'wiki',
+              )}`
+            : '',
+          createdByEmail: doc.content.history.createdBy.email,
+          labels: doc.content.metadata.labels.results.map((list: any) => ({
+            tag: list.label,
+          })),
+          imgblog: this.context
+            .getImgBlog()
+            .replace(atlassianIadcRegEx, `${baseHost}${basePath}/wiki/`),
+          summary: doc.excerpt,
+          space: doc.resultGlobalContainer.displayUrl.split('/')[2],
+          lastModified: doc.friendlyLastModified,
+          excerptBlog: this.context.getExcerpt(),
+          body: this.context.getTextBody(),
+          readTime: this.context.getReadTime(),
+        };
+        return contentResult;
+      },
+    );
 
-    const meta = {
+    const meta: MetadataSearch = {
       limit: data.limit,
       size: data.size,
       totalSize: data.totalSize,
@@ -153,8 +124,8 @@ export class ProxyApiService {
   }
 
   /**
-   * getJiraProjects Service to search content in Confluence
-   *
+   * @function getJiraProjects Service
+   * @description Retrieve Jira projects
    * @return Promise {string}
    * @param server {string} 'System Jira' - Jira server to list projects from
    * @param search {string} 'iadc' - word to be searched
@@ -213,8 +184,8 @@ export class ProxyApiService {
   }
 
   /**
-   * getJiraProjectCategories Service to retrieve Jira project categories
-   *
+   * @function getJiraProjectCategories Service
+   * @description Retrieve all Jira project categories
    * @return Promise {string}
    * @param server {string} 'System Jira' - Jira server to list categories from
    */
@@ -258,7 +229,7 @@ export class ProxyApiService {
     const baseHost = this.config.get('web.baseHost');
     const basePath = this.config.get('web.basePath');
 
-    const { data }: any = await this.confluence.getAllSpaces(
+    const { data }: any = await this.confluence.Spaces(
       type,
       startAt,
       maxResults,

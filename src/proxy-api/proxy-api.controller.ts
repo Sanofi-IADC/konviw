@@ -13,6 +13,8 @@ import {
   PageParamsDTO,
   PageQueryDTO,
 } from 'src/proxy-page/proxy-page.validation.dto';
+import { KonviwResults } from './proxy-api.interface';
+
 @ApiTags('proxy-api')
 @Controller('api')
 export class ProxyApiController {
@@ -25,9 +27,15 @@ export class ProxyApiController {
    * @return {string} 'JSON' - JSON with Blog Posts content and metadata
    */
   @ApiOkResponse({ description: 'All blog posts from a given space key' })
-  @Get('getAllPosts/:spaceKey')
-  async getAllPosts(@Param() params: PostsParamsDTO): Promise<any> {
-    return this.proxyApi.getAllPosts(params.spaceKey);
+  @Get('BlogPosts/:spaceKey')
+  async getBlogPosts(@Param() params: PostsParamsDTO): Promise<KonviwResults> {
+    return this.proxyApi.getSearchResults(
+      params.spaceKey,
+      '',
+      'blogpost',
+      999,
+      '',
+    );
   }
 
   /**
@@ -39,10 +47,13 @@ export class ProxyApiController {
     description: 'All pages that matches the given search string',
   })
   @Get('search')
-  async getSearchResults(@Query() queries: SearchQueryDTO): Promise<any> {
+  async getSearchResults(
+    @Query() queries: SearchQueryDTO,
+  ): Promise<KonviwResults> {
     return this.proxyApi.getSearchResults(
       queries.spaceKey,
       queries.query,
+      queries.type,
       queries.maxResults,
       queries.cursorResults,
     );
