@@ -1,6 +1,6 @@
 {
   "name": "konviw",
-  "version": "1.24.1",
+  "version": "2.0.0",
   "description": "Enterprise public viewer for your Confluence pages.",
   "author": "Jose Gascon",
   "private": true,

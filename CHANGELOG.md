@@ -1,3 +1,26 @@
+# [2.0.0](https://github.com/Sanofi-IADC/konviw/compare/v1.24.1...v2.0.0) (2022-01-08)
+
+
+### Bug Fixes
+
+* code smell unnecessary await ([0f4fe8f](https://github.com/Sanofi-IADC/konviw/commit/0f4fe8fcf9432aa1bcf543ec97d561778e2e0ffc))
+
+
+### Features
+
+* getAllPosts endpoint using generic search ([12f1268](https://github.com/Sanofi-IADC/konviw/commit/12f1268df7ec78f4679b05b1790d682a70948c02))
+* **getPage:** Content type added ([c81b04f](https://github.com/Sanofi-IADC/konviw/commit/c81b04ff69956a3a2fed9bf08ccd3c0170f9eba0))
+* **search:** Search results typed ([faec054](https://github.com/Sanofi-IADC/konviw/commit/faec0542be21e88d9d24c06268f175018e2d84ac))
+
+
+### BREAKING CHANGES
+
+* getAllPosts returns also metadata
+
+API call behind getAllPosts is harmonized to use the same
+search generic API function, so now it contains also a meta section
+and a results section. Previous it resolved directly the results.
+
 ## [1.24.1](https://github.com/Sanofi-IADC/konviw/compare/v1.24.0...v1.24.1) (2022-01-06)
 
 
