@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/Sanofi-IADC/konviw/compare/v2.0.0...v2.0.1) (2022-01-09)
+
+
+### Bug Fixes
+
+* **api-controller:** rename REST endpoint BlogPost ([a9c2d40](https://github.com/Sanofi-IADC/konviw/commit/a9c2d409715e59347a8f7133d390dcee99a81ace))
+
 # [2.0.0](https://github.com/Sanofi-IADC/konviw/compare/v1.24.1...v2.0.0) (2022-01-08)
 
 
