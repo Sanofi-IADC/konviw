@@ -37,6 +37,7 @@ export class ProxyPageController {
    * @query type {string} 'blog' - 'blog' to display a post header or 'notitle' to remove the title of the page
    * @query style {string} 'konviw' - style to render the page
    * @query nozoom {string} '' - disable zoom effect in images
+   * @query view {string} '' - disable scroll to top, zoom effect in images, reading progress bar and floating toc menu
    */
 
   @ApiOkResponse({ description: 'Full html of the rendered Confluence page' })
@@ -56,6 +57,7 @@ export class ProxyPageController {
       queries.type,
       queries.style,
       queries.nozoom,
+      queries.view,
     );
   }
 
