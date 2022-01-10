@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/Sanofi-IADC/konviw/compare/v2.0.1...v2.1.0) (2022-01-10)
+
+
+### Features
+
+* **proxy-page:** FND-1112 add view param ([3dc1745](https://github.com/Sanofi-IADC/konviw/commit/3dc1745cccff6a222494ecafb029871f88f7e1cd))
+
 ## [2.0.1](https://github.com/Sanofi-IADC/konviw/compare/v2.0.0...v2.0.1) (2022-01-09)
 
 
