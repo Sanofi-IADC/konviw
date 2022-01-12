@@ -35,9 +35,9 @@ export default (): Step => {
           $(fileWrapper)
             .parent()
             .append(
-              `<video poster="${pathMedia}/${titleMedia}.jpg" controls><source src="${$(
+              `<video controls preload="metadata"><source src="${$(
                 fileWrapper,
-              ).attr('href')}" type="video/mp4"></video>`,
+              ).attr('href')}#t=0.1" type="video/mp4"></video>`,
             );
 
           // TODO: this section with decodeURI is buggy in some cases. Replace by RegEx
