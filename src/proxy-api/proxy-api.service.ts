@@ -293,27 +293,17 @@ export class ProxyApiService {
   }
 
   /**
-   * Function buildPage Service
+   * Function getPage
    *
    * @return Promise {string}
    * @param spaceKey {string} 'iadc' - space key where the page belongs
    * @param pageId {string} '639243960' - id of the page to retrieve
-   * @param theme {string} 'dark' - light or dark theme used by the page
    * @param type {string} 'blog' - type of the page
-   * @param style {string} 'iadc' - theme to style the page
    */
-  async getPage(
-    spaceKey: string,
-    pageId: string,
-    theme: string,
-    type: string,
-    style: string,
-  ): Promise<any> {
+  async getPage(spaceKey: string, pageId: string, type: string): Promise<any> {
     const { data } = await this.confluence.getPage(spaceKey, pageId);
-    // console.log(data);
-    this.context.initPageContext(spaceKey, pageId, theme, style, data, false);
+    this.context.initPageContext(spaceKey, pageId, null, null, data, false);
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
-    // fixHtmlHead(this.config)(this.context);
     fixContentWidth()(this.context);
     fixLinks(this.config)(this.context);
     fixToc()(this.context);
@@ -326,30 +316,13 @@ export class ProxyApiService {
     fixTableColGroup()(this.context);
     fixEmptyLineIncludePage()(this.context);
     fixRoadmap(this.config)(this.context);
-    // fixFrameAllowFullscreen()(this.context);
-    // if (type === 'blog') {
-    //   addHeaderBlog()(this.context);
-    // } else if (type !== 'notitle') {
-    //   addHeaderTitle()(this.context);
-    // }
     delUnnecessaryCode()(this.context);
-    // addCustomCss(this.config, style)(this.context);
-    // addMessageBus(this.config)(this.context);
-    // if (nozoom == undefined) {
-    //   addZooming(this.config)(this.context);
-    //   addNoZoom()(this.context);
-    // }
     addHighlightjs(this.config)(this.context);
-    // addTheme()(this.context);
-    // addScrollToTop()(this.context);
-    // addReadingProgressBar()(this.context);
     addCopyLinks()(this.context);
-    // addWebStatsTracker(this.config)(this.context);
     await addJiraPromise;
     this.context.Close();
     return {
       html_body: this.context.getHtmlBody(),
-      html_head: this.context.getHtmlHeader(),
       title: this.context.getTitle(),
       author: this.context.getAuthor(),
       read_time: this.context.getReadTime(),
