@@ -40,7 +40,7 @@ export default (): Step => {
               ).attr('href')}#t=0.1"></video>`,
             )
             .append('<br />')
-            .append($(fileWrapper));
+            .append($(fileWrapper).addClass('smalltext'));
         }
       },
     );
