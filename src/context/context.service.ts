@@ -60,8 +60,8 @@ export class ContextService {
     this.setAvatar(results.history.createdBy.profilePicture.path);
     this.setWhen(results.history.createdDate);
     if (
-      results.metadata.properties['content-appearance-published'] &&
-      results.metadata.properties['content-appearance-published'].value ===
+      results.metadata?.properties['content-appearance-published'] &&
+      results.metadata?.properties['content-appearance-published'].value ===
         'full-width'
     ) {
       this.setFullWidth(true);
