@@ -85,6 +85,7 @@ export class ProxyPageService {
     type: string,
     style: string,
     nozoom: string,
+    view: string,
   ): Promise<string> {
     const { data } = await this.confluence.getPage(spaceKey, pageId);
     this.context.initPageContext(spaceKey, pageId, theme, style, data);
@@ -92,7 +93,9 @@ export class ProxyPageService {
     fixHtmlHead(this.config)(this.context);
     fixContentWidth()(this.context);
     fixLinks(this.config)(this.context);
-    fixToc()(this.context);
+    if (view !== 'iframe-resizer') {
+      fixToc()(this.context);
+    }
     fixEmojis(this.config)(this.context);
     fixDrawioMacro(this.config)(this.context);
     fixChartMacro(this.config)(this.context);
@@ -111,14 +114,16 @@ export class ProxyPageService {
     delUnnecessaryCode()(this.context);
     addCustomCss(this.config, style)(this.context);
     addMessageBus(this.config)(this.context);
-    if (nozoom == undefined) {
+    if (nozoom == undefined && view !== 'iframe-resizer') {
       addZooming(this.config)(this.context);
       addNoZoom()(this.context);
     }
     addHighlightjs(this.config)(this.context);
     addTheme()(this.context);
-    addScrollToTop()(this.context);
-    addReadingProgressBar()(this.context);
+    if (view !== 'iframe-resizer') {
+      addScrollToTop()(this.context);
+      addReadingProgressBar()(this.context);
+    }
     addCopyLinks()(this.context);
     addWebStatsTracker(this.config)(this.context);
     await addJiraPromise;

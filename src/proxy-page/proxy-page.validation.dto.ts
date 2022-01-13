@@ -92,6 +92,16 @@ export class PageQueryDTO {
   @ApiPropertyOptional({
     type: String,
     required: false,
+    description: `Disable scroll to top, zoom effect in images, reading progress bar and floating toc menu`,
+    example: 'iframe-resizer',
+  })
+  @IsOptional()
+  @IsString()
+  view: string;
+
+  @ApiPropertyOptional({
+    type: String,
+    required: false,
     description: `Use 'no-cache' to get fresh data bypassing the NestJS cache`,
     example: 'no-cache',
   })
