@@ -40,15 +40,14 @@ export default (): Step => {
               ).attr('href')}#t=0.1" type="video/mp4"></video>`,
             );
 
-          // TODO: this section with decodeURI is buggy in some cases. Replace by RegEx
           // Append the name of the file as caption for the video
-          // $(fileWrapper)
-          //   .parent()
-          //   .append(
-          //     `<span class="smalltext">${decodeURI(
-          //       titleMedia,
-          //     )}.${extMedia}</span>`,
-          //   );
+          $(fileWrapper)
+            .parent()
+            .append(
+              `<br /><span class="smalltext">${decodeURI(
+                titleMedia,
+              )}.${extMedia}</span>`,
+            );
 
           $(fileWrapper).remove();
         }

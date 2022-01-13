@@ -174,3 +174,15 @@ ul.childpages-macro li {
     }
   }
 }
+
+video {
+  /* override other styles to make responsive */
+  width: 70%    !important;
+  height: auto   !important;
+}
+
+.confluence-embedded-image {
+  /* override other styles to make responsive */
+  width: 70%    !important;
+  height: auto   !important;
+}
