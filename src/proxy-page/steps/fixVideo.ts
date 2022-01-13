@@ -28,7 +28,7 @@ export default (): Step => {
         );
         // Search for the path $1, title $2 and extension $3 (not used)
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const [, pathMedia, titleMedia, extMedia] =
+        const [, pathMedia] =
           searchMedia.exec($(fileWrapper).attr('href')) ?? [];
         if (pathMedia) {
           // Append the video tag with src to the attachment and an image as poster
@@ -37,19 +37,10 @@ export default (): Step => {
             .append(
               `<video controls preload="metadata"><source src="${$(
                 fileWrapper,
-              ).attr('href')}#t=0.1" type="video/mp4"></video>`,
-            );
-
-          // Append the name of the file as caption for the video
-          $(fileWrapper)
-            .parent()
-            .append(
-              `<br /><span class="smalltext">${decodeURI(
-                titleMedia,
-              )}.${extMedia}</span>`,
-            );
-
-          $(fileWrapper).remove();
+              ).attr('href')}#t=0.1"></video>`,
+            )
+            .append('<br />')
+            .append($(fileWrapper));
         }
       },
     );
