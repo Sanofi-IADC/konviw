@@ -6,7 +6,7 @@ const expected =
   `<html><head></head><body><div id="Content"><span class="confluence-embedded-file-wrapper image-center-wrapper">` +
   `<video controls="" preload="metadata">` +
   `<source src="/cpv/wiki/download/attachments/473006389/DMDG%20SAP%20metadata.mp4?version=1#t=0.1"></video>` +
-  `<br><a href="/cpv/wiki/download/attachments/473006389/DMDG%20SAP%20metadata.mp4?version=1">DMDG SAP metadata.mp4</a>` +
+  `<br><a href="/cpv/wiki/download/attachments/473006389/DMDG%20SAP%20metadata.mp4?version=1" class="smalltext">DMDG SAP metadata.mp4</a>` +
   `</span></div></body></html>`;
 
 describe('ConfluenceProxy / add html5 video tag to visualize video attachment', () => {
