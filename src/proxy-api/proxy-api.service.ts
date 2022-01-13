@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ContextService } from '../context/context.service';
 import { ConfigService } from '@nestjs/config';
 import { ConfluenceService } from '../confluence/confluence.service';
-import { JiraService } from 'src/jira/jira.service';
+import { JiraService } from '../jira/jira.service';
 import parseHeaderBlog from './steps/parseHeaderBlog';
 import fixContentWidth from '../proxy-page/steps/fixContentWidth';
 import fixLinks from '../proxy-page/steps/fixLinks';
@@ -310,7 +310,7 @@ export class ProxyApiService {
     style: string,
   ): Promise<any> {
     const { data } = await this.confluence.getPage(spaceKey, pageId);
-    console.log(data);
+    // console.log(data);
     this.context.initPageContext(spaceKey, pageId, theme, style, data, false);
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
     // fixHtmlHead(this.config)(this.context);
@@ -339,7 +339,7 @@ export class ProxyApiService {
     //   addZooming(this.config)(this.context);
     //   addNoZoom()(this.context);
     // }
-    // addHighlightjs(this.config)(this.context);
+    addHighlightjs(this.config)(this.context);
     // addTheme()(this.context);
     // addScrollToTop()(this.context);
     // addReadingProgressBar()(this.context);

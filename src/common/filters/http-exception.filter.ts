@@ -24,8 +24,8 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const API_ENDPOINT = `${basePath}/api`;
 
     const incomingMsg = host.getArgByIndex(INCOMING_MESSAGE_IDX);
-    const route = incomingMsg['route']
-      ? String(host.getArgByIndex(INCOMING_MESSAGE_IDX)['route']['path'])
+    const route = incomingMsg.path
+      ? String(host.getArgByIndex(INCOMING_MESSAGE_IDX)['path'])
       : '';
 
     if (
