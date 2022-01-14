@@ -1,3 +1,18 @@
+## [2.1.1](https://github.com/Sanofi-IADC/konviw/compare/v2.1.0...v2.1.1) (2022-01-14)
+
+
+### Bug Fixes
+
+* FND-1101 add caption to video, and make video and images responsive ([961fc54](https://github.com/Sanofi-IADC/konviw/commit/961fc542bed6963b4704e9c43fa2413dcf7b9010))
+* FND-1101 add css to iadc style ([07e140b](https://github.com/Sanofi-IADC/konviw/commit/07e140b3d602c2befd143e0f6e417b908cd3deac))
+* FND-1101 clean css ([b1bf974](https://github.com/Sanofi-IADC/konviw/commit/b1bf97458f5b386e24907baa417606d4e2589b64))
+* FND-1101 fix prettier ([874e1cd](https://github.com/Sanofi-IADC/konviw/commit/874e1cd1bab26d20d2eb699b63b263048a4d8600))
+* FND-1101 fix tests ([2a7a1f2](https://github.com/Sanofi-IADC/konviw/commit/2a7a1f2559f25b8ab61f55029a1e302d985f08f7))
+* FND-1101 fix tests ([8791b82](https://github.com/Sanofi-IADC/konviw/commit/8791b82529ec29e199e658a1ec94cec347696b48))
+* FND-1101 move css to _media.scss ([a760dd2](https://github.com/Sanofi-IADC/konviw/commit/a760dd21f286e76a684a99804d8b1a382a5f76cc))
+* FND-1101 preload only metadata and fix thumbnail ([de0af53](https://github.com/Sanofi-IADC/konviw/commit/de0af5307851459877cc2b8d9d40309389edd552))
+* FND-1101 update src/proxy-page/steps/fixVideo.ts ([d9d7867](https://github.com/Sanofi-IADC/konviw/commit/d9d7867e1b55c1d3d95859123293debe6d12e70c))
+
 # [2.1.0](https://github.com/Sanofi-IADC/konviw/compare/v2.0.1...v2.1.0) (2022-01-10)
 
 
