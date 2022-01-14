@@ -70,27 +70,21 @@ describe('StudentService', () => {
 
   describe('getPage', () => {
     it('should return page author', async () => {
-      const result = await proxyApiService.getPage(
-        'space',
-        '1234',
-        'fart',
-        'type',
-        'fart',
-      );
+      const result = await proxyApiService.getPage('space', '1234', 'type');
 
       expect(result).toHaveProperty('author');
     });
 
     it('should call the Confluence service to get page data', async () => {
       jest.spyOn(proxyApiService, 'getPage');
-      await proxyApiService.getPage('space', '1234', 'fart', 'type', 'fart');
+      await proxyApiService.getPage('space', '1234', 'type');
 
       expect(proxyApiService.getPage).toHaveBeenCalledTimes(1);
     });
 
     it('should call initPageContext construct the basic page context', async () => {
       jest.spyOn(contextService, 'initPageContext');
-      await proxyApiService.getPage('space', '1234', 'fart', 'type', 'fart');
+      await proxyApiService.getPage('space', '1234', 'type');
 
       expect(contextService.initPageContext).toHaveBeenCalledTimes(1);
     });
