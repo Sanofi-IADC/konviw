@@ -14,40 +14,39 @@ jest.mock('../../../src/jira/jira.service');
 
 class ConfluenceServiceMock {
   getPage(spaceKey: string, pageId: string) {
-    const mockedResponse = {
-      data: {
-        name: 'Jane Doe',
-        grades: [3.7, 3.8, 3.9, 4.0, 3.6],
-        title: 'www',
-        author: 'fart',
-        history: {
-          createdBy: {
-            email: 'poo@poo.poo',
-            displayName: 'poo',
-            profilePicture: {
-              path: 'asda',
-            },
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    type DeepPartial<T> = T extends object
+      ? { [P in keyof T]?: DeepPartial<T[P]> }
+      : T;
+
+    const confluenceResponse: DeepPartial<Content> = {
+      title: 'Page title',
+      history: {
+        createdBy: {
+          email: 'email@somewhere.com',
+          displayName: 'Author name',
+          profilePicture: {
+            path: '//profilepic',
           },
-          createdDate: '111',
         },
-        body: { view: { value: 'asddd' } },
+        createdDate: '2020-01-01T01:30:00.000',
       },
+      body: { view: { value: '<Content>page content</Content>' } },
+    };
+
+    return {
+      data: confluenceResponse,
       status: 200,
       statusText: 'OK',
       headers: {},
       config: {},
     };
-
-    return mockedResponse;
   }
 }
 
-describe('StudentService', () => {
+describe('proxy-api.service', () => {
   let app: TestingModule;
   let proxyApiService: ProxyApiService;
-  //   let confluenceService: ConfluenceService;
-  //   let jiraService: JiraService;
-  let configService: ConfigService;
   let contextService: ContextService;
 
   beforeAll(async () => {
