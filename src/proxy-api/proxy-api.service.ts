@@ -300,7 +300,11 @@ export class ProxyApiService {
    * @param pageId {string} '639243960' - id of the page to retrieve
    * @param type {string} 'blog' - type of the page
    */
-  async getPage(spaceKey: string, pageId: string, type: string): Promise<any> {
+  async getPage(
+    spaceKey: string,
+    pageId: string,
+    type: string,
+  ): Promise<Partial<KonviwContent>> {
     const { data } = await this.confluence.getPage(spaceKey, pageId);
     this.context.initPageContext(spaceKey, pageId, null, null, data, false);
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
@@ -322,14 +326,18 @@ export class ProxyApiService {
     await addJiraPromise;
     this.context.Close();
     return {
-      html_body: this.context.getHtmlBody(),
+      body: this.context.getHtmlBody(),
       title: this.context.getTitle(),
-      author: this.context.getAuthor(),
-      read_time: this.context.getReadTime(),
-      created_date: this.context.getWhen(),
-      created_date_friendly: this.context.getFriendlyWhen(),
-      excerpt: this.context.getExcerpt(),
-      page_type: type,
+      createdBy: this.context.getAuthor(),
+      readTime: this.context.getReadTime(),
+      createdAt: this.context.getWhen(),
+      createdAtFriendly: this.context.getFriendlyWhen(),
+      excerptBlog: this.context.getExcerpt(),
+      docId: this.context.getPageId(),
+      createdByAvatar: this.context.getAvatar(),
+      createdByEmail: this.context.getEmail(),
+      imgblog: this.context.getImgBlog(),
+      space: this.context.getSpaceKey(),
     };
   }
 }

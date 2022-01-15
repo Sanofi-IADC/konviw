@@ -68,10 +68,10 @@ describe('proxy-api.service', () => {
   });
 
   describe('getPage', () => {
-    it('should return page author', async () => {
+    it('should return page author (createdBy)', async () => {
       const result = await proxyApiService.getPage('space', '1234', 'type');
 
-      expect(result).toHaveProperty('author');
+      expect(result).toHaveProperty('createdBy');
     });
 
     it('should call the Confluence service to get page data', async () => {
