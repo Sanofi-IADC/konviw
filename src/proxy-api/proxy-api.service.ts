@@ -317,7 +317,7 @@ export class ProxyApiService {
     fixEmptyLineIncludePage()(this.context);
     fixRoadmap(this.config)(this.context);
     delUnnecessaryCode()(this.context);
-    addHighlightjs(this.config, false)(this.context);
+    addHighlightjs(this.config)(this.context);
     addCopyLinks()(this.context);
     await addJiraPromise;
     this.context.Close();
