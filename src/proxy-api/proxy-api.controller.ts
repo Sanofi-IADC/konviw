@@ -1,4 +1,4 @@
-import { Controller, Get, Logger, Param, Query } from '@nestjs/common';
+import { Controller, Get, Logger, Param, Query, Version } from '@nestjs/common';
 import { ProxyApiService } from './proxy-api.service';
 import {
   PostsParamsDTO,
@@ -118,9 +118,10 @@ export class ProxyApiController {
   }
 
   @ApiOkResponse({ description: 'Get Konviw page API object' })
+  @Version('0.1-alpha')
   @Get([
-    '/getPage/spaces/:spaceKey/pages/:pageId/:pageSlug?',
-    '/getPage/spaces/:spaceKey/blog/:year/:month/:day/:pageId/:pageSlug?',
+    '/spaces/:spaceKey/pages/:pageId/:pageSlug?',
+    '/spaces/:spaceKey/blog/:year/:month/:day/:pageId/:pageSlug?',
   ])
   async getPageAPIResponse(
     @Param() params: PageParamsDTO,

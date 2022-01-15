@@ -13,7 +13,7 @@ describe('proxy-api', () => {
 
   it(`/GET wiki page with ID only, html_body begins with Content div and page content matches`, async () => {
     const res = await request(global.app.getHttpServer()).get(
-      `/api/getPage/spaces/konviw/pages/${INTRO_TO_KONVIW_ID}`,
+      `/api/spaces/konviw/pages/${INTRO_TO_KONVIW_ID}`,
     );
 
     expect(res.statusCode).toBe(HttpStatus.OK);
@@ -34,7 +34,7 @@ describe('proxy-api', () => {
 
   it(`/GET wiki page with ID and slug, html_body begins with Content div and page content matches`, async () => {
     const res = await request(global.app.getHttpServer()).get(
-      `/api/getPage/spaces/konviw/pages/${INTRO_TO_KONVIW_ID}/${INTRO_TO_KONVIW_SLUG}`,
+      `/api/spaces/konviw/pages/${INTRO_TO_KONVIW_ID}/${INTRO_TO_KONVIW_SLUG}`,
     );
     expect(res.statusCode).toBe(HttpStatus.OK);
 
@@ -44,7 +44,7 @@ describe('proxy-api', () => {
 
   it(`/GET blog page with date and ID, html_body begins with Content div and page content matches`, async () => {
     const res = await request(global.app.getHttpServer()).get(
-      `/api/getPage/spaces/konviw/blog/${BLOG_POST_ID}`,
+      `/api/spaces/konviw/blog/${BLOG_POST_ID}`,
     );
     expect(res.statusCode).toBe(HttpStatus.OK);
 
