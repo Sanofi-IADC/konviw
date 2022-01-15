@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { INestApplication } from '@nestjs/common';
+import { HttpStatus, INestApplication } from '@nestjs/common';
 import { KonviwContent } from 'src/proxy-api/proxy-api.interface';
 
 describe('proxy-api', () => {
@@ -16,7 +16,7 @@ describe('proxy-api', () => {
       `/api/getPage/spaces/konviw/pages/${INTRO_TO_KONVIW_ID}`,
     );
 
-    expect(res['res'].statusCode).toBe(200);
+    expect(res.statusCode).toBe(HttpStatus.OK);
 
     const page = res.body as Partial<KonviwContent>;
     expect(page.title).toEqual('Introduction to Konviw');
@@ -36,7 +36,7 @@ describe('proxy-api', () => {
     const res = await request(global.app.getHttpServer()).get(
       `/api/getPage/spaces/konviw/pages/${INTRO_TO_KONVIW_ID}/${INTRO_TO_KONVIW_SLUG}`,
     );
-    expect(res['res'].statusCode).toBe(200);
+    expect(res.statusCode).toBe(HttpStatus.OK);
 
     const page = res.body as Partial<KonviwContent>;
     expect(page.title).toEqual('Introduction to Konviw');
@@ -46,7 +46,7 @@ describe('proxy-api', () => {
     const res = await request(global.app.getHttpServer()).get(
       `/api/getPage/spaces/konviw/blog/${BLOG_POST_ID}`,
     );
-    expect(res['res'].statusCode).toBe(200);
+    expect(res.statusCode).toBe(HttpStatus.OK);
 
     const page = res.body as Partial<KonviwContent>;
     expect(page.title).toEqual('How to write a blog post with konviw');
