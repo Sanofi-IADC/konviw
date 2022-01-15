@@ -116,7 +116,7 @@ export class ProxyPageService {
     }
     delUnnecessaryCode()(this.context);
     addCustomCss(this.config, style)(this.context);
-    addLibrariesCSS(this.config)(this.context);
+    addLibrariesCSS()(this.context);
     addMessageBus(this.config)(this.context);
     if (nozoom == undefined && view !== 'iframe-resizer') {
       addZooming(this.config)(this.context);
@@ -130,7 +130,7 @@ export class ProxyPageService {
     addCopyLinks()(this.context);
     addWebStatsTracker(this.config)(this.context);
     await addJiraPromise;
-    addLibrariesJS(this.config)(this.context);
+    addLibrariesJS()(this.context);
     this.context.Close();
     return this.context.getHtmlBody();
   }
