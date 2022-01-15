@@ -14,9 +14,9 @@ import fixContentWidth from './steps/fixContentWidth';
 import fixVideo from './steps/fixVideo';
 import fixTableColGroup from './steps/fixTableColGroup';
 import fixEmptyLineIncludePage from './steps/fixEmptyLineIncludePage';
+import fixCode from './steps/fixCode';
 import addCustomCss from './steps/addCustomCss';
 import addZooming from './steps/addZooming';
-import addHighlightjs from './steps/addHighlightjs';
 import addScrollToTop from './steps/addScrollToTop';
 import addHeaderTitle from './steps/addHeaderTitle';
 import addTheme from './steps/addTheme';
@@ -32,6 +32,8 @@ import fixDrawioMacro from './steps/fixDrawio';
 import fixChartMacro from './steps/fixChart';
 import fixRoadmap from './steps/fixRoadmap';
 import fixFrameAllowFullscreen from './steps/fixFrameAllowFullscreen';
+import addLibrariesCSS from './steps/addLibrariesCSS';
+import addLibrariesJS from './steps/addLibrariesJS';
 import { Content } from '../confluence/confluence.interface';
 
 @Injectable()
@@ -105,6 +107,7 @@ export class ProxyPageService {
     fixTableColGroup()(this.context);
     fixEmptyLineIncludePage()(this.context);
     fixRoadmap(this.config)(this.context);
+    fixCode()(this.context);
     fixFrameAllowFullscreen()(this.context);
     if (type === 'blog') {
       addHeaderBlog()(this.context);
@@ -113,12 +116,12 @@ export class ProxyPageService {
     }
     delUnnecessaryCode()(this.context);
     addCustomCss(this.config, style)(this.context);
+    addLibrariesCSS(this.config)(this.context);
     addMessageBus(this.config)(this.context);
     if (nozoom == undefined && view !== 'iframe-resizer') {
       addZooming(this.config)(this.context);
       addNoZoom()(this.context);
     }
-    addHighlightjs(this.config)(this.context);
     addTheme()(this.context);
     if (view !== 'iframe-resizer') {
       addScrollToTop()(this.context);
@@ -127,6 +130,7 @@ export class ProxyPageService {
     addCopyLinks()(this.context);
     addWebStatsTracker(this.config)(this.context);
     await addJiraPromise;
+    addLibrariesJS(this.config)(this.context);
     this.context.Close();
     return this.context.getHtmlBody();
   }
