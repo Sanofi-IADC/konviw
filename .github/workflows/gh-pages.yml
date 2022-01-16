@@ -26,11 +26,14 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
+      
+      - name: Install dependencies
+        run: cd docs && npm ci
 
-      - run: cd docs && npm ci
-      - run: npm run docs:build
+      - name: Build Vuepress site
+        run: cd docs && npm run docs:build
 
-      - name: Deploy
+      - name: Deploy GitHub Pages
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v3
         with:
