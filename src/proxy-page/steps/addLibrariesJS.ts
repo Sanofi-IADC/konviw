@@ -31,6 +31,27 @@ export default (): Step => {
       );
     }
 
+    // Add library iframe-resizer for both sending messages to the iframe (if any)
+    // and auto resizer of the iframe to the content of the konviw page
+    // https://github.com/davidjbradshaw/iframe-resizer
+    $('body').append(
+      `<script src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.3.2/iframeResizer.contentWindow.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+      <script type="module">
+        const konviwMessage = {
+          konviwFrameUrl: window.location.href,
+          konviwSpaceKey: "${context.getSpaceKey()}",
+          konviwPageId: "${context.getPageId()}",
+          konviwTitle: "${context.getTitle()}",
+          konviwExcerpt: "${context.getExcerpt()}"
+        }
+        window.iFrameResizer = {
+          onReady: function() {
+            if ('parentIFrame' in window) window.parentIFrame.sendMessage(konviwMessage);
+          }
+        }
+      </script>`,
+    );
+
     context.getPerfMeasure('addlibrariesJS');
   };
 };

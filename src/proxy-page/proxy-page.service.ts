@@ -22,7 +22,6 @@ import addTheme from './steps/addTheme';
 import addNoZoom from './steps/addNoZoom';
 import addHeaderBlog from './steps/addHeaderBlog';
 import addSlides from './steps/addSlides';
-import addMessageBus from './steps/addMessageBus';
 import addCopyLinks from './steps/addCopyLinks';
 import addReadingProgressBar from './steps/addReadingProgressBar';
 import addJira from './steps/addJira';
@@ -117,7 +116,6 @@ export class ProxyPageService {
     delUnnecessaryCode()(this.context);
     addCustomCss(this.config, style)(this.context);
     addLibrariesCSS()(this.context);
-    addMessageBus(this.config)(this.context);
     addNoZoom()(this.context);
     addTheme()(this.context);
     if (view !== 'iframe-resizer') {
