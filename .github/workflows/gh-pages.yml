@@ -1,4 +1,4 @@
-name: github pages
+name: GitHub Pages
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  gh-pages:
+  vuepress:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
