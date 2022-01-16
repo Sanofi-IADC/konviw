@@ -1,0 +1,22 @@
+{
+  "name": "konviw-docs",
+  "description": "Konviw documentation",
+  "scripts": {
+    "docs:prebuild": "rimraf .vuepress/dist && copyfiles ./CHANGELOG.md .",
+    "docs:dev": "vuepress dev .",
+    "docs:build": "vuepress build .",
+    "docs:deploy": "npm run docs:prebuild && npm run docs:build && gh-pages -d .vuepress/dist"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "vuepress": "^1.9.5",
+    "@vuepress/plugin-back-to-top": "1.8.2",
+    "@vuepress/plugin-google-analytics": "1.8.2",
+    "vue-awesome-swiper": "4.1.1",
+    "copyfiles": "2.4.1",
+    "markdown-it-task-lists": "2.1.1",
+    "gh-pages": "3.2.3",
+    "iframe-resizer": "4.3.2",
+    "swiper": "5.4.5"
+  }
+}

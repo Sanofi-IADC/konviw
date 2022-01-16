@@ -21,10 +21,6 @@
     "test:unit:cov": "jest --coverage",
     "test:unit:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config jest-e2e.json --runInBand --forceExit",
-    "docs:prebuild": "rimraf docs/.vuepress/dist && copyfiles ./CHANGELOG.md docs",
-    "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs",
-    "docs:deploy": "npm run docs:prebuild && npm run docs:build && gh-pages -d docs/.vuepress/dist",
     "scss": "sass ./src/assets/scss:dist/static/css/ --style compressed --no-source-map"
   },
   "dependencies": {
@@ -61,28 +57,20 @@
     "@types/supertest": "2.0.11",
     "@typescript-eslint/eslint-plugin": "4.28.4",
     "@typescript-eslint/parser": "4.28.4",
-    "@vuepress/plugin-back-to-top": "1.8.2",
-    "@vuepress/plugin-google-analytics": "1.8.2",
-    "copyfiles": "2.4.1",
     "eslint": "7.32.0",
     "eslint-config-prettier": "7.2.0",
     "eslint-plugin-prettier": "3.3.1",
-    "gh-pages": "3.2.3",
     "iframe-resizer": "4.3.2",
     "jest": "26.6.3",
-    "markdown-it-task-lists": "2.1.1",
     "prettier": "2.3.2",
     "rimraf": "3.0.2",
     "sass": "1.36.0",
     "supertest": "6.1.4",
-    "swiper": "5.4.5",
     "ts-jest": "26.5.4",
     "ts-loader": "8.2.0",
     "ts-node": "10.1.0",
     "tsconfig-paths": "3.10.1",
-    "typescript": "4.3.5",
-    "vue-awesome-swiper": "4.1.1",
-    "vuepress": "1.8.2"
+    "typescript": "4.3.5"
   },
   "jest": {
     "setupFiles": [
