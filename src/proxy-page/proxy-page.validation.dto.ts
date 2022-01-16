@@ -82,16 +82,6 @@ export class PageQueryDTO {
   @ApiPropertyOptional({
     type: String,
     required: false,
-    description: `Disable zoom effect in images`,
-    example: '',
-  })
-  @IsOptional()
-  @IsString()
-  nozoom: string;
-
-  @ApiPropertyOptional({
-    type: String,
-    required: false,
     description: `Disable scroll to top, zoom effect in images, reading progress bar and floating toc menu`,
     example: 'iframe-resizer',
   })

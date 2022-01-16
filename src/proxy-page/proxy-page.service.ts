@@ -16,7 +16,6 @@ import fixTableColGroup from './steps/fixTableColGroup';
 import fixEmptyLineIncludePage from './steps/fixEmptyLineIncludePage';
 import fixCode from './steps/fixCode';
 import addCustomCss from './steps/addCustomCss';
-import addZooming from './steps/addZooming';
 import addScrollToTop from './steps/addScrollToTop';
 import addHeaderTitle from './steps/addHeaderTitle';
 import addTheme from './steps/addTheme';
@@ -51,10 +50,12 @@ export class ProxyPageService {
     pageId: string,
     theme: string,
     style: string,
+    view: string,
     data: Content,
   ) {
     this.context.Init(spaceKey, pageId, theme, style);
     this.context.setTitle(data.title);
+    this.context.setView(view);
     this.context.setHtmlBody(data.body.view.value);
     this.context.setAuthor(data.history.createdBy.displayName);
     this.context.setEmail(data.history.createdBy.email);
@@ -86,11 +87,10 @@ export class ProxyPageService {
     theme: string,
     type: string,
     style: string,
-    nozoom: string,
     view: string,
   ): Promise<string> {
     const { data } = await this.confluence.getPage(spaceKey, pageId);
-    this.initContext(spaceKey, pageId, theme, style, data);
+    this.initContext(spaceKey, pageId, theme, style, view, data);
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
     fixHtmlHead(this.config)(this.context);
     fixContentWidth()(this.context);
@@ -118,10 +118,7 @@ export class ProxyPageService {
     addCustomCss(this.config, style)(this.context);
     addLibrariesCSS()(this.context);
     addMessageBus(this.config)(this.context);
-    if (nozoom == undefined && view !== 'iframe-resizer') {
-      addZooming(this.config)(this.context);
-      addNoZoom()(this.context);
-    }
+    addNoZoom()(this.context);
     addTheme()(this.context);
     if (view !== 'iframe-resizer') {
       addScrollToTop()(this.context);
@@ -150,7 +147,7 @@ export class ProxyPageService {
     transition: string,
   ): Promise<string> {
     const { data } = await this.confluence.getPage(spaceKey, pageId);
-    this.initContext(spaceKey, pageId, 'light', style, data);
+    this.initContext(spaceKey, pageId, 'light', style, '', data);
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
     fixHtmlHead(this.config)(this.context);
     fixLinks(this.config)(this.context);
