@@ -67,7 +67,7 @@ Konviw will detect your draw.io diagrams and present the .png view automatically
 
 If you want to prevent pages to be displayed via konviw just add a special label to the page and configure this as private label via `CPV_CONFLUENCE_API_TOKEN`.
 
-## Advance features
+## Advanced features
 
 ## Floating TOC
 
@@ -79,7 +79,10 @@ How to activate it? Edit the properties of the **Table of Contents** macro and a
 
 ![Properties TOC macro](Properties-TOC-macro.png)
 
-## Embedded konviw pages in iframes
+## Pre-rendered pages
+_Use pre-rendered, served pages with Konviw as a standalone server, or for quick and easy embedding into your site via iFrame._
+
+A rendered page hosted from the Konviw server. This option allows the user to display a read only version of a Confluence page directly in their browser, or a developer to quickly embed content into a page using an iFrame. Includes some cool features to ease such as zooming, hovering table of contents and a read only page link generator.
 
 You can simply embed your konviw pages in websites, MS Teams tabs or in other applications via iframes. To provide advance integration features konviw automatically pushes some post messages with metadata to the parent window and also provides several methods for auto-resizing so you can resize the iframe dynamically or display the Url being loaded in the iframe.
 
@@ -130,6 +133,68 @@ For instance you can retrieve metadata in a Vue component with a method like thi
 ```
 
 You can find a great example of this implementation with 3 iframes in the [Architecture page](architecture)
+
+## Headless pages API
+_Treat Confluence as a headless CMS to seamlessly integrate Confluence content with your website or app._
+
+Download page data through a headless CMS endpoint for integration directly in an application page content into your app. This is a more advanced option enabling transparent integration into your website or app.
+
+### Example implementation
+
+Check out this great article for a similar implementation using Nuxt fetch with the Dev.to API: https://nuxtjs.org/tutorials/build-dev-to-clone-with-nuxt-new-fetch/.
+
+A simple example implementation is shown below
+1. Add a div to the HTML which in which the Confluence content should be rendered.
+2. Fetch the page info from the Konviw API, and inject into the div.
+3. Add relevant CSS and JS into the page to style as required.
+
+```html
+<html>
+  <head>
+    <link rel="stylesheet" href="http://localhost:3000/cpv/css/custom.css?cache=1.22.4">
+    <link rel="stylesheet" href="http://localhost:3000/cpv/css/all.min.css?cache=1.22.4">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js" integrity="sha512-Pbb8o120v5/hN/a6LjF4N4Lxou+xYZ0QcVF8J6TWhBbHmctQWd8O6xTDmHpE/91OjPzCk4JRoiJsexHYg4SotQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+    </script>
+  </head>
+
+  <body>
+    Some content
+    <div id=konviwcontent> <!--Confluence page will be rendered in this div-->
+    </div>
+  </body>
+</html>
+```
+
+```js
+// fetch and render the page
+(() => {
+  fetch("http://localhost:3000/cpv/api/spaces/konviw/pages/77627531")
+    .then((response) => {
+      response.json().then((data) => {
+        document.getElementById("konviwcontent").innerHTML = data.body;
+        hljs.highlightAll();
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+})();
+
+// add the same copy to clipboard function used in the iFrame version (optional)
+function copyToClipboard(text) {
+  const url = window.location.href.match(/(^[^#]*)/)[0] + "#" + text;
+  const inputc = document.body.appendChild(document.createElement("input"));
+  inputc.value = url;
+  inputc.focus();
+  inputc.select();
+  document.execCommand("copy");
+  inputc.parentNode.removeChild(inputc);
+}
+```
+
+### Limitations
+The pages headless API is in Alpha and does not yet provide full functionality. Currently the html body contains some injected css and Javascript used in the rendered pages, and not all Confluence page properties are available.
 
 ## Use Jira Macro in konviw pages
 
