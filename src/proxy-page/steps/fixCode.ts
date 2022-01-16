@@ -4,15 +4,17 @@ import * as cheerio from 'cheerio';
 
 export default (): Step => {
   return (context: ContextService): void => {
-    context.setPerfMark('addHighlightjs');
+    context.setPerfMark('fixCode');
     const $ = context.getCheerioBody();
 
     $('pre.syntaxhighlighter-pre').each(
       (_index: number, elementCode: cheerio.Element) => {
-        $(elementCode).wrap(`<pre><code>`);
+        $(elementCode).replaceWith(
+          `<pre><code>${$(elementCode).html()}</code></pre>`,
+        );
       },
     );
 
-    context.getPerfMeasure('addHighlightjs');
+    context.getPerfMeasure('fixCode');
   };
 };

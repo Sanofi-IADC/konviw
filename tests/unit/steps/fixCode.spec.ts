@@ -22,7 +22,7 @@ describe('ConfluenceProxy / fixCode', () => {
     expect(context.getHtmlBody()).toEqual(
       '<html><head></head><body>' +
         '<div id="Content"><pre><code>' +
-        '<pre class="syntaxhighlighter-pre">...</pre>' +
+        '...' +
         '</code></pre></div>' +
         '</body></html>',
     );
