@@ -63,6 +63,13 @@ describe('proxy-api', () => {
     );
   });
 
+  it(`/GET returns 400 with invalid page ID`, async () => {
+    const res = await request(global.app.getHttpServer()).get(
+      `/api/spaces/konviw/pages/0000`,
+    );
+    expect(res.statusCode).toBe(HttpStatus.NOT_FOUND);
+  });
+
   afterAll(async () => {
     await app.close();
   });
