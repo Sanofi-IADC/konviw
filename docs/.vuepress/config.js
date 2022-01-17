@@ -1,6 +1,7 @@
 const { path } = require('@vuepress/utils')
 const package = require('../../package.json');
 
+
 module.exports = {
   // site config
   title: package.name,
