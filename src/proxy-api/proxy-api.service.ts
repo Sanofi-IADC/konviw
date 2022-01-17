@@ -4,7 +4,9 @@ import { ConfigService } from '@nestjs/config';
 import { ConfluenceService } from '../confluence/confluence.service';
 import { JiraService } from 'src/jira/jira.service';
 import parseHeaderBlog from './steps/parseHeaderBlog';
+// TODO: review and enable in future release
 // import getFirstExcerpt from './steps/getFirstExcerpt';
+
 import {
   SearchResults,
   ResultsContent,
@@ -61,6 +63,7 @@ export class ProxyApiService {
         this.context.setHtmlBody(doc.content.body.view.value);
         const atlassianIadcRegEx = new RegExp(`${baseURL}/wiki/`);
         parseHeaderBlog()(this.context);
+        // TODO: review and enable in future release
         // getFirstExcerpt()(this.context);
         const contentResult: KonviwContent = {
           docId: doc.content.id,
