@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import * as cheerio from 'cheerio';
 import { performance, PerformanceObserver } from 'perf_hooks';
 import { ConfigService } from '@nestjs/config';
+import { Content } from 'src/confluence/confluence.interface';
 
 @Injectable()
 export class ContextService {
@@ -50,19 +51,23 @@ export class ContextService {
     pageId: string,
     theme: string,
     style: string,
-    results: any,
+    data: Content,
     loadAsDocument = true,
+    view?: string,
   ) {
     this.Init(spaceKey, pageId, theme, style);
-    this.setTitle(results.title);
-    this.setHtmlBody(results.body.view.value, loadAsDocument);
-    this.setAuthor(results.history.createdBy.displayName);
-    this.setEmail(results.history.createdBy.email);
-    this.setAvatar(results.history.createdBy.profilePicture.path);
-    this.setWhen(results.history.createdDate);
+    this.setTitle(data.title);
+    if (view) {
+      this.setView(view);
+    }
+    this.setHtmlBody(data.body.view.value, loadAsDocument);
+    this.setAuthor(data.history.createdBy.displayName);
+    this.setEmail(data.history.createdBy.email);
+    this.setAvatar(data.history.createdBy.profilePicture.path);
+    this.setWhen(data.history.createdDate);
     if (
-      results.metadata?.properties['content-appearance-published'] &&
-      results.metadata?.properties['content-appearance-published'].value ===
+      data.metadata?.properties['content-appearance-published'] &&
+      data.metadata?.properties['content-appearance-published'].value ===
         'full-width'
     ) {
       this.setFullWidth(true);
