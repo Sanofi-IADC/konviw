@@ -1,4 +1,4 @@
-import{r as p,o,c,a as n,b as t,F as l,f as a,d as s}from"./app.7f29eef9.js";import{_ as r}from"./plugin-vue_export-helper.21dcd24c.js";const i={},u=a(`<h2 id="manual-setup" tabindex="-1"><a class="header-anchor" href="#manual-setup" aria-hidden="true">#</a> Manual setup</h2><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code>\u279C <span class="token function">git</span> clone https://github.com/Sanofi-IADC/konviw.git
+import{r as p,o,c,a as n,b as t,F as l,f as a,d as s}from"./app.87bd48a0.js";import{_ as r}from"./plugin-vue_export-helper.21dcd24c.js";const i={},u=a(`<h2 id="manual-setup" tabindex="-1"><a class="header-anchor" href="#manual-setup" aria-hidden="true">#</a> Manual setup</h2><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code>\u279C <span class="token function">git</span> clone https://github.com/Sanofi-IADC/konviw.git
 
 \u279C <span class="token builtin class-name">cd</span> konviw <span class="token operator">&amp;&amp;</span> <span class="token function">npm</span> <span class="token function">install</span>
 
