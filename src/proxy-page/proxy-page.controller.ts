@@ -56,7 +56,6 @@ export class ProxyPageController {
       queries.theme,
       queries.type,
       queries.style,
-      queries.nozoom,
       queries.view,
     );
   }
