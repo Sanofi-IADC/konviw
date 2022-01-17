@@ -1,0 +1,1 @@
+const e={key:"v-46bab89e",path:"/demoNoTitle.html",title:"Demo without Title",lang:"en-US",frontmatter:{title:"Demo without Title"},excerpt:"",headers:[],git:{updatedTime:1619318092e3,contributors:[{name:"PiiXiieeS",email:"piixiiees@gmail.com",commits:2}]},filePathRelative:"demoNoTitle.md"};export{e as data};
