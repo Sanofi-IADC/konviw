@@ -3,8 +3,10 @@ home: true
 heroImage: konviw.svg
 heroText:
 tagline: Enterprise public viewer for your Confluence pages
-actionText: Get Started →
-actionLink: /introduction
+actions:
+  - text: Get Started →
+    link: /introduction
+    type: primary
 features:
   - title: Read-only Confluence pages
     details: Page content formated with configurable CSS stylesheets, zoomable images, draw.io diagrams preview, web statistics, code with syntax highlighted, reading progress bar...
@@ -18,10 +20,11 @@ features:
 
 <h1 align="center"> You wanna see some examples? </h1>
 
-<ConfluenceCarousel />
+<!-- <ConfluenceCarousel /> -->
 
 ---
 
 <p align="center">
-MIT licensed and made with 💚 &nbsp;Sanofi IADC • Version {{ $themeConfig.version }}
+MIT licensed and made with 💚 &nbsp;Sanofi IADC • Version <KonviwVersion />
 </p>
+
