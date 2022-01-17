@@ -10,6 +10,7 @@ export class ContextService {
   private pageId = '';
   private theme = '';
   private style = '';
+  private view = '';
   private cheerioBody = cheerio.load('html');
   private title = '';
   private author = '';
@@ -157,6 +158,14 @@ export class ContextService {
 
   setFullWidth(fullWidth: boolean): void {
     this.fullWidth = fullWidth;
+  }
+
+  getView(): string {
+    return this.view;
+  }
+
+  setView(view: string): void {
+    this.view = view;
   }
 
   getTheme(): string {

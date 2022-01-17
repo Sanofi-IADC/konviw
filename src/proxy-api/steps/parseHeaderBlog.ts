@@ -4,9 +4,8 @@ import * as cheerio from 'cheerio';
 
 // This module search for the first Page Properties macro in the page and collects the image
 // and a blockquote to set them as blog post header image and blog blockquote
-export default (body: string): Step => {
+export default (): Step => {
   return (context: ContextService): void => {
-    context.setHtmlBody(body);
     const $ = context.getCheerioBody();
     $(".plugin-tabmeta-details[data-macro-name='details']")
       .first()

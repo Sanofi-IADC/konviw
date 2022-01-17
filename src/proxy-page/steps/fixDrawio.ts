@@ -43,7 +43,7 @@ export default (config: ConfigService): Step => {
 
       if (pageId && diagramName) {
         $(elementDrawio).prepend(
-          `<figure><img class="img-zoomable"
+          `<figure><img class="drawio-zoomable"
                   src="${webBasePath}/wiki/download/attachments/${pageId}/${diagramName}.png"
                   alt="${diagramName}" /></figure>`,
         );
@@ -72,7 +72,7 @@ export default (config: ConfigService): Step => {
 
         if (diagramName && aspectHash) {
           $(elementDrawio).prepend(
-            `<figure><img class="img-zoomable" src="${webBasePath}/wiki/download/attachments/${context.getPageId()}/${diagramName}-${aspectHash}.png" alt="${diagramName}" /></figure>`,
+            `<figure><img class="drawio-zoomable" src="${webBasePath}/wiki/download/attachments/${context.getPageId()}/${diagramName}-${aspectHash}.png" alt="${diagramName}" /></figure>`,
           );
         }
       },

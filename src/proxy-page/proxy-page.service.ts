@@ -14,16 +14,14 @@ import fixContentWidth from './steps/fixContentWidth';
 import fixVideo from './steps/fixVideo';
 import fixTableColGroup from './steps/fixTableColGroup';
 import fixEmptyLineIncludePage from './steps/fixEmptyLineIncludePage';
+import fixCode from './steps/fixCode';
 import addCustomCss from './steps/addCustomCss';
-import addZooming from './steps/addZooming';
-import addHighlightjs from './steps/addHighlightjs';
 import addScrollToTop from './steps/addScrollToTop';
 import addHeaderTitle from './steps/addHeaderTitle';
 import addTheme from './steps/addTheme';
 import addNoZoom from './steps/addNoZoom';
 import addHeaderBlog from './steps/addHeaderBlog';
 import addSlides from './steps/addSlides';
-import addMessageBus from './steps/addMessageBus';
 import addCopyLinks from './steps/addCopyLinks';
 import addReadingProgressBar from './steps/addReadingProgressBar';
 import addJira from './steps/addJira';
@@ -32,6 +30,10 @@ import fixDrawioMacro from './steps/fixDrawio';
 import fixChartMacro from './steps/fixChart';
 import fixRoadmap from './steps/fixRoadmap';
 import fixFrameAllowFullscreen from './steps/fixFrameAllowFullscreen';
+import addLibrariesCSS from './steps/addLibrariesCSS';
+import addLibrariesJS from './steps/addLibrariesJS';
+import addSlidesCSS from './steps/addSlidesCSS';
+import addSlidesJS from './steps/addSlidesJS';
 import { Content } from '../confluence/confluence.interface';
 
 @Injectable()
@@ -49,10 +51,12 @@ export class ProxyPageService {
     pageId: string,
     theme: string,
     style: string,
+    view: string,
     data: Content,
   ) {
     this.context.Init(spaceKey, pageId, theme, style);
     this.context.setTitle(data.title);
+    this.context.setView(view);
     this.context.setHtmlBody(data.body.view.value);
     this.context.setAuthor(data.history.createdBy.displayName);
     this.context.setEmail(data.history.createdBy.email);
@@ -84,11 +88,18 @@ export class ProxyPageService {
     theme: string,
     type: string,
     style: string,
-    nozoom: string,
     view: string,
   ): Promise<string> {
     const { data } = await this.confluence.getPage(spaceKey, pageId);
-    this.context.initPageContext(spaceKey, pageId, theme, style, data);
+    this.context.initPageContext(
+      spaceKey,
+      pageId,
+      theme,
+      style,
+      data,
+      true,
+      view,
+    );
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
     fixHtmlHead(this.config)(this.context);
     fixContentWidth()(this.context);
@@ -105,6 +116,7 @@ export class ProxyPageService {
     fixTableColGroup()(this.context);
     fixEmptyLineIncludePage()(this.context);
     fixRoadmap(this.config)(this.context);
+    fixCode()(this.context);
     fixFrameAllowFullscreen()(this.context);
     if (type === 'blog') {
       addHeaderBlog()(this.context);
@@ -113,12 +125,8 @@ export class ProxyPageService {
     }
     delUnnecessaryCode()(this.context);
     addCustomCss(this.config, style)(this.context);
-    addMessageBus(this.config)(this.context);
-    if (nozoom == undefined && view !== 'iframe-resizer') {
-      addZooming(this.config)(this.context);
-      addNoZoom()(this.context);
-    }
-    addHighlightjs(this.config)(this.context);
+    addLibrariesCSS()(this.context);
+    addNoZoom()(this.context);
     addTheme()(this.context);
     if (view !== 'iframe-resizer') {
       addScrollToTop()(this.context);
@@ -127,6 +135,7 @@ export class ProxyPageService {
     addCopyLinks()(this.context);
     addWebStatsTracker(this.config)(this.context);
     await addJiraPromise;
+    addLibrariesJS()(this.context);
     this.context.Close();
     return this.context.getHtmlBody();
   }
@@ -146,8 +155,17 @@ export class ProxyPageService {
     transition: string,
   ): Promise<string> {
     const { data } = await this.confluence.getPage(spaceKey, pageId);
-    this.context.initPageContext(spaceKey, pageId, 'light', style, data);
+    this.context.initPageContext(
+      spaceKey,
+      pageId,
+      'light',
+      style,
+      data,
+      true,
+      '',
+    );
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
+    addSlidesCSS(this.config)(this.context);
     fixHtmlHead(this.config)(this.context);
     fixLinks(this.config)(this.context);
     fixEmojis(this.config)(this.context);
@@ -162,7 +180,8 @@ export class ProxyPageService {
     fixFrameAllowFullscreen()(this.context);
     delUnnecessaryCode()(this.context);
     await addJiraPromise;
-    addSlides(this.config, transition)(this.context);
+    addSlides()(this.context);
+    addSlidesJS(transition)(this.context);
     addWebStatsTracker(this.config)(this.context);
     this.context.Close();
     return this.context.getHtmlBody();

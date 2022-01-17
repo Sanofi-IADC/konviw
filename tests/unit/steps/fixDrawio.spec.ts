@@ -40,8 +40,9 @@ const example = `
 describe('ConfluenceProxy / fixDrawio', () => {
   let context: ContextService;
   let config: ConfigService;
-  const images: Array<string> = [];
   let webBasePath = '';
+  let $: cheerio.CheerioAPI;
+  const images: Array<cheerio.Element> = [];
 
   beforeEach(async () => {
     const moduleRef = await createModuleRefForStep();
@@ -53,31 +54,38 @@ describe('ConfluenceProxy / fixDrawio', () => {
     const step = fixDrawio(config);
     context.setHtmlBody(example);
     step(context);
-    const $ = context.getCheerioBody();
+    $ = context.getCheerioBody();
 
     $('figure').each((index: number, element: cheerio.Element) => {
-      const thisBlock = $(element).html();
-      if (thisBlock) {
-        images[index] = thisBlock;
-      }
+      images[index] = element;
     });
   });
 
   describe('Diagram created in the same page', () => {
     it('should set the src of the image with the pageId and the diagramName', () => {
-      const image = images[0];
+      const image = $(images[0]).html();
       const expectedSrc = `${webBasePath}/wiki/download/attachments/${image1PageId}/${image1DiagramName}.png`;
       const imgSrc = getImgSrc(image);
       expect(imgSrc).toBe(expectedSrc);
+    });
+    it('should has zoomable class', () => {
+      expect($(images[0]).children().first().hasClass('drawio-zoomable')).toBe(
+        true,
+      );
     });
   });
 
   describe('Diagram imported from the repository', () => {
     it('should set the src of the image with the the diagramName and the aspectHash', () => {
-      const image = images[1];
+      const image = $(images[1]).html();
       const expectedSrc = `${webBasePath}/wiki/download/attachments/123456/${image2DiagramName}-${image2AspectHash}.png`;
       const imgSrc = getImgSrc(image);
       expect(imgSrc).toBe(expectedSrc);
+    });
+    it('should has zoomable class', () => {
+      expect($(images[1]).children().first().hasClass('drawio-zoomable')).toBe(
+        true,
+      );
     });
   });
 });

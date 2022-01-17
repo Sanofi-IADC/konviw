@@ -17,11 +17,14 @@ import fixDrawio from '../proxy-page/steps/fixDrawio';
 import fixChart from '../proxy-page/steps/fixChart';
 import fixRoadmap from '../proxy-page/steps/fixRoadmap';
 import delUnnecessaryCode from '../proxy-page/steps/delUnnecessaryCode';
-import addHighlightjs from '../proxy-page/steps/addHighlightjs';
+import fixCode from '../proxy-page/steps/fixCode';
 import addScrollToTop from '../proxy-page/steps/addScrollToTop';
 import addReadingProgressBar from '../proxy-page/steps/addReadingProgressBar';
 import addCopyLinks from '../proxy-page/steps/addCopyLinks';
 import addJira from '../proxy-page/steps/addJira';
+// TODO: review and enable in future release
+// import getFirstExcerpt from './steps/getFirstExcerpt';
+
 import {
   SearchResults,
   ResultsContent,
@@ -75,8 +78,11 @@ export class ProxyApiService {
     const parseResults: KonviwContent[] = data.results.map(
       (doc: ResultsContent) => {
         this.context.Init(spaceKey, doc.content.id);
+        this.context.setHtmlBody(doc.content.body.view.value);
         const atlassianIadcRegEx = new RegExp(`${baseURL}/wiki/`);
-        parseHeaderBlog(doc.content.body.view.value)(this.context);
+        parseHeaderBlog()(this.context);
+        // TODO: review and enable in future release
+        // getFirstExcerpt()(this.context);
         const contentResult: KonviwContent = {
           docId: doc.content.id,
           title: doc.content.title,
@@ -306,7 +312,7 @@ export class ProxyApiService {
     type: string,
   ): Promise<Partial<KonviwContent>> {
     const { data } = await this.confluence.getPage(spaceKey, pageId);
-    this.context.initPageContext(spaceKey, pageId, null, null, data, false);
+    this.context.initPageContext(spaceKey, pageId, null, type, data, false);
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
     fixContentWidth()(this.context);
     fixLinks(this.config)(this.context);
@@ -321,7 +327,7 @@ export class ProxyApiService {
     fixEmptyLineIncludePage()(this.context);
     fixRoadmap(this.config)(this.context);
     delUnnecessaryCode()(this.context);
-    addHighlightjs(this.config)(this.context);
+    fixCode()(this.context);
     addCopyLinks()(this.context);
     await addJiraPromise;
     this.context.Close();
