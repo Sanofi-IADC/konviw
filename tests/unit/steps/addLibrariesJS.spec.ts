@@ -2,7 +2,7 @@ import { ContextService } from '../../../src/context/context.service';
 import addLibrariesJS from '../../../src/proxy-page/steps/addLibrariesJS';
 import { createModuleRefForStep } from './utils';
 
-describe('ConfluenceProxy / addLibrariesCSS', () => {
+describe('ConfluenceProxy / addLibrariesJS', () => {
   let context: ContextService;
 
   beforeEach(async () => {
