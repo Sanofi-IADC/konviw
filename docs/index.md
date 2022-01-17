@@ -1,6 +1,6 @@
 ---
 home: true
-heroImage: konviw.svg
+heroImage: /images/konviw.svg
 heroText:
 tagline: Enterprise public viewer for your Confluence pages
 actions:
@@ -18,7 +18,7 @@ features:
 
 <!-- markdownlint-disable MD033 -->
 
-<h1 align="center"> You wanna see some examples? </h1>
+<!-- <h1 align="center"> You wanna see some examples? </h1> -->
 
 <!-- <ConfluenceCarousel /> -->
 

@@ -10,8 +10,8 @@ module.exports = {
 
   base: '/konviw/',
   head: [
-    ['link', { rel: 'icon', href: '/konviw.png' }],
-    ['meta', { property: 'og:image', content: '/konviw/konviw.svg' }],
+    ['link', { rel: 'icon', href: '/konviw/images/konviw.png' }],
+    ['meta', { property: 'og:image', content: '/konviw/images/konviw.svg' }],
     ['meta', { property: 'og:title', content: package.name }],
     ['meta', { property: 'og:description', content: package.description }],
     [
@@ -24,14 +24,14 @@ module.exports = {
     ['meta', { name: 'twitter:title', content: package.name }],
     ['meta', { name: 'twitter:description', content: package.description }],
     ['meta', { name: 'twitter:creator', content: '@jhgascon' }],
-    ['meta', { name: 'twitter:image', content: '/konviw/konviw.svg' }],
+    ['meta', { name: 'twitter:image', content: '/konviw/images/konviw.svg' }],
   ],
 
   // theme and its config
   theme: '@vuepress/theme-default',
   themeConfig: {
     version: package.version,
-    logo: '/konviw.svg',
+    logo: '/images/konviw.svg',
     navbar: [
       { text: 'Home', link: '/' },
       { text: 'Documentation', link: '/introduction' },
