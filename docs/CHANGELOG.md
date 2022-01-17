@@ -1,3 +1,125 @@
+## [2.1.1](https://github.com/Sanofi-IADC/konviw/compare/v2.1.0...v2.1.1) (2022-01-14)
+
+
+### Bug Fixes
+
+* FND-1101 add caption to video, and make video and images responsive ([961fc54](https://github.com/Sanofi-IADC/konviw/commit/961fc542bed6963b4704e9c43fa2413dcf7b9010))
+* FND-1101 add css to iadc style ([07e140b](https://github.com/Sanofi-IADC/konviw/commit/07e140b3d602c2befd143e0f6e417b908cd3deac))
+* FND-1101 clean css ([b1bf974](https://github.com/Sanofi-IADC/konviw/commit/b1bf97458f5b386e24907baa417606d4e2589b64))
+* FND-1101 fix prettier ([874e1cd](https://github.com/Sanofi-IADC/konviw/commit/874e1cd1bab26d20d2eb699b63b263048a4d8600))
+* FND-1101 fix tests ([2a7a1f2](https://github.com/Sanofi-IADC/konviw/commit/2a7a1f2559f25b8ab61f55029a1e302d985f08f7))
+* FND-1101 fix tests ([8791b82](https://github.com/Sanofi-IADC/konviw/commit/8791b82529ec29e199e658a1ec94cec347696b48))
+* FND-1101 move css to _media.scss ([a760dd2](https://github.com/Sanofi-IADC/konviw/commit/a760dd21f286e76a684a99804d8b1a382a5f76cc))
+* FND-1101 preload only metadata and fix thumbnail ([de0af53](https://github.com/Sanofi-IADC/konviw/commit/de0af5307851459877cc2b8d9d40309389edd552))
+* FND-1101 update src/proxy-page/steps/fixVideo.ts ([d9d7867](https://github.com/Sanofi-IADC/konviw/commit/d9d7867e1b55c1d3d95859123293debe6d12e70c))
+
+# [2.1.0](https://github.com/Sanofi-IADC/konviw/compare/v2.0.1...v2.1.0) (2022-01-10)
+
+
+### Features
+
+* **proxy-page:** FND-1112 add view param ([3dc1745](https://github.com/Sanofi-IADC/konviw/commit/3dc1745cccff6a222494ecafb029871f88f7e1cd))
+
+## [2.0.1](https://github.com/Sanofi-IADC/konviw/compare/v2.0.0...v2.0.1) (2022-01-09)
+
+
+### Bug Fixes
+
+* **api-controller:** rename REST endpoint BlogPost ([a9c2d40](https://github.com/Sanofi-IADC/konviw/commit/a9c2d409715e59347a8f7133d390dcee99a81ace))
+
+# [2.0.0](https://github.com/Sanofi-IADC/konviw/compare/v1.24.1...v2.0.0) (2022-01-08)
+
+
+### Bug Fixes
+
+* code smell unnecessary await ([0f4fe8f](https://github.com/Sanofi-IADC/konviw/commit/0f4fe8fcf9432aa1bcf543ec97d561778e2e0ffc))
+
+
+### Features
+
+* getAllPosts endpoint using generic search ([12f1268](https://github.com/Sanofi-IADC/konviw/commit/12f1268df7ec78f4679b05b1790d682a70948c02))
+* **getPage:** Content type added ([c81b04f](https://github.com/Sanofi-IADC/konviw/commit/c81b04ff69956a3a2fed9bf08ccd3c0170f9eba0))
+* **search:** Search results typed ([faec054](https://github.com/Sanofi-IADC/konviw/commit/faec0542be21e88d9d24c06268f175018e2d84ac))
+
+
+### BREAKING CHANGES
+
+* getAllPosts returns also metadata
+
+API call behind getAllPosts is harmonized to use the same
+search generic API function, so now it contains also a meta section
+and a results section. Previous it resolved directly the results.
+
+## [1.24.1](https://github.com/Sanofi-IADC/konviw/compare/v1.24.0...v1.24.1) (2022-01-06)
+
+
+### Bug Fixes
+
+* **blog:** blog heading style to fit mobile view ([9a96ca9](https://github.com/Sanofi-IADC/konviw/commit/9a96ca9e668d2065a4f623fc829df6aab833e10b))
+* **blog:** blog heading style to fit mobile view ([122b5bf](https://github.com/Sanofi-IADC/konviw/commit/122b5bf430b7917209072c75475327788a20ce09))
+
+# [1.24.0](https://github.com/Sanofi-IADC/konviw/compare/v1.23.0...v1.24.0) (2021-12-28)
+
+
+### Bug Fixes
+
+* **axios:** temporary cast results.data as any ([74b879d](https://github.com/Sanofi-IADC/konviw/commit/74b879d6a48ee6b49694f534aea0b82eac083b62))
+* **dependency maintenance:** update and pin rxjs to 7.4.0 ([5f2c521](https://github.com/Sanofi-IADC/konviw/commit/5f2c5213475cb5d0ff5c5c052e6378ddddd86822))
+* **nestjs:** update all dependencies ([f888ee6](https://github.com/Sanofi-IADC/konviw/commit/f888ee68fafe9770c52fd4c7a92854a91d619207))
+
+
+### Features
+
+* updated interface for confluence API ([65bed99](https://github.com/Sanofi-IADC/konviw/commit/65bed99abe88c1ed1593266e664e67355189145b))
+
+# [1.23.0](https://github.com/Sanofi-IADC/konviw/compare/v1.22.5...v1.23.0) (2021-12-27)
+
+
+### Bug Fixes
+
+* **context:** setHtmlBody allowing fragmented mode ([be34269](https://github.com/Sanofi-IADC/konviw/commit/be342698ce0a7061dbe8c413d8ebba132bf42886))
+* generic setHtmlBody for Page and API modules ([00cb812](https://github.com/Sanofi-IADC/konviw/commit/00cb8127491e88ec8ac2813a2b8a442db31f2432))
+
+
+### Features
+
+* switch to body.view (implement [#285](https://github.com/Sanofi-IADC/konviw/issues/285)) ([2b7714d](https://github.com/Sanofi-IADC/konviw/commit/2b7714ddb30b7ebe0d8f243e580c03f61195b79e))
+
+## [1.22.5](https://github.com/Sanofi-IADC/konviw/compare/v1.22.4...v1.22.5) (2021-12-23)
+
+
+### Bug Fixes
+
+* **cheerio:** remove old [@types](https://github.com/types) + fix code ([b0610b7](https://github.com/Sanofi-IADC/konviw/commit/b0610b7329019814513f4471913a3f057d417571))
+
+## [1.22.4](https://github.com/Sanofi-IADC/konviw/compare/v1.22.3...v1.22.4) (2021-12-16)
+
+
+### Bug Fixes
+
+* prettier ([4b4ba40](https://github.com/Sanofi-IADC/konviw/commit/4b4ba40daae1be23a1830eab4384e956b466b3b8))
+
+## [1.22.3](https://github.com/Sanofi-IADC/konviw/compare/v1.22.2...v1.22.3) (2021-12-15)
+
+
+### Bug Fixes
+
+* rendering of webm video player in konview ([e02da50](https://github.com/Sanofi-IADC/konviw/commit/e02da50b20a322607454d2ce91c5008d08351682))
+
+## [1.22.2](https://github.com/Sanofi-IADC/konviw/compare/v1.22.1...v1.22.2) (2021-12-13)
+
+
+### Bug Fixes
+
+* **iframe:** allow fullscreen * for kaltura videos ([dfe049f](https://github.com/Sanofi-IADC/konviw/commit/dfe049f84e612cef095b368cbeb87ea8b88ab699))
+
+## [1.22.1](https://github.com/Sanofi-IADC/konviw/compare/v1.22.0...v1.22.1) (2021-12-12)
+
+
+### Bug Fixes
+
+* **iframe:** add allowfullscreen attribute FND-764 ([a0c7b17](https://github.com/Sanofi-IADC/konviw/commit/a0c7b17719915edc63fe7658e0024caedfdc385b))
+
 # [1.22.0](https://github.com/Sanofi-IADC/konviw/compare/v1.21.0...v1.22.0) (2021-12-12)
 
 
