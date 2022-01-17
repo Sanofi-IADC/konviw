@@ -8,6 +8,7 @@ import { ConfigService, ConfigModule } from '@nestjs/config';
 import { AxiosResponse } from 'axios';
 import { Content } from '../../../src/confluence/confluence.interface';
 import configuration from '../../../src/config/configuration.test';
+import fixCode from '../../../src/proxy-page/steps/fixCode';
 
 jest.mock('../../../src/confluence/confluence.service');
 jest.mock('../../../src/jira/jira.service');
@@ -86,6 +87,26 @@ describe('proxy-api.service', () => {
       await proxyApiService.getPage('space', '1234', 'type');
 
       expect(contextService.initPageContext).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not call addLibrariesCSS as CSS cannot be injected by setting innerHTML', async () => {
+      const addLibrariesCSS = jest.requireActual(
+        '../../../src/proxy-page/steps/addLibrariesCSS',
+      );
+      jest.spyOn(addLibrariesCSS, 'default');
+
+      await proxyApiService.getPage('space', '1234', 'type');
+      expect(addLibrariesCSS.default).not.toHaveBeenCalled();
+    });
+
+    it('should not call addLibrariesJS as JS scripts cannot be injected by setting innerHTML', async () => {
+      const addLibrariesJS = jest.requireActual(
+        '../../../src/proxy-page/steps/addLibrariesJS',
+      );
+      jest.spyOn(addLibrariesJS, 'default');
+
+      await proxyApiService.getPage('space', '1234', 'type');
+      expect(addLibrariesJS.default).not.toHaveBeenCalled();
     });
   });
 });
