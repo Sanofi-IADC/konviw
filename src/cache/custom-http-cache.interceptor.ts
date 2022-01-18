@@ -17,7 +17,6 @@ export default class CustomHttpCacheInterceptor extends CacheInterceptor {
       this.cacheManager.del(key);
       this.cacheManager.del(key.replace(/\??&?cache=clear-cache/, ''));
     }
-    console.log(key);
     return key;
   }
 }
