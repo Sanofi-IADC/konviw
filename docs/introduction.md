@@ -5,7 +5,7 @@ title: Introduction
 <!-- markdownlint-disable MD033 -->
 
 <p align="center">
-  <a href="https://sanofi-iadc.github.io/konviw/" target="blank"><img :src="$withBase('/konviw.svg')" width="320" alt="Nest Logo" /></a>
+  <a href="https://sanofi-iadc.github.io/konviw/" target="blank"><img :src="$withBase('/images/konviw.svg')" width="320" alt="Konviw Logo" /></a>
 </p>
 
 <p align="center">
@@ -62,14 +62,14 @@ For a more detailed deep dive check the docs section for [the konviw architectur
 
 - [Nest.js](https://nestjs.com). A progressive Node.js framework for building efficient, reliable and scalable server-side applications. Guess what, we use NestJS to serve the backend proxy.
 
-<a href="https://nestjs.com/" target="blank"><img :src="$withBase('/nestjs-logo.svg')" width="120" alt="Nest Logo" /></a>
+<a href="https://nestjs.com/" target="blank"><img :src="$withBase('/images/nestjs-logo.svg')" width="120" alt="Nest Logo" /></a>
 
 - Simple REST API
 - [Cheerio](https://cheerio.js.org) is used to parse the DOM of the HTML returned by the Confluence API and perform the desired transformations.
 
 - [Reveal.js](https://revealjs.com) is our choice to create stunning presentations on the Web from a Confluence page.
 
-<a href="https://revealjs.com" target="blank"><img :src="$withBase('/revealjs-logo.svg')" width="120" alt="Nest Logo" /></a>
+<a href="https://revealjs.com" target="blank"><img :src="$withBase('/images/revealjs-logo.svg')" width="120" alt="Nest Logo" /></a>
 
 - [Zooming](https://github.com/kingdido999/zooming) an image zoom 🔍 that makes sense.
 - [Highlight.js](https://highlightjs.org) a JavaScript syntax highlighter with language auto-detection.

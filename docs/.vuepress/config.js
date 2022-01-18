@@ -1,14 +1,18 @@
+const { path } = require('@vuepress/utils')
 const package = require('../../package.json');
 
+
 module.exports = {
+  // site config
   title: package.name,
   description: package.description,
   lang: 'en-US',
   version: package.version,
+
   base: '/konviw/',
   head: [
-    ['link', { rel: 'icon', href: '/konviw.png' }],
-    ['meta', { property: 'og:image', content: '/konviw/konviw.svg' }],
+    ['link', { rel: 'icon', href: '/konviw/images/konviw.png' }],
+    ['meta', { property: 'og:image', content: '/konviw/images/konviw.svg' }],
     ['meta', { property: 'og:title', content: package.name }],
     ['meta', { property: 'og:description', content: package.description }],
     [
@@ -21,12 +25,15 @@ module.exports = {
     ['meta', { name: 'twitter:title', content: package.name }],
     ['meta', { name: 'twitter:description', content: package.description }],
     ['meta', { name: 'twitter:creator', content: '@jhgascon' }],
-    ['meta', { name: 'twitter:image', content: '/konviw/konviw.svg' }],
+    ['meta', { name: 'twitter:image', content: '/konviw/images/konviw.svg' }],
   ],
+
+  // theme and its config
+  theme: '@vuepress/theme-default',
   themeConfig: {
     version: package.version,
-    logo: '/konviw.svg',
-    nav: [
+    logo: '/images/konviw.svg',
+    navbar: [
       { text: 'Home', link: '/' },
       { text: 'Documentation', link: '/introduction' },
       { text: 'Demo', link: '/demoIntroduction' },
@@ -35,30 +42,16 @@ module.exports = {
       { text: 'API', link: 'https://konviw.vercel.app/cpv/oas3' },
       { text: 'GitHub', link: 'https://github.com/Sanofi-IADC/konviw' },
     ],
-    // sidebar: 'auto',
+    sidebarDepth: 1,
     sidebar: [
+      '/Introduction',
+      '/Installation',
+      '/Architecture',
+      '/Performance',
+      '/Usage',
       {
-        title: 'Introduction', // required
-        path: '/introduction', // optional, link of the title, which should be an absolute path and must exist
-      },
-      {
-        title: 'Installation',
-        path: '/installation',
-      },
-      {
-        title: 'Architecture',
-        path: '/architecture',
-      },
-      {
-        title: 'Performance',
-        path: '/performance',
-      },
-      {
-        title: 'Usage',
-        path: '/usage',
-      },
-      {
-        title: 'Demo',
+        text: 'Demo',
+        collapsible: true,
         children: [
           '/demoIntroduction',
           '/demoNoTitle',
@@ -73,21 +66,17 @@ module.exports = {
       },
       '/about',
     ],
-    lastUpdated: 'Last Updated',
   },
   plugins: [
-    '@vuepress/back-to-top',
-    '@vuepress/google-analytics',
-    // Plugin / Google Analytics options
-    {
-      ga: 'G-2VWWHG99CK',
-    },
+    [
+      '@vuepress/register-components',
+      {
+        componentsDir: path.resolve(__dirname, './components'),
+      },
+      '@vuepress/google-analytics',
+      {
+        ga: 'G-2VWWHG99CK',
+      },
+    ],
   ],
-  markdown: {
-    extendMarkdown: (md) => {
-      md.set({ breaks: true });
-      // markdown-it plugins
-      md.use(require('markdown-it-task-lists'));
-    },
-  },
-};
+}

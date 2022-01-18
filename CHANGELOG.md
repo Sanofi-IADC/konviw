@@ -1,3 +1,20 @@
+# [2.2.0](https://github.com/Sanofi-IADC/konviw/compare/v2.1.1...v2.2.0) (2022-01-17)
+
+
+### Bug Fixes
+
+* **fixCode:** avoid unscaped html in code blocks ([baff75a](https://github.com/Sanofi-IADC/konviw/commit/baff75a35a674843a55666b8743b58aa4beea625))
+* **media:** avoid very large images ([71c6aee](https://github.com/Sanofi-IADC/konviw/commit/71c6aee10027add23a758cec913172cdf2c7db2c))
+* move docs images to images folder ([13acade](https://github.com/Sanofi-IADC/konviw/commit/13acadefe4f261d73cd0441bd02332ac34f1889c))
+
+
+### Features
+
+* **highlightjs:** separate CSS and JS from code ([a415062](https://github.com/Sanofi-IADC/konviw/commit/a415062df8998713deb9f550b14c846b59c337cf))
+* move iframe-resizer to addLibrariesJS ([48af4d8](https://github.com/Sanofi-IADC/konviw/commit/48af4d88642ab8bb1aa43fe1333591e823f5002c))
+* move zooming to addLibraries ([71fc2ec](https://github.com/Sanofi-IADC/konviw/commit/71fc2ecebedd133cabbaed831ae7491821936bed))
+* **slides:** split css and js from slides process ([0f97165](https://github.com/Sanofi-IADC/konviw/commit/0f971653a6c434a636aff80c9be023d95b2a3dbb))
+
 ## [2.1.1](https://github.com/Sanofi-IADC/konviw/compare/v2.1.0...v2.1.1) (2022-01-14)
 
 
