@@ -1,1 +1,0 @@
-const e={key:"v-eaeea0bc",path:"/performance.html",title:"Performance",lang:"en-US",frontmatter:{title:"Performance"},excerpt:"",headers:[],git:{updatedTime:1642445174e3,contributors:[{name:"MeStrak",email:"31989238+MeStrak@users.noreply.github.com",commits:1}]},filePathRelative:"performance.md"};export{e as data};
