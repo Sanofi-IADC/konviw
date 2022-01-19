@@ -301,7 +301,8 @@ export class ProxyApiService {
   /**
    * Function getPage
    *
-   * @return Promise {string}
+   * @description Returns a JSON KonviwContent object containing page content
+   * @return Promise {Partial<KonviwContent>}
    * @param spaceKey {string} 'iadc' - space key where the page belongs
    * @param pageId {string} '639243960' - id of the page to retrieve
    * @param type {string} 'blog' - type of the page
