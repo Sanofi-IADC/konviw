@@ -1,3 +1,18 @@
+# [2.3.0](https://github.com/Sanofi-IADC/konviw/compare/v2.2.0...v2.3.0) (2022-01-19)
+
+
+### Bug Fixes
+
+* FND-1127 add proper value for cache ttl and max ([d22b3f8](https://github.com/Sanofi-IADC/konviw/commit/d22b3f80514a65713beb6d09f0ea056ec3dd6078))
+
+
+### Features
+
+* FND-1127 add param to clear cache ([d5decde](https://github.com/Sanofi-IADC/konviw/commit/d5decde40a2b2f4463294e93f5b445761457261c))
+* FND-1127 added query params to clear-cache all and specific page ([7bd4fdc](https://github.com/Sanofi-IADC/konviw/commit/7bd4fdcc40223445f8bb4aab1793bec41d418923))
+* FND-1127 clean code smells ([e8540bc](https://github.com/Sanofi-IADC/konviw/commit/e8540bc0f906ebcce51bd133b1f3749f9babc7ea))
+* FND-1127 remove clear-cache-all ([c22e9c6](https://github.com/Sanofi-IADC/konviw/commit/c22e9c6aa3e3ef38a82a27d9acbc4e379e52aa16))
+
 # [2.2.0](https://github.com/Sanofi-IADC/konviw/compare/v2.1.1...v2.2.0) (2022-01-17)
 
 

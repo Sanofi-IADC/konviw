@@ -33,8 +33,8 @@ import CustomHttpCacheInterceptor from './cache/custom-http-cache.interceptor';
     CacheModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
-        ttl: configService.get('cacheTTL'),
-        max: configService.get('cacheMax'),
+        ttl: configService.get('cache.cacheTTL'),
+        max: configService.get('cache.cacheMax'),
         isGlobal: true,
       }),
       inject: [ConfigService],
