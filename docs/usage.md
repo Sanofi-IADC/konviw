@@ -77,7 +77,7 @@ Now you can hide the classic TOC and make it visible on demand as part of a floa
 
 How to activate it? Edit the properties of the **Table of Contents** macro and add `konviw-float-TOC` in the CSS Class Name property, like in the example below.
 
-![Properties TOC macro](Properties-TOC-macro.png)
+![Properties TOC macro](/images/Properties-TOC-macro.png)
 
 ## Embedded konviw pages in iframes
 
@@ -217,10 +217,10 @@ Then you can start writing the main body of the article or post as per your own 
 
 To add a header banner with a nice image make sure the first element in the document is a “Page Properties” macro as showed in this example with an image and a blockquote headline.
 
-![create blog post](create-blog-post.png)
+![create blog post](/images/create-blog-post.png)
 
 Which will be processed and rendered via Konviw as follows:
-![blog post header](blog-post-header.png)
+![blog post header](/images/blog-post-header.png)
 
 Check in the demo section in this documentation an [online example with blog post](demoBlogPost).
 
@@ -263,7 +263,7 @@ You can mix content that will be visible into slides and content that will stay 
 
 Every slide is contained within the frame of a Confluence macro `Page Properties` like in the following example:
 
-![Page Properties](slides-page-properties.png)
+![Page Properties](/images/slides-page-properties.png)
 
 Use `heading 1` for your cover slides or to create intermediate sections in your slide deck.
 

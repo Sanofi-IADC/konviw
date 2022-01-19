@@ -10,7 +10,7 @@
 </center>
 
 <p align="center">
-  <a href="https://sanofi-iadc.github.io/konviw/" target="blank"><img src="https://sanofi-iadc.github.io/konviw/konviw.svg" width="320" alt="Nest Logo" /></a>
+  <a href="https://sanofi-iadc.github.io/konviw/" target="blank"><img src="https://sanofi-iadc.github.io/konviw/images/konviw.svg" width="320" alt="Konviw Logo" /></a>
 </p>
 
   <p align="center">Enterprise public viewer for your <a href="https://www.atlassian.com/software/confluence" target="_blank">Confluence</a> pages.</p>
