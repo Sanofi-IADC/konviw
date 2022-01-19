@@ -119,7 +119,7 @@ export class ProxyApiController {
 
   /**
    * @GET (controller) api/spaces/spaceKey/pages/pageID
-   * @description Route to retrieve page content data for rendering logic to be applied by the consumer
+   * @description Route to retrieve page content data for rendering logic to be applied by the consumer ALPHA VERSION - NOT FOR PRODUCTION USE
    * @return {string} 'JSON' - JSON with the page content
    */
   @ApiOkResponse({ description: 'Get Konviw page API object' })
