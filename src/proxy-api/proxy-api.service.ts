@@ -18,8 +18,6 @@ import fixChart from '../proxy-page/steps/fixChart';
 import fixRoadmap from '../proxy-page/steps/fixRoadmap';
 import delUnnecessaryCode from '../proxy-page/steps/delUnnecessaryCode';
 import fixCode from '../proxy-page/steps/fixCode';
-import addScrollToTop from '../proxy-page/steps/addScrollToTop';
-import addReadingProgressBar from '../proxy-page/steps/addReadingProgressBar';
 import addCopyLinks from '../proxy-page/steps/addCopyLinks';
 import addJira from '../proxy-page/steps/addJira';
 // TODO: review and enable in future release
