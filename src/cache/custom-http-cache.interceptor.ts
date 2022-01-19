@@ -10,6 +10,9 @@ export default class CustomHttpCacheInterceptor extends CacheInterceptor {
     if (!isGetRequest || request.query.cache === 'no-cache') {
       return undefined;
     }
+    if (request.query.cache === 'clear-cache') {
+      this.cacheManager.reset();
+    }
     return key;
   }
 }
