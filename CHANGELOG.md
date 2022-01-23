@@ -1,3 +1,12 @@
+## [2.3.1](https://github.com/Sanofi-IADC/konviw/compare/v2.3.0...v2.3.1) (2022-01-20)
+
+
+### Bug Fixes
+
+* express dependency for swagger-ui-express ([fcdb7f3](https://github.com/Sanofi-IADC/konviw/commit/fcdb7f373f8e4922f40f95706457f6a4e8768ad9))
+* package.json.lock ([6ea44b1](https://github.com/Sanofi-IADC/konviw/commit/6ea44b18a3e62828d2e8b19672915137e76bc252))
+* rollback package.json ([3ceb41d](https://github.com/Sanofi-IADC/konviw/commit/3ceb41d177ec00b4e8340bcd2ac3696e0e155c08))
+
 # [2.3.0](https://github.com/Sanofi-IADC/konviw/compare/v2.2.0...v2.3.0) (2022-01-19)
 
 
