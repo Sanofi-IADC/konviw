@@ -361,10 +361,11 @@ section.has-light-background h6 {
 
 .reveal table th,
 .reveal table td {
+  font-size: 0.8em;
   text-align: left;
   padding: 0.1em 0.1em 0.1em 0.1em;
   border-bottom: 1px solid;
-  vertical-align: center;
+  vertical-align: top;
 }
 
 .reveal table th[align='center'],

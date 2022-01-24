@@ -105,7 +105,6 @@ export class ProxyPageService {
     fixExpander()(this.context);
     fixUserProfile()(this.context);
     fixVideo()(this.context);
-    fixTableColGroup()(this.context);
     fixEmptyLineIncludePage()(this.context);
     fixRoadmap(this.config)(this.context);
     fixCode()(this.context);
@@ -158,7 +157,7 @@ export class ProxyPageService {
     fixExpander()(this.context);
     fixUserProfile()(this.context);
     fixVideo()(this.context);
-    fixTableColGroup()(this.context);
+    // fixTableColGroup()(this.context);
     fixEmptyLineIncludePage()(this.context);
     fixRoadmap(this.config)(this.context);
     fixFrameAllowFullscreen()(this.context);
