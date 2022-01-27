@@ -42,7 +42,8 @@ export default (): Step => {
           konviwSpaceKey: "${context.getSpaceKey()}",
           konviwPageId: "${context.getPageId()}",
           konviwTitle: "${context.getTitle()}",
-          konviwExcerpt: "${context.getExcerpt()}"
+          konviwExcerpt: "${context.getExcerpt()}",
+          konviwVersion: "${context.getVersion()}",
         }
         window.iFrameResizer = {
           onReady: function() {

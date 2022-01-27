@@ -12,6 +12,7 @@ export class ContextService {
   private view = '';
   private cheerioBody = cheerio.load('html');
   private title = '';
+  private version = {};
   private author = '';
   private email = '';
   private avatar = '';
@@ -78,8 +79,16 @@ export class ContextService {
     return this.title;
   }
 
+  getVersion() {
+    return this.version;
+  }
+
   setTitle(title: string): void {
     this.title = title;
+  }
+
+  setVersion(version: {}): void {
+    this.version = version;
   }
 
   getCheerioBody(): cheerio.CheerioAPI {

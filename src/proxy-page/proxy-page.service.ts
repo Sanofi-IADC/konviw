@@ -56,6 +56,7 @@ export class ProxyPageService {
   ) {
     this.context.Init(spaceKey, pageId, theme, style);
     this.context.setTitle(data.title);
+    this.context.setVersion({version : data.version.number, lastModification : data.version.friendlyWhen, modificationBy : data.version.by.publicName});
     this.context.setView(view);
     this.context.setHtmlBody(data.body.view.value);
     this.context.setAuthor(data.history.createdBy.displayName);
@@ -91,8 +92,10 @@ export class ProxyPageService {
     view: string,
   ): Promise<string> {
     const { data } = await this.confluence.getPage(spaceKey, pageId);
+    console.log("#### data : ", data);
     this.initContext(spaceKey, pageId, theme, style, view, data);
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
+    console.log("#### Context : ", this.context);
     fixHtmlHead(this.config)(this.context);
     fixContentWidth()(this.context);
     fixLinks(this.config)(this.context);
