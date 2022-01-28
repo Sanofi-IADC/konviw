@@ -12,7 +12,7 @@ export class ContextService {
   private view = '';
   private cheerioBody = cheerio.load('html');
   private title = '';
-  private version = {};
+  private version;
   private author = '';
   private email = '';
   private avatar = '';
