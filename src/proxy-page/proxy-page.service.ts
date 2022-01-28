@@ -29,6 +29,7 @@ import fixDrawioMacro from './steps/fixDrawio';
 import fixChartMacro from './steps/fixChart';
 import fixRoadmap from './steps/fixRoadmap';
 import fixFrameAllowFullscreen from './steps/fixFrameAllowFullscreen';
+import fixImageSize from './steps/fixImageSize';
 import addLibrariesCSS from './steps/addLibrariesCSS';
 import addLibrariesJS from './steps/addLibrariesJS';
 import addSlidesCSS from './steps/addSlidesCSS';
@@ -108,6 +109,7 @@ export class ProxyPageService {
     fixRoadmap(this.config)(this.context);
     fixCode()(this.context);
     fixFrameAllowFullscreen()(this.context);
+    fixImageSize()(this.context);
     if (type === 'blog') {
       addHeaderBlog()(this.context);
     } else if (type !== 'notitle') {
