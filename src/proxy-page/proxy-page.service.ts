@@ -92,10 +92,8 @@ export class ProxyPageService {
     view: string,
   ): Promise<string> {
     const { data } = await this.confluence.getPage(spaceKey, pageId);
-    console.log("#### data : ", data);
     this.initContext(spaceKey, pageId, theme, style, view, data);
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
-    console.log("#### Context : ", this.context);
     fixHtmlHead(this.config)(this.context);
     fixContentWidth()(this.context);
     fixLinks(this.config)(this.context);
