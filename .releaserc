@@ -3,7 +3,7 @@
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
     ["@semantic-release/changelog", {
-      "changelogFile": "CHANGELOG.md",
+      "changelogFile": "CHANGELOG.md"
     }],
     ["@semantic-release/npm", {
       "npmPublish": false
@@ -15,8 +15,8 @@
     ["@semantic-release/github"]
   ],
   "branches": [
-    'maintenance/+([0-9])?(.{+([0-9]),x}).x',
-    'main'
+    "maintenance/+([0-9])?(.{+([0-9]),x}).x",
+    "main"
   ],
   "debug": true,
   "dryRun": false
