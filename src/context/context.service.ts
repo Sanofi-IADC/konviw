@@ -87,7 +87,7 @@ export class ContextService {
     this.title = title;
   }
 
-  setVersion(version: {}): void {
+  setVersion(version: any): void {
     this.version = version;
   }
 

@@ -56,7 +56,11 @@ export class ProxyPageService {
   ) {
     this.context.Init(spaceKey, pageId, theme, style);
     this.context.setTitle(data.title);
-    this.context.setVersion({version : data.version.number, lastModification : data.version.friendlyWhen, modificationBy : data.version.by.publicName});
+    this.context.setVersion({
+      version: data.version.number,
+      lastModification: data.version.friendlyWhen,
+      modificationBy: data.version.by.publicName,
+    });
     this.context.setView(view);
     this.context.setHtmlBody(data.body.view.value);
     this.context.setAuthor(data.history.createdBy.displayName);
