@@ -14,6 +14,6 @@
     "copyfiles": "2.4.1",
     "gh-pages": "3.2.3",
     "iframe-resizer": "4.3.2",
-    "vuepress": "^2.0.0-beta.33"
+    "vuepress": "2.0.0-beta.33"
   }
 }
