@@ -12,7 +12,6 @@ import fixHtmlHead from './steps/fixHtmlHead';
 import fixUserProfile from './steps/fixUserProfile';
 import fixContentWidth from './steps/fixContentWidth';
 import fixVideo from './steps/fixVideo';
-import fixTableColGroup from './steps/fixTableColGroup';
 import fixEmptyLineIncludePage from './steps/fixEmptyLineIncludePage';
 import fixCode from './steps/fixCode';
 import addCustomCss from './steps/addCustomCss';
@@ -112,7 +111,6 @@ export class ProxyPageService {
     fixExpander()(this.context);
     fixUserProfile()(this.context);
     fixVideo()(this.context);
-    fixTableColGroup()(this.context);
     fixEmptyLineIncludePage()(this.context);
     fixRoadmap(this.config)(this.context);
     fixCode()(this.context);
@@ -165,7 +163,6 @@ export class ProxyPageService {
     fixExpander()(this.context);
     fixUserProfile()(this.context);
     fixVideo()(this.context);
-    fixTableColGroup()(this.context);
     fixEmptyLineIncludePage()(this.context);
     fixRoadmap(this.config)(this.context);
     fixFrameAllowFullscreen()(this.context);
