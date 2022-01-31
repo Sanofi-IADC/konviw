@@ -1,14 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
-// import { ApiService } from '../api.service';
 import { ProxyApiService } from '../../../src/proxy-api/proxy-api.service';
 import { ContextService } from '../../../src/context/context.service';
 import { ConfluenceService } from '../../../src/confluence/confluence.service';
 import { JiraService } from '../../../src/jira/jira.service';
-import { ConfigService, ConfigModule } from '@nestjs/config';
-import { AxiosResponse } from 'axios';
+import { ConfigModule } from '@nestjs/config';
 import { Content } from '../../../src/confluence/confluence.interface';
 import configuration from '../../../src/config/configuration.test';
-import fixCode from '../../../src/proxy-page/steps/fixCode';
 
 jest.mock('../../../src/confluence/confluence.service');
 jest.mock('../../../src/jira/jira.service');
