@@ -1,3 +1,15 @@
+# [2.4.0](https://github.com/Sanofi-IADC/konviw/compare/v2.3.1...v2.4.0) (2022-01-24)
+
+
+### Bug Fixes
+
+* remove some code smells ([9874aff](https://github.com/Sanofi-IADC/konviw/commit/9874affffea09113bc3b363b65d097beeb335311))
+
+
+### Features
+
+* **tables:** render tables with colgroup ([13a8d03](https://github.com/Sanofi-IADC/konviw/commit/13a8d03d4cefe13a2707a4bca4b556da792811bb))
+
 ## [2.3.1](https://github.com/Sanofi-IADC/konviw/compare/v2.3.0...v2.3.1) (2022-01-20)
 
 
