@@ -43,7 +43,7 @@ export default (): Step => {
           konviwPageId: "${context.getPageId()}",
           konviwTitle: "${context.getTitle()}",
           konviwExcerpt: "${context.getExcerpt()}",
-          konviwVersion: "${context.getVersion()}",
+          konviwVersion: "${JSON.stringify(context.getVersion())}",
         }
         window.iFrameResizer = {
           onReady: function() {
