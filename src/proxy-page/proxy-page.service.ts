@@ -160,6 +160,7 @@ export class ProxyPageService {
     fixVideo()(this.context);
     fixEmptyLineIncludePage()(this.context);
     fixRoadmap(this.config)(this.context);
+    fixImageSize()(this.context);
     fixFrameAllowFullscreen()(this.context);
     delUnnecessaryCode()(this.context);
     await addJiraPromise;
