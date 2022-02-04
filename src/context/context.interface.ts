@@ -1,5 +1,5 @@
 export interface Version {
-    versionNumber: number;
-    lastModification: Date;
-    modificationBy: string;
-  }
+  versionNumber: number;
+  lastModification: Date;
+  modificationBy: string;
+}

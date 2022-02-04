@@ -61,7 +61,7 @@ export class ProxyPageService {
       versionNumber: data.version.number,
       lastModification: new Date(data.version.friendlyWhen),
       modificationBy: data.version.by.publicName,
-    }
+    };
     this.context.setVersion(version);
     this.context.setView(view);
     this.context.setHtmlBody(data.body.view.value);
