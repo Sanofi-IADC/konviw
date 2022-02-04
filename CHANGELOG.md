@@ -1,3 +1,11 @@
+## [2.4.1](https://github.com/Sanofi-IADC/konviw/compare/v2.4.0...v2.4.1) (2022-02-03)
+
+
+### Bug Fixes
+
+* FND-758 img resizing ([aa4bd72](https://github.com/Sanofi-IADC/konviw/commit/aa4bd720c49dae007a7a592e4c439d49fe92151c))
+* **slides:** add fixImgeSize also in renderSlides ([1e72f9d](https://github.com/Sanofi-IADC/konviw/commit/1e72f9dfbe4176f7e8f975bbe2a9d7342cd37536))
+
 # [2.4.0](https://github.com/Sanofi-IADC/konviw/compare/v2.3.1...v2.4.0) (2022-01-24)
 
 
