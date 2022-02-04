@@ -1,1 +1,0 @@
-import{t as o}from"./app.d99a111a.js";import{_ as n}from"./plugin-vue_export-helper.21dcd24c.js";const e="2.4.2",s={name:"KonviwVersion",data(){return{konviwVersion:e}}};function t(i,a,p,c,r,_){return o(r.konviwVersion)}var u=n(s,[["render",t]]);export{u as default};
