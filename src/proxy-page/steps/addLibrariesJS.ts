@@ -39,10 +39,11 @@ export default (): Step => {
       <script type="module">
         const konviwMessage = {
           konviwFrameUrl: window.location.href,
-          konviwSpaceKey: "${context.getSpaceKey()}",
-          konviwPageId: "${context.getPageId()}",
-          konviwTitle: "${context.getTitle()}",
-          konviwExcerpt: "${context.getExcerpt()}"
+          konviwSpaceKey: '${context.getSpaceKey()}',
+          konviwPageId: '${context.getPageId()}',
+          konviwTitle: '${context.getTitle()}',
+          konviwExcerpt: '${context.getExcerpt()}',
+          konviwVersion: '${JSON.stringify(context.getVersion())}',
         }
         window.iFrameResizer = {
           onReady: function() {
