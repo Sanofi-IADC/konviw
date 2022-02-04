@@ -1,3 +1,10 @@
+## [2.4.2](https://github.com/Sanofi-IADC/konviw/compare/v2.4.1...v2.4.2) (2022-02-04)
+
+
+### Bug Fixes
+
+* **fixImageSize:** missing close getPerfMeasure ([dba9967](https://github.com/Sanofi-IADC/konviw/commit/dba996788ac00d95f365312d9209d90c2bee6e4b))
+
 ## [2.4.1](https://github.com/Sanofi-IADC/konviw/compare/v2.4.0...v2.4.1) (2022-02-03)
 
 
