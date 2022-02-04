@@ -1,3 +1,17 @@
+# [2.5.0](https://github.com/Sanofi-IADC/konviw/compare/v2.4.2...v2.5.0) (2022-02-04)
+
+
+### Features
+
+* FND-1129 add version to the konviw API ([4159b5e](https://github.com/Sanofi-IADC/konviw/commit/4159b5ec1d451d250c90c20e2a8e4ef98753cabd))
+* FND-1129 add version to the konviw API ([9962c6c](https://github.com/Sanofi-IADC/konviw/commit/9962c6cdaeb9514884546904011f5303f4b674fc))
+* FND-1129 add version to the konviw API ([534a4cd](https://github.com/Sanofi-IADC/konviw/commit/534a4cd34277e4bc45933310ee92377efe96d155))
+* FND-1129 add version to the konviw API ([be2e902](https://github.com/Sanofi-IADC/konviw/commit/be2e902681c3d3646b437622f41fe73d1fdcd682))
+* FND-1129 add version to the konviw API - Small changes ([5c63fb6](https://github.com/Sanofi-IADC/konviw/commit/5c63fb6d45fd84e6dd622df62c3eb9be2fffb705))
+* FND-1129 add version to the konviw API - Small changes ([51cfb32](https://github.com/Sanofi-IADC/konviw/commit/51cfb32c9bd5cd05f25408dc852a62e58aeac706))
+* FND-1129 add version to the konviw API - Small changes ([df02686](https://github.com/Sanofi-IADC/konviw/commit/df02686a56a1166b09a50748ca043acd6de588b6))
+* FND-1129 fix spacing ([823836e](https://github.com/Sanofi-IADC/konviw/commit/823836e55e26bc95c221420fb37326a6c976bb7e))
+
 ## [2.4.2](https://github.com/Sanofi-IADC/konviw/compare/v2.4.1...v2.4.2) (2022-02-04)
 
 
