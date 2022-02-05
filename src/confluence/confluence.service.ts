@@ -95,13 +95,15 @@ export class ConfluenceService {
    * @param spaceKey {string} 'iadc' - space key where the page belongs
    * @param query {string} - space key identifying the document space from Confluence
    * @param type {string} 'blogpost' - type of Confluence page, either 'page' or 'blogpost'
+   * @param labels {string} 'label1,label2' - labels to include as filters in the search
    * @param maxResults {number} '15' - limit of records to be retrieved
    * @param cursorResults {string} 'URI' - one of the two URIs provided by Confluence to navigate to the next or previous set of records
    */
   async Search(
-    spaceKey: string,
+    spaceKeys: string,
     query = undefined,
     type = undefined,
+    labels = undefined,
     maxResult = 999,
     cursorResults = '',
   ): Promise<AxiosResponse<SearchResults>> {
@@ -112,20 +114,35 @@ export class ConfluenceService {
       uriSearch = `/wiki${cursorResults}`;
     } else {
       uriSearch = '/wiki/rest/api/search';
+      // filter by the type received or search both blogposts and pages
       cql = type ? `(type='${type}')` : `(type=blogpost OR type=page)`;
-      // draft documents or tag as private won't be included in the search
+
+      // draft documents or tag as private pages won't be included in the search
       cql = `${cql} AND (label!=draft) AND (label!='${this.config.get(
         'konviw.private',
       )}')`;
-      // there may be multiple spaces separated by '|'
-      // a minimum of one space is mandatory
-      const spaces: string[] = spaceKey.split('|');
-      const cqlSpacesStr = spaces
+
+      // let's search additional labels while there may be multiple labels separated by ','
+      const labelsList: string[] = labels?.split(',');
+      if (labelsList?.length > 0) {
+        const cqlLablelsStr = labelsList
+          .map((label: any): string => {
+            return `(label='${label}')`;
+          })
+          .join(' AND ');
+        cql = `${cql} AND (${cqlLablelsStr})`;
+      }
+
+      // there may be multiple spaces separated by '|' and a minimum of one space is mandatory
+      const spacesList: string[] = spaceKeys.split('|');
+      const cqlSpacesStr = spacesList
         .map((space: any): string => {
           return `(space=${space})`;
         })
         .join(' OR ');
       cql = `${cql} AND (${cqlSpacesStr})`;
+
+      // and finally let's add the searched term, if any
       cql = query ? `${cql} AND (text ~ "${query}")` : cql;
       params = {
         limit: maxResult, // number of item per page

@@ -31,25 +31,28 @@ export class ProxyApiService {
    * @function getSearchResults Service
    * @description Search content in Confluence
    * @return Promise {string}
-   * @param spaceKey {string} 'iadc' - space key where the page belongs
+   * @param spaceKeys {string} 'iadc|dgbi' - space key where the page belongs
    * @param query {string} 'vision factory' - words to be searched
    * @param type {string} 'blogpost' - type of Confluence page, either 'page' or 'blogpost'
+   * @param labels {string} 'label1,label2' - labels to include as filters in the search
    * @param maxResults {number} '15' - limit of records to be retrieved
    * @param cursorResults {string} 'URI' - one of the two URIs provided by Confluence to navigate to the next or previous set of records
    */
   async getSearchResults(
-    spaceKey: string,
+    spaceKeys: string,
     query = undefined,
     type = undefined,
+    labels = undefined,
     maxResults = 999,
     cursorResults = '',
   ): Promise<KonviwResults> {
     // destructuring data gets implicity typed from the response
     // while we explicitly type it for better control
     const { data }: { data: SearchResults } = await this.confluence.Search(
-      spaceKey,
+      spaceKeys,
       query,
       type,
+      labels,
       maxResults,
       cursorResults,
     );
@@ -59,7 +62,7 @@ export class ProxyApiService {
 
     const parseResults: KonviwContent[] = data.results.map(
       (doc: ResultsContent) => {
-        this.context.Init(spaceKey, doc.content.id);
+        this.context.Init(spaceKeys, doc.content.id);
         this.context.setHtmlBody(doc.content.body.view.value);
         const atlassianIadcRegEx = new RegExp(`${baseURL}/wiki/`);
         parseHeaderBlog()(this.context);
