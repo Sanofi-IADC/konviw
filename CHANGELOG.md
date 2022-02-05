@@ -1,3 +1,15 @@
+# [2.6.0](https://github.com/Sanofi-IADC/konviw/compare/v2.5.0...v2.6.0) (2022-02-05)
+
+
+### Bug Fixes
+
+* **proxy-api:** remove optional params getBlogPost ([ab63071](https://github.com/Sanofi-IADC/konviw/commit/ab6307189848fedf6743cd05a6d7925e7ba419bf))
+
+
+### Features
+
+* **proxy-api:** add labels filter to search api ([c0e334f](https://github.com/Sanofi-IADC/konviw/commit/c0e334f1c47a2d11b50d5e285584be47ae248195))
+
 # [2.5.0](https://github.com/Sanofi-IADC/konviw/compare/v2.4.2...v2.5.0) (2022-02-04)
 
 
