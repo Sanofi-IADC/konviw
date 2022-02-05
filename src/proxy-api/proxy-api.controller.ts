@@ -27,9 +27,6 @@ export class ProxyApiController {
       params.spaceKey,
       undefined,
       'blogpost',
-      undefined,
-      999,
-      undefined,
     );
   }
 
