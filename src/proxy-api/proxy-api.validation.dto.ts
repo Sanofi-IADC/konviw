@@ -42,6 +42,15 @@ export class SearchQueryDTO {
 
   @ApiPropertyOptional({
     required: false,
+    description: `The Confluence labels separated by ',' which will be filtered as AND.`,
+    example: 'label1,label2',
+  })
+  @IsOptional()
+  @IsString()
+  labels: string;
+
+  @ApiPropertyOptional({
+    required: false,
     description: `The maximum number of results to retrieve`,
     example: '20',
   })
@@ -51,7 +60,7 @@ export class SearchQueryDTO {
   maxResults: number;
 
   // This query param must encode all special characters, including: , / ? : @ & = + $ #
-  // For instance using encodeURIComponent()
+  // For instance using encodeURIComponent(meta.next)
   @ApiPropertyOptional({
     required: false,
     description: `The URL path received by the API after a previous search to perform moves to the next or previous page of results.`,
