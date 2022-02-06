@@ -2,6 +2,8 @@ import { Injectable, Logger } from '@nestjs/common';
 import * as cheerio from 'cheerio';
 import { performance, PerformanceObserver } from 'perf_hooks';
 import { ConfigService } from '@nestjs/config';
+import { Version } from './context.interface';
+
 @Injectable()
 export class ContextService {
   private readonly logger = new Logger(ContextService.name);
@@ -12,6 +14,7 @@ export class ContextService {
   private view = '';
   private cheerioBody = cheerio.load('html');
   private title = '';
+  private version: Version;
   private author = '';
   private email = '';
   private avatar = '';
@@ -78,8 +81,16 @@ export class ContextService {
     return this.title;
   }
 
+  getVersion(): Version {
+    return this.version;
+  }
+
   setTitle(title: string): void {
     this.title = title;
+  }
+
+  setVersion(version: Version): void {
+    this.version = version;
   }
 
   getCheerioBody(): cheerio.CheerioAPI {

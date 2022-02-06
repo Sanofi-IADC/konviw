@@ -1,3 +1,44 @@
+# [2.6.0](https://github.com/Sanofi-IADC/konviw/compare/v2.5.0...v2.6.0) (2022-02-05)
+
+
+### Bug Fixes
+
+* **proxy-api:** remove optional params getBlogPost ([ab63071](https://github.com/Sanofi-IADC/konviw/commit/ab6307189848fedf6743cd05a6d7925e7ba419bf))
+
+
+### Features
+
+* **proxy-api:** add labels filter to search api ([c0e334f](https://github.com/Sanofi-IADC/konviw/commit/c0e334f1c47a2d11b50d5e285584be47ae248195))
+
+# [2.5.0](https://github.com/Sanofi-IADC/konviw/compare/v2.4.2...v2.5.0) (2022-02-04)
+
+
+### Features
+
+* FND-1129 add version to the konviw API ([4159b5e](https://github.com/Sanofi-IADC/konviw/commit/4159b5ec1d451d250c90c20e2a8e4ef98753cabd))
+* FND-1129 add version to the konviw API ([9962c6c](https://github.com/Sanofi-IADC/konviw/commit/9962c6cdaeb9514884546904011f5303f4b674fc))
+* FND-1129 add version to the konviw API ([534a4cd](https://github.com/Sanofi-IADC/konviw/commit/534a4cd34277e4bc45933310ee92377efe96d155))
+* FND-1129 add version to the konviw API ([be2e902](https://github.com/Sanofi-IADC/konviw/commit/be2e902681c3d3646b437622f41fe73d1fdcd682))
+* FND-1129 add version to the konviw API - Small changes ([5c63fb6](https://github.com/Sanofi-IADC/konviw/commit/5c63fb6d45fd84e6dd622df62c3eb9be2fffb705))
+* FND-1129 add version to the konviw API - Small changes ([51cfb32](https://github.com/Sanofi-IADC/konviw/commit/51cfb32c9bd5cd05f25408dc852a62e58aeac706))
+* FND-1129 add version to the konviw API - Small changes ([df02686](https://github.com/Sanofi-IADC/konviw/commit/df02686a56a1166b09a50748ca043acd6de588b6))
+* FND-1129 fix spacing ([823836e](https://github.com/Sanofi-IADC/konviw/commit/823836e55e26bc95c221420fb37326a6c976bb7e))
+
+## [2.4.2](https://github.com/Sanofi-IADC/konviw/compare/v2.4.1...v2.4.2) (2022-02-04)
+
+
+### Bug Fixes
+
+* **fixImageSize:** missing close getPerfMeasure ([dba9967](https://github.com/Sanofi-IADC/konviw/commit/dba996788ac00d95f365312d9209d90c2bee6e4b))
+
+## [2.4.1](https://github.com/Sanofi-IADC/konviw/compare/v2.4.0...v2.4.1) (2022-02-03)
+
+
+### Bug Fixes
+
+* FND-758 img resizing ([aa4bd72](https://github.com/Sanofi-IADC/konviw/commit/aa4bd720c49dae007a7a592e4c439d49fe92151c))
+* **slides:** add fixImgeSize also in renderSlides ([1e72f9d](https://github.com/Sanofi-IADC/konviw/commit/1e72f9dfbe4176f7e8f975bbe2a9d7342cd37536))
+
 # [2.4.0](https://github.com/Sanofi-IADC/konviw/compare/v2.3.1...v2.4.0) (2022-01-24)
 
 
