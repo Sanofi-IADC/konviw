@@ -7,7 +7,7 @@ export default (config: ConfigService): Step => {
   return (context: ContextService): void => {
     context.setPerfMark('fixRoadmap');
     const $ = context.getCheerioBody();
-    const basePath = config.get('web.basePath');
+    const basePath = config.get('web.absoluteBasePath');
 
     // Add link to pages when defined for a bar
     $('div.roadmap-macro-view .bar-title').each(

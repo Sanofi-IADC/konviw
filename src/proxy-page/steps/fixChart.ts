@@ -16,7 +16,7 @@ export default (config: ConfigService): Step => {
   return (context: ContextService): void => {
     context.setPerfMark('fixChartMacro');
     const $ = context.getCheerioBody();
-    const webBasePath = config.get('web.basePath');
+    const webBasePath = config.get('web.absoluteBasePath');
 
     // Div with div.chart-bootstrap-wrapper is used for Chart marcros
     $('.chart-bootstrap-wrapper').each(
