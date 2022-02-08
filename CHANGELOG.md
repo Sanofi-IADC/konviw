@@ -1,3 +1,15 @@
+# [2.8.0](https://github.com/Sanofi-IADC/konviw/compare/v2.7.1...v2.8.0) (2022-02-08)
+
+
+### Bug Fixes
+
+* spacing issue ([8973fb8](https://github.com/Sanofi-IADC/konviw/commit/8973fb830fb3b2df5669b767dc2cb312e2440855))
+
+
+### Features
+
+* FND-1157 Unit test for fixImageSize ([4bdb90a](https://github.com/Sanofi-IADC/konviw/commit/4bdb90adab81a103e21810018f5e0d8a642f5eba))
+
 ## [2.7.1](https://github.com/Sanofi-IADC/konviw/compare/v2.7.0...v2.7.1) (2022-02-08)
 
 
