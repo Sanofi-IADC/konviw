@@ -1,3 +1,11 @@
+## [2.7.1](https://github.com/Sanofi-IADC/konviw/compare/v2.7.0...v2.7.1) (2022-02-08)
+
+
+### Bug Fixes
+
+* port typo ([dedc24f](https://github.com/Sanofi-IADC/konviw/commit/dedc24f8ef7d84e17064cf2cc0355794a9bfe180))
+* remove port ([9d9995f](https://github.com/Sanofi-IADC/konviw/commit/9d9995f017e83384d192f532bdd8df4b901e3e37))
+
 # [2.7.0](https://github.com/Sanofi-IADC/konviw/compare/v2.6.0...v2.7.0) (2022-02-08)
 
 
