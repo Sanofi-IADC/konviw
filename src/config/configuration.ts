@@ -10,7 +10,7 @@ export default (): Config => ({
     basePath: process.env.CPV_BASEPATH,
     baseHost: process.env.CPV_BASEHOST,
     absoluteBasePath: `${process.env.CPV_BASEHOST}:${
-      (process.env.PORT && parseInt(process.env.PsORT, 10)) || 3000
+      (process.env.PORT && parseInt(process.env.PORT, 10)) || 3000
     }${process.env.CPV_BASEPATH}`,
   },
   confluence: {
