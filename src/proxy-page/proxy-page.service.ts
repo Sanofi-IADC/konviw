@@ -99,7 +99,15 @@ export class ProxyPageService {
     view: string,
   ): Promise<string> {
     const { data } = await this.confluence.getPage(spaceKey, pageId);
-    this.initContext(spaceKey, pageId, theme, style, view, data);
+    this.context.initPageContext(
+      spaceKey,
+      pageId,
+      theme,
+      style,
+      data,
+      true,
+      view,
+    );
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
     fixHtmlHead(this.config)(this.context);
     fixContentWidth()(this.context);
@@ -156,7 +164,15 @@ export class ProxyPageService {
     transition: string,
   ): Promise<string> {
     const { data } = await this.confluence.getPage(spaceKey, pageId);
-    this.initContext(spaceKey, pageId, 'light', style, '', data);
+    this.context.initPageContext(
+      spaceKey,
+      pageId,
+      'light',
+      style,
+      data,
+      true,
+      '',
+    );
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
     addSlidesCSS(this.config)(this.context);
     fixHtmlHead(this.config)(this.context);

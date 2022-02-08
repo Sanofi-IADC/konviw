@@ -6,11 +6,13 @@ import { createModuleRefForStep } from './utils';
 describe('ConfluenceProxy / fixLinks', () => {
   let context: ContextService;
   let config: ConfigService;
+  let webBasePath = '';
 
   beforeEach(async () => {
     const moduleRef = await createModuleRefForStep();
     context = moduleRef.get<ContextService>(ContextService);
     config = moduleRef.get<ConfigService>(ConfigService);
+    webBasePath = config.get('web.absoluteBasePath');
 
     context.Init('XXX', '123456', 'dark');
   });
@@ -26,8 +28,8 @@ describe('ConfluenceProxy / fixLinks', () => {
     step(context);
     const expected =
       '<html><head></head><body><div id="Content">' +
-      '<a href="/cpv/wiki/spaces/XXX/pages/4242/Hello+World">test</a>' +
-      '<a href="/cpv/wiki/spaces/XXX/pages/4343/Hello+World">test2</a>' +
+      `<a href="${webBasePath}/wiki/spaces/XXX/pages/4242/Hello+World">test</a>` +
+      `<a href="${webBasePath}/wiki/spaces/XXX/pages/4343/Hello+World">test2</a>` +
       '</div></body></html>';
     expect(context.getHtmlBody()).toEqual(expected);
   });
@@ -43,8 +45,8 @@ describe('ConfluenceProxy / fixLinks', () => {
     step(context);
     const expected =
       '<html><head></head><body><div id="Content">' +
-      '<a href="/cpv/wiki/spaces/XXX/pages/4242/Hello+World">test</a>' +
-      '<a href="/cpv/wiki/spaces/XXX/pages/4343/Hello+World">test2</a>' +
+      `<a href="${webBasePath}/wiki/spaces/XXX/pages/4242/Hello+World">test</a>` +
+      `<a href="${webBasePath}/wiki/spaces/XXX/pages/4343/Hello+World">test2</a>` +
       '</div></body></html>';
     expect(context.getHtmlBody()).toEqual(expected);
   });
@@ -72,8 +74,8 @@ describe('ConfluenceProxy / fixLinks', () => {
       '<h3 id="HelloWorld-ThisIsAnotherHeading">' +
       'Nulla tempus vitae ipsum vitae rhoncus.' +
       '</h3> ' +
-      '<a href="/cpv/wiki/spaces/XXX/pages/4242/#HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">Hello World | Nulla tempus vitae ipsum vitae rhoncus.</a>' +
-      '<a href="/cpv/wiki/spaces/XXX/pages/4343/#HelloWorld-ThisIsAnotherHeading">Hello World | This Is Another Heading</a>' +
+      `<a href="${webBasePath}/wiki/spaces/XXX/pages/4242/#HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">Hello World | Nulla tempus vitae ipsum vitae rhoncus.</a>` +
+      `<a href="${webBasePath}/wiki/spaces/XXX/pages/4343/#HelloWorld-ThisIsAnotherHeading">Hello World | This Is Another Heading</a>` +
       '</div></body></html>';
     expect(context.getHtmlBody()).toEqual(expected);
   });
@@ -101,8 +103,8 @@ describe('ConfluenceProxy / fixLinks', () => {
       '<h3 id="HelloWorld-ThisIsAnotherHeading">' +
       'Nulla tempus vitae ipsum vitae rhoncus.' +
       '</h3> ' +
-      '<a href="/cpv/wiki/spaces/XXX/pages/4242/#HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">test</a>' +
-      '<a href="/cpv/wiki/spaces/XXX/pages/4343/#HelloWorld-ThisIsAnotherHeading">test2</a>' +
+      `<a href="${webBasePath}/wiki/spaces/XXX/pages/4242/#HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">test</a>` +
+      `<a href="${webBasePath}/wiki/spaces/XXX/pages/4343/#HelloWorld-ThisIsAnotherHeading">test2</a>` +
       '</div></body></html>';
     expect(context.getHtmlBody()).toEqual(expected);
   });
@@ -130,8 +132,8 @@ describe('ConfluenceProxy / fixLinks', () => {
       '<h3 id="HelloWorld-ThisIsAnotherHeading">' +
       'Nulla tempus vitae ipsum vitae rhoncus.' +
       '</h3> ' +
-      '<a href="/cpv/wiki/spaces/XXX/pages/4242/#HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">Hello World | Nulla tempus vitae ipsum vitae rhoncus.</a>' +
-      '<a href="/cpv/wiki/spaces/XXX/pages/4343/#HelloWorld-ThisIsAnotherHeading">Hello World | This Is Another Heading</a>' +
+      `<a href="${webBasePath}/wiki/spaces/XXX/pages/4242/#HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">Hello World | Nulla tempus vitae ipsum vitae rhoncus.</a>` +
+      `<a href="${webBasePath}/wiki/spaces/XXX/pages/4343/#HelloWorld-ThisIsAnotherHeading">Hello World | This Is Another Heading</a>` +
       '</div></body></html>';
     expect(context.getHtmlBody()).toEqual(expected);
   });
@@ -159,8 +161,8 @@ describe('ConfluenceProxy / fixLinks', () => {
       '<h3 id="HelloWorld-ThisIsAnotherHeading">' +
       'Nulla tempus vitae ipsum vitae rhoncus.' +
       '</h3> ' +
-      '<a href="/cpv/wiki/spaces/XXX/pages/4242/#HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">test</a>' +
-      '<a href="/cpv/wiki/spaces/XXX/pages/4343/#HelloWorld-ThisIsAnotherHeading">test2</a>' +
+      `<a href="${webBasePath}/wiki/spaces/XXX/pages/4242/#HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">test</a>` +
+      `<a href="${webBasePath}/wiki/spaces/XXX/pages/4343/#HelloWorld-ThisIsAnotherHeading">test2</a>` +
       '</div></body></html>';
     expect(context.getHtmlBody()).toEqual(expected);
   });
@@ -176,8 +178,8 @@ describe('ConfluenceProxy / fixLinks', () => {
     step(context);
     const expected =
       '<html><head></head><body><div id="Content">' +
-      '<img src="/cpv/wiki/download/thumbnails/241271570/image-20200312-161409.png?width=521&amp;height=196">' +
-      '<img src="/cpv/wiki/download/thumbnails/241271571/image-20200312-161401.png?width=521&amp;height=196">' +
+      `<img src="${webBasePath}/wiki/download/thumbnails/241271570/image-20200312-161409.png?width=521&amp;height=196">` +
+      `<img src="${webBasePath}/wiki/download/thumbnails/241271571/image-20200312-161401.png?width=521&amp;height=196">` +
       '</div></body></html>';
     expect(context.getHtmlBody()).toEqual(expected);
   });

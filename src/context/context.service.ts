@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import * as cheerio from 'cheerio';
 import { performance, PerformanceObserver } from 'perf_hooks';
 import { ConfigService } from '@nestjs/config';
+import { Content } from 'src/confluence/confluence.interface';
 import { Version } from './context.interface';
 
 @Injectable()
@@ -44,6 +45,36 @@ export class ContextService {
         logger.log(`Time for [${entry.name}] = ${entry.duration}ms`);
       });
       this.observer.observe({ entryTypes: ['measure'], buffered: false });
+    }
+  }
+
+  initPageContext(
+    spaceKey: string,
+    pageId: string,
+    theme: string,
+    style: string,
+    data: Content,
+    loadAsDocument = true,
+    view?: string,
+  ) {
+    this.Init(spaceKey, pageId, theme, style);
+    this.setTitle(data.title);
+    if (view) {
+      this.setView(view);
+    }
+    this.setHtmlBody(data.body.view.value, loadAsDocument);
+    this.setAuthor(data.history.createdBy.displayName);
+    this.setEmail(data.history.createdBy.email);
+    this.setAvatar(data.history.createdBy.profilePicture.path);
+    this.setWhen(data.history.createdDate);
+    if (
+      data.metadata?.properties['content-appearance-published'] &&
+      data.metadata?.properties['content-appearance-published'].value ===
+        'full-width'
+    ) {
+      this.setFullWidth(true);
+    } else {
+      this.setFullWidth(false);
     }
   }
 
@@ -99,6 +130,18 @@ export class ContextService {
 
   getHtmlBody(): string {
     return this.getCheerioBody().html();
+  }
+
+  getHtmlInnerBody(): string {
+    const $ = this.cheerioBody;
+    return $('Body').unwrap().html();
+  }
+
+  getHtmlHeader(): string {
+    const $ = this.cheerioBody;
+    const header = $('Head').unwrap();
+    header.find('title').remove();
+    return header.html();
   }
 
   getTextBody(): string {

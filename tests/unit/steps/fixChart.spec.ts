@@ -6,6 +6,7 @@ import { createModuleRefForStep } from './utils';
 
 const page = '123456';
 const attachmentFileName = 'awesome-diagram.png';
+let webBasePath = '';
 
 const exampleAttachmentSamePage = `
 <html>
@@ -116,6 +117,7 @@ describe('ConfluenceProxy / fixChartMacro', () => {
     const moduleRef = await createModuleRefForStep();
     context = moduleRef.get<ContextService>(ContextService);
     config = moduleRef.get<ConfigService>(ConfigService);
+    webBasePath = config.get('web.absoluteBasePath');
 
     context.Init('XXX', '123456', 'dark');
   });
@@ -129,7 +131,7 @@ describe('ConfluenceProxy / fixChartMacro', () => {
 
       images = getImages($, 'figure');
       const image = images[0];
-      const expectedSrc = `/cpv/wiki/download/attachments/123456/${attachmentFileName}`;
+      const expectedSrc = `${webBasePath}/wiki/download/attachments/123456/${attachmentFileName}`;
       const imgSrc = getImgSrc(image);
       expect(imgSrc).toBe(expectedSrc);
     });
@@ -144,7 +146,7 @@ describe('ConfluenceProxy / fixChartMacro', () => {
 
       images = getImages($, 'figure');
       const image = images[0];
-      const expectedSrc = `/cpv/wiki/download/attachments/${page}/${attachmentFileName}`;
+      const expectedSrc = `${webBasePath}/wiki/download/attachments/${page}/${attachmentFileName}`;
       const imgSrc = getImgSrc(image);
       expect(imgSrc).toBe(expectedSrc);
     });

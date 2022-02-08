@@ -11,7 +11,7 @@ export default (config: ConfigService): Step => {
 
     const $ = context.getCheerioBody();
     const confluenceBaseURL = config.get('confluence.baseURL');
-    const webBasePath = config.get('web.basePath');
+    const webBasePath = config.get('web.absoluteBasePath');
 
     // External links are tagged with the class external-link
     $('a.external-link').each((_index: number, element: cheerio.Element) => {
