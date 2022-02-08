@@ -22,8 +22,8 @@ export class ProxyApiController {
   private readonly logger = new Logger(ProxyApiController.name);
 
   /**
-   * @GET (controller) api/getAllPosts/:spaceKey
-   * @description Route to retrieve the list of blog posts in the defined spaceKey
+   * @GET (controller) api/BlogPosts/:spaceKey
+   * @description Route to retrieve the list of blog posts in a given spaceKey
    * @return {string} 'JSON' - JSON with Blog Posts content and metadata
    */
   @ApiOkResponse({ description: 'All blog posts from a given space key' })
@@ -31,20 +31,18 @@ export class ProxyApiController {
   async getBlogPosts(@Param() params: PostsParamsDTO): Promise<KonviwResults> {
     return this.proxyApi.getSearchResults(
       params.spaceKey,
-      '',
+      undefined,
       'blogpost',
-      999,
-      '',
     );
   }
 
   /**
    * @GET (controller) api/search
-   * @description Route to retrieve the list of Confluence pages matching the passed criteria
+   * @description Route to retrieve the list of Confluence pages matching a given criteria
    * @return {string} 'JSON' - JSON with searched pages and metadata
    */
   @ApiOkResponse({
-    description: 'All pages that matches the given search string',
+    description: 'All pages that matches the given search string and filters',
   })
   @Get('search')
   async getSearchResults(
@@ -54,6 +52,7 @@ export class ProxyApiController {
       queries.spaceKey,
       queries.query,
       queries.type,
+      queries.labels,
       queries.maxResults,
       queries.cursorResults,
     );
