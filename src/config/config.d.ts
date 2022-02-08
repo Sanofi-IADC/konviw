@@ -9,6 +9,7 @@ interface Config {
     port: number;
     basePath: string;
     baseHost: string;
+    absoluteBasePath: string;
   };
 
   confluence: {

@@ -2,8 +2,24 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ContextService } from '../context/context.service';
 import { ConfigService } from '@nestjs/config';
 import { ConfluenceService } from '../confluence/confluence.service';
-import { JiraService } from 'src/jira/jira.service';
+import { JiraService } from '../jira/jira.service';
 import parseHeaderBlog from './steps/parseHeaderBlog';
+import fixContentWidth from '../proxy-page/steps/fixContentWidth';
+import fixLinks from '../proxy-page/steps/fixLinks';
+import fixToc from '../proxy-page/steps/fixToc';
+import fixEmojis from '../proxy-page/steps/fixEmojis';
+import fixExpander from '../proxy-page/steps/fixExpander';
+import fixUserProfile from '../proxy-page/steps/fixUserProfile';
+import fixVideo from '../proxy-page/steps/fixVideo';
+import fixTableColGroup from '../proxy-page/steps/fixTableColGroup';
+import fixEmptyLineIncludePage from '../proxy-page/steps/fixEmptyLineIncludePage';
+import fixDrawio from '../proxy-page/steps/fixDrawio';
+import fixChart from '../proxy-page/steps/fixChart';
+import fixRoadmap from '../proxy-page/steps/fixRoadmap';
+import delUnnecessaryCode from '../proxy-page/steps/delUnnecessaryCode';
+import fixCode from '../proxy-page/steps/fixCode';
+import addCopyLinks from '../proxy-page/steps/addCopyLinks';
+import addJira from '../proxy-page/steps/addJira';
 // TODO: review and enable in future release
 // import getFirstExcerpt from './steps/getFirstExcerpt';
 
@@ -280,6 +296,56 @@ export class ProxyApiService {
     return {
       meta,
       spaces: parseResults,
+    };
+  }
+
+  /**
+   * Function getPage
+   *
+   * @description Returns a JSON KonviwContent object containing page content
+   * @return Promise {Partial<KonviwContent>}
+   * @param spaceKey {string} 'iadc' - space key where the page belongs
+   * @param pageId {string} '639243960' - id of the page to retrieve
+   * @param type {string} 'blog' - type of the page
+   */
+  async getPage(
+    spaceKey: string,
+    pageId: string,
+    type: string,
+  ): Promise<Partial<KonviwContent>> {
+    const { data } = await this.confluence.getPage(spaceKey, pageId);
+    this.context.initPageContext(spaceKey, pageId, null, type, data, false);
+    const addJiraPromise = addJira(this.config, this.jira)(this.context);
+    fixContentWidth()(this.context);
+    fixLinks(this.config)(this.context);
+    fixToc()(this.context);
+    fixEmojis(this.config)(this.context);
+    fixDrawio(this.config)(this.context);
+    fixChart(this.config)(this.context);
+    fixExpander()(this.context);
+    fixUserProfile()(this.context);
+    fixVideo()(this.context);
+    fixTableColGroup()(this.context);
+    fixEmptyLineIncludePage()(this.context);
+    fixRoadmap(this.config)(this.context);
+    delUnnecessaryCode()(this.context);
+    fixCode()(this.context);
+    addCopyLinks()(this.context);
+    await addJiraPromise;
+    this.context.Close();
+    return {
+      body: this.context.getHtmlBody(),
+      title: this.context.getTitle(),
+      createdBy: this.context.getAuthor(),
+      readTime: this.context.getReadTime(),
+      createdAt: this.context.getWhen(),
+      createdAtFriendly: this.context.getFriendlyWhen(),
+      excerptBlog: this.context.getExcerpt(),
+      docId: this.context.getPageId(),
+      createdByAvatar: this.context.getAvatar(),
+      createdByEmail: this.context.getEmail(),
+      imgblog: this.context.getImgBlog(),
+      space: this.context.getSpaceKey(),
     };
   }
 }

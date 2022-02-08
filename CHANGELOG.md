@@ -1,3 +1,36 @@
+## [2.7.1](https://github.com/Sanofi-IADC/konviw/compare/v2.7.0...v2.7.1) (2022-02-08)
+
+
+### Bug Fixes
+
+* port typo ([dedc24f](https://github.com/Sanofi-IADC/konviw/commit/dedc24f8ef7d84e17064cf2cc0355794a9bfe180))
+* remove port ([9d9995f](https://github.com/Sanofi-IADC/konviw/commit/9d9995f017e83384d192f532bdd8df4b901e3e37))
+
+# [2.7.0](https://github.com/Sanofi-IADC/konviw/compare/v2.6.0...v2.7.0) (2022-02-08)
+
+
+### Bug Fixes
+
+* **cheerio:** remove old [@types](https://github.com/types) + fix code ([f9d5006](https://github.com/Sanofi-IADC/konviw/commit/f9d5006edf583032ac2f3d35a1e96314f50d9dd1))
+* **http-exception:** correct for api ([8c39e9b](https://github.com/Sanofi-IADC/konviw/commit/8c39e9b2ea0053756161228be92f3a673953aefc))
+* stop crashing if metadata property is missing ([616f88d](https://github.com/Sanofi-IADC/konviw/commit/616f88db4ed311ee98f282d283e507acbcd0f293))
+
+
+### Features
+
+* **config:** add web absolute path property ([34842d1](https://github.com/Sanofi-IADC/konviw/commit/34842d1836510dc63d93089c180cca819583334e))
+* **http-exception:** handle logic per route ([7800f28](https://github.com/Sanofi-IADC/konviw/commit/7800f28e6bebf23409376583484ca9f3dd535e36))
+* initial commit of page as api ([6a6c8e9](https://github.com/Sanofi-IADC/konviw/commit/6a6c8e94e265c5a67dcc9cfe8d68c2e15238ea74))
+* load page fragment for page api ([653634b](https://github.com/Sanofi-IADC/konviw/commit/653634bd12e4f1c86e8a39f6f3bd8b0873509ef0))
+* only add styles for rendered pages ([cdd17cf](https://github.com/Sanofi-IADC/konviw/commit/cdd17cf46fedf93c109319eadabe101499d17d01))
+* remove html head ([75fb24f](https://github.com/Sanofi-IADC/konviw/commit/75fb24f6a8295938a177333e400a4c3219719704))
+* revert conditional css and js injection ([fec4013](https://github.com/Sanofi-IADC/konviw/commit/fec401371703bf581745b525fde3abde7f03ad51))
+* update getPage params ([a592127](https://github.com/Sanofi-IADC/konviw/commit/a592127d2cddf5d795ffdebb6149cdb7b6e3bd82))
+* use absoluteBasePath for links ([0d5d3ce](https://github.com/Sanofi-IADC/konviw/commit/0d5d3ce89365384b2324491a51431d020eba64da))
+* use Content interface ([d170a5b](https://github.com/Sanofi-IADC/konviw/commit/d170a5b698d107a90f9ee39003e16680ab576013))
+* use KonviwContent interface ([fb27429](https://github.com/Sanofi-IADC/konviw/commit/fb27429e20cb253dc37cb457a042758b278f7458))
+* version and update controller route ([4562a20](https://github.com/Sanofi-IADC/konviw/commit/4562a20247d5204a0f1c6edb9901f7dddec98631))
+
 # [2.6.0](https://github.com/Sanofi-IADC/konviw/compare/v2.5.0...v2.6.0) (2022-02-05)
 
 

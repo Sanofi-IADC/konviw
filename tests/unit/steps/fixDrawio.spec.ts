@@ -40,6 +40,7 @@ const example = `
 describe('ConfluenceProxy / fixDrawio', () => {
   let context: ContextService;
   let config: ConfigService;
+  let webBasePath = '';
   let $: cheerio.CheerioAPI;
   const images: Array<cheerio.Element> = [];
 
@@ -47,6 +48,7 @@ describe('ConfluenceProxy / fixDrawio', () => {
     const moduleRef = await createModuleRefForStep();
     context = moduleRef.get<ContextService>(ContextService);
     config = moduleRef.get<ConfigService>(ConfigService);
+    webBasePath = config.get('web.absoluteBasePath');
 
     context.Init('XXX', '123456', 'dark');
     const step = fixDrawio(config);
@@ -62,7 +64,7 @@ describe('ConfluenceProxy / fixDrawio', () => {
   describe('Diagram created in the same page', () => {
     it('should set the src of the image with the pageId and the diagramName', () => {
       const image = $(images[0]).html();
-      const expectedSrc = `/cpv/wiki/download/attachments/${image1PageId}/${image1DiagramName}.png`;
+      const expectedSrc = `${webBasePath}/wiki/download/attachments/${image1PageId}/${image1DiagramName}.png`;
       const imgSrc = getImgSrc(image);
       expect(imgSrc).toBe(expectedSrc);
     });
@@ -76,7 +78,7 @@ describe('ConfluenceProxy / fixDrawio', () => {
   describe('Diagram imported from the repository', () => {
     it('should set the src of the image with the the diagramName and the aspectHash', () => {
       const image = $(images[1]).html();
-      const expectedSrc = `/cpv/wiki/download/attachments/123456/${image2DiagramName}-${image2AspectHash}.png`;
+      const expectedSrc = `${webBasePath}/wiki/download/attachments/123456/${image2DiagramName}-${image2AspectHash}.png`;
       const imgSrc = getImgSrc(image);
       expect(imgSrc).toBe(expectedSrc);
     });

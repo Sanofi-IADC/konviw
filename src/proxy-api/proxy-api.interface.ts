@@ -6,6 +6,7 @@ export interface KonviwContent {
   type: ContentType;
   url: string;
   createdAt: string;
+  createdAtFriendly?: string;
   createdBy: string;
   createdByAvatar: string;
   createdByEmail: string;
