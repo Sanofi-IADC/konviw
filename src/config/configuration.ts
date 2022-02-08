@@ -9,9 +9,7 @@ export default (): Config => ({
     port: (process.env.PORT && parseInt(process.env.PORT, 10)) || 3000,
     basePath: process.env.CPV_BASEPATH,
     baseHost: process.env.CPV_BASEHOST,
-    absoluteBasePath: `${process.env.CPV_BASEHOST}:${
-      (process.env.PORT && parseInt(process.env.PORT, 10)) || 3000
-    }${process.env.CPV_BASEPATH}`,
+    absoluteBasePath: `${process.env.CPV_BASEHOST}${process.env.CPV_BASEPATH}`,
   },
   confluence: {
     baseURL: process.env.CPV_CONFLUENCE_BASE_URL,
