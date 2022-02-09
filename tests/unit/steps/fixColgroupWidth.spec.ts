@@ -1,8 +1,8 @@
-import fixColgroupWidth from '../../../src/proxy-page/steps/fixColgroupWidth';
+import fixColgroupWidth from '../../../src/proxy-page/steps/fixColGroupWidth';
 import { ContextService } from '../../../src/context/context.service';
 import { createModuleRefForStep } from './utils';
 
-describe('ConfluenceProxy / fixColgroupWidth', () => {
+describe('ConfluenceProxy / fixColGroupWidth', () => {
   let context: ContextService;
 
   const step = fixColgroupWidth();
