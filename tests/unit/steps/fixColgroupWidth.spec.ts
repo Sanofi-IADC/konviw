@@ -14,7 +14,7 @@ describe('ConfluenceProxy / fixColGroupWidth', () => {
     context.setHtmlBody('<html><head></head><body></body></html>');
   });
 
-  it('should not convert column width to proportional percentage', () => {
+  it('should not convert column width from px to proportional percentage % when sum of colgroup column widths is less than 1000px', () => {
     const colGroup = '<table><colgroup><col style="width: 224.0px;"/><col style="width: 224.0px;"/><col style="width: 224.0px;"/><col style="width: 224.0px;"/></colgroup></table>';
     context.setHtmlBody(colGroup);
     expect(context.getHtmlBody()).toContain('width: 224.0px;');
@@ -22,8 +22,7 @@ describe('ConfluenceProxy / fixColGroupWidth', () => {
     expect(context.getHtmlBody()).toContain('width: 224.0px;');
   });
 
-
-  it('should convert column width to proportional percentage', () => {
+  it('should convert column width from px to proportional percentage % when sum of colgroup column widths is more than 1000px', () => {
     const colGroup = '<table><colgroup><col style="width: 224.0px;"/><col style="width: 224.0px;"/><col style="width: 224.0px;"/><col style="width: 224.0px;"/><col style="width: 224.0px;"/></colgroup></table>';
     context.setHtmlBody(colGroup);
     expect(context.getHtmlBody()).toContain('width: 224.0px');
@@ -32,5 +31,4 @@ describe('ConfluenceProxy / fixColGroupWidth', () => {
     expect(context.getHtmlBody()).toContain('width: 20%;');
   });
   
-
 })
