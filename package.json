@@ -21,7 +21,9 @@
     "test:unit:cov": "jest --coverage",
     "test:unit:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config jest-e2e.json --runInBand --forceExit",
-    "scss": "sass ./src/assets/scss:dist/static/css/ --style compressed --no-source-map"
+    "scss": "sass ./src/assets/scss:dist/static/css/ --style compressed --no-source-map",
+    "cypress:test": "cypress run --headless --browser chrome",
+    "cypress:open": "cypress open"
   },
   "dependencies": {
     "@instana/collector": "1.137.0",
@@ -37,6 +39,7 @@
     "cheerio": "1.0.0-rc.10",
     "class-transformer": "0.4.0",
     "class-validator": "0.13.1",
+    "cypress-plugin-snapshots": "^1.4.4",
     "hbs": "4.1.2",
     "reflect-metadata": "0.1.13",
     "rxjs": "7.4.0",
@@ -57,6 +60,7 @@
     "@types/supertest": "2.0.11",
     "@typescript-eslint/eslint-plugin": "4.28.4",
     "@typescript-eslint/parser": "4.28.4",
+    "cypress": "^9.4.1",
     "eslint": "7.32.0",
     "eslint-config-prettier": "7.2.0",
     "eslint-plugin-prettier": "3.3.1",

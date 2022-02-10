@@ -45,3 +45,9 @@ lerna-debug.log*
 # Make
 Makedockfile.dist.conf
 Makedockfile.out
+
+# Cypress
+cypress/screenshots
+cypress/videos
+cypress/integration/__image_snapshots__/*.actual.png
+cypress/integration/__image_snapshots__/*.diff.png

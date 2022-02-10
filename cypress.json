@@ -1,0 +1,24 @@
+{
+  "baseUrl": "http://localhost:4000/cpv",
+  "chromeWebSecurity": false,
+  "viewportWidth": 1280,
+  "viewportHeight": 720,
+  "ignoreTestFiles": [
+    "**/__snapshots__/*",
+    "**/__image_snapshots__/*"
+  ],
+  "videoCompression": false,
+  "screenshotOnRunFailure": false,
+  "env": {
+    "cypress-plugin-snapshots": {
+      "imageConfig": {
+        "threshold": 0.001,
+        "thresholdType": "percent"
+      },
+      "screenshotConfig": {
+        "timeout": 30000
+      },
+      "updateSnapshots": false
+    }
+  }
+}
