@@ -1,0 +1,1 @@
+import{r as o,o as n,e as t}from"./app.406e3ac9.js";import{_ as c}from"./plugin-vue_export-helper.21dcd24c.js";const r={};function a(p,s){const e=o("ConfluencePage");return n(),t(e,{type:"title",pageId:"32981"})}var f=c(r,[["render",a]]);export{f as default};
