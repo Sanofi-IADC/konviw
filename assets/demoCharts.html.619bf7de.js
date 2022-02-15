@@ -1,1 +1,0 @@
-const e={key:"v-576853a8",path:"/demoCharts.html",title:"Demo Chart Macro",lang:"en-US",frontmatter:{title:"Demo Chart Macro"},excerpt:"",headers:[],git:{updatedTime:1644955544e3,contributors:[{name:"ahy-edifixio",email:"37875727+EL-HARBYLY-Abderrahman@users.noreply.github.com",commits:1}]},filePathRelative:"demoCharts.md"};export{e as data};
