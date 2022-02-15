@@ -1,3 +1,10 @@
+## [2.8.1](https://github.com/Sanofi-IADC/konviw/compare/v2.8.0...v2.8.1) (2022-02-10)
+
+
+### Bug Fixes
+
+* removing redundant port for test configuration ([348cd08](https://github.com/Sanofi-IADC/konviw/commit/348cd086eca1b36b86dad9887038fb7ffd429a7d))
+
 # [2.8.0](https://github.com/Sanofi-IADC/konviw/compare/v2.7.1...v2.8.0) (2022-02-08)
 
 
