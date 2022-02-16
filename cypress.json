@@ -16,7 +16,7 @@
         "thresholdType": "percent"
       },
       "screenshotConfig": {
-        "timeout": 30000
+        "timeout": 120000
       },
       "updateSnapshots": false
     }
@@ -26,5 +26,9 @@
   "supportFile": "tests/e2e/cypress/support/index.ts",
   "screenshotsFolder": "tests/e2e/cypress/screenshots",
   "integrationFolder": "tests/e2e/cypress/integration",
-  "fixturesFolder": "tests/e2e/cypress/fixtures"
+  "fixturesFolder": "tests/e2e/cypress/fixtures",
+  "pageLoadTimeout": 120000,
+  "defaultCommandTimeout": 120000,
+  "requestTimeout": 120000,
+  "responseTimeout": 120000
 }
