@@ -12,9 +12,8 @@
     "baseUrl": "./",
     "incremental": true,
     "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true
+    "esModuleInterop": true
     // "typeRoots" : ["node_modules/cheerio/types", "node_modules/@types", "src/types"],
   },
-  "exclude": ["node_modules", "dist", "docs"]
+  "exclude": ["node_modules", "dist", "docs", "cypress"]
 }
