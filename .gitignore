@@ -47,7 +47,7 @@ Makedockfile.dist.conf
 Makedockfile.out
 
 # Cypress
-cypress/screenshots
-cypress/videos
-cypress/integration/__image_snapshots__/*.actual.png
-cypress/integration/__image_snapshots__/*.diff.png
+tests/e2e/cypress/screenshots
+tests/e2e/cypress/videos
+tests/e2e/cypress/integration/__image_snapshots__/*.actual.png
+tests/e2e/cypress/integration/__image_snapshots__/*.diff.png

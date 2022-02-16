@@ -20,5 +20,11 @@
       },
       "updateSnapshots": false
     }
-  }
+  },
+  "video": false,
+  "pluginsFile": "tests/e2e/cypress/plugins/index.ts",
+  "supportFile": "tests/e2e/cypress/support/index.ts",
+  "screenshotsFolder": "tests/e2e/cypress/screenshots",
+  "integrationFolder": "tests/e2e/cypress/integration",
+  "fixturesFolder": "tests/e2e/cypress/fixtures"
 }
