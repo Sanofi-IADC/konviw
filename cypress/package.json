@@ -1,0 +1,16 @@
+{
+  "name": "konviw-cypress-tests",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "cypress run --headless --browser chrome",
+    "test:open": "cypress open"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cypress": "^5.1.0",
+    "cypress-plugin-snapshots": "^1.4.4"
+  }
+}
