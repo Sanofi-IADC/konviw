@@ -1,7 +1,6 @@
 import { ContextService } from '../../../src/context/context.service';
 import { ConfigService } from '@nestjs/config';
 import { createModuleRefForStep } from '../steps/utils';
-import { performance } from 'perf_hooks';
 import * as fs from 'fs';
 
 /**

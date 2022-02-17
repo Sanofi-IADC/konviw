@@ -16,4 +16,5 @@ module.exports = {
   ],
   coverageDirectory: 'tests/unit/coverage',
   testEnvironment: 'node',
+  setupFiles: ['<rootDir>/tests/setup.ts'],
 };

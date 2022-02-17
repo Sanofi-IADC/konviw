@@ -1,15 +1,12 @@
 {
   "compilerOptions": {
-    "strict": true,
-    "allowJs": true,
-    "target": "es2019",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "types": ["cypress", "node"], // don't forget node here
-    "esModuleInterop": true,
-    "typeRoots": ["node_modules/@types"]
+    "target": "es5",
+    "lib": ["es5", "dom"],
+    "types": ["cypress"]
   },
-  "outDir": "./dist",
-  "baseUrl": "../../../src",
-  "include": ["**/*.ts"],
+  "include": [
+    "../../../node_modules/cypress",
+    "**/*.ts"
+  ],
   "files": ["./support/index.d.ts"]
 }
