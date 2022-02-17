@@ -12,7 +12,7 @@
   "env": {
     "cypress-plugin-snapshots": {
       "imageConfig": {
-        "threshold": 0.5,
+        "threshold": 0.15,
         "thresholdType": "percent"
       },
       "screenshotConfig": {

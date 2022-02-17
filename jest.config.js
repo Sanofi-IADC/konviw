@@ -7,7 +7,7 @@ module.exports = {
   testPathIgnorePatterns: ['/dist/', 'node_modules', '/docs/'],
   collectCoverage: true,
   collectCoverageFrom: [
-    '**/src/**/*.{js,ts}',
+    'src/**/*.{js,ts}',
     '!**/node_modules/**',
     '!**/tests/**',
     '!**/cache/**',
