@@ -41,3 +41,17 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           browser: chrome
+
+      - name: 'Upload videos as Artifact'
+          uses: actions/upload-artifact@v2
+          with:
+            name: cypress-videos
+            path: tests/e2e/cypress/videos/
+            retention-days: 5
+
+      - name: 'Upload screenshots as Artifact'
+          uses: actions/upload-artifact@v2
+          with:
+            name: cypress-screenshots
+            path: tests/e2e/cypress/screenshots/
+            retention-days: 5
