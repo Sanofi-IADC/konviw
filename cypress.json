@@ -7,7 +7,6 @@
     "**/__snapshots__/*",
     "**/__image_snapshots__/*"
   ],
-  "videoCompression": false,
   "screenshotOnRunFailure": true,
   "env": {
     "cypress-plugin-snapshots": {
@@ -22,9 +21,12 @@
     }
   },
   "video": true,
+  "videoUploadOnPasses": false,
+  "videoCompression": false,
   "pluginsFile": "tests/e2e/cypress/plugins/index.ts",
   "supportFile": "tests/e2e/cypress/support/index.ts",
   "screenshotsFolder": "tests/e2e/cypress/screenshots",
+  "videosFolder": "tests/e2e/cypress/videos",
   "integrationFolder": "tests/e2e/cypress/integration",
   "fixturesFolder": "tests/e2e/cypress/fixtures",
   "pageLoadTimeout": 120000,
