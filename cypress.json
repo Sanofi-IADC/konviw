@@ -8,7 +8,7 @@
     "**/__image_snapshots__/*"
   ],
   "videoCompression": false,
-  "screenshotOnRunFailure": false,
+  "screenshotOnRunFailure": true,
   "env": {
     "cypress-plugin-snapshots": {
       "imageConfig": {
@@ -21,7 +21,7 @@
       "updateSnapshots": false
     }
   },
-  "video": false,
+  "video": true,
   "pluginsFile": "tests/e2e/cypress/plugins/index.ts",
   "supportFile": "tests/e2e/cypress/support/index.ts",
   "screenshotsFolder": "tests/e2e/cypress/screenshots",
