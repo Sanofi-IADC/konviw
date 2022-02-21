@@ -47,7 +47,6 @@ jobs:
         if: always()
         with:
           name: cypress-artifacts
-          path: tests/e2e/cypress/videos/
           retention-days: 5
           path: |-
             tests/e2e/cypress/videos/
