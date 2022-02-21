@@ -44,6 +44,7 @@ jobs:
 
       - name: Upload Cypress Screenshots and Videos
         uses: actions/upload-artifact@v2
+        if: always()
         with:
           name: cypress-artifacts
           path: tests/e2e/cypress/videos/
