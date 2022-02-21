@@ -26,7 +26,7 @@ module.exports = (on, config) => {
   on('before:browser:launch', (browser = <any>{}, launchOptions) => {
     if (browser.name === 'chrome') {
       launchOptions.args.push('--disable-dev-shm-usage');
-      launchOptions.args.push('--window-size=1280,720');
+      launchOptions.args.push('--window-size=1920,1080');
       return launchOptions;
     }
   });
