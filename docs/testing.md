@@ -166,7 +166,7 @@ CYPRESS_BASE_URL=https://konviw.vercel.app/cpv npm run cypress:open
 
 It will generate any new snapshot for new tests you've added.
 
-4. Add these snapshots to git and commit
+4. Add these snapshots to git, commit and push your tests
 
 ### Update snapshots
 
