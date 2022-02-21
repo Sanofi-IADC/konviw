@@ -12,6 +12,7 @@ jobs:
     name: Cypress Run
     if: "!contains(github.event.head_commit.message, 'chore(release):')"
     runs-on: ubuntu-latest
+    container: cypress/browsers:node12.18.3-chrome87-ff82
     strategy:
       matrix:
         node-version: [12.x, 14.x, 15.x]
