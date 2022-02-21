@@ -23,7 +23,7 @@ module.exports = (on, config) => {
   // `config` is the resolved Cypress config
   initPlugin(on, config);
 
-  on('before:browser:launch', (browser = <any>{}, launchOptions) => {
+  on('before:browser:launch', (launchOptions, browser = <any>{}) => {
     if (browser.name === 'chrome') {
       launchOptions.args.push('--disable-dev-shm-usage');
       launchOptions.args.push('--window-size=1920,1080');
