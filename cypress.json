@@ -1,8 +1,8 @@
 {
   "baseUrl": "http://localhost:4000/cpv",
   "chromeWebSecurity": false,
-  "viewportWidth": 1920,
-  "viewportHeight": 1080,
+  "viewportWidth": 1280,
+  "viewportHeight": 720,
   "ignoreTestFiles": [
     "**/__snapshots__/*",
     "**/__image_snapshots__/*"
@@ -21,7 +21,6 @@
     }
   },
   "video": true,
-  "videoUploadOnPasses": false,
   "videoCompression": false,
   "pluginsFile": "tests/e2e/cypress/plugins/index.ts",
   "supportFile": "tests/e2e/cypress/support/index.ts",
