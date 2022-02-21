@@ -23,7 +23,7 @@
   "video": true,
   "videoUploadOnPasses": true,
   "videoCompression": false,
-  "pluginsFile": "tests/e2e/cypress/plugins/index.ts",
+  "pluginsFile": "tests/e2e/cypress/plugins/index.js",
   "supportFile": "tests/e2e/cypress/support/index.ts",
   "screenshotsFolder": "tests/e2e/cypress/screenshots",
   "videosFolder": "tests/e2e/cypress/videos",
