@@ -1,0 +1,36 @@
+{
+  "baseUrl": "http://localhost:4000/cpv",
+  "chromeWebSecurity": false,
+  "viewportWidth": 1920,
+  "viewportHeight": 1080,
+  "ignoreTestFiles": [
+    "**/__snapshots__/*",
+    "**/__image_snapshots__/*"
+  ],
+  "screenshotOnRunFailure": true,
+  "env": {
+    "cypress-plugin-snapshots": {
+      "imageConfig": {
+        "threshold": 0.10,
+        "thresholdType": "percent"
+      },
+      "screenshotConfig": {
+        "timeout": 120000
+      },
+      "updateSnapshots": false
+    }
+  },
+  "video": true,
+  "videoUploadOnPasses": true,
+  "videoCompression": false,
+  "pluginsFile": "tests/e2e/cypress/plugins/index.js",
+  "supportFile": "tests/e2e/cypress/support/index.ts",
+  "screenshotsFolder": "tests/e2e/cypress/screenshots",
+  "videosFolder": "tests/e2e/cypress/videos",
+  "integrationFolder": "tests/e2e/cypress/integration",
+  "fixturesFolder": "tests/e2e/cypress/fixtures",
+  "pageLoadTimeout": 120000,
+  "defaultCommandTimeout": 120000,
+  "requestTimeout": 120000,
+  "responseTimeout": 120000
+}

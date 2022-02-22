@@ -46,6 +46,7 @@ module.exports = {
     sidebar: [
       '/Introduction',
       '/Installation',
+      '/Testing',
       '/Architecture',
       '/Performance',
       '/Usage',
