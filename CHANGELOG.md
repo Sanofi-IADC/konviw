@@ -1,3 +1,54 @@
+# [2.10.0](https://github.com/Sanofi-IADC/konviw/compare/v2.9.0...v2.10.0) (2022-02-22)
+
+
+### Bug Fixes
+
+* cypress config ([fe7c731](https://github.com/Sanofi-IADC/konviw/commit/fe7c73191b8326cb67e688cdd67d14435617bbf1))
+* FND-593 code smell ([0ad5895](https://github.com/Sanofi-IADC/konviw/commit/0ad589565af52827be89421087274b29cf4751e7))
+* FND-593 code smell ([638dff8](https://github.com/Sanofi-IADC/konviw/commit/638dff879918aa5a7fbe0dabbf1f74900571b0a5))
+* FND-593 code smell ([abb7f63](https://github.com/Sanofi-IADC/konviw/commit/abb7f6356115fcf6744371fc212f0d05750e5bad))
+* FND-593 cypress type definition conflit with jest ([725dc87](https://github.com/Sanofi-IADC/konviw/commit/725dc87bb47e5da2e9055488eeccd8ee96df2e7d))
+* FND-593 cypress type definition conflit with jest ([2a880ce](https://github.com/Sanofi-IADC/konviw/commit/2a880ce794a8e2a049b48f6e99ac66e806324c0d))
+* FND-593 pin superagent package ([7338d49](https://github.com/Sanofi-IADC/konviw/commit/7338d49067c8b69354b26a237aa4b3c364b400f1))
+* FND-593 tests/e2e/cypress/plugins/index.js ([0322499](https://github.com/Sanofi-IADC/konviw/commit/0322499adc7dc000ab240cb15f7677a931375724))
+* move cypress to tests directory ([714d00f](https://github.com/Sanofi-IADC/konviw/commit/714d00fc141c396c7c313bb98ce029ba211cfa13))
+
+
+### Features
+
+* add cypress github workflow ([22db080](https://github.com/Sanofi-IADC/konviw/commit/22db08070f0a884e56ece3af902e5f5ada2d92e1))
+* FND-593 add github actions to upload artifacts ([665a184](https://github.com/Sanofi-IADC/konviw/commit/665a184a7cf642e830126a77f2e4c032ee8bd978))
+* FND-593 add github actions to upload artifacts (fix syntax) ([1ee674a](https://github.com/Sanofi-IADC/konviw/commit/1ee674a297dabdbf04b17d4eab194dd04a037445))
+* FND-593 cypress e2e visual tests migration ([c447939](https://github.com/Sanofi-IADC/konviw/commit/c447939453a8fb958684b3f6094a4b93186085d4))
+* FND-593 cypress e2e visual tests migration ([20e3228](https://github.com/Sanofi-IADC/konviw/commit/20e3228326a6bb3deee7c87752706e51181bccff))
+* FND-593 cypress e2e visual tests migration ([a4add8e](https://github.com/Sanofi-IADC/konviw/commit/a4add8e1d513ad7652e5eb245d3fada75e4805ff))
+* FND-593 cypress e2e visual tests migration ([84f97dd](https://github.com/Sanofi-IADC/konviw/commit/84f97dd3b6e5f11cf13f6ea16750aed405a2d4dd))
+* FND-593 cypress e2e visual tests migration ([4caf479](https://github.com/Sanofi-IADC/konviw/commit/4caf479a7d337a98988ee84591e2f6436a2b9efb))
+* FND-593 cypress e2e visual tests migration ([b0d6d93](https://github.com/Sanofi-IADC/konviw/commit/b0d6d938b983973bebbac74ac0a532d259c2446e))
+* FND-593 cypress e2e visual tests migration / fix prettier ([0c6b4b3](https://github.com/Sanofi-IADC/konviw/commit/0c6b4b3148382eb4565c09fa1973899c3f142d8b))
+* FND-593 cypress e2e visual tests migration / remove not needed env ([4ea2954](https://github.com/Sanofi-IADC/konviw/commit/4ea2954f1c881b33c752710af92c4feee1755c1d))
+* FND-593 cypress e2e visual tests migration / update cypress threshold ([59afb38](https://github.com/Sanofi-IADC/konviw/commit/59afb38863292fd66392960537f46525e46a39e2))
+* FND-593 cypress e2e visual tests migration / use cypress's github-action ([14d8b47](https://github.com/Sanofi-IADC/konviw/commit/14d8b47d2055d0ad5c1b5e5421ec5037d809a029))
+* FND-593 fix gitignore ([5b237fc](https://github.com/Sanofi-IADC/konviw/commit/5b237fcfc65f1590726ea64a6b7c4ec7deda1032))
+* FND-593 force check a failing job ([41cfd0f](https://github.com/Sanofi-IADC/konviw/commit/41cfd0ffdfd2332d859f7def9bc8f5af2dc23c12))
+* FND-593 update container for cypress test ([04909b7](https://github.com/Sanofi-IADC/konviw/commit/04909b7036acbefc12a7208486c40cdddb3ffcc6))
+* FND-593 update cypress config ([bd12a7f](https://github.com/Sanofi-IADC/konviw/commit/bd12a7fc1db3f615b85cd4adb77380bd5ac20b3a))
+* FND-593 update cypress config ([d4f53bb](https://github.com/Sanofi-IADC/konviw/commit/d4f53bb2618489e67e52f5e357e3c46d10843f51))
+* FND-593 update cypress config ([64bc82e](https://github.com/Sanofi-IADC/konviw/commit/64bc82e836f059f45e60d28f7198b651f1b7bc78))
+* FND-593 update cypress config - remove record ([82abaf5](https://github.com/Sanofi-IADC/konviw/commit/82abaf5e37e968c30b9f628d6427a477c09a9954))
+* FND-593 update cypress tested pages ([64aa8c7](https://github.com/Sanofi-IADC/konviw/commit/64aa8c78017efa04e90f7483314eb48d92b78436))
+* FND-593 update cypress to 9.5.0 ([6b7f556](https://github.com/Sanofi-IADC/konviw/commit/6b7f5569fff4936ada39674f5247ed5078aea3b9))
+* FND-593 update docs for cypress ([8224db1](https://github.com/Sanofi-IADC/konviw/commit/8224db1fdd98ddcf5fec9e50bccdf6287c8996b9))
+* FND-593 update docs for cypress ([070463c](https://github.com/Sanofi-IADC/konviw/commit/070463cf2e4c3b7f68fbf445b5520e9a90bb2832))
+* FND-593 update github actions ([028e2f4](https://github.com/Sanofi-IADC/konviw/commit/028e2f4f8abbac0cef903d4957d9c6a96c6266f1))
+* FND-593 update threshold ([92a37aa](https://github.com/Sanofi-IADC/konviw/commit/92a37aa5a93fafbb202c894daf83fcb9710039b2))
+* FND-593 upload artifacts always ([aa73e8e](https://github.com/Sanofi-IADC/konviw/commit/aa73e8ed413522e5a29ae507742f0c4ead433086))
+* FND-593 upload artifacts always - fix directories ([2e30c47](https://github.com/Sanofi-IADC/konviw/commit/2e30c47947f4cce977c88e8c7cc3f2df4fadbf08))
+* FND-593 upload artifacts always - fix double path ([108e40b](https://github.com/Sanofi-IADC/konviw/commit/108e40b095e853bb20d8f5e8bcf2aa12be0c485b))
+* FND-593 upload artifacts always - record ([b077872](https://github.com/Sanofi-IADC/konviw/commit/b077872dd623521f69e4633269b8ea9b5ed1786e))
+* FND-593 upload artifacts in same step ([d87d952](https://github.com/Sanofi-IADC/konviw/commit/d87d952809bf829d5d5d592d1c71e95bb1f379a0))
+* FND-593 use headless chrome ([d8af822](https://github.com/Sanofi-IADC/konviw/commit/d8af822b3a3f5ddf52c24dff7b3c9826cf31e54c))
+
 # [2.9.0](https://github.com/Sanofi-IADC/konviw/compare/v2.8.1...v2.9.0) (2022-02-15)
 
 
