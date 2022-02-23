@@ -1,3 +1,10 @@
+## [2.10.3](https://github.com/Sanofi-IADC/konviw/compare/v2.10.2...v2.10.3) (2022-02-23)
+
+
+### Bug Fixes
+
+* **deps:** update dependency cache-manager to v3.6.0 ([44f981e](https://github.com/Sanofi-IADC/konviw/commit/44f981ec08bed9b186f1537708eb3cf1d139588e))
+
 ## [2.10.2](https://github.com/Sanofi-IADC/konviw/compare/v2.10.1...v2.10.2) (2022-02-23)
 
 
