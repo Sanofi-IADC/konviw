@@ -1,3 +1,10 @@
+## [2.10.2](https://github.com/Sanofi-IADC/konviw/compare/v2.10.1...v2.10.2) (2022-02-23)
+
+
+### Bug Fixes
+
+* **deps:** update dependency class-transformer to v0.5.1 ([5017632](https://github.com/Sanofi-IADC/konviw/commit/5017632acdedf1d929bb27ca140a264534d17c88))
+
 ## [2.10.1](https://github.com/Sanofi-IADC/konviw/compare/v2.10.0...v2.10.1) (2022-02-22)
 
 
