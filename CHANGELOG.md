@@ -1,3 +1,10 @@
+## [2.10.7](https://github.com/Sanofi-IADC/konviw/compare/v2.10.6...v2.10.7) (2022-02-24)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @nestjs/config to v1.2.0 ([348461f](https://github.com/Sanofi-IADC/konviw/commit/348461f96b06f7eb44aba2efe355b91eefbd07fc))
+
 ## [2.10.6](https://github.com/Sanofi-IADC/konviw/compare/v2.10.5...v2.10.6) (2022-02-24)
 
 
