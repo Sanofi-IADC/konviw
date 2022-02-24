@@ -1,3 +1,10 @@
+## [2.10.5](https://github.com/Sanofi-IADC/konviw/compare/v2.10.4...v2.10.5) (2022-02-24)
+
+
+### Bug Fixes
+
+* **deps:** update dependency hbs to v4.2.0 ([7ff8443](https://github.com/Sanofi-IADC/konviw/commit/7ff84437137f255e01f2d6bfa8ae35b1f937a0fc))
+
 ## [2.10.4](https://github.com/Sanofi-IADC/konviw/compare/v2.10.3...v2.10.4) (2022-02-24)
 
 
