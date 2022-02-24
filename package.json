@@ -41,7 +41,7 @@
     "class-validator": "0.13.2",
     "hbs": "4.2.0",
     "reflect-metadata": "0.1.13",
-    "rxjs": "7.4.0",
+    "rxjs": "7.5.4",
     "swagger-ui-express": "4.3.0",
     "tabletojson": "2.0.7"
   },
