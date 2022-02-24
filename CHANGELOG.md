@@ -1,3 +1,10 @@
+## [2.10.4](https://github.com/Sanofi-IADC/konviw/compare/v2.10.3...v2.10.4) (2022-02-24)
+
+
+### Bug Fixes
+
+* **deps:** update dependency class-validator to v0.13.2 ([b64c3c6](https://github.com/Sanofi-IADC/konviw/commit/b64c3c63746092dea78be36f39fd772a1c427d03))
+
 ## [2.10.3](https://github.com/Sanofi-IADC/konviw/compare/v2.10.2...v2.10.3) (2022-02-23)
 
 
