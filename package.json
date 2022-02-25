@@ -17,10 +17,10 @@
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix --max-warnings 3",
     "test": "npm run test:unit:cov && npm run test:e2e",
-    "test:unit:watch": "jest --watch",
-    "test:unit:cov": "jest --coverage",
+    "test:unit:watch": "jest --config jest-unit.config.js --watch",
+    "test:unit:cov": "jest --config jest-unit.config.js --coverage",
     "test:unit:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --runInBand --forceExit",
+    "test:e2e": "jest --config jest-e2e.json --runInBand --forceExit",
     "scss": "sass ./src/assets/scss:dist/static/css/ --style compressed --no-source-map",
     "cypress:run": "cypress run --headless --browser chrome",
     "cypress:open": "cypress open"
