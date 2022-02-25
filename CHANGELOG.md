@@ -1,3 +1,10 @@
+## [2.10.9](https://github.com/Sanofi-IADC/konviw/compare/v2.10.8...v2.10.9) (2022-02-25)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @nestjs/swagger to v5.2.0 ([77ce34d](https://github.com/Sanofi-IADC/konviw/commit/77ce34dfd5bb3ed18a7beb19f5bd3053e4c4ee15))
+
 ## [2.10.8](https://github.com/Sanofi-IADC/konviw/compare/v2.10.7...v2.10.8) (2022-02-24)
 
 
