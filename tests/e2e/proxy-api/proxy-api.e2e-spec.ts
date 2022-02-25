@@ -2,7 +2,6 @@ import { NestFactory } from '@nestjs/core';
 import request from 'supertest';
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import { KonviwContent } from 'src/proxy-api/proxy-api.interface';
-import { doesNotMatch } from 'assert';
 import { AppModule } from 'src/app.module';
 
 describe('proxy-api', () => {
