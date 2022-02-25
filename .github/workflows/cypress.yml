@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [14.x, 15.x, 16.x, 17.x, 18.x]
+        node-version: [14.x, 15.x, 16.x, 17.x]
     env:
       CYPRESS_BASE_URL: https://konviw.vercel.app/cpv
     steps:
