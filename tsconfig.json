@@ -13,9 +13,7 @@
     "incremental": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "types": ["jest"],
-    // "typeRoots" : ["node_modules/cheerio/types", "node_modules/@types", "src/types"],
+    "types": ["jest"]
   },
-  //"include": ["src/**/*.ts"],
   "exclude": ["node_modules", "dist", "docs", "tests"]
 }
