@@ -1,9 +1,22 @@
+import { NestFactory } from '@nestjs/core';
 import request from 'supertest';
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import { KonviwContent } from 'src/proxy-api/proxy-api.interface';
+import { AppModule } from 'src/app.module';
 
 describe('proxy-api', () => {
   let app: INestApplication;
+
+  beforeAll(async () => {
+    app = await NestFactory.create(AppModule, {
+      logger: false,
+    });
+    await app.init();
+  });
+
+  afterAll(async () => {
+    await app.close();
+  });
 
   // page IDs from official Konviw Confluence for e2e tests
   // use this testing method sparingly as changes to the content in Confluence can easily break tests
@@ -14,7 +27,7 @@ describe('proxy-api', () => {
   const HTML_DIV_REGEXP = /^<div id="Content">/;
 
   it(`/GET wiki page with ID only, body begins with Content div and page content matches`, async () => {
-    const res = await request(global.app.getHttpServer()).get(
+    const res = await request(app.getHttpServer()).get(
       `/api/spaces/konviw/pages/${INTRO_TO_KONVIW_ID}`,
     );
 
@@ -29,7 +42,7 @@ describe('proxy-api', () => {
   });
 
   it(`/GET wiki page with ID and slug, body begins with Content div and page content matches`, async () => {
-    const res = await request(global.app.getHttpServer()).get(
+    const res = await request(app.getHttpServer()).get(
       `/api/spaces/konviw/pages/${INTRO_TO_KONVIW_ID}/${INTRO_TO_KONVIW_SLUG}`,
     );
     expect(res.statusCode).toBe(HttpStatus.OK);
@@ -43,7 +56,7 @@ describe('proxy-api', () => {
   });
 
   it(`/GET blog page with date and ID, body begins with Content div and page content matches`, async () => {
-    const res = await request(global.app.getHttpServer()).get(
+    const res = await request(app.getHttpServer()).get(
       `/api/spaces/konviw/blog/${BLOG_POST_ID}`,
     );
     expect(res.statusCode).toBe(HttpStatus.OK);
@@ -73,8 +86,4 @@ describe('proxy-api', () => {
     expect(page).toHaveProperty('body', expect.stringMatching(expectedDivWrap));
     expect(page).toHaveProperty('body', expect.stringContaining(expectedText));
   }
-
-  afterAll(async () => {
-    await app.close();
-  });
 });
