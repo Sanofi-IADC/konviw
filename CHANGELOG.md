@@ -1,3 +1,17 @@
+## [2.10.11](https://github.com/Sanofi-IADC/konviw/compare/v2.10.10...v2.10.11) (2022-02-28)
+
+
+### Bug Fixes
+
+* cypress plugin ([34383a6](https://github.com/Sanofi-IADC/konviw/commit/34383a69169a2800437587091b9a1f1d29196593))
+* cypress plugin ([48e3810](https://github.com/Sanofi-IADC/konviw/commit/48e381015f15f8108baf097a83e3814ba38216a7))
+* cypress plugin ([b5050f3](https://github.com/Sanofi-IADC/konviw/commit/b5050f3cfef68cc6d8a1c95d784da80dad17ce3f))
+* cypress plugin ([4aa8e94](https://github.com/Sanofi-IADC/konviw/commit/4aa8e94c774286b7d21ec5171bc71fcf3d9d93cb))
+* cypress plugin ([191151a](https://github.com/Sanofi-IADC/konviw/commit/191151ae4810de95b1c9df1f87f0cea3596ebdbc))
+* emoticon issue ([f383710](https://github.com/Sanofi-IADC/konviw/commit/f383710f42ab68616879eb42313c945ef44ae522))
+* emoticon issue ([0554d5f](https://github.com/Sanofi-IADC/konviw/commit/0554d5fea0688a466efd514482eb1201d8c6ec29))
+* emoticon issue ([8e1b2a1](https://github.com/Sanofi-IADC/konviw/commit/8e1b2a14880466fe47e5cca206ad55b4fa6060da))
+
 ## [2.10.10](https://github.com/Sanofi-IADC/konviw/compare/v2.10.9...v2.10.10) (2022-02-25)
 
 
