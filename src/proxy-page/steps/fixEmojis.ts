@@ -13,10 +13,14 @@ export default (config: ConfigService): Step => {
     $('img.emoticon').each((_index: number, element: cheerio.Element) => {
       const thisEmoji = $(element).data();
       // condition to detect special Atlassian emoticons
-      if ((thisEmoji.emojiId as string).substring(0, 9) === 'atlassian') {
+      if (
+        (typeof thisEmoji.emojiId === 'string' &&
+          (thisEmoji.emojiId as string).substring(0, 9) === 'atlassian') ||
+        typeof thisEmoji.emojiId === 'number'
+      ) {
         const fullUrl = $(element)
           .attr('src')
-          .replace(/\/cpv/, confluenceBaseUrl);
+          .replace(/.*\/cpv/, confluenceBaseUrl);
         $(element).attr('src', fullUrl);
         $(element).attr('srcset', fullUrl);
       } else {
