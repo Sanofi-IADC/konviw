@@ -12,7 +12,7 @@
 // This function is called when a project is opened or re-opened (e.g. due to
 // the project's config changing)
 
-const { initPlugin } = require('cypress-plugin-snapshots/plugin');
+const { initPlugin } = require('cypress-plugin-visual-tests/plugin');
 
 /**
  * @type {Cypress.PluginConfig}
