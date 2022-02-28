@@ -13,7 +13,6 @@ export default (config: ConfigService): Step => {
     $('img.emoticon').each((_index: number, element: cheerio.Element) => {
       const thisEmoji = $(element).data();
       // condition to detect special Atlassian emoticons
-      console.log(thisEmoji);
       if (
         (typeof thisEmoji.emojiId === 'string' &&
           (thisEmoji.emojiId as string).substring(0, 9) === 'atlassian') ||
