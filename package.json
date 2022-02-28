@@ -27,7 +27,6 @@
   },
   "dependencies": {
     "@instana/collector": "1.138.0",
-    "@kiru42/cypress-plugin-visual-tests": "^1.5.17",
     "@nestjs/axios": "0.0.6",
     "@nestjs/common": "8.3.1",
     "@nestjs/config": "1.2.0",
@@ -62,6 +61,7 @@
     "@typescript-eslint/eslint-plugin": "5.12.1",
     "@typescript-eslint/parser": "5.12.1",
     "cypress": "9.5.0",
+    "@kiru42/cypress-plugin-visual-tests": "^1.5.17",
     "eslint": "8.10.0",
     "eslint-config-prettier": "8.4.0",
     "eslint-plugin-prettier": "4.0.0",
