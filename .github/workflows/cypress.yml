@@ -19,7 +19,7 @@ jobs:
       CYPRESS_BASE_URL: https://konviw.vercel.app/cpv
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Node
         uses: actions/setup-node@v3
