@@ -82,12 +82,14 @@ export class PageQueryDTO {
   @ApiPropertyOptional({
     type: String,
     required: false,
-    description: `Disable scroll to top, zoom effect in images, reading progress bar and floating toc menu`,
+    description: `We have two modes: 'fullpage' and 'iframe-resizer'. 'iframe-resizer' will disable scroll to top, zoom effect in images, reading progress bar and floating toc menu.`,
     example: 'iframe-resizer',
   })
   @IsOptional()
   @IsString()
-  view: string;
+  @IsIn(['fullpage', 'iframe-resizer'])
+  // to select default view for pages
+  view = 'fullpage';
 
   @ApiPropertyOptional({
     type: String,
