@@ -1,3 +1,10 @@
+## [2.10.12](https://github.com/Sanofi-IADC/konviw/compare/v2.10.11...v2.10.12) (2022-03-01)
+
+
+### Bug Fixes
+
+* caching issue with view param ([2bc83ad](https://github.com/Sanofi-IADC/konviw/commit/2bc83ad71c0520b4c29a7430d34610eeab028420))
+
 ## [2.10.11](https://github.com/Sanofi-IADC/konviw/compare/v2.10.10...v2.10.11) (2022-02-28)
 
 
