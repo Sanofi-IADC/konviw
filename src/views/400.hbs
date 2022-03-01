@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{{>head}}
+
+<body>
+  <section class="page_404">
+    <div>
+
+      {{>logo}}
+
+      <div class="center">
+        <div class="page_404_bg" style="background-image: url({{ basePath }}/images/404.gif)">
+          <h1>{{ error }}</h1>
+        </div>
+        <div class="page_404_content">
+          <h2 class="message_error">{{ message }}</h3>
+          <p>I'm afraid you've found a page that doesn't exist. Sorry about that.</p>
+          <p>That can happen when you follow a link to something that has since been deleted.<br>Or the link was
+            incorrect to begin with.</p>
+          <p>If you wish, paste a Page ID from your Confluence instance and we will bring you there <br>or read the <a
+              href="https://sanofi-iadc.github.io/konviw/">konviw documentation</a>.
+          <p><input type="text" id="pageID" class="pageID-input" size="15" placeholder="Type a Page ID">
+            <button type="button" onclick="goToPage();" class="goToPage-btn">Go to Page</button>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {{>gotoPage}}
+
+</body>
+
+</html>
