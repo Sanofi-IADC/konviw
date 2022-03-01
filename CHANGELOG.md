@@ -1,3 +1,11 @@
+## [2.10.13](https://github.com/Sanofi-IADC/konviw/compare/v2.10.12...v2.10.13) (2022-03-01)
+
+
+### Bug Fixes
+
+* add error page for bad requests ([22e3882](https://github.com/Sanofi-IADC/konviw/commit/22e38822e405569508be1731e1c30ef38dbd1c2f))
+* new lines ([7246485](https://github.com/Sanofi-IADC/konviw/commit/724648536167a64cbc79113871c121c16a99d015))
+
 ## [2.10.12](https://github.com/Sanofi-IADC/konviw/compare/v2.10.11...v2.10.12) (2022-03-01)
 
 
