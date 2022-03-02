@@ -63,7 +63,7 @@
     "cypress": "9.5.0",
     "@kiru42/cypress-plugin-visual-tests": "1.5.17",
     "eslint": "8.10.0",
-    "eslint-config-prettier": "8.4.0",
+    "eslint-config-prettier": "8.5.0",
     "eslint-plugin-prettier": "4.0.0",
     "iframe-resizer": "4.3.2",
     "jest": "27.5.1",
