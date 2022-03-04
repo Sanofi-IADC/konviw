@@ -1,3 +1,11 @@
+## [2.10.14](https://github.com/Sanofi-IADC/konviw/compare/v2.10.13...v2.10.14) (2022-03-04)
+
+
+### Bug Fixes
+
+* webpack ([b190473](https://github.com/Sanofi-IADC/konviw/commit/b190473bff6f1c3705da3432cb942a9576ab5497))
+* webpack error ([cf10c0d](https://github.com/Sanofi-IADC/konviw/commit/cf10c0d9e102d03181f9f86f484bbd4cab79eb26))
+
 ## [2.10.13](https://github.com/Sanofi-IADC/konviw/compare/v2.10.12...v2.10.13) (2022-03-01)
 
 
