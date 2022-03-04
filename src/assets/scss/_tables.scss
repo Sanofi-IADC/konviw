@@ -3,10 +3,6 @@ table.confluenceTable {
   text-align: left;
   position: relative;
   border-collapse: collapse;
-  color: var(--font-color);
-  width: 100%;
-  // max-width: var(--base-width);
-  table-layout: fixed;
 }
 
 table.confluenceTable th.confluenceTh {
@@ -16,7 +12,6 @@ table.confluenceTable th.confluenceTh {
   z-index: 2;
   box-shadow: 0 3px 2px -1px rgba(0, 0, 0, 0.4);
   font-size: var(--main-font-size);
-  word-wrap: break-word;
 }
 
 .confluenceTh,
@@ -26,7 +21,6 @@ table.confluenceTable th.confluenceTh {
   vertical-align: top;
   // text-align: left;
   min-width: 8px; /* CONF-39943: set table cell min-width to which cursor can be focused */
-  word-wrap: break-word;
 }
 
 /* Lists in tables */
@@ -354,8 +348,7 @@ table.confluenceTable th.confluenceTh.nohighlight > p {
 table.confluenceTable td.confluenceTd img,
 table.confluenceTable td.confluenceTd .confluence-embedded-file-wrapper img,
 table.confluenceTable th.confluenceTh .confluence-embedded-file-wrapper img {
-  // large images to adapt to the size of the cell
-  max-width: auto;
+  max-width: none;
 }
 
 table.confluenceTable td.numberingColumn {
