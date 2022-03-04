@@ -1,3 +1,11 @@
+## [2.10.16](https://github.com/Sanofi-IADC/konviw/compare/v2.10.15...v2.10.16) (2022-03-04)
+
+
+### Reverts
+
+* Revert "fix: word-wrap changes and monospace code" ([853796b](https://github.com/Sanofi-IADC/konviw/commit/853796b4d7538004bd1ef9e639d5f3fa3cc8f02f))
+* Revert "chore(release): 2.10.15" ([e8dc66d](https://github.com/Sanofi-IADC/konviw/commit/e8dc66d122af7f7c166b93a18086667711592e21))
+
 ## [2.10.14](https://github.com/Sanofi-IADC/konviw/compare/v2.10.13...v2.10.14) (2022-03-04)
 
 
