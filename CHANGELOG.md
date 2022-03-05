@@ -1,3 +1,10 @@
+## [2.10.17](https://github.com/Sanofi-IADC/konviw/compare/v2.10.16...v2.10.17) (2022-03-05)
+
+
+### Bug Fixes
+
+* word-wrap changes and monospace code ([06d515e](https://github.com/Sanofi-IADC/konviw/commit/06d515e99f57492c905ff06983276c31405f1080))
+
 ## [2.10.16](https://github.com/Sanofi-IADC/konviw/compare/v2.10.15...v2.10.16) (2022-03-04)
 
 
