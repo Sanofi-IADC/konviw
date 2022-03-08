@@ -1,0 +1,224 @@
+// =====================================================
+// Main content of the page is wrapped by id '#Content'
+// with support for different column layouts
+// =====================================================
+
+// =====================================================
+// Main content of the page is wrapped by id '#Content'
+// with support for different column layouts
+// =====================================================
+
+.columnLayout {
+  &.two-left-sidebar {
+    // display: grid;
+    display: flex;
+    flex-direction: row;
+    grid-template-columns: 0.7fr 0.3fr;
+    grid-template-rows: 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas: 'aside normal';
+    @media screen and (max-width: 1024px) {
+      // width: fit-content;
+      // width: 100%;
+      flex-direction: column;
+    }
+  }
+  &.two-equal {
+    // display: grid;
+    display: flex;
+    flex-direction: row;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas: 'normal normal';
+    @media screen and (max-width: 1024px) {
+      // width: fit-content;
+      // width: 100%;
+      flex-direction: column;
+    }
+  }
+
+  // // 2 equal columns layout
+  // &.two-equal {
+  //   width: 100%;
+  //   display: flex;
+  //   flex-direction: row;
+
+  //   .cell {
+  //     &.normal {
+  //       flex-basis: 50%;
+  //       margin-left: 32px;
+  //       @media screen and (max-width: 1024px) {
+  //         margin-left: 0px;
+  //       }
+  //     }
+  //   }
+  //   @media screen and (max-width: 1024px) {
+  //     width: 100%;
+  //     flex-direction: column;
+  //   }
+  // }
+}
+
+.aside {
+  grid-area: aside;
+  margin-left: 10px;
+  // width: 90%;
+}
+
+.normal {
+  grid-area: normal;
+  // margin-left: 10px;
+  background-color: olivedrab;
+  width: 100%;
+}
+
+.innerCell {
+  word-wrap: break-word;
+}
+
+// .columnLayout {
+//   &.three-equal {
+//     display: grid;
+//     grid-template-columns: 0.3fr 0.3fr 0.3fr;
+//     grid-template-rows: 1fr;
+//     gap: 0px 0px;
+//     grid-auto-flow: column;
+//     grid-template-areas: 'normal normal normal';
+//   }
+// }
+
+// .contentLayout2 {
+//   max-width: 900px;
+// }
+
+#Content {
+  position: relative;
+  max-width: var(--base-width);
+  margin: auto;
+  // padding: 20px !important;
+
+  &.fullWidth {
+    max-width: 100%;
+  }
+
+  .columnLayout {
+    padding-top: 10px;
+    // // 2 equal columns layout
+    // &.two-equal {
+    //   width: 100%;
+    //   display: flex;
+    //   flex-direction: row;
+
+    //   .cell {
+    //     &.normal {
+    //       flex-basis: 50%;
+    //       margin-left: 32px;
+    //       @media screen and (max-width: 1024px) {
+    //         margin-left: 0px;
+    //       }
+    //     }
+    //   }
+    //   @media screen and (max-width: 1024px) {
+    //     width: 100%;
+    //     flex-direction: column;
+    //   }
+    // }
+
+    // 2 columns layout with smaller in the right
+    &.two-right-sidebar {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+
+      .cell {
+        &.normal {
+          flex-basis: 66.6%;
+        }
+        &.aside {
+          flex-basis: 33.3%;
+          margin-left: 32px;
+          @media screen and (max-width: 1024px) {
+            margin-left: 0px;
+          }
+        }
+      }
+      @media screen and (max-width: 1024px) {
+        width: 100%;
+        flex-direction: column;
+      }
+    }
+
+    // // 2 columns layout with smaller in the left
+    // &.two-left-sidebar {
+    //   width: 100%;
+    //   display: flex;
+    //   flex-direction: row;
+
+    //   .cell {
+    //     &.normal {
+    //       flex-basis: 66.6%;
+    //       margin-left: 32px;
+    //     }
+    //     &.aside {
+    //       flex-basis: 33.3%;
+    //       @media screen and (max-width: 1024px) {
+    //         margin-left: 30px;
+    //       }
+    //     }
+    //   }
+    //   @media screen and (max-width: 1024px) {
+    //     width: 100%;
+    //     flex-direction: column;
+    //   }
+    // }
+
+    // 3 equal columns layout
+    &.three-equal {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+
+      .cell {
+        &.normal {
+          flex-basis: 33.3%;
+          margin-left: 32px;
+          @media screen and (max-width: 1024px) {
+            margin-left: 0px;
+          }
+        }
+      }
+      @media screen and (max-width: 1024px) {
+        width: 100%;
+        flex-direction: column;
+      }
+    }
+
+    // 3 columns layout with 2 sides smaller
+    &.three-with-sidebars {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+
+      .cell {
+        &.normal {
+          flex-basis: 50%;
+          margin-left: 32px;
+          margin-right: 32px;
+        }
+        &.sidebars {
+          flex-basis: 25%;
+          @media screen and (max-width: 1024px) {
+            margin-left: 0px;
+          }
+        }
+      }
+      @media screen and (max-width: 1024px) {
+        width: 100%;
+        flex-direction: column;
+      }
+    }
+  }
+}
