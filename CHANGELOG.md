@@ -1,3 +1,10 @@
+## [2.10.18](https://github.com/Sanofi-IADC/konviw/compare/v2.10.17...v2.10.18) (2022-03-08)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @nestjs/axios to v0.0.7 ([7541d9a](https://github.com/Sanofi-IADC/konviw/commit/7541d9a2e64a08c03924aa50cef84bf556bb9a4b))
+
 ## [2.10.17](https://github.com/Sanofi-IADC/konviw/compare/v2.10.16...v2.10.17) (2022-03-05)
 
 
