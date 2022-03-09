@@ -48,7 +48,7 @@
   "devDependencies": {
     "@kiru42/cypress-plugin-visual-tests": "1.5.21",
     "@nestjs/cli": "8.2.2",
-    "@nestjs/schematics": "8.0.7",
+    "@nestjs/schematics": "8.0.8",
     "@nestjs/testing": "8.4.0",
     "@semantic-release/changelog": "6.0.1",
     "@semantic-release/exec": "6.0.3",
