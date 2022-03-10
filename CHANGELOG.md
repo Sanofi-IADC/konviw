@@ -1,3 +1,10 @@
+## [2.10.20](https://github.com/Sanofi-IADC/konviw/compare/v2.10.19...v2.10.20) (2022-03-10)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @instana/collector to v1.139.0 ([9332699](https://github.com/Sanofi-IADC/konviw/commit/933269982cfbdffc03e146ecd7637511061d8b41))
+
 ## [2.10.19](https://github.com/Sanofi-IADC/konviw/compare/v2.10.18...v2.10.19) (2022-03-09)
 
 
