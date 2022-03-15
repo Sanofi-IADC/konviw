@@ -1,3 +1,10 @@
+## [2.10.21](https://github.com/Sanofi-IADC/konviw/compare/v2.10.20...v2.10.21) (2022-03-15)
+
+
+### Bug Fixes
+
+* **deps:** update nest monorepo to v8.4.1 ([ddf4531](https://github.com/Sanofi-IADC/konviw/commit/ddf4531f3193a9c5c112d25a7d678c074eb74e87))
+
 ## [2.10.20](https://github.com/Sanofi-IADC/konviw/compare/v2.10.19...v2.10.20) (2022-03-10)
 
 
