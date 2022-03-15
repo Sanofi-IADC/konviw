@@ -46,7 +46,7 @@
     "tabletojson": "2.0.7"
   },
   "devDependencies": {
-    "@kiru42/cypress-plugin-visual-tests": "1.5.21",
+    "@kiru42/cypress-plugin-visual-tests": "1.5.22",
     "@nestjs/cli": "8.2.2",
     "@nestjs/schematics": "8.0.8",
     "@nestjs/testing": "8.4.1",
