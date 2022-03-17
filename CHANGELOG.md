@@ -1,3 +1,10 @@
+## [2.10.22](https://github.com/Sanofi-IADC/konviw/compare/v2.10.21...v2.10.22) (2022-03-17)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @nestjs/terminus to v8.0.6 ([7b8f513](https://github.com/Sanofi-IADC/konviw/commit/7b8f513eb51a60e11cb172932288ffc36a51190b))
+
 ## [2.10.21](https://github.com/Sanofi-IADC/konviw/compare/v2.10.20...v2.10.21) (2022-03-15)
 
 
