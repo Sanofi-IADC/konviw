@@ -17,8 +17,8 @@ import * as cheerio from 'cheerio';
     const macrosFound = [];
     $('.unsupported-macro')
     .filter(() => {
-      const macroName = $(this).data('macro-name');
-      if (macrosFound.indexOf(macroName) !== -1) return false
+      const macroName = $(this).data('macro-name') ?? '';
+      if (macrosFound.indexOf(macroName) !== -1) return false;
       macrosFound.push(macroName);
       return true;
     }) // remove duplicates
@@ -27,13 +27,13 @@ import * as cheerio from 'cheerio';
         if (!thisBlock) return;
 
         const macroName = $(element).data('macro-name') ?? 'unnamed macro';
-        /* TODO add the message at the top of the page with a "toast" design */
-        $(element).replaceWith(`
-        <span>
-            Sorry, unfortunately <b>${macroName}</b> is not supported by Konviw
-        </span>`);
+        $(element).replaceWith('');
+        $('#Content h1').after(`
+        <div class="unsupported-macro-indicator">
+          Sorry, unfortunately <b>${macroName}</b> is not supported by Konviw
+          <span class="cross" onclick="(() => {this.parentNode.classList.add('hidden')})()">x</span>
+        </div>`);
     });
-
     context.getPerfMeasure('addUnsupportedMacroIndicator');
   };
 };
