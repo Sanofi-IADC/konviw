@@ -1,3 +1,38 @@
+## [2.10.22](https://github.com/Sanofi-IADC/konviw/compare/v2.10.21...v2.10.22) (2022-03-17)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @nestjs/terminus to v8.0.6 ([7b8f513](https://github.com/Sanofi-IADC/konviw/commit/7b8f513eb51a60e11cb172932288ffc36a51190b))
+
+## [2.10.21](https://github.com/Sanofi-IADC/konviw/compare/v2.10.20...v2.10.21) (2022-03-15)
+
+
+### Bug Fixes
+
+* **deps:** update nest monorepo to v8.4.1 ([ddf4531](https://github.com/Sanofi-IADC/konviw/commit/ddf4531f3193a9c5c112d25a7d678c074eb74e87))
+
+## [2.10.20](https://github.com/Sanofi-IADC/konviw/compare/v2.10.19...v2.10.20) (2022-03-10)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @instana/collector to v1.139.0 ([9332699](https://github.com/Sanofi-IADC/konviw/commit/933269982cfbdffc03e146ecd7637511061d8b41))
+
+## [2.10.19](https://github.com/Sanofi-IADC/konviw/compare/v2.10.18...v2.10.19) (2022-03-09)
+
+
+### Bug Fixes
+
+* **deps:** update dependency rxjs to v7.5.5 ([9b91421](https://github.com/Sanofi-IADC/konviw/commit/9b9142178b3f6bc9c29eede3de5a54e20f728702))
+
+## [2.10.18](https://github.com/Sanofi-IADC/konviw/compare/v2.10.17...v2.10.18) (2022-03-08)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @nestjs/axios to v0.0.7 ([7541d9a](https://github.com/Sanofi-IADC/konviw/commit/7541d9a2e64a08c03924aa50cef84bf556bb9a4b))
+
 ## [2.10.17](https://github.com/Sanofi-IADC/konviw/compare/v2.10.16...v2.10.17) (2022-03-05)
 
 
