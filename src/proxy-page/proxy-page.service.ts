@@ -204,4 +204,11 @@ export class ProxyPageService {
   getMediaCdnUrl(uri: string): Promise<string> {
     return this.confluence.getRedirectUrlForMedia(uri);
   }
+
+  /* TODO: return the roadmap HTML somehow */
+  renderRoadmap(roadmapID): Promise<string> {
+    return new Promise((resolve, reject) => {
+      resolve(`Roadmap ${roadmapID}`);
+    });
+  }
 }

@@ -16,6 +16,7 @@ export class PageParamsDTO {
   @IsNotEmpty()
   @IsString()
   spaceKey: string;
+  roadmapID: any;
 
   @ApiProperty({
     type: String,
@@ -43,6 +44,12 @@ export class PageParamsDTO {
 
   @IsOptional()
   day: string;
+}
+
+export class RoadmapParamsDTO {
+  @IsNotEmpty()
+  @IsString()
+  roadmapID: any;
 }
 
 export class PageQueryDTO {

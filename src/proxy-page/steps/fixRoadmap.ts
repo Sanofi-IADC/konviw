@@ -2,6 +2,7 @@ import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
 import { ConfigService } from '@nestjs/config';
 import * as cheerio from 'cheerio';
+import * as url from 'url';
 
 export default (config: ConfigService): Step => {
   return (context: ContextService): void => {
@@ -26,6 +27,26 @@ export default (config: ConfigService): Step => {
             );
         }
       },
+    );
+
+    /* Replace roadmap iframe navigation by an call to an internal page */
+    $('[data-macro-id]').each(
+      (_index: number, element: cheerio.Element) => {
+        const iframe = $(element).children().first();
+        const iframeSrc = $(iframe).attr('src');
+        if (!iframeSrc) return;
+        const searchParams = new URL(iframeSrc).searchParams;
+        
+        $(element).replaceWith(`
+          <div>
+          ${
+            $(element)
+             .html()
+             .replace(iframeSrc, `/cpv/wiki/roadmap/${searchParams.get('r')}`)
+          }
+          </div>`
+        );
+      }
     );
     context.getPerfMeasure('fixRoadmap');
   };

@@ -13,6 +13,7 @@ import {
   PageParamsDTO,
   PageQueryDTO,
   SlidesQueryDTO,
+  RoadmapParamsDTO,
 } from './proxy-page.validation.dto';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 @ApiTags('proxy-page')
@@ -100,5 +101,21 @@ export class ProxyPageController {
     const reqUrl = req.url.replace(/\/cpv\/wiki\//, '');
     const mediaCdnUrl = await this.proxyPage.getMediaCdnUrl(reqUrl);
     res.redirect(mediaCdnUrl);
+  }
+
+  /**
+   * 
+   * Redirecting roadmap routes so users don't need to be logged in to Confluence to render them
+   * 
+   * @GET (controller) /roadmap/:roadmapID
+   * @return {string} 'html' - full html of the rendered roadmap
+   * @param roadmapID {string} the roadmap identifier
+   */
+   @Get(['/roadmap/:roadmapID'])
+  async getRoadmap(
+    @Param() params: RoadmapParamsDTO,
+  ) {
+    const { roadmapID } = params;
+    return this.proxyPage.renderRoadmap(roadmapID);
   }
 }
