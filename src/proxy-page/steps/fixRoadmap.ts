@@ -30,7 +30,7 @@ export default (config: ConfigService): Step => {
     );
 
     /* Replace roadmap iframe navigation by an call to an internal page */
-    $('[data-macro-id]').each(
+    $('[data-macro-name="portfolioforjiraplan"]').each(
       (_index: number, element: cheerio.Element) => {
         const iframe = $(element).children().first();
         const iframeSrc = $(iframe).attr('src');
