@@ -15,7 +15,11 @@ import * as cheerio from 'cheerio';
     const $ = context.getCheerioBody();
 
     const macrosFound = [];
-    $('.unsupported-macro')
+    $(
+      /* Pagetree and table-chart macros */
+      `[data-macro-name="pagetree"],
+      [data-macro-name="table-chart"]`
+    )
     .filter(() => {
       const macroName = $(this).data('macro-name') ?? '';
       if (macrosFound.indexOf(macroName) !== -1) return false;
@@ -28,11 +32,14 @@ import * as cheerio from 'cheerio';
 
         const macroName = $(element).data('macro-name') ?? 'unnamed macro';
         $(element).replaceWith('');
-        $('#Content h1').after(`
-        <div class="unsupported-macro-indicator">
-          Sorry, unfortunately <b>${macroName}</b> is not supported by Konviw
-          <span class="cross" onclick="(() => {this.parentNode.classList.add('hidden')})()">x</span>
-        </div>`);
+
+        if (context.getView() === 'debug') {          
+          $('#Content h1').after(`
+          <div class="unsupported-macro-indicator">
+            Sorry, unfortunately <b>${macroName}</b> is not supported by Konviw
+            <span class="cross" onclick="(() => {this.parentNode.classList.add('hidden')})()">x</span>
+          </div>`);        
+        }
     });
     context.getPerfMeasure('addUnsupportedMacroIndicator');
   };

@@ -14,8 +14,6 @@ import fixContentWidth from './steps/fixContentWidth';
 import fixVideo from './steps/fixVideo';
 import fixEmptyLineIncludePage from './steps/fixEmptyLineIncludePage';
 import fixCode from './steps/fixCode';
-import fixPageTree from './steps/fixPageTree';
-import fixTableChart from './steps/fixTableChart';
 import addCustomCss from './steps/addCustomCss';
 import addScrollToTop from './steps/addScrollToTop';
 import addHeaderTitle from './steps/addHeaderTitle';
@@ -130,8 +128,6 @@ export class ProxyPageService {
     fixFrameAllowFullscreen()(this.context);
     fixImageSize()(this.context);
     fixColGroupWidth()(this.context);
-    fixPageTree()(this.context);
-    fixTableChart()(this.context);
     if (type === 'blog') {
       addHeaderBlog()(this.context);
     } else if (type !== 'notitle') {

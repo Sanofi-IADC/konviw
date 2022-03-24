@@ -87,7 +87,7 @@ export class PageQueryDTO {
   })
   @IsOptional()
   @IsString()
-  @IsIn(['fullpage', 'iframe-resizer'])
+  @IsIn(['fullpage', 'iframe-resizer', 'debug'])
   // to select default view for pages
   view = 'fullpage';
 
