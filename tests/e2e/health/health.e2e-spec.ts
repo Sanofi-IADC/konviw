@@ -9,6 +9,10 @@ describe('HealthController (e2e)', () => {
 
   let app: INestApplication;
 
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
   beforeAll(async () => {
     app = await NestFactory.create(AppModule, {
       logger: false,
@@ -21,6 +25,7 @@ describe('HealthController (e2e)', () => {
   });
 
   it('Returns healthy status', async () => {
+    jest.useFakeTimers('legacy');
     const res = await request(app.getHttpServer()).get('/health');
     expect(res.statusCode).toBe(HttpStatus.OK);
   });
