@@ -7,17 +7,13 @@
   position: relative;
   max-width: var(--base-width);
   margin: auto;
-  // padding: 20px !important;
 
   &.fullWidth {
     max-width: 100%;
   }
 
   .contentLayout2 {
-    // max-width: 100vw;
-
     .columnLayout {
-      // display: grid;
       padding-top: 10px;
       display: flex;
       flex-direction: row;
