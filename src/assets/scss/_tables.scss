@@ -7,6 +7,12 @@ table.confluenceTable {
   margin-left: 0;
   margin-right: auto;
   width: 100%;
+  table-layout: fixed;
+
+  /* Fix Medium-size tables */
+  &[data-layout="wide"] {
+    table-layout: auto;
+  }
 }
 
 table.confluenceTable th.confluenceTh {
@@ -16,7 +22,6 @@ table.confluenceTable th.confluenceTh {
   z-index: 2;
   box-shadow: 0 3px 2px -1px rgba(0, 0, 0, 0.4);
   font-size: var(--main-font-size);
-  word-wrap: normal;
 }
 
 .confluenceTh,
