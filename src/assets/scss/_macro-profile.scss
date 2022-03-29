@@ -3,7 +3,7 @@
 div.vcard {
   padding-top: 5px;
   position: relative;
-  white-space: nowrap;
+  // white-space: nowrap;
   left: 0px;
   display: inline-block;
 }
@@ -32,4 +32,7 @@ img.logo {
 div.values {
   display: inline-block;
   vertical-align: middle;
+  a {
+    word-break: break-all;
+  }
 }
