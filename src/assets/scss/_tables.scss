@@ -9,9 +9,8 @@ table.confluenceTable {
   width: 100%;
   table-layout: fixed;
 
-  /* Fix Medium-size tables */
-  &[data-layout="wide"] {
-    table-layout: auto;
+  colgroup col {
+    width: auto!important;
   }
 }
 
