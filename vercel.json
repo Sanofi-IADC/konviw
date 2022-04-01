@@ -1,6 +1,6 @@
 {
   "version": 2,
   "cleanUrls": true,
-  "builds": [{ "src": "dist/src/main.js", "use": "@vercel/node" }],
+  "builds": [{ "src": "src/main.js", "use": "@vercel/node" }],
   "rewrites": [{ "source": "/(.*)", "destination": "dist/src/main.js" }]
 }
