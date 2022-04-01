@@ -7,6 +7,11 @@ table.confluenceTable {
   margin-left: 0;
   margin-right: auto;
   width: 100%;
+  table-layout: fixed;
+
+  colgroup col {
+    width: auto !important;
+  }
 }
 
 table.confluenceTable th.confluenceTh {

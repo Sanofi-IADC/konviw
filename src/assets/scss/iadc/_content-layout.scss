@@ -15,56 +15,48 @@
   .contentLayout2 {
     .columnLayout {
       padding-top: 10px;
-      display: flex;
-      flex-direction: row;
+      display: grid;
       grid-template-rows: 1fr;
       gap: 0px 0px;
       grid-auto-flow: column;
       max-width: 100vw;
 
+      grid-template-columns: 100%;
+      grid-template-areas: 'normal';
+
+      @media screen and (max-width: 1024px) {
+        display: flex;
+        flex-direction: column;
+      }
+
       // 2 columns layout with smaller in the left
       &.two-left-sidebar {
-        grid-template-columns: 0.3fr 0.7fr;
+        grid-template-columns: 30% 70%;
         grid-template-areas: 'aside normal';
-        @media screen and (max-width: 1024px) {
-          flex-direction: column;
-        }
       }
 
       // 2 columns layout with smaller in the right
       &.two-right-sidebar {
-        grid-template-columns: 0.7fr 0.3fr;
+        grid-template-columns: 70% 30%;
         grid-template-areas: 'normal aside';
-        @media screen and (max-width: 1024px) {
-          flex-direction: column;
-        }
       }
 
       // 2 equal columns layout
       &.two-equal {
-        grid-template-columns: 1fr 1fr;
-        grid-template-areas: 'normal normal';
-        @media screen and (max-width: 1024px) {
-          flex-direction: column;
-        }
+        grid-template-columns: 50% 50%;
+        grid-template-areas: 'normal normal2';
       }
 
       // 3 equal columns layout
       &.three-equal {
-        grid-template-columns: 1fr 1fr 1fr;
-        grid-template-areas: 'normal normal normal';
-        @media screen and (max-width: 1024px) {
-          flex-direction: column;
-        }
+        grid-template-columns: 33.33% 33.33% 33.33%;
+        grid-template-areas: 'normal normal2 normal3';
       }
 
       // 3 columns layout with 2 sides smaller
       &.three-with-sidebars {
-        grid-template-columns: 0.25fr 0.5fr 0.25fr;
-        grid-template-areas: 'sidebars normal sidebars';
-        @media screen and (max-width: 1024px) {
-          flex-direction: column;
-        }
+        grid-template-columns: 25% 50% 25%;
+        grid-template-areas: 'sidebars normal sidebars2';
       }
     }
   }
@@ -73,20 +65,27 @@
 .aside {
   grid-area: aside;
   margin-left: 10px;
-  // width: auto;
 }
 
 .normal {
   grid-area: normal;
   padding-left: 10px;
-  // margin-left: 10px;
   width: 100%;
+  box-sizing: border-box;
+}
+.normal ~ .normal {
+  grid-area: normal2;
+}
+.normal ~ .normal ~ .normal {
+  grid-area: normal3;
 }
 
 .sidebars {
   grid-area: sidebars;
   margin-left: 10px;
-  // width: auto;
+}
+.normal ~ .sidebars {
+  grid-area: sidebars2;
 }
 
 .innerCell {

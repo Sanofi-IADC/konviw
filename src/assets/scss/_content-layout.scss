@@ -70,23 +70,21 @@
 .normal {
   grid-area: normal;
   padding-left: 10px;
-  // margin-left: 10px;
   width: 100%;
   box-sizing: border-box;
 }
-.normal~.normal {
+.normal ~ .normal {
   grid-area: normal2;
 }
-.normal~.normal~.normal {
+.normal ~ .normal ~ .normal {
   grid-area: normal3;
 }
 
 .sidebars {
   grid-area: sidebars;
   margin-left: 10px;
-  // width: auto;
 }
-.normal~.sidebars {
+.normal ~ .sidebars {
   grid-area: sidebars2;
 }
 
