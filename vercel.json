@@ -10,7 +10,7 @@
   "rewrites": [
     {
       "source": "/(.*)",
-      "destination": "src/main.ts"
+      "destination": "dist/src/main.js"
     }
   ]
 }
