@@ -3,7 +3,7 @@
   "cleanUrls": true,
   "builds": [
     {
-      "src": "src/main.ts",
+      "src": "dist/src/main.js",
       "use": "@vercel/node"
     }
   ],
