@@ -7,10 +7,10 @@
       "use": "@vercel/node"
     }
   ],
-  "rewrites": [
+  "routes": [
     {
-      "source": "/(.*)",
-      "destination": "dist/src/main.js"
+      "src": "/(.*)",
+      "dest": "src/main.ts"
     }
   ]
 }
