@@ -5,7 +5,6 @@
   "author": "Jose Gascon",
   "private": true,
   "license": "MIT",
-  "main": "src/main.ts",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "npm run prebuild && npm run scss && nest build",
