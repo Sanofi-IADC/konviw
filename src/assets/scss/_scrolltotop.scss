@@ -36,7 +36,8 @@ a.back-to-top-link {
   width: 3rem;
   height: 3rem;
   border-radius: 50%;
-  background-color: #d6e3f0;
+  background-color: #efd2f9;
+  color: #d786f2;
   opacity: 0.5;
   pointer-events: auto;
 }
@@ -50,5 +51,7 @@ a.back-to-top-link {
 }
 
 .back-to-top-link:before {
-  content: '\21EA';
+  font-family: var(--font-icons);
+  font-size: 2.5rem;
+  content: '\e5ce';
 }

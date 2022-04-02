@@ -18,13 +18,12 @@ export default (): Step => {
         const backToTopWrapper = document.querySelector('.back-to-top-wrapper');
         const { classList } = backToTopWrapper;
         const className = 'visible';
-        (scrolls > 0) 
+        (scrolls > 0)
           ? classList.add(className)
           : classList.remove(className)
         ;
       });
-      </script>`
-    );
+      </script>`);
     context.getPerfMeasure('addScrollToTop');
   };
 };

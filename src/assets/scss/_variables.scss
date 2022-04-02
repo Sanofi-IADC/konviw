@@ -1,7 +1,9 @@
 @import 'rubik';
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
 $font-body: 'Rubik', sans-serif;
 $font-title: 'Rubik', sans-serif;
+$font-icons: 'Material Icons', serif;
 
 $base-width: 1200px;
 $main-font-mobile: 16px;
@@ -14,12 +16,13 @@ $small-text: 12px;
 :root {
   --font-body: #{$font-body};
   --font-title: #{$font-title};
+  --font-icons: #{$font-icons};
   --base-width: #{$base-width};
   --main-font-size: #{$main-font-screen};
   --main-font-weight: #{$main-font-weight};
   --title-font-size: #{$title-font-screen};
   --user-mention-bg: #92b5f7;
-  --primary-color: #2e51c4;
+  --primary-color: #a262c2;
   --primary-color-link: #2e95c4;
   --secondary-color: #7785ab;
   --font-color: #424242;
