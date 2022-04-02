@@ -1,5 +1,14 @@
 {
   "version": 2,
+  "builds": [
+    {
+      "src": "dist/src/main.js",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": ["dist/views/**", "dist/static/**"]
+      }
+    }
+  ],
   "rewrites": [
     {
       "source": "/(.*)",
