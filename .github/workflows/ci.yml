@@ -66,6 +66,7 @@ jobs:
 
       - name: Run Cypress Tests
         uses: cypress-io/github-action@v2
+        if: ${{ steps.vercel-deploy.outputs.DEPLOYMENT_CREATED }}
         with:
           browser: chrome
           CYPRESS_BASE_URL: ${{ steps.vercel-deploy.outputs.PREVIEW_URL }}
