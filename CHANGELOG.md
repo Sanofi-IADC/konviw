@@ -1,3 +1,10 @@
+## [2.11.1](https://github.com/Sanofi-IADC/konviw/compare/v2.11.0...v2.11.1) (2022-04-04)
+
+
+### Bug Fixes
+
+* content layout migration grid template ([#372](https://github.com/Sanofi-IADC/konviw/issues/372)) ([0238e13](https://github.com/Sanofi-IADC/konviw/commit/0238e13cfce88957d29ea1c30ebd99b9fb904947))
+
 # [2.11.0](https://github.com/Sanofi-IADC/konviw/compare/v2.10.22...v2.11.0) (2022-04-04)
 
 
