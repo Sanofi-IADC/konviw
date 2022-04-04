@@ -1,6 +1,5 @@
 name: Cypress Tests
-on:
-  on: [deployment_status]
+on: [deployment_status]
 
 jobs:
   cypress-run:
