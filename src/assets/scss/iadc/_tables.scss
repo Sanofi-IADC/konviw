@@ -3,12 +3,21 @@ table.confluenceTable {
   text-align: left;
   position: relative;
   border-collapse: collapse;
+  color: var(--font-color);
+  margin-left: 0;
+  margin-right: auto;
+  width: 100%;
+  table-layout: fixed;
+
+  colgroup col {
+    width: auto !important;
+  }
 }
 
 table.confluenceTable th.confluenceTh {
   position: -webkit-sticky;
   position: sticky;
-  top: 0; /* Don't forget this, required for the stickiness */
+  top: 0; /* Required for the stickiness */
   z-index: 2;
   box-shadow: 0 3px 2px -1px rgba(0, 0, 0, 0.4);
   font-size: var(--main-font-size);
@@ -19,8 +28,8 @@ table.confluenceTable th.confluenceTh {
   border: 1px solid #ddd;
   padding: 7px 10px; /* CONFDEV-13618: line-height will add up 3 pixels, so we have a 10px top padding for text. Images will remain with 7px top margin though (see thread in Stash) */
   vertical-align: top;
-  // text-align: left;
   min-width: 8px; /* CONF-39943: set table cell min-width to which cursor can be focused */
+  word-wrap: break-word;
 }
 
 /* Lists in tables */
@@ -348,7 +357,7 @@ table.confluenceTable th.confluenceTh.nohighlight > p {
 table.confluenceTable td.confluenceTd img,
 table.confluenceTable td.confluenceTd .confluence-embedded-file-wrapper img,
 table.confluenceTable th.confluenceTh .confluence-embedded-file-wrapper img {
-  max-width: none;
+  max-width: auto;
 }
 
 table.confluenceTable td.numberingColumn {

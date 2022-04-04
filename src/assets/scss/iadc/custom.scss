@@ -23,10 +23,10 @@
 html {
   transition: color 300ms, background-color 300ms;
   scroll-behavior: smooth;
-  background-color: var(--bg-color);
-  color: var(--font-color);
   font-family: var(--font-body);
   font-size: var(--main-font-size);
+  background-color: var(--bg-color);
+  color: var(--font-color);
   font-weight: var(--main-font-weight);
 }
 
@@ -64,12 +64,11 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-title);
   font-weight: normal;
 }
 
 h1 {
-  font-size: 2.1em;
+  font-size: 1.9rem;
 }
 
 h2 {
@@ -114,6 +113,9 @@ h6 {
 code {
   font-size: 16px;
   border-radius: 5px;
+  color: var(--font-color);
+  background-color: var(--highlight-grey);
+  word-wrap: break-word;
 }
 
 // Internal Hyperlinks ============================================
@@ -156,7 +158,6 @@ a.user-mention {
   border-radius: 15px;
   color: var(--font-color);
   font-size: var(--user-mention-size);
-  white-space: nowrap;
   &:hover {
     color: white;
   }

@@ -1,5 +1,10 @@
 // Roadmap custom styles ==================================
 
+/* SVG shouldn't overflow */
+.roadmap-macro-view {
+  overflow: auto;
+}
+
 // Title with link to Page
 .roadmap-macro-view .bar-title-page {
   padding-top: 10px;

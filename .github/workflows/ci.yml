@@ -14,11 +14,14 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [14.x, 15.x, 16.x, 17.x]
+        node-version: [14.x, 16.x, 17.x]
     env:
       CPV_CONFLUENCE_API_TOKEN: ${{ secrets.CPV_CONFLUENCE_API_TOKEN }}
       CPV_CONFLUENCE_API_USERNAME: ${{ secrets.CPV_CONFLUENCE_API_USERNAME }}
       CPV_CONFLUENCE_BASE_URL: ${{ secrets.CPV_CONFLUENCE_BASE_URL }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -32,9 +35,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ matrix.node-version }}-npm-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.os }}-node-${{ matrix.node-version }}-npm-
 
       - name: Install dependencies
         run: npm ci
@@ -50,6 +53,9 @@ jobs:
 
       - name: Prod build
         run: npm run build
+
+      - name: Deploy to Vercel
+        run: npx vercel deploy --token ${VERCEL_TOKEN}
 
   release:
     name: Release
