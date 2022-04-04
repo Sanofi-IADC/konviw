@@ -35,6 +35,7 @@ import addLibrariesCSS from './steps/addLibrariesCSS';
 import addLibrariesJS from './steps/addLibrariesJS';
 import addSlidesCSS from './steps/addSlidesCSS';
 import addSlidesJS from './steps/addSlidesJS';
+import addUnsupportedMacroIndicator from './steps/addUnsupportedMacroIndicator';
 import { Content } from '../confluence/confluence.interface';
 import { Version } from '../context/context.interface';
 
@@ -145,6 +146,7 @@ export class ProxyPageService {
     addWebStatsTracker(this.config)(this.context);
     await addJiraPromise;
     addLibrariesJS()(this.context);
+    addUnsupportedMacroIndicator()(this.context);
     this.context.Close();
     return this.context.getHtmlBody();
   }
