@@ -54,6 +54,3 @@ tests/e2e/cypress/integration/__image_snapshots__/*.diff.png
 
 # Tests coverage
 tests/unit/coverage
-
-# Vercel
-api/
