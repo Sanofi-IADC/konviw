@@ -66,7 +66,7 @@ jobs:
 
       - name: Run Cypress Tests
         uses: cypress-io/github-action@v2
-        if: ${{ steps.vercel-deploy.outputs.DEPLOYMENT_CREATED }}
+        if: ${{ steps.vercel-deploy.outputs.DEPLOYMENT_CREATED && matrix.node-version == '16.x' }}
         with:
           browser: chrome
         env:
