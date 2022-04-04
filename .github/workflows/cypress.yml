@@ -1,22 +1,17 @@
 name: Cypress Tests
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  on: [deployment_status]
 
 jobs:
   cypress-run:
     name: Cypress Run
-    if: "!contains(github.event.head_commit.message, 'chore(release):')"
+    if: github.event.deployment_status.state == 'success'
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [14.x, 16.x, 17.x]
     env:
-      CYPRESS_BASE_URL: https://konviw-iota.vercel.app/cpv
+      CYPRESS_BASE_URL: ${{ github.event.deployment_status.target_url }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -57,3 +52,29 @@ jobs:
           name: cypress-videos-artifacts
           retention-days: 1
           path: tests/e2e/cypress/videos/
+
+      - name: Cypress tests ✅
+        if: ${{ success() }}
+        run: |
+          curl --request POST \
+          --url https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }} \
+          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'content-type: application/json' \
+          --data '{
+            "context": "cypress-run",
+            "state": "success",
+            "description": "Cypress tests passed"
+          }'
+
+      - name: Cypress tests 🚨
+        if: ${{ failure() }}
+        run: |
+          curl --request POST \
+          --url https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }} \
+          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'content-type: application/json' \
+          --data '{
+            "context": "cypress-run",
+            "state": "failure",
+            "description": "Cypress tests failed"
+          }'
