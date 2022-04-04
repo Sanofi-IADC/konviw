@@ -1,4 +1,18 @@
 {
   "version": 2,
-  "routes": [{ "src": "/(.*)", "dest": "dist/src/main.js" }]
+  "builds": [
+    {
+      "src": "dist/src/main.js",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": ["dist/views/**", "dist/static/**"]
+      }
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "dist/src/main.js"
+    }
+  ]
 }
