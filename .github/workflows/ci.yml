@@ -57,6 +57,7 @@ jobs:
       - name: Deploy to Vercel
         id: vercel-deploy
         uses: BetaHuhn/deploy-to-vercel-action@v1
+        if: ${{ matrix.node-version == '16.x' }}
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
@@ -66,7 +67,7 @@ jobs:
 
       - name: Run Cypress Tests
         uses: cypress-io/github-action@v2
-        if: ${{ steps.vercel-deploy.outputs.DEPLOYMENT_CREATED && matrix.node-version == '16.x' }}
+        if: ${{ steps.vercel-deploy.outputs.DEPLOYMENT_CREATED }}
         with:
           browser: chrome
         env:
