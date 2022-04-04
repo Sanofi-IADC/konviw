@@ -69,6 +69,7 @@ jobs:
         if: ${{ steps.vercel-deploy.outputs.DEPLOYMENT_CREATED }}
         with:
           browser: chrome
+        env:
           CYPRESS_BASE_URL: ${{ steps.vercel-deploy.outputs.PREVIEW_URL }}
 
       - name: Upload Cypress Screenshots
