@@ -1,6 +1,6 @@
 {
   "functions": {
-    "dist/src/main.js": {
+    "api/src/main.js": {
       "memory": 3008,
       "maxDuration": 60
     }
