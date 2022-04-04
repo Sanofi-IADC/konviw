@@ -70,7 +70,7 @@ jobs:
         with:
           browser: chrome
         env:
-          CYPRESS_BASE_URL: ${{ steps.vercel-deploy.outputs.PREVIEW_URL }}
+          CYPRESS_BASE_URL: ${{ steps.vercel-deploy.outputs.PREVIEW_URL }}/cpv
 
       - name: Upload Cypress Screenshots
         uses: actions/upload-artifact@v3
