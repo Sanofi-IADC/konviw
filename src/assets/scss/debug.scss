@@ -1,0 +1,111 @@
+// Mixin to display the name of the macro or content to debug
+@mixin debug-macro-frame($name){
+  position: relative;
+  top: -8px;
+  left: 10px;
+  font-family: 'Courier New', Courier, monospace;
+  content: $name;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 5px 10px 5px 10px;
+  border-radius: 10px;
+  background-color: rgb(228, 220, 220);
+  color: var(--font-color);
+}
+
+// Debug columns layout
+#Content {
+  .columnLayout {
+    &.two-left-sidebar {
+      background-color: rgb(249, 215, 186);
+    }
+    &.two-right-sidebar  {
+      background-color: rgb(255, 241, 185);
+    }
+    &.two-equal {
+      background-color: rgb(212, 247, 159);
+    }
+    &.three-equal {
+      background-color: rgb(125, 173, 232);
+    }
+    &.three-with-sidebars {
+      background-color: rgb(174, 220, 238);
+    }
+  }
+
+  .aside {
+    border-style: double;
+    border-color: royalblue;
+    border-width: 4px;
+    &::before {
+      @include debug-macro-frame('smaller column');
+    }
+  }
+
+  .normal {
+    border-style: double;
+    border-color: hotpink;
+    border-width: 4px;
+    &::before {
+      @include debug-macro-frame('normal column');
+    }
+  }
+
+  .sidebars {
+    border-style: double;
+    border-color: steelblue;
+    border-width: 4px;
+    &::before {
+      @include debug-macro-frame('sidebars');
+    }
+  }
+}
+
+// Debug unsupported macros
+.unsupported-macro-indicator {
+  margin: 10px;
+  padding: 10px;
+  background: rgb(253, 217, 217);
+  border: 1px solid red;
+  border-radius: 5px;
+
+  .cross {
+    position: absolute;
+    right: 25px;
+    border-radius: 20px;
+    width: 20px;
+    height: 20px;
+    font-size: 15px;
+    text-align: center;
+    background: red;
+    color: white;
+
+    &::before {
+      content: 'x';
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+// Debug supported macros
+.debug-macro-indicator {
+  background: rgb(222, 181, 247);
+  border: 1px solid rgb(162, 0, 255);
+  border-radius: 5px;
+
+  &.debug-macro-toc{
+    &::before {
+      @include debug-macro-frame('macro TOC');
+    }
+  }
+
+  &.debug-macro-code{
+    &::before {
+      @include debug-macro-frame('macro Code');
+    }
+  }
+
+}

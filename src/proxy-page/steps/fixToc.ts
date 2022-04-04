@@ -19,6 +19,12 @@ export default (): Step => {
 
     $('div.client-side-toc-macro').each(
       (_macroIndex: number, elementTOC: cheerio.Element) => {
+        // if debug then show the macro debug frame
+        if (context.getView() === 'debug') {
+          $(elementTOC).wrap(
+            `<div class="debug-macro-indicator debug-macro-toc">`,
+          );
+        }
         const tocBuilder = new TocBuilder($(elementTOC).data());
 
         $('h1,h2,h3,h4,h5,h6').each(

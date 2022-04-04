@@ -9,6 +9,12 @@ export default (): Step => {
 
     $('pre.syntaxhighlighter-pre').each(
       (_index: number, elementCode: cheerio.Element) => {
+        // if debug then show the macro debug frame
+        if (context.getView() === 'debug') {
+          $(elementCode).wrap(
+            `<div class="debug-macro-indicator debug-macro-code">`,
+          );
+        }
         $(elementCode).replaceWith(
           `<pre><code>${$(elementCode).html()}</code></pre>`,
         );

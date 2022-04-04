@@ -26,6 +26,12 @@ export default (config: ConfigService, style?: string): Step => {
       `<link href="${basePath}/css/all.min.css?cache=${version}" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">`,
     );
 
+    /* Adding debug stylesheet */
+    if (context.getView() === 'debug') {
+      const debugCssPath = `${basePath}/css/debug.css?cache=${version}`;
+      $('head').append(`<link rel="stylesheet" type="text/css" href="${debugCssPath}">`);
+    }
+
     // ! Do not insert inline CSS styles because the function delUnnecessaryCode will remove them later
     context.getPerfMeasure('addCustomCss');
   };

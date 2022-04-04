@@ -1,3 +1,20 @@
+# [2.11.0](https://github.com/Sanofi-IADC/konviw/compare/v2.10.22...v2.11.0) (2022-04-04)
+
+
+### Bug Fixes
+
+* debug also supported macros ([c8a7afe](https://github.com/Sanofi-IADC/konviw/commit/c8a7afe7952358b187a30001fba78a67dde4303c))
+* FND-759 Back-to-top button is now positioned at the bottom-right corner both in full-with and fixed-width layout ([4f812f0](https://github.com/Sanofi-IADC/konviw/commit/4f812f00651eb6862a20b81a9f16c8f241efeaa9))
+* WEB-51 Added a specific stylesheet for debug mode ([3fecba9](https://github.com/Sanofi-IADC/konviw/commit/3fecba9eb015ba7126356a39e916f8ba1b15dfeb))
+* WEB-51 unsupported macros are handle in a single file; Unsupported macros are hidden unless view=debug exists in GET parameters ([2dcdce8](https://github.com/Sanofi-IADC/konviw/commit/2dcdce859bef12f90a36f97580a0445298ede992))
+
+
+### Features
+
+* FND-1180 pagetree and table-chart macros are hidden and replaced by a generic message ([cd30789](https://github.com/Sanofi-IADC/konviw/commit/cd307898824ddd86009920680dbb4066df01b783))
+* FND-1180 pagetree and table-chart macros are replaced by a toast message with a close button ([488c128](https://github.com/Sanofi-IADC/konviw/commit/488c128072ad5541d13795f1961151fb06e4958f))
+* new arrow style based on material icons ([fa2cace](https://github.com/Sanofi-IADC/konviw/commit/fa2cacea61d2822cb2391ea06074f66cca2a7cfc))
+
 ## [2.10.22](https://github.com/Sanofi-IADC/konviw/compare/v2.10.21...v2.10.22) (2022-03-17)
 
 
