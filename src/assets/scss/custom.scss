@@ -138,6 +138,50 @@ a.external-link {
   }
 }
 
+.favicon {
+  width: 14px;
+  padding: 0;
+  margin-right: 4px;
+}
+
+.card {
+  display: flex;
+  flex-direction: row-reverse;
+  border: 1px solid rgb(193, 199, 208);
+  margin: 0.75rem 0px 0px;
+  padding: 16px;
+
+  .title-desc {
+    width: 70%;
+
+    a {
+      font-weight: 500;
+    }
+
+    p {
+      color:rgb(94, 108, 132);
+      font-size: 12px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+  }
+
+  .thumb {
+    width: 30%;
+
+    &:empty {
+      width: 0;
+
+      & + .title-desc {
+        width: 100%;
+      }
+    }
+  }
+}
+
 // User mention with @ ===================================
 a.user-mention {
   background: var(--user-mention-bg);

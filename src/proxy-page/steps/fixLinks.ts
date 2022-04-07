@@ -3,9 +3,10 @@ import { Step } from '../proxy-page.step';
 import { ConfigService } from '@nestjs/config';
 import { Logger } from '@nestjs/common';
 import * as cheerio from 'cheerio';
+import { unfurl } from 'unfurl.js';
 
 export default (config: ConfigService): Step => {
-  return (context: ContextService): void => {
+  return async (context: ContextService): Promise<void> => {
     const logger = new Logger('fixLinks');
     context.setPerfMark('fixLinks');
 
@@ -13,10 +14,35 @@ export default (config: ConfigService): Step => {
     const confluenceBaseURL = config.get('confluence.baseURL');
     const webBasePath = config.get('web.absoluteBasePath');
 
-    // External links are tagged with the class external-link
-    $('a.external-link').each((_index: number, element: cheerio.Element) => {
-      $(element).attr('target', '_blank');
-    });
+    const externalLinksArray = $('a.external-link').toArray();
+    for(let i = 0; i < externalLinksArray.length; i++) {
+      const element = externalLinksArray[i];
+      
+      const url = $(element).attr('href');
+      const dataCardAppearance = $(element).attr('data-card-appearance');
+      const metadata = await unfurl(url);
+      
+      switch(dataCardAppearance) {
+        case 'inline':
+          $(element).replaceWith(`<a target="_blank" href="${url}"> <img class="favicon" src="${metadata.favicon}"/> ${metadata.title}</a>`);
+        break;
+        case 'block':
+          const imageSrc = metadata.open_graph.images.shift()?.url;
+          $(element).replaceWith(`
+          <div class="card">
+            <div class="thumb">${(imageSrc) ? `<img src="${imageSrc}"/>` : ''}</div>
+            <div class="title-desc">
+              <a target="_blank" href="${url}"> <img class="favicon" src="${metadata.favicon}"/> ${metadata.title}</a>
+              <p>${metadata.description}</p>
+            </div>
+          </div>
+          `);
+        break;
+        default:
+          $(element).attr('target', '_blank');
+        break;
+      }
+    }
 
     const domain = confluenceBaseURL.toString().replace(/https?:\/\//, '');
     // For direct Url and Uri we look for two patterns
