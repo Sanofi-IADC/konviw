@@ -25,24 +25,29 @@ export default (config: ConfigService): Step => {
       
       const url = $(element).attr('href');
       const dataCardAppearance = $(element).attr('data-card-appearance');
-      const metadata = await unfurl(url);
-      
-      switch(dataCardAppearance) {
-        case 'inline':
-          $(element).replaceWith(`<a target="_blank" href="${url}"> <img class="favicon" src="${metadata.favicon}"/> ${metadata.title}</a>`);
-        break;
-        case 'block':
-          const imageSrc = metadata.open_graph.images.shift()?.url;
-          $(element).replaceWith(`
-          <div class="card">
-            <div class="thumb">${(imageSrc) ? `<img src="${imageSrc}"/>` : ''}</div>
-            <div class="title-desc">
-              <a target="_blank" href="${url}"> <img class="favicon" src="${metadata.favicon}"/> ${metadata.title}</a>
-              <p>${metadata.description}</p>
+
+      try {
+        const metadata = await unfurl(url);
+        switch(dataCardAppearance) {
+          case 'inline':
+            $(element).replaceWith(`<a target="_blank" href="${url}"> <img class="favicon" src="${metadata.favicon}"/> ${metadata.title}</a>`);
+          break;
+          case 'block':
+            const imageSrc = metadata.open_graph.images.shift()?.url;
+            $(element).replaceWith(`
+            <div class="card">
+              <div class="thumb">${(imageSrc) ? `<img src="${imageSrc}"/>` : ''}</div>
+              <div class="title-desc">
+                <a target="_blank" href="${url}"> <img class="favicon" src="${metadata.favicon}"/> ${metadata.title}</a>
+                <p>${metadata.description}</p>
+              </div>
             </div>
-          </div>
-          `);
-        break;
+            `);
+          break;
+        }
+      }
+      catch (error) {
+        logger.log(`Unfurl error: ${error}`);
       }
     }
 
