@@ -14,7 +14,12 @@ export default (config: ConfigService): Step => {
     const confluenceBaseURL = config.get('confluence.baseURL');
     const webBasePath = config.get('web.absoluteBasePath');
 
+    // External links are tagged with the class external-link
     const externalLinksArray = $('a.external-link').toArray();
+    $(externalLinksArray).each((_index: number, element: cheerio.Element) => {
+      $(element).attr('target', '_blank');
+    });
+    // Inline & Card links display
     for(let i = 0; i < externalLinksArray.length; i++) {
       const element = externalLinksArray[i];
       
@@ -37,9 +42,6 @@ export default (config: ConfigService): Step => {
             </div>
           </div>
           `);
-        break;
-        default:
-          $(element).attr('target', '_blank');
         break;
       }
     }
