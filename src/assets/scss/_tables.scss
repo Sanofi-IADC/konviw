@@ -9,7 +9,8 @@ table.confluenceTable {
   width: 100%;
   table-layout: fixed;
 
-  colgroup col {
+  /* Column width in default tables are not overriden */
+  &:not([data-layout="default"]) colgroup col {
     width: auto !important;
   }
 }
