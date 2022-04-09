@@ -1,3 +1,12 @@
+## [2.12.3](https://github.com/Sanofi-IADC/konviw/compare/v2.12.2...v2.12.3) (2022-04-09)
+
+
+### Bug Fixes
+
+* avoid 100% default table ([82ed262](https://github.com/Sanofi-IADC/konviw/commit/82ed262856d53ed3d2eeba79db0e335f8fea33fa))
+* conflicts package-lock.json ([453f146](https://github.com/Sanofi-IADC/konviw/commit/453f1468a3647bac1afa1c19a697eb60374dec86))
+* WEB-76 Column width in default tables are not overriden ([b57bbce](https://github.com/Sanofi-IADC/konviw/commit/b57bbced839dee132e6210d5ce6652bb1a512418))
+
 ## [2.12.2](https://github.com/Sanofi-IADC/konviw/compare/v2.12.1...v2.12.2) (2022-04-08)
 
 
