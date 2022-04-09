@@ -1,0 +1,1 @@
+const t={key:"v-6472688a",path:"/demoBlogPost.html",title:"Demo with Blog Post",lang:"en-US",frontmatter:{title:"Demo with Blog Post"},excerpt:"",headers:[],git:{updatedTime:1649536889e3,contributors:[{name:"piixiiees",email:"piixiiees@gmail.com",commits:1}]},filePathRelative:"demoBlogPost.md"};export{t as data};
