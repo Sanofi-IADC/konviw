@@ -172,6 +172,12 @@ a.external-link {
   .thumb {
     width: 30%;
 
+    img {
+      height: 100%;
+      padding: 0;
+      object-fit: cover;
+    }
+
     &:empty {
       width: 0;
 
