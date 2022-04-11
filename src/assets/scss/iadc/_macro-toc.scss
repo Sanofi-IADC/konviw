@@ -92,7 +92,7 @@ button#floating-toc-btn {
 /* The class konviw-float-TOC is provided by a macro in Confluence */
 .toc-macro.konviw-float-TOC {
   position: fixed;
-  top: calc(3rem);
+  top: 10px;
   right: 10px;
 
   opacity: 0;
