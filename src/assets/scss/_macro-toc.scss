@@ -38,18 +38,14 @@
 }
 
 // Macro konviw floating TOC =============================
-$floating-toc-btn-size: 3.5em;
-
+$floating-toc-btn-size: 3rem;
 button#floating-toc-btn {
   opacity: 0.7;
 
   position: fixed;
-  top: 3rem;
+  top: 10px;
   /* Used to align the button with the scroll to top button */
-  right: calc(
-    var(--fab-btn-right) + ((100vw - 1200px) / 2) -
-      (#{$floating-toc-btn-size} / 2) + 10px
-  );
+  right: 10px;
 
   width: $floating-toc-btn-size;
   height: $floating-toc-btn-size;
@@ -63,6 +59,8 @@ button#floating-toc-btn {
 
   transition: opacity 0.2s ease, background-color 0.2s ease,
     border-radius 0.2s ease;
+
+  background-color: var(--toc-background-color);
 
   &:focus {
     outline: none;
@@ -84,7 +82,7 @@ button#floating-toc-btn {
 
   svg {
     path {
-      fill: var(--secondary-color);
+      fill: var(--toc-color);
     }
   }
 }
@@ -94,10 +92,7 @@ button#floating-toc-btn {
 .toc-macro.konviw-float-TOC {
   position: fixed;
   top: calc(3rem);
-  right: calc(
-    var(--fab-btn-right) + ((100vw - 1200px) / 2) -
-      (#{$floating-toc-btn-size} / 2) + 20px
-  );
+  right: 10px;
 
   opacity: 0;
 
