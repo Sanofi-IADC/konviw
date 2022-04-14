@@ -73,7 +73,7 @@ const addFloatingTocBtn = ($: cheerio.CheerioAPI) => {
   $('body').append(`
       <script lang='js'>
         const floatingTocBtn = document.getElementById('floating-toc-btn');
-        const floatingToc = document.querySelector('div.toc-macro.client-side-toc-macro');
+        const floatingToc = document.querySelector('div.konviw-float-TOC');
         const floatingTocLinks = floatingToc.querySelectorAll('a.toc-link');
         const activeFloatingToc = () => {
           floatingTocBtn.classList.add('active');
