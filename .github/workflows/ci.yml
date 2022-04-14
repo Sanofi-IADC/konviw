@@ -29,7 +29,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Cache dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ matrix.node-version }}-npm-${{ hashFiles('**/package-lock.json') }}
@@ -53,7 +53,7 @@ jobs:
 
       - name: Deploy to Vercel
         id: vercel-deploy
-        uses: BetaHuhn/deploy-to-vercel-action@v1
+        uses: BetaHuhn/deploy-to-vercel-action@v1.7.2
         if: ${{ matrix.node-version == '16.x' }}
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -106,7 +106,7 @@ jobs:
           node-version: "16.x"
 
       - name: Cache dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}

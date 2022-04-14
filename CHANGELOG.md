@@ -1,3 +1,34 @@
+## [2.12.5](https://github.com/Sanofi-IADC/konviw/compare/v2.12.4...v2.12.5) (2022-04-14)
+
+
+### Bug Fixes
+
+* WEB-69 fixed menu position to match new TOC button's coordinates ([7e29d61](https://github.com/Sanofi-IADC/konviw/commit/7e29d6140d01052af59e0b390ae1b97c8b4a4a43))
+* WEB-69 toc btn and back-to-top btn are now aligned & share the same colors ([14f6a88](https://github.com/Sanofi-IADC/konviw/commit/14f6a882dbd083897d56109839f5f86f82e65d52))
+
+## [2.12.4](https://github.com/Sanofi-IADC/konviw/compare/v2.12.3...v2.12.4) (2022-04-14)
+
+
+### Bug Fixes
+
+* WEB-84 fixed the menu selector so the floating TOC menu appears in embedded pages ([632b627](https://github.com/Sanofi-IADC/konviw/commit/632b6276fbbcd1fcbd70253abf96276c3b3a872f))
+
+## [2.12.3](https://github.com/Sanofi-IADC/konviw/compare/v2.12.2...v2.12.3) (2022-04-09)
+
+
+### Bug Fixes
+
+* avoid 100% default table ([82ed262](https://github.com/Sanofi-IADC/konviw/commit/82ed262856d53ed3d2eeba79db0e335f8fea33fa))
+* conflicts package-lock.json ([453f146](https://github.com/Sanofi-IADC/konviw/commit/453f1468a3647bac1afa1c19a697eb60374dec86))
+* WEB-76 Column width in default tables are not overriden ([b57bbce](https://github.com/Sanofi-IADC/konviw/commit/b57bbced839dee132e6210d5ce6652bb1a512418))
+
+## [2.12.2](https://github.com/Sanofi-IADC/konviw/compare/v2.12.1...v2.12.2) (2022-04-08)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @nestjs/config to v1.2.1 ([1309b01](https://github.com/Sanofi-IADC/konviw/commit/1309b01f9f7c9a68817b36e367348ed31894067f))
+
 ## [2.12.1](https://github.com/Sanofi-IADC/konviw/compare/v2.12.0...v2.12.1) (2022-04-05)
 
 
