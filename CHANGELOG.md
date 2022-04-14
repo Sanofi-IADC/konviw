@@ -1,3 +1,23 @@
+# [2.13.0](https://github.com/Sanofi-IADC/konviw/compare/v2.12.5...v2.13.0) (2022-04-14)
+
+
+### Bug Fixes
+
+* package-lock.json ([ec292e3](https://github.com/Sanofi-IADC/konviw/commit/ec292e367cbe2abe45ee17fd014a79b2fdf1cce7))
+* package-lock.json conflict ([dc38fcd](https://github.com/Sanofi-IADC/konviw/commit/dc38fcd8f68adad820b72751385c598715d7aba3))
+* redo commit because wrong previous merge ([1667bab](https://github.com/Sanofi-IADC/konviw/commit/1667babe04dd0c9b4d14431d51b7ecddda5e5bcd))
+* WEB-46 Added unit test for card and inline external links ([562abb0](https://github.com/Sanofi-IADC/konviw/commit/562abb09769d88d1b2097cd29bbff2259d57c277))
+* WEB-46 Fixed unit test ([9fbb3ee](https://github.com/Sanofi-IADC/konviw/commit/9fbb3eea570ec63f782c3950320b95ce6601d787))
+* WEB-46 removed padding on thumbnails; Thumbs extend up to 100% height ([b33f418](https://github.com/Sanofi-IADC/konviw/commit/b33f4188c22514befd564605b575e1b772979447))
+* WEB-46 Wrapping unfurl requests in try/catch blocks to handle errors ([7f2cd56](https://github.com/Sanofi-IADC/konviw/commit/7f2cd56111e2c88393b1ce7abcd59662bce44cb8))
+* WEB-76 updated cypress snapshot ([10aefc9](https://github.com/Sanofi-IADC/konviw/commit/10aefc9b80c8cb241174344974777ed45046441c))
+* WEB-76 updated cypress snapshot ([5b982a9](https://github.com/Sanofi-IADC/konviw/commit/5b982a9b27e46602c7947dbbfd6e9e214723b688))
+
+
+### Features
+
+* WEB-46 Updated external links to parse the href url and render the links like confluence does ([7a2d8ee](https://github.com/Sanofi-IADC/konviw/commit/7a2d8ee91679ecdb99ecddef6441aa3faab3fb01))
+
 ## [2.12.5](https://github.com/Sanofi-IADC/konviw/compare/v2.12.4...v2.12.5) (2022-04-14)
 
 
