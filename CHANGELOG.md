@@ -1,3 +1,11 @@
+## [2.12.5](https://github.com/Sanofi-IADC/konviw/compare/v2.12.4...v2.12.5) (2022-04-14)
+
+
+### Bug Fixes
+
+* WEB-69 fixed menu position to match new TOC button's coordinates ([7e29d61](https://github.com/Sanofi-IADC/konviw/commit/7e29d6140d01052af59e0b390ae1b97c8b4a4a43))
+* WEB-69 toc btn and back-to-top btn are now aligned & share the same colors ([14f6a88](https://github.com/Sanofi-IADC/konviw/commit/14f6a882dbd083897d56109839f5f86f82e65d52))
+
 ## [2.12.4](https://github.com/Sanofi-IADC/konviw/compare/v2.12.3...v2.12.4) (2022-04-14)
 
 
