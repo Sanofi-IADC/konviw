@@ -6,10 +6,9 @@ table.confluenceTable {
   color: var(--font-color);
   margin-left: 0;
   margin-right: auto;
-  width: 100%;
   table-layout: fixed;
 
-  colgroup col {
+  &:not([data-layout='default']) colgroup col {
     width: auto !important;
   }
 }

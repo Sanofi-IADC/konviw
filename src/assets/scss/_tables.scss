@@ -6,10 +6,9 @@ table.confluenceTable {
   color: var(--font-color);
   margin-left: 0;
   margin-right: auto;
-  width: 100%;
   table-layout: fixed;
 
-  colgroup col {
+  &:not([data-layout='default']) colgroup col {
     width: auto !important;
   }
 }
@@ -44,7 +43,6 @@ table.confluenceTable th.confluenceTh {
 .table-wrap {
   margin: auto;
   margin-top: 20px;
-  // overflow-x: auto;
 }
 
 /* an exception to above rule for tables that are first child */
