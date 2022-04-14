@@ -1,3 +1,10 @@
+## [2.12.4](https://github.com/Sanofi-IADC/konviw/compare/v2.12.3...v2.12.4) (2022-04-14)
+
+
+### Bug Fixes
+
+* WEB-84 fixed the menu selector so the floating TOC menu appears in embedded pages ([632b627](https://github.com/Sanofi-IADC/konviw/commit/632b6276fbbcd1fcbd70253abf96276c3b3a872f))
+
 ## [2.12.3](https://github.com/Sanofi-IADC/konviw/compare/v2.12.2...v2.12.3) (2022-04-09)
 
 
