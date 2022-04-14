@@ -36,7 +36,8 @@ a.back-to-top-link {
   width: 3rem;
   height: 3rem;
   border-radius: 50%;
-  background-color: #d6e3f0;
+  background-color: var(--toc-background-color);
+  color: var(--toc-color);
   opacity: 0.5;
 }
 
