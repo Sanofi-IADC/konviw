@@ -98,7 +98,7 @@ h6 {
 
 // Source code ===========================================
 // although most of the configuration and syntax highlights comes from addHighlights step
-code {
+code.hljs {
   border-radius: 3px;
   color: var(--font-color);
   background-color: var(--highlight-grey);
