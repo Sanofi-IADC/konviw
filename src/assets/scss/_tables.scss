@@ -29,6 +29,10 @@ table.confluenceTable th.confluenceTh {
   vertical-align: top;
   min-width: 8px; /* CONF-39943: set table cell min-width to which cursor can be focused */
   word-wrap: break-word;
+
+  h1, h2, h3 {
+    font-weight: 600;
+  }
 }
 
 /* Lists in tables */
@@ -340,9 +344,12 @@ table.confluenceTable td.confluenceTd[data-highlight-colour='\#000000'] {
 }
 /* ADG3 colors end */
 
-table.confluenceTable th.confluenceTh,
-table.confluenceTable th.confluenceTh > p {
+table.confluenceTable th.confluenceTh {
   font-weight: bold;
+
+  p {
+    font-weight: initial;
+  }
 }
 
 table.confluenceTable th.confluenceTh.nohighlight, /* deprecated */
