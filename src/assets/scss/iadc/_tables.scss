@@ -20,6 +20,11 @@ table.confluenceTable th.confluenceTh {
   z-index: 2;
   box-shadow: 0 3px 2px -1px rgba(0, 0, 0, 0.4);
   font-size: var(--main-font-size);
+  font-weight: bold;
+
+  p {
+    font-weight: initial;
+  }
 }
 
 .confluenceTh,
@@ -343,14 +348,6 @@ table.confluenceTable td.confluenceTd[data-highlight-colour='\#000000'] {
   background-color: #000000;
 }
 /* ADG3 colors end */
-
-table.confluenceTable th.confluenceTh {
-  font-weight: bold;
-
-  p {
-    font-weight: initial;
-  }
-}
 
 table.confluenceTable th.confluenceTh.nohighlight, /* deprecated */
 table.confluenceTable th.confluenceTh.nohighlight > p {
