@@ -2,7 +2,6 @@
 video {
   width: 70%;
   height: auto;
-  box-sizing: border-box;
 }
 
 iframe.conf-macro {
@@ -16,7 +15,6 @@ iframe.conf-macro {
 img {
   max-width: 100%;
   height: auto;
-  box-sizing: border-box;
   &.image-left {
     display: block;
     align-content: left;
