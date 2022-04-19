@@ -1,3 +1,10 @@
+## [2.13.1](https://github.com/Sanofi-IADC/konviw/compare/v2.13.0...v2.13.1) (2022-04-15)
+
+
+### Bug Fixes
+
+* **deps:** pin dependency unfurl.js to 5.6.4 ([d21b8b2](https://github.com/Sanofi-IADC/konviw/commit/d21b8b250a9211a54766589175efe2b9b149d1f1))
+
 # [2.13.0](https://github.com/Sanofi-IADC/konviw/compare/v2.12.5...v2.13.0) (2022-04-14)
 
 
