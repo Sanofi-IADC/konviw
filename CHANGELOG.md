@@ -1,3 +1,10 @@
+## [2.13.2](https://github.com/Sanofi-IADC/konviw/compare/v2.13.1...v2.13.2) (2022-04-19)
+
+
+### Bug Fixes
+
+* WEB-46 Commented the process which altered the external links as long as scraping external URLs will be an issue on dev environment ([7b14d0a](https://github.com/Sanofi-IADC/konviw/commit/7b14d0aaa35d82f67b0571029c19607da89da8eb))
+
 ## [2.13.1](https://github.com/Sanofi-IADC/konviw/compare/v2.13.0...v2.13.1) (2022-04-15)
 
 
