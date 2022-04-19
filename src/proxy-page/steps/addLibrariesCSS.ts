@@ -13,7 +13,7 @@ export default (): Step => {
       );
     } else {
       $('head').append(
-        `<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/github.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />`,
+        `<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/base16/solar-flare-light.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />`,
       );
     }
 
