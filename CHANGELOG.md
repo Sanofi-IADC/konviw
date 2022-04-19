@@ -1,3 +1,19 @@
+# [2.14.0](https://github.com/Sanofi-IADC/konviw/compare/v2.13.3...v2.14.0) (2022-04-19)
+
+
+### Bug Fixes
+
+* WEB-98 mirrored the iadc stylesheet ([abe99da](https://github.com/Sanofi-IADC/konviw/commit/abe99da07f7ba142ffd32226f8603b56e9d0e95b))
+* WEB-98 Paragraphs and h3 in tables have the same font-weight as in Confluence ([e191351](https://github.com/Sanofi-IADC/konviw/commit/e1913511b0dca547d8ae4c368b7ccd9c352e638f))
+
+
+### Features
+
+* WEB-98 fixed code smells ([e8ae598](https://github.com/Sanofi-IADC/konviw/commit/e8ae598e26ca998eadb1d554a9209a6495474775))
+* WEB-99 Added a light background to code blocks for better User Experience ([7b33714](https://github.com/Sanofi-IADC/konviw/commit/7b33714c03149c0a652008bef3cd15ea7d3fc555))
+* WEB-99 fixed cypress snapshot test ([b54c109](https://github.com/Sanofi-IADC/konviw/commit/b54c10949ffdd8f29357f7badbfdf56ee6cee86a))
+* WEB-99 now using a different highlightjs theme instead of a custom css content ([a66cbbe](https://github.com/Sanofi-IADC/konviw/commit/a66cbbedd4f8ac133db7178b50145f518e95cee8))
+
 ## [2.13.3](https://github.com/Sanofi-IADC/konviw/compare/v2.13.2...v2.13.3) (2022-04-19)
 
 
