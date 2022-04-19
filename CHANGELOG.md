@@ -1,3 +1,20 @@
+## [2.13.3](https://github.com/Sanofi-IADC/konviw/compare/v2.13.2...v2.13.3) (2022-04-19)
+
+
+### Bug Fixes
+
+* removed box-sizing attribute so that both media.scss files are identical ([61e891d](https://github.com/Sanofi-IADC/konviw/commit/61e891d84e02c07a1f9fdade5c04a4e1de0f94cd))
+* WEB-100 removed box-sizing attribute so that both media.scss files are identical ([7f7059a](https://github.com/Sanofi-IADC/konviw/commit/7f7059a91a335e42706ff37299f19649359109c3))
+* WEB-100 removed default padding on img tags to fix small icons display ([cfe1a1e](https://github.com/Sanofi-IADC/konviw/commit/cfe1a1e7228a821e1c0bf8e303f9e249b3c6c2ea))
+* WEB-100 removed default padding on img tags to fix small icons display ([2dc7513](https://github.com/Sanofi-IADC/konviw/commit/2dc751372422775fbd612df67281301cff95f264))
+
+## [2.13.2](https://github.com/Sanofi-IADC/konviw/compare/v2.13.1...v2.13.2) (2022-04-19)
+
+
+### Bug Fixes
+
+* WEB-46 Commented the process which altered the external links as long as scraping external URLs will be an issue on dev environment ([7b14d0a](https://github.com/Sanofi-IADC/konviw/commit/7b14d0aaa35d82f67b0571029c19607da89da8eb))
+
 ## [2.13.1](https://github.com/Sanofi-IADC/konviw/compare/v2.13.0...v2.13.1) (2022-04-15)
 
 
