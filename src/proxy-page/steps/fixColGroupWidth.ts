@@ -37,5 +37,5 @@ export default (): Step => {
 
 function getElementValue(elementColumn: cheerio.Element): number {
   const attribs = JSON.parse(JSON.stringify(elementColumn.attribs));
-  return Number(attribs.style?.match(/\d+/)[0]) ?? 0;
+  return Number(attribs?.style?.match(/\d+/)[0]) ?? 0;
 }
