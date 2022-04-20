@@ -53,6 +53,16 @@ export default (): Step => {
       </script>`,
     );
 
+    $('body').append(
+      `<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>`,
+      `<script src="https://moka.tv/labs/antioverflowfontresizer/AntiOverflowFontResizer.min.js"></script>`,
+      `<script>
+         document.addEventListener('DOMContentLoaded', (event) => {
+           $('th.confluenceTh').aofsr();
+         })
+       </script>`,
+    );
+
     context.getPerfMeasure('addlibrariesJS');
   };
 };
