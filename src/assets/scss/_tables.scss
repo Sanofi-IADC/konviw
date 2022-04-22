@@ -8,22 +8,25 @@ table.confluenceTable {
   margin-right: auto;
   table-layout: fixed;
 
-  // Fix 'default' tables to 50% of the layout width
+  // Fix 'default' tables to 60% of the layout width
   &[data-layout='default'] {
     max-width: 60%;
-    width: 100%;
   }
 
-  // Fix 'wide' tables to 80% of the layout width
+  // Fix 'wide' tables to fit the 100% of the layout
   &[data-layout='wide'] {
     max-width: 100%;
-    width: 100%;
   }
 
   // Fix 'full-width' tables to fit the 100% of the layout
   &[data-layout='full-width'] {
-    width: 100%;
     max-width: 100%;
+  }
+
+  // Fix SVG's width embedded in tables like roadmap macros
+  svg {
+    max-width: 100%;
+    overflow: visible;
   }
 }
 
@@ -35,7 +38,6 @@ table.confluenceTable th.confluenceTh {
   box-shadow: 0 3px 2px -1px rgba(0, 0, 0, 0.4);
   font-size: var(--main-font-size);
   font-weight: bold;
-  word-break: break-word;
 
   p {
     font-weight: initial;
@@ -44,6 +46,7 @@ table.confluenceTable th.confluenceTh {
 
 .table-wrap {
   box-sizing: border-box;
+  overflow: auto; // make tables that are too wide horizontally scrollable
 }
 
 .confluenceTh,
@@ -53,6 +56,7 @@ table.confluenceTable th.confluenceTh {
   vertical-align: top;
   min-width: 8px; /* CONF-39943: set table cell min-width to which cursor can be focused */
   word-wrap: break-word;
+  // word-break: break-word; // breaking words will fix the max-width properties for all tables
 
   h1,
   h2,
