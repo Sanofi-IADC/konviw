@@ -12,24 +12,28 @@ import * as cheerio from 'cheerio';
  * @param  {ConfigService} config
  * @returns void
  */
+
 export default (): Step => {
   return (context: ContextService): void => {
     context.setPerfMark('fixColgroupWidth');
     const $ = context.getCheerioBody();
-    $('colgroup').each((_index: number, elementColgroup: cheerio.Element) => {
+    $(
+      // similar to 'table:not([data-layout="default"])>colgroup' we apply to fill-width and wide tables
+      "table[data-layout='full-width']>colgroup, table[data-layout= 'wide']> colgroup",
+    ).each((_index: number, elementColgroup: cheerio.Element) => {
+      console.log('fixing col group for larger tables');
       let sumColWidth = 0;
-      const maxColWidth = 1000;
       elementColgroup.childNodes.forEach((elementColumn: cheerio.Element) => {
         sumColWidth += getElementValue(elementColumn);
       });
-      if (sumColWidth > maxColWidth) {
-        elementColgroup.childNodes.forEach((elementColumn: cheerio.Element) => {
-          const newWidth = Math.round(
-            (getElementValue(elementColumn) / sumColWidth) * 100,
-          );
-          elementColumn.attribs = { style: 'width: ' + newWidth + '%;' };
-        });
-      }
+      // if (sumColWidth > maxColWidth) {
+      elementColgroup.childNodes.forEach((elementColumn: cheerio.Element) => {
+        const newWidth = Math.round(
+          (getElementValue(elementColumn) / sumColWidth) * 100,
+        );
+        elementColumn.attribs = { style: 'width: ' + newWidth + '%;' };
+      });
+      // }
     });
     context.getPerfMeasure('fixColgroupWidth');
   };

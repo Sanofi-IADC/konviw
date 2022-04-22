@@ -8,8 +8,22 @@ table.confluenceTable {
   margin-right: auto;
   table-layout: fixed;
 
-  &:not([data-layout='default']) colgroup col {
-    width: auto !important;
+  // Fix 'default' tables to 50% of the layout width
+  &[data-layout='default'] {
+    max-width: 60%;
+    width: 100%;
+  }
+
+  // Fix 'wide' tables to 80% of the layout width
+  &[data-layout='wide'] {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  // Fix 'full-width' tables to fit the 100% of the layout
+  &[data-layout='full-width'] {
+    width: 100%;
+    max-width: 100%;
   }
 }
 
@@ -28,6 +42,10 @@ table.confluenceTable th.confluenceTh {
   }
 }
 
+.table-wrap {
+  box-sizing: border-box;
+}
+
 .confluenceTh,
 .confluenceTd {
   border: 1px solid #ddd;
@@ -36,7 +54,9 @@ table.confluenceTable th.confluenceTh {
   min-width: 8px; /* CONF-39943: set table cell min-width to which cursor can be focused */
   word-wrap: break-word;
 
-  h1, h2, h3 {
+  h1,
+  h2,
+  h3 {
     font-weight: 600;
   }
 }
