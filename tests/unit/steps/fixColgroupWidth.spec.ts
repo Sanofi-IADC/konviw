@@ -22,14 +22,5 @@ describe('ConfluenceProxy / fixColGroupWidth', () => {
     expect(context.getHtmlBody()).toContain('width: 224.0px;');
     expect(context.getHtmlBody()).not.toContain('width: 25%;');
   });
-
-  it('should convert column width from px to proportional percentage % when sum of colgroup column widths is more than 1000px', () => {
-    const colGroup = '<table><colgroup><col style="width: 224.0px;"/><col style="width: 224.0px;"/><col style="width: 224.0px;"/><col style="width: 224.0px;"/><col style="width: 224.0px;"/></colgroup></table>';
-    context.setHtmlBody(colGroup);
-    expect(context.getHtmlBody()).toContain('width: 224.0px');
-    step(context);
-    expect(context.getHtmlBody()).not.toContain('width: 224.0px');
-    expect(context.getHtmlBody()).toContain('width: 20%;');
-  });
   
 })

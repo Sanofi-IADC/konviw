@@ -1,5 +1,5 @@
 // Mixin to display the name of the macro or content to debug
-@mixin debug-macro-frame($name){
+@mixin debug-macro-frame($name) {
   position: relative;
   top: -8px;
   left: 10px;
@@ -19,7 +19,7 @@
     &.two-left-sidebar {
       background-color: rgb(249, 215, 186);
     }
-    &.two-right-sidebar  {
+    &.two-right-sidebar {
       background-color: rgb(255, 241, 185);
     }
     &.two-equal {
@@ -96,16 +96,30 @@
   border: 1px solid rgb(162, 0, 255);
   border-radius: 5px;
 
-  &.debug-macro-toc{
+  &.debug-macro-toc {
     &::before {
       @include debug-macro-frame('macro TOC');
     }
   }
 
-  &.debug-macro-code{
+  &.debug-macro-code {
     &::before {
       @include debug-macro-frame('macro Code');
     }
   }
+}
 
+// Tables
+table.confluenceTable {
+  &[data-layout='default'] {
+    background-color: blue;
+  }
+
+  &[data-layout='wide'] {
+    background-color: red;
+  }
+
+  &[data-layout='full-width'] {
+    background-color: peru;
+  }
 }
