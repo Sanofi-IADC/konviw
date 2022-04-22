@@ -1,3 +1,10 @@
+## [2.14.1](https://github.com/Sanofi-IADC/konviw/compare/v2.14.0...v2.14.1) (2022-04-22)
+
+
+### Bug Fixes
+
+* added word-break to fix table width in case there is a large number of columns ([#414](https://github.com/Sanofi-IADC/konviw/issues/414)) ([971bff6](https://github.com/Sanofi-IADC/konviw/commit/971bff6e08e35743e335359e7dbce6ab11412a84))
+
 # [2.14.0](https://github.com/Sanofi-IADC/konviw/compare/v2.13.3...v2.14.0) (2022-04-19)
 
 
