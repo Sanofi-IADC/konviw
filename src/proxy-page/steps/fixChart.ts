@@ -79,6 +79,7 @@ export default (config: ConfigService): Step => {
 
           // get the body of the macro, suposed to be several html tables
           const tablesHtml = chartRenderData['bodyHtml'];
+          // console.log({ tablesHtml })
 
           // Let's convert the HTML table(s) to JSON via the npm package tabletojson
           const tables = Tabletojson.convert(tablesHtml);
@@ -327,7 +328,7 @@ const opSeries = (tables, typeofChart, dataOrientation): string => {
         tmpSeries =
           tmpSeries +
           '{ name:"' +
-          Object.keys(table[0])[j] +
+          Object.keys(table[0])[j + 1] + // index+1 to skip the X axis name
           '", data: [' +
           element +
           ']},';
