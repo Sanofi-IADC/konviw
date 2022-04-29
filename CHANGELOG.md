@@ -1,3 +1,10 @@
+## [2.14.2](https://github.com/Sanofi-IADC/konviw/compare/v2.14.1...v2.14.2) (2022-04-29)
+
+
+### Bug Fixes
+
+* WEB-85 fixed legend macro chart by using the right index ([#415](https://github.com/Sanofi-IADC/konviw/issues/415)) ([7287c9b](https://github.com/Sanofi-IADC/konviw/commit/7287c9b6a4af100febd89e152a165a39e7a6a33f))
+
 ## [2.14.1](https://github.com/Sanofi-IADC/konviw/compare/v2.14.0...v2.14.1) (2022-04-22)
 
 
