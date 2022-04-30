@@ -26,11 +26,7 @@ export class ContextService {
   private searchResults = '';
   private fullWidth = false;
   private observer: PerformanceObserver;
-  constructor(private config: ConfigService) {}
-
-  // ! How to make this working with classic constructor for the class?
-  // ! Somehow not working with the @Injectable decorator
-  // constructor(private spaceKey: string, private pageId: string, private theme:s tring) {}
+  constructor(private config: ConfigService) { }
 
   Init(spaceKey: string, pageId: string, theme = '', style = '') {
     this.spaceKey = spaceKey;
@@ -59,9 +55,15 @@ export class ContextService {
   ) {
     this.Init(spaceKey, pageId, theme, style);
     this.setTitle(data.title);
+    const version: Version = {
+      versionNumber: data.version.number,
+      lastModification: new Date(data.version.friendlyWhen),
+      modificationBy: data.version.by.publicName,
+    };
     if (view) {
       this.setView(view);
     }
+    this.setVersion(version);
     this.setHtmlBody(data.body.view.value, loadAsDocument);
     this.setAuthor(data.history.createdBy.displayName);
     this.setEmail(data.history.createdBy.email);
@@ -70,7 +72,7 @@ export class ContextService {
     if (
       data.metadata?.properties['content-appearance-published'] &&
       data.metadata?.properties['content-appearance-published'].value ===
-        'full-width'
+      'full-width'
     ) {
       this.setFullWidth(true);
     } else {

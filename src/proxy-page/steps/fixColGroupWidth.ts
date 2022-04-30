@@ -21,7 +21,6 @@ export default (): Step => {
       // similar to 'table:not([data-layout="default"])>colgroup' we apply to fill-width and wide tables
       "table[data-layout='full-width']>colgroup, table[data-layout= 'wide']> colgroup",
     ).each((_index: number, elementColgroup: cheerio.Element) => {
-      console.log('fixing col group for larger tables');
       let sumColWidth = 0;
       elementColgroup.childNodes.forEach((elementColumn: cheerio.Element) => {
         sumColWidth += getElementValue(elementColumn);

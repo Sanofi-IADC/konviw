@@ -30,6 +30,7 @@ class ConfluenceServiceMock {
         createdDate: '2020-01-01T01:30:00.000',
       },
       body: { view: { value: '<Content>page content</Content>' } },
+      version: { number: 21, friendlyWhen: '19 January 2021', by: { publicName: 'Name LastName' } }
     };
 
     return {

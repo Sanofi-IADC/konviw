@@ -36,8 +36,6 @@ import addLibrariesJS from './steps/addLibrariesJS';
 import addSlidesCSS from './steps/addSlidesCSS';
 import addSlidesJS from './steps/addSlidesJS';
 import addUnsupportedMacroIndicator from './steps/addUnsupportedMacroIndicator';
-import { Content } from '../confluence/confluence.interface';
-import { Version } from '../context/context.interface';
 
 @Injectable()
 export class ProxyPageService {
@@ -48,38 +46,6 @@ export class ProxyPageService {
     private confluence: ConfluenceService,
     private jira: JiraService,
   ) {}
-
-  private initContext(
-    spaceKey: string,
-    pageId: string,
-    theme: string,
-    style: string,
-    view: string,
-    data: Content,
-  ) {
-    this.context.Init(spaceKey, pageId, theme, style);
-    this.context.setTitle(data.title);
-    const version: Version = {
-      versionNumber: data.version.number,
-      lastModification: new Date(data.version.friendlyWhen),
-      modificationBy: data.version.by.publicName,
-    };
-    this.context.setVersion(version);
-    this.context.setView(view);
-    this.context.setHtmlBody(data.body.view.value);
-    this.context.setAuthor(data.history.createdBy.displayName);
-    this.context.setEmail(data.history.createdBy.email);
-    this.context.setAvatar(data.history.createdBy.profilePicture.path);
-    this.context.setWhen(data.history.createdDate);
-    if (
-      data.metadata.properties['content-appearance-published']?.value ===
-      'full-width'
-    ) {
-      this.context.setFullWidth(true);
-    } else {
-      this.context.setFullWidth(false);
-    }
-  }
 
   /**
    * @function renderPage Service
