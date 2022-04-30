@@ -26,14 +26,40 @@ export class ContextService {
   private searchResults = '';
   private fullWidth = false;
   private observer: PerformanceObserver;
-  constructor(private config: ConfigService) { }
+  constructor(private config: ConfigService) {}
 
-  Init(spaceKey: string, pageId: string, theme = '', style = '') {
+  // Init(spaceKey: string, pageId: string, theme = '', style = '') {
+  //   this.spaceKey = spaceKey;
+  //   this.pageId = pageId;
+  //   this.theme = theme;
+  //   this.style = style;
+  //   const logger = new Logger(ContextService.name);
+  //   // Activate the observer in development
+  //   if (this.config.get('env').toString() === 'development') {
+  //     this.observer = new PerformanceObserver((list) => {
+  //       const entry = list.getEntries()[0];
+  //       logger.log(`Time for [${entry.name}] = ${entry.duration}ms`);
+  //     });
+  //     this.observer.observe({ entryTypes: ['measure'], buffered: false });
+  //   }
+  // }
+
+  initPageContext(
+    spaceKey: string,
+    pageId: string,
+    theme?: string,
+    style?: string,
+    data?: Content,
+    loadAsDocument = true,
+    view?: string,
+  ) {
+    // this.Init(spaceKey, pageId, theme, style);
     this.spaceKey = spaceKey;
     this.pageId = pageId;
     this.theme = theme;
     this.style = style;
     const logger = new Logger(ContextService.name);
+
     // Activate the observer in development
     if (this.config.get('env').toString() === 'development') {
       this.observer = new PerformanceObserver((list) => {
@@ -42,41 +68,32 @@ export class ContextService {
       });
       this.observer.observe({ entryTypes: ['measure'], buffered: false });
     }
-  }
 
-  initPageContext(
-    spaceKey: string,
-    pageId: string,
-    theme: string,
-    style: string,
-    data: Content,
-    loadAsDocument = true,
-    view?: string,
-  ) {
-    this.Init(spaceKey, pageId, theme, style);
-    this.setTitle(data.title);
-    const version: Version = {
-      versionNumber: data.version.number,
-      lastModification: new Date(data.version.friendlyWhen),
-      modificationBy: data.version.by.publicName,
-    };
     if (view) {
       this.setView(view);
     }
-    this.setVersion(version);
-    this.setHtmlBody(data.body.view.value, loadAsDocument);
-    this.setAuthor(data.history.createdBy.displayName);
-    this.setEmail(data.history.createdBy.email);
-    this.setAvatar(data.history.createdBy.profilePicture.path);
-    this.setWhen(data.history.createdDate);
-    if (
-      data.metadata?.properties['content-appearance-published'] &&
-      data.metadata?.properties['content-appearance-published'].value ===
-      'full-width'
-    ) {
-      this.setFullWidth(true);
-    } else {
-      this.setFullWidth(false);
+    if (data) {
+      this.setTitle(data.title);
+      const version: Version = {
+        versionNumber: data.version.number,
+        lastModification: new Date(data.version.friendlyWhen),
+        modificationBy: data.version.by.publicName,
+      };
+      this.setVersion(version);
+      this.setHtmlBody(data.body.view.value, loadAsDocument);
+      this.setAuthor(data.history.createdBy.displayName);
+      this.setEmail(data.history.createdBy.email);
+      this.setAvatar(data.history.createdBy.profilePicture.path);
+      this.setWhen(data.history.createdDate);
+      if (
+        data.metadata?.properties['content-appearance-published'] &&
+        data.metadata?.properties['content-appearance-published'].value ===
+          'full-width'
+      ) {
+        this.setFullWidth(true);
+      } else {
+        this.setFullWidth(false);
+      }
     }
   }
 

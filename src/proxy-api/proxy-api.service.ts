@@ -78,7 +78,8 @@ export class ProxyApiService {
 
     const parseResults: KonviwContent[] = data.results.map(
       (doc: ResultsContent) => {
-        this.context.Init(spaceKeys, doc.content.id);
+        const spacekey = doc.resultGlobalContainer.displayUrl.split('/')[2];
+        this.context.initPageContext(spacekey, doc.content.id);
         this.context.setHtmlBody(doc.content.body.view.value);
         const atlassianIadcRegEx = new RegExp(`${baseURL}/wiki/`);
         parseHeaderBlog()(this.context);
@@ -105,7 +106,7 @@ export class ProxyApiService {
             .getImgBlog()
             .replace(atlassianIadcRegEx, `${baseHost}${basePath}/wiki/`),
           summary: doc.excerpt,
-          space: doc.resultGlobalContainer.displayUrl.split('/')[2],
+          space: spacekey,
           lastModified: doc.friendlyLastModified,
           excerptBlog: this.context.getExcerpt(),
           body: this.context.getTextBody(),
