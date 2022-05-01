@@ -43,7 +43,7 @@ describe('Confluence Proxy / addJira', () => {
       config.get('confluence.baseURL');
     step = addJira(config, new JiraServiceMock() as any);
     context = moduleRef.get<ContextService>(ContextService);
-    context.Init('XXX', '123456', 'dark');
+    context.initPageContext('XXX', '123456', 'dark');
   });
 
   afterAll(() => {

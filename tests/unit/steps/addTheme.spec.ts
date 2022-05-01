@@ -1,4 +1,4 @@
-import { Step } from 'src/proxy-page/proxy-page.step';
+import { Step } from '../../../src/proxy-page/proxy-page.step';
 import { ContextService } from '../../../src/context/context.service';
 import addTheme from '../../../src/proxy-page/steps/addTheme';
 import { createModuleRefForStep } from './utils';
@@ -14,7 +14,7 @@ describe('Confluence Proxy / addTheme', () => {
   });
 
   it('should add dark theme', () => {
-    context.Init('XXX', '123456', 'dark');
+    context.initPageContext('XXX', '123456', 'dark');
     context.setHtmlBody('<html><head></head><body>BODY CONTENT</body></html>');
     step(context);
     expect(context.getHtmlBody())
@@ -27,7 +27,7 @@ describe('Confluence Proxy / addTheme', () => {
   });
 
   it('should add light theme', () => {
-    context.Init('XXX', '123456', 'light');
+    context.initPageContext('XXX', '123456', 'light');
     context.setHtmlBody('<html><head></head><body>BODY CONTENT</body></html>');
     step(context);
     expect(context.getHtmlBody())

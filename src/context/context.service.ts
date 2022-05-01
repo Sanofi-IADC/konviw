@@ -28,22 +28,6 @@ export class ContextService {
   private observer: PerformanceObserver;
   constructor(private config: ConfigService) {}
 
-  // Init(spaceKey: string, pageId: string, theme = '', style = '') {
-  //   this.spaceKey = spaceKey;
-  //   this.pageId = pageId;
-  //   this.theme = theme;
-  //   this.style = style;
-  //   const logger = new Logger(ContextService.name);
-  //   // Activate the observer in development
-  //   if (this.config.get('env').toString() === 'development') {
-  //     this.observer = new PerformanceObserver((list) => {
-  //       const entry = list.getEntries()[0];
-  //       logger.log(`Time for [${entry.name}] = ${entry.duration}ms`);
-  //     });
-  //     this.observer.observe({ entryTypes: ['measure'], buffered: false });
-  //   }
-  // }
-
   initPageContext(
     spaceKey: string,
     pageId: string,
@@ -53,7 +37,6 @@ export class ContextService {
     loadAsDocument = true,
     view?: string,
   ) {
-    // this.Init(spaceKey, pageId, theme, style);
     this.spaceKey = spaceKey;
     this.pageId = pageId;
     this.theme = theme;

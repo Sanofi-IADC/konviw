@@ -8,7 +8,7 @@ describe('ConfluenceProxy / addLibrariesJS', () => {
   beforeEach(async () => {
     const moduleRef = await createModuleRefForStep();
     context = moduleRef.get<ContextService>(ContextService);
-    context.Init('XXX', '123456', 'dark');
+    context.initPageContext('XXX', '123456', 'dark');
     const step = addLibrariesJS();
     context.setHtmlBody('<html><head></head><body></body></html>');
     step(context);

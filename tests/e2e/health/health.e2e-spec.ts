@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import request from 'supertest';
 import { HttpStatus, INestApplication } from '@nestjs/common';
-import { AppModule } from 'src/app.module';
+import { AppModule } from '../../../src/app.module';
 
 jest.setTimeout(30000);
 

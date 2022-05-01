@@ -9,7 +9,7 @@ describe('ConfluenceProxy / addSlides', () => {
     const moduleRef = await createModuleRefForStep();
     context = moduleRef.get<ContextService>(ContextService);
 
-    context.Init('XXX', '123456', 'dark');
+    context.initPageContext('XXX', '123456', 'dark');
   });
 
   it('should add slides', () => {

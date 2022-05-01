@@ -14,7 +14,7 @@ describe('ConfluenceProxy / fixLinks', () => {
     config = moduleRef.get<ConfigService>(ConfigService);
     webBasePath = config.get('web.absoluteBasePath');
 
-    context.Init('XXX', '123456', 'dark');
+    context.initPageContext('XXX', '123456', 'dark');
   });
 
   it('should replace page absolute URLs', () => {
@@ -203,7 +203,7 @@ describe('ConfluenceProxy / fixLinks', () => {
 
   // it('should display data-appearance=inline links with a favicon', async () => {
   //   const step = fixLinks(config);
-  //   const example = 
+  //   const example =
   //   '<html><head></head><body>' +
   //   '<a data-card-appearance="inline"  href="https://www.google.com/about" class="external-link">Example</a>' +
   //   '</body></html>';
@@ -215,7 +215,7 @@ describe('ConfluenceProxy / fixLinks', () => {
 
   // it('should display data-appearance=card links as a card', async () => {
   //   const step = fixLinks(config);
-  //   const example = 
+  //   const example =
   //   '<html><head></head><body>' +
   //   '<a data-card-appearance="block"  href="https://www.google.com/about" class="external-link">Example</a>' +
   //   '</body></html>';

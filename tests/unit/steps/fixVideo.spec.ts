@@ -16,7 +16,7 @@ describe('ConfluenceProxy / add html5 video tag to visualize video attachment', 
     const moduleRef = await createModuleRefForStep();
     context = moduleRef.get<ContextService>(ContextService);
 
-    context.Init('XXX', '123456', 'dark');
+    context.initPageContext('XXX', '123456', 'dark');
   });
 
   it('Adds video tag and poster image as preview', () => {
