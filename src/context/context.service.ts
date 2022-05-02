@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import * as cheerio from 'cheerio';
 import { performance, PerformanceObserver } from 'perf_hooks';
 import { ConfigService } from '@nestjs/config';
-import { Content } from 'src/confluence/confluence.interface';
+import { Content, Label } from 'src/confluence/confluence.interface';
 import { Version } from './context.interface';
 
 @Injectable()
@@ -24,6 +24,7 @@ export class ContextService {
   private when = '';
   private friendlyWhen = '';
   private searchResults = '';
+  private labels: string[] = [];
   private fullWidth = false;
   private observer: PerformanceObserver;
   constructor(private config: ConfigService) {}
@@ -56,7 +57,9 @@ export class ContextService {
       this.setView(view);
     }
     if (data) {
+      // console.log('data', data);
       this.setTitle(data.title);
+      this.spaceKey = data._expandable.space.split('/')[4];
       const version: Version = {
         versionNumber: data.version.number,
         lastModification: new Date(data.version.friendlyWhen),
@@ -68,6 +71,7 @@ export class ContextService {
       this.setEmail(data.history.createdBy.email);
       this.setAvatar(data.history.createdBy.profilePicture.path);
       this.setWhen(data.history.createdDate);
+      this.setLabels(data.metadata.labels.results);
       if (
         data.metadata?.properties['content-appearance-published'] &&
         data.metadata?.properties['content-appearance-published'].value ===
@@ -114,12 +118,12 @@ export class ContextService {
     return this.title;
   }
 
-  getVersion(): Version {
-    return this.version;
-  }
-
   setTitle(title: string): void {
     this.title = title;
+  }
+
+  getVersion(): Version {
+    return this.version;
   }
 
   setVersion(version: Version): void {
@@ -213,13 +217,13 @@ export class ContextService {
     return this.when;
   }
 
-  getFriendlyWhen(): string {
-    return this.friendlyWhen;
-  }
-
   setWhen(when: string): void {
     this.when = when;
     this.friendlyWhen = timeFromNow(when);
+  }
+
+  getFriendlyWhen(): string {
+    return this.friendlyWhen;
   }
 
   getAvatar(): string {
@@ -250,6 +254,16 @@ export class ContextService {
 
   setImgBlog(imgblog: any): void {
     this.imgblog = String(imgblog);
+  }
+
+  getLabels(): string[] {
+    return this.labels;
+  }
+
+  setLabels(labels: Label[]): void {
+    this.labels = labels.map((label: Label) => {
+      return label.name;
+    });
   }
 }
 

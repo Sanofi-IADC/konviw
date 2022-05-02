@@ -36,6 +36,7 @@ import addLibrariesJS from './steps/addLibrariesJS';
 import addSlidesCSS from './steps/addSlidesCSS';
 import addSlidesJS from './steps/addSlidesJS';
 import addUnsupportedMacroIndicator from './steps/addUnsupportedMacroIndicator';
+import getFirstExcerpt from 'src/proxy-api/steps/getFirstExcerpt';
 
 @Injectable()
 export class ProxyPageService {
@@ -76,6 +77,7 @@ export class ProxyPageService {
       view,
     );
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
+    getFirstExcerpt()(this.context);
     fixHtmlHead(this.config)(this.context);
     fixContentWidth()(this.context);
     await fixLinks(this.config)(this.context);
