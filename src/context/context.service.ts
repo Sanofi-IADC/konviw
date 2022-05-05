@@ -3,7 +3,7 @@ import * as cheerio from 'cheerio';
 import { performance, PerformanceObserver } from 'perf_hooks';
 import { ConfigService } from '@nestjs/config';
 import { Content, Label } from 'src/confluence/confluence.interface';
-import { Version } from './context.interface';
+import { Version, Update } from './context.interface';
 
 @Injectable()
 export class ContextService {
@@ -16,6 +16,8 @@ export class ContextService {
   private cheerioBody = cheerio.load('html');
   private title = '';
   private version: Version;
+  private createdBy: Update;
+  private modifiedBy: Update;
   private author = '';
   private email = '';
   private avatar = '';
@@ -66,6 +68,27 @@ export class ContextService {
         modificationBy: data.version.by.publicName,
       };
       this.setVersion(version);
+
+      const createdBy: Update = {
+        displayName: data.history.createdBy.displayName,
+        email: data.history.createdBy.email,
+        profilePicture: data.history.createdBy.profilePicture?.path,
+        version: 1,
+        when: data.history.createdDate,
+        friendlyWhen: timeFromNow(data.history.createdDate),
+      }
+      this.setCreatedBy(createdBy);
+
+      const modifiedBy: Update = {
+        displayName: data.version.by.publicName,
+        email: data.version.by.email,
+        profilePicture: data.version.by.profilePicture?.path,
+        version: data.version.number,
+        when: data.version.when,
+        friendlyWhen: timeFromNow(data.version.when),
+      }
+      this.setModifiedBy(modifiedBy);
+
       this.setHtmlBody(data.body.view.value, loadAsDocument);
       this.setAuthor(data.history.createdBy.displayName);
       this.setEmail(data.history.createdBy.email);
@@ -128,6 +151,22 @@ export class ContextService {
 
   setVersion(version: Version): void {
     this.version = version;
+  }
+
+  getCreatedBy(): Update {
+    return this.createdBy;
+  }
+
+  setCreatedBy(createdBy: Update): void {
+    this.createdBy = createdBy;
+  }
+
+  getModifiedBy(): Update {
+    return this.modifiedBy;
+  }
+
+  setModifiedBy(modifiedBy: Update): void {
+    this.modifiedBy = modifiedBy;
   }
 
   getCheerioBody(): cheerio.CheerioAPI {

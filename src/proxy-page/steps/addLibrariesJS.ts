@@ -44,6 +44,10 @@ export default (): Step => {
           konviwTitle: '${context.getTitle()}',
           konviwExcerpt: '${context.getExcerpt()}',
           konviwVersion: '${JSON.stringify(context.getVersion())}',
+          createdBy: '${JSON.stringify(context.getCreatedBy())}',
+          modifiedBy: '${JSON.stringify(context.getModifiedBy())}',
+          labels: '${JSON.stringify(context.getLabels())}',
+          readTime: '${context.getReadTime()}',
         }
         window.iFrameResizer = {
           onReady: function() {
