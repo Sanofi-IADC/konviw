@@ -14,7 +14,7 @@ describe('ConfluenceProxy / addCustomCss', () => {
   });
 
   it('should add custom CSS', () => {
-    context.Init('XXX', '123456', 'dark');
+    context.initPageContext('XXX', '123456', 'dark');
     const step = addCustomCss(config);
     const version = config.get('version');
     const basePath = config.get('web.basePath');

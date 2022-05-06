@@ -1,5 +1,12 @@
 export interface Version {
   versionNumber: number;
-  lastModification: Date;
-  modificationBy: string;
+  when?: string;
+  friendlyWhen?: string;
+  modificationBy?: User;
+}
+
+export interface User {
+  displayName: string;
+  email: string;
+  profilePicture: string;
 }

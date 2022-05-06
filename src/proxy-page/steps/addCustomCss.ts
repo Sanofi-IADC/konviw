@@ -29,7 +29,9 @@ export default (config: ConfigService, style?: string): Step => {
     /* Adding debug stylesheet */
     if (context.getView() === 'debug') {
       const debugCssPath = `${basePath}/css/debug.css?cache=${version}`;
-      $('head').append(`<link rel="stylesheet" type="text/css" href="${debugCssPath}">`);
+      $('head').append(
+        `<link rel="stylesheet" type="text/css" href="${debugCssPath}">`,
+      );
     }
 
     // ! Do not insert inline CSS styles because the function delUnnecessaryCode will remove them later

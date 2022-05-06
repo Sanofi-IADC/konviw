@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import * as cheerio from 'cheerio';
 import { performance, PerformanceObserver } from 'perf_hooks';
 import { ConfigService } from '@nestjs/config';
-import { Content } from 'src/confluence/confluence.interface';
+import { Content, Label } from 'src/confluence/confluence.interface';
 import { Version } from './context.interface';
 
 @Injectable()
@@ -15,7 +15,8 @@ export class ContextService {
   private view = '';
   private cheerioBody = cheerio.load('html');
   private title = '';
-  private version: Version;
+  private createdVersion: Version;
+  private lastVersion: Version;
   private author = '';
   private email = '';
   private avatar = '';
@@ -24,20 +25,26 @@ export class ContextService {
   private when = '';
   private friendlyWhen = '';
   private searchResults = '';
+  private labels: string[] = [];
   private fullWidth = false;
   private observer: PerformanceObserver;
   constructor(private config: ConfigService) {}
 
-  // ! How to make this working with classic constructor for the class?
-  // ! Somehow not working with the @Injectable decorator
-  // constructor(private spaceKey: string, private pageId: string, private theme:s tring) {}
-
-  Init(spaceKey: string, pageId: string, theme = '', style = '') {
+  initPageContext(
+    spaceKey: string,
+    pageId: string,
+    theme?: string,
+    style?: string,
+    data?: Content,
+    loadAsDocument = true,
+    view?: string,
+  ) {
     this.spaceKey = spaceKey;
     this.pageId = pageId;
     this.theme = theme;
     this.style = style;
     const logger = new Logger(ContextService.name);
+
     // Activate the observer in development
     if (this.config.get('env').toString() === 'development') {
       this.observer = new PerformanceObserver((list) => {
@@ -46,35 +53,58 @@ export class ContextService {
       });
       this.observer.observe({ entryTypes: ['measure'], buffered: false });
     }
-  }
 
-  initPageContext(
-    spaceKey: string,
-    pageId: string,
-    theme: string,
-    style: string,
-    data: Content,
-    loadAsDocument = true,
-    view?: string,
-  ) {
-    this.Init(spaceKey, pageId, theme, style);
-    this.setTitle(data.title);
     if (view) {
       this.setView(view);
     }
-    this.setHtmlBody(data.body.view.value, loadAsDocument);
-    this.setAuthor(data.history.createdBy.displayName);
-    this.setEmail(data.history.createdBy.email);
-    this.setAvatar(data.history.createdBy.profilePicture.path);
-    this.setWhen(data.history.createdDate);
-    if (
-      data.metadata?.properties['content-appearance-published'] &&
-      data.metadata?.properties['content-appearance-published'].value ===
-        'full-width'
-    ) {
-      this.setFullWidth(true);
-    } else {
-      this.setFullWidth(false);
+    if (data) {
+      // console.log('data', data);
+
+      const baseHost = this.config.get('web.baseHost');
+      const basePath = this.config.get('web.basePath');
+
+      this.setTitle(data.title);
+      this.spaceKey = data._expandable.space.split('/')[4];
+      this.setHtmlBody(data.body.view.value, loadAsDocument);
+      this.setAuthor(data.history.createdBy.displayName);
+      this.setEmail(data.history.createdBy.email);
+      this.setAvatar(`${baseHost}${basePath}/${data.history.createdBy.profilePicture.path.replace(/^\/wiki/,'wiki')}`)
+      this.setWhen(data.history.createdDate);
+      this.setLabels(data.metadata.labels.results);
+
+      const createdBy: Version = {
+        versionNumber: 1,
+        when: data.history.createdDate,
+        friendlyWhen: timeFromNow(data.history.createdDate),
+        modificationBy: {
+          displayName: data.history.createdBy.displayName,
+          email: data.history.createdBy.email,
+          profilePicture: this.getAvatar()  
+        }
+      }
+      this.setCreatedVersion(createdBy);
+
+      const modifiedBy: Version = {
+        versionNumber: data.version.number,
+        when: data.version.when,
+        friendlyWhen: timeFromNow(data.version.when),
+        modificationBy: {
+          displayName: data.version.by.publicName,
+          email: data.version.by.email,
+          profilePicture: `${baseHost}${basePath}/${data.version.by.profilePicture?.path.replace(/^\/wiki/,'wiki')}`,
+        }
+      }
+      this.setlastVersion(modifiedBy);
+
+      if (
+        data.metadata?.properties['content-appearance-published'] &&
+        data.metadata?.properties['content-appearance-published'].value ===
+          'full-width'
+      ) {
+        this.setFullWidth(true);
+      } else {
+        this.setFullWidth(false);
+      }
     }
   }
 
@@ -112,17 +142,49 @@ export class ContextService {
     return this.title;
   }
 
-  getVersion(): Version {
-    return this.version;
-  }
-
   setTitle(title: string): void {
     this.title = title;
   }
 
-  setVersion(version: Version): void {
-    this.version = version;
+  // getVersion(): Version {
+  //   return this.version;
+  // }
+
+  // setVersion(version: Version): void {
+  //   this.version = version;
+  // }
+
+  getCreatedVersion(): Version {
+    return this.createdVersion;
   }
+
+  setCreatedVersion(version: Version): void {
+    this.createdVersion = version;
+  }
+
+  getlastVersion(): Version {
+    return this.lastVersion;
+  }
+
+  setlastVersion(version: Version): void {
+    this.lastVersion = version;
+  }
+
+  // getCreatedBy(): Update {
+  //   return this.createdBy;
+  // }
+
+  // setCreatedBy(createdBy: Update): void {
+  //   this.createdBy = createdBy;
+  // }
+
+  // getModifiedBy(): Update {
+  //   return this.modifiedBy;
+  // }
+
+  // setModifiedBy(modifiedBy: Update): void {
+  //   this.modifiedBy = modifiedBy;
+  // }
 
   getCheerioBody(): cheerio.CheerioAPI {
     return this.cheerioBody;
@@ -211,13 +273,13 @@ export class ContextService {
     return this.when;
   }
 
-  getFriendlyWhen(): string {
-    return this.friendlyWhen;
-  }
-
   setWhen(when: string): void {
     this.when = when;
     this.friendlyWhen = timeFromNow(when);
+  }
+
+  getFriendlyWhen(): string {
+    return this.friendlyWhen;
   }
 
   getAvatar(): string {
@@ -248,6 +310,16 @@ export class ContextService {
 
   setImgBlog(imgblog: any): void {
     this.imgblog = String(imgblog);
+  }
+
+  getLabels(): string[] {
+    return this.labels;
+  }
+
+  setLabels(labels: Label[]): void {
+    this.labels = labels.map((label: Label) => {
+      return label.name;
+    });
   }
 }
 

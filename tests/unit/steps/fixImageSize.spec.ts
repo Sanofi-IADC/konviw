@@ -9,7 +9,7 @@ describe('ConfluenceProxy / fixImageSize', () => {
   beforeEach(async () => {
     const moduleRef = await createModuleRefForStep();
     context = moduleRef.get<ContextService>(ContextService);
-    context.Init('XXX', '123456', 'dark');
+    context.initPageContext('XXX', '123456', 'dark');
     context.setHtmlBody('<html><head></head><body></body></html>');
   });
 

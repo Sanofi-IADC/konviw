@@ -19,7 +19,7 @@ describe('Confluence Proxy / addTheme', () => {
   });
 
   it('should add dark theme', () => {
-    context.Init('XXX', '123456', 'dark');
+    context.initPageContext('XXX', '123456', 'dark');
     context.setHtmlBody('<html><head></head><body>BODY CONTENT</body></html>');
     context.setTitle('This is the title');
     step(context);
