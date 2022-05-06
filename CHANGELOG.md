@@ -1,3 +1,10 @@
+## [2.15.1](https://github.com/Sanofi-IADC/konviw/compare/v2.15.0...v2.15.1) (2022-05-06)
+
+
+### Bug Fixes
+
+* avatar in blog post page with bad url ([3998337](https://github.com/Sanofi-IADC/konviw/commit/3998337380045c60ccac53b86cc4ed5fb9b8ea4a))
+
 # [2.15.0](https://github.com/Sanofi-IADC/konviw/compare/v2.14.2...v2.15.0) (2022-05-06)
 
 
