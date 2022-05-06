@@ -1,3 +1,17 @@
+# [2.15.0](https://github.com/Sanofi-IADC/konviw/compare/v2.14.2...v2.15.0) (2022-05-06)
+
+
+### Bug Fixes
+
+* **context:** add version to proper init context ([adaec62](https://github.com/Sanofi-IADC/konviw/commit/adaec620e011f939bd277b993375cef2e38d535d))
+* deprecated init to keep initPageContext ([a3025f0](https://github.com/Sanofi-IADC/konviw/commit/a3025f023b6169ae6645b5e8530f9ec9a43231d2))
+
+
+### Features
+
+* **context:** adding excerpt and labels ([00834ce](https://github.com/Sanofi-IADC/konviw/commit/00834cefd9441ec0745e4be0f64316136eee9c53))
+* WEB-104 now using Version interface to store the user and version data; also renamed konviwVersion to konviwCreatedVersion and konviwLastVersion ([1540d99](https://github.com/Sanofi-IADC/konviw/commit/1540d998e3ac9273aa44677e922ed702dd32ad1f))
+
 ## [2.14.2](https://github.com/Sanofi-IADC/konviw/compare/v2.14.1...v2.14.2) (2022-04-29)
 
 
