@@ -55,13 +55,13 @@ export default (config: ConfigService): Step => {
     // For direct Url and Uri we look for two patterns
     // $1 the domain to remove and $2 the rest of the URL to keep
     const searchUrl = new RegExp(`(https?://${domain}/wiki)(.*)`);
-    const searchUri = new RegExp(`(\/wiki)(.*)`);
+    const searchUri = new RegExp(`^(\/wiki)(.*)`);
     // For Url and Uri with anchor we look for four patterns
     // $1 the domain to remove, $2 the path of the pag, $3 the title and $4 the heading achor
     const searchUrlwithAnchor = new RegExp(
       `(https?://${domain}/wiki)(.*\/)(.*)#(.*)`,
     );
-    const searchUriwithAnchor = new RegExp(`(\/wiki)(.*\/)(.*)#(.*)`);
+    const searchUriwithAnchor = new RegExp(`^(\/wiki)(.*\/)(.*)#(.*)`);
 
     const replaceAttributeLink = (attr: string, link: cheerio.Element) => {
       const [, , pathPageAnchorUrl, titlePageUrl, headingPageUrl] =
