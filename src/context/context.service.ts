@@ -68,7 +68,12 @@ export class ContextService {
       this.setHtmlBody(data.body.view.value, loadAsDocument);
       this.setAuthor(data.history.createdBy.displayName);
       this.setEmail(data.history.createdBy.email);
-      this.setAvatar(`${baseHost}${basePath}/${data.history.createdBy.profilePicture.path.replace(/^\/wiki/,'wiki')}`)
+      this.setAvatar(
+        `${baseHost}${basePath}/${data.history.createdBy.profilePicture.path.replace(
+          /^\/wiki/,
+          'wiki',
+        )}`,
+      );
       this.setWhen(data.history.createdDate);
       this.setLabels(data.metadata.labels.results);
 
@@ -79,9 +84,9 @@ export class ContextService {
         modificationBy: {
           displayName: data.history.createdBy.displayName,
           email: data.history.createdBy.email,
-          profilePicture: this.getAvatar()  
-        }
-      }
+          profilePicture: this.getAvatar(),
+        },
+      };
       this.setCreatedVersion(createdBy);
 
       const modifiedBy: Version = {
@@ -91,10 +96,13 @@ export class ContextService {
         modificationBy: {
           displayName: data.version.by.publicName,
           email: data.version.by.email,
-          profilePicture: `${baseHost}${basePath}/${data.version.by.profilePicture?.path.replace(/^\/wiki/,'wiki')}`,
-        }
-      }
-      this.setlastVersion(modifiedBy);
+          profilePicture: `${baseHost}${basePath}/${data.version.by.profilePicture?.path.replace(
+            /^\/wiki/,
+            'wiki',
+          )}`,
+        },
+      };
+      this.setLastVersion(modifiedBy);
 
       if (
         data.metadata?.properties['content-appearance-published'] &&
@@ -146,14 +154,6 @@ export class ContextService {
     this.title = title;
   }
 
-  // getVersion(): Version {
-  //   return this.version;
-  // }
-
-  // setVersion(version: Version): void {
-  //   this.version = version;
-  // }
-
   getCreatedVersion(): Version {
     return this.createdVersion;
   }
@@ -162,29 +162,13 @@ export class ContextService {
     this.createdVersion = version;
   }
 
-  getlastVersion(): Version {
+  getLastVersion(): Version {
     return this.lastVersion;
   }
 
-  setlastVersion(version: Version): void {
+  setLastVersion(version: Version): void {
     this.lastVersion = version;
   }
-
-  // getCreatedBy(): Update {
-  //   return this.createdBy;
-  // }
-
-  // setCreatedBy(createdBy: Update): void {
-  //   this.createdBy = createdBy;
-  // }
-
-  // getModifiedBy(): Update {
-  //   return this.modifiedBy;
-  // }
-
-  // setModifiedBy(modifiedBy: Update): void {
-  //   this.modifiedBy = modifiedBy;
-  // }
 
   getCheerioBody(): cheerio.CheerioAPI {
     return this.cheerioBody;

@@ -26,7 +26,7 @@ export default (): Step => {
                ${context.getTitle()}
              </div>
              <div>
-               <img class="userLogo logo" src="/cpv${context.getAvatar()}">
+               <img class="userLogo logo" src="${context.getAvatar()}">
                <div class="blog--vCard">
                  <div class="blog--when">${context.getFriendlyWhen()} • ${context.getReadTime()} min read</div>
                  <div>${context.getAuthor()}</div>

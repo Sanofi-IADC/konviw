@@ -43,8 +43,10 @@ export default (): Step => {
           konviwPageId: '${context.getPageId()}',
           konviwTitle: '${context.getTitle()}',
           konviwExcerpt: '${context.getExcerpt()}',
-          konviwCreatedVersion: '${JSON.stringify(context.getCreatedVersion())}',
-          konviwLastVersion: '${JSON.stringify(context.getlastVersion())}',
+          konviwCreatedVersion: '${JSON.stringify(
+            context.getCreatedVersion(),
+          )}',
+          konviwLastVersion: '${JSON.stringify(context.getLastVersion())}',
           labels: '${JSON.stringify(context.getLabels())}',
           readTime: '${context.getReadTime()}',
         }
