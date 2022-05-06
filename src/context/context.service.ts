@@ -3,7 +3,7 @@ import * as cheerio from 'cheerio';
 import { performance, PerformanceObserver } from 'perf_hooks';
 import { ConfigService } from '@nestjs/config';
 import { Content, Label } from 'src/confluence/confluence.interface';
-import { Version, Update } from './context.interface';
+import { Version } from './context.interface';
 
 @Injectable()
 export class ContextService {
@@ -15,9 +15,8 @@ export class ContextService {
   private view = '';
   private cheerioBody = cheerio.load('html');
   private title = '';
-  private version: Version;
-  private createdBy: Update;
-  private modifiedBy: Update;
+  private createdVersion: Version;
+  private lastVersion: Version;
   private author = '';
   private email = '';
   private avatar = '';
@@ -60,41 +59,43 @@ export class ContextService {
     }
     if (data) {
       // console.log('data', data);
+
+      const baseHost = this.config.get('web.baseHost');
+      const basePath = this.config.get('web.basePath');
+
       this.setTitle(data.title);
       this.spaceKey = data._expandable.space.split('/')[4];
-      const version: Version = {
-        versionNumber: data.version.number,
-        lastModification: new Date(data.version.friendlyWhen),
-        modificationBy: data.version.by.publicName,
-      };
-      this.setVersion(version);
-
-      const createdBy: Update = {
-        displayName: data.history.createdBy.displayName,
-        email: data.history.createdBy.email,
-        profilePicture: data.history.createdBy.profilePicture?.path,
-        version: 1,
-        when: data.history.createdDate,
-        friendlyWhen: timeFromNow(data.history.createdDate),
-      }
-      this.setCreatedBy(createdBy);
-
-      const modifiedBy: Update = {
-        displayName: data.version.by.publicName,
-        email: data.version.by.email,
-        profilePicture: data.version.by.profilePicture?.path,
-        version: data.version.number,
-        when: data.version.when,
-        friendlyWhen: timeFromNow(data.version.when),
-      }
-      this.setModifiedBy(modifiedBy);
-
       this.setHtmlBody(data.body.view.value, loadAsDocument);
       this.setAuthor(data.history.createdBy.displayName);
       this.setEmail(data.history.createdBy.email);
-      this.setAvatar(data.history.createdBy.profilePicture.path);
+      this.setAvatar(`${baseHost}${basePath}/${data.history.createdBy.profilePicture.path.replace(/^\/wiki/,'wiki')}`)
       this.setWhen(data.history.createdDate);
       this.setLabels(data.metadata.labels.results);
+
+      const createdBy: Version = {
+        versionNumber: 1,
+        when: data.history.createdDate,
+        friendlyWhen: timeFromNow(data.history.createdDate),
+        modificationBy: {
+          displayName: data.history.createdBy.displayName,
+          email: data.history.createdBy.email,
+          profilePicture: this.getAvatar()  
+        }
+      }
+      this.setCreatedVersion(createdBy);
+
+      const modifiedBy: Version = {
+        versionNumber: data.version.number,
+        when: data.version.when,
+        friendlyWhen: timeFromNow(data.version.when),
+        modificationBy: {
+          displayName: data.version.by.publicName,
+          email: data.version.by.email,
+          profilePicture: `${baseHost}${basePath}/${data.version.by.profilePicture?.path.replace(/^\/wiki/,'wiki')}`,
+        }
+      }
+      this.setlastVersion(modifiedBy);
+
       if (
         data.metadata?.properties['content-appearance-published'] &&
         data.metadata?.properties['content-appearance-published'].value ===
@@ -145,29 +146,45 @@ export class ContextService {
     this.title = title;
   }
 
-  getVersion(): Version {
-    return this.version;
+  // getVersion(): Version {
+  //   return this.version;
+  // }
+
+  // setVersion(version: Version): void {
+  //   this.version = version;
+  // }
+
+  getCreatedVersion(): Version {
+    return this.createdVersion;
   }
 
-  setVersion(version: Version): void {
-    this.version = version;
+  setCreatedVersion(version: Version): void {
+    this.createdVersion = version;
   }
 
-  getCreatedBy(): Update {
-    return this.createdBy;
+  getlastVersion(): Version {
+    return this.lastVersion;
   }
 
-  setCreatedBy(createdBy: Update): void {
-    this.createdBy = createdBy;
+  setlastVersion(version: Version): void {
+    this.lastVersion = version;
   }
 
-  getModifiedBy(): Update {
-    return this.modifiedBy;
-  }
+  // getCreatedBy(): Update {
+  //   return this.createdBy;
+  // }
 
-  setModifiedBy(modifiedBy: Update): void {
-    this.modifiedBy = modifiedBy;
-  }
+  // setCreatedBy(createdBy: Update): void {
+  //   this.createdBy = createdBy;
+  // }
+
+  // getModifiedBy(): Update {
+  //   return this.modifiedBy;
+  // }
+
+  // setModifiedBy(modifiedBy: Update): void {
+  //   this.modifiedBy = modifiedBy;
+  // }
 
   getCheerioBody(): cheerio.CheerioAPI {
     return this.cheerioBody;
