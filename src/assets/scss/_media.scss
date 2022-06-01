@@ -15,6 +15,7 @@ iframe.conf-macro {
 img {
   max-width: 100%;
   height: auto;
+  padding: 5px; // adjacent images should not touch each others
   &.image-left {
     display: block;
     align-content: left;
