@@ -1,3 +1,10 @@
+## [2.15.2](https://github.com/Sanofi-IADC/konviw/compare/v2.15.1...v2.15.2) (2022-06-01)
+
+
+### Bug Fixes
+
+* WEB-135 simply adding 5px to the img tags ([#419](https://github.com/Sanofi-IADC/konviw/issues/419)) ([543d627](https://github.com/Sanofi-IADC/konviw/commit/543d627a24a483ce314694f73e0079798bb7725c))
+
 ## [2.15.1](https://github.com/Sanofi-IADC/konviw/compare/v2.15.0...v2.15.1) (2022-05-06)
 
 
