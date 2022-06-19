@@ -70,9 +70,12 @@ export default (config: ConfigService): Step => {
         const [, diagramName] = diagramNameRegex ?? [];
         const [, aspectHash] = aspectHashRegex ?? [];
 
-        if (diagramName && aspectHash) {
+        if (diagramName) {
+          const fileName = aspectHash
+            ? `${diagramName}-${aspectHash}`
+            : diagramName;
           $(elementDrawio).prepend(
-            `<figure><img class="drawio-zoomable" src="${webBasePath}/wiki/download/attachments/${context.getPageId()}/${diagramName}-${aspectHash}.png" alt="${diagramName}" /></figure>`,
+            `<figure><img class="drawio-zoomable" src="${webBasePath}/wiki/download/attachments/${context.getPageId()}/${fileName}.png" alt="${diagramName}" /></figure>`,
           );
         }
       },
