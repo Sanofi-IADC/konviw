@@ -1,3 +1,10 @@
+## [2.15.4](https://github.com/Sanofi-IADC/konviw/compare/v2.15.3...v2.15.4) (2022-06-19)
+
+
+### Bug Fixes
+
+* WEB-163 fixed a bug where the 'excerpt' and 'title' metadata fields could cause a bug in the 'page information' if they contained a quote character ([c84315a](https://github.com/Sanofi-IADC/konviw/commit/c84315a9075f5bbb3d0856564228703d2c212b4c))
+
 ## [2.15.3](https://github.com/Sanofi-IADC/konviw/compare/v2.15.2...v2.15.3) (2022-06-19)
 
 
