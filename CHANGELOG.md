@@ -1,3 +1,10 @@
+## [2.15.5](https://github.com/Sanofi-IADC/konviw/compare/v2.15.4...v2.15.5) (2022-06-20)
+
+
+### Bug Fixes
+
+* fixLins relative starting with /wiki only ([df96e08](https://github.com/Sanofi-IADC/konviw/commit/df96e083505306a39018571d6826443da8eb80d9))
+
 ## [2.15.4](https://github.com/Sanofi-IADC/konviw/compare/v2.15.3...v2.15.4) (2022-06-19)
 
 
