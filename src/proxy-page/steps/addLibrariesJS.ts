@@ -41,8 +41,8 @@ export default (): Step => {
           konviwFrameUrl: window.location.href,
           konviwSpaceKey: '${context.getSpaceKey()}',
           konviwPageId: '${context.getPageId()}',
-          konviwTitle: '${context.getTitle()}',
-          konviwExcerpt: '${context.getExcerpt()}',
+          konviwTitle: '${context.getTitle().replace(/'/g, "\\'")}',
+          konviwExcerpt: '${context.getExcerpt().replace(/'/g, "\\'")}',
           konviwCreatedVersion: '${JSON.stringify(
             context.getCreatedVersion(),
           )}',
