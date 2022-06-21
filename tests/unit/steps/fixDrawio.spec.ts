@@ -19,7 +19,7 @@ const example = `
         <script>
           (function () {
             var data = {
-              "productCtx":"{\\"page.id\\":\\"${image1PageId}\\",\\": = | RAW | = :\\":\\"diagramName=${image1DiagramName}|\\"}",};
+              "productCtx":"{\\"pageId\\":\\"${image1PageId}\\",\\": = | RAW | = :\\":\\"diagramName=${image1DiagramName}|\\"}",};
           })();
         </script>
       </div>
@@ -29,7 +29,7 @@ const example = `
         <script>
           (function () {
             var data = {
-              "productCtx":"{\\"page.id\\":\\"123456\\",\\": = | RAW | = :\\":\\"diagramName=${image2DiagramName}|aspectHash=${image2AspectHash}|\\"}",};
+              "productCtx":"{\\"pageId\\":\\"123456\\",\\": = | RAW | = :\\":\\"diagramName=${image2DiagramName}|aspectHash=${image2AspectHash}|\\"}",};
           })();
         </script>
       </div>
