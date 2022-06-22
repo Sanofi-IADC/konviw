@@ -1,3 +1,24 @@
+## [2.15.5](https://github.com/Sanofi-IADC/konviw/compare/v2.15.4...v2.15.5) (2022-06-20)
+
+
+### Bug Fixes
+
+* fixLins relative starting with /wiki only ([df96e08](https://github.com/Sanofi-IADC/konviw/commit/df96e083505306a39018571d6826443da8eb80d9))
+
+## [2.15.4](https://github.com/Sanofi-IADC/konviw/compare/v2.15.3...v2.15.4) (2022-06-19)
+
+
+### Bug Fixes
+
+* WEB-163 fixed a bug where the 'excerpt' and 'title' metadata fields could cause a bug in the 'page information' if they contained a quote character ([c84315a](https://github.com/Sanofi-IADC/konviw/commit/c84315a9075f5bbb3d0856564228703d2c212b4c))
+
+## [2.15.3](https://github.com/Sanofi-IADC/konviw/compare/v2.15.2...v2.15.3) (2022-06-19)
+
+
+### Bug Fixes
+
+* WEB-170 fixed the draw.io macro display when the diagram is included from another page ([eae3efe](https://github.com/Sanofi-IADC/konviw/commit/eae3efe402d47c5e27db4cd74ac81c8c873d8895))
+
 ## [2.15.2](https://github.com/Sanofi-IADC/konviw/compare/v2.15.1...v2.15.2) (2022-06-01)
 
 
