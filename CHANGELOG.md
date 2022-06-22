@@ -1,3 +1,10 @@
+## [2.15.6](https://github.com/Sanofi-IADC/konviw/compare/v2.15.5...v2.15.6) (2022-06-22)
+
+
+### Bug Fixes
+
+* WEB-170 fixed the draw.io macro display when the diagram is created in the same page ([#422](https://github.com/Sanofi-IADC/konviw/issues/422)) ([e068c4b](https://github.com/Sanofi-IADC/konviw/commit/e068c4bf950d4d138ec200690bf8201813871374))
+
 ## [2.15.5](https://github.com/Sanofi-IADC/konviw/compare/v2.15.4...v2.15.5) (2022-06-20)
 
 
