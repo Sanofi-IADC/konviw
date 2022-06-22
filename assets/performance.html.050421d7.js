@@ -1,0 +1,1 @@
+const e={key:"v-eaeea0bc",path:"/performance.html",title:"Performance",lang:"en-US",frontmatter:{title:"Performance"},excerpt:"",headers:[],git:{updatedTime:1655932767e3,contributors:[{name:"Cyril Annette",email:"zougouda@gmail.com",commits:1}]},filePathRelative:"performance.md"};export{e as data};
