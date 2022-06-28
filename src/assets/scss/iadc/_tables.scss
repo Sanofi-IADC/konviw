@@ -85,6 +85,12 @@ table.confluenceTable th.confluenceTh {
   margin-top: 20px;
 }
 
+/* Tables with layout full-width or wide shall be displayed as 100% width*/
+table.confluenceTable[data-layout="full-width"],
+table.confluenceTable[data-layout="wide"] {
+  width: 100%;
+}
+
 
 /* Default Background for tables with header */
 table.confluenceTable th.confluenceTh:not([data-highlight-colour]),
