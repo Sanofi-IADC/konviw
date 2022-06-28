@@ -85,6 +85,14 @@ table.confluenceTable th.confluenceTh {
   margin-top: 20px;
 }
 
+
+/* Default Background for tables with header */
+table.confluenceTable th.confluenceTh:not([data-highlight-colour]),
+table.confluenceTable th.confluenceTh:not([data-highlight-colour]) > p {
+  background-color: var(--highlight-grey);
+}
+
+
 /* Background colors */
 table.confluenceTable th.confluenceTh.highlight-grey,
 table.confluenceTable th.confluenceTh.highlight-grey > p,
