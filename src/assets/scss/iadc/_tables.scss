@@ -91,300 +91,226 @@ table.confluenceTable[data-layout="wide"] {
   width: 100%;
 }
 
-
-/* Default Background for tables with header */
-table.confluenceTable th.confluenceTh:not([data-highlight-colour]),
-table.confluenceTable th.confluenceTh:not([data-highlight-colour]) > p {
-  background-color: var(--highlight-grey);
-}
-
-
 /* Background colors */
-table.confluenceTable th.confluenceTh.highlight-grey,
-table.confluenceTable th.confluenceTh.highlight-grey > p,
-table.confluenceTable td.confluenceTd.highlight-grey,
-table.confluenceTable td.confluenceTd.highlight-grey > p {
-  background-color: var(--highlight-grey);
-}
+table.confluenceTable th.confluenceTh,
+table.confluenceTable td.confluenceTd {
+  /* Default Background for tables with header */
+  &:not([data-highlight-colour]),
+  &:not([data-highlight-colour]) > p,
+  &.highlight-grey,
+  &.highlight-grey > p {
+    background-color: var(--highlight-grey);
+  }
 
-table.confluenceTable th.confluenceTh.highlight-blue,
-table.confluenceTable th.confluenceTh.highlight-blue > p,
-table.confluenceTable td.confluenceTd.highlight-blue,
-table.confluenceTable td.confluenceTd.highlight-blue > p {
-  background-color: var(--highlight-blue);
-}
+  &.highlight-blue,
+  &.highlight-blue > p {
+    background-color: var(--highlight-blue);
+  }
 
-table.confluenceTable th.confluenceTh.highlight-green,
-table.confluenceTable th.confluenceTh.highlight-green > p,
-table.confluenceTable td.confluenceTd.highlight-green,
-table.confluenceTable td.confluenceTd.highlight-green > p {
-  background-color: var(--highlight-green);
-}
+  &.highlight-green,
+  &.highlight-green > p {
+    background-color: var(--highlight-green);
+  }
 
-table.confluenceTable th.confluenceTh.highlight-red,
-table.confluenceTable th.confluenceTh.highlight-red > p,
-table.confluenceTable td.confluenceTd.highlight-red,
-table.confluenceTable td.confluenceTd.highlight-red > p {
-  background-color: var(--highlight-red);
-}
+  &.highlight-red,
+  &.highlight-red > p {
+    background-color: var(--highlight-red);
+  }
 
-table.confluenceTable th.confluenceTh.highlight-yellow,
-table.confluenceTable th.confluenceTh.highlight-yellow > p,
-table.confluenceTable td.confluenceTd.highlight-yellow,
-table.confluenceTable td.confluenceTd.highlight-yellow > p {
-  background-color: var(--highlight-yellow);
-}
+  &.highlight-yellow,
+  &.highlight-yellow > p {
+    background-color: var(--highlight-yellow);
+  }
 
-/* ADG3 colors */
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#091e42'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#091e42'] {
-  background-color: #091e42;
+  /* ADG3 colors */
+  &[data-highlight-colour='\#091e42'] {
+    background-color: #091e42;
+  }
+  &[data-highlight-colour='\#172b4d'] {
+    background-color: #172b4d;
+  }
+  &[data-highlight-colour='\#253858'] {
+    background-color: #253858;
+  }
+  &[data-highlight-colour='\#344563'] {
+    background-color: #344563;
+  }
+  &[data-highlight-colour='\#42526e'] {
+    background-color: #42526e;
+  }
+  &[data-highlight-colour='\#505f79'] {
+    background-color: #505f79;
+  }
+  &[data-highlight-colour='\#5e6c84'] {
+    background-color: #5e6c84;
+  }
+  &[data-highlight-colour='\#6b778c'] {
+    background-color: #6b778c;
+  }
+  &[data-highlight-colour='\#7a869a'] {
+    background-color: #7a869a;
+  }
+  &[data-highlight-colour='\#8993a4'] {
+    background-color: #8993a4;
+  }
+  &[data-highlight-colour='\#97a0af'] {
+    background-color: #97a0af;
+  }
+  &[data-highlight-colour='\#a5adba'] {
+    background-color: #a5adba;
+  }
+  &[data-highlight-colour='\#b3bac5'] {
+    background-color: #b3bac5;
+  }
+  &[data-highlight-colour='\#c1c7d0'] {
+    background-color: #c1c7d0;
+  }
+  &[data-highlight-colour='\#dfe1e6'] {
+    background-color: #dfe1e6;
+  }
+  &[data-highlight-colour='\#ebecf0'] {
+    background-color: #ebecf0;
+  }
+  &[data-highlight-colour='\#f4f5f7'] {
+    background-color: #f4f5f7;
+  }
+  &[data-highlight-colour='\#fafbfc'] {
+    background-color: #fafbfc;
+  }
+  &[data-highlight-colour='\#ffffff'] {
+    background-color: #ffffff;
+  }
+  &[data-highlight-colour='\#bf2600'] {
+    background-color: #bf2600;
+  }
+  &[data-highlight-colour='\#de350b'] {
+    background-color: #de350b;
+  }
+  &[data-highlight-colour='\#ff5630'] {
+    background-color: #ff5630;
+  }
+  &[data-highlight-colour='\#ff7452'] {
+    background-color: #ff7452;
+  }
+  &[data-highlight-colour='\#ff8f73'] {
+    background-color: #ff8f73;
+  }
+  &[data-highlight-colour='\#ffbdad'] {
+    background-color: #ffbdad;
+  }
+  &[data-highlight-colour='\#ffebe6'] {
+    background-color: #ffebe6;
+  }
+  &[data-highlight-colour='\#ff8b00'] {
+    background-color: #ff8b00;
+  }
+  &[data-highlight-colour='\#ff991f'] {
+    background-color: #ff991f;
+  }
+  &[data-highlight-colour='\#ffab00'] {
+    background-color: #ffab00;
+  }
+  &[data-highlight-colour='\#ffc400'] {
+    background-color: #ffc400;
+  }
+  &[data-highlight-colour='\#ffe380'] {
+    background-color: #ffe380;
+  }
+  &[data-highlight-colour='\#fff0b3'] {
+    background-color: #fff0b3;
+  }
+  &[data-highlight-colour='\#fffae6'] {
+    background-color: #fffae6;
+  }
+  &[data-highlight-colour='\#006644'] {
+    background-color: #006644;
+  }
+  &[data-highlight-colour='\#00875a'] {
+    background-color: #00875a;
+  }
+  &[data-highlight-colour='\#36b37e'] {
+    background-color: #36b37e;
+  }
+  &[data-highlight-colour='\#57d9a3'] {
+    background-color: #57d9a3;
+  }
+  &[data-highlight-colour='\#79f2c0'] {
+    background-color: #79f2c0;
+  }
+  &[data-highlight-colour='\#abf5d1'] {
+    background-color: #abf5d1;
+  }
+  &[data-highlight-colour='\#e3fcef'] {
+    background-color: #e3fcef;
+  }
+  &[data-highlight-colour='\#008da6'] {
+    background-color: #008da6;
+  }
+  &[data-highlight-colour='\#00a3bf'] {
+    background-color: #00a3bf;
+  }
+  &[data-highlight-colour='\#00b8d9'] {
+    background-color: #00b8d9;
+  }
+  &[data-highlight-colour='\#00c7e6'] {
+    background-color: #00c7e6;
+  }
+  &[data-highlight-colour='\#79e2f2'] {
+    background-color: #79e2f2;
+  }
+  &[data-highlight-colour='\#b3f5ff'] {
+    background-color: #b3f5ff;
+  }
+  &[data-highlight-colour='\#e6fcff'] {
+    background-color: #e6fcff;
+  }
+  &[data-highlight-colour='\#0747a6'] {
+    background-color: #0747a6;
+  }
+  &[data-highlight-colour='\#0052cc'] {
+    background-color: #0052cc;
+  }
+  &[data-highlight-colour='\#0065ff'] {
+    background-color: #0065ff;
+  }
+  &[data-highlight-colour='\#2684ff'] {
+    background-color: #2684ff;
+  }
+  &[data-highlight-colour='\#4c9aff'] {
+    background-color: #4c9aff;
+  }
+  &[data-highlight-colour='\#b3d4ff'] {
+    background-color: #b3d4ff;
+  }
+  &[data-highlight-colour='\#deebff'] {
+    background-color: #deebff;
+  }
+  &[data-highlight-colour='\#403294'] {
+    background-color: #403294;
+  }
+  &[data-highlight-colour='\#5243aa'] {
+    background-color: #5243aa;
+  }
+  &[data-highlight-colour='\#6554c0'] {
+    background-color: #6554c0;
+  }
+  &[data-highlight-colour='\#8777d9'] {
+    background-color: #8777d9;
+  }
+  &[data-highlight-colour='\#998dd9'] {
+    background-color: #998dd9;
+  }
+  &[data-highlight-colour='\#c0b6f2'] {
+    background-color: #c0b6f2;
+  }
+  &[data-highlight-colour='\#eae6ff'] {
+    background-color: #eae6ff;
+  }
+  &[data-highlight-colour='\#000000'] {
+    background-color: #000000;
+  }
+  /* ADG3 colors end */
 }
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#172b4d'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#172b4d'] {
-  background-color: #172b4d;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#253858'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#253858'] {
-  background-color: #253858;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#344563'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#344563'] {
-  background-color: #344563;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#42526e'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#42526e'] {
-  background-color: #42526e;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#505f79'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#505f79'] {
-  background-color: #505f79;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#5e6c84'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#5e6c84'] {
-  background-color: #5e6c84;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#6b778c'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#6b778c'] {
-  background-color: #6b778c;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#7a869a'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#7a869a'] {
-  background-color: #7a869a;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#8993a4'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#8993a4'] {
-  background-color: #8993a4;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#97a0af'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#97a0af'] {
-  background-color: #97a0af;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#a5adba'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#a5adba'] {
-  background-color: #a5adba;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#b3bac5'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#b3bac5'] {
-  background-color: #b3bac5;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#c1c7d0'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#c1c7d0'] {
-  background-color: #c1c7d0;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#dfe1e6'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#dfe1e6'] {
-  background-color: #dfe1e6;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#ebecf0'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#ebecf0'] {
-  background-color: #ebecf0;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#f4f5f7'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#f4f5f7'] {
-  background-color: #f4f5f7;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#fafbfc'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#fafbfc'] {
-  background-color: #fafbfc;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#ffffff'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#ffffff'] {
-  background-color: #ffffff;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#bf2600'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#bf2600'] {
-  background-color: #bf2600;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#de350b'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#de350b'] {
-  background-color: #de350b;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#ff5630'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#ff5630'] {
-  background-color: #ff5630;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#ff7452'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#ff7452'] {
-  background-color: #ff7452;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#ff8f73'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#ff8f73'] {
-  background-color: #ff8f73;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#ffbdad'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#ffbdad'] {
-  background-color: #ffbdad;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#ffebe6'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#ffebe6'] {
-  background-color: #ffebe6;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#ff8b00'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#ff8b00'] {
-  background-color: #ff8b00;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#ff991f'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#ff991f'] {
-  background-color: #ff991f;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#ffab00'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#ffab00'] {
-  background-color: #ffab00;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#ffc400'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#ffc400'] {
-  background-color: #ffc400;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#ffe380'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#ffe380'] {
-  background-color: #ffe380;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#fff0b3'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#fff0b3'] {
-  background-color: #fff0b3;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#fffae6'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#fffae6'] {
-  background-color: #fffae6;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#006644'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#006644'] {
-  background-color: #006644;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#00875a'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#00875a'] {
-  background-color: #00875a;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#36b37e'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#36b37e'] {
-  background-color: #36b37e;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#57d9a3'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#57d9a3'] {
-  background-color: #57d9a3;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#79f2c0'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#79f2c0'] {
-  background-color: #79f2c0;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#abf5d1'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#abf5d1'] {
-  background-color: #abf5d1;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#e3fcef'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#e3fcef'] {
-  background-color: #e3fcef;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#008da6'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#008da6'] {
-  background-color: #008da6;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#00a3bf'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#00a3bf'] {
-  background-color: #00a3bf;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#00b8d9'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#00b8d9'] {
-  background-color: #00b8d9;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#00c7e6'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#00c7e6'] {
-  background-color: #00c7e6;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#79e2f2'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#79e2f2'] {
-  background-color: #79e2f2;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#b3f5ff'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#b3f5ff'] {
-  background-color: #b3f5ff;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#e6fcff'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#e6fcff'] {
-  background-color: #e6fcff;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#0747a6'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#0747a6'] {
-  background-color: #0747a6;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#0052cc'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#0052cc'] {
-  background-color: #0052cc;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#0065ff'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#0065ff'] {
-  background-color: #0065ff;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#2684ff'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#2684ff'] {
-  background-color: #2684ff;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#4c9aff'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#4c9aff'] {
-  background-color: #4c9aff;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#b3d4ff'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#b3d4ff'] {
-  background-color: #b3d4ff;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#deebff'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#deebff'] {
-  background-color: #deebff;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#403294'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#403294'] {
-  background-color: #403294;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#5243aa'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#5243aa'] {
-  background-color: #5243aa;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#6554c0'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#6554c0'] {
-  background-color: #6554c0;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#8777d9'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#8777d9'] {
-  background-color: #8777d9;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#998dd9'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#998dd9'] {
-  background-color: #998dd9;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#c0b6f2'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#c0b6f2'] {
-  background-color: #c0b6f2;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#eae6ff'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#eae6ff'] {
-  background-color: #eae6ff;
-}
-table.confluenceTable th.confluenceTh[data-highlight-colour='\#000000'],
-table.confluenceTable td.confluenceTd[data-highlight-colour='\#000000'] {
-  background-color: #000000;
-}
-/* ADG3 colors end */
 
 table.confluenceTable th.confluenceTh.nohighlight, /* deprecated */
 table.confluenceTable th.confluenceTh.nohighlight > p {
