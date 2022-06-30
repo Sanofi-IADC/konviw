@@ -1,3 +1,19 @@
+## [2.15.7](https://github.com/Sanofi-IADC/konviw/compare/v2.15.6...v2.15.7) (2022-06-30)
+
+
+### Bug Fixes
+
+* **scss:** force width 100% in wide and full-width ([097264c](https://github.com/Sanofi-IADC/konviw/commit/097264cd29739494b4bc3ffc3b73cf504ce8cd84))
+* **scss:** table header grey if no color defined ([def46ed](https://github.com/Sanofi-IADC/konviw/commit/def46ed37395541233bf34c92fff7466565f7fc7))
+* WEB-178 Removed the default grey th background ([a8ae6a7](https://github.com/Sanofi-IADC/konviw/commit/a8ae6a71e768936dcb4d2acac3b2612b5cc533a5))
+* WEB-178 reverted the ci.yml file ([9cdc8e3](https://github.com/Sanofi-IADC/konviw/commit/9cdc8e3d4253edbab437e75d4821a0f36d6cd11e))
+* WEB-178 skipping table tests until we can fix the CI snapshot issue ([d1e9f8f](https://github.com/Sanofi-IADC/konviw/commit/d1e9f8f3bf2a82132466d6f474dc3c8d68fec1b9))
+* WEB-178 the return of the table cypress test with a new snapshot ([02a4153](https://github.com/Sanofi-IADC/konviw/commit/02a415374a1768dfe6ad6f275029e325ea721ac0))
+* WEB-178 Trying to make cypress table test work ([012ce73](https://github.com/Sanofi-IADC/konviw/commit/012ce737abfc1e3f2e225e819e09d1cd0c8586ca))
+* WEB-178 Updated the cypress table screenshot ([f501293](https://github.com/Sanofi-IADC/konviw/commit/f501293dd68aa956deb8a5234514886cdd7bba2a))
+* WEB-178 upload every screenshot during cypress test ([58269fd](https://github.com/Sanofi-IADC/konviw/commit/58269fd7c010dd5294132482757ed967f7f0720d))
+* WEB-178 using sass syntax to make table background-colors declarations shorter ([19f835b](https://github.com/Sanofi-IADC/konviw/commit/19f835b00a8dc62f5c2a3a7ea86651b24cc9a13b))
+
 ## [2.15.6](https://github.com/Sanofi-IADC/konviw/compare/v2.15.5...v2.15.6) (2022-06-22)
 
 
