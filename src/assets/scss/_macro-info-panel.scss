@@ -1,5 +1,22 @@
 // Information Panels =====================================
 
+%panel-icon {
+  vertical-align: top;
+}
+
+div.confluence-information-macro-body,
+div.panelContent {
+  & > *:first-child { /* Apply these rules on the first encountered element */
+    display: inline-block;
+    margin-top: 0;
+    padding-top: 0;
+    margin-left: 5px;
+  }
+  p, h1, h2, h3, h4 {
+    margin: 0;
+  }
+}
+
 // Note
 div.panel[data-macro-name='panel'] {
   color: darkslategray;
@@ -13,9 +30,8 @@ div.panel[data-macro-name='panel'] {
   .panelContent {
     padding: 10px;
     &::before {
-      padding: 5px;
       content: var(--macro-info-panel-symbol-note);
-      float: right;
+      @extend %panel-icon;
     }
   }
 }
@@ -39,7 +55,7 @@ div.confluence-information-macro-information
   border-left: 5px solid var(--macro-info-panel-border-info);
   &::before {
     content: var(--macro-info-panel-symbol-info);
-    float: right;
+    @extend %panel-icon;
   }
 }
 
@@ -50,7 +66,7 @@ div.confluence-information-macro-tip .confluence-information-macro-body {
   border-left: 5px solid var(--macro-info-panel-border-success);
   &::before {
     content: var(--macro-info-panel-symbol-success);
-    float: right;
+    @extend %panel-icon;
   }
 }
 
@@ -61,7 +77,7 @@ div.confluence-information-macro-note .confluence-information-macro-body {
   border-left: 5px solid var(--macro-info-panel-border-warning);
   &::before {
     content: var(--macro-info-panel-symbol-warning);
-    float: right;
+    @extend %panel-icon;
   }
 }
 
@@ -71,7 +87,7 @@ div.confluence-information-macro-warning .confluence-information-macro-body {
   border: solid 1px var(--macro-info-panel-border-error);
   border-left: 5px solid var(--macro-info-panel-border-error);
   &::before {
-    float: right;
     content: var(--macro-info-panel-symbol-error);
+    @extend %panel-icon;
   }
 }
