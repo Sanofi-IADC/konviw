@@ -1,17 +1,12 @@
 // Information Panels =====================================
 
 %panel-icon {
-  vertical-align: top;
+  position: absolute;
+  left: 5px;
 }
 
 div.confluence-information-macro-body,
 div.panelContent {
-  & > *:first-child { /* Apply these rules on the first encountered element */
-    display: inline-block;
-    margin-top: 0;
-    padding-top: 0;
-    margin-left: 5px;
-  }
   p, h1, h2, h3, h4, h5, h6 {
     margin: 0;
   }
@@ -28,11 +23,7 @@ div.panel[data-macro-name='panel'] {
   background-color: var(--macro-info-panel-bg-warning);
 
   .panelContent {
-    padding: 10px;
-    &::before {
-      content: var(--macro-info-panel-symbol-note);
-      @extend %panel-icon;
-    }
+    padding: 10px 10px 10px 25px;
   }
 }
 
@@ -42,7 +33,7 @@ div.confluence-information-macro {
 
   .confluence-information-macro-body {
     border-radius: 3px;
-    padding: 10px;
+    padding: 10px 10px 10px 25px;
     box-shadow: var(--macro-info-panel-shadow);
   }
 }
