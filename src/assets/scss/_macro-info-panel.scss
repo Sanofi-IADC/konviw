@@ -37,6 +37,10 @@ div.confluence-information-macro {
     border-radius: 3px;
     padding: 10px 10px 10px 25px;
     box-shadow: var(--macro-info-panel-shadow);
+
+    span[role="presentation"] {
+      position: absolute;
+    }
   }
 }
 
