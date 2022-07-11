@@ -91,6 +91,16 @@ table.confluenceTable[data-layout="wide"] {
   width: 100%;
 }
 
+/* Default background colors header row and column */
+table.confluenceTable th.confluenceTh {
+  &:not([data-highlight-colour]),
+  &:not([data-highlight-colour]) > p,
+  &.highlight-grey,
+  &.highlight-grey > p {
+    background-color: var(--highlight-grey);
+  }
+}
+
 /* Background colors */
 table.confluenceTable th.confluenceTh,
 table.confluenceTable td.confluenceTd {

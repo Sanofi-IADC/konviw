@@ -10,7 +10,7 @@ table.confluenceTable {
 
   // Fix 'default' tables to 60% of the layout width
   &[data-layout='default'] {
-    max-width: 60%;
+    max-width: 100%;
   }
 
   // Fix 'wide' tables to fit the 100% of the layout
@@ -89,6 +89,16 @@ table.confluenceTable th.confluenceTh {
 table.confluenceTable[data-layout="full-width"],
 table.confluenceTable[data-layout="wide"] {
   width: 100%;
+}
+
+/* Default background colors header row and column */
+table.confluenceTable th.confluenceTh {
+  &:not([data-highlight-colour]),
+  &:not([data-highlight-colour]) > p,
+  &.highlight-grey,
+  &.highlight-grey > p {
+    background-color: var(--highlight-grey);
+  }
 }
 
 /* Background colors */
