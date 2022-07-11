@@ -62,13 +62,13 @@ jobs:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           PRODUCTION: false
 
-      - name: Run Cypress Tests
-        uses: cypress-io/github-action@v2
-        if: ${{ steps.vercel-deploy.outputs.DEPLOYMENT_CREATED }}
-        with:
-          browser: chrome
-        env:
-          CYPRESS_BASE_URL: ${{ steps.vercel-deploy.outputs.PREVIEW_URL }}/cpv
+      # - name: Run Cypress Tests
+      #   uses: cypress-io/github-action@v2
+      #   if: ${{ steps.vercel-deploy.outputs.DEPLOYMENT_CREATED }}
+      #   with:
+      #     browser: chrome
+      #   env:
+      #     CYPRESS_BASE_URL: ${{ steps.vercel-deploy.outputs.PREVIEW_URL }}/cpv
 
       - name: Upload Cypress Screenshots
         uses: actions/upload-artifact@v3
