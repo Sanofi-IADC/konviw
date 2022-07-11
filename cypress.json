@@ -1,5 +1,5 @@
 {
-  "baseUrl": "https://konviw-nnbyixdzb-konviw.vercel.app/cpv",
+  "baseUrl": "http://localhost:4000/cpv",
   "chromeWebSecurity": false,
   "viewportWidth": 1920,
   "viewportHeight": 1080,
@@ -17,7 +17,7 @@
       "screenshotConfig": {
         "timeout": 120000
       },
-      "updateSnapshots": true
+      "updateSnapshots": false
     }
   },
   "video": true,
