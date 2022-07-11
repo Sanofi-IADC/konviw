@@ -27,6 +27,8 @@ export class ContextService {
   private searchResults = '';
   private labels: string[] = [];
   private fullWidth = false;
+  private headerImage = '';
+  private headerEmoji = '';
   private observer: PerformanceObserver;
   constructor(private config: ConfigService) {}
 
@@ -58,8 +60,6 @@ export class ContextService {
       this.setView(view);
     }
     if (data) {
-      // console.log('data', data);
-
       const baseHost = this.config.get('web.baseHost');
       const basePath = this.config.get('web.basePath');
 
@@ -112,6 +112,30 @@ export class ContextService {
         this.setFullWidth(true);
       } else {
         this.setFullWidth(false);
+      }
+
+      if (data.metadata?.properties['cover-picture-id-published']) {
+        this.setHeaderImage(
+          JSON.parse(
+            data.metadata?.properties['cover-picture-id-published'].value,
+          ).id,
+        );
+        logger.log(
+          `GET cover-picture-id-published to set context 'headerImage' to ${this.getHeaderImage()}`,
+        );
+      } else {
+        this.setHeaderImage('');
+      }
+
+      if (data.metadata?.properties['emoji-title-published']) {
+        this.setHeaderEmoji(
+          data.metadata?.properties['emoji-title-published'].value,
+        );
+        logger.log(
+          `GET emoji-title-published to set context 'headerEmoji' to ${this.getHeaderEmoji()}`,
+        );
+      } else {
+        this.setHeaderEmoji('');
       }
     }
   }
@@ -304,6 +328,22 @@ export class ContextService {
     this.labels = labels.map((label: Label) => {
       return label.name;
     });
+  }
+
+  setHeaderImage(image: string): void {
+    this.headerImage = image;
+  }
+
+  getHeaderImage(): string {
+    return this.headerImage;
+  }
+
+  setHeaderEmoji(code: string): void {
+    this.headerEmoji = !!code ? '&#x' + code + ';' : '';
+  }
+
+  getHeaderEmoji(): string {
+    return this.headerEmoji;
   }
 }
 
