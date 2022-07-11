@@ -62,29 +62,29 @@ jobs:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           PRODUCTION: false
 
-      - name: Run Cypress Tests
-        uses: cypress-io/github-action@v2
-        if: ${{ steps.vercel-deploy.outputs.DEPLOYMENT_CREATED }}
-        with:
-          browser: chrome
-        env:
-          CYPRESS_BASE_URL: ${{ steps.vercel-deploy.outputs.PREVIEW_URL }}/cpv
+      # - name: Run Cypress Tests
+      #   uses: cypress-io/github-action@v2
+      #   if: ${{ steps.vercel-deploy.outputs.DEPLOYMENT_CREATED }}
+      #   with:
+      #     browser: chrome
+      #   env:
+      #     CYPRESS_BASE_URL: ${{ steps.vercel-deploy.outputs.PREVIEW_URL }}/cpv
 
-      - name: Upload Cypress Screenshots
-        uses: actions/upload-artifact@v3
-        if: failure()
-        with:
-          name: cypress-screenshots-artifacts
-          retention-days: 5
-          path: tests/e2e/cypress/screenshots/
+      # - name: Upload Cypress Screenshots
+      #   uses: actions/upload-artifact@v3
+      #   if: failure()
+      #   with:
+      #     name: cypress-screenshots-artifacts
+      #     retention-days: 5
+      #     path: tests/e2e/cypress/screenshots/
 
-      - name: Upload Cypress Videos
-        uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: cypress-videos-artifacts
-          retention-days: 1
-          path: tests/e2e/cypress/videos/
+      # - name: Upload Cypress Videos
+      #   uses: actions/upload-artifact@v3
+      #   if: always()
+      #   with:
+      #     name: cypress-videos-artifacts
+      #     retention-days: 1
+      #     path: tests/e2e/cypress/videos/
 
   release:
     name: Release
