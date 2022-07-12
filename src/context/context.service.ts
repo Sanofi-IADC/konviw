@@ -114,6 +114,7 @@ export class ContextService {
         this.setFullWidth(false);
       }
 
+      // retrieve the header image published and set in context
       if (data.metadata?.properties['cover-picture-id-published']) {
         this.setHeaderImage(
           JSON.parse(
@@ -127,6 +128,7 @@ export class ContextService {
         this.setHeaderImage('');
       }
 
+      // retrieve the header emoji published and set in context
       if (data.metadata?.properties['emoji-title-published']) {
         this.setHeaderEmoji(
           data.metadata?.properties['emoji-title-published'].value,
