@@ -1,5 +1,19 @@
 // Information Panels =====================================
 
+%panel-icon {
+  position: absolute;
+  left: 0;
+  top: 10px;
+}
+
+div.confluence-information-macro-body,
+div.panelContent {
+  position: relative;
+  p, h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+  }
+}
+
 // Note
 div.panel[data-macro-name='panel'] {
   color: darkslategray;
@@ -11,12 +25,7 @@ div.panel[data-macro-name='panel'] {
   background-color: var(--macro-info-panel-bg-warning);
 
   .panelContent {
-    padding: 10px;
-    &::before {
-      padding: 5px;
-      content: var(--macro-info-panel-symbol-note);
-      float: right;
-    }
+    padding: 10px 10px 10px 25px;
   }
 }
 
@@ -26,8 +35,12 @@ div.confluence-information-macro {
 
   .confluence-information-macro-body {
     border-radius: 3px;
-    padding: 10px;
+    padding: 10px 10px 10px 25px;
     box-shadow: var(--macro-info-panel-shadow);
+
+    span[role="presentation"] {
+      position: absolute;
+    }
   }
 }
 
@@ -39,7 +52,7 @@ div.confluence-information-macro-information
   border-left: 5px solid var(--macro-info-panel-border-info);
   &::before {
     content: var(--macro-info-panel-symbol-info);
-    float: right;
+    @extend %panel-icon;
   }
 }
 
@@ -50,7 +63,7 @@ div.confluence-information-macro-tip .confluence-information-macro-body {
   border-left: 5px solid var(--macro-info-panel-border-success);
   &::before {
     content: var(--macro-info-panel-symbol-success);
-    float: right;
+    @extend %panel-icon;
   }
 }
 
@@ -61,7 +74,7 @@ div.confluence-information-macro-note .confluence-information-macro-body {
   border-left: 5px solid var(--macro-info-panel-border-warning);
   &::before {
     content: var(--macro-info-panel-symbol-warning);
-    float: right;
+    @extend %panel-icon;
   }
 }
 
@@ -71,7 +84,7 @@ div.confluence-information-macro-warning .confluence-information-macro-body {
   border: solid 1px var(--macro-info-panel-border-error);
   border-left: 5px solid var(--macro-info-panel-border-error);
   &::before {
-    float: right;
     content: var(--macro-info-panel-symbol-error);
+    @extend %panel-icon;
   }
 }

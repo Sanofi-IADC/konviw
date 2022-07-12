@@ -17,7 +17,7 @@
       "screenshotConfig": {
         "timeout": 120000
       },
-      "updateSnapshots": false
+      "updateSnapshots": true
     }
   },
   "video": true,

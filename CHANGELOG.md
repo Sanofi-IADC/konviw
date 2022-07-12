@@ -1,3 +1,11 @@
+## [2.15.8](https://github.com/Sanofi-IADC/konviw/compare/v2.15.7...v2.15.8) (2022-07-11)
+
+
+### Bug Fixes
+
+* WEB-132 Added a special scss sheet specifically for konviw's dark theme ([4ff7b61](https://github.com/Sanofi-IADC/konviw/commit/4ff7b61f2d8b32234e025525f864265ac570ac8f))
+* WEB-196 Panel style to match Confluence ([#426](https://github.com/Sanofi-IADC/konviw/issues/426)) ([4bf5acd](https://github.com/Sanofi-IADC/konviw/commit/4bf5acd62c6c44dcc63d47d72ce6fc8c3841d85f))
+
 ## [2.15.7](https://github.com/Sanofi-IADC/konviw/compare/v2.15.6...v2.15.7) (2022-06-30)
 
 
