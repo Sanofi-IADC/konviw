@@ -36,13 +36,20 @@ export class ConfluenceService {
           params: {
             type: 'page',
             spaceKey,
+            // select special fields to retrieve
             expand: [
-              // fields to retrieve
+              // content body with html tags
               'body.view',
+              // contains the value 'full-width' when pages are displayed in full width
               'metadata.properties.content_appearance_published',
+              // labels defined for the page
               'metadata.labels',
               'version',
               'history',
+              // header image if any defined
+              'metadata.properties.cover_picture_id_published',
+              // title emoji if any defined
+              'metadata.properties.emoji_title_published',
             ].join(','),
           },
         })

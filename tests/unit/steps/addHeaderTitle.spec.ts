@@ -15,13 +15,24 @@ describe('ConfluenceProxy / addHeaderTitle', () => {
     context.initPageContext('XXX', '123456', 'dark');
   });
 
-  it('should add the h1 title', () => {
+  it('should add just the h1 title', () => {
     const step = addHeaderTitle();
     context.setTitle('I am the title');
     context.setHtmlBody(example);
     step(context);
     expect(context.getHtmlBody()).toContain(
-      '<h1 class="titlePage">I am the title</h1>',
+      '<h1 class="titlePage"> I am the title</h1>',
+    );
+  });
+
+  it('should add the h1 title and emoji', () => {
+    const step = addHeaderTitle();
+    context.setTitle('I am the title');
+    context.setHeaderEmoji('1f60d');
+    context.setHtmlBody(example);
+    step(context);
+    expect(context.getHtmlBody()).toContain(
+      '<h1 class="titlePage">😍 I am the title</h1>',
     );
   });
 });
