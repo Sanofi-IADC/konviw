@@ -7,7 +7,9 @@ export default (): Step => {
     const $ = context.getCheerioBody();
 
     if (context.getTitle()) {
-      $('#Content').prepend(`<h1 class="titlePage">${context.getTitle()}</h1>`);
+      $('#Content').prepend(
+        `<h1 class="titlePage">${context.getHeaderEmoji()} ${context.getTitle()}</h1>`,
+      );
     }
     context.getPerfMeasure('addTitleHeader');
   };
