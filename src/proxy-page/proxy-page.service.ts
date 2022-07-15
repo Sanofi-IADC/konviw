@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ConfluenceService } from '../confluence/confluence.service';
 import { JiraService } from '../jira/jira.service';
 import { ContextService } from '../context/context.service';
+import { Content } from '../confluence/confluence.interface';
 import { ConfigService } from '@nestjs/config';
 import delUnnecessaryCode from './steps/delUnnecessaryCode';
 import fixLinks from './steps/fixLinks';
@@ -61,18 +62,23 @@ export class ProxyPageService {
   async renderPage(
     spaceKey: string,
     pageId: string,
+    version: string,
     theme: string,
     type: string,
     style: string,
     view: string,
   ): Promise<string> {
-    const { data } = await this.confluence.getPage(spaceKey, pageId);
+    const content: Content = await this.confluence.getPage(
+      spaceKey,
+      pageId,
+      version,
+    );
     this.context.initPageContext(
       spaceKey,
       pageId,
       theme,
       style,
-      data,
+      content,
       true,
       view,
     );
@@ -133,13 +139,13 @@ export class ProxyPageService {
     style: string,
     transition: string,
   ): Promise<string> {
-    const { data } = await this.confluence.getPage(spaceKey, pageId);
+    const content: Content = await this.confluence.getPage(spaceKey, pageId);
     this.context.initPageContext(
       spaceKey,
       pageId,
       'light',
       style,
-      data,
+      content,
       true,
       '',
     );
