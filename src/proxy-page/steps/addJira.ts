@@ -19,9 +19,11 @@ export default (config: ConfigService, jiraService: JiraService): Step => {
     const elementTags = [];
     // this is the outer div used to wrap the Jira issues macro
     // which it is saved to place the tables just before
-    $('.confluence-jim-macro').each((_, elementJira: cheerio.Element) => {
-      elementTags.push(elementJira);
-    });
+    $('div.confluence-jim-macro.jira-table').each(
+      (_, elementJira: cheerio.Element) => {
+        elementTags.push(elementJira);
+      },
+    );
 
     const jiraIssuesPromises = [];
     // this is the div holding the data to scrap the list of issues

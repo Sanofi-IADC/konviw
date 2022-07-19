@@ -1,3 +1,10 @@
+## [2.16.1](https://github.com/Sanofi-IADC/konviw/compare/v2.16.0...v2.16.1) (2022-07-18)
+
+
+### Bug Fixes
+
+* confluence-jim-macro selector ([96d9af7](https://github.com/Sanofi-IADC/konviw/commit/96d9af75970a99008098d85697dcceb6773edaf6))
+
 # [2.16.0](https://github.com/Sanofi-IADC/konviw/compare/v2.15.8...v2.16.0) (2022-07-13)
 
 
