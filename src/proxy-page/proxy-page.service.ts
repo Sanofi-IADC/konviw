@@ -40,7 +40,6 @@ import addUnsupportedMacroIndicator from './steps/addUnsupportedMacroIndicator';
 import getFirstExcerpt from 'src/proxy-api/steps/getFirstExcerpt';
 import fixTableBackground from './steps/fixTableBackground';
 
-
 @Injectable()
 export class ProxyPageService {
   private readonly logger = new Logger(ProxyPageService.name);

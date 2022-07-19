@@ -7,12 +7,14 @@ export default (): Step => {
     context.setPerfMark('fixTableBackground');
     const $ = context.getCheerioBody();
 
-    $('.confluenceTh, .confluenceTd').each((_macroIndex: number, headerElement: cheerio.Element) => { 
-      const hightlightColour = $(headerElement).attr('data-highlight-colour');
-      if (hightlightColour) {
-        $(headerElement).css('background-color', hightlightColour);
-      }
-    });
+    $('.confluenceTh, .confluenceTd').each(
+      (_macroIndex: number, headerElement: cheerio.Element) => {
+        const hightlightColour = $(headerElement).attr('data-highlight-colour');
+        if (hightlightColour) {
+          $(headerElement).css('background-color', hightlightColour);
+        }
+      },
+    );
 
     context.getPerfMeasure('fixTableBackground');
   };
