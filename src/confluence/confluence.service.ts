@@ -27,29 +27,33 @@ export class ConfluenceService {
   async getPage(
     spaceKey: string,
     pageId: string,
-  ): Promise<AxiosResponse<Content>> {
+    version?: string,
+  ): Promise<Content> {
     let results: AxiosResponse<Content>;
     try {
+      const uri = version ? `${pageId}/version/${version}` : `${pageId}`;
+      const prefix = version ? 'content.' : '';
       this.logger.log(`Retrieving page ${pageId}`);
+      this.logger.log(`Retrieving version ${version}`);
       results = await this.http
-        .get<Content>(`/wiki/rest/api/content/${pageId}`, {
+        .get<Content>(`/wiki/rest/api/content/${uri}`, {
           params: {
             type: 'page',
             spaceKey,
             // select special fields to retrieve
             expand: [
               // content body with html tags
-              'body.view',
+              prefix + 'body.view',
               // contains the value 'full-width' when pages are displayed in full width
-              'metadata.properties.content_appearance_published',
+              prefix + 'metadata.properties.content_appearance_published',
               // labels defined for the page
-              'metadata.labels',
-              'version',
-              'history',
+              prefix + 'metadata.labels',
+              prefix + 'version',
+              prefix + 'history',
               // header image if any defined
-              'metadata.properties.cover_picture_id_published',
+              prefix + 'metadata.properties.cover_picture_id_published',
               // title emoji if any defined
-              'metadata.properties.emoji_title_published',
+              prefix + 'metadata.properties.emoji_title_published',
             ].join(','),
           },
         })
@@ -58,9 +62,10 @@ export class ConfluenceService {
       this.logger.log(err, 'error:getPage');
       throw new HttpException(`${err}\nPage ${pageId} Not Found`, 404);
     }
+    const content: Content = version ? results.data.content : results.data;
     // Check if the label defined in configuration for private pages is present in the metadata labels
     if (
-      results.data.metadata.labels.results.find(
+      content.metadata.labels.results.find(
         (label: { name: string }) =>
           label.name === this.config.get('konviw.private'),
       )
@@ -68,7 +73,7 @@ export class ConfluenceService {
       this.logger.log(`Page ${pageId} can't be rendered because is private`);
       throw new ForbiddenException('This page is private.');
     }
-    return results;
+    return content;
   }
 
   /**

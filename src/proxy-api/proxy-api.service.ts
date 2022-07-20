@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ContextService } from '../context/context.service';
 import { ConfigService } from '@nestjs/config';
+import { Content } from '../confluence/confluence.interface';
 import { ConfluenceService } from '../confluence/confluence.service';
 import { JiraService } from '../jira/jira.service';
 import parseHeaderBlog from './steps/parseHeaderBlog';
@@ -314,8 +315,8 @@ export class ProxyApiService {
     pageId: string,
     type: string,
   ): Promise<Partial<KonviwContent>> {
-    const { data } = await this.confluence.getPage(spaceKey, pageId);
-    this.context.initPageContext(spaceKey, pageId, null, type, data, false);
+    const content: Content = await this.confluence.getPage(spaceKey, pageId);
+    this.context.initPageContext(spaceKey, pageId, null, type, content, false);
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
     fixContentWidth()(this.context);
     fixLinks(this.config)(this.context);

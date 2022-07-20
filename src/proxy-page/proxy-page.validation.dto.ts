@@ -26,6 +26,15 @@ export class PageParamsDTO {
   @IsNumberString()
   pageId: string;
 
+  @ApiProperty({
+    type: String,
+    description: `The version of the page to render.`,
+    example: '9',
+  })
+  @IsOptional()
+  @IsNumberString()
+  pageVersion: string;
+
   @ApiPropertyOptional({
     type: String,
     required: false,
