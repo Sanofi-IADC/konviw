@@ -38,6 +38,7 @@ import addSlidesCSS from './steps/addSlidesCSS';
 import addSlidesJS from './steps/addSlidesJS';
 import addUnsupportedMacroIndicator from './steps/addUnsupportedMacroIndicator';
 import getFirstExcerpt from 'src/proxy-api/steps/getFirstExcerpt';
+import fixTableBackground from './steps/fixTableBackground';
 
 @Injectable()
 export class ProxyPageService {
@@ -107,6 +108,7 @@ export class ProxyPageService {
     } else if (type !== 'notitle') {
       addHeaderTitle()(this.context);
     }
+    fixTableBackground()(this.context);
     delUnnecessaryCode()(this.context);
     addCustomCss(this.config, style)(this.context);
     addLibrariesCSS()(this.context);
@@ -163,6 +165,7 @@ export class ProxyPageService {
     fixRoadmap(this.config)(this.context);
     fixImageSize()(this.context);
     fixFrameAllowFullscreen()(this.context);
+    fixTableBackground()(this.context);
     delUnnecessaryCode()(this.context);
     await addJiraPromise;
     addSlides()(this.context);
