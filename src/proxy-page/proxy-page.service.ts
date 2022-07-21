@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ConfluenceService } from '../confluence/confluence.service';
 import { JiraService } from '../jira/jira.service';
 import { ContextService } from '../context/context.service';
+import { Content } from '../confluence/confluence.interface';
 import { ConfigService } from '@nestjs/config';
 import delUnnecessaryCode from './steps/delUnnecessaryCode';
 import fixLinks from './steps/fixLinks';
@@ -38,6 +39,7 @@ import addSlidesJS from './steps/addSlidesJS';
 import addUnsupportedMacroIndicator from './steps/addUnsupportedMacroIndicator';
 import getFirstExcerpt from 'src/proxy-api/steps/getFirstExcerpt';
 import fixSVG from './steps/fixSVG';
+import fixTableBackground from './steps/fixTableBackground';
 
 @Injectable()
 export class ProxyPageService {
@@ -62,18 +64,23 @@ export class ProxyPageService {
   async renderPage(
     spaceKey: string,
     pageId: string,
+    version: string,
     theme: string,
     type: string,
     style: string,
     view: string,
   ): Promise<string> {
-    const { data } = await this.confluence.getPage(spaceKey, pageId);
+    const content: Content = await this.confluence.getPage(
+      spaceKey,
+      pageId,
+      version,
+    );
     this.context.initPageContext(
       spaceKey,
       pageId,
       theme,
       style,
-      data,
+      content,
       true,
       view,
     );
@@ -103,6 +110,7 @@ export class ProxyPageService {
       addHeaderTitle()(this.context);
     }
     fixSVG(this.config)(this.context);
+    fixTableBackground()(this.context);
     delUnnecessaryCode()(this.context);
     addCustomCss(this.config, style)(this.context);
     addLibrariesCSS()(this.context);
@@ -135,13 +143,13 @@ export class ProxyPageService {
     style: string,
     transition: string,
   ): Promise<string> {
-    const { data } = await this.confluence.getPage(spaceKey, pageId);
+    const content: Content = await this.confluence.getPage(spaceKey, pageId);
     this.context.initPageContext(
       spaceKey,
       pageId,
       'light',
       style,
-      data,
+      content,
       true,
       '',
     );
@@ -160,6 +168,7 @@ export class ProxyPageService {
     fixImageSize()(this.context);
     fixFrameAllowFullscreen()(this.context);
     fixSVG(this.config)(this.context);
+    fixTableBackground()(this.context);
     delUnnecessaryCode()(this.context);
     await addJiraPromise;
     addSlides()(this.context);

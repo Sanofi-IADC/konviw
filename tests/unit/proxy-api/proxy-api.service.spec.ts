@@ -10,14 +10,15 @@ import configuration from '../../../src/config/configuration.test';
 jest.mock('../../../src/confluence/confluence.service');
 jest.mock('../../../src/jira/jira.service');
 
-class ConfluenceServiceMock {
-  getPage(spaceKey: string, pageId: string) {
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    type DeepPartial<T> = T extends object
-      ? { [P in keyof T]?: DeepPartial<T[P]> }
-      : T;
+// eslint-disable-next-line @typescript-eslint/ban-types
+type DeepPartial<T> = T extends object
+  ? { [P in keyof T]?: DeepPartial<T[P]> }
+  : T;
 
-    const confluenceResponse: DeepPartial<Content> = {
+class ConfluenceServiceMock {
+  getPage(spaceKey: string, pageId: string, version?: string): DeepPartial<Content>{
+
+    const confluenceContent: DeepPartial<Content> = {
       title: 'Page title',
       history: {
         createdBy: {
@@ -38,13 +39,7 @@ class ConfluenceServiceMock {
       }
     };
 
-    return {
-      data: confluenceResponse,
-      status: 200,
-      statusText: 'OK',
-      headers: {},
-      config: {},
-    };
+    return confluenceContent
   }
 }
 

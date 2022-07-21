@@ -1,3 +1,10 @@
+# [2.17.0](https://github.com/Sanofi-IADC/konviw/compare/v2.16.1...v2.17.0) (2022-07-20)
+
+
+### Features
+
+* WEB-261 render pages by version ([e20da87](https://github.com/Sanofi-IADC/konviw/commit/e20da8761755c8466cffdcf57dbd45ed7aed555f))
+
 ## [2.16.1](https://github.com/Sanofi-IADC/konviw/compare/v2.16.0...v2.16.1) (2022-07-18)
 
 
