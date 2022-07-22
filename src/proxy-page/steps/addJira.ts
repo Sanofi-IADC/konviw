@@ -11,6 +11,34 @@ export default (config: ConfigService, jiraService: JiraService): Step => {
     const basePath = config.get('web.basePath');
     const version = config.get('version');
 
+    /* fetch Jira issues details and update the title and status for each one */
+    const issuesDetailsPromises = [];
+    $('span.confluence-jim-macro.jira-issue').each(
+      (_, elementJira: cheerio.Element) => {
+        const jiraKey = $(elementJira).attr('data-jira-key');
+        if (!jiraKey) return;
+        issuesDetailsPromises.push(jiraService.getTicket(jiraKey));
+      },
+    );
+    await Promise.allSettled(issuesDetailsPromises).then((results) => {
+      results.forEach((res: any) => {
+        if (!res?.value.key || !res?.value?.fields) return;
+        const {
+          value: {
+            key,
+            fields: { summary, status },
+          },
+        } = res;
+        const elem = $(`[data-jira-key="${key}"]`);
+        if (!elem) return;
+        elem.find('.summary').text(summary);
+        elem
+          .find('.aui-lozenge')
+          .text(status?.name?.toUpperCase())
+          .css('background-color', status?.statusCategory?.colorName);
+      });
+    });
+
     if (!$('.refresh-wiki') || !$('.refresh-wiki').data()) {
       context.getPerfMeasure('addJira');
       return;

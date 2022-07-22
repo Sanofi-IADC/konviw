@@ -3,27 +3,31 @@ import { ContextService } from '../../../src/context/context.service';
 import { Step } from '../../../src/proxy-page/proxy-page.step';
 import addJira from '../../../src/proxy-page/steps/addJira';
 import { createModuleRefForStep } from './utils';
+import { JiraService } from '../../../src/jira/jira.service';
+
+const mockedIssueData = {
+  expand:
+    'operations,versionedRepresentations,editmeta,changelog,renderedFields',
+  id: 'id',
+  self: 'link',
+  key: 'FND-319',
+  fields: {
+    summary: 'Awesome Summary',
+    issuetype: { name: 'issue', iconUrl: 'image.png' },
+    assignee: { displayName: 'an assignee' },
+    priority: { name: 'low', iconUrl: 'image.png' },
+    resolution: { name: 'resolved' },
+    status: { name: 'a status', statusCategory: { color: 'green' } },
+  },
+};
 
 class JiraServiceMock {
+  async getTicket(key: string) {
+    return mockedIssueData;
+  }
   async findTickets() {
     return {
-      issues: [
-        {
-          expand:
-            'operations,versionedRepresentations,editmeta,changelog,renderedFields',
-          id: 'id',
-          self: 'link',
-          key: 'FND-319',
-          fields: {
-            summary: 'Awesome Summary',
-            issuetype: { name: 'issue', iconUrl: 'image.png' },
-            assignee: { displayName: 'an assignee' },
-            priority: { name: 'low', iconUrl: 'image.png' },
-            resolution: { name: 'resolved' },
-            status: { name: 'a status', statusCategory: { color: 'green' } },
-          },
-        },
-      ],
+      issues: [mockedIssueData],
     };
   }
 }
@@ -91,5 +95,36 @@ describe('Confluence Proxy / addJira', () => {
       },
     ]);
     expect($('body').html()).toContain(`data: ${data}`);
+  });
+
+  it('should update the issue title and status of a jira-issue', async () => {
+    const example =
+      '<html><head></head><body>' +
+      '<span class="confluence-jim-macro jira-issue" data-jira-key="FND-319" data-macro-name="jira">' +
+      '<a href="https://sanofi.atlassian.net/browse/FND-319" class="jira-issue-key">FND-319</a>' +
+      '<span class="summary">Getting issue details...</span>' +
+      '<span class="aui-lozenge aui-lozenge-subtle aui-lozenge-default issue-placeholder">STATUS</span>' +
+      '</span>' +
+      '</body></html>';
+    context.setHtmlBody(example);
+    await step(context);
+    const $ = context.getCheerioBody();
+    const jiraIssueElem = $('span.confluence-jim-macro.jira-issue');
+    expect($(jiraIssueElem).find('.summary').first().text()).toBe(mockedIssueData.fields.summary);
+    expect($(jiraIssueElem).find('.aui-lozenge').first().text()).toBe(mockedIssueData.fields.status.name.toUpperCase());
+  });
+
+  it('should NOT update a jira-table', async () => {
+    const example =
+      '<html><head></head><body>' +
+      '<div class="confluence-jim-macro refresh-module-id jira-table placeholder conf-macro output-block" data-macro-name="jira"></div>' +
+      '</body></html>';
+    context.setHtmlBody(example);
+    const expected =
+    '<html><head></head><body><div id="Content">' +
+    '<div class="confluence-jim-macro refresh-module-id jira-table placeholder conf-macro output-block" data-macro-name="jira"></div>' +
+    '</div></body></html>';
+    await step(context);
+    expect(context.getHtmlBody()).toBe(expected); // no change
   });
 });

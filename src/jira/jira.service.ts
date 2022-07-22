@@ -18,6 +18,24 @@ export class JiraService {
   }
 
   /**
+   * @function getTicket
+   * @description Returns the ticket data based on the ID or key
+   * @param key {string} the ID or key of the desired Jira issue
+   * @return Promise {any}
+   */
+  getTicket(key: string): Promise<any> {
+    return this.http
+      .get(`${this.baseUrl}/rest/api/2/issue/${key}`, {
+        auth: { username: this.apiUsername, password: this.apiToken },
+      })
+      .toPromise()
+      .then((res) => res.data)
+      .catch((e) => {
+        this.logger.log(e, 'error:getTicket');
+      });
+  }
+
+  /**
    * @function findTickets Service
    * @description Return a the tickets selected in the Jira macro
    * @return Promise {any}
