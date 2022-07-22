@@ -1,3 +1,10 @@
+## [2.17.1](https://github.com/Sanofi-IADC/konviw/compare/v2.17.0...v2.17.1) (2022-07-21)
+
+
+### Bug Fixes
+
+* WEB-178 fixed background colors ([#435](https://github.com/Sanofi-IADC/konviw/issues/435)) ([15fe40b](https://github.com/Sanofi-IADC/konviw/commit/15fe40bc0a4407041c067c112d3514be0fefd4b7))
+
 # [2.17.0](https://github.com/Sanofi-IADC/konviw/compare/v2.16.1...v2.17.0) (2022-07-20)
 
 
