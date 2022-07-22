@@ -97,20 +97,34 @@ describe('Confluence Proxy / addJira', () => {
     expect($('body').html()).toContain(`data: ${data}`);
   });
 
-  it('should update the issue title and status', async () => {
+  it('should update the issue title and status of a jira-issue', async () => {
     const example =
       '<html><head></head><body>' +
-      '<span data-jira-key="FND-319" data-macro-name="jira">' +
+      '<span class="confluence-jim-macro jira-issue" data-jira-key="FND-319" data-macro-name="jira">' +
       '<a href="https://sanofi.atlassian.net/browse/FND-319" class="jira-issue-key">FND-319</a>' +
       '<span class="summary">Getting issue details...</span>' +
       '<span class="aui-lozenge aui-lozenge-subtle aui-lozenge-default issue-placeholder">STATUS</span>' +
-      '</span>'
+      '</span>' +
       '</body></html>';
     context.setHtmlBody(example);
     await step(context);
     const $ = context.getCheerioBody();
-    const jiraIssueElem = $('[data-macro-name="jira"]');
+    const jiraIssueElem = $('span.confluence-jim-macro.jira-issue');
     expect($(jiraIssueElem).find('.summary').first().text()).toBe(mockedIssueData.fields.summary);
     expect($(jiraIssueElem).find('.aui-lozenge').first().text()).toBe(mockedIssueData.fields.status.name.toUpperCase());
-  })
+  });
+
+  it('should NOT update a jira-table', async () => {
+    const example =
+      '<html><head></head><body>' +
+      '<div class="confluence-jim-macro refresh-module-id jira-table placeholder conf-macro output-block" data-macro-name="jira"></div>' +
+      '</body></html>';
+    context.setHtmlBody(example);
+    const expected =
+    '<html><head></head><body><div id="Content">' +
+    '<div class="confluence-jim-macro refresh-module-id jira-table placeholder conf-macro output-block" data-macro-name="jira"></div>' +
+    '</div></body></html>';
+    await step(context);
+    expect(context.getHtmlBody()).toBe(expected); // no change
+  });
 });

@@ -22,6 +22,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => {
     );
     await Promise.allSettled(issuesDetailsPromises).then((results) => {
       results.forEach((res: any) => {
+        if (!res?.value.key || !res?.value?.fields) return;
         const {
           value: {
             key,
@@ -29,11 +30,12 @@ export default (config: ConfigService, jiraService: JiraService): Step => {
           },
         } = res;
         const elem = $(`[data-jira-key="${key}"]`);
+        if (!elem) return;
         elem.find('.summary').text(summary);
         elem
           .find('.aui-lozenge')
-          .text(status.name.toUpperCase())
-          .css('background-color', status.statusCategory.colorName);
+          .text(status?.name?.toUpperCase())
+          .css('background-color', status?.statusCategory?.colorName);
       });
     });
 
