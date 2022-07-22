@@ -1,3 +1,10 @@
+## [2.17.2](https://github.com/Sanofi-IADC/konviw/compare/v2.17.1...v2.17.2) (2022-07-22)
+
+
+### Bug Fixes
+
+* WEB-207 SVG images now have the proper src, width and alignment ([#431](https://github.com/Sanofi-IADC/konviw/issues/431)) ([1f94268](https://github.com/Sanofi-IADC/konviw/commit/1f94268271f6a7fc35b4e703f404540593b2491c))
+
 ## [2.17.1](https://github.com/Sanofi-IADC/konviw/compare/v2.17.0...v2.17.1) (2022-07-21)
 
 
