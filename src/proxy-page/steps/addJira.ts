@@ -13,11 +13,13 @@ export default (config: ConfigService, jiraService: JiraService): Step => {
 
     /* fetch Jira issues details and update the title and status for each one */
     const issuesDetailsPromises = [];
-    $('[data-macro-name="jira"]').each((_, elementJira: cheerio.Element) => {
-      const jiraKey = $(elementJira).attr('data-jira-key');
-      if (!jiraKey) return;
-      issuesDetailsPromises.push(jiraService.getTicket(jiraKey));
-    });
+    $('span.confluence-jim-macro.jira-issue').each(
+      (_, elementJira: cheerio.Element) => {
+        const jiraKey = $(elementJira).attr('data-jira-key');
+        if (!jiraKey) return;
+        issuesDetailsPromises.push(jiraService.getTicket(jiraKey));
+      },
+    );
     await Promise.allSettled(issuesDetailsPromises).then((results) => {
       results.forEach((res: any) => {
         const {
