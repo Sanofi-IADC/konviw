@@ -1,3 +1,12 @@
+## [2.17.3](https://github.com/Sanofi-IADC/konviw/compare/v2.17.2...v2.17.3) (2022-07-25)
+
+
+### Bug Fixes
+
+* comment fixSVG import ([5453e86](https://github.com/Sanofi-IADC/konviw/commit/5453e86be2bacf49d0e52e2742ce63a54c2bd966))
+* remove temporary the test for fixSVG ([30ca09b](https://github.com/Sanofi-IADC/konviw/commit/30ca09ba2c20a48f4ea6d40293e6f5ae016775f8))
+* temp remove fixSVG step ([c13582b](https://github.com/Sanofi-IADC/konviw/commit/c13582bfdd3a47f9c84c01343a2abb5ac51b922c))
+
 ## [2.17.2](https://github.com/Sanofi-IADC/konviw/compare/v2.17.1...v2.17.2) (2022-07-22)
 
 
