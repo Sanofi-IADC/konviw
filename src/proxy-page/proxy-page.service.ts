@@ -38,7 +38,7 @@ import addSlidesCSS from './steps/addSlidesCSS';
 import addSlidesJS from './steps/addSlidesJS';
 import addUnsupportedMacroIndicator from './steps/addUnsupportedMacroIndicator';
 import getFirstExcerpt from 'src/proxy-api/steps/getFirstExcerpt';
-import fixSVG from './steps/fixSVG';
+// import fixSVG from './steps/fixSVG';
 import fixTableBackground from './steps/fixTableBackground';
 
 @Injectable()
