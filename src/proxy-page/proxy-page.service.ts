@@ -109,7 +109,7 @@ export class ProxyPageService {
     } else if (type !== 'notitle') {
       addHeaderTitle()(this.context);
     }
-    fixSVG(this.config)(this.context);
+    // fixSVG(this.config)(this.context);
     fixTableBackground()(this.context);
     delUnnecessaryCode()(this.context);
     addCustomCss(this.config, style)(this.context);
@@ -167,7 +167,7 @@ export class ProxyPageService {
     fixRoadmap(this.config)(this.context);
     fixImageSize()(this.context);
     fixFrameAllowFullscreen()(this.context);
-    fixSVG(this.config)(this.context);
+    // fixSVG(this.config)(this.context);
     fixTableBackground()(this.context);
     delUnnecessaryCode()(this.context);
     await addJiraPromise;
