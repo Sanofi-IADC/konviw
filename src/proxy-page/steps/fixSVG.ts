@@ -25,34 +25,31 @@ export default (config: ConfigService): Step => {
         const decodedXML = (
           decodeURIComponent(imgDataEncodedXml) ?? ''
         ).replace(/\+/g, ' ');
-        parseString(decodedXML, (err, xmlData) => {
-          if (err) return;
+        const decodedByCheerio = cheerio.load(decodedXML, { xmlMode: true });
+        const tag = decodedByCheerio('ac\\:image')['0'];
 
-          /* get the actual SVG attributes */
-          const { 'ac:width': width, 'ac:align': align } =
-            xmlData['ac:image']['$'];
-          const { 'ri:filename': filename } =
-            xmlData['ac:image']['ri:attachment'].shift()['$'];
+        /* get the actual SVG attributes */
+        const { 'ac:width': width = '', 'ac:align': align = '' } = tag?.attribs;
+        const { 'ri:filename': filename = '' } = tag?.children?.shift()?.['attribs'];
 
-          /* set the new imageSrc and width attributes */
-          $(elementImg).attr(
-            'src',
-            `${webBasePath}/wiki/download/attachments/${context.getPageId()}/${filename}`,
-          );
-          $(elementImg).attr('width', width);
-          const alignmentClass = {
-            center: 'image-center',
-            left: 'image-left',
-            right: 'image-right',
-          };
-          if (align) {
-            $(elementImg).addClass(alignmentClass[align]);
-          }
+        /* set the new imageSrc and width attributes */
+        $(elementImg).attr(
+          'src',
+          `${webBasePath}/wiki/download/attachments/${context.getPageId()}/${filename}`,
+        );
+        $(elementImg).attr('width', width);
+        const alignmentClass = {
+          center: 'image-center',
+          left: 'image-left',
+          right: 'image-right',
+        };
+        if (align) {
+          $(elementImg).addClass(alignmentClass[align]);
+        }
 
-          /* clean off attributes we don't need anymore */
-          $(elementImg).removeAttr('data-encoded-xml');
-          $(elementImg).removeClass('transform-error');
-        });
+        /* clean off attributes we don't need anymore */
+        $(elementImg).removeAttr('data-encoded-xml');
+        $(elementImg).removeClass('transform-error');
       }
     });
 
