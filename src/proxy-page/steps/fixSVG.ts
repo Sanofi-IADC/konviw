@@ -2,7 +2,6 @@ import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
 import * as cheerio from 'cheerio';
 import { ConfigService } from '@nestjs/config';
-import { parseString } from 'xml2js';
 
 /**
  * ### Proxy page step to fix svg
@@ -30,7 +29,8 @@ export default (config: ConfigService): Step => {
 
         /* get the actual SVG attributes */
         const { 'ac:width': width = '', 'ac:align': align = '' } = tag?.attribs;
-        const { 'ri:filename': filename = '' } = tag?.children?.shift()?.['attribs'];
+        const { 'ri:filename': filename = '' } =
+          tag?.children?.shift()?.['attribs'];
 
         /* set the new imageSrc and width attributes */
         $(elementImg).attr(
