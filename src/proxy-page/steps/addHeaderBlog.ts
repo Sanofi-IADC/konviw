@@ -8,7 +8,9 @@ export default (): Step => {
     const $ = context.getCheerioBody();
 
     let blogImgSrc = context.getHeaderImage(); // default blog header is the headerImage
-    let blogExcerptString = '', blogHeaderHTML = '', blogExcerptHTML = '';
+    let blogExcerptString = '',
+      blogHeaderHTML = '',
+      blogExcerptHTML = '';
 
     // Div with class plugin-tabmeta-details is used for macro Page-Properties
     $(".plugin-tabmeta-details[data-macro-name='details']")
