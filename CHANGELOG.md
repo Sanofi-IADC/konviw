@@ -1,3 +1,11 @@
+## [2.17.4](https://github.com/Sanofi-IADC/konviw/compare/v2.17.3...v2.17.4) (2022-07-27)
+
+
+### Bug Fixes
+
+* WEB-276 fixed linter warnings ([37905fc](https://github.com/Sanofi-IADC/konviw/commit/37905fc1482a5ee36f1ec70f72e2a2bda134110d))
+* WEB-276 using cheerio to retrieve xml data from SVG images ([747f6bb](https://github.com/Sanofi-IADC/konviw/commit/747f6bbde7ca1477c07959c0d4ddd909b7591b34))
+
 ## [2.17.3](https://github.com/Sanofi-IADC/konviw/compare/v2.17.2...v2.17.3) (2022-07-25)
 
 
