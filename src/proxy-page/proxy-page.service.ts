@@ -105,7 +105,7 @@ export class ProxyPageService {
     fixImageSize()(this.context);
     fixColGroupWidth()(this.context);
     if (type === 'blog') {
-      addHeaderBlog()(this.context);
+      await addHeaderBlog(this.config, this.confluence)(this.context);
     } else if (type !== 'notitle') {
       addHeaderTitle()(this.context);
     }
