@@ -233,4 +233,11 @@ export class ConfluenceService {
       throw new HttpException(`error:getAllSpaces > ${err}`, 404);
     }
   }
+
+  async getAttachments(pageId: string): Promise<any> {
+    const results: AxiosResponse = await this.http
+      .get<Content>(`/wiki/rest/api/content/${pageId}/child/attachment`)
+      .toPromise();
+    return results.data?.results;
+  }
 }
