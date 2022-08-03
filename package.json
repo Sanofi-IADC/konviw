@@ -16,6 +16,7 @@
     "start:dev:nest": "nest start --watch",
     "start:dev:scss": "npm run scss -- --watch",
     "start:dev": "run-p start:dev:nest start:dev:scss",
+    "dev": "npm run start:dev",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/src/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --max-warnings 3",
