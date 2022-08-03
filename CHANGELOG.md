@@ -1,3 +1,12 @@
+# [2.18.0](https://github.com/Sanofi-IADC/konviw/compare/v2.17.4...v2.18.0) (2022-08-03)
+
+
+### Features
+
+* WEB-218 fixed header in blog mode for uploaded files ([74ee164](https://github.com/Sanofi-IADC/konviw/commit/74ee164ee37dce7b725537c4985533e31e5d83a2))
+* WEB-218 fixed linter warnings ([72c5c56](https://github.com/Sanofi-IADC/konviw/commit/72c5c56efb11970e834295632e65a29804435c28))
+* WEB-218 image header has priority over the first image in page-properties when reading a blog page ([4ec3923](https://github.com/Sanofi-IADC/konviw/commit/4ec39232960d4bcd002fc31393b40b79b7623e4a))
+
 ## [2.17.4](https://github.com/Sanofi-IADC/konviw/compare/v2.17.3...v2.17.4) (2022-07-27)
 
 
