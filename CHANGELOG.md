@@ -1,3 +1,10 @@
+# [2.19.0](https://github.com/Sanofi-IADC/konviw/compare/v2.18.0...v2.19.0) (2022-08-03)
+
+
+### Features
+
+* WEB-285 added an alias 'dev' to 'start:dev' in the script section of package.json ([110cc99](https://github.com/Sanofi-IADC/konviw/commit/110cc99b617b84e1828db581ac5ed0a6b02f861e))
+
 # [2.18.0](https://github.com/Sanofi-IADC/konviw/compare/v2.17.4...v2.18.0) (2022-08-03)
 
 
