@@ -20,7 +20,7 @@ export default (config: ConfigService): Step => {
       $(element).attr('target', '_blank');
     });
     // Inline & Card links display
-    for(let i = 0; i < externalLinksArray.length; i++) {
+    for (let i = 0; i < externalLinksArray.length; i++) {
       const element = externalLinksArray[i];
 
       const url = $(element).attr('href');
@@ -28,25 +28,30 @@ export default (config: ConfigService): Step => {
 
       try {
         const metadata = await unfurl(url);
-        switch(dataCardAppearance) {
+        switch (dataCardAppearance) {
           case 'inline':
-            $(element).replaceWith(`<a target="_blank" href="${url}"> <img class="favicon" src="${metadata.favicon}"/> ${metadata.title}</a>`);
-          break;
+            $(element).replaceWith(
+              `<a target="_blank" href="${url}"> <img class="favicon" src="${metadata.favicon}"/> ${metadata.title}</a>`,
+            );
+            break;
           case 'block':
             const imageSrc = metadata.open_graph.images.shift()?.url;
             $(element).replaceWith(`
             <div class="card">
-              <div class="thumb">${(imageSrc) ? `<img src="${imageSrc}"/>` : ''}</div>
+              <div class="thumb">${
+                imageSrc ? `<img src="${imageSrc}"/>` : ''
+              }</div>
               <div class="title-desc">
-                <a target="_blank" href="${url}"> <img class="favicon" src="${metadata.favicon}"/> ${metadata.title}</a>
+                <a target="_blank" href="${url}"> <img class="favicon" src="${
+              metadata.favicon
+            }"/> ${metadata.title}</a>
                 <p>${metadata.description}</p>
               </div>
             </div>
             `);
-          break;
+            break;
         }
-      }
-      catch (error) {
+      } catch (error) {
         logger.log(`Unfurl error: ${error}`);
       }
     }
