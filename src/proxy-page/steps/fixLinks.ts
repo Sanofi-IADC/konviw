@@ -3,7 +3,7 @@ import { Step } from '../proxy-page.step';
 import { ConfigService } from '@nestjs/config';
 import { Logger } from '@nestjs/common';
 import * as cheerio from 'cheerio';
-// import { unfurl } from 'unfurl.js';
+import { unfurl } from 'unfurl.js';
 
 export default (config: ConfigService): Step => {
   return async (context: ContextService): Promise<void> => {
@@ -19,37 +19,37 @@ export default (config: ConfigService): Step => {
     $(externalLinksArray).each((_index: number, element: cheerio.Element) => {
       $(element).attr('target', '_blank');
     });
-    // // Inline & Card links display
-    // for(let i = 0; i < externalLinksArray.length; i++) {
-    //   const element = externalLinksArray[i];
+    // Inline & Card links display
+    for(let i = 0; i < externalLinksArray.length; i++) {
+      const element = externalLinksArray[i];
 
-    //   const url = $(element).attr('href');
-    //   const dataCardAppearance = $(element).attr('data-card-appearance');
+      const url = $(element).attr('href');
+      const dataCardAppearance = $(element).attr('data-card-appearance');
 
-    //   try {
-    //     const metadata = await unfurl(url);
-    //     switch(dataCardAppearance) {
-    //       case 'inline':
-    //         $(element).replaceWith(`<a target="_blank" href="${url}"> <img class="favicon" src="${metadata.favicon}"/> ${metadata.title}</a>`);
-    //       break;
-    //       case 'block':
-    //         const imageSrc = metadata.open_graph.images.shift()?.url;
-    //         $(element).replaceWith(`
-    //         <div class="card">
-    //           <div class="thumb">${(imageSrc) ? `<img src="${imageSrc}"/>` : ''}</div>
-    //           <div class="title-desc">
-    //             <a target="_blank" href="${url}"> <img class="favicon" src="${metadata.favicon}"/> ${metadata.title}</a>
-    //             <p>${metadata.description}</p>
-    //           </div>
-    //         </div>
-    //         `);
-    //       break;
-    //     }
-    //   }
-    //   catch (error) {
-    //     logger.log(`Unfurl error: ${error}`);
-    //   }
-    // }
+      try {
+        const metadata = await unfurl(url);
+        switch(dataCardAppearance) {
+          case 'inline':
+            $(element).replaceWith(`<a target="_blank" href="${url}"> <img class="favicon" src="${metadata.favicon}"/> ${metadata.title}</a>`);
+          break;
+          case 'block':
+            const imageSrc = metadata.open_graph.images.shift()?.url;
+            $(element).replaceWith(`
+            <div class="card">
+              <div class="thumb">${(imageSrc) ? `<img src="${imageSrc}"/>` : ''}</div>
+              <div class="title-desc">
+                <a target="_blank" href="${url}"> <img class="favicon" src="${metadata.favicon}"/> ${metadata.title}</a>
+                <p>${metadata.description}</p>
+              </div>
+            </div>
+            `);
+          break;
+        }
+      }
+      catch (error) {
+        logger.log(`Unfurl error: ${error}`);
+      }
+    }
 
     const domain = confluenceBaseURL.toString().replace(/https?:\/\//, '');
     // For direct Url and Uri we look for two patterns
