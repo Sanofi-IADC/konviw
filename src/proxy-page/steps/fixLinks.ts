@@ -20,9 +20,7 @@ export default (config: ConfigService): Step => {
       $(element).attr('target', '_blank');
     });
     // Inline & Card links display
-    for (let i = 0; i < externalLinksArray.length; i++) {
-      const element = externalLinksArray[i];
-
+    for (const element of externalLinksArray) {
       const url = $(element).attr('href');
       const dataCardAppearance = $(element).attr('data-card-appearance');
 
