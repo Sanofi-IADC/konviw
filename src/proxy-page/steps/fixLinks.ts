@@ -25,7 +25,11 @@ export default (config: ConfigService): Step => {
       const dataCardAppearance = $(element).attr('data-card-appearance');
 
       try {
-        const metadata = await unfurl(url);
+        const options = {
+          timeout: 2000,
+          follow: 3,
+        };
+        const metadata = await unfurl(url, options);
         switch (dataCardAppearance) {
           case 'inline':
             $(element).replaceWith(
