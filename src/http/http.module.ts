@@ -5,6 +5,7 @@ import {
   HttpModule as BaseHttpModule,
 } from '@nestjs/axios';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import httpsProxyAgent from 'https-proxy-agent';
 
 @Module({
   imports: [
@@ -18,6 +19,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         },
         timeout: Number(config.get('confluence.apiTimeOut')),
         maxRedirects: Number(config.get('confluence.apiMaxRedirects')),
+        proxy: false,
+        httpsAgent: process.env.https_proxy
+          ? new (httpsProxyAgent as any)(process.env.https_proxy)
+          : undefined,
       }),
       inject: [ConfigService],
     }),
