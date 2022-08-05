@@ -1,3 +1,15 @@
+## [2.19.2](https://github.com/Sanofi-IADC/konviw/compare/v2.19.1...v2.19.2) (2022-08-05)
+
+
+### Bug Fixes
+
+* WEB-226 Added https-proxy-agent ([eb380ea](https://github.com/Sanofi-IADC/konviw/commit/eb380ea096d10364d742c5282efcf67d59aa4a8f))
+* WEB-226 fixed code smells ([2620bb2](https://github.com/Sanofi-IADC/konviw/commit/2620bb22ca9d3716018f488712fe664713f7efb0))
+* WEB-226 fixed linter warnings ([aee6aec](https://github.com/Sanofi-IADC/konviw/commit/aee6aec9faf055dfedefcc229f9b7f681fd7bc1e))
+* WEB-226 Merge pull request [#444](https://github.com/Sanofi-IADC/konviw/issues/444) from Sanofi-IADC/bugfix/web-226 ([86c6f6d](https://github.com/Sanofi-IADC/konviw/commit/86c6f6d2f48184b9a91fdabb3d1b32f1d80efb1e))
+* WEB-226 uncommented the block which transforms the links ([90f9b5c](https://github.com/Sanofi-IADC/konviw/commit/90f9b5ce18a9987a58d8e541a35c33dae71f5f72))
+* WEB-226 updated package-lock file ([e8d7064](https://github.com/Sanofi-IADC/konviw/commit/e8d7064d62eeb98a914d3e0b202fc6796eb05a9a))
+
 ## [2.19.1](https://github.com/Sanofi-IADC/konviw/compare/v2.19.0...v2.19.1) (2022-08-05)
 
 
