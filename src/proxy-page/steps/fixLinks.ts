@@ -3,7 +3,8 @@ import { Step } from '../proxy-page.step';
 import { ConfigService } from '@nestjs/config';
 import { Logger } from '@nestjs/common';
 import * as cheerio from 'cheerio';
-import { unfurl } from 'unfurl.js';
+// import { unfurl } from 'unfurl.js';
+import axios from 'axios';
 
 export default (config: ConfigService): Step => {
   return async (context: ContextService): Promise<void> => {
@@ -24,38 +25,73 @@ export default (config: ConfigService): Step => {
       const url = $(element).attr('href');
       const dataCardAppearance = $(element).attr('data-card-appearance');
 
-      try {
-        const options = {
-          timeout: 2000,
-          follow: 3,
-        };
-        const metadata = await unfurl(url, options);
-        switch (dataCardAppearance) {
-          case 'inline':
-            $(element).replaceWith(
-              `<a target="_blank" href="${url}"> <img class="favicon" src="${metadata.favicon}"/> ${metadata.title}</a>`,
-            );
-            break;
-          case 'block':
-            const imageSrc = metadata.open_graph.images.shift()?.url;
-            $(element).replaceWith(`
+      await axios
+        .get(url)
+        .then((res) => {
+          const body = cheerio.load(res.data);
+          const title = body('title').text();
+          const description = body('head meta[name="description"]').attr(
+            'content',
+          );
+          const favicon = body('head link[rel="icon"]').attr('href');
+          const imageSrc = body(
+            'head meta[name="twitter:image:src"], head meta[name="og:image"]',
+          ).attr('content');
+
+          let replacement = '';
+          if (dataCardAppearance === 'inline') {
+            replacement = `<a target="_blank" href="${url}"> <img class="favicon" src="${favicon}"/> ${title}</a>`;
+          } else if (dataCardAppearance === 'block') {
+            const imgTag = imageSrc ? `<img src="${imageSrc}"/>` : '';
+            replacement = `
             <div class="card">
-              <div class="thumb">${
-                imageSrc ? `<img src="${imageSrc}"/>` : ''
-              }</div>
+              <div class="thumb">${imgTag}</div>
               <div class="title-desc">
-                <a target="_blank" href="${url}"> <img class="favicon" src="${
-              metadata.favicon
-            }"/> ${metadata.title}</a>
-                <p>${metadata.description}</p>
+                <a target="_blank" href="${url}"> <img class="favicon" src="${favicon}"/> ${title}</a>
+                <p>${description}</p>
               </div>
-            </div>
-            `);
-            break;
-        }
-      } catch (error) {
-        logger.log(`Unfurl error: ${error}`);
-      }
+            </div>`;
+          }
+          if (replacement) {
+            $(element).replaceWith(replacement);
+          }
+        })
+        .catch((error) => {
+          console.log(`Smart link metadata fetch error: ${error}`);
+        });
+
+      //   try {
+      //     const options = {
+      //       timeout: 2000,
+      //       follow: 3,
+      //     };
+      //     const metadata = await unfurl(url, options);
+      //     switch (dataCardAppearance) {
+      //       case 'inline':
+      //         $(element).replaceWith(
+      //           `<a target="_blank" href="${url}"> <img class="favicon" src="${metadata.favicon}"/> ${metadata.title}</a>`,
+      //         );
+      //         break;
+      //       case 'block':
+      //         const imageSrc = metadata.open_graph.images.shift()?.url;
+      //         $(element).replaceWith(`
+      //         <div class="card">
+      //           <div class="thumb">${
+      //             imageSrc ? `<img src="${imageSrc}"/>` : ''
+      //           }</div>
+      //           <div class="title-desc">
+      //             <a target="_blank" href="${url}"> <img class="favicon" src="${
+      //           metadata.favicon
+      //         }"/> ${metadata.title}</a>
+      //             <p>${metadata.description}</p>
+      //           </div>
+      //         </div>
+      //         `);
+      //         break;
+      //     }
+      //   } catch (error) {
+      //     logger.log(`Unfurl error: ${error}`);
+      //   }
     }
 
     const domain = confluenceBaseURL.toString().replace(/https?:\/\//, '');
