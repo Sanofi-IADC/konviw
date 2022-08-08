@@ -1,3 +1,11 @@
+## [2.19.4](https://github.com/Sanofi-IADC/konviw/compare/v2.19.3...v2.19.4) (2022-08-08)
+
+
+### Bug Fixes
+
+* WEB-226 fixed fixlinks tests ([03cc5f5](https://github.com/Sanofi-IADC/konviw/commit/03cc5f5518c9cbe8729462bfd3d3e48f58f6d897))
+* WEB-226 Using axios instead of unfurl to retrieve metadata ([c4c0be9](https://github.com/Sanofi-IADC/konviw/commit/c4c0be945bbce430373ab951a772c680c8267756))
+
 ## [2.19.3](https://github.com/Sanofi-IADC/konviw/compare/v2.19.2...v2.19.3) (2022-08-05)
 
 
