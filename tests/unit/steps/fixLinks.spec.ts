@@ -6,7 +6,7 @@ import { createModuleRefForStep } from './utils';
 describe('ConfluenceProxy / fixLinks', () => {
   let context: ContextService;
   let config: ConfigService;
-  let webBasePath = '';
+  let webBasePath;
 
   beforeEach(async () => {
     const moduleRef = await createModuleRefForStep();
@@ -201,27 +201,27 @@ describe('ConfluenceProxy / fixLinks', () => {
     expect(context.getHtmlBody()).toEqual(expected);
   });
 
-  // it('should display data-appearance=inline links with a favicon', async () => {
-  //   const step = fixLinks(config);
-  //   const example =
-  //   '<html><head></head><body>' +
-  //   '<a data-card-appearance="inline"  href="https://www.google.com/about" class="external-link">Example</a>' +
-  //   '</body></html>';
-  //   context.setHtmlBody(example);
-  //   await step(context);
-  //   const $ = context.getCheerioBody();
-  //   expect($('#Content > a > img').attr('class')).toBe('favicon');
-  // });
+  it('should display data-appearance=inline links with a favicon', async () => {
+    const step = fixLinks(config);
+    const example =
+    '<html><head></head><body>' +
+    '<a data-card-appearance="inline"  href="https://www.google.com/about" class="external-link">Example</a>' +
+    '</body></html>';
+    context.setHtmlBody(example);
+    await step(context);
+    const $ = context.getCheerioBody();
+    expect($('#Content > a > img').attr('class')).toBe('favicon');
+  });
 
-  // it('should display data-appearance=card links as a card', async () => {
-  //   const step = fixLinks(config);
-  //   const example =
-  //   '<html><head></head><body>' +
-  //   '<a data-card-appearance="block"  href="https://www.google.com/about" class="external-link">Example</a>' +
-  //   '</body></html>';
-  //   context.setHtmlBody(example);
-  //   await step(context);
-  //   const $ = context.getCheerioBody();
-  //   expect($('#Content > div').attr('class')).toBe('card');
-  // });
+  it('should display data-appearance=card links as a card', async () => {
+    const step = fixLinks(config);
+    const example =
+    '<html><head></head><body>' +
+    '<a data-card-appearance="block"  href="https://www.google.com/about" class="external-link">Example</a>' +
+    '</body></html>';
+    context.setHtmlBody(example);
+    await step(context);
+    const $ = context.getCheerioBody();
+    expect($('#Content > div').attr('class')).toBe('card');
+  });
 });
