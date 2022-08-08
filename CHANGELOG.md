@@ -1,3 +1,10 @@
+## [2.19.3](https://github.com/Sanofi-IADC/konviw/compare/v2.19.2...v2.19.3) (2022-08-05)
+
+
+### Bug Fixes
+
+* WEB-226 Adding options to unfurl calls ([e44eea4](https://github.com/Sanofi-IADC/konviw/commit/e44eea4e0644035b60a5de4d47c17079b2853ee1))
+
 ## [2.19.2](https://github.com/Sanofi-IADC/konviw/compare/v2.19.1...v2.19.2) (2022-08-05)
 
 
