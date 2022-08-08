@@ -91,7 +91,7 @@ export class PageQueryDTO {
   @ApiPropertyOptional({
     type: String,
     required: false,
-    description: `We have two modes: 'fullpage' and 'iframe-resizer'. 'iframe-resizer' will disable scroll to top, zoom effect in images, reading progress bar and floating toc menu.`,
+    description: `We have two modes: 'fullpage' and 'iframe-resizer'. 'iframe-resizer' will disable scroll to top, zoom effect in images, reading progress bar and floating toc menu. And 'debug' will render special marks to better debug special content and macros in the page.`,
     example: 'iframe-resizer',
   })
   @IsOptional()
@@ -99,6 +99,17 @@ export class PageQueryDTO {
   @IsIn(['fullpage', 'iframe-resizer', 'debug'])
   // to select default view for pages
   view = 'fullpage';
+
+  @ApiPropertyOptional({
+    type: String,
+    required: false,
+    description: `Define the fixation point for the bionic reading output or undefined for regular render.`,
+    example: '3',
+  })
+  @IsOptional()
+  @IsString()
+  @IsIn(['1', '2', '3', '4', '5'])
+  fixationPoint: string;
 
   @ApiPropertyOptional({
     type: String,

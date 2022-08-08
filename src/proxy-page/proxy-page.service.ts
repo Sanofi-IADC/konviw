@@ -60,6 +60,8 @@ export class ProxyPageService {
    * @param theme {string} 'dark' - light or dark theme used by the page
    * @param type {string} 'blog' - type of the page
    * @param style {string} 'iadc' - theme to style the page
+   * @param view {string} 'fullpage' - default is 'fullpage' while 'iframe-resizer' will disable scroll to top, zoom effect in images, reading progress bar and floating toc menu. And 'debug' will render special marks to better debug special content and macros in the page
+   * @param fixationPoint {string} '3' - undefined for regular rendering or a value from 1 to 5 to define the proper fixation point for bionic reading output
    */
   async renderPage(
     spaceKey: string,
@@ -69,6 +71,7 @@ export class ProxyPageService {
     type: string,
     style: string,
     view: string,
+    fixationPoint: string,
   ): Promise<string> {
     const content: Content = await this.confluence.getPage(
       spaceKey,
@@ -126,6 +129,7 @@ export class ProxyPageService {
     addLibrariesJS()(this.context);
     addUnsupportedMacroIndicator()(this.context);
     this.context.Close();
+    if (fixationPoint) return this.context.getHtmlBionicBody(fixationPoint);
     return this.context.getHtmlBody();
   }
 

@@ -4,7 +4,7 @@ import { performance, PerformanceObserver } from 'perf_hooks';
 import { ConfigService } from '@nestjs/config';
 import { Content, Label } from 'src/confluence/confluence.interface';
 import { Version } from './context.interface';
-
+import { textVide } from 'text-vide';
 @Injectable()
 export class ContextService {
   private readonly logger = new Logger(ContextService.name);
@@ -219,6 +219,12 @@ export class ContextService {
   getTextBody(): string {
     const $ = this.cheerioBody;
     return $('<div>').html($.html()).text().trim();
+  }
+
+  getHtmlBionicBody(strFixationPoint: string): string {
+    const fixationPoint = Number(strFixationPoint);
+    this.logger.log(`Fixation Point for Bionic Reader is ${fixationPoint}`);
+    return textVide(this.getCheerioBody().html(), { fixationPoint });
   }
 
   setHtmlBody(body: string, loadAsDocument = true): void {

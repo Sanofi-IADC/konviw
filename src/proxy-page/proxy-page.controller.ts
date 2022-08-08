@@ -36,8 +36,8 @@ export class ProxyPageController {
    * @query theme {string} 'dark' - switch between light and dark themes
    * @query type {string} 'blog' - 'blog' to display a post header or 'notitle' to remove the title of the page
    * @query style {string} 'konviw' - style to render the page
-   * @query nozoom {string} '' - disable zoom effect in images
    * @query view {string} '' - disable scroll to top, zoom effect in images, reading progress bar and floating toc menu
+   * @query fixationPoint {string} '' - undefined for regular rendering or a value from 1 to 5 to define the proper fixation point for bionic reading output
    */
 
   @ApiOperation({
@@ -56,7 +56,16 @@ export class ProxyPageController {
     @Query() queries: PageQueryDTO,
   ) {
     this.logger.log(
-      `Rendering page.. /${params.spaceKey}/${params.pageId}/${params.pageVersion}`,
+      `Rendering page /${params.spaceKey}/${params.pageId}`,
+      `.. with version ${params.pageVersion ?? 'last'}`,
+      `.. with theme ${queries.theme ?? 'default'} and style ${
+        queries.style ?? 'default'
+      }`,
+      `.. with output type ${queries.type ?? 'title'}`,
+      `.. with view ${queries.view ?? 'fullpage'}`,
+      `.. and fixation point for bionic reader ${
+        queries.fixationPoint ?? 'nothing'
+      }`,
     );
     return this.proxyPage.renderPage(
       params.spaceKey,
@@ -66,6 +75,7 @@ export class ProxyPageController {
       queries.type,
       queries.style,
       queries.view,
+      queries.fixationPoint,
     );
   }
 
