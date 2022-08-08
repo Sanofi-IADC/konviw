@@ -24,6 +24,9 @@ export default (config: ConfigService): Step => {
     for (const element of externalLinksArray) {
       const url = $(element).attr('href');
       const dataCardAppearance = $(element).attr('data-card-appearance');
+      if (!dataCardAppearance) {
+        continue;
+      }
 
       await axios
         .get(url)

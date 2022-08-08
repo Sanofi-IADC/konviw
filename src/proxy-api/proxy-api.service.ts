@@ -319,7 +319,7 @@ export class ProxyApiService {
     this.context.initPageContext(spaceKey, pageId, null, type, content, false);
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
     fixContentWidth()(this.context);
-    fixLinks(this.config)(this.context);
+    await fixLinks(this.config)(this.context);
     fixToc()(this.context);
     fixEmojis(this.config)(this.context);
     fixDrawio(this.config)(this.context);
