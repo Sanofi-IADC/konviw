@@ -1,3 +1,11 @@
+## [2.19.7](https://github.com/Sanofi-IADC/konviw/compare/v2.19.6...v2.19.7) (2022-08-09)
+
+
+### Bug Fixes
+
+* WEB-226 commented tests temporarily ([40b0466](https://github.com/Sanofi-IADC/konviw/commit/40b0466672c264fd40839bc7d1055c3c6fe32022))
+* WEB-226 Using a proxy to axios calls in fixLinks step ([21d3ecc](https://github.com/Sanofi-IADC/konviw/commit/21d3ecc2323591fcb14b95f1e9168134d05acb48))
+
 ## [2.19.6](https://github.com/Sanofi-IADC/konviw/compare/v2.19.5...v2.19.6) (2022-08-09)
 
 
