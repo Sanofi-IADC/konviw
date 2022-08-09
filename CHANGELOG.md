@@ -1,3 +1,10 @@
+## [2.19.6](https://github.com/Sanofi-IADC/konviw/compare/v2.19.5...v2.19.6) (2022-08-09)
+
+
+### Bug Fixes
+
+* WEB-226 uncommented smartlinks and using HTTPS_PROXY var instead of https_proxy ([74c7579](https://github.com/Sanofi-IADC/konviw/commit/74c75796d53e4d236e3613fef978447abcaea2f5))
+
 ## [2.19.5](https://github.com/Sanofi-IADC/konviw/compare/v2.19.4...v2.19.5) (2022-08-08)
 
 
