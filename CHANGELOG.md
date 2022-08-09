@@ -1,3 +1,17 @@
+## [2.19.5](https://github.com/Sanofi-IADC/konviw/compare/v2.19.4...v2.19.5) (2022-08-08)
+
+
+### Bug Fixes
+
+* merged WEB-226 to main ([06f38fe](https://github.com/Sanofi-IADC/konviw/commit/06f38fe34e4430f85b0c1599bdaf743f32b435b8))
+* WEB-226 Adding options to unfurl calls ([c849e3e](https://github.com/Sanofi-IADC/konviw/commit/c849e3ef8ba04dffe885ba56ae09906e70358080))
+* WEB-226 commented tests aswell ([e6647bd](https://github.com/Sanofi-IADC/konviw/commit/e6647bdd652c1384a1f729e3ba91ccf770f0431c))
+* WEB-226 fixed fixlinks tests ([536e4b6](https://github.com/Sanofi-IADC/konviw/commit/536e4b6816bbeb38e66b36966db5631082c8f61b))
+* WEB-226 merged main ([622a503](https://github.com/Sanofi-IADC/konviw/commit/622a5038287f3720a6816076082ba9b8e05c5ceb))
+* WEB-226 merged main ([3f94ccc](https://github.com/Sanofi-IADC/konviw/commit/3f94ccc0eed557e484128844455d987829bd6eaf))
+* WEB-226 smartlinks feature commented again ... ([62bb6e9](https://github.com/Sanofi-IADC/konviw/commit/62bb6e9a05d9c95eeadfad6fd16af7b653f0c28c))
+* WEB-226 Using axios instead of unfurl to retrieve metadata ([f3184c9](https://github.com/Sanofi-IADC/konviw/commit/f3184c96594ca9810b4f8caa39c51d40ac481d57))
+
 ## [2.19.4](https://github.com/Sanofi-IADC/konviw/compare/v2.19.3...v2.19.4) (2022-08-08)
 
 
