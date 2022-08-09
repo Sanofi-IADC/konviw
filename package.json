@@ -45,7 +45,7 @@
     "class-transformer": "0.5.1",
     "class-validator": "0.13.2",
     "hbs": "4.2.0",
-    "https-proxy-agent": "^5.0.1",
+    "https-proxy-agent": "5.0.1",
     "reflect-metadata": "0.1.13",
     "rxjs": "7.5.5",
     "swagger-ui-express": "4.3.0",
