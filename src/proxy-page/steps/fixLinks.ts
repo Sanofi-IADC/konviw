@@ -29,7 +29,12 @@ export default (config: ConfigService): Step => {
       }
 
       await axios
-        .get(url)
+        .get(url, {
+          proxy: {
+            host: 'emea-aws-webproxy.service.cloud.local',
+            port: 3128,
+          },
+        })
         .then((res) => {
           const body = cheerio.load(res.data);
           const title = body('title').text();
