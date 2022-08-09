@@ -20,8 +20,8 @@ import httpsProxyAgent from 'https-proxy-agent';
         timeout: Number(config.get('confluence.apiTimeOut')),
         maxRedirects: Number(config.get('confluence.apiMaxRedirects')),
         proxy: false,
-        httpsAgent: process.env.https_proxy
-          ? new (httpsProxyAgent as any)(process.env.https_proxy)
+        httpsAgent: process.env.HTTPS_PROXY
+          ? new (httpsProxyAgent as any)(process.env.HTTPS_PROXY)
           : undefined,
       }),
       inject: [ConfigService],
