@@ -19,10 +19,7 @@ import httpsProxyAgent from 'https-proxy-agent';
         },
         timeout: Number(config.get('confluence.apiTimeOut')),
         maxRedirects: Number(config.get('confluence.apiMaxRedirects')),
-        proxy: {
-          host: 'emea-aws-webproxy.service.cloud.local',
-          port: 3128,
-        },
+        proxy: false,
         httpsAgent: process.env.HTTPS_PROXY
           ? new (httpsProxyAgent as any)(process.env.HTTPS_PROXY)
           : undefined,
