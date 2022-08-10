@@ -3,9 +3,10 @@ import { Step } from '../proxy-page.step';
 import { ConfigService } from '@nestjs/config';
 import { Logger } from '@nestjs/common';
 import * as cheerio from 'cheerio';
-import axios from 'axios';
+import { HttpService } from '@nestjs/axios';
+import { firstValueFrom } from 'rxjs';
 
-export default (config: ConfigService): Step => {
+export default (config: ConfigService, httpService: HttpService): Step => {
   return async (context: ContextService): Promise<void> => {
     const logger = new Logger('fixLinks');
     context.setPerfMark('fixLinks');
@@ -28,13 +29,7 @@ export default (config: ConfigService): Step => {
         continue;
       }
 
-      await axios
-        .get(url, {
-          proxy: {
-            host: 'emea-aws-webproxy.service.cloud.local',
-            port: 3128,
-          },
-        })
+      await firstValueFrom(httpService.get(url))
         .then((res) => {
           const body = cheerio.load(res.data);
           const title = body('title').text();

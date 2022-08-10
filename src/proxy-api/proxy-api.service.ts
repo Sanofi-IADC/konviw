@@ -21,6 +21,7 @@ import delUnnecessaryCode from '../proxy-page/steps/delUnnecessaryCode';
 import fixCode from '../proxy-page/steps/fixCode';
 import addCopyLinks from '../proxy-page/steps/addCopyLinks';
 import addJira from '../proxy-page/steps/addJira';
+import { HttpService } from '@nestjs/axios';
 // TODO: review and enable in future release
 // import getFirstExcerpt from './steps/getFirstExcerpt';
 
@@ -42,6 +43,7 @@ export class ProxyApiService {
     private confluence: ConfluenceService,
     private jira: JiraService,
     private context: ContextService,
+    private readonly httpService: HttpService,
   ) {}
 
   /**
@@ -319,7 +321,7 @@ export class ProxyApiService {
     this.context.initPageContext(spaceKey, pageId, null, type, content, false);
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
     fixContentWidth()(this.context);
-    await fixLinks(this.config)(this.context);
+    await fixLinks(this.config, this.httpService)(this.context);
     fixToc()(this.context);
     fixEmojis(this.config)(this.context);
     fixDrawio(this.config)(this.context);
