@@ -19,7 +19,9 @@ import httpsProxyAgent from 'https-proxy-agent';
         },
         timeout: Number(config.get('confluence.apiTimeOut')),
         maxRedirects: Number(config.get('confluence.apiMaxRedirects')),
-        proxy: false,
+        proxy: process.env.https_proxy
+        ? new (httpsProxyAgent as any)(process.env.https_proxy)
+        : undefined,
         httpsAgent: process.env.https_proxy
           ? new (httpsProxyAgent as any)(process.env.https_proxy)
           : undefined,
@@ -34,6 +36,8 @@ export class HttpModule implements OnModuleInit {
 
   public onModuleInit(): any {
     const logger = new Logger('Axios');
+
+    console.log(process.env.HTTPS_PROXY);
 
     // Add request interceptor and response interceptor to log request infos
     const axios = this.httpService.axiosRef;

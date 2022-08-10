@@ -3,9 +3,10 @@ import { Step } from '../proxy-page.step';
 import { ConfigService } from '@nestjs/config';
 import { Logger } from '@nestjs/common';
 import * as cheerio from 'cheerio';
-// import axios from 'axios';
+import { HttpService } from '@nestjs/axios';
+import { firstValueFrom } from 'rxjs';
 
-export default (config: ConfigService): Step => {
+export default (config: ConfigService, httpService: HttpService): Step => {
   return async (context: ContextService): Promise<void> => {
     const logger = new Logger('fixLinks');
     context.setPerfMark('fixLinks');
@@ -20,49 +21,48 @@ export default (config: ConfigService): Step => {
       $(element).attr('target', '_blank');
     });
 
-    // // Inline & Card links display
-    // for (const element of externalLinksArray) {
-    //   const url = $(element).attr('href');
-    //   const dataCardAppearance = $(element).attr('data-card-appearance');
-    //   if (!dataCardAppearance) {
-    //     continue;
-    //   }
+    // Inline & Card links display
+    for (const element of externalLinksArray) {
+      const url = $(element).attr('href');
+      const dataCardAppearance = $(element).attr('data-card-appearance');
+      if (!dataCardAppearance) {
+        continue;
+      }
 
-    //   await axios
-    //     .get(url)
-    //     .then((res) => {
-    //       const body = cheerio.load(res.data);
-    //       const title = body('title').text();
-    //       const description = body('head meta[name="description"]').attr(
-    //         'content',
-    //       );
-    //       const favicon = body('head link[rel="icon"]').attr('href');
-    //       const imageSrc = body(
-    //         'head meta[name="twitter:image:src"], head meta[name="og:image"]',
-    //       ).attr('content');
+      await firstValueFrom(httpService.get(url))
+        .then((res) => {
+          const body = cheerio.load(res.data);
+          const title = body('title').text();
+          const description = body('head meta[name="description"]').attr(
+            'content',
+          );
+          const favicon = body('head link[rel="icon"]').attr('href');
+          const imageSrc = body(
+            'head meta[name="twitter:image:src"], head meta[name="og:image"]',
+          ).attr('content');
 
-    //       let replacement = '';
-    //       if (dataCardAppearance === 'inline') {
-    //         replacement = `<a target="_blank" href="${url}"> <img class="favicon" src="${favicon}"/> ${title}</a>`;
-    //       } else if (dataCardAppearance === 'block') {
-    //         const imgTag = imageSrc ? `<img src="${imageSrc}"/>` : '';
-    //         replacement = `
-    //         <div class="card">
-    //           <div class="thumb">${imgTag}</div>
-    //           <div class="title-desc">
-    //             <a target="_blank" href="${url}"> <img class="favicon" src="${favicon}"/> ${title}</a>
-    //             <p>${description}</p>
-    //           </div>
-    //         </div>`;
-    //       }
-    //       if (replacement) {
-    //         $(element).replaceWith(replacement);
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       console.log(`Smart link metadata fetch error: ${error}`);
-    //     });
-    // }
+          let replacement = '';
+          if (dataCardAppearance === 'inline') {
+            replacement = `<a target="_blank" href="${url}"> <img class="favicon" src="${favicon}"/> ${title}</a>`;
+          } else if (dataCardAppearance === 'block') {
+            const imgTag = imageSrc ? `<img src="${imageSrc}"/>` : '';
+            replacement = `
+            <div class="card">
+              <div class="thumb">${imgTag}</div>
+              <div class="title-desc">
+                <a target="_blank" href="${url}"> <img class="favicon" src="${favicon}"/> ${title}</a>
+                <p>${description}</p>
+              </div>
+            </div>`;
+          }
+          if (replacement) {
+            $(element).replaceWith(replacement);
+          }
+        })
+        .catch((error) => {
+          console.log(`Smart link metadata fetch error: ${error}`);
+        });
+    }
 
     const domain = confluenceBaseURL.toString().replace(/https?:\/\//, '');
     // For direct Url and Uri we look for two patterns
