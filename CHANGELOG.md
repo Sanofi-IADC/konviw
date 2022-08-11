@@ -1,3 +1,9 @@
+### Bug Fixes
+
+* WEB-226 fixed code smells ([7aa97aa](https://github.com/Sanofi-IADC/konviw/commit/7aa97aaa28ca11f0868dde06df850e6091878bde))
+* WEB-226 fixed linter warnings ([3cae35d](https://github.com/Sanofi-IADC/konviw/commit/3cae35d2fe26a8dd4b01a852261155daa494507b))
+* WEB-226 uncommented the block which transforms the links ([8e4363c](https://github.com/Sanofi-IADC/konviw/commit/8e4363c9f5556524ee9023e0945802fa94c783fa))
+
 # [2.19.0](https://github.com/Sanofi-IADC/konviw/compare/v2.18.0...v2.19.0) (2022-08-03)
 
 

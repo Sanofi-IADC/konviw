@@ -12,6 +12,11 @@ import httpsProxyAgent from 'https-proxy-agent';
     BaseHttpModule.registerAsync({
       imports: [ConfigModule],
       useFactory: (config: ConfigService): HttpModuleOptions => ({
+        baseURL: `${config.get('confluence.baseURL')}`,
+        auth: {
+          username: config.get('confluence.apiUsername').toString(),
+          password: config.get('confluence.apiToken').toString(),
+        },
         timeout: Number(config.get('confluence.apiTimeOut')),
         maxRedirects: Number(config.get('confluence.apiMaxRedirects')),
         proxy: false,
@@ -24,7 +29,7 @@ import httpsProxyAgent from 'https-proxy-agent';
   ],
   exports: [BaseHttpModule],
 })
-export class HttpModule implements OnModuleInit {
+export class HttpAtlassianModule implements OnModuleInit {
   constructor(private readonly httpService: HttpService) {}
 
   public onModuleInit(): any {
@@ -46,7 +51,9 @@ export class HttpModule implements OnModuleInit {
 
         // Log some request infos (you can actually extract a lot more if you want: the content type, the content size, etc.)
         logger.log(
-          `@HTTP@ ${config.method.toUpperCase()} ${config.url} ${duration}ms`,
+          `@HTTP-ATLASSIAN@ ${config.method.toUpperCase()} ${
+            config.url
+          } ${duration}ms`,
         );
 
         return response;
