@@ -5,7 +5,8 @@ import {
   CacheModule,
 } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { HttpModule } from './http/http.module';
+//import { HttpModule } from './http/http.module';
+//import { HttpAtlassianModule } from './http-atlassian/http-atlassian.module';
 import { TerminusModule } from '@nestjs/terminus';
 import { AppController } from './app.controller';
 import { HealthController } from './health/health.controller';
@@ -22,7 +23,8 @@ import CustomHttpCacheInterceptor from './cache/custom-http-cache.interceptor';
 @Module({
   imports: [
     TerminusModule,
-    HttpModule,
+   // HttpModule,
+    //HttpAtlassianModule,
     ConfluenceModule,
     ProxyPageModule,
     ProxyApiModule,

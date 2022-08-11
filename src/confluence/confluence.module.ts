@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { HttpModule } from '../http/http.module';
+import { HttpAtlassianModule } from '../http-atlassian/http-atlassian.module';
 import { ConfluenceService } from './confluence.service';
 
 @Module({
-  imports: [HttpModule],
+  imports: [HttpAtlassianModule],
   controllers: [],
   providers: [ConfluenceService],
   exports: [ConfluenceService],
