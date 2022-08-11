@@ -51,7 +51,9 @@ export class HttpAtlassianModule implements OnModuleInit {
 
         // Log some request infos (you can actually extract a lot more if you want: the content type, the content size, etc.)
         logger.log(
-          `@HTTP-ATLASSIAN@ ${config.method.toUpperCase()} ${config.url} ${duration}ms`,
+          `@HTTP-ATLASSIAN@ ${config.method.toUpperCase()} ${
+            config.url
+          } ${duration}ms`,
         );
 
         return response;
