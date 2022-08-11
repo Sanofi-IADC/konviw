@@ -1,3 +1,10 @@
+## [2.19.8](https://github.com/Sanofi-IADC/konviw/compare/v2.19.7...v2.19.8) (2022-08-10)
+
+
+### Bug Fixes
+
+* WEB-226: using proxy to reach external URLs for the smartLink feature ([04dd768](https://github.com/Sanofi-IADC/konviw/commit/04dd768be8a272aa4e74aa8af7bb31ddbed0859e))
+
 ## [2.19.7](https://github.com/Sanofi-IADC/konviw/compare/v2.19.6...v2.19.7) (2022-08-09)
 
 
