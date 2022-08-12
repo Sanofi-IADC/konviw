@@ -1,3 +1,11 @@
+## [2.20.1](https://github.com/Sanofi-IADC/konviw/compare/v2.20.0...v2.20.1) (2022-08-12)
+
+
+### Bug Fixes
+
+* async calls to external urls ([0c85a40](https://github.com/Sanofi-IADC/konviw/commit/0c85a40976dd97af9786005e2171f233065db9c3))
+* tests for fixLinks ([e6b32e4](https://github.com/Sanofi-IADC/konviw/commit/e6b32e4ef7c267958c58ae8d43dd2e462d2d0591))
+
 # [2.20.0](https://github.com/Sanofi-IADC/konviw/compare/v2.19.0...v2.20.0) (2022-08-12)
 
 
