@@ -3,6 +3,7 @@ import { ProxyApiService } from '../../../src/proxy-api/proxy-api.service';
 import { ContextService } from '../../../src/context/context.service';
 import { ConfluenceService } from '../../../src/confluence/confluence.service';
 import { JiraService } from '../../../src/jira/jira.service';
+import { HttpModule } from '../../../src/http/http.module';
 import { ConfigModule } from '@nestjs/config';
 import { Content } from '../../../src/confluence/confluence.interface';
 import configuration from '../../../src/config/configuration.test';
@@ -54,7 +55,7 @@ describe('proxy-api.service', () => {
       useClass: ConfluenceServiceMock,
     };
     app = await Test.createTestingModule({
-      imports: [ConfigModule.forRoot({ load: [configuration] })],
+      imports: [ConfigModule.forRoot({ load: [configuration] }), HttpModule],
       providers: [
         ContextService,
         ConfluenceServiceProvider,

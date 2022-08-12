@@ -4,9 +4,10 @@ import { ContextService } from '../context/context.service';
 import { ProxyApiService } from './proxy-api.service';
 import { ProxyApiController } from './proxy-api.controller';
 import { JiraModule } from 'src/jira/jira.module';
+import { HttpModule } from 'src/http/http.module';
 
 @Module({
-  imports: [ConfluenceModule, JiraModule],
+  imports: [ConfluenceModule, JiraModule, HttpModule],
   providers: [ProxyApiService, ContextService],
   controllers: [ProxyApiController],
   exports: [],

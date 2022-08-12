@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { HttpModule } from '@nestjs/axios';
+import { HttpAtlassianModule } from 'src/http-atlassian/http-atlassian.module';
 import { JiraService } from './jira.service';
 
 @Module({
-  imports: [HttpModule],
+  imports: [HttpAtlassianModule],
   controllers: [],
   providers: [JiraService],
   exports: [JiraService],

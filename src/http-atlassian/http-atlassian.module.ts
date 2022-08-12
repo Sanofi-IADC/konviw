@@ -12,6 +12,11 @@ import httpsProxyAgent from 'https-proxy-agent';
     BaseHttpModule.registerAsync({
       imports: [ConfigModule],
       useFactory: (config: ConfigService): HttpModuleOptions => ({
+        baseURL: `${config.get('confluence.baseURL')}`,
+        auth: {
+          username: config.get('confluence.apiUsername').toString(),
+          password: config.get('confluence.apiToken').toString(),
+        },
         timeout: Number(config.get('confluence.apiTimeOut')),
         maxRedirects: Number(config.get('confluence.apiMaxRedirects')),
         proxy: false,
@@ -24,11 +29,11 @@ import httpsProxyAgent from 'https-proxy-agent';
   ],
   exports: [BaseHttpModule],
 })
-export class HttpModule implements OnModuleInit {
+export class HttpAtlassianModule implements OnModuleInit {
   constructor(private readonly httpService: HttpService) {}
 
   public onModuleInit(): any {
-    const logger = new Logger('Axios-Generic');
+    const logger = new Logger('Axios-Atlassian');
 
     // Add request interceptor and response interceptor to log request infos
     const axios = this.httpService.axiosRef;
