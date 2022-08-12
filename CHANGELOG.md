@@ -1,3 +1,17 @@
+# [2.20.0](https://github.com/Sanofi-IADC/konviw/compare/v2.19.0...v2.20.0) (2022-08-12)
+
+
+### Bug Fixes
+
+* changelog ([ac54151](https://github.com/Sanofi-IADC/konviw/commit/ac5415167034d330b5f81a627c19195b57b65279))
+* small refactor to align convention ([0a5af3c](https://github.com/Sanofi-IADC/konviw/commit/0a5af3c56b49f0696584201cf23afc066579dd88))
+* small refactor to align convention in tests ([6222cc6](https://github.com/Sanofi-IADC/konviw/commit/6222cc6a85ef7b2df735db0103959aaafacc8adc))
+
+
+### Features
+
+* **refactor:** separate httpModules ([4cfc470](https://github.com/Sanofi-IADC/konviw/commit/4cfc470d36a0aa899f00ad082afbddfdd92060b1))
+
 # [2.19.0](https://github.com/Sanofi-IADC/konviw/compare/v2.18.0...v2.19.0) (2022-08-03)
 
 
