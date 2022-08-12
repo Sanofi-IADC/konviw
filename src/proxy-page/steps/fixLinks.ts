@@ -22,14 +22,14 @@ export default (config: ConfigService, http: HttpService): Step => {
     });
 
     // Inline & Card links display
-    for (const element of externalLinksArray) {
+    const promises = externalLinksArray.map((element) => {
       const url = $(element).attr('href');
       const dataCardAppearance = $(element).attr('data-card-appearance');
       if (!dataCardAppearance) {
-        continue;
+        return null;
       }
 
-      await firstValueFrom(http.get(url))
+      return firstValueFrom(http.get(url))
         .then((res) => {
           const body = cheerio.load(res.data);
           const title = body('title').text();
@@ -62,7 +62,9 @@ export default (config: ConfigService, http: HttpService): Step => {
         .catch((error) => {
           console.log(`Smart link metadata fetch error: ${error}`);
         });
-    }
+    });
+
+    await Promise.all(promises);
 
     const domain = confluenceBaseURL.toString().replace(/https?:\/\//, '');
     // For direct Url and Uri we look for two patterns
