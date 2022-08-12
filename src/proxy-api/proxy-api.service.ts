@@ -43,7 +43,7 @@ export class ProxyApiService {
     private confluence: ConfluenceService,
     private jira: JiraService,
     private context: ContextService,
-    private readonly httpService: HttpService,
+    private readonly http: HttpService,
   ) {}
 
   /**
@@ -321,7 +321,7 @@ export class ProxyApiService {
     this.context.initPageContext(spaceKey, pageId, null, type, content, false);
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
     fixContentWidth()(this.context);
-    await fixLinks(this.config, this.httpService)(this.context);
+    await fixLinks(this.config, this.http)(this.context);
     fixToc()(this.context);
     fixEmojis(this.config)(this.context);
     fixDrawio(this.config)(this.context);

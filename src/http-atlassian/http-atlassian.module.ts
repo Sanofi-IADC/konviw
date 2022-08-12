@@ -33,7 +33,7 @@ export class HttpAtlassianModule implements OnModuleInit {
   constructor(private readonly httpService: HttpService) {}
 
   public onModuleInit(): any {
-    const logger = new Logger('Axios');
+    const logger = new Logger('Axios-Atlassian');
 
     // Add request interceptor and response interceptor to log request infos
     const axios = this.httpService.axiosRef;
@@ -51,9 +51,7 @@ export class HttpAtlassianModule implements OnModuleInit {
 
         // Log some request infos (you can actually extract a lot more if you want: the content type, the content size, etc.)
         logger.log(
-          `@HTTP-ATLASSIAN@ ${config.method.toUpperCase()} ${
-            config.url
-          } ${duration}ms`,
+          `${config.method.toUpperCase()} ${config.url} ${duration}ms`,
         );
 
         return response;

@@ -50,7 +50,7 @@ export class ProxyPageService {
     private context: ContextService,
     private confluence: ConfluenceService,
     private jira: JiraService,
-    private readonly httpService: HttpService,
+    private readonly http: HttpService,
   ) {}
 
   /**
@@ -90,7 +90,7 @@ export class ProxyPageService {
     getFirstExcerpt()(this.context);
     fixHtmlHead(this.config)(this.context);
     fixContentWidth()(this.context);
-    await fixLinks(this.config, this.httpService)(this.context);
+    await fixLinks(this.config, this.http)(this.context);
     if (view !== 'iframe-resizer') {
       fixToc()(this.context);
     }
@@ -158,7 +158,7 @@ export class ProxyPageService {
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
     addSlidesCSS(this.config)(this.context);
     fixHtmlHead(this.config)(this.context);
-    await fixLinks(this.config, this.httpService)(this.context);
+    await fixLinks(this.config, this.http)(this.context);
     fixEmojis(this.config)(this.context);
     fixDrawioMacro(this.config)(this.context);
     fixChartMacro(this.config)(this.context);
