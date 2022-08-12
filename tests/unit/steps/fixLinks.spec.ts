@@ -20,7 +20,7 @@ describe('ConfluenceProxy / fixLinks', () => {
     context.initPageContext('XXX', '123456', 'dark');
   });
 
-  it('should replace page absolute URLs', () => {
+  it('should replace page absolute URLs', async () => {
     const step = fixLinks(config, http);
     const example =
       '<html><head></head><body>' +
@@ -28,7 +28,7 @@ describe('ConfluenceProxy / fixLinks', () => {
       '<a href="https://test.atlassian.net/wiki/spaces/XXX/pages/4343/Hello+World">test2</a>' +
       '</body></html>';
     context.setHtmlBody(example);
-    step(context);
+    await step(context);
     const expected =
       '<html><head></head><body><div id="Content">' +
       `<a href="${webBasePath}/wiki/spaces/XXX/pages/4242/Hello+World">test</a>` +
@@ -37,7 +37,7 @@ describe('ConfluenceProxy / fixLinks', () => {
     expect(context.getHtmlBody()).toEqual(expected);
   });
 
-  it('should replace page absolute URIs', () => {
+  it('should replace page absolute URIs', async () => {
     const step = fixLinks(config, http);
     const example =
       '<html><head></head><body>' +
@@ -45,7 +45,7 @@ describe('ConfluenceProxy / fixLinks', () => {
       '<a href="/wiki/spaces/XXX/pages/4343/Hello+World">test2</a>' +
       '</body></html>';
     context.setHtmlBody(example);
-    step(context);
+    await step(context);
     const expected =
       '<html><head></head><body><div id="Content">' +
       `<a href="${webBasePath}/wiki/spaces/XXX/pages/4242/Hello+World">test</a>` +
@@ -54,7 +54,7 @@ describe('ConfluenceProxy / fixLinks', () => {
     expect(context.getHtmlBody()).toEqual(expected);
   });
 
-  it('should replace page absolute URLs with Anchors and without title', () => {
+  it('should replace page absolute URLs with Anchors and without title', async () => {
     const step = fixLinks(config, http);
     const example =
       '<html><head></head><body>' +
@@ -68,7 +68,7 @@ describe('ConfluenceProxy / fixLinks', () => {
       '<a href="https://test.atlassian.net/wiki/spaces/XXX/pages/4343/Hello+World#This-Is-Another-Heading"></a>' +
       '</body></html>';
     context.setHtmlBody(example);
-    step(context);
+    await step(context);
     const expected =
       '<html><head></head><body><div id="Content">' +
       '<h2 id="HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">' +
@@ -83,7 +83,7 @@ describe('ConfluenceProxy / fixLinks', () => {
     expect(context.getHtmlBody()).toEqual(expected);
   });
 
-  it('should replace page absolute URLs with Anchors and respect original title', () => {
+  it('should replace page absolute URLs with Anchors and respect original title', async () => {
     const step = fixLinks(config, http);
     const example =
       '<html><head></head><body>' +
@@ -97,7 +97,7 @@ describe('ConfluenceProxy / fixLinks', () => {
       '<a href="https://test.atlassian.net/wiki/spaces/XXX/pages/4343/Hello+World#This-Is-Another-Heading">test2</a>' +
       '</body></html>';
     context.setHtmlBody(example);
-    step(context);
+    await step(context);
     const expected =
       '<html><head></head><body><div id="Content">' +
       '<h2 id="HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">' +
@@ -112,7 +112,7 @@ describe('ConfluenceProxy / fixLinks', () => {
     expect(context.getHtmlBody()).toEqual(expected);
   });
 
-  it('should replace page absolute URIs with Anchors and without title', () => {
+  it('should replace page absolute URIs with Anchors and without title', async () => {
     const step = fixLinks(config, http);
     const example =
       '<html><head></head><body>' +
@@ -126,7 +126,7 @@ describe('ConfluenceProxy / fixLinks', () => {
       '<a href="/wiki/spaces/XXX/pages/4343/Hello+World#This-Is-Another-Heading"></a>' +
       '</body></html>';
     context.setHtmlBody(example);
-    step(context);
+    await step(context);
     const expected =
       '<html><head></head><body><div id="Content">' +
       '<h2 id="HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">' +
@@ -141,7 +141,7 @@ describe('ConfluenceProxy / fixLinks', () => {
     expect(context.getHtmlBody()).toEqual(expected);
   });
 
-  it('should replace page absolute URIs with Anchors and respect original title', () => {
+  it('should replace page absolute URIs with Anchors and respect original title', async () => {
     const step = fixLinks(config, http);
     const example =
       '<html><head></head><body>' +
@@ -155,7 +155,7 @@ describe('ConfluenceProxy / fixLinks', () => {
       '<a href="/wiki/spaces/XXX/pages/4343/Hello+World#This-Is-Another-Heading">test2</a>' +
       '</body></html>';
     context.setHtmlBody(example);
-    step(context);
+    await step(context);
     const expected =
       '<html><head></head><body><div id="Content">' +
       '<h2 id="HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">' +
@@ -170,7 +170,7 @@ describe('ConfluenceProxy / fixLinks', () => {
     expect(context.getHtmlBody()).toEqual(expected);
   });
 
-  it('should replace image URLs', () => {
+  it('should replace image URLs', async () => {
     const step = fixLinks(config, http);
     const example =
       '<html><head></head><body>' +
@@ -178,7 +178,7 @@ describe('ConfluenceProxy / fixLinks', () => {
       '<img src="https://test.atlassian.net/wiki/download/thumbnails/241271571/image-20200312-161401.png?width=521&amp;height=196">' +
       '</body></html>';
     context.setHtmlBody(example);
-    step(context);
+    await step(context);
     const expected =
       '<html><head></head><body><div id="Content">' +
       `<img src="${webBasePath}/wiki/download/thumbnails/241271570/image-20200312-161409.png?width=521&amp;height=196">` +
@@ -187,7 +187,7 @@ describe('ConfluenceProxy / fixLinks', () => {
     expect(context.getHtmlBody()).toEqual(expected);
   });
 
-  it('should open external links in a new tab', () => {
+  it('should open external links in a new tab', async () => {
     const step = fixLinks(config, http);
     const example =
       '<html><head></head><body>' +
@@ -195,7 +195,7 @@ describe('ConfluenceProxy / fixLinks', () => {
       '<a href="https://www.google.com/about" class="external-link">Google</a>' +
       '</body></html>';
     context.setHtmlBody(example);
-    step(context);
+    await step(context);
     const expected =
       '<html><head></head><body><div id="Content">' +
       '<a href="https://www.example.com/home" class="external-link" target="_blank">Example</a>' +
