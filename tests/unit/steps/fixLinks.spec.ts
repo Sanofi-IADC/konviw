@@ -7,21 +7,21 @@ import { createModuleRefForStep } from './utils';
 describe('ConfluenceProxy / fixLinks', () => {
   let context: ContextService;
   let config: ConfigService;
-  let httpService: HttpService;
+  let http: HttpService;
   let webBasePath;
 
   beforeEach(async () => {
     const moduleRef = await createModuleRefForStep();
     context = moduleRef.get<ContextService>(ContextService);
     config = moduleRef.get<ConfigService>(ConfigService);
-    httpService = moduleRef.get<HttpService>(HttpService);
+    http = moduleRef.get<HttpService>(HttpService);
     webBasePath = config.get('web.absoluteBasePath');
 
     context.initPageContext('XXX', '123456', 'dark');
   });
 
   it('should replace page absolute URLs', () => {
-    const step = fixLinks(config, httpService);
+    const step = fixLinks(config, http);
     const example =
       '<html><head></head><body>' +
       '<a href="https://test.atlassian.net/wiki/spaces/XXX/pages/4242/Hello+World">test</a>' +
@@ -38,7 +38,7 @@ describe('ConfluenceProxy / fixLinks', () => {
   });
 
   it('should replace page absolute URIs', () => {
-    const step = fixLinks(config, httpService);
+    const step = fixLinks(config, http);
     const example =
       '<html><head></head><body>' +
       '<a href="/wiki/spaces/XXX/pages/4242/Hello+World">test</a>' +
@@ -55,7 +55,7 @@ describe('ConfluenceProxy / fixLinks', () => {
   });
 
   it('should replace page absolute URLs with Anchors and without title', () => {
-    const step = fixLinks(config, httpService);
+    const step = fixLinks(config, http);
     const example =
       '<html><head></head><body>' +
       '<h2 id="HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">' +
@@ -84,7 +84,7 @@ describe('ConfluenceProxy / fixLinks', () => {
   });
 
   it('should replace page absolute URLs with Anchors and respect original title', () => {
-    const step = fixLinks(config, httpService);
+    const step = fixLinks(config, http);
     const example =
       '<html><head></head><body>' +
       '<h2 id="HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">' +
@@ -113,7 +113,7 @@ describe('ConfluenceProxy / fixLinks', () => {
   });
 
   it('should replace page absolute URIs with Anchors and without title', () => {
-    const step = fixLinks(config, httpService);
+    const step = fixLinks(config, http);
     const example =
       '<html><head></head><body>' +
       '<h2 id="HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">' +
@@ -142,7 +142,7 @@ describe('ConfluenceProxy / fixLinks', () => {
   });
 
   it('should replace page absolute URIs with Anchors and respect original title', () => {
-    const step = fixLinks(config, httpService);
+    const step = fixLinks(config, http);
     const example =
       '<html><head></head><body>' +
       '<h2 id="HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">' +
@@ -171,7 +171,7 @@ describe('ConfluenceProxy / fixLinks', () => {
   });
 
   it('should replace image URLs', () => {
-    const step = fixLinks(config, httpService);
+    const step = fixLinks(config, http);
     const example =
       '<html><head></head><body>' +
       '<img src="https://test.atlassian.net/wiki/download/thumbnails/241271570/image-20200312-161409.png?width=521&amp;height=196">' +
@@ -188,7 +188,7 @@ describe('ConfluenceProxy / fixLinks', () => {
   });
 
   it('should open external links in a new tab', () => {
-    const step = fixLinks(config, httpService);
+    const step = fixLinks(config, http);
     const example =
       '<html><head></head><body>' +
       '<a href="https://www.example.com/home" class="external-link">Example</a>' +
@@ -205,7 +205,7 @@ describe('ConfluenceProxy / fixLinks', () => {
   });
 
   it('should display data-appearance=inline links with a favicon', async () => {
-    const step = fixLinks(config, httpService);
+    const step = fixLinks(config, http);
     const example =
     '<html><head></head><body>' +
     '<a data-card-appearance="inline"  href="https://www.google.com/about" class="external-link">Example</a>' +
@@ -217,7 +217,7 @@ describe('ConfluenceProxy / fixLinks', () => {
   });
 
   it('should display data-appearance=card links as a card', async () => {
-    const step = fixLinks(config, httpService);
+    const step = fixLinks(config, http);
     const example =
     '<html><head></head><body>' +
     '<a data-card-appearance="block"  href="https://www.google.com/about" class="external-link">Example</a>' +

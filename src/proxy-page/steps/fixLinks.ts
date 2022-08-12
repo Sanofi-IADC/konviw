@@ -6,7 +6,7 @@ import * as cheerio from 'cheerio';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 
-export default (config: ConfigService, httpService: HttpService): Step => {
+export default (config: ConfigService, http: HttpService): Step => {
   return async (context: ContextService): Promise<void> => {
     const logger = new Logger('fixLinks');
     context.setPerfMark('fixLinks');
@@ -29,7 +29,7 @@ export default (config: ConfigService, httpService: HttpService): Step => {
         continue;
       }
 
-      await firstValueFrom(httpService.get(url))
+      await firstValueFrom(http.get(url))
         .then((res) => {
           const body = cheerio.load(res.data);
           const title = body('title').text();
