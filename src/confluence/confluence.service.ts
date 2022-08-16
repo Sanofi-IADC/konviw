@@ -8,6 +8,7 @@ import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import { AxiosResponse } from 'axios';
 import { Content, SearchResults } from './confluence.interface';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class ConfluenceService {
@@ -35,8 +36,8 @@ export class ConfluenceService {
       const prefix = version ? 'content.' : '';
       this.logger.log(`Retrieving page ${pageId}`);
       this.logger.log(`Retrieving version ${version}`);
-      results = await this.http
-        .get<Content>(`/wiki/rest/api/content/${uri}`, {
+      results = await firstValueFrom(
+        this.http.get<Content>(`/wiki/rest/api/content/${uri}`, {
           params: {
             type: 'page',
             spaceKey,
@@ -56,8 +57,8 @@ export class ConfluenceService {
               prefix + 'metadata.properties.emoji_title_published',
             ].join(','),
           },
-        })
-        .toPromise();
+        }),
+      );
     } catch (err) {
       this.logger.log(err, 'error:getPage');
       throw new HttpException(`${err}\nPage ${pageId} Not Found`, 404);
@@ -84,14 +85,14 @@ export class ConfluenceService {
    */
   async getRedirectUrlForMedia(uri: string): Promise<string> {
     try {
-      const results = await this.http
-        .get(`/wiki/${uri}`, {
+      const results = await firstValueFrom(
+        this.http.get(`/wiki/${uri}`, {
           maxRedirects: 0,
           validateStatus: (status) => {
             return status === 302;
           },
-        })
-        .toPromise();
+        }),
+      );
       this.logger.log(`Retrieving media from ${uri}`);
       return results.headers.location;
     } catch (err) {
@@ -170,9 +171,9 @@ export class ConfluenceService {
       };
     }
     try {
-      const results: AxiosResponse<SearchResults> = await this.http
-        .get<SearchResults>(uriSearch, { params })
-        .toPromise();
+      const results: AxiosResponse<SearchResults> = await firstValueFrom(
+        this.http.get<SearchResults>(uriSearch, { params }),
+      );
       this.logger.log(
         `Searching ${uriSearch} with ${maxResult} maximum results and CQL ${cql} or cursor ${cursorResults} via REST API`,
       );
@@ -221,9 +222,9 @@ export class ConfluenceService {
         : defaultParms;
 
     try {
-      const results: AxiosResponse = await this.http
-        .get('/wiki/rest/api/space', { params })
-        .toPromise();
+      const results: AxiosResponse = await firstValueFrom(
+        this.http.get('/wiki/rest/api/space', { params }),
+      );
       this.logger.log(
         `Retrieving all spaces of type ${type} with ${maxResults} maximum records via REST API`,
       );
@@ -235,9 +236,11 @@ export class ConfluenceService {
   }
 
   async getAttachments(pageId: string): Promise<any> {
-    const results: AxiosResponse = await this.http
-      .get<Content>(`/wiki/rest/api/content/${pageId}/child/attachment`)
-      .toPromise();
+    const results: AxiosResponse = await firstValueFrom(
+      this.http.get<Content>(
+        `/wiki/rest/api/content/${pageId}/child/attachment`,
+      ),
+    );
     return results.data?.results;
   }
 }
