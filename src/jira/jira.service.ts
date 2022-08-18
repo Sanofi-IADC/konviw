@@ -2,6 +2,7 @@ import { Injectable, Logger, HttpException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import { AxiosResponse } from 'axios';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class JiraService {
@@ -24,11 +25,11 @@ export class JiraService {
    * @return Promise {any}
    */
   getTicket(key: string): Promise<any> {
-    return this.http
-      .get(`${this.baseUrl}/rest/api/2/issue/${key}`, {
+    return firstValueFrom(
+      this.http.get(`${this.baseUrl}/rest/api/2/issue/${key}`, {
         auth: { username: this.apiUsername, password: this.apiToken },
-      })
-      .toPromise()
+      }),
+    )
       .then((res) => res.data)
       .catch((e) => {
         this.logger.log(e, 'error:getTicket');
@@ -56,12 +57,12 @@ export class JiraService {
       this.apiUsername = process.env[`${key}_API_USERNAME`];
       this.apiToken = process.env[`${key}_API_TOKEN`];
     }
-    return this.http
-      .get(
+    return firstValueFrom(
+      this.http.get(
         `${this.baseUrl}/rest/api/2/search?jql=${jqlSearch}&fields=${fields}&maxResults=${maxResult}`,
         { auth: { username: this.apiUsername, password: this.apiToken } },
-      )
-      .toPromise()
+      ),
+    )
       .then((res) => res.data)
       .catch((e) => {
         this.logger.log(e, 'error:findTickets');
@@ -106,12 +107,12 @@ export class JiraService {
       };
     }
     try {
-      const results: AxiosResponse = await this.http
-        .get(`${this.baseUrl}/rest/api/3/project/search`, {
+      const results: AxiosResponse = await firstValueFrom(
+        this.http.get(`${this.baseUrl}/rest/api/3/project/search`, {
           auth: { username: this.apiUsername, password: this.apiToken },
           params,
-        })
-        .toPromise();
+        }),
+      );
       this.logger.log(`Retrieving projects from ${server}`);
       return results;
     } catch (err) {
@@ -138,11 +139,11 @@ export class JiraService {
       this.apiToken = process.env[`${key}_API_TOKEN`];
     }
     try {
-      const results: AxiosResponse = await this.http
-        .get(`${this.baseUrl}/rest/api/3/projectCategory`, {
+      const results: AxiosResponse = await firstValueFrom(
+        this.http.get(`${this.baseUrl}/rest/api/3/projectCategory`, {
           auth: { username: this.apiUsername, password: this.apiToken },
-        })
-        .toPromise();
+        }),
+      );
       this.logger.log(`Retrieving project categories from ${server}`);
       return results;
     } catch (err) {
