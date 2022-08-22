@@ -1,7 +1,8 @@
 import { Controller, Get } from '@nestjs/common';
 import { HealthCheck, HealthCheckService } from '@nestjs/terminus';
-import { ApiHealthService } from './health-atlassian.service';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ApiHealthService } from './health-atlassian.service';
+
 @ApiTags('health')
 @Controller('health')
 export class HealthController {

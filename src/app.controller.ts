@@ -10,6 +10,6 @@ export class AppController {
   root() {
     const version = this.config.get('version');
     const basePath = this.config.get('web.basePath');
-    return { basePath: basePath, version: version };
+    return { basePath, version };
   }
 }

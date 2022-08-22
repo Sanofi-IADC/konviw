@@ -1,174 +1,176 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+  IsInt, IsNotEmpty, IsOptional, IsString,
+} from 'class-validator';
 
 export class PostsParamsDTO {
   @ApiProperty({
     type: String,
-    description: `The Confluence space key`,
+    description: 'The Confluence space key',
     example: 'konviw',
   })
   @IsNotEmpty()
   @IsString()
-  spaceKey: string;
+    spaceKey: string;
 }
 
 export class SearchQueryDTO {
   @ApiProperty({
-    description: `The Confluence space keys to search in separated by '|'.`,
+    description: 'The Confluence space keys to search in separated by \'|\'.',
     example: 'konviw|iadc',
   })
   @IsNotEmpty()
   @IsString()
-  spaceKey: string;
+    spaceKey: string;
 
   @ApiPropertyOptional({
     required: false,
-    description: `The combination of words to search.`,
+    description: 'The combination of words to search.',
     example: 'manifesto',
   })
   @IsOptional()
   @IsString()
-  query: string;
+    query: string;
 
   @ApiPropertyOptional({
     required: false,
-    description: `The type of page. Options are 'page' or 'blogpage'`,
+    description: 'The type of page. Options are \'page\' or \'blogpage\'',
     example: 'blogpost',
   })
   @IsOptional()
   @IsString()
-  type: string;
+    type: string;
 
   @ApiPropertyOptional({
     required: false,
-    description: `The Confluence labels separated by ',' which will be filtered as AND.`,
+    description: 'The Confluence labels separated by \',\' which will be filtered as AND.',
     example: 'label1,label2',
   })
   @IsOptional()
   @IsString()
-  labels: string;
+    labels: string;
 
   @ApiPropertyOptional({
     required: false,
-    description: `The maximum number of results to retrieve`,
+    description: 'The maximum number of results to retrieve',
     example: '20',
   })
   @IsOptional()
   @IsInt()
   @Type(() => Number)
-  maxResults: number;
+    maxResults: number;
 
   // This query param must encode all special characters, including: , / ? : @ & = + $ #
   // For instance using encodeURIComponent(meta.next)
   @ApiPropertyOptional({
     required: false,
-    description: `The URL path received by the API after a previous search to perform moves to the next or previous page of results.`,
+    description: 'The URL path received by the API after a previous search to perform moves to the next or previous page of results.',
     example: ' ',
   })
   @IsOptional()
   @IsString()
-  cursorResults: string;
+    cursorResults: string;
 }
 
 export class SearchProjectsQueryDTO {
   @ApiProperty({
     type: String,
-    description: `The Jira server to search in`,
+    description: 'The Jira server to search in',
     example: 'System JIRA',
   })
   @IsNotEmpty()
   @IsString()
-  server: string;
+    server: string;
 
   @ApiProperty({
-    description: `The of words to search.`,
+    description: 'The of words to search.',
     example: 'iadc',
   })
   @IsOptional()
   @IsString()
-  search: string;
+    search: string;
 
   @ApiProperty({
     type: Number,
-    description: `Starting record number used for pagination`,
+    description: 'Starting record number used for pagination',
     example: 0,
   })
   @IsNotEmpty()
   @IsInt()
   @Type(() => Number)
-  startAt: number;
+    startAt: number;
 
   @ApiProperty({
     type: Number,
-    description: `Maximum number of records per page`,
+    description: 'Maximum number of records per page',
     example: 50,
   })
   @IsNotEmpty()
   @IsInt()
   @Type(() => Number)
-  maxResults: number;
+    maxResults: number;
 
   @ApiProperty({
     type: Number,
-    description: `The ID of the project category to filter`,
+    description: 'The ID of the project category to filter',
     example: 10006,
   })
   @IsOptional()
   @IsInt()
   @Type(() => Number)
-  categoryId: number;
+    categoryId: number;
 }
 
 export class SearchProjectCategoriesQueryDTO {
   @ApiProperty({
     type: String,
-    description: `The Jira server to search in`,
+    description: 'The Jira server to search in',
     example: 'System JIRA',
   })
   @IsNotEmpty()
   @IsString()
-  server: string;
+    server: string;
 }
 
 export class GetSpacesParamsDTO {
   @ApiProperty({
     type: String,
-    description: `The type of spaces to retrieve`,
+    description: 'The type of spaces to retrieve',
     example: 'global',
   })
   @IsNotEmpty()
   @IsString()
-  type: string;
+    type: string;
 }
 export class GetSpacesQueryDTO {
   @ApiProperty({
     type: Number,
-    description: `Starting record number used for pagination`,
+    description: 'Starting record number used for pagination',
     example: 0,
   })
   @IsNotEmpty()
   @IsInt()
   @Type(() => Number)
-  startAt = 0;
+    startAt = 0;
 
   @ApiProperty({
     type: Number,
-    description: `Maximum number of records to retrieve`,
+    description: 'Maximum number of records to retrieve',
     example: 50,
   })
   @IsNotEmpty()
   @IsInt()
   @Type(() => Number)
-  maxResults = 50;
+    maxResults = 50;
 
   @ApiProperty({
     type: Number,
-    description: `Retrieve expanded fields`,
+    description: 'Retrieve expanded fields',
     example: '0 | 1',
   })
   @IsOptional()
   @IsInt()
   @Type(() => Number)
-  getFields = 0;
+    getFields = 0;
 }

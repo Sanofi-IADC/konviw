@@ -7,8 +7,11 @@ import { firstValueFrom } from 'rxjs';
 @Injectable()
 export class JiraService {
   private readonly logger = new Logger(JiraService.name);
+
   private baseUrl = '';
+
   private apiUsername = '';
+
   private apiToken = '';
 
   // Default API connection for Jira is the same as for Confluence
@@ -103,7 +106,7 @@ export class JiraService {
     if (categoryId !== 0) {
       params = {
         ...params,
-        categoryId: categoryId,
+        categoryId,
       };
     }
     try {

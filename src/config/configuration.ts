@@ -1,9 +1,9 @@
 import packageJson from '../../package.json';
-import Config from '../config/config.d';
+import Config from './config.d';
 
 export default (): Config => ({
   env: process.env.NODE_ENV || 'production',
-  version: 'version' in packageJson ? packageJson['version'] : 'beta',
+  version: 'version' in packageJson ? packageJson.version : 'beta',
   httpsProxy: process.env.HTTPS_PROXY,
   web: {
     port: (process.env.PORT && parseInt(process.env.PORT, 10)) || 3000,

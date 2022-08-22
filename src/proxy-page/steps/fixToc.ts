@@ -1,60 +1,58 @@
+import { selectOne } from 'css-select';
+import * as cheerio from 'cheerio';
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
 import TocBuilder from './toc/TocBuilder';
-import { selectOne } from 'css-select';
-import * as cheerio from 'cheerio';
 
-export default (): Step => {
-  return (context: ContextService): void => {
-    const $ = context.getCheerioBody();
+export default (): Step => (context: ContextService): void => {
+  const $ = context.getCheerioBody();
 
-    // If the class konviw-float-menu is present, add the floating TOC btn
-    const floatTocExists = !!selectOne(
-      '.konviw-float-TOC',
-      $('#Content').get(),
-    );
-    if (floatTocExists) {
-      addFloatingTocBtn($);
-    }
+  // If the class konviw-float-menu is present, add the floating TOC btn
+  const floatTocExists = !!selectOne(
+    '.konviw-float-TOC',
+    $('#Content').get(),
+  );
+  if (floatTocExists) {
+    addFloatingTocBtn($);
+  }
 
-    $('div.client-side-toc-macro').each(
-      (_macroIndex: number, elementTOC: cheerio.Element) => {
-        // if debug then show the macro debug frame
-        if (context.getView() === 'debug') {
-          $(elementTOC).wrap(
-            `<div class="debug-macro-indicator debug-macro-toc">`,
-          );
-        }
-        const tocBuilder = new TocBuilder($(elementTOC).data());
-
-        $('h1,h2,h3,h4,h5,h6').each(
-          (_headerIndex: number, header: cheerio.Element) => {
-            const level = parseInt(header.tagName.replace('h', ''), 10);
-            const id = $(header).attr('id');
-            if (id === undefined) {
-              return; // skip. Confluence headers always have an ID. Otherwise it means it should not appear in the TOC
-            }
-            tocBuilder.addSection(level, $(header).text(), id);
-          },
+  $('div.client-side-toc-macro').each(
+    (_macroIndex: number, elementTOC: cheerio.Element) => {
+      // if debug then show the macro debug frame
+      if (context.getView() === 'debug') {
+        $(elementTOC).wrap(
+          '<div class="debug-macro-indicator debug-macro-toc">',
         );
+      }
+      const tocBuilder = new TocBuilder($(elementTOC).data());
 
-        $(elementTOC).html(tocBuilder.getToc().render());
+      $('h1,h2,h3,h4,h5,h6').each(
+        (_headerIndex: number, header: cheerio.Element) => {
+          const level = parseInt(header.tagName.replace('h', ''), 10);
+          const id = $(header).attr('id');
+          if (id === undefined) {
+            return; // skip. Confluence headers always have an ID. Otherwise it means it should not appear in the TOC
+          }
+          tocBuilder.addSection(level, $(header).text(), id);
+        },
+      );
 
-        // CssListStyle is managed thanks to inline CSS on every <ul>
-        if ($(elementTOC).data('cssliststyle')) {
-          $('ul', elementTOC).attr(
-            'style',
-            `list-style: ${$(elementTOC).data('cssliststyle')};`,
-          );
-        }
+      $(elementTOC).html(tocBuilder.getToc().render());
 
-        // Outline is managed thanks to a CSS class
-        if ($(elementTOC).data('numberedoutline') !== true) {
-          $(elementTOC).addClass('hidden-outline');
-        }
-      },
-    );
-  };
+      // CssListStyle is managed thanks to inline CSS on every <ul>
+      if ($(elementTOC).data('cssliststyle')) {
+        $('ul', elementTOC).attr(
+          'style',
+          `list-style: ${$(elementTOC).data('cssliststyle')};`,
+        );
+      }
+
+      // Outline is managed thanks to a CSS class
+      if ($(elementTOC).data('numberedoutline') !== true) {
+        $(elementTOC).addClass('hidden-outline');
+      }
+    },
+  );
 };
 
 /**

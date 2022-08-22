@@ -1,4 +1,11 @@
-import { Controller, Get, Logger, Param, Query, Version } from '@nestjs/common';
+import {
+  Controller, Get, Logger, Param, Query, Version,
+} from '@nestjs/common';
+import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import {
+  PageParamsDTO,
+  PageQueryDTO,
+} from 'src/proxy-page/proxy-page.validation.dto';
 import { ProxyApiService } from './proxy-api.service';
 import {
   PostsParamsDTO,
@@ -8,17 +15,13 @@ import {
   GetSpacesParamsDTO,
   GetSpacesQueryDTO,
 } from './proxy-api.validation.dto';
-import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import {
-  PageParamsDTO,
-  PageQueryDTO,
-} from 'src/proxy-page/proxy-page.validation.dto';
 import { KonviwResults } from './proxy-api.interface';
 
 @ApiTags('proxy-api')
 @Controller('api')
 export class ProxyApiController {
   constructor(private readonly proxyApi: ProxyApiService) {}
+
   private readonly logger = new Logger(ProxyApiController.name);
 
   /**

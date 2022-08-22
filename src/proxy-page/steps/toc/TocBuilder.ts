@@ -21,10 +21,9 @@ export default class TocBuilder {
 
   constructor(readonly settings: ConfluenceTocSettings) {
     // Rendering strategy
-    const tocRenderingStrategy =
-      settings.structure === 'flat'
-        ? new TocFlatRenderingStrategy(settings.midseparator || '')
-        : new TocListRenderingStrategy();
+    const tocRenderingStrategy = settings.structure === 'flat'
+      ? new TocFlatRenderingStrategy(settings.midseparator || '')
+      : new TocListRenderingStrategy();
 
     // Filters
     const filters: TocFilter[] = [];
@@ -33,12 +32,8 @@ export default class TocBuilder {
         new TocSectionLevelFilter(
           settings.headerelements
             .split(',')
-            .map((tag) => {
-              return parseInt(tag.replace('H', ''), 10);
-            })
-            .filter((level) => {
-              return !Number.isNaN(level);
-            }),
+            .map((tag) => parseInt(tag.replace('H', ''), 10))
+            .filter((level) => !Number.isNaN(level)),
         ),
       );
     }

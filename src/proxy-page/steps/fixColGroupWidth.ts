@@ -1,6 +1,6 @@
+import * as cheerio from 'cheerio';
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
-import * as cheerio from 'cheerio';
 
 /**
  * ### Proxy page step to fix colgroup width
@@ -13,29 +13,27 @@ import * as cheerio from 'cheerio';
  * @returns void
  */
 
-export default (): Step => {
-  return (context: ContextService): void => {
-    context.setPerfMark('fixColgroupWidth');
-    const $ = context.getCheerioBody();
-    $(
-      // similar to 'table:not([data-layout="default"])>colgroup' we apply to fill-width and wide tables
-      "table[data-layout='full-width']>colgroup, table[data-layout= 'wide']> colgroup",
-    ).each((_index: number, elementColgroup: cheerio.Element) => {
-      let sumColWidth = 0;
-      elementColgroup.childNodes.forEach((elementColumn: cheerio.Element) => {
-        sumColWidth += getElementValue(elementColumn);
-      });
-      // if (sumColWidth > maxColWidth) {
-      elementColgroup.childNodes.forEach((elementColumn: cheerio.Element) => {
-        const newWidth = Math.round(
-          (getElementValue(elementColumn) / sumColWidth) * 100,
-        );
-        elementColumn.attribs = { style: 'width: ' + newWidth + '%;' };
-      });
-      // }
+export default (): Step => (context: ContextService): void => {
+  context.setPerfMark('fixColgroupWidth');
+  const $ = context.getCheerioBody();
+  $(
+    // similar to 'table:not([data-layout="default"])>colgroup' we apply to fill-width and wide tables
+    "table[data-layout='full-width']>colgroup, table[data-layout= 'wide']> colgroup",
+  ).each((_index: number, elementColgroup: cheerio.Element) => {
+    let sumColWidth = 0;
+    elementColgroup.childNodes.forEach((elementColumn: cheerio.Element) => {
+      sumColWidth += getElementValue(elementColumn);
     });
-    context.getPerfMeasure('fixColgroupWidth');
-  };
+    // if (sumColWidth > maxColWidth) {
+    elementColgroup.childNodes.forEach((elementColumn: cheerio.Element) => {
+      const newWidth = Math.round(
+        (getElementValue(elementColumn) / sumColWidth) * 100,
+      );
+      elementColumn.attribs = { style: `width: ${newWidth}%;` };
+    });
+    // }
+  });
+  context.getPerfMeasure('fixColgroupWidth');
 };
 
 function getElementValue(elementColumn: cheerio.Element): number {

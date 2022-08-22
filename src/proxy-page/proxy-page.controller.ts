@@ -7,14 +7,15 @@ import {
   Logger,
   Query,
 } from '@nestjs/common';
-import { ProxyPageService } from './proxy-page.service';
 import { Response, Request } from 'express';
+import { ApiOkResponse, ApiTags, ApiOperation } from '@nestjs/swagger';
+import { ProxyPageService } from './proxy-page.service';
 import {
   PageParamsDTO,
   PageQueryDTO,
   SlidesQueryDTO,
 } from './proxy-page.validation.dto';
-import { ApiOkResponse, ApiTags, ApiOperation } from '@nestjs/swagger';
+
 @ApiTags('proxy-page')
 @Controller('wiki')
 export class ProxyPageController {
