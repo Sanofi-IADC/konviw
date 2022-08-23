@@ -1,9 +1,10 @@
 import * as cheerio from 'cheerio';
-import { JiraService } from 'src/jira/jira.service';
 import { ConfigService } from '@nestjs/config';
+import { JiraService } from '../../jira/jira.service';
 import { Step } from '../proxy-page.step';
 import { ContextService } from '../../context/context.service';
 
+/* eslint-disable no-template-curly-in-string */
 export default (config: ConfigService, jiraService: JiraService): Step => async (context: ContextService): Promise<void> => {
   context.setPerfMark('addJira');
   const $ = context.getCheerioBody();
@@ -146,6 +147,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
       });
 
       const requestedFields = columns.split(',');
+      /* eslint-disable max-len */
 
       let gridjsColumns = `[{
                 name: 'Key',

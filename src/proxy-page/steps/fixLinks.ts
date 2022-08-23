@@ -6,6 +6,7 @@ import { firstValueFrom } from 'rxjs';
 import { Step } from '../proxy-page.step';
 import { ContextService } from '../../context/context.service';
 
+/* eslint-disable no-useless-escape, prefer-regex-literals */
 export default (config: ConfigService, http: HttpService): Step => async (context: ContextService): Promise<void> => {
   const logger = new Logger('fixLinks');
   context.setPerfMark('fixLinks');
@@ -59,7 +60,7 @@ export default (config: ConfigService, http: HttpService): Step => async (contex
         }
       })
       .catch((error) => {
-        console.log(`Smart link metadata fetch error: ${error}`);
+        console.log(`Smart link metadata fetch error: ${error}`); // eslint-disable-line no-console
       });
   });
 
@@ -130,6 +131,7 @@ export default (config: ConfigService, http: HttpService): Step => async (contex
       // If the image has been resized, it had a width attribute
       if (imgWidth) {
         // Remove the old, wrong srcset links and add the new one with the corresponding width for standards
+        // eslint-disable-next-line no-param-reassign
         link.attribs.srcset = `${link.attribs.src} ${imgWidth}w`;
       }
     }
@@ -149,6 +151,7 @@ export default (config: ConfigService, http: HttpService): Step => async (contex
   // Remove links from user mentions
   $('a.confluence-userlink.user-mention').each(
     (_index: number, link: cheerio.Element) => {
+      // eslint-disable-next-line no-param-reassign
       delete link.attribs.href;
     },
   );

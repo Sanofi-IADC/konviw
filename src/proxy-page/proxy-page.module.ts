@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { JiraModule } from 'src/jira/jira.module';
-import { HttpModule } from 'src/http/http.module';
+import { JiraModule } from '../jira/jira.module';
+import { HttpModule } from '../http/http.module';
 import { ConfluenceModule } from '../confluence/confluence.module';
 import { ContextService } from '../context/context.service';
 import { ProxyPageService } from './proxy-page.service';

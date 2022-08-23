@@ -26,6 +26,7 @@ export default (): Step => (context: ContextService): void => {
           })
         })
       </script>`);
+  /* eslint-disable max-len */
   // Add the link button next to the headings
   $('h1:not(.titlePage),h2,h3,h4,h5,h6').each(
     (_index: number, elementHeading: cheerio.Element) => {

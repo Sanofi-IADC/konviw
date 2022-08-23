@@ -30,7 +30,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
       : '';
 
     if (
-      route.indexOf(API_ENDPOINT) == -1
+      route.indexOf(API_ENDPOINT) === -1
       && (status === 404 || status === 400)
     ) {
       response.status(status).render(status.toString(), {

@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import * as cheerio from 'cheerio';
 import { performance, PerformanceObserver } from 'perf_hooks';
 import { ConfigService } from '@nestjs/config';
-import { Content, Label } from 'src/confluence/confluence.interface';
+import { Content, Label } from '../confluence/confluence.interface';
 import { Version } from './context.interface';
 
 @Injectable()
@@ -61,7 +61,7 @@ export class ContextService {
     theme?: string,
     style?: string,
     data?: Content,
-    loadAsDocument = true,
+    loadAsDocument = true, // eslint-disable-line default-param-last
     view?: string,
   ) {
     this.spaceKey = spaceKey;
@@ -87,7 +87,7 @@ export class ContextService {
       const basePath = this.config.get('web.basePath');
 
       this.setTitle(data.title);
-      this.spaceKey = data._expandable.space.split('/')[4];
+      [,,,, this.spaceKey] = data._expandable.space.split('/');
       this.setHtmlBody(data.body.view.value, loadAsDocument);
       this.setAuthor(data.history.createdBy.displayName);
       this.setEmail(data.history.createdBy.email);

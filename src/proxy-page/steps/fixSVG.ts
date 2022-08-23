@@ -27,8 +27,9 @@ export default (config: ConfigService): Step => (context: ContextService): void 
       const tag = decodedByCheerio('ac\\:image')['0'];
 
       /* get the actual SVG attributes */
-      const { 'ac:width': width = '', 'ac:align': align = '' } = tag?.attribs;
-      const { 'ri:filename': filename = '' } = tag?.children?.shift()?.attribs;
+      const width = tag.attribs['ac:width'];
+      const align = tag.attribs['ac:align'];
+      const filename = (tag?.children?.shift() as cheerio.Element)?.attribs['ri:filename'];
 
       /* set the new imageSrc and width attributes */
       $(elementImg).attr(

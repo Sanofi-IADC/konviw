@@ -15,6 +15,7 @@ import { Step } from '../proxy-page.step';
  * @param  {ConfigService} config
  * @returns void
  */
+/* eslint-disable no-useless-escape, prefer-regex-literals */
 export default (config: ConfigService): Step => (context: ContextService): void => {
   context.setPerfMark('fixDrawio');
   const $ = context.getCheerioBody();
@@ -73,9 +74,14 @@ export default (config: ConfigService): Step => (context: ContextService): void 
         const fileName = aspectHash
           ? `${diagramName}-${aspectHash}`
           : diagramName;
-        $(elementDrawio).prepend(
-          `<figure><img class="drawio-zoomable" src="${webBasePath}/wiki/download/attachments/${context.getPageId()}/${fileName}.png" alt="${diagramName}" /></figure>`,
-        );
+        $(elementDrawio).prepend(`
+        <figure>
+          <img
+            class="drawio-zoomable"
+            src="${webBasePath}/wiki/download/attachments/${context.getPageId()}/${fileName}.png"
+            alt="${diagramName}" 
+          />
+        </figure>`);
       }
     },
   );

@@ -13,9 +13,8 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => a
   if (blogImgSrc && !blogImgSrc.startsWith('http')) {
     // not a URL (image uploaded to Confluence)
     const attachments = await confluence.getAttachments(context.getPageId());
-    const blogImgAttachment = attachments.find((e) =>
-      e?.extensions?.fileId === blogImgSrc, // find the attachment matching the UID got from the headerImage attribute
-    );
+    // find the attachment matching the UID got from the headerImage attribute
+    const blogImgAttachment = attachments.find((e) => e?.extensions?.fileId === blogImgSrc);
     if (blogImgAttachment) {
       blogImgSrc = `${webBasePath}/wiki${blogImgAttachment?._links?.download}`;
     }

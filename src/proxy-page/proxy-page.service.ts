@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import getFirstExcerpt from 'src/proxy-api/steps/getFirstExcerpt';
 import { HttpService } from '@nestjs/axios';
+import getFirstExcerpt from '../proxy-api/steps/getFirstExcerpt';
 import { ConfluenceService } from '../confluence/confluence.service';
 import { JiraService } from '../jira/jira.service';
 import { ContextService } from '../context/context.service';

@@ -8,7 +8,11 @@ export default (): Step => (context: ContextService): void => {
   // Add library to display code with syntax highlights
   // https://highlightjs.org/
   $('body').append(
-    '<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>',
+    `<script
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>`,
     `<script type="module">
          document.addEventListener('DOMContentLoaded', (event) => {
            hljs.highlightAll();
@@ -20,7 +24,11 @@ export default (): Step => (context: ContextService): void => {
   // https://github.com/kingdido999/zooming
   if (context.getView() !== 'iframe-resizer') {
     $('body').append(
-      '<script src="https://cdnjs.cloudflare.com/ajax/libs/zooming/2.1.1/zooming.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>',
+      `<script
+        src="https://cdnjs.cloudflare.com/ajax/libs/zooming/2.1.1/zooming.min.js"
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+      ></script>`,
       `<script type="module">
         document.addEventListener('DOMContentLoaded', (event) => {
           new Zooming({}).listen('.drawio-zoomable');
@@ -34,7 +42,11 @@ export default (): Step => (context: ContextService): void => {
   // and auto resizer of the iframe to the content of the konviw page
   // https://github.com/davidjbradshaw/iframe-resizer
   $('body').append(
-    `<script src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.3.2/iframeResizer.contentWindow.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    `<script 
+      src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.3.2/iframeResizer.contentWindow.js" 
+      crossorigin="anonymous" 
+      referrerpolicy="no-referrer"
+    ></script>
       <script type="module">
         const konviwMessage = {
           konviwFrameUrl: window.location.href,

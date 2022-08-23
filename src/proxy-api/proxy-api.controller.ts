@@ -5,7 +5,7 @@ import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import {
   PageParamsDTO,
   PageQueryDTO,
-} from 'src/proxy-page/proxy-page.validation.dto';
+} from '../proxy-page/proxy-page.validation.dto';
 import { ProxyApiService } from './proxy-api.service';
 import {
   PostsParamsDTO,
@@ -121,7 +121,7 @@ export class ProxyApiController {
 
   /**
    * @GET (controller) api/spaces/spaceKey/pages/pageID
-   * @description Route to retrieve page content data for rendering logic to be applied by the consumer ALPHA VERSION - NOT FOR PRODUCTION USE
+   * @description Route to retrieve page content data for rendering logic to be applied by the consumer ALPHA VERSION-NOT FOR PRODUCTION USE
    * @return {string} 'JSON' - JSON with the page content
    */
   @ApiOkResponse({ description: 'Get Konviw page API object' })

@@ -33,15 +33,17 @@ export class HttpModule implements OnModuleInit {
     // Add request interceptor and response interceptor to log request infos
     const axios = this.httpService.axiosRef;
     axios.interceptors.request.use((config) => {
-      config.metadata = { ...config.metadata, startDate: new Date() };
+      /* eslint-disable dot-notation, no-param-reassign */
+      config['metadata'] = { ...config['metadata'], startDate: new Date() };
       return config;
     });
     axios.interceptors.response.use(
       (response) => {
         const { config } = response;
-        config.metadata = { ...config.metadata, endDate: new Date() };
-        const duration = config.metadata.endDate.getTime()
-          - config.metadata.startDate.getTime();
+        config['metadata'] = { ...config['metadata'], endDate: new Date() };
+        const duration = config['metadata'].endDate.getTime()
+          - config['metadata'].startDate.getTime();
+        /* eslint-enable */
 
         // Log some request infos (you can actually extract a lot more if you want: the content type, the content size, etc.)
         logger.log(

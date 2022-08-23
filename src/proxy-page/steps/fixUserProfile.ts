@@ -15,7 +15,7 @@ export default (): Step => (context: ContextService): void => {
       const emailProfile = $(elementProfile).find('a.email');
       if (thisBlock) {
         $(elementProfile).after(
-          `<div class="vcard">${imgProfile.html()}<div class="values"><div>${nameProfile.html()}</div><a href="mailto:${emailProfile.html()}" class="email">${emailProfile.html()}</a></div></div>`,
+          `<div class="vcard">${imgProfile.html()}<div class="values"><div>${nameProfile.html()}</div><a href="mailto:${emailProfile.html()}" class="email">${emailProfile.html()}</a></div></div>`, // eslint-disable-line max-len
         );
       }
       $(elementProfile).remove();

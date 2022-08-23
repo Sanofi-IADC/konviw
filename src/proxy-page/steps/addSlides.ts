@@ -27,6 +27,7 @@ export default (): Step => (context: ContextService): void => {
         // only one if no split done
       sectionsHtml += verticalSlides ? '<section>' : '';
       sections.forEach((section: cheerio.CheerioAPI) => {
+        const className = section('body').children().first().attr('class') ?? '';
         // Based on the 'tag' name of the first element we will design the slide format
         switch (section('body').first().children().get(0).tagName) {
           case 'h1':
@@ -36,10 +37,8 @@ export default (): Step => (context: ContextService): void => {
             sectionsHtml += getSlideBubble(section);
             break;
           case 'span':
-            // gets the span tag element : section('body').first().
-            const spanClass = section('body').children().first().attr('class') ?? '';
             // If first element is an image so let's fill the full background
-            if (spanClass.match(/confluence-embedded-file-wrapper/g)) {
+            if (className.match(/confluence-embedded-file-wrapper/g)) {
               sectionsHtml += getSlideImageBackground(section);
             }
             break;

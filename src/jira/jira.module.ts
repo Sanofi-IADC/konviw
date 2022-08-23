@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { HttpAtlassianModule } from 'src/http-atlassian/http-atlassian.module';
+import { HttpAtlassianModule } from '../http-atlassian/http-atlassian.module';
 import { JiraService } from './jira.service';
 
 @Module({

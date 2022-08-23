@@ -29,7 +29,7 @@ export default (): Step => (context: ContextService): void => {
       const newWidth = Math.round(
         (getElementValue(elementColumn) / sumColWidth) * 100,
       );
-      elementColumn.attribs = { style: `width: ${newWidth}%;` };
+      elementColumn.attribs = { style: `width: ${newWidth}%;` }; // eslint-disable-line no-param-reassign
     });
     // }
   });

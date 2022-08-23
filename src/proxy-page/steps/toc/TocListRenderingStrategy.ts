@@ -4,6 +4,7 @@ import Toc from './Toc';
 import TocSection from './TocSection';
 
 export default class TocListRenderingStrategy implements TocRenderingStrategy {
+  /* eslint-disable class-methods-use-this */
   renderToc(toc: Toc): string {
     return `<ul>${toc.children
       .map((child) => child.render())
@@ -33,4 +34,5 @@ export default class TocListRenderingStrategy implements TocRenderingStrategy {
 
     return $.html();
   }
+  /* eslint-enable */
 }
