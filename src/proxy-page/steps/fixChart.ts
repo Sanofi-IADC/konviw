@@ -229,14 +229,16 @@ const opDataLabels = (typeofChart: string, markersChart: string): string => {
           textAnchor: 'middle',
           style: { fontSize: '20px' },
         },`;
-    } if (typeofChart === 'bar') {
+    }
+    if (typeofChart === 'bar') {
       return `dataLabels: {
           enabled: true,
           offsetY: -20,
           textAnchor: 'middle',
           style: { fontSize: '14px', colors: ["#304758"] },
         },`;
-    } if (typeofChart === 'radar') {
+    }
+    if (typeofChart === 'radar') {
       return `dataLabels: {
           enabled: true,
           offsetY: -10,
