@@ -4,6 +4,7 @@ import { Step } from '../../../src/proxy-page/proxy-page.step';
 import addJira from '../../../src/proxy-page/steps/addJira';
 import { createModuleRefForStep } from './utils';
 import { JiraService } from '../../../src/jira/jira.service';
+import { resolve } from 'path';
 
 const mockedIssueData = {
   expand:
@@ -25,11 +26,27 @@ class JiraServiceMock {
   async getTicket(key: string) {
     return mockedIssueData;
   }
-  async findTickets() {
+  async findTickets(server: string, query: string, fields: string) {
     return {
-      issues: [mockedIssueData],
+      total: 1,
+      issues: [mockedIssueData]
     };
   }
+  async getMaCro(pageId: string, macroId: string) {
+    return {
+      name: 'jira',
+      body: '',
+      parameters: {
+        server: { value: 'System JIRA' },
+        jqlQuery: {
+          value: 'project = PCO and issuetype = epic and labels = vaccines and labels = deployment and "epic name" != infra and status = "In Progress" order by status, summary                '
+        },
+        count: { value: 'true' },
+        serverId: { value: 'c4936901-d93b-32a1-a5bb-aa37edb45ce3' }
+      }
+    };
+  }
+  
 }
 
 describe('Confluence Proxy / addJira', () => {
@@ -126,5 +143,23 @@ describe('Confluence Proxy / addJira', () => {
     '</div></body></html>';
     await step(context);
     expect(context.getHtmlBody()).toBe(expected); // no change
+  });
+
+  it('should update total issue count link', async () => {
+    const example =
+      '<html><head></head><body>' +
+      '<span class="static-jira-issues_count" data-macro-name="jira" data-macro-id="5dde2a55-e3e6-4050-b9bc-bdcc27718465">' +
+        '<span class="aui-icon aui-icon-wait issue-placeholder"> </span>' + 
+          'Getting issues...' +
+        '</span>' +
+      '</span>' +
+      '</body></html>';
+    context.setHtmlBody(example);
+    const expected =
+    '<html><head></head><body><div id="Content">' +
+    '<a target="_blank" href="https://test.atlassian.net/secure/IssueNavigator.jspa?reset=true&amp;jqlQuery=project%20=%20PCO%20and%20issuetype%20=%20epic%20and%20labels%20=%20vaccines%20and%20labels%20=%20deployment%20and%20%22epic%20name%22%20!=%20infra%20and%20status%20=%20%22In%20Progress%22%20order%20by%20status,%20summary%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20">1 issues</a>' +
+    '</div></body></html>';
+    await step(context);
+    expect(context.getHtmlBody()).toBe(expected);
   });
 });
