@@ -10,6 +10,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => {
     const $ = context.getCheerioBody();
     const basePath = config.get('web.basePath');
     const version = config.get('version');
+    const confluenceDomain = config.get('confluence.baseURL');
 
     /* fetch Jira issues details and update the title and status for each one */
     const issuesDetailsPromises = [];
@@ -36,6 +37,46 @@ export default (config: ConfigService, jiraService: JiraService): Step => {
           .find('.aui-lozenge')
           .text(status?.name?.toUpperCase())
           .css('background-color', status?.statusCategory?.colorName);
+      });
+    });
+
+    /* Retrieve the count issues macro and replace it with the actual number of issues fetched */
+    const issuesCountPromises = [];
+    const issuesCountMacroIds = [];
+    $('span.static-jira-issues_count').each(
+      (_, elementJira: cheerio.Element) => {
+        const dataMacroId = $(elementJira).attr('data-macro-id');
+        issuesCountPromises.push(
+          jiraService.getMaCro(context.getPageId(), dataMacroId),
+        );
+        issuesCountMacroIds.push(dataMacroId);
+      },
+    );
+    const issuesToFindPromises = [];
+    const issuesCountQueries = [];
+    await Promise.allSettled(issuesCountPromises).then((results) => {
+      results.forEach(async (res: any) => {
+        const parameters = res?.value?.parameters;
+        if (!parameters) {
+          return;
+        }
+        const server = parameters.server.value;
+        const query = parameters.jqlQuery.value;
+        issuesCountQueries.push(query);
+        issuesToFindPromises.push(jiraService.findTickets(server, query, ''));
+      });
+    });
+    await Promise.allSettled(issuesToFindPromises).then((results) => {
+      results.forEach((res: any, index: number) => {
+        const {
+          value: { total },
+        } = res;
+        const url = encodeURI(
+          `${confluenceDomain}/secure/IssueNavigator.jspa?reset=true&jqlQuery=${issuesCountQueries[index]}`,
+        );
+        $(
+          `span.static-jira-issues_count[data-macro-id=${issuesCountMacroIds[index]}]`,
+        ).replaceWith(`<a target="_blank" href="${url}">${total} issues</a>`);
       });
     });
 

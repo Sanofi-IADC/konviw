@@ -37,6 +37,28 @@ export class JiraService {
   }
 
   /**
+   * @function getMacro
+   * @description return the macro data based on the pageID and macroID
+   * @param pageId
+   * @param macroId
+   * @returns Promise {any}
+   */
+  getMaCro(pageId: string, macroId: string): Promise<any> {
+    return firstValueFrom(
+      this.http.get(
+        `${this.baseUrl}/wiki/rest/api/content/${pageId}/history/0/macro/id/${macroId}`,
+        {
+          auth: { username: this.apiUsername, password: this.apiToken },
+        },
+      ),
+    )
+      .then((res) => res.data)
+      .catch((e) => {
+        this.logger.log(e, 'error:getMaCro');
+      });
+  }
+
+  /**
    * @function findTickets Service
    * @description Return a the tickets selected in the Jira macro
    * @return Promise {any}
