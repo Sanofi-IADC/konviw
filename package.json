@@ -10,8 +10,6 @@
     "prebuild": "rimraf dist",
     "build": "npm run prebuild && npm run scss && nest build",
     "deploy:vercel": "npm run build && vercel deploy --prod",
-    "format": "prettier --write \"src/**/*.ts\"",
-    "format:check": "prettier --list-different \"src/**/*.ts\"",
     "start": "nest start",
     "start:dev:nest": "nest start --watch",
     "start:dev:scss": "npm run scss -- --watch",
