@@ -1,3 +1,12 @@
+## [2.20.2](https://github.com/Sanofi-IADC/konviw/compare/v2.20.1...v2.20.2) (2022-09-02)
+
+
+### Bug Fixes
+
+* WEB-281 added the missing css-select dependency ([ca2c62a](https://github.com/Sanofi-IADC/konviw/commit/ca2c62a8860e51d44c41c4c5bba179a363d5f766))
+* WEB-281 Handled the count issue macro in the addJira step + unit test ([3d4816e](https://github.com/Sanofi-IADC/konviw/commit/3d4816eab274e3eb28e9e84eaf67a480f6a79441))
+* WEB-281 synced the package-lock file with package.json ([16eadb8](https://github.com/Sanofi-IADC/konviw/commit/16eadb8d08b0b83b92f5fcfb079bb2fa2fa619c0))
+
 ## [2.20.1](https://github.com/Sanofi-IADC/konviw/compare/v2.20.0...v2.20.1) (2022-08-12)
 
 
