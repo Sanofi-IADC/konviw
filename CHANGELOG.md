@@ -1,3 +1,10 @@
+## [2.20.3](https://github.com/Sanofi-IADC/konviw/compare/v2.20.2...v2.20.3) (2022-09-06)
+
+
+### Bug Fixes
+
+* docker image repository for instana layer ([4d141c9](https://github.com/Sanofi-IADC/konviw/commit/4d141c9399b0d9dbef2f889f5ab273cea19b301a))
+
 ## [2.20.2](https://github.com/Sanofi-IADC/konviw/compare/v2.20.1...v2.20.2) (2022-09-02)
 
 
