@@ -1,3 +1,10 @@
+# [2.21.0](https://github.com/Sanofi-IADC/konviw/compare/v2.20.3...v2.21.0) (2022-09-12)
+
+
+### Features
+
+* new digital style purple colors for slides ([256a5ae](https://github.com/Sanofi-IADC/konviw/commit/256a5ae8aeb33d733f33d9d5e7a5d757c55fb0b0))
+
 ## [2.20.3](https://github.com/Sanofi-IADC/konviw/compare/v2.20.2...v2.20.3) (2022-09-06)
 
 
