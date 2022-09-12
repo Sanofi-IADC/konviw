@@ -3,8 +3,8 @@
 /* *           Author: Jose Gascon         * */
 /* ********************************************* */
 
-@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap');
 
 section.has-light-background,
 section.has-light-background h1,
@@ -42,13 +42,14 @@ section.has-light-background h6 {
 :root {
   --background-color: #fafafa;
   --main-font: Quicksand, sans-serif;
-  --main-font-size: 3.2vmin;
+  --main-font-size: 3.4vmin;
   --main-color: #343434;
   --main-line-height: 1em;
   --block-margin: 10px;
   --heading-margin: 0 0 20px 0;
   --heading-font: Oswald, Impact, sans-serif;
-  --heading-color: #1563ac;
+  /* --heading-color: #9b02c5; */
+  --heading-color: #5701d0;
   --heading-line-height: 1em;
   --heading-letter-spacing: normal;
   --heading-text-transform: uppercase;
@@ -60,18 +61,18 @@ section.has-light-background h6 {
   --heading3-size: 1.7em;
   --heading4-size: 1em;
   --code-font-family: monospace;
-  --code-font-size: 0.5em;
-  --link-color: #268bd2;
-  --link-color-hover: #9fd0f4;
+  --code-font-size: 0.8em;
+  --link-color: #8c13dd;
+  --link-color-hover: #c9abed;
   --selection-background-color: #a1d23f;
   --selection-color: #fff;
   --selection: #d2c63f;
-  --theme-background: #1563ac;
+  --theme-background: #6F13DD;
   --theme-blackground-blockquote: #daa983;
-  --theme-blackground-light: #fee2cc;
-  --theme-blackground-code: #554131;
+  --theme-blackground-light: #c9abed;
+  --theme-blackground-code: #7c2fda;
   --default-text: #343434;
-  --progress-color: #2bb640;
+  --progress-color: #9b02c5;
 }
 
 .reveal-viewport {
@@ -229,6 +230,7 @@ section.has-light-background h6 {
 .reveal p {
   margin: 20px 0;
   line-height: var(--main-line-height);
+  white-space: break-spaces;
 }
 
 /* Remove trailing margins after titles */
@@ -356,6 +358,7 @@ section.has-light-background h6 {
   background-color: var(--theme-blackground-code);
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.297);
   border-radius: 10px;
+  padding: 20px 10px 20px 10px;
 }
 
 .reveal table {
@@ -376,7 +379,6 @@ section.has-light-background h6 {
   text-align: left;
   font-size: 0.8em;
   padding: 0.1em 0.1em 0.1em 0.1em;
-  border-bottom: 1px solid;
   vertical-align: top;
 }
 
@@ -479,6 +481,7 @@ section.has-light-background h6 {
 .reveal .progress {
   background: rgba(0, 0, 0, 0.2);
   color: var(--progress-color);
+  height: 0.6%;
 }
 
 /*********************************************
