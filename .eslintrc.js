@@ -40,15 +40,7 @@ module.exports = {
         },
       },
       rules: {
-        'import/extensions': [
-          'error',
-          'ignorePackages',
-          {
-            ts: 'never',
-          },
-        ],
-
-        camelcase: 'off', // idac habits
+        'camelcase': 'off', // idac habits
         'implicit-arrow-linebreak': 'off', // idac habits
         'import/extensions': 'off', // idac habits
         'import/no-extraneous-dependencies': ['error'], // idac habits

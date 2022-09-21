@@ -6,13 +6,14 @@ import {
 } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
-import { AxiosResponse } from 'axios';
-import { Content, SearchResults } from './confluence.interface';
+import { AxiosResponse } from 'axios'; // eslint-disable-line import/no-extraneous-dependencies
 import { firstValueFrom } from 'rxjs';
+import { Content, SearchResults } from './confluence.interface';
 
 @Injectable()
 export class ConfluenceService {
   private readonly logger = new Logger(ConfluenceService.name);
+
   constructor(
     private http: HttpService,
     private readonly config: ConfigService,
@@ -44,17 +45,17 @@ export class ConfluenceService {
             // select special fields to retrieve
             expand: [
               // content body with html tags
-              prefix + 'body.view',
+              `${prefix}body.view`,
               // contains the value 'full-width' when pages are displayed in full width
-              prefix + 'metadata.properties.content_appearance_published',
+              `${prefix}metadata.properties.content_appearance_published`,
               // labels defined for the page
-              prefix + 'metadata.labels',
-              prefix + 'version',
-              prefix + 'history',
+              `${prefix}metadata.labels`,
+              `${prefix}version`,
+              `${prefix}history`,
               // header image if any defined
-              prefix + 'metadata.properties.cover_picture_id_published',
+              `${prefix}metadata.properties.cover_picture_id_published`,
               // title emoji if any defined
-              prefix + 'metadata.properties.emoji_title_published',
+              `${prefix}metadata.properties.emoji_title_published`,
             ].join(','),
           },
         }),
@@ -88,9 +89,7 @@ export class ConfluenceService {
       const results = await firstValueFrom(
         this.http.get(`/wiki/${uri}`, {
           maxRedirects: 0,
-          validateStatus: (status) => {
-            return status === 302;
-          },
+          validateStatus: (status) => status === 302,
         }),
       );
       this.logger.log(`Retrieving media from ${uri}`);
@@ -128,7 +127,7 @@ export class ConfluenceService {
     } else {
       uriSearch = '/wiki/rest/api/search';
       // filter by the type received or search both blogposts and pages
-      cql = type ? `(type='${type}')` : `(type=blogpost OR type=page)`;
+      cql = type ? `(type='${type}')` : '(type=blogpost OR type=page)';
 
       // draft documents or tag as private pages won't be included in the search
       cql = `${cql} AND (label!=draft) AND (label!='${this.config.get(
@@ -139,9 +138,7 @@ export class ConfluenceService {
       const labelsList: string[] = labels?.split(',');
       if (labelsList?.length > 0) {
         const cqlLablelsStr = labelsList
-          .map((label: any): string => {
-            return `(label='${label}')`;
-          })
+          .map((label: any): string => `(label='${label}')`)
           .join(' AND ');
         cql = `${cql} AND (${cqlLablelsStr})`;
       }
@@ -149,9 +146,7 @@ export class ConfluenceService {
       // there may be multiple spaces separated by '|' and a minimum of one space is mandatory
       const spacesList: string[] = spaceKeys.split('|');
       const cqlSpacesStr = spacesList
-        .map((space: any): string => {
-          return `(space=${space})`;
-        })
+        .map((space: any): string => `(space=${space})`)
         .join(' OR ');
       cql = `${cql} AND (${cqlSpacesStr})`;
 
@@ -159,7 +154,7 @@ export class ConfluenceService {
       cql = query ? `${cql} AND (text ~ "${query}")` : cql;
       params = {
         limit: maxResult, // number of item per page
-        cql: cql,
+        cql,
         excerpt: 'highlight', // use "highlight" to enclosed word found in @@@hl@@@ and @@@endhl@@@
         expand: [
           // fields to retrieve
@@ -200,26 +195,25 @@ export class ConfluenceService {
     getFields = 0,
   ): Promise<AxiosResponse> {
     const defaultParms = {
-      type: type,
+      type,
       start: startAt,
       limit: maxResults,
       status: 'current',
     };
 
     // we expand extra fields if fields === 1 otherwise retrieve the default reponse
-    const params =
-      getFields === 1
-        ? {
-            ...defaultParms,
-            expand: [
-              // extra fields to retrieve
-              'icon',
-              'metadata.labels',
-              'description.plain',
-              'permissions',
-            ].join(','),
-          }
-        : defaultParms;
+    const params = getFields === 1
+      ? {
+        ...defaultParms,
+        expand: [
+          // extra fields to retrieve
+          'icon',
+          'metadata.labels',
+          'description.plain',
+          'permissions',
+        ].join(','),
+      }
+      : defaultParms;
 
     try {
       const results: AxiosResponse = await firstValueFrom(

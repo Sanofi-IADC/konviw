@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TerminusModule } from '@nestjs/terminus';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { HealthController } from './health/health.controller';
 import { ApiHealthService } from './health/health-atlassian.service';
@@ -15,7 +16,6 @@ import { ConfluenceModule } from './confluence/confluence.module';
 import { ProxyPageModule } from './proxy-page/proxy-page.module';
 import { ProxyApiModule } from './proxy-api/proxy-api.module';
 import configuration from './config/configuration';
-import { APP_INTERCEPTOR } from '@nestjs/core';
 import CustomHttpCacheInterceptor from './cache/custom-http-cache.interceptor';
 
 @Module({

@@ -1,7 +1,8 @@
+/* eslint-disable import/first */
 if (
-  process.env.NODE_ENV !== 'local' &&
-  process.env.NODE_ENV !== 'test' &&
-  process.env.INSTANA_ENDPOINT_URL
+  process.env.NODE_ENV !== 'local'
+  && process.env.NODE_ENV !== 'test'
+  && process.env.INSTANA_ENDPOINT_URL
 ) {
   // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
   require('@instana/collector')();
@@ -10,8 +11,6 @@ if (
 import { NestFactory } from '@nestjs/core';
 import { LogLevel, ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { AppModule } from './app.module';
-import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { ConfigService } from '@nestjs/config';
 import {
   DocumentBuilder,
@@ -20,6 +19,8 @@ import {
 } from '@nestjs/swagger';
 import { join } from 'path';
 import hbs from 'hbs';
+import { HttpExceptionFilter } from './common/filters/http-exception.filter';
+import { AppModule } from './app.module';
 
 /**
  * Entry point of application. By using the NestFactory.create() method a new Nest application instance is created.

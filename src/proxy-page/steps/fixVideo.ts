@@ -1,6 +1,6 @@
+import * as cheerio from 'cheerio';
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
-import * as cheerio from 'cheerio';
 
 /**
  * ### Proxy page step to add Video tag to display mp4 video attachments.
@@ -13,38 +13,36 @@ import * as cheerio from 'cheerio';
  * @param  {ConfigService} config
  * @returns void
  */
-export default (): Step => {
-  return (context: ContextService): void => {
-    context.setPerfMark('fixVideo');
-    const $ = context.getCheerioBody();
+export default (): Step => (context: ContextService): void => {
+  context.setPerfMark('fixVideo');
+  const $ = context.getCheerioBody();
 
-    // Div class with span.confluence-embedded-file-wrapper is used for images and videos
-    // while only the videos come with an 'a' pointing to the video attachment.
-    // This narrow filter improves the performance as now the function only goes thru the videos.
-    $('span.confluence-embedded-file-wrapper a').each(
-      (_index: number, fileWrapper: cheerio.Element) => {
-        const searchMedia = new RegExp(
-          `(\/.*)\/(.*).(mp4|avi|mov|flv|wmv|webm)`,
-        );
-        // Search for the path $1, title $2 and extension $3 (not used)
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const [, pathMedia] =
-          searchMedia.exec($(fileWrapper).attr('href')) ?? [];
-        if (pathMedia) {
-          // Append the video tag with src to the attachment and an image as poster
-          $(fileWrapper)
-            .parent()
-            .append(
-              `<video controls preload="metadata"><source src="${$(
-                fileWrapper,
-              ).attr('href')}#t=0.1"></video>`,
-            )
-            .append('<br />')
-            .append($(fileWrapper).addClass('smalltext'));
-        }
-      },
-    );
+  // Div class with span.confluence-embedded-file-wrapper is used for images and videos
+  // while only the videos come with an 'a' pointing to the video attachment.
+  // This narrow filter improves the performance as now the function only goes thru the videos.
+  $('span.confluence-embedded-file-wrapper a').each(
+    (_index: number, fileWrapper: cheerio.Element) => {
+      // eslint-disable-next-line prefer-regex-literals
+      const searchMedia = new RegExp(
+        '(.*)(.*).(mp4|avi|mov|flv|wmv|webm)',
+      );
+      // Search for the path $1, title $2 and extension $3 (not used)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const [, pathMedia] = searchMedia.exec($(fileWrapper).attr('href')) ?? [];
+      if (pathMedia) {
+        // Append the video tag with src to the attachment and an image as poster
+        $(fileWrapper)
+          .parent()
+          .append(
+            `<video controls preload="metadata"><source src="${$(
+              fileWrapper,
+            ).attr('href')}#t=0.1"></video>`,
+          )
+          .append('<br />')
+          .append($(fileWrapper).addClass('smalltext'));
+      }
+    },
+  );
 
-    context.getPerfMeasure('fixVideo');
-  };
+  context.getPerfMeasure('fixVideo');
 };

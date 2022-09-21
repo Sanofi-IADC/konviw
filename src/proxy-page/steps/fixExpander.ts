@@ -1,14 +1,13 @@
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
 
-export default (): Step => {
-  return (context: ContextService): void => {
-    context.setPerfMark('fixExpander');
-    const $ = context.getCheerioBody();
+export default (): Step => (context: ContextService): void => {
+  context.setPerfMark('fixExpander');
+  const $ = context.getCheerioBody();
 
-    // When the DOM content is loaded call the initialization of the Zooming library
-    $('body').append(
-      `<script type="module">
+  // When the DOM content is loaded call the initialization of the Zooming library
+  $('body').append(
+    `<script type="module">
         const coll = document.getElementsByClassName("expand-control");
             let i;
             for (i = 0; i < coll.length; i++) {
@@ -23,8 +22,7 @@ export default (): Step => {
               });
             }
       </script>`,
-    );
+  );
 
-    context.getPerfMeasure('fixExpander');
-  };
+  context.getPerfMeasure('fixExpander');
 };

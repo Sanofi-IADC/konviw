@@ -1,9 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { HttpService } from '@nestjs/axios';
+import getFirstExcerpt from '../proxy-api/steps/getFirstExcerpt';
 import { ConfluenceService } from '../confluence/confluence.service';
 import { JiraService } from '../jira/jira.service';
 import { ContextService } from '../context/context.service';
 import { Content } from '../confluence/confluence.interface';
-import { ConfigService } from '@nestjs/config';
 import delUnnecessaryCode from './steps/delUnnecessaryCode';
 import fixLinks from './steps/fixLinks';
 import fixEmojis from './steps/fixEmojis';
@@ -37,14 +39,13 @@ import addLibrariesJS from './steps/addLibrariesJS';
 import addSlidesCSS from './steps/addSlidesCSS';
 import addSlidesJS from './steps/addSlidesJS';
 import addUnsupportedMacroIndicator from './steps/addUnsupportedMacroIndicator';
-import getFirstExcerpt from 'src/proxy-api/steps/getFirstExcerpt';
 import fixSVG from './steps/fixSVG';
 import fixTableBackground from './steps/fixTableBackground';
-import { HttpService } from '@nestjs/axios';
 
 @Injectable()
 export class ProxyPageService {
   private readonly logger = new Logger(ProxyPageService.name);
+
   constructor(
     private config: ConfigService,
     private context: ContextService,

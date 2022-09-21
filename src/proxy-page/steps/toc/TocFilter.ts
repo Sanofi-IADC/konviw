@@ -1,5 +1,7 @@
 import TocSection from './TocSection';
 
-export default interface TocFilter {
+interface TocFilter {
   isHidden(section: TocSection): boolean;
 }
+
+export default TocFilter;

@@ -1,4 +1,4 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test, TestingModule } from '@nestjs/testing'; // eslint-disable-line
 import { HealthCheckService, HttpHealthIndicator } from '@nestjs/terminus';
 import { HttpModule } from '@nestjs/axios';
 import { HealthCheckExecutor } from '@nestjs/terminus/dist/health-check/health-check-executor.service';

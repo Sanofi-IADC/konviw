@@ -1,4 +1,4 @@
-import Config from '../config/config.d';
+import Config from './config.d';
 
 export default (): Config => ({
   env: 'test',

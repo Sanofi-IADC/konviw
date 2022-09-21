@@ -1,7 +1,12 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { ContextService } from '../context/context.service';
 import { ConfigService } from '@nestjs/config';
-import { Content } from '../confluence/confluence.interface';
+import { HttpService } from '@nestjs/axios';
+import { ContextService } from '../context/context.service';
+import {
+  Content,
+  SearchResults,
+  ResultsContent,
+} from '../confluence/confluence.interface';
 import { ConfluenceService } from '../confluence/confluence.service';
 import { JiraService } from '../jira/jira.service';
 import parseHeaderBlog from './steps/parseHeaderBlog';
@@ -21,14 +26,9 @@ import delUnnecessaryCode from '../proxy-page/steps/delUnnecessaryCode';
 import fixCode from '../proxy-page/steps/fixCode';
 import addCopyLinks from '../proxy-page/steps/addCopyLinks';
 import addJira from '../proxy-page/steps/addJira';
-import { HttpService } from '@nestjs/axios';
 // TODO: review and enable in future release
 // import getFirstExcerpt from './steps/getFirstExcerpt';
 
-import {
-  SearchResults,
-  ResultsContent,
-} from '../confluence/confluence.interface';
 import {
   KonviwContent,
   KonviwResults,
@@ -38,6 +38,7 @@ import {
 @Injectable()
 export class ProxyApiService {
   private readonly logger = new Logger(ProxyApiService.name);
+
   constructor(
     private config: ConfigService,
     private confluence: ConfluenceService,
@@ -97,9 +98,9 @@ export class ProxyApiService {
           createdBy: doc.content.history.createdBy.displayName,
           createdByAvatar: doc.content.history.createdBy.profilePicture.path
             ? `${baseHost}${basePath}/${doc.content.history.createdBy.profilePicture.path.replace(
-                /^\/wiki/,
-                'wiki',
-              )}`
+              /^\/wiki/,
+              'wiki',
+            )}`
             : '',
           createdByEmail: doc.content.history.createdBy.email,
           labels: doc.content.metadata.labels.results.map((list: any) => ({
@@ -157,27 +158,25 @@ export class ProxyApiService {
       categoryId,
     );
 
-    const parseResults = data.values.map((project: any) => {
-      return {
-        key: project.key,
-        name: project.name,
-        description: project.description,
-        avatar48: project.avatarUrls['48x48'],
-        avatar24: project.avatarUrls['24x24'],
-        categoryId: (project.projectCategory ?? '').id,
-        categoryName: (project.projectCategory ?? '').name,
-        categoryDescription: (project.projectCategory ?? '').descriptiom,
-        projectType: project.projectTypeKey,
-        projectStyle: project.style,
-        leadId: project.lead.accountId,
-        leadName: project.lead.displayName,
-        leadActive: project.lead.active,
-        leadAvatar48: project.lead.avatarUrls['48x48'],
-        leadAvatar24: project.lead.avatarUrls['24x24'],
-        totalIssueCount: project.insight.totalIssueCount,
-        lastIssueUpdateTime: project.insight.lastIssueUpdateTime,
-      };
-    });
+    const parseResults = data.values.map((project: any) => ({
+      key: project.key,
+      name: project.name,
+      description: project.description,
+      avatar48: project.avatarUrls['48x48'],
+      avatar24: project.avatarUrls['24x24'],
+      categoryId: (project.projectCategory ?? '').id,
+      categoryName: (project.projectCategory ?? '').name,
+      categoryDescription: (project.projectCategory ?? '').descriptiom,
+      projectType: project.projectTypeKey,
+      projectStyle: project.style,
+      leadId: project.lead.accountId,
+      leadName: project.lead.displayName,
+      leadActive: project.lead.active,
+      leadAvatar48: project.lead.avatarUrls['48x48'],
+      leadAvatar24: project.lead.avatarUrls['24x24'],
+      totalIssueCount: project.insight.totalIssueCount,
+      lastIssueUpdateTime: project.insight.lastIssueUpdateTime,
+    }));
 
     const meta = {
       maxResults: data.maxResults,
@@ -203,13 +202,11 @@ export class ProxyApiService {
   async getJiraProjectCategories(server: string): Promise<any> {
     const { data }: any = await this.jira.findProjectCategories(server);
 
-    const parseResults = data.map((category: any) => {
-      return {
-        id: category.id,
-        name: category.name,
-        description: category.description ?? '',
-      };
-    });
+    const parseResults = data.map((category: any) => ({
+      id: category.id,
+      name: category.name,
+      description: category.description ?? '',
+    }));
 
     const meta = {
       totalSize: parseResults.length,
@@ -248,35 +245,30 @@ export class ProxyApiService {
     );
 
     const parseResults = data.results.map((space: any) => {
-      const labels =
-        space.metadata === undefined
-          ? []
-          : space.metadata.labels.results.map((label: any) => {
-              return label.name;
-            });
+      const labels = space.metadata === undefined
+        ? []
+        : space.metadata.labels.results.map((label: any) => label.name);
 
-      const permissions =
-        space.permissions === undefined
-          ? []
-          : space.permissions.reduce((permissionsTmp, permission) => {
-              if (permission.subjects?.user) {
-                if (
-                  permission.subjects.user.results[0].accountType ===
-                  'atlassian'
-                ) {
-                  const name = permission.subjects.user.results[0].displayName;
-                  const avatar = `${baseHost}${basePath}${permission.subjects.user.results[0].profilePicture.path}`;
-                  const operation = permission.operation;
-                  permissionsTmp.push({ name, avatar, operation });
-                }
-              }
-              return permissionsTmp;
-            }, []);
+      const permissions = space.permissions === undefined
+        ? []
+        : space.permissions.reduce((permissionsTmp, permission) => {
+          if (permission.subjects?.user) {
+            if (
+              permission.subjects.user.results[0].accountType
+                  === 'atlassian'
+            ) {
+              const name = permission.subjects.user.results[0].displayName;
+              const avatar = `${baseHost}${basePath}${permission.subjects.user.results[0].profilePicture.path}`;
+              const { operation } = permission;
+              permissionsTmp.push({ name, avatar, operation });
+            }
+          }
+          return permissionsTmp;
+        }, []);
 
-      const icon =
-        space.icon === undefined
-          ? undefined
-          : `${baseHost}${basePath}/wiki${space.icon.path}`;
+      const icon = space.icon === undefined
+        ? undefined
+        : `${baseHost}${basePath}/wiki${space.icon.path}`;
 
       return {
         id: space.id,

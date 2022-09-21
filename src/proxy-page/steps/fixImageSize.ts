@@ -1,6 +1,6 @@
+import * as cheerio from 'cheerio';
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
-import * as cheerio from 'cheerio';
 
 /**
  * ### Proxy page step to fix image width
@@ -12,23 +12,21 @@ import * as cheerio from 'cheerio';
  * @param  {ConfigService} config
  * @returns void
  */
-export default (): Step => {
-  return (context: ContextService): void => {
-    context.setPerfMark('fixImageSize');
-    const $ = context.getCheerioBody();
+export default (): Step => (context: ContextService): void => {
+  context.setPerfMark('fixImageSize');
+  const $ = context.getCheerioBody();
 
-    $('img').each((_index: number, elementImg: cheerio.Element) => {
-      const imgURL = $(elementImg).attr('src') || $(elementImg).attr('_src');
-      const imgDataWidth = $(elementImg).attr('data-width');
-      if (
-        imgURL != null &&
-        imgDataWidth != null &&
-        !$(elementImg).attr('width')
-      ) {
-        $(elementImg).attr('width', imgDataWidth);
-      }
-    });
+  $('img').each((_index: number, elementImg: cheerio.Element) => {
+    const imgURL = $(elementImg).attr('src') || $(elementImg).attr('_src');
+    const imgDataWidth = $(elementImg).attr('data-width');
+    if (
+      imgURL != null
+        && imgDataWidth != null
+        && !$(elementImg).attr('width')
+    ) {
+      $(elementImg).attr('width', imgDataWidth);
+    }
+  });
 
-    context.getPerfMeasure('fixImageSize');
-  };
+  context.getPerfMeasure('fixImageSize');
 };

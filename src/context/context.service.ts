@@ -2,34 +2,57 @@ import { Injectable, Logger } from '@nestjs/common';
 import * as cheerio from 'cheerio';
 import { performance, PerformanceObserver } from 'perf_hooks';
 import { ConfigService } from '@nestjs/config';
-import { Content, Label } from 'src/confluence/confluence.interface';
+import { Content, Label } from '../confluence/confluence.interface';
 import { Version } from './context.interface';
 
 @Injectable()
 export class ContextService {
   private readonly logger = new Logger(ContextService.name);
+
   private spaceKey = '';
+
   private pageId = '';
+
   private theme = '';
+
   private style = '';
+
   private view = '';
+
   private cheerioBody = cheerio.load('html');
+
   private title = '';
+
   private createdVersion: Version;
+
   private lastVersion: Version;
+
   private author = '';
+
   private email = '';
+
   private avatar = '';
+
   private excerpt = '';
+
   private imgblog = '';
+
   private when = '';
+
   private friendlyWhen = '';
+
   private searchResults = '';
+
   private labels: string[] = [];
+
   private fullWidth = false;
+
   private headerImage = '';
+
   private headerEmoji = '';
+
   private observer: PerformanceObserver;
+
   constructor(private config: ConfigService) {}
 
   initPageContext(
@@ -38,7 +61,7 @@ export class ContextService {
     theme?: string,
     style?: string,
     data?: Content,
-    loadAsDocument = true,
+    loadAsDocument = true, // eslint-disable-line default-param-last
     view?: string,
   ) {
     this.spaceKey = spaceKey;
@@ -64,7 +87,7 @@ export class ContextService {
       const basePath = this.config.get('web.basePath');
 
       this.setTitle(data.title);
-      this.spaceKey = data._expandable.space.split('/')[4];
+      [,,,, this.spaceKey] = data._expandable.space.split('/');
       this.setHtmlBody(data.body.view.value, loadAsDocument);
       this.setAuthor(data.history.createdBy.displayName);
       this.setEmail(data.history.createdBy.email);
@@ -105,9 +128,9 @@ export class ContextService {
       this.setLastVersion(modifiedBy);
 
       if (
-        data.metadata?.properties['content-appearance-published'] &&
-        data.metadata?.properties['content-appearance-published'].value ===
-          'full-width'
+        data.metadata?.properties['content-appearance-published']
+        && data.metadata?.properties['content-appearance-published'].value
+          === 'full-width'
       ) {
         this.setFullWidth(true);
       } else {
@@ -225,7 +248,7 @@ export class ContextService {
     const $ = cheerio.load(body);
     // we wrap the body in a div with ID Content
     this.cheerioBody = cheerio.load(
-      $('html').wrapInner(`<div id="Content">`).html(),
+      $('html').wrapInner('<div id="Content">').html(),
       null,
       loadAsDocument,
     );
@@ -327,9 +350,7 @@ export class ContextService {
   }
 
   setLabels(labels: Label[]): void {
-    this.labels = labels.map((label: Label) => {
-      return label.name;
-    });
+    this.labels = labels.map((label: Label) => label.name);
   }
 
   setHeaderImage(image: string): void {
@@ -341,7 +362,7 @@ export class ContextService {
   }
 
   setHeaderEmoji(code: string): void {
-    this.headerEmoji = !!code ? '&#x' + code + ';' : '';
+    this.headerEmoji = code ? `&#x${code};` : '';
   }
 
   getHeaderEmoji(): string {
