@@ -9,7 +9,6 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => {
     context.setPerfMark('addHeaderBlog');
     const $ = context.getCheerioBody();
     const webBasePath = config.get('web.absoluteBasePath');
-
     let blogImgSrc = context.getHeaderImage(); // default blog header is the headerImage
     if (blogImgSrc && !blogImgSrc.startsWith('http')) {
       // not a URL (image uploaded to Confluence)

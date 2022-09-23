@@ -79,45 +79,43 @@ export class ProxyApiService {
     const baseHost = this.config.get('web.baseHost');
     const basePath = this.config.get('web.basePath');
 
-    const parseResults: KonviwContent[] = data.results.map(
-      (doc: ResultsContent) => {
-        const spacekey = doc.resultGlobalContainer.displayUrl.split('/')[2];
-        this.context.initPageContext(spacekey, doc.content.id);
-        this.context.setHtmlBody(doc.content.body.view.value);
-        const atlassianIadcRegEx = new RegExp(`${baseURL}/wiki/`);
-        parseHeaderBlog()(this.context);
-        // TODO: review and enable in future release
-        // getFirstExcerpt()(this.context);
-        const contentResult: KonviwContent = {
-          docId: doc.content.id,
-          title: doc.content.title,
-          type: doc.content.type,
-          url: `${baseHost}${basePath}/wiki/spaces/iadc/pages/${doc.content.id}?type=blog`,
-          createdAt: doc.content.history.createdDate,
-          createdBy: doc.content.history.createdBy.displayName,
-          createdByAvatar: doc.content.history.createdBy.profilePicture.path
-            ? `${baseHost}${basePath}/${doc.content.history.createdBy.profilePicture.path.replace(
-                /^\/wiki/,
-                'wiki',
-              )}`
-            : '',
-          createdByEmail: doc.content.history.createdBy.email,
-          labels: doc.content.metadata.labels.results.map((list: any) => ({
-            tag: list.label,
-          })),
-          imgblog: this.context
-            .getImgBlog()
-            .replace(atlassianIadcRegEx, `${baseHost}${basePath}/wiki/`),
-          summary: doc.excerpt,
-          space: spacekey,
-          lastModified: doc.friendlyLastModified,
-          excerptBlog: this.context.getExcerpt(),
-          body: this.context.getTextBody(),
-          readTime: this.context.getReadTime(),
-        };
-        return contentResult;
-      },
-    );
+    const promises = data.results.map(async (doc: ResultsContent) => {
+      const spacekey = doc.resultGlobalContainer.displayUrl.split('/')[2];
+      this.context.initPageContext(spacekey, doc.content.id);
+      this.context.setHtmlBody(doc.content.body.view.value);
+      const atlassianIadcRegEx = new RegExp(`${baseURL}/wiki/`);
+      await parseHeaderBlog(this.config, this.confluence)(this.context);
+      // TODO: review and enable in future release
+      // getFirstExcerpt()(this.context);
+      const contentResult: KonviwContent = {
+        docId: doc.content.id,
+        title: doc.content.title,
+        type: doc.content.type,
+        url: `${baseHost}${basePath}/wiki/spaces/iadc/pages/${doc.content.id}?type=blog`,
+        createdAt: doc.content.history.createdDate,
+        createdBy: doc.content.history.createdBy.displayName,
+        createdByAvatar: doc.content.history.createdBy.profilePicture.path
+          ? `${baseHost}${basePath}/${doc.content.history.createdBy.profilePicture.path.replace(
+              /^\/wiki/,
+              'wiki',
+            )}`
+          : '',
+        createdByEmail: doc.content.history.createdBy.email,
+        labels: doc.content.metadata.labels.results.map((list: any) => ({
+          tag: list.label,
+        })),
+        imgblog: this.context
+          .getImgBlog()
+          .replace(atlassianIadcRegEx, `${baseHost}${basePath}/wiki/`),
+        summary: doc.excerpt,
+        space: spacekey,
+        lastModified: doc.friendlyLastModified,
+        excerptBlog: this.context.getExcerpt(),
+        body: this.context.getTextBody(),
+        readTime: this.context.getReadTime(),
+      };
+      return contentResult;
+    });
 
     const meta: MetadataSearch = {
       limit: data.limit,
@@ -127,6 +125,8 @@ export class ProxyApiService {
       next: data._links.next,
       prev: data._links.prev,
     };
+
+    const parseResults: KonviwContent[] = await Promise.all(promises);
 
     return {
       meta,
@@ -252,26 +252,26 @@ export class ProxyApiService {
         space.metadata === undefined
           ? []
           : space.metadata.labels.results.map((label: any) => {
-              return label.name;
-            });
+            return label.name;
+          });
 
       const permissions =
         space.permissions === undefined
           ? []
           : space.permissions.reduce((permissionsTmp, permission) => {
-              if (permission.subjects?.user) {
-                if (
-                  permission.subjects.user.results[0].accountType ===
-                  'atlassian'
-                ) {
-                  const name = permission.subjects.user.results[0].displayName;
-                  const avatar = `${baseHost}${basePath}${permission.subjects.user.results[0].profilePicture.path}`;
-                  const operation = permission.operation;
-                  permissionsTmp.push({ name, avatar, operation });
-                }
+            if (permission.subjects?.user) {
+              if (
+                permission.subjects.user.results[0].accountType ===
+                'atlassian'
+              ) {
+                const name = permission.subjects.user.results[0].displayName;
+                const avatar = `${baseHost}${basePath}${permission.subjects.user.results[0].profilePicture.path}`;
+                const operation = permission.operation;
+                permissionsTmp.push({ name, avatar, operation });
               }
-              return permissionsTmp;
-            }, []);
+            }
+            return permissionsTmp;
+          }, []);
 
       const icon =
         space.icon === undefined
