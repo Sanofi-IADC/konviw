@@ -82,8 +82,17 @@ export class ProxyApiService {
     const parseResults: KonviwContent[] = await Promise.all(
       data.results.map(async (doc: ResultsContent) => {
         const spacekey = doc.resultGlobalContainer.displayUrl.split('/')[2];
-        this.context.initPageContext(spacekey, doc.content.id);
-        console.log(doc.content.id);
+        const content: Content = await this.confluence.getPage(
+          spacekey,
+          doc.content.id,
+        );
+        this.context.initPageContext(
+          spacekey,
+          doc.content.id,
+          undefined,
+          undefined,
+          content,
+        );
         this.context.setHtmlBody(doc.content.body.view.value);
         const atlassianIadcRegEx = new RegExp(`${baseURL}/wiki/`);
         await parseHeaderBlog(this.config, this.confluence)(this.context);
