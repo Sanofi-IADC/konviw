@@ -31,7 +31,6 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => {
         }
         context.setImgBlog(blogImgSrc);
         context.setExcerpt(excerptBlog.html());
-        $(elementProperties).remove();
       });
   };
 };
