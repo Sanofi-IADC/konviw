@@ -7,6 +7,8 @@ import * as cheerio from 'cheerio';
 // This module search for the right image and a blockquote to set them as blog post header image and headline
 export default (config: ConfigService, confluence: ConfluenceService): Step => {
   return async (context: ContextService): Promise<void> => {
+    context.setPerfMark('getExcerptAndHeaderImage');
+
     const $ = context.getCheerioBody();
     const webBasePath = config.get('web.absoluteBasePath');
     let blogImgSrc = context.getHeaderImage(); // default blog header is the headerImage
@@ -18,6 +20,7 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => {
       });
       if (blogImgAttachment) {
         blogImgSrc = `${webBasePath}/wiki${blogImgAttachment?._links?.download}`;
+        context.setHeaderImage(blogImgSrc);
       }
     }
 
@@ -30,6 +33,7 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => {
         if (!blogImgSrc) {
           // header image has priority over page-proterties's image
           blogImgSrc = imgBlog?.attr('src');
+          context.setHeaderImage(blogImgSrc);
         }
         context.setExcerpt(excerptBlog.html());
       });
@@ -41,5 +45,18 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => {
         context.setExcerpt($(elementProperties).html());
       });
     context.setImgBlog(blogImgSrc);
+
+    // Excerpt macro is parsed as a span block with classes 'conf-macro' and 'output-inline'
+    // and data-macro-name='excerpt'
+    // Unfortunately if the property hidden=true the styled_body will not return the excerpt
+    // context.setExcerpt('');
+    $("span.conf-macro.output-inline[data-macro-name='excerpt']")
+      .first()
+      .each((_index: number, elementExcerpt: cheerio.Element) => {
+        const excerptPage = $(elementExcerpt);
+        context.setExcerpt(excerptPage.text());
+      });
+
+    context.getPerfMeasure('getExcerptAndHeaderImage');
   };
 };
