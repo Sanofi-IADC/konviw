@@ -4,8 +4,7 @@ import { ConfluenceService } from '../../confluence/confluence.service';
 import { ConfigService } from '@nestjs/config';
 import * as cheerio from 'cheerio';
 
-// This module search for the first Page Properties macro in the page and collects the image
-// and a blockquote to set them as blog post header image and blog blockquote
+// This module search for the right image and a blockquote to set them as blog post header image and headline
 export default (config: ConfigService, confluence: ConfluenceService): Step => {
   return async (context: ContextService): Promise<void> => {
     const $ = context.getCheerioBody();
@@ -21,6 +20,8 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => {
         blogImgSrc = `${webBasePath}/wiki${blogImgAttachment?._links?.download}`;
       }
     }
+
+    // a macro page-properties with an image and blockquote inside will be used alternatively to define both image and blockquote for the blog post
     $(".plugin-tabmeta-details[data-macro-name='details']")
       .first()
       .each((_index: number, elementProperties: cheerio.Element) => {
@@ -31,6 +32,13 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => {
           blogImgSrc = imgBlog?.attr('src');
         }
         context.setExcerpt(excerptBlog.html());
+      });
+
+    // alternatively a single first blockquote will be used as headline for the blog post
+    $('blockquote')
+      .first()
+      .each((_index: number, elementProperties: cheerio.Element) => {
+        context.setExcerpt($(elementProperties).html());
       });
     context.setImgBlog(blogImgSrc);
   };
