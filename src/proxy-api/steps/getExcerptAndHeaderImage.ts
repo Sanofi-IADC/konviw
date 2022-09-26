@@ -24,6 +24,19 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => {
       }
     }
 
+    // Excerpt macro is parsed as a span block with classes 'conf-macro' and 'output-inline' and data-macro-name='excerpt'
+    if (context.getExcerpt() === '') {
+      $("span.conf-macro.output-inline[data-macro-name='excerpt']")
+        .first()
+        .each((_index: number, elementExcerpt: cheerio.Element) => {
+          const excerptPage = $(elementExcerpt);
+          context.setExcerpt(excerptPage.text());
+        });
+    }
+
+    // TODO: [WEB-344] to be removed and release new major version
+    // this section is just to keep retro-compatibility with the header images
+    // defined in a page-properties section in a blog post
     // a macro page-properties with an image and blockquote inside will be used alternatively to define both image and blockquote for the blog post
     $(".plugin-tabmeta-details[data-macro-name='details']")
       .first()
@@ -35,27 +48,12 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => {
           blogImgSrc = imgBlog?.attr('src');
           context.setHeaderImage(blogImgSrc);
         }
-        context.setExcerpt(excerptBlog.html());
+        if (context.getExcerpt() === '') {
+          context.setExcerpt(excerptBlog.html());
+        }
       });
 
-    // alternatively a single first blockquote will be used as headline for the blog post
-    $('blockquote')
-      .first()
-      .each((_index: number, elementProperties: cheerio.Element) => {
-        context.setExcerpt($(elementProperties).html());
-      });
     context.setImgBlog(blogImgSrc);
-
-    // Excerpt macro is parsed as a span block with classes 'conf-macro' and 'output-inline'
-    // and data-macro-name='excerpt'
-    // Unfortunately if the property hidden=true the styled_body will not return the excerpt
-    // context.setExcerpt('');
-    $("span.conf-macro.output-inline[data-macro-name='excerpt']")
-      .first()
-      .each((_index: number, elementExcerpt: cheerio.Element) => {
-        const excerptPage = $(elementExcerpt);
-        context.setExcerpt(excerptPage.text());
-      });
 
     context.getPerfMeasure('getExcerptAndHeaderImage');
   };

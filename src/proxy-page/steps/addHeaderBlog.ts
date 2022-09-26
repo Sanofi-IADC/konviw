@@ -1,20 +1,14 @@
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
-import { ConfluenceService } from '../../confluence/confluence.service';
-import { ConfigService } from '@nestjs/config';
-// import * as cheerio from 'cheerio';
+import * as cheerio from 'cheerio';
 
-export default (config: ConfigService, confluence: ConfluenceService): Step => {
+export default (): Step => {
   return async (context: ContextService): Promise<void> => {
     context.setPerfMark('addHeaderBlog');
     const $ = context.getCheerioBody();
-    // const webBasePath = config.get('web.absoluteBasePath');
 
-    const blogImgSrc = context.getHeaderImage(); // default blog header is the headerImage
-
-    const blogExcerptString = '';
-    let blogHeaderHTML = '',
-      blogExcerptHTML = '';
+    const blogImgSrc = context.getHeaderImage();
+    let blogHeaderHTML = '';
 
     if (blogImgSrc) {
       blogHeaderHTML = `
@@ -37,18 +31,17 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => {
         </div>
         `;
     }
-    if (blogExcerptString) {
-      blogExcerptHTML = `
-        <section class="blog--excerpt">
-          <blockquote>${blogExcerptString}</blockquote>
-        </section>
-        `;
-    }
 
-    $('#Content').before(`
-        ${blogHeaderHTML}
-        ${blogExcerptHTML}
-      `);
+    $('#Content').before(`${blogHeaderHTML}`);
+
+    // TODO: [WEB-344] to be removed and release new major version
+    // this section is just to keep retro-compatibility with the header images
+    // defined in a page-properties section in a blog post
+    $(".plugin-tabmeta-details[data-macro-name='details']")
+      .first()
+      .each((_index: number, elementProperties: cheerio.Element) => {
+        $(elementProperties).remove();
+      });
 
     context.getPerfMeasure('addHeaderBlog');
   };
