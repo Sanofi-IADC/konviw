@@ -1,3 +1,10 @@
+## [2.21.3](https://github.com/Sanofi-IADC/konviw/compare/v2.21.2...v2.21.3) (2022-09-26)
+
+
+### Bug Fixes
+
+* compatibility with legacy konviw blog posts ([46f43b4](https://github.com/Sanofi-IADC/konviw/commit/46f43b40dbd14541c6476359f6682dee451ac7e8))
+
 ## [2.21.2](https://github.com/Sanofi-IADC/konviw/compare/v2.21.1...v2.21.2) (2022-09-26)
 
 
