@@ -27,10 +27,11 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => {
         const imgBlog = $(elementProperties).find('img');
         const excerptBlog = $(elementProperties).find('blockquote');
         if (!blogImgSrc) {
-          blogImgSrc = imgBlog?.attr('src'); // headerIMage has priority over page-proterties's image
+          // header image has priority over page-proterties's image
+          blogImgSrc = imgBlog?.attr('src');
         }
-        context.setImgBlog(blogImgSrc);
         context.setExcerpt(excerptBlog.html());
       });
+    context.setImgBlog(blogImgSrc);
   };
 };
