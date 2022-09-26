@@ -82,20 +82,17 @@ export class ProxyApiService {
     const parseResults: KonviwContent[] = await Promise.all(
       data.results.map(async (doc: ResultsContent) => {
         const spacekey = doc.resultGlobalContainer.displayUrl.split('/')[2];
-        const content: Content = await this.confluence.getPage(
-          spacekey,
-          doc.content.id,
-        );
-        this.context.initPageContext(
+        const context = new ContextService(this.config);
+        context.initPageContext(
           spacekey,
           doc.content.id,
           undefined,
           undefined,
-          content,
+          doc.content,
         );
-        this.context.setHtmlBody(doc.content.body.view.value);
+        context.setHtmlBody(doc.content.body.view.value);
         const atlassianIadcRegEx = new RegExp(`${baseURL}/wiki/`);
-        await parseHeaderBlog(this.config, this.confluence)(this.context);
+        await parseHeaderBlog(this.config, this.confluence)(context);
         // TODO: review and enable in future release
         // getFirstExcerpt()(this.context);
         const contentResult: KonviwContent = {
@@ -115,15 +112,15 @@ export class ProxyApiService {
           labels: doc.content.metadata.labels.results.map((list: any) => ({
             tag: list.label,
           })),
-          imgblog: this.context
+          imgblog: context
             .getImgBlog()
             .replace(atlassianIadcRegEx, `${baseHost}${basePath}/wiki/`),
           summary: doc.excerpt,
           space: spacekey,
           lastModified: doc.friendlyLastModified,
-          excerptBlog: this.context.getExcerpt(),
-          body: this.context.getTextBody(),
-          readTime: this.context.getReadTime(),
+          excerptBlog: context.getExcerpt(),
+          body: context.getTextBody(),
+          readTime: context.getReadTime(),
         };
         return contentResult;
       }),

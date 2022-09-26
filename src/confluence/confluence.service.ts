@@ -166,6 +166,9 @@ export class ConfluenceService {
           'content.history',
           'content.metadata.labels',
           'content.body.view',
+          'content.version',
+          // header image if any defined
+          'content.metadata.properties.cover_picture_id_published',
         ].join(','),
         includeArchivedSpaces: false,
       };
