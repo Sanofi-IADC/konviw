@@ -1,3 +1,13 @@
+## [2.21.1](https://github.com/Sanofi-IADC/konviw/compare/v2.21.0...v2.21.1) (2022-09-24)
+
+
+### Bug Fixes
+
+* blog posts not correctly rendering images ([66ad0ed](https://github.com/Sanofi-IADC/konviw/commit/66ad0edd663e332761cb4fc6b57631c57553276f))
+* blog posts not correctly rendering images ([4c3dc18](https://github.com/Sanofi-IADC/konviw/commit/4c3dc183d87b28e802ed59788400ea2f78876e56))
+* blog posts not correctly rendering images ([45dc00f](https://github.com/Sanofi-IADC/konviw/commit/45dc00f6667ad9b2b5419575ea4f54d70117f151))
+* prettier ([6af7380](https://github.com/Sanofi-IADC/konviw/commit/6af7380f5a75db3446037d475d51ed49165d384a))
+
 # [2.21.0](https://github.com/Sanofi-IADC/konviw/compare/v2.20.3...v2.21.0) (2022-09-12)
 
 
