@@ -1,3 +1,13 @@
+## [2.21.2](https://github.com/Sanofi-IADC/konviw/compare/v2.21.1...v2.21.2) (2022-09-26)
+
+
+### Bug Fixes
+
+* blog posts not correctly rendering images ([1c4fe69](https://github.com/Sanofi-IADC/konviw/commit/1c4fe6938472859e5f266cb118a043e84ff44ba8))
+* header image has priority over pageProperties ([b9db21a](https://github.com/Sanofi-IADC/konviw/commit/b9db21a7cc23614d3fed116aa205f767e9ba8197))
+* page call ([24b179c](https://github.com/Sanofi-IADC/konviw/commit/24b179c5bb03b3c6bd9afa419c599d7a4b78083f))
+* set image in context appropriately WEB-340 ([d18d198](https://github.com/Sanofi-IADC/konviw/commit/d18d1983305fbd426c063dc175e2cc49577c8f00))
+
 ## [2.21.1](https://github.com/Sanofi-IADC/konviw/compare/v2.21.0...v2.21.1) (2022-09-24)
 
 
