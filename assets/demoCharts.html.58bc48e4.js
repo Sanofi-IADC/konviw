@@ -1,0 +1,1 @@
+const t={key:"v-576853a8",path:"/demoCharts.html",title:"Demo Chart Macro",lang:"en-US",frontmatter:{title:"Demo Chart Macro"},excerpt:"",headers:[],git:{updatedTime:166445735e4,contributors:[{name:"Cyril ANNETTE",email:"Cyril.Annette-ext@sanofi.com",commits:1}]},filePathRelative:"demoCharts.md"};export{t as data};
