@@ -11,12 +11,15 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => {
 
     const $ = context.getCheerioBody();
     const webBasePath = config.get('web.absoluteBasePath');
-    let blogImgSrc = context.getHeaderImage(); // default blog header is the headerImage
+
+    // default blog header is the headerImage
+    let blogImgSrc = context.getHeaderImage();
     if (blogImgSrc && !blogImgSrc.startsWith('http')) {
       // not a URL (image uploaded to Confluence)
       const attachments = await confluence.getAttachments(context.getPageId());
       const blogImgAttachment = attachments.find((e) => {
-        return e?.extensions?.fileId === blogImgSrc; // find the attachment matching the UID got from the headerImage attribute
+        // find the attachment matching the UID got from the headerImage attribute
+        return e?.extensions?.fileId === blogImgSrc;
       });
       if (blogImgAttachment) {
         blogImgSrc = `${webBasePath}/wiki${blogImgAttachment?._links?.download}`;
@@ -24,15 +27,14 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => {
       }
     }
 
-    // Excerpt macro is parsed as a span block with classes 'conf-macro' and 'output-inline' and data-macro-name='excerpt'
-    if (context.getExcerpt() === '') {
-      $("span.conf-macro.output-inline[data-macro-name='excerpt']")
-        .first()
-        .each((_index: number, elementExcerpt: cheerio.Element) => {
-          const excerptPage = $(elementExcerpt);
-          context.setExcerpt(excerptPage.text());
-        });
-    }
+    // Excerpt macro is parsed with classes 'conf-macro' and 'output-inline' and data-macro-name='excerpt'
+    context.setExcerpt('');
+    $(".conf-macro.output-inline[data-macro-name='excerpt']")
+      .first()
+      .each((_index: number, elementExcerpt: cheerio.Element) => {
+        const excerptPage = $(elementExcerpt);
+        context.setExcerpt(excerptPage.text());
+      });
 
     // TODO: [WEB-344] to be removed and release new major version
     // this section is just to keep retro-compatibility with the header images
@@ -49,9 +51,17 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => {
           context.setHeaderImage(blogImgSrc);
         }
         if (context.getExcerpt() === '') {
-          context.setExcerpt(excerptBlog.html());
+          context.setExcerpt(excerptBlog.text());
         }
       });
+
+    // if not excerpt at all then alternatively we take a summary of the body of the document
+    if (context.getExcerpt() === '') {
+      const tmpTextBody = context.getTextBody();
+      context.setExcerpt(
+        tmpTextBody.substring(0, tmpTextBody.lastIndexOf(' ', 500)),
+      );
+    }
 
     context.setImgBlog(blogImgSrc);
 
