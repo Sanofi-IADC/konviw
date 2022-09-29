@@ -1,3 +1,10 @@
+## [2.21.5](https://github.com/Sanofi-IADC/konviw/compare/v2.21.4...v2.21.5) (2022-09-29)
+
+
+### Bug Fixes
+
+* WEB-319 fixed the 500 error when trying to handle charts generated from a table ([db5f3e8](https://github.com/Sanofi-IADC/konviw/commit/db5f3e8b4b3d6d8001419ee9a7fff4f97609666e))
+
 ## [2.21.4](https://github.com/Sanofi-IADC/konviw/compare/v2.21.3...v2.21.4) (2022-09-29)
 
 
