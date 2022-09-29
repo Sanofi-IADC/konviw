@@ -59,7 +59,7 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => {
     if (context.getExcerpt() === '') {
       const tmpTextBody = context.getTextBody();
       context.setExcerpt(
-        tmpTextBody.substr(0, tmpTextBody.lastIndexOf(' ', 500)),
+        tmpTextBody.substring(0, tmpTextBody.lastIndexOf(' ', 500)),
       );
     }
 
