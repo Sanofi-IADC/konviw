@@ -1,3 +1,11 @@
+## [2.21.4](https://github.com/Sanofi-IADC/konviw/compare/v2.21.3...v2.21.4) (2022-09-29)
+
+
+### Bug Fixes
+
+* code smell substr replaced by substring ([48713ff](https://github.com/Sanofi-IADC/konviw/commit/48713ff7a96c1d23be3b83e97cb793d9d85228fb))
+* get always excerpt or summary ([19bd185](https://github.com/Sanofi-IADC/konviw/commit/19bd185b99782b19cc2504c5e6d148329bc55e7d))
+
 ## [2.21.3](https://github.com/Sanofi-IADC/konviw/compare/v2.21.2...v2.21.3) (2022-09-26)
 
 
