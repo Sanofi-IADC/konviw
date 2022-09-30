@@ -1,3 +1,11 @@
+## [2.21.6](https://github.com/Sanofi-IADC/konviw/compare/v2.21.5...v2.21.6) (2022-09-30)
+
+
+### Bug Fixes
+
+* WEB-332 fixed linter errors ([a07cc16](https://github.com/Sanofi-IADC/konviw/commit/a07cc161a950f7536bd032f987c68ace4d2701ae))
+* WEB-332 fixed the zoom effect on drawio images ([a102f28](https://github.com/Sanofi-IADC/konviw/commit/a102f2818d8bcc3d7542366c50e15914faafe022))
+
 ## [2.21.5](https://github.com/Sanofi-IADC/konviw/compare/v2.21.4...v2.21.5) (2022-09-29)
 
 
