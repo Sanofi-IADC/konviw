@@ -1,1 +1,0 @@
-const e={key:"v-583b5469",path:"/demoComments.html",title:"Demo Comments",lang:"en-US",frontmatter:{title:"Demo Comments"},excerpt:"",headers:[],git:{updatedTime:166454366e4,contributors:[{name:"Cyril ANNETTE",email:"Cyril.Annette-ext@sanofi.com",commits:1}]},filePathRelative:"demoComments.md"};export{e as data};
