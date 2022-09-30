@@ -25,7 +25,7 @@ describe('ConfluenceProxy / addLibrariesJS', () => {
     expect(context.getHtmlBody()).toContain(
       '<script src="https://cdnjs.cloudflare.com/ajax/libs/zooming',
     );
-    expect(context.getHtmlBody()).toContain('new Zooming({}).listen(');
+    expect(context.getHtmlBody()).toContain('zooming.listen(');
   });
 
   it('should add iFrame resizer JS library and call sendMessage', () => {
