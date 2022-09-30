@@ -24,8 +24,18 @@ export default (): Step => {
         `<script src="https://cdnjs.cloudflare.com/ajax/libs/zooming/2.1.1/zooming.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>`,
         `<script type="module">
         document.addEventListener('DOMContentLoaded', (event) => {
-          new Zooming({}).listen('.drawio-zoomable');
-          new Zooming({}).listen('.confluence-embedded-image');
+          const getParentZommingElement = (element) => element.closest('.table-wrap');
+          const toggleOverflowStyling = (element, value) => {
+            if (element) {
+              element.style.overflow = value;
+            }
+          };
+          const zooming = new Zooming({
+            onBeforeOpen: (target) => toggleOverflowStyling(getParentZommingElement(target), 'visible'),
+            onClose: (target) => toggleOverflowStyling(getParentZommingElement(target), 'auto'),
+          });
+          zooming.listen('.drawio-zoomable');
+          zooming.listen('.confluence-embedded-image');
         })
          </script>`,
       );
