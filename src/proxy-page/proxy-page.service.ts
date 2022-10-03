@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { HttpService } from '@nestjs/axios';
-import getFirstExcerpt from '../proxy-api/steps/getFirstExcerpt';
+import getExcerptAndHeaderImage from '../proxy-api/steps/getExcerptAndHeaderImage';
 import { ConfluenceService } from '../confluence/confluence.service';
 import { JiraService } from '../jira/jira.service';
 import { ContextService } from '../context/context.service';
@@ -88,7 +88,7 @@ export class ProxyPageService {
       view,
     );
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
-    getFirstExcerpt()(this.context);
+    await getExcerptAndHeaderImage(this.config, this.confluence)(this.context);
     fixHtmlHead(this.config)(this.context);
     fixContentWidth()(this.context);
     await fixLinks(this.config, this.http)(this.context);
@@ -108,7 +108,7 @@ export class ProxyPageService {
     fixImageSize()(this.context);
     fixColGroupWidth()(this.context);
     if (type === 'blog') {
-      await addHeaderBlog(this.config, this.confluence)(this.context);
+      await addHeaderBlog()(this.context);
     } else if (type !== 'notitle') {
       addHeaderTitle()(this.context);
     }

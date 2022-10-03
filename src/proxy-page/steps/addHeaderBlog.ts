@@ -1,40 +1,13 @@
-import { ConfigService } from '@nestjs/config';
 import * as cheerio from 'cheerio';
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
-import { ConfluenceService } from '../../confluence/confluence.service';
 
-export default (config: ConfigService, confluence: ConfluenceService): Step => async (context: ContextService): Promise<void> => {
+export default (): Step => async (context: ContextService): Promise<void> => {
   context.setPerfMark('addHeaderBlog');
   const $ = context.getCheerioBody();
-  const webBasePath = config.get('web.absoluteBasePath');
 
-  let blogImgSrc = context.getHeaderImage(); // default blog header is the headerImage
-  if (blogImgSrc && !blogImgSrc.startsWith('http')) {
-    // not a URL (image uploaded to Confluence)
-    const attachments = await confluence.getAttachments(context.getPageId());
-    // find the attachment matching the UID got from the headerImage attribute
-    const blogImgAttachment = attachments.find((e) => e?.extensions?.fileId === blogImgSrc);
-    if (blogImgAttachment) {
-      blogImgSrc = `${webBasePath}/wiki${blogImgAttachment?._links?.download}`;
-    }
-  }
-  let blogExcerptString = '';
+  const blogImgSrc = context.getHeaderImage();
   let blogHeaderHTML = '';
-  let blogExcerptHTML = '';
-
-  // Div with class plugin-tabmeta-details is used for macro Page-Properties
-  $(".plugin-tabmeta-details[data-macro-name='details']")
-  // We just look for the first Page-Properties macro
-    .first()
-    .each((_index: number, pageProperties: cheerio.Element) => {
-      const imgBlog = $(pageProperties).find('img');
-      if (!blogImgSrc) {
-        blogImgSrc = imgBlog?.attr('src'); // headerIMage has priority over page-proterties's image
-      }
-      blogExcerptString = $(pageProperties).find('blockquote')?.html();
-      $(pageProperties).remove();
-    });
 
   if (blogImgSrc) {
     blogHeaderHTML = `
@@ -57,18 +30,17 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => a
         </div>
         `;
   }
-  if (blogExcerptString) {
-    blogExcerptHTML = `
-        <section class="blog--excerpt">
-          <blockquote>${blogExcerptString}</blockquote>
-        </section>
-        `;
-  }
 
-  $('#Content').before(`
-        ${blogHeaderHTML}
-        ${blogExcerptHTML}
-      `);
+  $('#Content').before(`${blogHeaderHTML}`);
+
+  // TODO: [WEB-344] to be removed and release new major version
+  // this section is just to keep retro-compatibility with the header images
+  // defined in a page-properties section in a blog post
+  $(".plugin-tabmeta-details[data-macro-name='details']")
+    .first()
+    .each((_index: number, elementProperties: cheerio.Element) => {
+      $(elementProperties).remove();
+    });
 
   context.getPerfMeasure('addHeaderBlog');
 };

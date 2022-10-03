@@ -31,8 +31,18 @@ export default (): Step => (context: ContextService): void => {
       ></script>`,
       `<script type="module">
         document.addEventListener('DOMContentLoaded', (event) => {
-          new Zooming({}).listen('.drawio-zoomable');
-          new Zooming({}).listen('.confluence-embedded-image');
+          const getParentZommingElement = (element) => element.closest('.table-wrap');
+          const toggleOverflowStyling = (element, value) => {
+            if (element) {
+              element.style.overflow = value;
+            }
+          };
+          const zooming = new Zooming({
+            onBeforeOpen: (target) => toggleOverflowStyling(getParentZommingElement(target), 'visible'),
+            onClose: (target) => toggleOverflowStyling(getParentZommingElement(target), 'auto'),
+          });
+          zooming.listen('.drawio-zoomable');
+          zooming.listen('.confluence-embedded-image');
         })
          </script>`,
     );
@@ -53,7 +63,10 @@ export default (): Step => (context: ContextService): void => {
           konviwSpaceKey: '${context.getSpaceKey()}',
           konviwPageId: '${context.getPageId()}',
           konviwTitle: '${context.getTitle().replace(/'/g, "\\'")}',
-          konviwExcerpt: '${context.getExcerpt().replace(/'/g, "\\'")}',
+          konviwExcerpt: '${context
+    .getExcerpt()
+    .replace(/\n/g, '')
+    .replace(/'/g, "\\'")}',
           konviwCreatedVersion: '${JSON.stringify(
     context.getCreatedVersion(),
   )}',

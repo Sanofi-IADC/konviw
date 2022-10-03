@@ -1,3 +1,33 @@
+## [2.21.6](https://github.com/Sanofi-IADC/konviw/compare/v2.21.5...v2.21.6) (2022-09-30)
+
+
+### Bug Fixes
+
+* WEB-332 fixed linter errors ([a07cc16](https://github.com/Sanofi-IADC/konviw/commit/a07cc161a950f7536bd032f987c68ace4d2701ae))
+* WEB-332 fixed the zoom effect on drawio images ([a102f28](https://github.com/Sanofi-IADC/konviw/commit/a102f2818d8bcc3d7542366c50e15914faafe022))
+
+## [2.21.5](https://github.com/Sanofi-IADC/konviw/compare/v2.21.4...v2.21.5) (2022-09-29)
+
+
+### Bug Fixes
+
+* WEB-319 fixed the 500 error when trying to handle charts generated from a table ([db5f3e8](https://github.com/Sanofi-IADC/konviw/commit/db5f3e8b4b3d6d8001419ee9a7fff4f97609666e))
+
+## [2.21.4](https://github.com/Sanofi-IADC/konviw/compare/v2.21.3...v2.21.4) (2022-09-29)
+
+
+### Bug Fixes
+
+* code smell substr replaced by substring ([48713ff](https://github.com/Sanofi-IADC/konviw/commit/48713ff7a96c1d23be3b83e97cb793d9d85228fb))
+* get always excerpt or summary ([19bd185](https://github.com/Sanofi-IADC/konviw/commit/19bd185b99782b19cc2504c5e6d148329bc55e7d))
+
+## [2.21.3](https://github.com/Sanofi-IADC/konviw/compare/v2.21.2...v2.21.3) (2022-09-26)
+
+
+### Bug Fixes
+
+* compatibility with legacy konviw blog posts ([46f43b4](https://github.com/Sanofi-IADC/konviw/commit/46f43b40dbd14541c6476359f6682dee451ac7e8))
+
 ## [2.21.2](https://github.com/Sanofi-IADC/konviw/compare/v2.21.1...v2.21.2) (2022-09-26)
 
 

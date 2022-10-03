@@ -25,30 +25,33 @@ export default (config: ConfigService): Step => (context: ContextService): void 
       ).replace(/\+/g, ' ');
       const decodedByCheerio = cheerio.load(decodedXML, { xmlMode: true });
       const tag = decodedByCheerio('ac\\:image')['0'];
+      if (tag) {
+        /* get the actual SVG attributes */
+        const { 'ac:width': width = '', 'ac:align': align = '' } = tag?.attribs ?? {};
+        const { 'ri:filename': filename = '' } = tag?.children?.shift()?.['attribs'] ?? {};
 
-      /* get the actual SVG attributes */
-      const width = tag.attribs['ac:width'];
-      const align = tag.attribs['ac:align'];
-      const filename = (tag?.children?.shift() as cheerio.Element)?.attribs['ri:filename'];
+        /* set the new imageSrc and width attributes */
+        $(elementImg).attr(
+          'src',
+          `${webBasePath}/wiki/download/attachments/${context.getPageId()}/${filename}`,
+        );
+        $(elementImg).attr('width', width);
+        const alignmentClass = {
+          center: 'image-center',
+          left: 'image-left',
+          right: 'image-right',
+        };
+        if (align) {
+          $(elementImg).addClass(alignmentClass[align]);
+        }
 
-      /* set the new imageSrc and width attributes */
-      $(elementImg).attr(
-        'src',
-        `${webBasePath}/wiki/download/attachments/${context.getPageId()}/${filename}`,
-      );
-      $(elementImg).attr('width', width);
-      const alignmentClass = {
-        center: 'image-center',
-        left: 'image-left',
-        right: 'image-right',
-      };
-      if (align) {
-        $(elementImg).addClass(alignmentClass[align]);
+        /* clean off attributes we don't need anymore */
+        $(elementImg).removeAttr('data-encoded-xml');
+        $(elementImg).removeClass('transform-error');
+      } else {
+        /* remove element if ac:\\image is not defined */
+        $(elementImg).remove();
       }
-
-      /* clean off attributes we don't need anymore */
-      $(elementImg).removeAttr('data-encoded-xml');
-      $(elementImg).removeClass('transform-error');
     }
   });
 

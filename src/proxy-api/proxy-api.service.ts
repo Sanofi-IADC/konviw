@@ -9,7 +9,7 @@ import {
 } from '../confluence/confluence.interface';
 import { ConfluenceService } from '../confluence/confluence.service';
 import { JiraService } from '../jira/jira.service';
-import parseHeaderBlog from './steps/parseHeaderBlog';
+import getExcerptAndHeaderImage from './steps/getExcerptAndHeaderImage';
 import fixContentWidth from '../proxy-page/steps/fixContentWidth';
 import fixLinks from '../proxy-page/steps/fixLinks';
 import fixToc from '../proxy-page/steps/fixToc';
@@ -26,8 +26,6 @@ import delUnnecessaryCode from '../proxy-page/steps/delUnnecessaryCode';
 import fixCode from '../proxy-page/steps/fixCode';
 import addCopyLinks from '../proxy-page/steps/addCopyLinks';
 import addJira from '../proxy-page/steps/addJira';
-// TODO: review and enable in future release
-// import getFirstExcerpt from './steps/getFirstExcerpt';
 
 import {
   KonviwContent,
@@ -93,9 +91,7 @@ export class ProxyApiService {
         );
         context.setHtmlBody(doc.content.body.view.value);
         const atlassianIadcRegEx = new RegExp(`${baseURL}/wiki/`);
-        await parseHeaderBlog(this.config, this.confluence)(context);
-        // TODO: review and enable in future release
-        // getFirstExcerpt()(this.context);
+        await getExcerptAndHeaderImage(this.config, this.confluence)(context);
         const contentResult: KonviwContent = {
           docId: doc.content.id,
           title: doc.content.title,
@@ -318,6 +314,8 @@ export class ProxyApiService {
   ): Promise<Partial<KonviwContent>> {
     const content: Content = await this.confluence.getPage(spaceKey, pageId);
     this.context.initPageContext(spaceKey, pageId, null, type, content, false);
+    // TODO: check whether we could add the excerpt and image header image also to the API metadata
+    // await getExcerptAndHeaderImage(this.config, this.confluence)(this.context);
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
     fixContentWidth()(this.context);
     await fixLinks(this.config, this.http)(this.context);
