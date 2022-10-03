@@ -28,7 +28,7 @@ export default (config: ConfigService): Step => (context: ContextService): void 
       if (tag) {
         /* get the actual SVG attributes */
         const { 'ac:width': width = '', 'ac:align': align = '' } = tag?.attribs ?? {};
-        const { 'ri:filename': filename = '' } = tag?.children?.shift()?.['attribs'] ?? {};
+        const { 'ri:filename': filename = '' } = tag?.children?.shift()?.['attribs'] ?? {}; // eslint-disable-line dot-notation
 
         /* set the new imageSrc and width attributes */
         $(elementImg).attr(
