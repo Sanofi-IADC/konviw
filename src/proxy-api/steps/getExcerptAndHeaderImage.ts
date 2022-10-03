@@ -37,7 +37,8 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => a
   // TODO: [WEB-344] to be removed and release new major version
   // this section is just to keep retro-compatibility with the header images
   // defined in a page-properties section in a blog post
-  // a macro page-properties with an image and blockquote inside will be used alternatively to define both image and blockquote for the blog post
+  // a macro page-properties with an image and blockquote inside will be used alternatively to define
+  // both image and blockquote for the blog post
   $(".plugin-tabmeta-details[data-macro-name='details']")
     .first()
     .each((_index: number, elementProperties: cheerio.Element) => {

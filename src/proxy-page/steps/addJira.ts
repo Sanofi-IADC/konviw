@@ -221,7 +221,8 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
                 sort: {
                   compare: (a, b) => (a.name > b.name ? 1 : -1),
                 },
-                formatter: (cell) => gridjs.html(${'`<div class="aui-lozenge" style="background-color:${cell.color};color:darkgrey;font-size: 11px;">${cell.name}</div>`'})
+                formatter: (cell) => gridjs.html(
+                  ${'`<div class="aui-lozenge" style="background-color:${cell.color};color:darkgrey;font-size: 11px;">${cell.name}</div>`'})
               },`;
       }
       if (requestedFields.includes('updated')) {
