@@ -24,7 +24,13 @@ export default (): Step => {
         `<script src="https://cdnjs.cloudflare.com/ajax/libs/zooming/2.1.1/zooming.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>`,
         `<script type="module">
         document.addEventListener('DOMContentLoaded', (event) => {
-          const getParentZommingElement = (element) => element.closest('.table-wrap');
+          const getParentZommingElement = (element) => {
+            const classesToOvveride = ['.expand-content', '.table-wrap'];
+            const existingClass = classesToOvveride.find((parentClass) => element.closest(parentClass));
+            if (existingClass) {
+              return element.closest(existingClass);
+            }
+          };
           const toggleOverflowStyling = (element, value) => {
             if (element) {
               element.style.overflow = value;
