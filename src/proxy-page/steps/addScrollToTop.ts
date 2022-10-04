@@ -1,17 +1,16 @@
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
 
-export default (): Step => {
-  return (context: ContextService): void => {
-    context.setPerfMark('addScrollToTop');
-    const $ = context.getCheerioBody();
+export default (): Step => (context: ContextService): void => {
+  context.setPerfMark('addScrollToTop');
+  const $ = context.getCheerioBody();
 
-    $('#Content').append(
-      `<div class="back-to-top-wrapper">
+  $('#Content').append(
+    `<div class="back-to-top-wrapper">
         <a href="#" class="back-to-top-link" aria-label="Scroll to Top"></a>
       </div>`,
-    );
-    $('body').append(`
+  );
+  $('body').append(`
       <script>
       window.addEventListener('scroll', () => {
         const scrolls = window.scrollY;
@@ -24,6 +23,5 @@ export default (): Step => {
         ;
       });
       </script>`);
-    context.getPerfMeasure('addScrollToTop');
-  };
+  context.getPerfMeasure('addScrollToTop');
 };

@@ -1,29 +1,28 @@
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
 
-export default (): Step => {
-  return (context: ContextService): void => {
-    context.setPerfMark('addDarkTheme');
-    const $ = context.getCheerioBody();
+export default (): Step => (context: ContextService): void => {
+  context.setPerfMark('addDarkTheme');
+  const $ = context.getCheerioBody();
 
-    const theme = context.getTheme();
+  const theme = context.getTheme();
 
-    switch (theme) {
-      case 'dark':
-      case 'light':
-        // When the DOM content is loaded set the theme and save the preference
-        $('body').append(
-          `<script type="module">
+  switch (theme) {
+    case 'dark':
+    case 'light':
+      // When the DOM content is loaded set the theme and save the preference
+      $('body').append(
+        `<script type="module">
             document.addEventListener('DOMContentLoaded', function () {
               document.documentElement.setAttribute('data-theme', '${theme}');
               localStorage.setItem('theme', '${theme}');
             })
           </script>`,
-        );
-        break;
-      default:
-        $('body').append(
-          `<script type="module">
+      );
+      break;
+    default:
+      $('body').append(
+        `<script type="module">
             document.addEventListener('DOMContentLoaded', function () {
               const currentTheme = localStorage.getItem('theme');
               if (currentTheme) {
@@ -34,9 +33,8 @@ export default (): Step => {
               }
             })
           </script>`,
-        );
-    }
+      );
+  }
 
-    context.getPerfMeasure('addDarkTheme');
-  };
+  context.getPerfMeasure('addDarkTheme');
 };

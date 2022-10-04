@@ -1,14 +1,17 @@
 import { Injectable, Logger, HttpException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
-import { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios'; // eslint-disable-line import/no-extraneous-dependencies
 import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class JiraService {
   private readonly logger = new Logger(JiraService.name);
+
   private baseUrl = '';
+
   private apiUsername = '';
+
   private apiToken = '';
 
   // Default API connection for Jira is the same as for Confluence
@@ -125,7 +128,7 @@ export class JiraService {
     if (categoryId !== 0) {
       params = {
         ...params,
-        categoryId: categoryId,
+        categoryId,
       };
     }
     try {

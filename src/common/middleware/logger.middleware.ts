@@ -1,9 +1,10 @@
 import { Logger, Injectable, NestMiddleware } from '@nestjs/common';
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express'; // eslint-disable-line import/no-extraneous-dependencies,import/no-unresolved
 
 @Injectable()
 export class LoggerMiddleware implements NestMiddleware {
   private logger = new Logger(LoggerMiddleware.name);
+
   use(request: Request, response: Response, next: NextFunction): void {
     const { ip, method, path: url } = request;
     const userAgent = request.get('user-agent') || '';

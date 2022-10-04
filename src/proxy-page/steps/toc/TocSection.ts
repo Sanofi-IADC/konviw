@@ -70,12 +70,8 @@ export default class TocSection {
 
   render(): string {
     const isHidden = this.filters
-      .map((filter) => {
-        return filter.isHidden(this);
-      })
-      .reduce((previous, current) => {
-        return previous || current;
-      }, false);
+      .map((filter) => filter.isHidden(this))
+      .reduce((previous, current) => previous || current, false);
 
     return this.renderingStrategy.renderTocSection(this, isHidden);
   }

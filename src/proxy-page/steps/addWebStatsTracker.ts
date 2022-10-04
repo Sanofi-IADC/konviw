@@ -1,6 +1,6 @@
+import { ConfigService } from '@nestjs/config';
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
-import { ConfigService } from '@nestjs/config';
 
 /**
  * ### Proxy page step to add Web statistics trackers for Matomo or Google.
@@ -13,17 +13,16 @@ import { ConfigService } from '@nestjs/config';
  * @param  {ConfigService} config
  * @returns void
  */
-export default (config: ConfigService): Step => {
-  return (context: ContextService): void => {
-    context.setPerfMark('addWebStatsTracker');
-    const $ = context.getCheerioBody();
-    const matomoBaseURL = config.get('matomo.baseURL');
-    const matomoIdSite = config.get('matomo.idSite');
-    const googleTag = config.get('google.tag');
+export default (config: ConfigService): Step => (context: ContextService): void => {
+  context.setPerfMark('addWebStatsTracker');
+  const $ = context.getCheerioBody();
+  const matomoBaseURL = config.get('matomo.baseURL');
+  const matomoIdSite = config.get('matomo.idSite');
+  const googleTag = config.get('google.tag');
 
-    if (matomoBaseURL && matomoIdSite) {
-      $('head').append(
-        `<!-- Matomo -->
+  if (matomoBaseURL && matomoIdSite) {
+    $('head').append(
+      `<!-- Matomo -->
         <script type="text/javascript">
           var _paq = window._paq || [];
           /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
@@ -38,12 +37,12 @@ export default (config: ConfigService): Step => {
           })();
         </script>
         <!-- End Matomo Tracker -->`,
-      );
-    }
+    );
+  }
 
-    if (googleTag) {
-      $('head').append(
-        `<!-- Global site tag (gtag.js) - Google Analytics -->
+  if (googleTag) {
+    $('head').append(
+      `<!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=${googleTag}"></script>
         <script>
           window.dataLayer = window.dataLayer || [];
@@ -53,9 +52,8 @@ export default (config: ConfigService): Step => {
           gtag('config', '${googleTag}');
         </script>
         <!-- End Google Analytics Tracker -->`,
-      );
-    }
+    );
+  }
 
-    context.getPerfMeasure('addWebStatsTracker');
-  };
+  context.getPerfMeasure('addWebStatsTracker');
 };

@@ -1,17 +1,16 @@
+import * as cheerio from 'cheerio';
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
-import * as cheerio from 'cheerio';
 
-export default (): Step => {
-  return async (context: ContextService): Promise<void> => {
-    context.setPerfMark('addHeaderBlog');
-    const $ = context.getCheerioBody();
+export default (): Step => async (context: ContextService): Promise<void> => {
+  context.setPerfMark('addHeaderBlog');
+  const $ = context.getCheerioBody();
 
-    const blogImgSrc = context.getHeaderImage();
-    let blogHeaderHTML = '';
+  const blogImgSrc = context.getHeaderImage();
+  let blogHeaderHTML = '';
 
-    if (blogImgSrc) {
-      blogHeaderHTML = `
+  if (blogImgSrc) {
+    blogHeaderHTML = `
         <div class="blog--header"
           style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
           url('${blogImgSrc}');">
@@ -30,19 +29,18 @@ export default (): Step => {
           </div>
         </div>
         `;
-    }
+  }
 
-    $('#Content').before(`${blogHeaderHTML}`);
+  $('#Content').before(`${blogHeaderHTML}`);
 
-    // TODO: [WEB-344] to be removed and release new major version
-    // this section is just to keep retro-compatibility with the header images
-    // defined in a page-properties section in a blog post
-    $(".plugin-tabmeta-details[data-macro-name='details']")
-      .first()
-      .each((_index: number, elementProperties: cheerio.Element) => {
-        $(elementProperties).remove();
-      });
+  // TODO: [WEB-344] to be removed and release new major version
+  // this section is just to keep retro-compatibility with the header images
+  // defined in a page-properties section in a blog post
+  $(".plugin-tabmeta-details[data-macro-name='details']")
+    .first()
+    .each((_index: number, elementProperties: cheerio.Element) => {
+      $(elementProperties).remove();
+    });
 
-    context.getPerfMeasure('addHeaderBlog');
-  };
+  context.getPerfMeasure('addHeaderBlog');
 };

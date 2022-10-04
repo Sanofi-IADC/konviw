@@ -1,14 +1,15 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { ConfluenceService } from '../confluence/confluence.service';
 import {
   HealthIndicator,
   HealthIndicatorResult,
   HealthCheckError,
 } from '@nestjs/terminus';
+import { ConfluenceService } from '../confluence/confluence.service';
 
 @Injectable()
 export class ApiHealthService extends HealthIndicator {
   private readonly logger = new Logger(ApiHealthService.name);
+
   constructor(private confluence: ConfluenceService) {
     super();
   }
@@ -30,10 +31,10 @@ export class ApiHealthService extends HealthIndicator {
       result = this.getStatus('Atlassian API', isHealthy, { message: 'up' });
       this.logger.log(`Health Status is Up: ${JSON.stringify(result)}`);
       return result;
-    } else {
-      result = this.getStatus('Atlassian API', isHealthy, { message: 'down' });
-      this.logger.log(`Health Status is Down: ${JSON.stringify(result)}`);
     }
+    result = this.getStatus('Atlassian API', isHealthy, { message: 'down' });
+    this.logger.log(`Health Status is Down: ${JSON.stringify(result)}`);
+
     throw new HealthCheckError('Atlassian API failed', result);
   }
 }
