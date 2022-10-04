@@ -1,5 +1,5 @@
 import { Logger, Injectable, NestMiddleware } from '@nestjs/common';
-import { Request, Response, NextFunction } from 'express'; // eslint-disable-line import/no-extraneous-dependencies
+import { Request, Response, NextFunction } from 'express'; // eslint-disable-line import/no-extraneous-dependencies,import/no-unresolved
 
 @Injectable()
 export class LoggerMiddleware implements NestMiddleware {

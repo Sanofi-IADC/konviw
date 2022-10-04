@@ -7,7 +7,7 @@ import {
   Logger,
   Query,
 } from '@nestjs/common';
-import { Response, Request } from 'express'; // eslint-disable-line import/no-extraneous-dependencies
+import { Response, Request } from 'express'; // eslint-disable-line import/no-extraneous-dependencies,import/no-unresolved
 import { ApiOkResponse, ApiTags, ApiOperation } from '@nestjs/swagger';
 import { ProxyPageService } from './proxy-page.service';
 import {

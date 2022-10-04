@@ -5,7 +5,7 @@ import {
   HttpException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Response } from 'express'; // eslint-disable-line import/no-extraneous-dependencies
+import { Response } from 'express'; // eslint-disable-line import/no-extraneous-dependencies,import/no-unresolved
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
