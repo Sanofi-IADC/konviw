@@ -1,19 +1,30 @@
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
 
-export default (transition: string): Step => {
-  return (context: ContextService): void => {
-    context.setPerfMark('addSlidesJS');
-    const $ = context.getCheerioBody();
+export default (transition: string): Step => (context: ContextService): void => {
+  context.setPerfMark('addSlidesJS');
+  const $ = context.getCheerioBody();
 
-    // Add libraries for Reveal slides
-    // https://revealjs.com/
-    // When the DOM content is loaded call the initialization of Reveal
-    $('body').append(
-      `<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.2.1/reveal.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>`,
-      `<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.2.1/plugin/highlight/highlight.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>`,
-      `<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.2.1/plugin/zoom/zoom.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>`,
-      `<script defer>
+  // Add libraries for Reveal slides
+  // https://revealjs.com/
+  // When the DOM content is loaded call the initialization of Reveal
+  $('body').append(
+    `<script
+      src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.2.1/reveal.min.js"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer">
+    </script>`,
+    `<script
+      src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.2.1/plugin/highlight/highlight.min.js"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer">
+    </script>`,
+    `<script
+      src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.2.1/plugin/zoom/zoom.min.js"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer">
+    </script>`,
+    `<script defer>
       document.addEventListener('DOMContentLoaded', function () {
         Reveal.initialize({
           hash: true,
@@ -32,8 +43,7 @@ export default (transition: string): Step => {
         });
       })
     </script>`,
-    );
+  );
 
-    context.getPerfMeasure('addSlidesJS');
-  };
+  context.getPerfMeasure('addSlidesJS');
 };
