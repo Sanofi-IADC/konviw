@@ -32,8 +32,8 @@ export default (): Step => (context: ContextService): void => {
       `<script type="module">
         document.addEventListener('DOMContentLoaded', (event) => {
           const getParentZommingElement = (element) => {
-            const classesToOvveride = ['.expand-content', '.table-wrap'];
-            const existingClass = classesToOvveride.find((parentClass) => element.closest(parentClass));
+            const classesToOverride = ['.expand-content', '.table-wrap'];
+            const existingClass = classesToOverride.find((parentClass) => element.closest(parentClass));
             if (existingClass) {
               return element.closest(existingClass);
             }
