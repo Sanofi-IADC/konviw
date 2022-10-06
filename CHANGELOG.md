@@ -1,3 +1,12 @@
+## [2.21.7](https://github.com/Sanofi-IADC/konviw/compare/v2.21.6...v2.21.7) (2022-10-06)
+
+
+### Bug Fixes
+
+* WEB-354 Adding a list of parents who need to change overflow property ([d7de376](https://github.com/Sanofi-IADC/konviw/commit/d7de3763d2c56e208953d401de9b77a26de78d1c))
+* WEB-354 Fixed typo ([2d2a2d7](https://github.com/Sanofi-IADC/konviw/commit/2d2a2d7e5ea1e49d98e0048f382cf9879c7925cb))
+* WEB-354 Sync with main ([3a6ef85](https://github.com/Sanofi-IADC/konviw/commit/3a6ef85f336aa7157df3425ef96106c5eadf5718))
+
 ## [2.21.6](https://github.com/Sanofi-IADC/konviw/compare/v2.21.5...v2.21.6) (2022-09-30)
 
 
