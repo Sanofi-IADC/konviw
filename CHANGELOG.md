@@ -1,3 +1,13 @@
+## [2.21.8](https://github.com/Sanofi-IADC/konviw/compare/v2.21.7...v2.21.8) (2022-10-06)
+
+
+### Bug Fixes
+
+* WEB-353 Changed logic for recalculation maxHeight of expanded content when includes images ([a5728de](https://github.com/Sanofi-IADC/konviw/commit/a5728ded8fb28f550383002df6916ca25e052077))
+* WEB-353 Fixed lint errors ([86036cd](https://github.com/Sanofi-IADC/konviw/commit/86036cd52eb0800f5f36d308fcb925ee2a632cdd))
+* WEB-353 Sync with main ([d1836fa](https://github.com/Sanofi-IADC/konviw/commit/d1836fa8960c2e93ca7f60a759cd708bd71ccce9))
+* WEB-353 Sync with main ([2b65d35](https://github.com/Sanofi-IADC/konviw/commit/2b65d351d5f38be1bc2b500c4b2898322172d851))
+
 ## [2.21.7](https://github.com/Sanofi-IADC/konviw/compare/v2.21.6...v2.21.7) (2022-10-06)
 
 
