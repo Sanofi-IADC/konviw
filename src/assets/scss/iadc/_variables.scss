@@ -1,8 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Gotu&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lora:ital@1&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css');
 
 $font-body: 'Lora', serif;
 $font-title: 'Gotu', serif;
+$font-icons: 'Material Icons', serif;
 
 $base-width: 700px;
 $main-font-mobile: 18px;
@@ -15,6 +18,7 @@ $small-text: 12px;
 :root {
   --font-body: #{$font-body};
   --font-title: #{$font-title};
+  --font-icons: #{$font-icons};
   --base-width: #{$base-width};
   --main-font-size: #{$main-font-screen};
   --main-font-weight: #{$main-font-weight};
