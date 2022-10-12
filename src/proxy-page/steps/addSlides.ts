@@ -1,10 +1,13 @@
 import * as cheerio from 'cheerio';
+import { Content } from 'src/confluence/confluence.interface';
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
 
-export default (): Step => (context: ContextService): void => {
+export default (content?: Content): Step => (context: ContextService): void => {
   context.setPerfMark('addSlides');
+
   const $ = context.getCheerioBody();
+  const $storageContent = cheerio.load(content.body.storage.value ?? '', { xmlMode: true });
 
   // Handle the source code block to be syntax highlighted by highlight.js (auto language detection by default)
   $('pre.syntaxhighlighter-pre').each(
@@ -14,6 +17,7 @@ export default (): Step => (context: ContextService): void => {
       );
     },
   );
+
   let sectionsHtml = '';
   // Div with class plugin-tabmeta-details (Confluence macro "properties") is framing the sections for each slide
   $(".plugin-tabmeta-details[data-macro-name='details']").each(
@@ -51,6 +55,31 @@ export default (): Step => (context: ContextService): void => {
     },
   );
 
+  // Div with class conf-macro (Confluence macro "properties") is framing the sections for each slide
+  $(".conf-macro[data-macro-name='slide']").each(
+    (_index: number, pageProperties: cheerio.Element) => {
+      const dataLocalId = pageProperties.attribs['data-local-id'];
+      const storageXML = $storageContent(`ac\\:structured-macro[ac\\:local-id="${dataLocalId}"]`);
+      const storageCustomProperties = storageXML.children().map((i: number, element: any) =>
+        element.children[0]?.data
+      );
+      const [slideType, slideId, slideTransition, slideTheme] = storageCustomProperties;
+      // we will generate vertical slides if there are 'hr' tags
+      const verticalSlides = ($(pageProperties).html() as string).split('<hr>').length > 1;
+      const sections = ($(pageProperties).html() as string)
+        .split('<hr>')
+        .map((body) => cheerio.load(body));
+        // Iterate thru the sections split by the 'hr' horizontal lines
+        // only one if no split done
+      sectionsHtml += verticalSlides ? '<section>' : '';
+      sections.forEach((section: cheerio.CheerioAPI) => {
+        sectionsHtml += getSlideDynamic(section, slideType);
+      });
+
+      sectionsHtml += verticalSlides ? '</section>' : '';
+    },
+  );
+
   const newHtmlBody = '<div id="Content">'
       + '<section id="slides-logo"></section>'
       + '<div class="reveal slide">'
@@ -60,6 +89,9 @@ export default (): Step => (context: ContextService): void => {
 
   context.getPerfMeasure('addSlides');
 };
+
+// Generic slide style
+export const getSlideDynamic = (section: cheerio.CheerioAPI, slideType: string): string => `<section data-state=${slideType}>${section('body').html()}</section>`;
 
 // Cover slide
 const getSlideCover = (section: cheerio.CheerioAPI): string => `<section data-state="cover">${section('body').html()}</section>`;

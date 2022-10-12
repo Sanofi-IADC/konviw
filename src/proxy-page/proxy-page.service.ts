@@ -174,7 +174,7 @@ export class ProxyPageService {
     fixTableBackground()(this.context);
     delUnnecessaryCode()(this.context);
     await addJiraPromise;
-    addSlides()(this.context);
+    addSlides(content)(this.context);
     addSlidesJS(transition)(this.context);
     addWebStatsTracker(this.config)(this.context);
     this.context.Close();
