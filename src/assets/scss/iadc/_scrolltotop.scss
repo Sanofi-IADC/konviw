@@ -1,19 +1,19 @@
 // Scroll back to top ===========================================
-// How far of a scroll travel within <main> prior to the link appearing
-$scrollLength: 100vh;
 
 .back-to-top-wrapper {
-  // uncomment to visualize "track"
-  // outline: 1px solid red;
-  position: absolute;
-  top: $scrollLength;
-  right: var(--fab-btn-right);
-  // Optional, extends the final link into the footer at the bottom of the page
-  // Set to `0` to stop at the end of `main`
-  bottom: 0;
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
   // Required for best support in browsers not supporting `sticky`
   width: 3em;
   z-index: 99;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .3s ease-in-out;
+
+  &.visible {
+    opacity: 1;
+  }
 }
 
 a.back-to-top-link {
@@ -39,6 +39,7 @@ a.back-to-top-link {
   background-color: var(--toc-background-color);
   color: var(--toc-color);
   opacity: 0.5;
+  pointer-events: auto;
 }
 
 .back-to-top-link:hover,
@@ -50,5 +51,7 @@ a.back-to-top-link {
 }
 
 .back-to-top-link:before {
-  content: '\21EA';
+  font-family: var(--font-icons);
+  font-size: 2.5rem;
+  content: '\e5ce';
 }

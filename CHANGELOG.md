@@ -1,3 +1,10 @@
+# [2.22.0](https://github.com/Sanofi-IADC/konviw/compare/v2.21.8...v2.22.0) (2022-10-12)
+
+
+### Features
+
+* improve management of fonts ([69efaba](https://github.com/Sanofi-IADC/konviw/commit/69efaba57bce8a6e5e93fb9963e0763e0f69739c))
+
 ## [2.21.8](https://github.com/Sanofi-IADC/konviw/compare/v2.21.7...v2.21.8) (2022-10-06)
 
 
