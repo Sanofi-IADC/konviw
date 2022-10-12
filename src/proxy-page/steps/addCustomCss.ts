@@ -20,10 +20,7 @@ export default (config: ConfigService, style?: string): Step => (context: Contex
     cssPath = `${basePath}/css/${style}/custom.css?cache=${version}`;
   }
 
-  $('head').append(
-    `<link rel="stylesheet" type="text/css" href="${cssPath}">`,
-    `<link href="${basePath}/css/all.min.css?cache=${version}" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">`,
-  );
+  $('head').append(`<link rel="stylesheet" type="text/css" href="${cssPath}">`);
 
   /* Adding debug stylesheet */
   if (context.getView() === 'debug') {

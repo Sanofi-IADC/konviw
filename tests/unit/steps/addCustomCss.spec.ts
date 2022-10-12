@@ -21,7 +21,7 @@ describe('ConfluenceProxy / addCustomCss', () => {
     context.setHtmlBody('<html><head></head><body></body></html>');
     step(context);
     expect(context.getHtmlBody()).toEqual(
-      `<html><head><link rel="stylesheet" type="text/css" href="${basePath}/css/custom.css?cache=${version}"><link href="${basePath}/css/all.min.css?cache=${version}" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"></head><body><div id="Content"></div></body></html>`,
+      `<html><head><link rel="stylesheet" type="text/css" href="${basePath}/css/custom.css?cache=${version}"></head><body><div id="Content"></div></body></html>`,
     );
   });
 });
