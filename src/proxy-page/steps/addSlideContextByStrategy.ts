@@ -5,8 +5,6 @@ import { getSlideMacroTheme, loadStorageContentToXML } from '../utils/macroSlide
 export default (context: ContextService, spaceKey: string, pageId: string, style?: string, content?: Content): void => {
   context.setPerfMark('addSlideContentByStrategy');
 
-  const $ = context.getCheerioBody();
-
   const storageXML = loadStorageContentToXML(content);
 
   const { isMacroSlide, macroSlideStyle } = getSlideMacroTheme(storageXML);

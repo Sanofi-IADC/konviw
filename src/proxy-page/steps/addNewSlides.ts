@@ -57,4 +57,3 @@ export const setDynamicStyling = (
   >
     ${section('body').html()}
   </section>`;
-
