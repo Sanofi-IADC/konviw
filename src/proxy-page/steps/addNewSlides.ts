@@ -3,7 +3,7 @@ import { Content } from '../../confluence/confluence.interface';
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
 
-export default (content?: Content): Step => (context: ContextService): void => {
+export default (content: Content): Step => (context: ContextService): void => {
   context.setPerfMark('addNewSlides');
 
   const $ = context.getCheerioBody();
