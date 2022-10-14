@@ -41,6 +41,7 @@ import addSlidesJS from './steps/addSlidesJS';
 import addUnsupportedMacroIndicator from './steps/addUnsupportedMacroIndicator';
 import fixSVG from './steps/fixSVG';
 import fixTableBackground from './steps/fixTableBackground';
+import addSlideTypeByStrategy from './steps/addSlideTypeByStrategy';
 
 @Injectable()
 export class ProxyPageService {
@@ -174,7 +175,7 @@ export class ProxyPageService {
     fixTableBackground()(this.context);
     delUnnecessaryCode()(this.context);
     await addJiraPromise;
-    addSlides()(this.context);
+    addSlideTypeByStrategy(content)(this.context);
     addSlidesJS(transition)(this.context);
     addWebStatsTracker(this.config)(this.context);
     this.context.Close();
