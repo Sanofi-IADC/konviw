@@ -23,7 +23,6 @@ import addHeaderTitle from './steps/addHeaderTitle';
 import addTheme from './steps/addTheme';
 import addNoZoom from './steps/addNoZoom';
 import addHeaderBlog from './steps/addHeaderBlog';
-import addSlides from './steps/addSlides';
 import addCopyLinks from './steps/addCopyLinks';
 import addReadingProgressBar from './steps/addReadingProgressBar';
 import addJira from './steps/addJira';
