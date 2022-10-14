@@ -8,7 +8,7 @@ export default (content: Content): Step => (context: ContextService): void => {
   const $ = context.getCheerioBody();
 
   const isGeneratedNewMacroSlide = $(".conf-macro[data-macro-name='slideCover']").length > 0
-        || $(".conf-macro[data-macro-name='slideCover']").length > 0;
+        || $(".conf-macro[data-macro-name='slide']").length > 0;
 
   if (isGeneratedNewMacroSlide) {
     addNewSlides(content)(context);

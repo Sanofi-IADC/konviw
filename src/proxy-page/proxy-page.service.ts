@@ -41,6 +41,7 @@ import addUnsupportedMacroIndicator from './steps/addUnsupportedMacroIndicator';
 import fixSVG from './steps/fixSVG';
 import fixTableBackground from './steps/fixTableBackground';
 import addSlideTypeByStrategy from './steps/addSlideTypeByStrategy';
+import addSlideContextByStrategy from './steps/addSlideContextByStrategy';
 
 @Injectable()
 export class ProxyPageService {
@@ -147,14 +148,12 @@ export class ProxyPageService {
     transition: string,
   ): Promise<string> {
     const content: Content = await this.confluence.getPage(spaceKey, pageId);
-    this.context.initPageContext(
+    addSlideContextByStrategy(
+      this.context,
       spaceKey,
       pageId,
-      'light',
       style,
       content,
-      true,
-      '',
     );
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
     addSlidesCSS(this.config)(this.context);
