@@ -1,11 +1,16 @@
+import { ConfigService } from '@nestjs/config';
 import * as cheerio from 'cheerio';
 import { Content } from '../../confluence/confluence.interface';
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
 import { getAttribiutesFromChildren, getObjectFromStorageXMLForPageProperties } from '../utils/macroSlide';
 
-export default (content: Content): Step => (context: ContextService): void => {
+export default (content: Content, config: ConfigService): Step => (context: ContextService): void => {
   context.setPerfMark('addNewSlides');
+
+  const webBasePath = config.get('web.absoluteBasePath');
+
+  const attachmentUrl = `${webBasePath}/wiki/download/attachments/${context.getPageId()}/`;
 
   const $ = context.getCheerioBody();
 
@@ -14,9 +19,9 @@ export default (content: Content): Step => (context: ContextService): void => {
   $(".conf-macro[data-macro-name='slide']").each(
     (_index: number, pageProperties: cheerio.Element) => {
       const storageXML = getObjectFromStorageXMLForPageProperties(pageProperties, content);
-      const { options, attachment } = getAttribiutesFromChildren(storageXML);
+      const { options, attachments } = getAttribiutesFromChildren(storageXML);
       const [slideType,, slideTransition] = options;
-      const slideAttachment = (attachment && attachment['0']) ?? '';
+      const slideBackgroundImage = (attachments && attachments['0']) ?? '';
       // we will generate vertical slides if there are 'hr' tags
       const verticalSlides = ($(pageProperties).html() as string).split('<hr>').length > 1;
       const sections = ($(pageProperties).html() as string)
@@ -26,7 +31,7 @@ export default (content: Content): Step => (context: ContextService): void => {
         // only one if no split done
       sectionsHtml += verticalSlides ? '<section>' : '';
       sections.forEach((section: cheerio.CheerioAPI) => {
-        sectionsHtml += setDynamicStyling(section, slideType, slideTransition, slideAttachment);
+        sectionsHtml += setDynamicStyling(section, slideType, slideTransition, slideBackgroundImage, attachmentUrl);
       });
 
       sectionsHtml += verticalSlides ? '</section>' : '';
@@ -48,12 +53,13 @@ export const setDynamicStyling = (
   section: cheerio.CheerioAPI,
   slideType: string,
   slideTransition: string,
-  slideAttachment: string,
+  slideBackgroundImage: string,
+  attachmentUrl: string
 ): string =>
   `<section
     data-state="${slideType}"
     data-transition="${slideTransition}"
-    data-background-image="${slideAttachment}"
+    data-background-image="${attachmentUrl}/${slideBackgroundImage}"
   >
     ${section('body').html()}
   </section>`;

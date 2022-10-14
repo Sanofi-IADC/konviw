@@ -9,7 +9,7 @@ export const getSlideMacroTheme = ($storageContent: cheerio.CheerioAPI) => {
   const macroSlideThemeObjectChild = getMacroSlideThemeObject && getMacroSlideThemeObject.children[0] as any;
   return {
     isMacroSlide: Boolean(findMacroSlideTheme),
-    macroSlideStyle: (macroSlideThemeObjectChild && macroSlideThemeObjectChild.data) ?? 'konviw',
+    macroSlideStyle: (macroSlideThemeObjectChild && macroSlideThemeObjectChild.data) ?? 'digital',
   };
 };
 
@@ -20,12 +20,12 @@ export const getObjectFromStorageXMLForPageProperties = (pageProperties: cheerio
   return storageXML;
 };
 
-export const getAttribiutesFromChildren = (storageXML: cheerio.Cheerio<cheerio.Element>): { options: any; attachment: any } => {
+export const getAttribiutesFromChildren = (storageXML: cheerio.Cheerio<cheerio.Element>): { options: any; attachments: any } => {
   const options = getAttribiutesFromChildrenByType(storageXML, 'options');
-  const attachment = getAttribiutesFromChildrenByType(storageXML, 'attachment');
+  const attachments = getAttribiutesFromChildrenByType(storageXML, 'attachments');
   return {
     options,
-    attachment,
+    attachments,
   };
 };
 
@@ -35,7 +35,7 @@ const getAttribiutesFromChildrenByType = (
 ) => storageXML.children().map((_, element: any) => {
   const dataInput = element.children && element.children[0];
   if (dataInput) {
-    if (type === 'attachment') {
+    if (type === 'attachments') {
       const attachmentSlideAttribs = dataInput.attribs;
       const attachmentSlideUrl = attachmentSlideAttribs && attachmentSlideAttribs['ri:filename'];
       return attachmentSlideUrl;
