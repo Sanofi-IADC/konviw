@@ -1,15 +1,15 @@
 import { Content } from '../../confluence/confluence.interface';
 import { ContextService } from '../../context/context.service';
-import { getSlideMacroTheme, loadStorageContentToXML } from '../utils/macroSlide';
+import { getMacroSlideSettingsPropertyValueByKey, loadStorageContentToXML } from '../utils/macroSlide';
 
 export default (context: ContextService, spaceKey: string, pageId: string, style?: string, content?: Content): void => {
   context.setPerfMark('addSlideContentByStrategy');
 
   const storageXML = loadStorageContentToXML(content);
 
-  const { isMacroSlide, macroSlideStyle } = getSlideMacroTheme(storageXML);
+  const { exist, value } = getMacroSlideSettingsPropertyValueByKey(storageXML, 'slide_settings_theme', 'digital');
 
-  const slideStyle = isMacroSlide ? macroSlideStyle : style;
+  const slideStyle = exist ? value : style;
 
   context.initPageContext(
     spaceKey,

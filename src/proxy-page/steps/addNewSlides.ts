@@ -3,25 +3,43 @@ import * as cheerio from 'cheerio';
 import { Content } from '../../confluence/confluence.interface';
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
-import { getAttribiutesFromChildren, getObjectFromStorageXMLForPageProperties } from '../utils/macroSlide';
+import {
+  getAttribiutesFromChildren, getMacroSlideSettingsPropertyValueByKey, getObjectFromStorageXMLForPageProperties, loadStorageContentToXML,
+} from '../utils/macroSlide';
 
 export default (content: Content, config: ConfigService): Step => (context: ContextService): void => {
   context.setPerfMark('addNewSlides');
 
   const webBasePath = config.get('web.absoluteBasePath');
 
-  const attachmentUrl = `${webBasePath}/wiki/download/attachments/${context.getPageId()}/`;
+  const attachmentResource = `${webBasePath}/wiki/download/attachments/${context.getPageId()}/`;
 
   const $ = context.getCheerioBody();
+
+  const storageContentXML = loadStorageContentToXML(content);
+
+  const macroSettingsSlideTransition = getMacroSlideSettingsPropertyValueByKey(storageContentXML, 'slide_settings_transition', 'slide');
+
+  const macroSettingsSlideTitle = getMacroSlideSettingsPropertyValueByKey(storageContentXML, 'slide_settings_title', '');
+
+  // Handle the source code block to be syntax highlighted by highlight.js (auto language detection by default)
+  $('pre.syntaxhighlighter-pre').each(
+    (_index: number, codeBlock: cheerio.Element) => {
+      $(codeBlock).replaceWith(
+        `<pre><code>${$(codeBlock).html()}</code></pre>`,
+      );
+    },
+  );
 
   let sectionsHtml = '';
   // Div with class conf-macro and property slide (Confluence macro "properties") is framing the sections for each slide
   $(".conf-macro[data-macro-name='slide']").each(
     (_index: number, pageProperties: cheerio.Element) => {
       const storageXML = getObjectFromStorageXMLForPageProperties(pageProperties, content);
-      const { options, attachments } = getAttribiutesFromChildren(storageXML);
-      const [slideType,, slideTransition] = options;
-      const slideBackgroundImage = (attachments && attachments['0']) ?? '';
+      const { options } = getAttribiutesFromChildren(storageXML, {
+        defaultValueForSlideTransition: macroSettingsSlideTransition.value,
+      });
+      const { slideBackgroundAttachment, slideType, slideTransition } = options;
       // we will generate vertical slides if there are 'hr' tags
       const verticalSlides = ($(pageProperties).html() as string).split('<hr>').length > 1;
       const sections = ($(pageProperties).html() as string)
@@ -31,7 +49,13 @@ export default (content: Content, config: ConfigService): Step => (context: Cont
         // only one if no split done
       sectionsHtml += verticalSlides ? '<section>' : '';
       sections.forEach((section: cheerio.CheerioAPI) => {
-        sectionsHtml += setDynamicStyling(section, slideType, slideTransition, slideBackgroundImage, attachmentUrl);
+        sectionsHtml += setDynamicStyling(
+          section,
+          slideType,
+          slideTransition,
+          attachmentResource,
+          slideBackgroundAttachment,
+        );
       });
 
       sectionsHtml += verticalSlides ? '</section>' : '';
@@ -45,21 +69,56 @@ export default (content: Content, config: ConfigService): Step => (context: Cont
       + '</div></div>';
   $('#Content').replaceWith(newHtmlBody);
 
+  // Add fragment class for each paragraph to apply fade-in animation
+  $('p').each((_index: number, paragraphElement: cheerio.Element) => {
+    const existRealChildrenWithText = paragraphElement.children.some((value: cheerio.Node & { data: string }) =>
+      value.data && value.data.trim().length > 0);
+    if (existRealChildrenWithText) {
+      $(paragraphElement).addClass('fragment');
+    }
+  });
+
   context.getPerfMeasure('addNewSlides');
 };
+
+// Check if attachment is image extension
+const isImage = (url: string): boolean => /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
 
 // Generic slide style
 export const setDynamicStyling = (
   section: cheerio.CheerioAPI,
   slideType: string,
   slideTransition: string,
-  slideBackgroundImage: string,
-  attachmentUrl: string
-): string =>
-  `<section
-    data-state="${slideType}"
-    data-transition="${slideTransition}"
-    data-background-image="${attachmentUrl}/${slideBackgroundImage}"
-  >
-    ${section('body').html()}
-  </section>`;
+  attachmentResource: string,
+  slideBackgroundAttachment: string,
+): string => {
+  if (slideBackgroundAttachment && slideBackgroundAttachment.length > 0) {
+    const attachment = slideBackgroundAttachment
+      ? `${attachmentResource}/${slideBackgroundAttachment}`
+      : '';
+    if (!isImage(slideBackgroundAttachment)) {
+      return `<section
+        data-state="${slideType}"
+        data-transition="${slideTransition}"
+        data-background-video="${attachment}"
+        data-background-video-loop
+        data-background-video-muted
+      >
+        ${section('body').html()}
+      </section>`;
+    }
+    return `<section
+        data-state="${slideType}"
+        data-transition="${slideTransition}"
+        data-background-image="${attachment}"
+      >
+        ${section('body').html()}
+      </section>`;
+  }
+  return `<section
+      data-state="${slideType}"
+      data-transition="${slideTransition}"
+    >
+      ${section('body').html()}
+    </section>`;
+};

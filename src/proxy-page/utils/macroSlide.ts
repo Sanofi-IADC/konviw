@@ -3,13 +3,13 @@ import { Content } from '../../confluence/confluence.interface';
 
 export const loadStorageContentToXML = (content: Content) => cheerio.load(content.body.storage.value ?? '', { xmlMode: true });
 
-export const getSlideMacroTheme = ($storageContent: cheerio.CheerioAPI) => {
-  const findMacroSlideTheme = $storageContent('ac\\:parameter[ac\\:name="slide_theme"]');
-  const getMacroSlideThemeObject = findMacroSlideTheme && findMacroSlideTheme['0'];
-  const macroSlideThemeObjectChild = getMacroSlideThemeObject && getMacroSlideThemeObject.children[0] as any;
+export const getMacroSlideSettingsPropertyValueByKey = ($storageContent: cheerio.CheerioAPI, key: string, defaultValue: string) => {
+  const findElement = $storageContent(`ac\\:parameter[ac\\:name="${key}"]`);
+  const getObjectFromElement = findElement && findElement['0'];
+  const defineObject = getObjectFromElement && getObjectFromElement.children[0] as any;
   return {
-    isMacroSlide: Boolean(findMacroSlideTheme),
-    macroSlideStyle: (macroSlideThemeObjectChild && macroSlideThemeObjectChild.data) ?? 'digital',
+    exist: Boolean(findElement),
+    value: (defineObject && defineObject.data) ?? defaultValue,
   };
 };
 
@@ -20,27 +20,40 @@ export const getObjectFromStorageXMLForPageProperties = (pageProperties: cheerio
   return storageXML;
 };
 
-export const getAttribiutesFromChildren = (storageXML: cheerio.Cheerio<cheerio.Element>): { options: any; attachments: any } => {
-  const options = getAttribiutesFromChildrenByType(storageXML, 'options');
-  const attachments = getAttribiutesFromChildrenByType(storageXML, 'attachments');
+export const getAttribiutesFromChildren = (
+  storageXML: cheerio.Cheerio<cheerio.Element>,
+  {
+    defaultValueForSlideTransition,
+  }: {
+    defaultValueForSlideTransition: string
+  },
+): { options: { [key: string]: string } } => {
+  const getValueByKeyOrAssignDefault = (array: any[], compareKey: string, defaultValue: string) =>
+    Object.values(array).find(({ key }) => key === compareKey)?.value ?? defaultValue;
+
+  const options = getAttribiutesFromChildrenByType(storageXML) as any;
+
   return {
-    options,
-    attachments,
+    options: {
+      slideId: getValueByKeyOrAssignDefault(options, 'slide_id', ''),
+      slideType: getValueByKeyOrAssignDefault(options, 'slide_type', 'cover'),
+      slideTransition: getValueByKeyOrAssignDefault(options, 'slide_transition', defaultValueForSlideTransition),
+      slideBackgroundAttachment: getValueByKeyOrAssignDefault(options, 'slide_background_attachment', ''),
+    },
   };
 };
 
 const getAttribiutesFromChildrenByType = (
   storageXML: cheerio.Cheerio<cheerio.Element>,
-  type: string,
 ) => storageXML.children().map((_, element: any) => {
   const dataInput = element.children && element.children[0];
   if (dataInput) {
-    if (type === 'attachments') {
-      const attachmentSlideAttribs = dataInput.attribs;
-      const attachmentSlideUrl = attachmentSlideAttribs && attachmentSlideAttribs['ri:filename'];
-      return attachmentSlideUrl;
-    }
-    return dataInput.data;
+    const attachmentSlideAttribs = dataInput.attribs;
+    const attachmentSlideUrl = attachmentSlideAttribs && attachmentSlideAttribs['ri:filename'];
+    return {
+      value: attachmentSlideUrl ?? dataInput.data,
+      key: dataInput.parent.attribs['ac:name'],
+    };
   }
   return undefined;
 });
