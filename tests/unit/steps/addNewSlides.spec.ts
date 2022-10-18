@@ -17,7 +17,7 @@ describe('ConfluenceProxy / addNewSlides', () => {
 
     it('Add New Slides without storage is empty', () => {
         content = { body: { storage: { value: '' } } } as any;
-        const step = addNewSlides(content, config);
+        const step = addNewSlides(config, content);
         context.setHtmlBody(
             `<html><head></head><body>` +
             `<div class="macro-conf" data-macro-name="slide">` +

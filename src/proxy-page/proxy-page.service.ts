@@ -40,8 +40,8 @@ import addSlidesJS from './steps/addSlidesJS';
 import addUnsupportedMacroIndicator from './steps/addUnsupportedMacroIndicator';
 import fixSVG from './steps/fixSVG';
 import fixTableBackground from './steps/fixTableBackground';
-import addSlideTypeByStrategy from './steps/addSlideTypeByStrategy';
-import addSlideContextByStrategy from './steps/addSlideContextByStrategy';
+import addSlideTypeByStrategy from './strategySteps/addSlideTypeByStrategy';
+import addSlideContextByStrategy from './strategySteps/addSlideContextByStrategy';
 
 @Injectable()
 export class ProxyPageService {

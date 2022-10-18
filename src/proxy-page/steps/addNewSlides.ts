@@ -7,7 +7,7 @@ import {
   getAttribiutesFromChildren, getMacroSlideSettingsPropertyValueByKey, getObjectFromStorageXMLForPageProperties, loadStorageContentToXML,
 } from '../utils/macroSlide';
 
-export default (content: Content, config: ConfigService): Step => (context: ContextService): void => {
+export default (config: ConfigService, content: Content): Step => (context: ContextService): void => {
   context.setPerfMark('addNewSlides');
 
   const webBasePath = config.get('web.absoluteBasePath');

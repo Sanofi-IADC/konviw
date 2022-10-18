@@ -3,8 +3,6 @@ import { ContextService } from '../../context/context.service';
 import { getMacroSlideSettingsPropertyValueByKey, loadStorageContentToXML } from '../utils/macroSlide';
 
 export default (context: ContextService, spaceKey: string, pageId: string, style?: string, content?: Content): void => {
-  context.setPerfMark('addSlideContentByStrategy');
-
   const storageXML = loadStorageContentToXML(content);
 
   const { exist, value } = getMacroSlideSettingsPropertyValueByKey(storageXML, 'slide_settings_theme', 'digital');
@@ -20,6 +18,4 @@ export default (context: ContextService, spaceKey: string, pageId: string, style
     true,
     '',
   );
-
-  context.getPerfMeasure('addSlideContentByStrategy');
 };

@@ -1,7 +1,7 @@
 import * as cheerio from 'cheerio';
 import { Content } from '../../confluence/confluence.interface';
 
-export const loadStorageContentToXML = (content: Content) => cheerio.load(content.body.storage.value ?? '', { xmlMode: true });
+export const loadStorageContentToXML = (content: Content) => cheerio.load(content?.body?.storage?.value ?? '', { xmlMode: true });
 
 export const getMacroSlideSettingsPropertyValueByKey = ($storageContent: cheerio.CheerioAPI, key: string, defaultValue: string) => {
   const findElement = $storageContent(`ac\\:parameter[ac\\:name="${key}"]`);
