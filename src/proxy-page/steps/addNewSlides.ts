@@ -20,8 +20,6 @@ export default (content: Content, config: ConfigService): Step => (context: Cont
 
   const macroSettingsSlideTransition = getMacroSlideSettingsPropertyValueByKey(storageContentXML, 'slide_settings_transition', 'slide');
 
-  const macroSettingsSlideTitle = getMacroSlideSettingsPropertyValueByKey(storageContentXML, 'slide_settings_title', '');
-
   // Handle the source code block to be syntax highlighted by highlight.js (auto language detection by default)
   $('pre.syntaxhighlighter-pre').each(
     (_index: number, codeBlock: cheerio.Element) => {
