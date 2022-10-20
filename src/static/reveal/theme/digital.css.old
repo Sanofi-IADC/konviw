@@ -56,9 +56,9 @@ section.has-light-background h6 {
   --heading-text-shadow: none;
   --heading-font-weight: normal;
   --heading1-text-shadow: none;
-  --heading1-size: 2em;
-  --heading2-size: 1.7em;
-  --heading3-size: 1.7em;
+  --heading1-size: 2.1em;
+  --heading2-size: 1.9em;
+  --heading3-size: 1.6em;
   --heading4-size: 1em;
   --code-font-family: monospace;
   --code-font-size: 0.8em;
@@ -198,6 +198,8 @@ section.has-light-background h6 {
   color: white;
 }
 
+.bubble h1,
+.bubble h2,
 .bubble h3 {
   background-color: var(--theme-background);
   color: white;
@@ -207,6 +209,8 @@ section.has-light-background h6 {
   margin-bottom: 1em;
 }
 
+.bubble h1::after,
+.bubble h2::after,
 .bubble h3::after {
   content: '';
   display: inline-block;
@@ -220,19 +224,21 @@ section.has-light-background h6 {
   bottom: -20px;
 }
 
-.bubble h3 ~ p {
+.bubble h1, h2, h3 ~ p {
   padding-left: 30px;
 }
 
 /*********************************************
  * OTHER
  *********************************************/
+ // DONE
 .reveal p {
   margin: 20px 0;
   line-height: var(--main-line-height);
   white-space: break-spaces;
 }
 
+// DONE
 /* Remove trailing margins after titles */
 .reveal h1:last-child,
 .reveal h2:last-child,
@@ -243,6 +249,7 @@ section.has-light-background h6 {
   margin-bottom: 0;
 }
 
+// DONE
 /* Ensure certain elements are never larger than the slide itself */
 .reveal img,
 .reveal video,
@@ -250,15 +257,18 @@ section.has-light-background h6 {
   max-width: 65%;
 }
 
+// DONE
 .reveal strong,
 .reveal b {
   font-weight: bold;
 }
 
+//DONE
 .reveal em {
   font-style: italic;
 }
 
+// DONE
 .reveal ol,
 .reveal dl,
 .reveal ul {
@@ -268,22 +278,27 @@ section.has-light-background h6 {
   margin: 0 0 0 2em;
 }
 
+// DONE
 .reveal ol {
   list-style-type: decimal;
 }
 
+// DONE
 .reveal ul {
   list-style-type: disc;
 }
 
+// DONE
 .reveal ul ul {
   list-style-type: square;
 }
 
+// DONE
 .reveal ul ul ul {
   list-style-type: circle;
 }
 
+// DONE
 .reveal ul ul,
 .reveal ul ol,
 .reveal ol ol,
@@ -292,14 +307,17 @@ section.has-light-background h6 {
   margin-left: 40px;
 }
 
+// DONE
 .reveal dt {
   font-weight: bold;
 }
 
+// DONE
 .reveal dd {
   margin-left: 40px;
 }
 
+// DONE
 .reveal blockquote {
   background-color: var(--theme-blackground-blockquote);
   color: var(--default-text);
@@ -330,6 +348,7 @@ section.has-light-background h6 {
   font-style: italic;
 }
 
+// DONE
 .reveal pre {
   display: block;
   position: relative;
@@ -348,7 +367,6 @@ section.has-light-background h6 {
   padding-right: 5px;
   border-radius: 5px;
 }
-
 .reveal pre code {
   display: block;
   padding: 5px;
@@ -361,6 +379,7 @@ section.has-light-background h6 {
   padding: 20px 10px 20px 10px;
 }
 
+// DONE
 .reveal table {
   margin: 0;
   padding: 0;
@@ -369,11 +388,11 @@ section.has-light-background h6 {
   min-width: 100%;
   width: auto;
 }
-
+// DONE
 .reveal table th {
   font-weight: bold;
 }
-
+// DONE
 .reveal table th,
 .reveal table td {
   text-align: left;
@@ -381,17 +400,17 @@ section.has-light-background h6 {
   padding: 0.1em 0.1em 0.1em 0.1em;
   vertical-align: top;
 }
-
+// DONE
 .reveal table th[align='center'],
 .reveal table td[align='center'] {
   text-align: center;
 }
-
+// DONE
 .reveal table th[align='right'],
 .reveal table td[align='right'] {
   text-align: right;
 }
-
+// DONE
 .reveal table tbody tr:last-child th,
 .reveal table tbody tr:last-child td {
   border-bottom: none;

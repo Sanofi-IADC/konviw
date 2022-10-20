@@ -1,0 +1,261 @@
+/**
+ * Digital theme for reveal.js
+ * Author: Jose Gascon http://github.com/piixiiees
+ *
+ * Designed to be used with highlight.js theme
+ * "monokai_sublime.css" available from
+ * https://github.com/isagalaev/highlight.js/
+ */
+
+ // Default mixins and settings -----------------
+@import "../template/mixins";
+@import "../template/settings";
+// ---------------------------------------------
+
+// Include theme-specific fonts
+
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap');
+
+// Colors used in the theme
+$purplePop: #5701d0;
+$purpleSoft: #bc74dd;
+$purpleLight: #c9adef;
+$coal: #222;
+$codeBackground: #23241f;
+
+$backgroundColor: #fafafa;
+
+// Main text
+$mainFont: Quicksand, 'sans-serif';
+$mainColor: $purplePop;
+$mainShadow: none;
+$mainLineHeight: 1em;
+
+// Headings
+$headingFont: Oswald, Impact, 'sans-serif';
+$headingColor: $purplePop;
+$headingTextShadow: none;
+$headingLineHeight: 1em;
+$headingTextTransform: none;
+$heading1Size: 2.10em;
+$heading2Size: 1.90em;
+$heading3Size: 1.60em;
+$heading4Size: 1.00em;
+$heading1TextShadow: none;
+
+// Cover
+$coverBackground: #6F13DD;
+$coverLightBackground: #fafafa;
+
+// Links and actions
+$linkColor: $purplePop;
+$linkColorHover: lighten( $linkColor, 20% );
+
+// Text selection
+$selectionBackgroundColor: $purplePop;
+$selectionColor: #fff;
+
+// Change text colors against dark slide backgrounds
+@include light-bg-text-color(#222);
+
+
+// Theme template ------------------------------
+@import "../template/theme";
+// ---------------------------------------------
+
+// some overrides after theme template import
+
+/*********************************************
+ * Override of special styles
+ *********************************************/
+
+#Content {
+  border-top: 2px solid white;
+  max-width: 100% !important;
+}
+
+#slides-logo {
+  float: right;
+  position: relative;
+  text-indent: 10%;
+  white-space: nowrap;
+  overflow: hidden;
+  background-image: url('digital.png');
+  background-repeat: no-repeat;
+  display: block;
+  height: 60px;
+  width: 150px;
+  top: -2px;
+  z-index: 2;
+}
+
+.reveal {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  p {
+    margin: 20px 0;
+    text-shadow: mainShadow;
+    line-height: $mainLineHeight;
+    // white-space: break-spaces;
+    code {
+      background-color: $codeBackground;
+      display: inline-block;
+      border-radius: 7px;
+    }
+  }
+}
+
+.reveal .slides {
+  text-align: left;
+}
+
+.reveal small code {
+    vertical-align: baseline;
+}
+
+/* ********************************************* */
+/* *             SPECIAL HEADERS           * */
+/* ********************************************* */
+
+.cover .reveal.cube .slides section:not(.stack):before {
+  background: none !important;
+}
+
+.cover .reveal {
+  background: $coverBackground;
+  h1, h2, h3 {
+    color: $coverBackground;
+    background-color: $coverLightBackground;
+    padding: 30px;
+    border-radius: 5px;
+    position: relative;
+    margin-bottom: 1em;
+  }
+  h1:after, h2:after, h2:after {
+    content: '';
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 20px solid #fff;
+    position: absolute;
+    left: 30px;
+    bottom: -20px;
+  }
+  p {
+    padding-left: 20px;
+    color: white;
+  }
+  p a {
+    color: white;
+  }
+}
+
+.bubble {
+  h1, h2, h3 {
+    background-color: $coverBackground;
+    color: white;
+    padding: 30px;
+    border-radius: 20px;
+    position: relative;
+    margin-bottom: 1em;
+    ~ p {
+      padding-left: 30px;
+    }
+  }
+  h1::after, h2::after, h3::after {
+    content: '';
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 20px solid $coverBackground;
+    position: absolute;
+    left: 30px;
+    bottom: -20px;
+  }
+}
+
+/* ********************************************* */
+/* *          SPECIAL BLOCKQUOTE           * */
+/* ********************************************* */
+
+.reveal blockquote {
+  background-color: $purpleLight;
+  // color: var(--default-text);
+  padding: 30px;
+  border-radius: 10px;
+  position: relative;
+  margin-bottom: 1em;
+  font-style: normal;
+  width: 100%;
+}
+.reveal blockquote:before {
+  content: none;
+}
+.reveal blockquote:after {
+  content: '';
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-top: 20px solid $purpleLight;
+  position: absolute;
+  left: 30px;
+  bottom: -20px;
+}
+
+
+/* ********************************************* */
+/* *             SPECIAL CODE             * */
+/* ********************************************* */
+
+.reveal pre code {
+  max-height: 500px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.297);
+  border-radius: 10px;
+  padding: 20px 10px 20px 10px;
+}
+
+/* ********************************************* */
+/* *             PROGRESS BAR             * */
+/* ********************************************* */
+ .reveal .progress {
+  background: rgba(0, 0, 0, 0.2);
+  color: $purplePop;
+  height: 0.6%;
+}
+
+/* ********************************************* */
+/* *             SPECIAL IMAGES            * */
+/* ********************************************* */
+
+.reveal a img.image-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 95%;
+}
+
+
+/* ********************************************* */
+/* *             SPECIAL TABLES            * */
+/* ********************************************* */
+
+.reveal table {
+  margin: 0;
+  padding: 0;
+  min-width: 100%;
+  width: auto;
+}
+
+.reveal table th,
+.reveal table td {
+  vertical-align: top;
+  border-bottom: 0px;
+}
