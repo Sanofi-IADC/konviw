@@ -19,6 +19,6 @@ describe('ConfluenceProxy / fixAddNewSlies', () => {
         '</body></html>',
     );
     step(context);
-    expect(context.getHtmlBody()).toEqual('');
+    expect(context.getHtmlBody()).toEqual('<html><head></head><body><div id=\"Content\"></div></body></html>');
   });
 });
