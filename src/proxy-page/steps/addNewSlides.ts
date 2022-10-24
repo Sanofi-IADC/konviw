@@ -40,12 +40,12 @@ export default (config: ConfigService, content: Content): Step => (context: Cont
         defaultValueForSlideTransition: macroSettingsSlideTransition.value,
       });
       const {
-        slideBackgroundAttachment, slideType, slideTransition, slideFragment,
+        slideBackgroundAttachment, slideType, slideTransition, slideParagraphAnimation,
       } = options;
       // we will generate vertical slides if there are 'hr' tags
       const verticalSlides = ($(pageProperties).html() as string).split('<hr>').length > 1;
       // Add fragment class for each paragraph to apply fade-in animation
-      if (convertSlideFragmentValueToBoolean(slideFragment)) {
+      if (convertSlideFragmentValueToBoolean(slideParagraphAnimation)) {
         $(pageProperties).find('p').each((_: number, paragraphElement: cheerio.Element) => {
           const existRealChildrenWithText = paragraphElement.children.some((value: cheerio.Node & { data: string }) =>
             value.data && value.data.trim().length > 0);
