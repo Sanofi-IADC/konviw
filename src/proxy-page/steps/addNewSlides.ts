@@ -10,6 +10,8 @@ import {
 export default (config: ConfigService, content: Content): Step => (context: ContextService): void => {
   context.setPerfMark('addNewSlides');
 
+  const parentWithoutAnimationForNestedParagraph = ['ol', 'li'];
+
   const webBasePath = config.get('web.absoluteBasePath');
 
   const attachmentResource = `${webBasePath}/wiki/download/attachments/${context.getPageId()}/`;
@@ -21,6 +23,33 @@ export default (config: ConfigService, content: Content): Step => (context: Cont
   const macroSettingsSlideTransition = getMacroSlideSettingsPropertyValueByKey(storageContentXML, 'slide_settings_transition', 'slide');
 
   const convertSlideFragmentValueToBoolean = (value: string) => value === 'yes';
+
+  const callbackToAssignFragmentClass = (element: cheerio.Element, possibleNested: boolean) => {
+    const existRealChildrenWithText = element.children.some((value: cheerio.Node & { data: string; children: { data: string }[] }) => {
+      if (possibleNested) {
+        return value.data && value.data.trim().length > 0;
+      }
+      return value.children.some((node) => node.data && node.data.trim().length > 0);
+    });
+    if (existRealChildrenWithText) {
+      const htmlElemenet = $(element);
+      const finalElement = (htmlElemenet && htmlElemenet['0']) ?? htmlElemenet
+      $(finalElement).addClass('fragment');
+    }
+  };
+
+  const searchByTagToAssignFragment = (tag: string, possibleNested: boolean) => {
+    $(tag).each((_: number, element: cheerio.Element) => {
+      if (possibleNested) {
+        const isCorrectConditionalToAssignFragment = parentWithoutAnimationForNestedParagraph.includes((element.parentNode as any).name);
+        if (!isCorrectConditionalToAssignFragment) {
+          callbackToAssignFragmentClass(element, possibleNested);
+        }
+      } else {
+        callbackToAssignFragmentClass(element, possibleNested);
+      }
+    });
+  };
 
   // Handle the source code block to be syntax highlighted by highlight.js (auto language detection by default)
   $('pre.syntaxhighlighter-pre').each(
@@ -46,13 +75,9 @@ export default (config: ConfigService, content: Content): Step => (context: Cont
       const verticalSlides = ($(pageProperties).html() as string).split('<hr>').length > 1;
       // Add fragment class for each paragraph to apply fade-in animation
       if (convertSlideFragmentValueToBoolean(slideParagraphAnimation)) {
-        $(pageProperties).find('p').each((_: number, paragraphElement: cheerio.Element) => {
-          const existRealChildrenWithText = paragraphElement.children.some((value: cheerio.Node & { data: string }) =>
-            value.data && value.data.trim().length > 0);
-          if (existRealChildrenWithText) {
-            $(paragraphElement).addClass('fragment');
-          }
-        });
+        searchByTagToAssignFragment('p', true)
+        searchByTagToAssignFragment('ol', false);
+        searchByTagToAssignFragment('li', false);
       }
       const sections = ($(pageProperties).html() as string)
         .split('<hr>')
