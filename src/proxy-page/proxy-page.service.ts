@@ -42,6 +42,7 @@ import fixSVG from './steps/fixSVG';
 import fixTableBackground from './steps/fixTableBackground';
 import addSlideTypeByStrategy from './strategySteps/addSlideTypeByStrategy';
 import addSlideContextByStrategy from './strategySteps/addSlideContextByStrategy';
+import fixAddNewSlides from './steps/fixAddNewSlides';
 
 @Injectable()
 export class ProxyPageService {
@@ -115,6 +116,7 @@ export class ProxyPageService {
     }
     fixSVG(this.config)(this.context);
     fixTableBackground()(this.context);
+    fixAddNewSlides()(this.context);
     delUnnecessaryCode()(this.context);
     addCustomCss(this.config, style)(this.context);
     addLibrariesCSS()(this.context);
@@ -171,6 +173,7 @@ export class ProxyPageService {
     fixFrameAllowFullscreen()(this.context);
     fixSVG(this.config)(this.context);
     fixTableBackground()(this.context);
+    fixAddNewSlides()(this.context);
     delUnnecessaryCode()(this.context);
     await addJiraPromise;
     addSlideTypeByStrategy(content, this.config)(this.context);

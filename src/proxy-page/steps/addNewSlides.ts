@@ -20,6 +20,8 @@ export default (config: ConfigService, content: Content): Step => (context: Cont
 
   const macroSettingsSlideTransition = getMacroSlideSettingsPropertyValueByKey(storageContentXML, 'slide_settings_transition', 'slide');
 
+  const convertSlideFragmentValueToBoolean = (value: string) => value === 'yes';
+
   // Handle the source code block to be syntax highlighted by highlight.js (auto language detection by default)
   $('pre.syntaxhighlighter-pre').each(
     (_index: number, codeBlock: cheerio.Element) => {
@@ -37,9 +39,21 @@ export default (config: ConfigService, content: Content): Step => (context: Cont
       const { options } = getAttribiutesFromChildren(storageXML, {
         defaultValueForSlideTransition: macroSettingsSlideTransition.value,
       });
-      const { slideBackgroundAttachment, slideType, slideTransition } = options;
+      const {
+        slideBackgroundAttachment, slideType, slideTransition, slideFragment,
+      } = options;
       // we will generate vertical slides if there are 'hr' tags
       const verticalSlides = ($(pageProperties).html() as string).split('<hr>').length > 1;
+      // Add fragment class for each paragraph to apply fade-in animation
+      if (convertSlideFragmentValueToBoolean(slideFragment)) {
+        $(pageProperties).find('p').each((_: number, paragraphElement: cheerio.Element) => {
+          const existRealChildrenWithText = paragraphElement.children.some((value: cheerio.Node & { data: string }) =>
+            value.data && value.data.trim().length > 0);
+          if (existRealChildrenWithText) {
+            $(paragraphElement).addClass('fragment');
+          }
+        });
+      }
       const sections = ($(pageProperties).html() as string)
         .split('<hr>')
         .map((body) => cheerio.load(body));
@@ -66,15 +80,6 @@ export default (config: ConfigService, content: Content): Step => (context: Cont
       + `<div class="slides">${sectionsHtml}</div>`
       + '</div></div>';
   $('#Content').replaceWith(newHtmlBody);
-
-  // Add fragment class for each paragraph to apply fade-in animation
-  $('p').each((_index: number, paragraphElement: cheerio.Element) => {
-    const existRealChildrenWithText = paragraphElement.children.some((value: cheerio.Node & { data: string }) =>
-      value.data && value.data.trim().length > 0);
-    if (existRealChildrenWithText) {
-      $(paragraphElement).addClass('fragment');
-    }
-  });
 
   context.getPerfMeasure('addNewSlides');
 };

@@ -38,6 +38,7 @@ export const getAttribiutesFromChildren = (
       slideId: getValueByKeyOrAssignDefault(options, 'slide_id', ''),
       slideType: getValueByKeyOrAssignDefault(options, 'slide_type', 'cover'),
       slideTransition: getValueByKeyOrAssignDefault(options, 'slide_transition', defaultValueForSlideTransition),
+      slideFragment: getValueByKeyOrAssignDefault(options, 'slide_fragment', 'no'),
       slideBackgroundAttachment: getValueByKeyOrAssignDefault(options, 'slide_background_attachment', ''),
     },
   };
