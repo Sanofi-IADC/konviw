@@ -10,7 +10,7 @@ import {
 export default (config: ConfigService, content: Content): Step => (context: ContextService): void => {
   context.setPerfMark('addNewSlides');
 
-  const parentWithoutAnimationForNestedParagraph = ['ol', 'li'];
+  const unexpectedParentsCollection = ['ul', 'li', 'ol'];
 
   const webBasePath = config.get('web.absoluteBasePath');
 
@@ -35,9 +35,7 @@ export default (config: ConfigService, content: Content): Step => (context: Cont
 
   const searchByTagToAssignFragment = (tag: string, unexcpectedParents: string[], pageProperties: cheerio.Element) => {
     $(pageProperties).find(tag).each((_: number, element: cheerio.Element) => {
-      const parentExist = unexcpectedParents.some((parent) => {
-        return $(element).parents(parent).length > 0
-      })
+      const parentExist = unexcpectedParents.some((parent) => $(element).parents(parent).length > 0);
       if (!parentExist) {
         callbackToAssignFragmentClass(element);
       }
@@ -68,10 +66,10 @@ export default (config: ConfigService, content: Content): Step => (context: Cont
       const verticalSlides = ($(pageProperties).html() as string).split('<hr>').length > 1;
       // Add fragment class for each paragraph to apply fade-in animation
       if (convertSlideFragmentValueToBoolean(slideParagraphAnimation)) {
-        searchByTagToAssignFragment('p', ['ul', 'li', 'ol'], pageProperties)
-        searchByTagToAssignFragment('ol', ['ul', 'li', 'ol'], pageProperties);
-        searchByTagToAssignFragment('li', ['ul', 'li', 'ol'], pageProperties);
-        searchByTagToAssignFragment('ul', ['ul', 'li', 'ol'], pageProperties);
+        searchByTagToAssignFragment('p', unexpectedParentsCollection, pageProperties);
+        searchByTagToAssignFragment('ol', unexpectedParentsCollection, pageProperties);
+        searchByTagToAssignFragment('li', unexpectedParentsCollection, pageProperties);
+        searchByTagToAssignFragment('ul', unexpectedParentsCollection, pageProperties);
       }
       const sections = ($(pageProperties).html() as string)
         .split('<hr>')
