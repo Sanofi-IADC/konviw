@@ -24,29 +24,22 @@ export default (config: ConfigService, content: Content): Step => (context: Cont
 
   const convertSlideFragmentValueToBoolean = (value: string) => value === 'yes';
 
-  const callbackToAssignFragmentClass = (element: cheerio.Element, possibleNested: boolean) => {
-    const existRealChildrenWithText = element.children.some((value: cheerio.Node & { data: string; children: { data: string }[] }) => {
-      if (possibleNested) {
-        return value.data && value.data.trim().length > 0;
+  const callbackToAssignFragmentClass = (element: cheerio.Element) => {
+    if (element?.children?.length > 0) {
+      const existBody = element.children.some((child: any) => child.data && child.data.trim().length > 0);
+      if (existBody) {
+        $(element).addClass('fragment');
       }
-      return value.children.some((node) => node.data && node.data.trim().length > 0);
-    });
-    if (existRealChildrenWithText) {
-      const htmlElemenet = $(element);
-      const finalElement = (htmlElemenet && htmlElemenet['0']) ?? htmlElemenet
-      $(finalElement).addClass('fragment');
     }
   };
 
-  const searchByTagToAssignFragment = (tag: string, possibleNested: boolean) => {
-    $(tag).each((_: number, element: cheerio.Element) => {
-      if (possibleNested) {
-        const isCorrectConditionalToAssignFragment = parentWithoutAnimationForNestedParagraph.includes((element.parentNode as any).name);
-        if (!isCorrectConditionalToAssignFragment) {
-          callbackToAssignFragmentClass(element, possibleNested);
-        }
-      } else {
-        callbackToAssignFragmentClass(element, possibleNested);
+  const searchByTagToAssignFragment = (tag: string, unexcpectedParents: string[], pageProperties: cheerio.Element) => {
+    $(pageProperties).find(tag).each((_: number, element: cheerio.Element) => {
+      const parentExist = unexcpectedParents.some((parent) => {
+        return $(element).parents(parent).length > 0
+      })
+      if (!parentExist) {
+        callbackToAssignFragmentClass(element);
       }
     });
   };
@@ -75,9 +68,10 @@ export default (config: ConfigService, content: Content): Step => (context: Cont
       const verticalSlides = ($(pageProperties).html() as string).split('<hr>').length > 1;
       // Add fragment class for each paragraph to apply fade-in animation
       if (convertSlideFragmentValueToBoolean(slideParagraphAnimation)) {
-        searchByTagToAssignFragment('p', true)
-        searchByTagToAssignFragment('ol', false);
-        searchByTagToAssignFragment('li', false);
+        searchByTagToAssignFragment('p', ['ul', 'li', 'ol'], pageProperties)
+        searchByTagToAssignFragment('ol', ['ul', 'li', 'ol'], pageProperties);
+        searchByTagToAssignFragment('li', ['ul', 'li', 'ol'], pageProperties);
+        searchByTagToAssignFragment('ul', ['ul', 'li', 'ol'], pageProperties);
       }
       const sections = ($(pageProperties).html() as string)
         .split('<hr>')
