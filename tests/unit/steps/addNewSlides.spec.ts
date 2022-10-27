@@ -23,6 +23,7 @@ describe('ConfluenceProxy / addNewSlides', () => {
         '<ri:attachment ri:filename="1529923467_Javascript.png" ri:version-at-save="1" /></ac:parameter>' +
         '<ac:rich-text-body><p>Content of slide</p></ac:rich-text-body></ac:structured-macro><p />';
         config = moduleRef.get<ConfigService>(ConfigService);
+        context.initPageContext('XXX', '123456', 'dark');
     });
 
     it('Add new slides parameters defined in slide macro are overriding slide deck', () => {
@@ -56,9 +57,11 @@ describe('ConfluenceProxy / addNewSlides', () => {
         content.getCheerioBody = () => mockBody;
         context.setHtmlBody(mockBody);
         addNewSlides(config, content)(context);
-        expect(context.getHtmlBody().includes(
-            'data-background-image="http://localhost:4000/cpv/wiki/download/attachments///1529923467_Javascript.png"'
-        )).toBe(true);
+        console.log(context.getHtmlBody())
+        const fileAttribiute = 'data-background-image="'
+        const fileName = '1529923467_Javascript.png'
+        const htmlBody = context.getHtmlBody();
+        expect(htmlBody.includes(fileAttribiute) && htmlBody.includes(fileName)).toBe(true);
     });
 
     it('Add new slides is displaying content of slide macro', () => {
@@ -70,7 +73,6 @@ describe('ConfluenceProxy / addNewSlides', () => {
         content.getCheerioBody = () => mockBody;
         context.setHtmlBody(mockBody);
         addNewSlides(config, content)(context);
-        console.log(context.getHtmlBody())
         expect(context.getHtmlBody().includes('Content of slide')).toBe(true);
     });
 
@@ -95,7 +97,6 @@ describe('ConfluenceProxy / addNewSlides', () => {
         content.getCheerioBody = () => mockBody;
         context.setHtmlBody(mockBody);
         addNewSlides(config, content)(context);
-        console.log(context.getHtmlBody());
         expect(mockBody.includes('data-macro-id="e8dea08a24d1c4cb8a2be48f9e7de56c"'))
             .toBe(content.body.storage.value.includes('ac:local-id="141105b0-1baf-44ce-9c96-27004ad82793"'));
     });
