@@ -56,7 +56,6 @@ describe('ConfluenceProxy / addNewSlides', () => {
         content.getCheerioBody = () => mockBody;
         context.setHtmlBody(mockBody);
         addNewSlides(config, content)(context);
-        console.log(context.getHtmlBody())
         expect(context.getHtmlBody().includes(
             'data-background-image="http://localhost:4000/cpv/wiki/download/attachments///1529923467_Javascript.png"'
         )).toBe(true);
