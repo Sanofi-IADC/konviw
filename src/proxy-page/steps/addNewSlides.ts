@@ -33,7 +33,7 @@ export default (config: ConfigService, content: Content): Step => (context: Cont
     });
     if (existRealChildrenWithText) {
       const htmlElemenet = $(element);
-      const finalElement = (htmlElemenet && htmlElemenet['0']) ?? htmlElemenet
+      const finalElement = (htmlElemenet && htmlElemenet['0']) ?? htmlElemenet;
       $(finalElement).addClass('fragment');
     }
   };
