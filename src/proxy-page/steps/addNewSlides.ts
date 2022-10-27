@@ -65,7 +65,7 @@ export default (config: ConfigService, content: Content): Step => (context: Cont
       // we will generate vertical slides if there are 'hr' tags
       const verticalSlides = ($(pageProperties).html() as string).split('<hr>').length > 1;
       // Add fragment class for each paragraph to apply fade-in animation
-      if (convertSlideFragmentValueToBoolean(slideParagraphAnimation)) {
+      if (true) {
         searchByTagToAssignFragment('p', unexpectedParentsCollection, pageProperties);
         searchByTagToAssignFragment('ol', unexpectedParentsCollection, pageProperties);
         searchByTagToAssignFragment('li', unexpectedParentsCollection, pageProperties);
