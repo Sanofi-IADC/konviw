@@ -10,7 +10,7 @@ import {
 export default (config: ConfigService, content: Content): Step => (context: ContextService): void => {
   context.setPerfMark('addNewSlides');
 
-  const unexpectedParentsCollection = ['ul', 'li', 'ol'];
+  const parentWithoutAnimationForNestedParagraph = ['li', 'ul', 'ol'];
 
   const webBasePath = config.get('web.absoluteBasePath');
 
@@ -24,20 +24,29 @@ export default (config: ConfigService, content: Content): Step => (context: Cont
 
   const convertSlideFragmentValueToBoolean = (value: string) => value === 'yes';
 
-  const callbackToAssignFragmentClass = (element: cheerio.Element) => {
-    if (element?.children?.length > 0) {
-      const existBody = element.children.some((child: any) => child.data && child.data.trim().length > 0);
-      if (existBody) {
-        $(element).addClass('fragment');
+  const callbackToAssignFragmentClass = (element: cheerio.Element, possibleNested: boolean) => {
+    const existRealChildrenWithText = element.children.some((value: cheerio.Node & { data: string; children: { data: string }[] }) => {
+      if (possibleNested) {
+        return value.data && value.data.trim().length > 0;
       }
+      return true;
+    });
+    if (existRealChildrenWithText) {
+      const htmlElemenet = $(element);
+      const finalElement = (htmlElemenet && htmlElemenet['0']) ?? htmlElemenet
+      $(finalElement).addClass('fragment');
     }
   };
 
-  const searchByTagToAssignFragment = (tag: string, unexcpectedParents: string[], pageProperties: cheerio.Element) => {
-    $(pageProperties).find(tag).each((_: number, element: cheerio.Element) => {
-      const parentExist = unexcpectedParents.some((parent) => $(element).parents(parent).length > 0);
-      if (!parentExist) {
-        callbackToAssignFragmentClass(element);
+  const searchByTagToAssignFragment = (tag: string, possibleNested: boolean, slideProperties: cheerio.Element) => {
+    $(slideProperties).find(tag).each((_: number, element: cheerio.Element) => {
+      if (possibleNested) {
+        const isCorrectConditionalToAssignFragment = parentWithoutAnimationForNestedParagraph.includes((element.parentNode as any).name);
+        if (!isCorrectConditionalToAssignFragment) {
+          callbackToAssignFragmentClass(element, possibleNested);
+        }
+      } else {
+        callbackToAssignFragmentClass(element, possibleNested);
       }
     });
   };
@@ -52,10 +61,10 @@ export default (config: ConfigService, content: Content): Step => (context: Cont
   );
 
   let sectionsHtml = '';
-  // Div with class conf-macro and property slide (Confluence macro "properties") is framing the sections for each slide
+  // Div with class conf-macro and property slide (Confluence macro "slide") is framing the sections for each slide
   $(".conf-macro[data-macro-name='slide']").each(
-    (_index: number, pageProperties: cheerio.Element) => {
-      const storageXML = getObjectFromStorageXMLForPageProperties(pageProperties, content);
+    (_index: number, slideProperties: cheerio.Element) => {
+      const storageXML = getObjectFromStorageXMLForPageProperties(slideProperties, content);
       const { options } = getAttribiutesFromChildren(storageXML, {
         defaultValueForSlideTransition: macroSettingsSlideTransition.value,
       });
@@ -63,15 +72,13 @@ export default (config: ConfigService, content: Content): Step => (context: Cont
         slideBackgroundAttachment, slideType, slideTransition, slideParagraphAnimation,
       } = options;
       // we will generate vertical slides if there are 'hr' tags
-      const verticalSlides = ($(pageProperties).html() as string).split('<hr>').length > 1;
+      const verticalSlides = ($(slideProperties).html() as string).split('<hr>').length > 1;
       // Add fragment class for each paragraph to apply fade-in animation
-      if (true) {
-        searchByTagToAssignFragment('p', unexpectedParentsCollection, pageProperties);
-        searchByTagToAssignFragment('ol', unexpectedParentsCollection, pageProperties);
-        searchByTagToAssignFragment('li', unexpectedParentsCollection, pageProperties);
-        searchByTagToAssignFragment('ul', unexpectedParentsCollection, pageProperties);
+      if (convertSlideFragmentValueToBoolean(slideParagraphAnimation)) {
+        searchByTagToAssignFragment('p', true, slideProperties);
+        searchByTagToAssignFragment('li', false, slideProperties);
       }
-      const sections = ($(pageProperties).html() as string)
+      const sections = ($(slideProperties).html() as string)
         .split('<hr>')
         .map((body) => cheerio.load(body));
         // Iterate thru the sections split by the 'hr' horizontal lines
