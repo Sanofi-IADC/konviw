@@ -89,10 +89,10 @@ export class ContextService {
       this.setTitle(data.title);
       [,,,, this.spaceKey] = data._expandable.space.split('/');
       this.setHtmlBody(data.body.view.value, loadAsDocument);
-      this.setAuthor(data.history.createdBy.displayName);
-      this.setEmail(data.history.createdBy.email);
+      this.setAuthor(data.history.createdBy?.displayName);
+      this.setEmail(data.history.createdBy?.email);
       this.setAvatar(
-        `${baseHost}${basePath}/${data.history.createdBy.profilePicture.path.replace(
+        `${baseHost}${basePath}/${data.history.createdBy?.profilePicture.path.replace(
           /^\/wiki/,
           'wiki',
         )}`,
@@ -105,8 +105,8 @@ export class ContextService {
         when: data.history.createdDate,
         friendlyWhen: timeFromNow(data.history.createdDate),
         modificationBy: {
-          displayName: data.history.createdBy.displayName,
-          email: data.history.createdBy.email,
+          displayName: data.history.createdBy?.displayName,
+          email: data.history.createdBy?.email,
           profilePicture: this.getAvatar(),
         },
       };
