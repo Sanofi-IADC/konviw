@@ -77,6 +77,8 @@ export default (config: ConfigService, content: Content): Step => (context: Cont
       if (convertSlideFragmentValueToBoolean(slideParagraphAnimation)) {
         searchByTagToAssignFragment('p', true, slideProperties);
         searchByTagToAssignFragment('li', false, slideProperties);
+        searchByTagToAssignFragment('pre', false, slideProperties);
+        searchByTagToAssignFragment('span', false, slideProperties);
       }
       const sections = ($(slideProperties).html() as string)
         .split('<hr>')
