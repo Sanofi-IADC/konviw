@@ -1,0 +1,26 @@
+// Attachments====================================
+
+table.attachments {
+  text-align: left;
+  border-collapse: collapse;
+  border: 1px solid;
+  color: var(--font-color);
+  width:100%;
+  tr.header-row {
+    background: var(--bg-blockquote);
+    border: 1px solid;
+    th{
+      padding: 0.2em;
+    }
+  }
+}
+
+span.icon {
+  margin: 20px auto;
+  &::after {
+    padding: 0.5em 5px 0.5em 10px;
+    font-family: 'Font Awesome 5 Free';
+    content: '\f0f6';
+    color: var(--font-color);
+  }
+}

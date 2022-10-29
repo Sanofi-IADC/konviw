@@ -13,5 +13,12 @@ export default (): Step => (context: ContextService): void => {
 
   // Remove button to insert templates in Confluence
   $('button.create-from-template-button').remove();
+
+  // Remove unnecessary components from Attachments list macro
+  $('th.attachment-summary-toggle').remove();
+  $('td.attachment-summary-toggle').remove();
+  $('div.plugin_attachments_upload_container').remove();
+  $('a.download-all-link').remove();
+
   context.getPerfMeasure('delUnnecessaryCode');
 };
