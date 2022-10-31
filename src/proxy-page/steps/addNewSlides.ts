@@ -59,10 +59,18 @@ export default (config: ConfigService, content: Content): Step => (context: Cont
     }
   };
 
-  const searchByTagToAssignFragment = (expression: string, possibleNested: boolean, slideProperties: cheerio.Element, unexpectedExpressionForNestedElements: string[], forceAssign: boolean) => {
+  const searchByTagToAssignFragment = (
+    expression: string,
+    possibleNested: boolean,
+    slideProperties: cheerio.Element,
+    unexpectedExpressionForNestedElements: string[],
+    forceAssign: boolean,
+  ) => {
     $(slideProperties).find(expression).each((_: number, element: cheerio.Element) => {
       if (possibleNested) {
-        const isCorrectConditionalToAssignFragment = unexpectedExpressionForNestedElements.some((expression) => $(element).parents(expression)?.length > 0);
+        const isCorrectConditionalToAssignFragment = unexpectedExpressionForNestedElements.some(
+          (unexpectedExpression) => $(element).parents(unexpectedExpression)?.length > 0,
+        );
         if (!isCorrectConditionalToAssignFragment) {
           callbackToAssignFragmentClass(element, possibleNested, forceAssign);
         }
