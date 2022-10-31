@@ -57,7 +57,6 @@ describe('ConfluenceProxy / addNewSlides', () => {
         content.getCheerioBody = () => mockBody;
         context.setHtmlBody(mockBody);
         addNewSlides(config, content)(context);
-        console.log(context.getHtmlBody())
         const fileAttribiute = 'data-background-image="'
         const fileName = '1529923467_Javascript.png'
         const htmlBody = context.getHtmlBody();

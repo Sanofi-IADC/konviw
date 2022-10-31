@@ -33,11 +33,13 @@ export const getAttribiutesFromChildren = (
 
   const options = getAttribiutesFromChildrenByType(storageXML) as any;
 
+  const slideTransitionDefinedValue = getValueByKeyOrAssignDefault(options, 'slide_transition', defaultValueForSlideTransition);
+
   return {
     options: {
       slideId: getValueByKeyOrAssignDefault(options, 'slide_id', ''),
-      slideType: getValueByKeyOrAssignDefault(options, 'slide_type', 'cover'),
-      slideTransition: getValueByKeyOrAssignDefault(options, 'slide_transition', defaultValueForSlideTransition),
+      slideType: getValueByKeyOrAssignDefault(options, 'slide_type', 'default'),
+      slideTransition: slideTransitionDefinedValue === 'none' ? defaultValueForSlideTransition : slideTransitionDefinedValue,
       slideParagraphAnimation: getValueByKeyOrAssignDefault(options, 'slide_paragraph_animation', 'no'),
       slideBackgroundAttachment: getValueByKeyOrAssignDefault(options, 'slide_background_attachment', ''),
     },

@@ -10,7 +10,25 @@ import {
 export default (config: ConfigService, content: Content): Step => (context: ContextService): void => {
   context.setPerfMark('addNewSlides');
 
-  const parentWithoutAnimationForNestedParagraph = ['li', 'ul', 'ol'];
+  const commonUnexpectedExpression = [
+    '[data-macro-name="panel"]',
+    '[data-macro-name="info"]',
+    '[data-macro-name="tip"]',
+    '[data-macro-name="note"]',
+    '[data-macro-name="warning"]',
+  ];
+
+  const unexpectedExpressionForParagraphs = [
+    'li',
+    'ul',
+    'ol',
+    'blockquote',
+    ...commonUnexpectedExpression,
+  ];
+
+  const unexpectedExpressionForSpan = [
+    ...commonUnexpectedExpression,
+  ];
 
   const webBasePath = config.get('web.absoluteBasePath');
 
@@ -24,7 +42,10 @@ export default (config: ConfigService, content: Content): Step => (context: Cont
 
   const convertSlideFragmentValueToBoolean = (value: string) => value === 'yes';
 
-  const callbackToAssignFragmentClass = (element: cheerio.Element, possibleNested: boolean) => {
+  const callbackToAssignFragmentClass = (element: cheerio.Element, possibleNested: boolean, forceAssign: boolean) => {
+    if (forceAssign) {
+      $(element).addClass('fragment');
+    }
     const existRealChildrenWithText = element.children.some((value: cheerio.Node & { data: string; children: { data: string }[] }) => {
       if (possibleNested) {
         return value.data && value.data.trim().length > 0;
@@ -38,15 +59,15 @@ export default (config: ConfigService, content: Content): Step => (context: Cont
     }
   };
 
-  const searchByTagToAssignFragment = (tag: string, possibleNested: boolean, slideProperties: cheerio.Element) => {
-    $(slideProperties).find(tag).each((_: number, element: cheerio.Element) => {
+  const searchByTagToAssignFragment = (expression: string, possibleNested: boolean, slideProperties: cheerio.Element, unexpectedExpressionForNestedElements: string[], forceAssign: boolean) => {
+    $(slideProperties).find(expression).each((_: number, element: cheerio.Element) => {
       if (possibleNested) {
-        const isCorrectConditionalToAssignFragment = parentWithoutAnimationForNestedParagraph.includes((element.parentNode as any).name);
+        const isCorrectConditionalToAssignFragment = unexpectedExpressionForNestedElements.some((expression) => $(element).parents(expression)?.length > 0);
         if (!isCorrectConditionalToAssignFragment) {
-          callbackToAssignFragmentClass(element, possibleNested);
+          callbackToAssignFragmentClass(element, possibleNested, forceAssign);
         }
       } else {
-        callbackToAssignFragmentClass(element, possibleNested);
+        callbackToAssignFragmentClass(element, possibleNested, forceAssign);
       }
     });
   };
@@ -75,10 +96,18 @@ export default (config: ConfigService, content: Content): Step => (context: Cont
       const verticalSlides = ($(slideProperties).html() as string).split('<hr>').length > 1;
       // Add fragment class for each paragraph to apply fade-in animation
       if (convertSlideFragmentValueToBoolean(slideParagraphAnimation)) {
-        searchByTagToAssignFragment('p', true, slideProperties);
-        searchByTagToAssignFragment('li', false, slideProperties);
-        searchByTagToAssignFragment('pre', false, slideProperties);
-        searchByTagToAssignFragment('span', false, slideProperties);
+        searchByTagToAssignFragment('p', true, slideProperties, unexpectedExpressionForParagraphs, false);
+        searchByTagToAssignFragment('li', false, slideProperties, [], false);
+        searchByTagToAssignFragment('pre', false, slideProperties, [], false);
+        searchByTagToAssignFragment('span', true, slideProperties, unexpectedExpressionForSpan, false);
+        searchByTagToAssignFragment('img', false, slideProperties, [], true);
+        searchByTagToAssignFragment('iframe', false, slideProperties, [], true);
+        searchByTagToAssignFragment('[data-macro-name="panel"]', false, slideProperties, [], false);
+        searchByTagToAssignFragment('[data-macro-name="info"]', false, slideProperties, [], false);
+        searchByTagToAssignFragment('[data-macro-name="tip"]', false, slideProperties, [], false);
+        searchByTagToAssignFragment('[data-macro-name="note"]', false, slideProperties, [], false);
+        searchByTagToAssignFragment('[data-macro-name="warning"]', false, slideProperties, [], false);
+        searchByTagToAssignFragment('blockquote', false, slideProperties, [], false);
       }
       const sections = ($(slideProperties).html() as string)
         .split('<hr>')
