@@ -52,6 +52,8 @@ export class ConfluenceService {
             expand: [
               // content body with html tags
               `${prefix}body.view`,
+              // content body with macro confluence attribiutes
+              `${prefix}body.storage`,
               // contains the value 'full-width' when pages are displayed in full width
               `${prefix}metadata.properties.content_appearance_published`,
               // labels defined for the page

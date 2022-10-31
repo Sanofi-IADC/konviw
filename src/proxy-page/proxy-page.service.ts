@@ -23,7 +23,6 @@ import addHeaderTitle from './steps/addHeaderTitle';
 import addTheme from './steps/addTheme';
 import addNoZoom from './steps/addNoZoom';
 import addHeaderBlog from './steps/addHeaderBlog';
-import addSlides from './steps/addSlides';
 import addCopyLinks from './steps/addCopyLinks';
 import addReadingProgressBar from './steps/addReadingProgressBar';
 import addJira from './steps/addJira';
@@ -41,6 +40,8 @@ import addSlidesJS from './steps/addSlidesJS';
 import addUnsupportedMacroIndicator from './steps/addUnsupportedMacroIndicator';
 import fixSVG from './steps/fixSVG';
 import fixTableBackground from './steps/fixTableBackground';
+import addSlideTypeByStrategy from './strategySteps/addSlideTypeByStrategy';
+import addSlideContextByStrategy from './strategySteps/addSlideContextByStrategy';
 
 @Injectable()
 export class ProxyPageService {
@@ -156,14 +157,12 @@ export class ProxyPageService {
     status: string,
   ): Promise<string> {
     const content: Content = await this.confluence.getPage(spaceKey, pageId, version, status);
-    this.context.initPageContext(
+    addSlideContextByStrategy(
+      this.context,
       spaceKey,
       pageId,
-      'light',
       style,
       content,
-      true,
-      '',
     );
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
     addSlidesCSS(this.config)(this.context);
@@ -184,7 +183,7 @@ export class ProxyPageService {
     fixTableBackground()(this.context);
     delUnnecessaryCode()(this.context);
     await addJiraPromise;
-    addSlides()(this.context);
+    addSlideTypeByStrategy(content, this.config)(this.context);
     addSlidesJS(this.config)(this.context);
     addWebStatsTracker(this.config)(this.context);
     this.context.Close();

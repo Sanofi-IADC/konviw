@@ -29,7 +29,7 @@ export default (): Step => (context: ContextService): void => {
       sections.forEach((section: cheerio.CheerioAPI) => {
         const className = section('body').children().first().attr('class') ?? '';
         // Based on the 'tag' name of the first element we will design the slide format
-        switch (section('body').first().children().get(0).tagName) {
+        switch (section('body').first().children().get(0)?.tagName) {
           case 'h1':
             sectionsHtml += getSlideCover(section);
             break;
