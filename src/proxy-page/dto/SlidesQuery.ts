@@ -38,4 +38,15 @@ export default class SlidesQueryDTO {
   @IsString()
   @IsIn(['no-cache', 'clear-cache'])
     cache: string;
+
+  @ApiPropertyOptional({
+    type: String,
+    required: false,
+    description: 'Use \'current\' or nothing for published pages and \'draft\' for pages in DRAFT not yet published',
+    example: 'current',
+  })
+  @IsOptional()
+  @IsString()
+  @IsIn(['current', 'draft'])
+    status: string;
 }

@@ -194,7 +194,8 @@ section.has-light-background h6 {
 }
 
 .cover .reveal p,
-.cover .reveal p a {
+.cover .reveal p a ,
+.cover .reveal a {
   color: white;
 }
 

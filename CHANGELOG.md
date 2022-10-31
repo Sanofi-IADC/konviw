@@ -1,3 +1,17 @@
+# [2.24.0](https://github.com/Sanofi-IADC/konviw/compare/v2.23.0...v2.24.0) (2022-10-31)
+
+
+### Features
+
+* WEB-1516 Improve visualization of attachments list macro ([#482](https://github.com/Sanofi-IADC/konviw/issues/482)) ([98818ee](https://github.com/Sanofi-IADC/konviw/commit/98818ee56ac70b78e5aebd13bd606de4523e5508))
+
+# [2.23.0](https://github.com/Sanofi-IADC/konviw/compare/v2.22.0...v2.23.0) (2022-10-31)
+
+
+### Features
+
+* WEB-1515 display konviw pages and konviw slides in status draft ([#481](https://github.com/Sanofi-IADC/konviw/issues/481)) ([76d2bfa](https://github.com/Sanofi-IADC/konviw/commit/76d2bfa917dea32486cce09dc9e7aba93dbd3833))
+
 # [2.22.0](https://github.com/Sanofi-IADC/konviw/compare/v2.21.8...v2.22.0) (2022-10-12)
 
 

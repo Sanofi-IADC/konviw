@@ -42,7 +42,7 @@ describe('Speed / Steps', () => {
   let config: ConfigService;
 
   // Time expected for each step to be execute within, in ms.
-  const timeExpected = 150;
+  const timeExpected = 200;
 
   // Number of time we check the step execution time.
   const iteration = 100;

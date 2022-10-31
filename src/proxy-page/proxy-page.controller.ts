@@ -34,11 +34,12 @@ export class ProxyPageController {
    * @param month {string} [optional] '04' - month of publication of the blog post
    * @param day {string} [optional] '12' - day of publication of the blog post
    * @param pageId {string} '639243960' - id of the page to retrieve
+   * @param pageVersion {string} '9' - The version of the page to render
    * @query theme {string} 'dark' - switch between light and dark themes
    * @query type {string} 'blog' - 'blog' to display a post header or 'notitle' to remove the title of the page
    * @query style {string} 'konviw' - style to render the page
-   * @query nozoom {string} '' - disable zoom effect in images
-   * @query view {string} '' - disable scroll to top, zoom effect in images, reading progress bar and floating toc menu
+   * @query view {string} 'fullpage' - disable scroll to top, zoom effect in images, reading progress bar and floating toc menu
+   * @query status {string} 'current' - use 'current' or nothing for published pages and 'draft' for pages in DRAFT not yet published
    */
 
   @ApiOperation({
@@ -57,7 +58,8 @@ export class ProxyPageController {
     @Query() queries: PageQueryDTO,
   ) {
     this.logger.log(
-      `Rendering page.. /${params.spaceKey}/${params.pageId}/${params.pageVersion}`,
+      `Rendering page.. /${params.spaceKey}/${params.pageId}/${params.pageVersion} `
+      + `with style ${queries.style} and status ${queries.status}`,
     );
     return this.proxyPage.renderPage(
       params.spaceKey,
@@ -67,6 +69,7 @@ export class ProxyPageController {
       queries.type,
       queries.style,
       queries.view,
+      queries.status,
     );
   }
 
@@ -79,6 +82,7 @@ export class ProxyPageController {
    * @param pageId {string} '639243960' - id of the page to retrieve
    * @query style {string} 'konviw' - select the theme to use for your slide deck
    * @query transition {string} 'slide' - transition animation for the slide deck
+   * @query status {string} 'current' - use 'current' or nothing for published pages and 'draft' for pages in DRAFT not yet published
    */
   @ApiOperation({
     summary: 'Render a Slides',
@@ -88,18 +92,24 @@ export class ProxyPageController {
   @ApiOkResponse({
     description: 'Full html of the rendered page as reveal.js slides',
   })
-  @Get('/slides/:spaceKey/:pageId/:pageSlug?')
+  @Get([
+    '/slides/:spaceKey/:pageId/:pageSlug?',
+    '/slides/:spaceKey/:pageId/versions/:pageVersion/:pageSlug?',
+  ])
   async getSlides(
     @Param() params: PageParamsDTO,
     @Query() queries: SlidesQueryDTO,
   ) {
     this.logger.log(
-      `Rendering Slides for ... /${params.spaceKey}/${params.pageId} with style ${queries.style}`,
+      `Rendering Slides for ... /${params.spaceKey}/${params.pageId}/${params.pageVersion} `
+      + `with style ${queries.style} and status ${queries.status}`,
     );
     return this.proxyPage.renderSlides(
       params.spaceKey,
       params.pageId,
+      params.pageVersion,
       queries.style,
+      queries.status,
     );
   }
 
