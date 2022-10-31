@@ -169,7 +169,6 @@ export class ProxyPageService {
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
     addSlidesCSS(this.config)(this.context);
     fixHtmlHead(this.config)(this.context);
-    fixToc()(this.context);
     await fixLinks(this.config, this.http)(this.context);
     fixToc()(this.context);
     fixEmojis(this.config)(this.context);
