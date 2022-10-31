@@ -1,3 +1,15 @@
+# [3.0.0](https://github.com/Sanofi-IADC/konviw/compare/v2.24.0...v3.0.0) (2022-10-31)
+
+
+### Features
+
+* WEB-1517 add reveal plugin menu to konviw slides ([#483](https://github.com/Sanofi-IADC/konviw/issues/483)) ([28980ce](https://github.com/Sanofi-IADC/konviw/commit/28980cebc308c418908c642cad0e98350b656c6a))
+
+
+### BREAKING CHANGES
+
+* Removing option to select slide transition via query
+
 # [2.24.0](https://github.com/Sanofi-IADC/konviw/compare/v2.23.0...v2.24.0) (2022-10-31)
 
 
