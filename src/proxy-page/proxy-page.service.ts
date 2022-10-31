@@ -61,9 +61,12 @@ export class ProxyPageService {
    * @return Promise {string}
    * @param spaceKey {string} 'iadc' - space key where the page belongs
    * @param pageId {string} '639243960' - id of the page to retrieve
+   * @param version {string} '9' - the version of the page to render
    * @param theme {string} 'dark' - light or dark theme used by the page
    * @param type {string} 'blog' - type of the page
-   * @param style {string} 'iadc' - theme to style the page
+   * @param style {string} 'konviw' - style to render the page
+   * @param view {string} 'fullpage' - disable scroll to top, zoom effect in images, reading progress bar and floating toc menu
+   * @param status {string} 'current' - use 'current' or nothing for published pages and 'draft' for pages in DRAFT not yet published
    */
   async renderPage(
     spaceKey: string,
@@ -73,11 +76,13 @@ export class ProxyPageService {
     type: string,
     style: string,
     view: string,
+    status: string,
   ): Promise<string> {
     const content: Content = await this.confluence.getPage(
       spaceKey,
       pageId,
       version,
+      status,
     );
     this.context.initPageContext(
       spaceKey,
@@ -139,15 +144,19 @@ export class ProxyPageService {
    * @return Promise {string}
    * @param spaceKey {string} 'iadc' - space key where the page belongs
    * @param pageId {string} '639243960' - id of the page to retrieve
-   * @param theme {string} '#FFFFFF' - the theme used of the page
+   * @param version {string} '9' - the version of the page to render
+   * @param style {string} 'konviw' - style to render the page
+   * @param theme {string} 'light' - the theme used of the page
+   * @param status {string} 'current' - use 'current' or nothing for published pages and 'draft' for pages in DRAFT not yet published
    */
   async renderSlides(
     spaceKey: string,
     pageId: string,
+    version: string,
     style: string,
-    transition: string,
+    status: string,
   ): Promise<string> {
-    const content: Content = await this.confluence.getPage(spaceKey, pageId);
+    const content: Content = await this.confluence.getPage(spaceKey, pageId, version, status);
     addSlideContextByStrategy(
       this.context,
       spaceKey,
@@ -159,6 +168,7 @@ export class ProxyPageService {
     addSlidesCSS(this.config)(this.context);
     fixHtmlHead(this.config)(this.context);
     await fixLinks(this.config, this.http)(this.context);
+    fixToc()(this.context);
     fixEmojis(this.config)(this.context);
     fixDrawioMacro(this.config)(this.context);
     fixChartMacro(this.config)(this.context);
@@ -174,7 +184,7 @@ export class ProxyPageService {
     delUnnecessaryCode()(this.context);
     await addJiraPromise;
     addSlideTypeByStrategy(content, this.config)(this.context);
-    addSlidesJS(transition)(this.context);
+    addSlidesJS(this.config)(this.context);
     addWebStatsTracker(this.config)(this.context);
     this.context.Close();
     return this.context.getHtmlBody();

@@ -25,22 +25,28 @@ export class ConfluenceService {
    * @return Promise {any}
    * @param spaceKey {string} 'iadc' - space key where the page belongs
    * @param pageId {string} '639243960' - id of the page to retrieve
+   * @param version {string} '9' - id of the page to retrieve
+   * @param status {string} 'current' - use 'current' or nothing for published pages and 'draft' for pages in DRAFT not yet published
    */
   async getPage(
     spaceKey: string,
     pageId: string,
     version?: string,
+    status?: string,
   ): Promise<Content> {
     let results: AxiosResponse<Content>;
     try {
       const uri = version ? `${pageId}/version/${version}` : `${pageId}`;
       const prefix = version ? 'content.' : '';
+      // default to 'current'
+      const statusPage = status ?? 'current';
       this.logger.log(`Retrieving page ${pageId}`);
       this.logger.log(`Retrieving version ${version}`);
       results = await firstValueFrom(
         this.http.get<Content>(`/wiki/rest/api/content/${uri}`, {
           params: {
             type: 'page',
+            status: statusPage,
             spaceKey,
             // select special fields to retrieve
             expand: [

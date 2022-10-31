@@ -31,17 +31,6 @@ export default class SlidesQueryDTO {
   @ApiPropertyOptional({
     type: String,
     required: false,
-    description: 'Transition style. Choose between \'none\', \'fade\', \'slide\', \'convex\', \'concave\' or \'zoom\'.',
-    example: 'slide',
-  })
-  @IsOptional()
-  @IsString()
-  @IsIn(['none', 'fade', 'slide', 'convex', 'concave', 'zoom'])
-    transition = 'slide';
-
-  @ApiPropertyOptional({
-    type: String,
-    required: false,
     description: 'Use \'no-cache\' to get fresh data bypassing the NestJS cache',
     example: 'no-cache',
   })
@@ -49,4 +38,15 @@ export default class SlidesQueryDTO {
   @IsString()
   @IsIn(['no-cache', 'clear-cache'])
     cache: string;
+
+  @ApiPropertyOptional({
+    type: String,
+    required: false,
+    description: 'Use \'current\' or nothing for published pages and \'draft\' for pages in DRAFT not yet published',
+    example: 'current',
+  })
+  @IsOptional()
+  @IsString()
+  @IsIn(['current', 'draft'])
+    status: string;
 }
