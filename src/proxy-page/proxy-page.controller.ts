@@ -109,7 +109,6 @@ export class ProxyPageController {
       params.pageId,
       params.pageVersion,
       queries.style,
-      queries.transition,
       queries.status,
     );
   }
