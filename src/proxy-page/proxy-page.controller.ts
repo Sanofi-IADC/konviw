@@ -100,7 +100,6 @@ export class ProxyPageController {
       params.spaceKey,
       params.pageId,
       queries.style,
-      queries.transition,
     );
   }
 
