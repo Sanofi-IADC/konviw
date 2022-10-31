@@ -1,3 +1,10 @@
+# [3.1.0](https://github.com/Sanofi-IADC/konviw/compare/v3.0.0...v3.1.0) (2022-10-31)
+
+
+### Features
+
+* traceability of changes for WEB-203 ([1fac8ef](https://github.com/Sanofi-IADC/konviw/commit/1fac8ef821f08e16a12f59d3f9ce3b94271ef487))
+
 # [3.0.0](https://github.com/Sanofi-IADC/konviw/compare/v2.24.0...v3.0.0) (2022-10-31)
 
 
