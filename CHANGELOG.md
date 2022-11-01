@@ -1,3 +1,10 @@
+## [3.1.1](https://github.com/Sanofi-IADC/konviw/compare/v3.1.0...v3.1.1) (2022-11-01)
+
+
+### Bug Fixes
+
+* side effect icon document attachments macro ([e707373](https://github.com/Sanofi-IADC/konviw/commit/e707373b6f54dda09e0e72b59105b6d1386448fb))
+
 # [3.1.0](https://github.com/Sanofi-IADC/konviw/compare/v3.0.0...v3.1.0) (2022-10-31)
 
 
