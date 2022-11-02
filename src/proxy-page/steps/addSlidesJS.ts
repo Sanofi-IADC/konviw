@@ -55,7 +55,7 @@ export default (config: ConfigService): Step => (context: ContextService): void 
             hideMissingTitles: false,
             loadIcons: true,
           },
-          transition: 'fade',
+          transition: "${context.getSlideTransition()}",
           backgroundTransition: 'fade',
           slideNumber: 'c/t',
           disableLayout: false,

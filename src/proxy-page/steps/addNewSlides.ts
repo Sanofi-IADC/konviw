@@ -4,7 +4,7 @@ import { Content } from '../../confluence/confluence.interface';
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
 import {
-  getAttribiutesFromChildren, getMacroSlideSettingsPropertyValueByKey, getObjectFromStorageXMLForPageProperties, loadStorageContentToXML,
+  getAttributesFromChildren, getMacroSlideSettingsPropertyValueByKey, getObjectFromStorageXMLForPageProperties, loadStorageContentToXML,
 } from '../utils/macroSlide';
 
 export default (config: ConfigService, content: Content): Step => (context: ContextService): void => {
@@ -39,6 +39,7 @@ export default (config: ConfigService, content: Content): Step => (context: Cont
   const storageContentXML = loadStorageContentToXML(content);
 
   const macroSettingsSlideTransition = getMacroSlideSettingsPropertyValueByKey(storageContentXML, 'slide_settings_transition', 'slide');
+  context.setSlideTransition(macroSettingsSlideTransition?.value as string);
 
   const convertSlideFragmentValueToBoolean = (value: string) => value === 'yes';
 
@@ -94,14 +95,16 @@ export default (config: ConfigService, content: Content): Step => (context: Cont
   $(".conf-macro[data-macro-name='slide']").each(
     (_index: number, slideProperties: cheerio.Element) => {
       const storageXML = getObjectFromStorageXMLForPageProperties(slideProperties, content);
-      const { options } = getAttribiutesFromChildren(storageXML, {
+      const { options } = getAttributesFromChildren(storageXML, {
         defaultValueForSlideTransition: macroSettingsSlideTransition.value,
       });
       const {
         slideBackgroundAttachment, slideType, slideTransition, slideParagraphAnimation,
       } = options;
+
       // we will generate vertical slides if there are 'hr' tags
       const verticalSlides = ($(slideProperties).html() as string).split('<hr>').length > 1;
+
       // Add fragment class for each paragraph to apply fade-in animation
       if (convertSlideFragmentValueToBoolean(slideParagraphAnimation)) {
         searchByTagToAssignFragment('p', true, slideProperties, unexpectedExpressionForParagraphs, false);
@@ -120,8 +123,9 @@ export default (config: ConfigService, content: Content): Step => (context: Cont
       const sections = ($(slideProperties).html() as string)
         .split('<hr>')
         .map((body) => cheerio.load(body));
-        // Iterate thru the sections split by the 'hr' horizontal lines
-        // only one if no split done
+
+      // Iterate thru the sections split by the 'hr' horizontal lines
+      // only one if no split done
       sectionsHtml += verticalSlides ? '<section>' : '';
       sections.forEach((section: cheerio.CheerioAPI) => {
         sectionsHtml += setDynamicStyling(
@@ -158,6 +162,7 @@ export const setDynamicStyling = (
   attachmentResource: string,
   slideBackgroundAttachment: string,
 ): string => {
+  const dataTransition = slideTransition === '' ? '' : `data-transition="${slideTransition}"`;
   if (slideBackgroundAttachment && slideBackgroundAttachment.length > 0) {
     const attachment = slideBackgroundAttachment
       ? `${attachmentResource}/${slideBackgroundAttachment}`
@@ -165,7 +170,7 @@ export const setDynamicStyling = (
     if (!isImage(slideBackgroundAttachment)) {
       return `<section
         data-state="${slideType}"
-        data-transition="${slideTransition}"
+        ${dataTransition}
         data-background-video="${attachment}"
         data-background-video-loop
         data-background-video-muted
@@ -175,7 +180,7 @@ export const setDynamicStyling = (
     }
     return `<section
         data-state="${slideType}"
-        data-transition="${slideTransition}"
+        ${dataTransition}
         data-background-image="${attachment}"
       >
         ${section('body').html()}
@@ -183,7 +188,7 @@ export const setDynamicStyling = (
   }
   return `<section
       data-state="${slideType}"
-      data-transition="${slideTransition}"
+      ${dataTransition}
     >
       ${section('body').html()}
     </section>`;

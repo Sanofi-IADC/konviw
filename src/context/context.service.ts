@@ -17,6 +17,8 @@ export class ContextService {
 
   private style = '';
 
+  private slideTransition = '';
+
   private view = '';
 
   private cheerioBody = cheerio.load('html');
@@ -284,6 +286,14 @@ export class ContextService {
 
   getStyle(): string {
     return this.style;
+  }
+
+  getSlideTransition(): string {
+    return this.slideTransition;
+  }
+
+  setSlideTransition(transition: string): void {
+    this.slideTransition = transition;
   }
 
   getAuthor(): string {
