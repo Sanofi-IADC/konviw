@@ -1,9 +1,11 @@
 import * as cheerio from 'cheerio';
 import { Content } from '../../confluence/confluence.interface';
+import { MacroSlideSettingsProperty } from './macroSlide.interface';
 
 export const loadStorageContentToXML = (content: Content) => cheerio.load(content?.body?.storage?.value ?? '', { xmlMode: true });
 
-export const getMacroSlideSettingsPropertyValueByKey = ($storageContent: cheerio.CheerioAPI, key: string, defaultValue: string) => {
+export const getMacroSlideSettingsPropertyValueByKey = ($storageContent: cheerio.CheerioAPI, key: string, defaultValue: string):
+MacroSlideSettingsProperty => {
   const findElement = $storageContent(`ac\\:parameter[ac\\:name="${key}"]`);
   const getObjectFromElement = findElement && findElement['0'];
   const defineObject = getObjectFromElement && getObjectFromElement.children[0] as any;
@@ -20,33 +22,26 @@ export const getObjectFromStorageXMLForPageProperties = (pageProperties: cheerio
   return storageXML;
 };
 
-export const getAttribiutesFromChildren = (
+export const getAttributesFromChildren = (
   storageXML: cheerio.Cheerio<cheerio.Element>,
-  {
-    defaultValueForSlideTransition,
-  }: {
-    defaultValueForSlideTransition: string
-  },
 ): { options: { [key: string]: string } } => {
   const getValueByKeyOrAssignDefault = (array: any[], compareKey: string, defaultValue: string) =>
     Object.values(array).find(({ key }) => key === compareKey)?.value ?? defaultValue;
 
-  const options = getAttribiutesFromChildrenByType(storageXML) as any;
-
-  const slideTransitionDefinedValue = getValueByKeyOrAssignDefault(options, 'slide_transition', defaultValueForSlideTransition);
+  const options = getAttributesFromChildrenByType(storageXML) as any;
 
   return {
     options: {
       slideId: getValueByKeyOrAssignDefault(options, 'slide_id', ''),
       slideType: getValueByKeyOrAssignDefault(options, 'slide_type', 'default'),
-      slideTransition: slideTransitionDefinedValue === 'none' ? defaultValueForSlideTransition : slideTransitionDefinedValue,
+      slideTransition: getValueByKeyOrAssignDefault(options, 'slide_transition', ''),
       slideParagraphAnimation: getValueByKeyOrAssignDefault(options, 'slide_paragraph_animation', 'no'),
       slideBackgroundAttachment: getValueByKeyOrAssignDefault(options, 'slide_background_attachment', ''),
     },
   };
 };
 
-const getAttribiutesFromChildrenByType = (
+const getAttributesFromChildrenByType = (
   storageXML: cheerio.Cheerio<cheerio.Element>,
 ) => storageXML.children().map((_, element: any) => {
   const dataInput = element.children && element.children[0];
