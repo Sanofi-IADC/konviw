@@ -3,9 +3,7 @@ import * as cheerio from 'cheerio';
 import { Content } from '../../confluence/confluence.interface';
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
-import {
-  getAttributesFromChildren, getMacroSlideSettingsPropertyValueByKey, getObjectFromStorageXMLForPageProperties, loadStorageContentToXML,
-} from '../utils/macroSlide';
+import { getAttributesFromChildren, getObjectFromStorageXMLForPageProperties } from '../utils/macroSlide';
 
 export default (config: ConfigService, content: Content): Step => (context: ContextService): void => {
   context.setPerfMark('addNewSlides');
@@ -35,11 +33,6 @@ export default (config: ConfigService, content: Content): Step => (context: Cont
   const attachmentResource = `${webBasePath}/wiki/download/attachments/${context.getPageId()}/`;
 
   const $ = context.getCheerioBody();
-
-  const storageContentXML = loadStorageContentToXML(content);
-
-  const macroSettingsSlideTransition = getMacroSlideSettingsPropertyValueByKey(storageContentXML, 'slide_settings_transition', 'slide');
-  context.setSlideTransition(macroSettingsSlideTransition?.value as string);
 
   const convertSlideFragmentValueToBoolean = (value: string) => value === 'yes';
 
@@ -95,9 +88,7 @@ export default (config: ConfigService, content: Content): Step => (context: Cont
   $(".conf-macro[data-macro-name='slide']").each(
     (_index: number, slideProperties: cheerio.Element) => {
       const storageXML = getObjectFromStorageXMLForPageProperties(slideProperties, content);
-      const { options } = getAttributesFromChildren(storageXML, {
-        defaultValueForSlideTransition: macroSettingsSlideTransition.value,
-      });
+      const { options } = getAttributesFromChildren(storageXML);
       const {
         slideBackgroundAttachment, slideType, slideTransition, slideParagraphAnimation,
       } = options;

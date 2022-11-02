@@ -56,7 +56,6 @@ export default (config: ConfigService): Step => (context: ContextService): void 
             loadIcons: true,
           },
           transition: "${context.getSlideTransition()}",
-          backgroundTransition: 'fade',
           slideNumber: 'c/t',
           disableLayout: false,
           margin: 0.1,
