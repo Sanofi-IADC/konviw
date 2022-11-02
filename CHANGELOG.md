@@ -1,3 +1,11 @@
+## [3.1.2](https://github.com/Sanofi-IADC/konviw/compare/v3.1.1...v3.1.2) (2022-11-02)
+
+
+### Bug Fixes
+
+* refactoring slideTransition defaults ([1205536](https://github.com/Sanofi-IADC/konviw/commit/1205536156f2ad5bcab3c0f9c43be81b40efb3d0))
+* WEB-203 better manage slideSettings defaults ([2cf0ea1](https://github.com/Sanofi-IADC/konviw/commit/2cf0ea1d001b19f3adf929d0760624c94a08be35))
+
 ## [3.1.1](https://github.com/Sanofi-IADC/konviw/compare/v3.1.0...v3.1.1) (2022-11-01)
 
 
