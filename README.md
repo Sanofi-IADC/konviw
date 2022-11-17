@@ -122,3 +122,4 @@ We will continue to add features but always looking to keep the current levels o
 [sonarcloud-url]: https://sonarcloud.io/dashboard?id=Sanofi-IADC_konviw
 [license-shield]: https://img.shields.io/badge/License-MIT-green.svg
 [license-url]: https://github.com/Sanofi-IADC/whispr/blob/master/LICENSE
+
