@@ -1,3 +1,10 @@
+# [3.2.0](https://github.com/Sanofi-IADC/konviw/compare/v3.1.2...v3.2.0) (2023-01-05)
+
+
+### Features
+
+* WEB-1615 Updated google analytics script ([#490](https://github.com/Sanofi-IADC/konviw/issues/490)) ([8b0ca72](https://github.com/Sanofi-IADC/konviw/commit/8b0ca72f93bbb0f4593fa79957dfe63277ca4615))
+
 ## [3.1.2](https://github.com/Sanofi-IADC/konviw/compare/v3.1.1...v3.1.2) (2022-11-02)
 
 
