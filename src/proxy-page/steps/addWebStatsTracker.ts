@@ -23,35 +23,38 @@ export default (config: ConfigService): Step => (context: ContextService): void 
   if (matomoBaseURL && matomoIdSite) {
     $('head').append(
       `<!-- Matomo -->
-        <script type="text/javascript">
-          var _paq = window._paq || [];
-          /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-          _paq.push(['trackPageView']);
-          _paq.push(['enableLinkTracking']);
-          (function() {
-            var u="${matomoBaseURL}/";
-            _paq.push(['setTrackerUrl', u+'matomo.php']);
-            _paq.push(['setSiteId', '${matomoIdSite}']);
-            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-            g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
-          })();
-        </script>
-        <!-- End Matomo Tracker -->`,
+      <script type="text/javascript">
+        var _paq = window._paq || [];
+        /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function() {
+          var u="${matomoBaseURL}/";
+          _paq.push(['setTrackerUrl', u+'matomo.php']);
+          _paq.push(['setSiteId', '${matomoIdSite}']);
+          var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+          g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+        })();
+      </script>
+      <!-- End Matomo Tracker -->`,
     );
   }
 
   if (googleTag) {
     $('head').append(
-      `<!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=${googleTag}"></script>
-        <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-
-          gtag('config', '${googleTag}');
-        </script>
-        <!-- End Google Analytics Tracker -->`,
+      `<!-- Google Tag Manager -->
+      <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','${googleTag}');</script>
+      <!-- End Google Tag Manager -->`,
+    );
+    $('body').append(
+      `<!-- Google Tag Manager (noscript) -->
+      <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=${googleTag}"
+      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+      <!-- End Google Tag Manager (noscript) -->`,
     );
   }
 
