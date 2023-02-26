@@ -21,6 +21,13 @@ export default (config: ConfigService, http: HttpService): Step => async (contex
     $(element).attr('target', '_blank');
   });
 
+  const createInlineImagePath = (favicon: string, url: string) => {
+    if (favicon) {
+      return favicon.includes(url) ? favicon : `${url}${favicon}`;
+    }
+    return '';
+  };
+
   // Inline & Card links display
   const promises = externalLinksArray.map((element) => {
     const url = $(element).attr('href');
@@ -32,7 +39,7 @@ export default (config: ConfigService, http: HttpService): Step => async (contex
     return firstValueFrom(http.get(url))
       .then((res) => {
         const body = cheerio.load(res.data);
-        const title = body('title').text();
+        const title = body('head title').text();
         const description = body('head meta[name="description"]').attr(
           'content',
         );
@@ -43,7 +50,8 @@ export default (config: ConfigService, http: HttpService): Step => async (contex
 
         let replacement = '';
         if (dataCardAppearance === 'inline') {
-          replacement = `<a target="_blank" href="${url}"> <img class="favicon" src="${favicon}"/> ${title}</a>`;
+          const imagePath = createInlineImagePath(favicon, url);
+          replacement = `<a target="_blank" href="${url}"> <img class="favicon" src="${imagePath}"/> ${title}</a>`;
         } else if (dataCardAppearance === 'block') {
           const imgTag = imageSrc ? `<img src="${imageSrc}"/>` : '';
           replacement = `
