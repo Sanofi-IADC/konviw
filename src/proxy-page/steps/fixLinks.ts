@@ -21,9 +21,20 @@ export default (config: ConfigService, http: HttpService): Step => async (contex
     $(element).attr('target', '_blank');
   });
 
-  const createInlineImagePath = (favicon: string, url: string) => {
+  const isValidURL = (favicon: string) => {
+    try {
+      const url = new URL(favicon);
+      const protocols = ['http:', 'https:'];
+      return protocols.includes(url.protocol);
+    } catch (_) {
+      return false;
+    }
+  };
+
+  const createImagePath = (favicon: string, url: string) => {
     if (favicon) {
-      return favicon.includes(url) ? favicon : `${url}${favicon}`;
+      const base = new URL(url).origin;
+      return isValidURL(favicon) ? favicon : `${base}${favicon}`;
     }
     return '';
   };
@@ -42,15 +53,14 @@ export default (config: ConfigService, http: HttpService): Step => async (contex
         const title = body('head title').text();
         const description = body('head meta[name="description"]').attr(
           'content',
-        );
-        const favicon = body('head link[rel="icon"]').attr('href');
+        ) ?? '';
+        const favicon = body('head link[rel="shortcut icon"]').attr('href') || body('head link[rel="icon"]').attr('href');
         const imageSrc = body(
           'head meta[name="twitter:image:src"], head meta[name="og:image"]',
         ).attr('content');
-
+        const imagePath = createImagePath(favicon, url);
         let replacement = '';
         if (dataCardAppearance === 'inline') {
-          const imagePath = createInlineImagePath(favicon, url);
           replacement = `<a target="_blank" href="${url}"> <img class="favicon" src="${imagePath}"/> ${title}</a>`;
         } else if (dataCardAppearance === 'block') {
           const imgTag = imageSrc ? `<img src="${imageSrc}"/>` : '';
@@ -58,7 +68,7 @@ export default (config: ConfigService, http: HttpService): Step => async (contex
             <div class="card">
               <div class="thumb">${imgTag}</div>
               <div class="title-desc">
-                <a target="_blank" href="${url}"> <img class="favicon" src="${favicon}"/> ${title}</a>
+                <a target="_blank" href="${url}"> <img class="favicon" src="${imagePath}"/> ${title}</a>
                 <p>${description}</p>
               </div>
             </div>`;
