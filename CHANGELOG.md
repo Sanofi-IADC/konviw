@@ -1,3 +1,10 @@
+# [3.3.0](https://github.com/Sanofi-IADC/konviw/compare/v3.2.0...v3.3.0) (2023-02-27)
+
+
+### Features
+
+* Updated semantic release ([25153e1](https://github.com/Sanofi-IADC/konviw/commit/25153e17feb12eade50aaa7145a57c6e0d5771b0))
+
 # [3.2.0](https://github.com/Sanofi-IADC/konviw/compare/v3.1.2...v3.2.0) (2023-01-05)
 
 

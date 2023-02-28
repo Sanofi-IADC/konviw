@@ -113,6 +113,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Install semantic-release
+        run: npm install -g semantic-release@19.0.5 @semantic-release/github @semantic-release/git@10.0.1 @semantic-release/changelog@6.0.1 @semantic-release/exec@6.0.3
+
       # - name: Log into Docker registry
       #   uses: azure/docker-login@v1
       #   with:
