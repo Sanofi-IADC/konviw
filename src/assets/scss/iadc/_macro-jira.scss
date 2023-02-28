@@ -1,5 +1,62 @@
-// Jira ===========================================
+// Jira Table ===============================================
 
 #gridjs0 {
   font-size: 16px;
 }
+
+
+// Table Jira chart Report ===================================
+
+div.two-dimensional-chart-module {
+
+  table.two-dimensional-chart-table {
+    margin: 10px 0 0 0;
+    width: 100%;
+    border-collapse: collapse;
+    th {
+      font-size: 1.2em;
+      line-height: 1.5em;
+      padding-left: 0.5em;
+    }
+    td {
+      border: 1px solid #ddd;
+      padding: 0.2em 0.5em 0.2em 0.5em;
+      vertical-align: top;
+      a {
+        justify-content: center;
+        display: flex;
+        transition: none;
+        background-image: none;
+        color: var(--primary-color-link);
+        &:hover {
+          color: var(--primary-color);
+        }
+      }
+    }
+  }
+
+  div.chart-summary {
+    font-size: x-small;
+    margin: 5px 0 0 0;
+  }
+}
+
+
+// Jira Chart ================================================
+
+div.jira-chart-macro-wrapper {
+
+  img.jira-chart-macro-img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  div.info {
+    justify-content:center;
+    display: flex;
+    font-size: smaller;
+  }
+}
+
+
