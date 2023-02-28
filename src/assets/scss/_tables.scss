@@ -190,28 +190,3 @@ table.tasks-report {
     vertical-align: top;
   }
 }
-
-// Table Task Report ======================================
-table.two-dimensional-chart-table {
-  margin: 10px 0 0 0;
-  width: 100%;
-
-  text-align: center;
-  position: relative;
-  border-collapse: collapse;
-  th {
-    font-size: 1.2em;
-    line-height: 1.5em;
-    padding-left: 0.5em;
-  }
-  td {
-    border: 1px solid #ddd;
-    padding: 0.2em 0.5em 0.2em 0.5em;
-    vertical-align: top;
-  }
-}
-
-div.chart-summary {
-  font-size: 0.7em;
-  margin: 5px 0 0 0;
-}
