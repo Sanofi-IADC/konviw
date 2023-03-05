@@ -208,12 +208,24 @@ describe('ConfluenceProxy / fixLinks', () => {
     const step = fixLinks(config, http);
     const example =
     '<html><head></head><body>' +
-    '<a data-card-appearance="inline"  href="https://www.google.com/about" class="external-link">Example</a>' +
+    '<a data-card-appearance="inline" href="https://github.com/Sanofi-IADC/konviw" class="external-link">Example</a>' +
     '</body></html>';
     context.setHtmlBody(example);
     await step(context);
     const $ = context.getCheerioBody();
     expect($('#Content > a > img').attr('class')).toBe('favicon');
+  });
+
+  it('should display data-appearance=inline links without a favicon', async () => {
+    const step = fixLinks(config, http);
+    const example =
+    '<html><head></head><body>' +
+    '<a data-card-appearance="inline" href="https://www.google.com/about" class="external-link">Example</a>' +
+    '</body></html>';
+    context.setHtmlBody(example);
+    await step(context);
+    const $ = context.getCheerioBody();
+    expect($('#Content > a > img').attr('class')).toBe('favicon hidden');
   });
 
   it('should display data-appearance=card links as a card', async () => {
