@@ -22,7 +22,7 @@ export default (): Step => (context: ContextService): void => {
           if (content.style.maxHeight) {
             toggleMaxHeight(true);
           } else {
-            const imagesCollection = content.querySelectorAll('img');
+            const imagesCollection = content.querySelectorAll('img.confluence-embedded-image');
             if (imagesCollection && imagesCollection.length > 0 && !promiseFinallyState) {
               toggleOpacity('0');
               toggleMaxHeight();
