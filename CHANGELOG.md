@@ -1,3 +1,10 @@
+## [3.4.1](https://github.com/Sanofi-IADC/konviw/compare/v3.4.0...v3.4.1) (2023-03-06)
+
+
+### Bug Fixes
+
+* WEB-1650 Make the table headers sticky, remove horizontal scroll ([8c10f7f](https://github.com/Sanofi-IADC/konviw/commit/8c10f7f8314715e3b93122f52d32662a20ff09eb))
+
 # [3.4.0](https://github.com/Sanofi-IADC/konviw/compare/v3.3.0...v3.4.0) (2023-02-28)
 
 
