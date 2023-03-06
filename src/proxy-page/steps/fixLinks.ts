@@ -15,11 +15,8 @@ export default (config: ConfigService, http: HttpService): Step => async (contex
   const confluenceBaseURL = config.get('confluence.baseURL');
   const webBasePath = config.get('web.absoluteBasePath');
 
-  // External links are tagged with the class external-link
-  const externalLinksArray = $('a.external-link').toArray();
-  $(externalLinksArray).each((_index: number, element: cheerio.Element) => {
-    $(element).attr('target', '_blank');
-  });
+  const confluenceHomepageClass = 'confluence-homepage';
+  const atlassianResourcesURL = 'https://sanofi.atlassian.net/jira';
 
   const isValidURL = (favicon: string) => {
     try {
@@ -39,50 +36,129 @@ export default (config: ConfigService, http: HttpService): Step => async (contex
     return '';
   };
 
-  // Inline & Card links display
-  const promises = externalLinksArray.map((element) => {
-    const url = $(element).attr('href');
-    const dataCardAppearance = $(element).attr('data-card-appearance');
-    if (!dataCardAppearance) {
-      return null;
-    }
+  const isCounfluenceHomepage = (link: cheerio.Element) =>
+    link?.attribs?.classname === confluenceHomepageClass;
 
+  const isAtlassianResources = (element: cheerio.Element) =>
+    element?.attribs?.href?.startsWith(atlassianResourcesURL);
+
+  const titleFactory = (isAtlassian: boolean, body: cheerio.CheerioAPI) => {
+    if (isAtlassian) {
+      return body('nav h2').text();
+    }
+    return body('head title').text();
+  };
+
+  const faviconFactory = (isAtlassian: boolean, body: cheerio.CheerioAPI) => {
+    if (isAtlassian) {
+      return $(body('nav [style*="background-image"]').get())?.css('background-image')?.slice(5, -2) ?? '';
+    }
+    return (body('head link[rel="shortcut icon"]').attr('href') || body('head link[rel="icon"]').attr('href')) ?? '';
+  };
+
+  const toogleImageDisplayAttribiute = (link: cheerio.Element) => {
+    const href = $(link).attr().src;
+    if (!href || !href.length) {
+      $(link).addClass('hidden');
+    }
+  };
+
+  const returnValueCallbackBasedOnDestination = (url: string, element: cheerio.Element) => {
+    if (!isAtlassianResources(element)) {
+      return firstValueFrom(http.get(url));
+    }
+    return firstValueFrom(http.get(url, {
+      auth: { username: config.get('confluence.apiUsername'), password: config.get('confluence.apiToken') },
+    }));
+  };
+
+  // Confluence homepages
+  $('a').each((_, anchor) => {
+    const [, wikiKeyword, spacesKeyword, , , pagesKeywrod, pageID] = anchor?.attribs?.href?.split('/') ?? [];
+    if (wikiKeyword && spacesKeyword && !pagesKeywrod && !pageID) {
+      $(anchor).addClass(confluenceHomepageClass);
+    }
+  });
+
+  $(`a.${confluenceHomepageClass}`).each((_, element: cheerio.Element & { children: { data: string }[] }) => {
+    const childURL = element?.children[0]?.data;
+    const isValidUrlFromChildren = isValidURL(childURL ?? '');
+    const href = isValidUrlFromChildren ? childURL : element?.attribs?.href;
+    $(element).replaceWith(`<a className="${confluenceHomepageClass}" target="_blank" href="${href}">${href}</a>`);
+  });
+
+  const homepageLinks = $(`a[className="${confluenceHomepageClass}"]`).toArray();
+
+  const homepageLinksPromises = homepageLinks.map((element: cheerio.Element & { children: { data: string }[] }) => {
+    const url = element?.children[0]?.data;
     return firstValueFrom(http.get(url))
       .then((res) => {
         const body = cheerio.load(res.data);
-        const title = body('head title').text();
-        const description = body('head meta[name="description"]').attr(
-          'content',
-        ) ?? '';
-        const favicon = body('head link[rel="shortcut icon"]').attr('href') || body('head link[rel="icon"]').attr('href');
-        const imageSrc = body(
-          'head meta[name="twitter:image:src"], head meta[name="og:image"]',
-        ).attr('content');
+        const title = element.attribs.href.split('/spaces/')[1].trim();
+        const favicon = body('head link[rel="shortcut icon"]').attr('href');
         const imagePath = createImagePath(favicon, url);
-        let replacement = '';
-        if (dataCardAppearance === 'inline') {
-          replacement = `<a target="_blank" href="${url}"> <img class="favicon" src="${imagePath}"/> ${title}</a>`;
-        } else if (dataCardAppearance === 'block') {
-          const imgTag = imageSrc ? `<img src="${imageSrc}"/>` : '';
-          replacement = `
-            <div class="card">
-              <div class="thumb">${imgTag}</div>
-              <div class="title-desc">
-                <a target="_blank" href="${url}"> <img class="favicon" src="${imagePath}"/> ${title}</a>
-                <p>${description}</p>
-              </div>
-            </div>`;
-        }
-        if (replacement) {
-          $(element).replaceWith(replacement);
-        }
+        const replacement = `<a target="_blank" href="${url}" className="${confluenceHomepageClass}">
+          <img class="favicon" src="${imagePath}" /> ${title}
+        </a>`;
+        $(element).replaceWith(replacement);
       })
       .catch((error) => {
         console.log(`Smart link metadata fetch error: ${error}`); // eslint-disable-line no-console
       });
   });
 
-  await Promise.all(promises);
+  await Promise.all(homepageLinksPromises);
+
+  // External links are tagged with the class external-link
+  const externalLinksArray = $('a.external-link').toArray();
+  $(externalLinksArray).each((_index: number, element: cheerio.Element) => {
+    $(element).attr('target', '_blank');
+  });
+
+  // Inline & Card links display
+  const externalLinksPromises = externalLinksArray.map((element: cheerio.Element) => {
+    const url = $(element).attr('href');
+    const dataCardAppearance = $(element).attr('data-card-appearance');
+    if (!dataCardAppearance) {
+      return null;
+    }
+
+    return returnValueCallbackBasedOnDestination(url, element).then((res) => {
+      const body = cheerio.load(res.data);
+      const isAtlassian = isAtlassianResources(element);
+      const title = titleFactory(isAtlassian, body);
+      const favicon = faviconFactory(isAtlassian, body);
+      const description = body('head meta[name="description"]').attr(
+        'content',
+      ) ?? '';
+      const imageSrc = body(
+        'head meta[name="twitter:image:src"], head meta[name="og:image"]',
+      ).attr('content');
+      const imagePath = createImagePath(favicon, url);
+      let replacement = '';
+      if (dataCardAppearance === 'inline') {
+        replacement = `<a target="_blank" href="${url}"> <img class="favicon" src="${imagePath}"/> ${title}</a>`;
+      } else if (dataCardAppearance === 'block') {
+        const imgTag = imageSrc ? `<img src="${imageSrc}"/>` : '';
+        replacement = `
+          <div class="card">
+            <div class="thumb">${imgTag}</div>
+            <div class="title-desc">
+              <a target="_blank" href="${url}"> <img class="favicon" src="${imagePath}"/> ${title}</a>
+              <p>${description}</p>
+            </div>
+          </div>`;
+      }
+      if (replacement) {
+        $(element).replaceWith(replacement);
+      }
+    })
+      .catch((error) => {
+        console.log(`Smart link metadata fetch error: ${error}`); // eslint-disable-line no-console
+      });
+  });
+
+  await Promise.all(externalLinksPromises);
 
   const domain = confluenceBaseURL.toString().replace(/https?:\/\//, '');
   // For direct Url and Uri we look for two patterns
@@ -158,11 +234,14 @@ export default (config: ConfigService, http: HttpService): Step => async (contex
   // Let's find Confluence links to pages
   logger.log('Replacing links URLs');
   $('a').each((_index: number, link: cheerio.Element) => {
-    replaceAttributeLink('href', link);
+    if (!isCounfluenceHomepage(link)) {
+      replaceAttributeLink('href', link);
+    }
   });
   // Let's find Confluence links to images
   logger.log('Replacing images URLs');
   $('img').each((_index: number, link: cheerio.Element) => {
+    toogleImageDisplayAttribiute(link);
     replaceAttributeLink('src', link);
   });
 
