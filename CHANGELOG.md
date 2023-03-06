@@ -1,3 +1,11 @@
+# [3.4.0](https://github.com/Sanofi-IADC/konviw/compare/v3.3.0...v3.4.0) (2023-02-28)
+
+
+### Features
+
+* WEB-1762 basic table style display borders ([1dd9613](https://github.com/Sanofi-IADC/konviw/commit/1dd9613ba9cf426924f225ee5f69d5ee8c66cc4f))
+* WEB-1762 visualization of tables jira macro ([ee90520](https://github.com/Sanofi-IADC/konviw/commit/ee905206e05439c7e224d92f33c10236233ce6a0))
+
 # [3.3.0](https://github.com/Sanofi-IADC/konviw/compare/v3.2.0...v3.3.0) (2023-02-27)
 
 
