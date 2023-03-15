@@ -1,3 +1,10 @@
+## [3.4.2](https://github.com/Sanofi-IADC/konviw/compare/v3.4.1...v3.4.2) (2023-03-15)
+
+
+### Bug Fixes
+
+* WEB-1787 refactor code deletion ([66bdda3](https://github.com/Sanofi-IADC/konviw/commit/66bdda3971ad602a677a48cd4cf895fd52a22484))
+
 ## [3.4.1](https://github.com/Sanofi-IADC/konviw/compare/v3.4.0...v3.4.1) (2023-03-06)
 
 
