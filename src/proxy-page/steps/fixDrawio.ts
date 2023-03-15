@@ -79,17 +79,10 @@ export default (config: ConfigService): Step => (context: ContextService): void 
           <img
             class="drawio-zoomable"
             src="${webBasePath}/wiki/download/attachments/${context.getPageId()}/${fileName}.png"
-            alt="${diagramName}" 
+            alt="${diagramName}"
           />
         </figure>`);
       }
-    },
-  );
-
-  // Remove this Drawio script to remove unnecessary noise in the final HTML
-  $('script.ap-iframe-body-script').each(
-    (_index: number, elementDrawio: cheerio.Element) => {
-      $(elementDrawio).replaceWith('');
     },
   );
 
