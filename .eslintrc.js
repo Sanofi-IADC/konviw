@@ -51,6 +51,7 @@ module.exports = {
         'no-underscore-dangle': 'off', // necessary for graphql convention
         'no-use-before-define': 'off', // idac habits
         'no-useless-constructor': 'off', // idac habits
+        'linebreak-style': 'off',
         '@typescript-eslint/no-useless-constructor': 'error', // idac habits
         '@typescript-eslint/no-shadow': ['error'], // idac habits
         '@typescript-eslint/no-explicit-any': 'off', // idac habits
