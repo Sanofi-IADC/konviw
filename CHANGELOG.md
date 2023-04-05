@@ -1,3 +1,10 @@
+## [3.4.3](https://github.com/Sanofi-IADC/konviw/compare/v3.4.2...v3.4.3) (2023-04-05)
+
+
+### Bug Fixes
+
+* WEB-292 fix caption image ([77ff393](https://github.com/Sanofi-IADC/konviw/commit/77ff3939474da3444ddc24b47958aef810de4d75))
+
 ## [3.4.2](https://github.com/Sanofi-IADC/konviw/compare/v3.4.1...v3.4.2) (2023-03-15)
 
 
