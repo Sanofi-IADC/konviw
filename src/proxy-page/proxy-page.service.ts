@@ -42,6 +42,7 @@ import fixSVG from './steps/fixSVG';
 import fixTableBackground from './steps/fixTableBackground';
 import addSlideTypeByStrategy from './strategySteps/addSlideTypeByStrategy';
 import addSlideContextByStrategy from './strategySteps/addSlideContextByStrategy';
+import fixCaptionImage from './steps/fixCaptionImage';
 
 @Injectable()
 export class ProxyPageService {
@@ -112,6 +113,7 @@ export class ProxyPageService {
     fixCode()(this.context);
     fixFrameAllowFullscreen()(this.context);
     fixImageSize()(this.context);
+    fixCaptionImage(content)(this.context);
     fixColGroupWidth()(this.context);
     if (type === 'blog') {
       await addHeaderBlog()(this.context);
@@ -178,6 +180,7 @@ export class ProxyPageService {
     fixEmptyLineIncludePage()(this.context);
     fixRoadmap(this.config)(this.context);
     fixImageSize()(this.context);
+    fixCaptionImage(content)(this.context);
     fixFrameAllowFullscreen()(this.context);
     fixSVG(this.config)(this.context);
     fixTableBackground()(this.context);
