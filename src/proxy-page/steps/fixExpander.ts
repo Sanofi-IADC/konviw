@@ -23,13 +23,14 @@ export default (): Step => (context: ContextService): void => {
             toggleMaxHeight(true);
           } else {
             const imagesCollection = content.querySelectorAll('img.confluence-embedded-image');
-            if (imagesCollection && imagesCollection.length > 0 && !promiseFinallyState) {
+            const notCompletedIamges = Array.from(imagesCollection).filter((image) => !image.complete);
+            if (notCompletedIamges && notCompletedIamges.length > 0 && !promiseFinallyState) {
               toggleOpacity('0');
               toggleMaxHeight();
               const loadImageStatusFn = (image) => new Promise(
                 (res) => image.addEventListener('load', () => res())
               );
-              Promise.all([...imagesCollection].map(loadImageStatusFn)).finally(() => {
+              Promise.all([...notCompletedIamges].map(loadImageStatusFn)).finally(() => {
                 toggleMaxHeight();
                 toggleOpacity('1');
                 togglePromiseFinallyState();
