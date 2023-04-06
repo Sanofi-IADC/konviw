@@ -4,11 +4,10 @@ import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
 
 /**
- * ### Proxy page step to fix image width
+ * ### Proxy page step to fix image caiption
  *
  * This module gets Cheerio to search all images ('img')
- * and set the width according to attribute 'data-width'
- * if the width attr was not directly provided by the API
+ * and set the caption according to child 'ac:caption'
  *
  * @param  {ConfigService} config
  * @returns void
