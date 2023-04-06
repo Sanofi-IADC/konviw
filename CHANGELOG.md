@@ -1,3 +1,10 @@
+## [3.4.4](https://github.com/Sanofi-IADC/konviw/compare/v3.4.3...v3.4.4) (2023-04-06)
+
+
+### Bug Fixes
+
+* WEB-1789 Fixed expander macro logic ([82da98b](https://github.com/Sanofi-IADC/konviw/commit/82da98bdc131d42109999f892aec0f603502dfcf))
+
 ## [3.4.3](https://github.com/Sanofi-IADC/konviw/compare/v3.4.2...v3.4.3) (2023-04-05)
 
 
