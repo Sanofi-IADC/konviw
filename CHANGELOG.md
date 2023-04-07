@@ -1,3 +1,10 @@
+## [3.4.5](https://github.com/Sanofi-IADC/konviw/compare/v3.4.4...v3.4.5) (2023-04-07)
+
+
+### Bug Fixes
+
+* WEB-1543 Cleanup code for emoji ([cb93b9b](https://github.com/Sanofi-IADC/konviw/commit/cb93b9bf9cf658e0270f0e12c8c4bdbab2e3f0dd))
+
 ## [3.4.4](https://github.com/Sanofi-IADC/konviw/compare/v3.4.3...v3.4.4) (2023-04-06)
 
 
