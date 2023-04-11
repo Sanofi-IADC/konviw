@@ -35,4 +35,14 @@ describe('ConfluenceProxy / addHeaderTitle', () => {
       '<h1 class="titlePage">😍 I am the title</h1>',
     );
   });
+
+  it('should add the h1 title and special atlassian emoji with image element', () => {
+    const step = addHeaderTitle();
+    context.setTitle('I am the title');
+    context.setHeaderEmoji('atlassian_question_mark');
+    context.setHtmlBody(example);
+    step(context);
+    expect(context.getHtmlBody()).toContain('I am the title');
+    expect(context.getHtmlBody()).toContain('question_mark_32.png');
+  });
 });

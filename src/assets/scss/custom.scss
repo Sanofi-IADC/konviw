@@ -34,8 +34,14 @@ html {
 }
 
 h1.titlePage {
+  display: flex;
+  align-items: center;
   color: var(--heading-color);
   font-size: var(--title-font-size);
+}
+
+h1 > img.titleIcon {
+  height: 1.3rem;
 }
 
 p {
