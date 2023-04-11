@@ -1,3 +1,10 @@
+## [3.4.6](https://github.com/Sanofi-IADC/konviw/compare/v3.4.5...v3.4.6) (2023-04-11)
+
+
+### Bug Fixes
+
+* WEB-1533 Fixed wrongly calculated columns ([6d6e0ec](https://github.com/Sanofi-IADC/konviw/commit/6d6e0ecd325dddda534dbca06695bddc0ddbfae6))
+
 ## [3.4.5](https://github.com/Sanofi-IADC/konviw/compare/v3.4.4...v3.4.5) (2023-04-07)
 
 
