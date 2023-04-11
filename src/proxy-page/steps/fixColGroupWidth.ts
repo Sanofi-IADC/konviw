@@ -38,5 +38,7 @@ export default (): Step => (context: ContextService): void => {
 
 function getElementValue(elementColumn: cheerio.Element): number {
   const attribs = JSON.parse(JSON.stringify(elementColumn.attribs));
-  return Number(attribs?.style?.match(/\d+/)[0]) ?? 0;
+  // default value for columns where there is no width defined
+  const defaultWidth = 20;
+  return attribs.style ? Number(attribs?.style?.match(/\d+/)[0] ?? 0) : defaultWidth;
 }
