@@ -36,13 +36,13 @@ describe('ConfluenceProxy / addHeaderTitle', () => {
     );
   });
 
-  it('should add the h1 title and special atlassian emoji with image element', () => {
+  it('should remove special atlassian emoji from the title', () => {
     const step = addHeaderTitle();
     context.setTitle('I am the title');
     context.setHeaderEmoji('atlassian_question_mark');
     context.setHtmlBody(example);
     step(context);
     expect(context.getHtmlBody()).toContain('I am the title');
-    expect(context.getHtmlBody()).toContain('question_mark_32.png');
+    expect(context.getHtmlBody()).not.toContain('atlassian_question_mark');
   });
 });
