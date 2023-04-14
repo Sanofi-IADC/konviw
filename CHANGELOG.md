@@ -1,3 +1,10 @@
+## [3.4.7](https://github.com/Sanofi-IADC/konviw/compare/v3.4.6...v3.4.7) (2023-04-14)
+
+
+### Bug Fixes
+
+* WEB-1838 Remove atlassian icons from title ([cca8786](https://github.com/Sanofi-IADC/konviw/commit/cca8786bd79566d59dc5575b078d0eea2fe4806f))
+
 ## [3.4.6](https://github.com/Sanofi-IADC/konviw/compare/v3.4.5...v3.4.6) (2023-04-11)
 
 
