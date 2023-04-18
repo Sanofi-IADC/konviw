@@ -98,6 +98,7 @@ export class ProxyPageService {
     await getExcerptAndHeaderImage(this.config, this.confluence)(this.context);
     fixHtmlHead(this.config)(this.context);
     fixContentWidth()(this.context);
+    fixUserProfile()(this.context);
     await fixLinks(this.config, this.http)(this.context);
     if (view !== 'iframe-resizer') {
       fixToc()(this.context);
@@ -106,7 +107,6 @@ export class ProxyPageService {
     fixDrawioMacro(this.config)(this.context);
     fixChartMacro(this.config)(this.context);
     fixExpander()(this.context);
-    fixUserProfile()(this.context);
     fixVideo()(this.context);
     // fixEmptyLineIncludePage()(this.context);
     fixRoadmap(this.config)(this.context);
@@ -169,13 +169,13 @@ export class ProxyPageService {
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
     addSlidesCSS(this.config)(this.context);
     fixHtmlHead(this.config)(this.context);
+    fixUserProfile()(this.context);
     await fixLinks(this.config, this.http)(this.context);
     fixToc()(this.context);
     fixEmojis(this.config)(this.context);
     fixDrawioMacro(this.config)(this.context);
     fixChartMacro(this.config)(this.context);
     fixExpander()(this.context);
-    fixUserProfile()(this.context);
     fixVideo()(this.context);
     fixEmptyLineIncludePage()(this.context);
     fixRoadmap(this.config)(this.context);
