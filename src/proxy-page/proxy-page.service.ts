@@ -107,7 +107,6 @@ export class ProxyPageService {
     fixDrawioMacro(this.config)(this.context);
     fixChartMacro(this.config)(this.context);
     fixExpander()(this.context);
-    
     fixVideo()(this.context);
     // fixEmptyLineIncludePage()(this.context);
     fixRoadmap(this.config)(this.context);
