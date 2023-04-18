@@ -11,12 +11,14 @@ export default (config: ConfigService): Step => (context: ContextService): void 
   // img tag with class emoticon is used to wrap the Confluence emoticons
   $('img.emoticon').each((_index: number, element: cheerio.Element) => {
     const thisEmoji = $(element).data();
+    const emojiIdIsStringInstance = typeof thisEmoji.emojiId === 'string';
+    const emojiIdIsNumberInstance = typeof thisEmoji.emojiId === 'number';
     // condition to detect special Atlassian emoticons
+    const emojiIdIsSpecialAtlassianEmoticon = emojiIdIsStringInstance && (thisEmoji.emojiId as string).substring(0, 9) === 'atlassian';
     if (
-      (typeof thisEmoji.emojiId === 'string'
-          && (thisEmoji.emojiId as string).substring(0, 9) === 'atlassian')
-        || typeof thisEmoji.emojiId === 'number'
-    ) {
+      (emojiIdIsStringInstance
+        && emojiIdIsSpecialAtlassianEmoticon)
+      || emojiIdIsNumberInstance) {
       const fullUrl = $(element)
         .attr('src')
         .replace(/.*\/cpv/, confluenceBaseUrl);
