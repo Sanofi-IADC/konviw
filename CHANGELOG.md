@@ -1,3 +1,10 @@
+# [3.5.0](https://github.com/Sanofi-IADC/konviw/compare/v3.4.7...v3.5.0) (2023-04-18)
+
+
+### Features
+
+* WEB-1806 Fixed user profile ([b8c7e6f](https://github.com/Sanofi-IADC/konviw/commit/b8c7e6f4de546068714cd0c2a9f2db170bfe572b))
+
 ## [3.4.7](https://github.com/Sanofi-IADC/konviw/compare/v3.4.6...v3.4.7) (2023-04-14)
 
 
