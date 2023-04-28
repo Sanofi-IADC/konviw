@@ -15,9 +15,6 @@ export default (config: ConfigService, http: HttpService): Step => async (contex
   const confluenceBaseURL = config.get('confluence.baseURL');
   const webBasePath = config.get('web.absoluteBasePath');
 
-  const confluenceHomepageClass = 'confluence-homepage';
-  const atlassianResourcesURL = 'https://sanofi.atlassian.net/jira';
-
   const isValidURL = (favicon: string) => {
     try {
       const url = new URL(favicon);
@@ -28,6 +25,9 @@ export default (config: ConfigService, http: HttpService): Step => async (contex
     }
   };
 
+  const isConfluenceSpaceIcon = (link: cheerio.Element) =>
+    $(link).hasClass('confluence-space-icon');
+
   const createImagePath = (favicon: string, url: string) => {
     if (favicon) {
       const base = new URL(url).origin;
@@ -36,25 +36,11 @@ export default (config: ConfigService, http: HttpService): Step => async (contex
     return '';
   };
 
-  const isCounfluenceHomepage = (link: cheerio.Element) =>
-    link?.attribs?.classname === confluenceHomepageClass;
+  const titleFactory = (body: cheerio.CheerioAPI) =>
+    body('head title').text();
 
-  const isAtlassianResources = (element: cheerio.Element) =>
-    element?.attribs?.href?.startsWith(atlassianResourcesURL);
-
-  const titleFactory = (isAtlassian: boolean, body: cheerio.CheerioAPI) => {
-    if (isAtlassian) {
-      return body('nav h2').text();
-    }
-    return body('head title').text();
-  };
-
-  const faviconFactory = (isAtlassian: boolean, body: cheerio.CheerioAPI) => {
-    if (isAtlassian) {
-      return $(body('nav [style*="background-image"]').get())?.css('background-image')?.slice(5, -2) ?? '';
-    }
-    return (body('head link[rel="shortcut icon"]').attr('href') || body('head link[rel="icon"]').attr('href')) ?? '';
-  };
+  const faviconFactory = (body: cheerio.CheerioAPI) =>
+    (body('head link[rel="shortcut icon"]').attr('href') || body('head link[rel="icon"]').attr('href')) ?? '';
 
   const toogleImageDisplayAttribiute = (link: cheerio.Element) => {
     const href = $(link).attr().src;
@@ -63,51 +49,16 @@ export default (config: ConfigService, http: HttpService): Step => async (contex
     }
   };
 
-  const returnValueCallbackBasedOnDestination = (url: string, element: cheerio.Element) => {
-    if (!isAtlassianResources(element)) {
+  const isJiraSpace = (url: string) => url.startsWith(`${confluenceBaseURL}/browse`);
+
+  const fetchResourcesCallback = (url: string) => {
+    if (!isJiraSpace(url)) {
       return firstValueFrom(http.get(url));
     }
     return firstValueFrom(http.get(url, {
       auth: { username: config.get('confluence.apiUsername'), password: config.get('confluence.apiToken') },
     }));
   };
-
-  // Confluence homepages
-  $('a').each((_, anchor) => {
-    const [, wikiKeyword, spacesKeyword, , , pagesKeywrod, pageID] = anchor?.attribs?.href?.split('/') ?? [];
-    if (wikiKeyword && spacesKeyword && !pagesKeywrod && !pageID) {
-      $(anchor).addClass(confluenceHomepageClass);
-    }
-  });
-
-  $(`a.${confluenceHomepageClass}`).each((_, element: cheerio.Element & { children: { data: string }[] }) => {
-    const childURL = element?.children[0]?.data;
-    const isValidUrlFromChildren = isValidURL(childURL ?? '');
-    const href = isValidUrlFromChildren ? childURL : element?.attribs?.href;
-    $(element).replaceWith(`<a className="${confluenceHomepageClass}" target="_blank" href="${href}">${href}</a>`);
-  });
-
-  const homepageLinks = $(`a[className="${confluenceHomepageClass}"]`).toArray();
-
-  const homepageLinksPromises = homepageLinks.map((element: cheerio.Element & { children: { data: string }[] }) => {
-    const url = element?.children[0]?.data;
-    return firstValueFrom(http.get(url))
-      .then((res) => {
-        const body = cheerio.load(res.data);
-        const title = element.attribs.href.split('/spaces/')[1].trim();
-        const favicon = body('head link[rel="shortcut icon"]').attr('href');
-        const imagePath = createImagePath(favicon, url);
-        const replacement = `<a target="_blank" href="${url}" className="${confluenceHomepageClass}">
-          <img class="favicon" src="${imagePath}" /> ${title}
-        </a>`;
-        $(element).replaceWith(replacement);
-      })
-      .catch((error) => {
-        console.log(`Smart link metadata fetch error: ${error}`); // eslint-disable-line no-console
-      });
-  });
-
-  await Promise.all(homepageLinksPromises);
 
   // External links are tagged with the class external-link
   const externalLinksArray = $('a.external-link').toArray();
@@ -123,11 +74,10 @@ export default (config: ConfigService, http: HttpService): Step => async (contex
       return null;
     }
 
-    return returnValueCallbackBasedOnDestination(url, element).then((res) => {
+    return fetchResourcesCallback(url).then((res) => {
       const body = cheerio.load(res.data);
-      const isAtlassian = isAtlassianResources(element);
-      const title = titleFactory(isAtlassian, body);
-      const favicon = faviconFactory(isAtlassian, body);
+      const title = titleFactory(body);
+      const favicon = faviconFactory(body);
       const description = body('head meta[name="description"]').attr(
         'content',
       ) ?? '';
@@ -234,15 +184,16 @@ export default (config: ConfigService, http: HttpService): Step => async (contex
   // Let's find Confluence links to pages
   logger.log('Replacing links URLs');
   $('a').each((_index: number, link: cheerio.Element) => {
-    if (!isCounfluenceHomepage(link)) {
-      replaceAttributeLink('href', link);
-    }
+    replaceAttributeLink('href', link);
   });
+
   // Let's find Confluence links to images
   logger.log('Replacing images URLs');
   $('img').each((_index: number, link: cheerio.Element) => {
     toogleImageDisplayAttribiute(link);
-    replaceAttributeLink('src', link);
+    if (!isConfluenceSpaceIcon(link)) {
+      replaceAttributeLink('src', link);
+    }
   });
 
   // Remove links from user mentions
