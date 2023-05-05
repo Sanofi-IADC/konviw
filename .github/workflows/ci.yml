@@ -43,6 +43,7 @@ jobs:
         run: |
           git config --global user.name "$GIT_AUTHOR_NAME"
           git config --global user.email "$GIT_AUTHOR_EMAIL"
+          git config --list
 
       - name: Install dependencies
         run: npm ci
