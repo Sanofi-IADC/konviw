@@ -38,7 +38,7 @@ jobs:
 
       - name: git_config
         env:
-          GIT_AUTHOR_NAME: ${{ github.event.repository.name }}
+          GIT_AUTHOR_NAME: ${{ github.event.head_commit.committer.name }}
           GIT_AUTHOR_EMAIL: ${{ github.event.head_commit.committer.email }}
         run: |
           git config --global user.name "$GIT_AUTHOR_NAME"
