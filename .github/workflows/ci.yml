@@ -38,12 +38,11 @@ jobs:
 
       - name: git_config
         env:
-          GIT_AUTHOR_NAME: krystiankedra
-          GIT_AUTHOR_EMAIL: kedrakrystian@gmail.com
+          GIT_AUTHOR_NAME: ${{ github.event.repository.name }}
+          GIT_AUTHOR_EMAIL: ${{ github.event.head_commit.committer.email }}
         run: |
           git config --global user.name "$GIT_AUTHOR_NAME"
           git config --global user.email "$GIT_AUTHOR_EMAIL"
-          git config --list
 
       - name: Install dependencies
         run: npm ci
@@ -59,7 +58,7 @@ jobs:
 
       - name: Deploy to Vercel
         id: vercel-deploy
-        uses: BetaHuhn/deploy-to-vercel-action@v1.9.12
+        uses: BetaHuhn/deploy-to-vercel-action@v1.7.2
         if: ${{ matrix.node-version == '16.x' }}
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
