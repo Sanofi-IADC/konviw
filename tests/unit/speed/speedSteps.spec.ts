@@ -1,6 +1,7 @@
 import { ContextService } from '../../../src/context/context.service';
 import { ConfigService } from '@nestjs/config';
 import { createModuleRefForStep } from '../steps/utils';
+import { confluenceServiceMock } from '../mocks/confluenceService';
 import * as fs from 'fs';
 
 /**
@@ -47,6 +48,15 @@ describe('Speed / Steps', () => {
   // Number of time we check the step execution time.
   const iteration = 100;
 
+  const argumentsFactory = (filename: string) => {
+    switch (filename) {
+      case 'fixConfluenceSpace': {
+        return confluenceServiceMock;
+      }
+      default: {};
+    }
+  }
+
   beforeEach(async () => {
     const moduleRef = await createModuleRefForStep();
     context = moduleRef.get<ContextService>(ContextService);
@@ -69,7 +79,8 @@ describe('Speed / Steps', () => {
       }
       if (!module) break;
       // Get the step from the module
-      const step = module.default(config);
+      const additionalStepArguments = argumentsFactory(filename);
+      const step = module.default(config, additionalStepArguments);
       // Do the speed test
       for (let i = 0; i < iteration; i++) {
         context.setHtmlBody(htmlContext);

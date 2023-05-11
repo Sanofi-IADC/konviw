@@ -19,6 +19,8 @@ jobs:
       CPV_CONFLUENCE_API_TOKEN: ${{ secrets.CPV_CONFLUENCE_API_TOKEN }}
       CPV_CONFLUENCE_API_USERNAME: ${{ secrets.CPV_CONFLUENCE_API_USERNAME }}
       CPV_CONFLUENCE_BASE_URL: ${{ secrets.CPV_CONFLUENCE_BASE_URL }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -48,16 +50,21 @@ jobs:
       - name: Prod build
         run: npm run build
 
-      - name: Deploy to Vercel
-        id: vercel-deploy
-        uses: BetaHuhn/deploy-to-vercel-action@v1.7.2
+      - name: Install Vercel CLI
         if: ${{ matrix.node-version == '16.x' }}
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-          PRODUCTION: false
+        run: npm install --global vercel@latest
+
+      - name: Pull Vercel Environment Information
+        if: ${{ matrix.node-version == '16.x' }}
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build Project Artifacts
+        if: ${{ matrix.node-version == '16.x' }}
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy Project Artifacts to Vercel
+        if: ${{ matrix.node-version == '16.x' }}
+        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Run Cypress Tests
         uses: cypress-io/github-action@v2
