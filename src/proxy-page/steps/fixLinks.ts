@@ -44,7 +44,8 @@ export default (config: ConfigService, http: HttpService): Step => async (contex
 
   const toogleImageDisplayAttribiute = (link: cheerio.Element) => {
     const href = $(link).attr().src;
-    if (!href || !href.length) {
+    const existHrefAttribiute = href && href.length;
+    if (!existHrefAttribiute) {
       $(link).addClass('hidden');
     }
   };
@@ -52,12 +53,13 @@ export default (config: ConfigService, http: HttpService): Step => async (contex
   const isJiraSpace = (url: string) => url.startsWith(`${confluenceBaseURL}/browse`);
 
   const fetchResourcesCallback = (url: string) => {
-    if (!isJiraSpace(url)) {
-      return firstValueFrom(http.get(url));
+    const jiraSpace = isJiraSpace(url);
+    if (jiraSpace) {
+      return firstValueFrom(http.get(url, {
+        auth: { username: config.get('confluence.apiUsername'), password: config.get('confluence.apiToken') },
+      }));
     }
-    return firstValueFrom(http.get(url, {
-      auth: { username: config.get('confluence.apiUsername'), password: config.get('confluence.apiToken') },
-    }));
+    return firstValueFrom(http.get(url));
   };
 
   // External links are tagged with the class external-link
