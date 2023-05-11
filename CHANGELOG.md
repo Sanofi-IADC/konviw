@@ -1,3 +1,10 @@
+# [3.6.0](https://github.com/Sanofi-IADC/konviw/compare/v3.5.1...v3.6.0) (2023-05-11)
+
+
+### Features
+
+* WEB-1872 update the cypress test - check for profile image ([18b34a1](https://github.com/Sanofi-IADC/konviw/commit/18b34a1a174be257521bb646077478974b424a01))
+
 ## [3.5.1](https://github.com/Sanofi-IADC/konviw/compare/v3.5.0...v3.5.1) (2023-05-11)
 
 
