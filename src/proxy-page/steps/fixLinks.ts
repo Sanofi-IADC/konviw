@@ -44,7 +44,7 @@ export default (config: ConfigService, http: HttpService): Step => async (contex
 
   const toogleImageDisplayAttribiute = (link: cheerio.Element) => {
     const href = $(link).attr().src;
-    const existHrefAttribiute = href && href.length;
+    const existHrefAttribiute = href?.length;
     if (!existHrefAttribiute) {
       $(link).addClass('hidden');
     }
