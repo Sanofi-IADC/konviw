@@ -1,3 +1,10 @@
+## [3.5.1](https://github.com/Sanofi-IADC/konviw/compare/v3.5.0...v3.5.1) (2023-05-11)
+
+
+### Bug Fixes
+
+* WEB-1811 Created independent step for confluence space ([9662885](https://github.com/Sanofi-IADC/konviw/commit/9662885882a8b4f66116aeefd664e9e844a5d5e4))
+
 # [3.5.0](https://github.com/Sanofi-IADC/konviw/compare/v3.4.7...v3.5.0) (2023-04-18)
 
 

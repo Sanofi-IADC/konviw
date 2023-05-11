@@ -43,6 +43,7 @@ import fixTableBackground from './steps/fixTableBackground';
 import addSlideTypeByStrategy from './strategySteps/addSlideTypeByStrategy';
 import addSlideContextByStrategy from './strategySteps/addSlideContextByStrategy';
 import fixCaptionImage from './steps/fixCaptionImage';
+import fixConfluenceSpace from './steps/fixConfluenceSpace';
 
 @Injectable()
 export class ProxyPageService {
@@ -99,6 +100,7 @@ export class ProxyPageService {
     fixHtmlHead(this.config)(this.context);
     fixContentWidth()(this.context);
     fixUserProfile()(this.context);
+    await fixConfluenceSpace(this.config, this.confluence)(this.context);
     await fixLinks(this.config, this.http)(this.context);
     if (view !== 'iframe-resizer') {
       fixToc()(this.context);
@@ -170,6 +172,7 @@ export class ProxyPageService {
     addSlidesCSS(this.config)(this.context);
     fixHtmlHead(this.config)(this.context);
     fixUserProfile()(this.context);
+    await fixConfluenceSpace(this.config, this.confluence)(this.context);
     await fixLinks(this.config, this.http)(this.context);
     fixToc()(this.context);
     fixEmojis(this.config)(this.context);
