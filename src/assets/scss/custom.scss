@@ -36,6 +36,15 @@ html {
 h1.titlePage {
   color: var(--heading-color);
   font-size: var(--title-font-size);
+
+  & .specialAtlassian {
+    display: flex;
+    align-items: center;
+    img {
+      width: 32px;
+      height: 32px;
+    }
+  }
 }
 
 p {

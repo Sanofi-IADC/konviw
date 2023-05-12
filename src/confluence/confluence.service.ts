@@ -284,4 +284,17 @@ export class ConfluenceService {
     );
     return results.data?.results;
   }
+
+  async getSpecialAtlassianIcons(image?: string): Promise<any> {
+    const response: AxiosResponse = await firstValueFrom(
+      this.http.get<Content>(
+        `/gateway/api/emoji/atlassian?scale=XHDPI&altScale=XXXHDPI&preferredRepresentation=IMAGE`,
+      ),
+    );
+    const results = response.data?.emojis ?? [];
+    if (image) {
+      return results.find(({ id }) => id === image);
+    }
+    return results;
+  }
 }

@@ -105,7 +105,7 @@ export class ProxyPageService {
     if (view !== 'iframe-resizer') {
       fixToc()(this.context);
     }
-    fixEmojis(this.config)(this.context);
+    await fixEmojis(this.config, this.confluence)(this.context);
     fixDrawioMacro(this.config)(this.context);
     fixChartMacro(this.config)(this.context);
     fixExpander()(this.context);
@@ -120,7 +120,7 @@ export class ProxyPageService {
     if (type === 'blog') {
       await addHeaderBlog()(this.context);
     } else if (type !== 'notitle') {
-      addHeaderTitle()(this.context);
+      await addHeaderTitle(this.confluence)(this.context);
     }
     fixSVG(this.config)(this.context);
     fixTableBackground()(this.context);
@@ -175,7 +175,7 @@ export class ProxyPageService {
     await fixConfluenceSpace(this.config, this.confluence)(this.context);
     await fixLinks(this.config, this.http)(this.context);
     fixToc()(this.context);
-    fixEmojis(this.config)(this.context);
+    await fixEmojis(this.config, this.confluence)(this.context);
     fixDrawioMacro(this.config)(this.context);
     fixChartMacro(this.config)(this.context);
     fixExpander()(this.context);

@@ -320,7 +320,7 @@ export class ProxyApiService {
     fixContentWidth()(this.context);
     await fixLinks(this.config, this.http)(this.context);
     fixToc()(this.context);
-    fixEmojis(this.config)(this.context);
+    await fixEmojis(this.config, this.confluence)(this.context);
     fixDrawio(this.config)(this.context);
     fixChart(this.config)(this.context);
     fixExpander()(this.context);

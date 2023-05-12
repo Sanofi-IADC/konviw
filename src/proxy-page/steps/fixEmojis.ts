@@ -2,32 +2,54 @@ import { ConfigService } from '@nestjs/config';
 import * as cheerio from 'cheerio';
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
+import { ConfluenceService } from '../../confluence/confluence.service';
 
-export default (config: ConfigService): Step => (context: ContextService): void => {
+export default (config: ConfigService, confluence: ConfluenceService): Step => async (context: ContextService): Promise<void> => {
   context.setPerfMark('fixEmojis');
   const $ = context.getCheerioBody();
   const confluenceBaseUrl = config.get('confluence.baseURL');
 
-  // img tag with class emoticon is used to wrap the Confluence emoticons
-  $('img.emoticon').each((_index: number, element: cheerio.Element) => {
-    const thisEmoji = $(element).data();
-    const emojiIdIsStringInstance = typeof thisEmoji.emojiId === 'string';
-    const emojiIdIsNumberInstance = typeof thisEmoji.emojiId === 'number';
-    // condition to detect special Atlassian emoticons
-    const emojiIdIsSpecialAtlassianEmoticon = emojiIdIsStringInstance && (thisEmoji.emojiId as string).substring(0, 9) === 'atlassian';
-    if (
-      (emojiIdIsStringInstance
-        && emojiIdIsSpecialAtlassianEmoticon)
-      || emojiIdIsNumberInstance) {
-      const fullUrl = $(element)
-        .attr('src')
-        .replace(/.*\/cpv/, confluenceBaseUrl);
-      $(element).attr('src', fullUrl);
-      $(element).attr('srcset', fullUrl);
-    } else {
-      // go for the fallback emoticon provided by the API
-      $(element).replaceWith(thisEmoji.emojiFallback as string);
-    }
-  });
+  const imgEmoticons = $(`img.emoticon`).toArray();
+
+  if (imgEmoticons.length > 0) {
+    const atlassianSpecialEmojis = await confluence.getSpecialAtlassianIcons();
+
+    const imgEmoticonsPromisses = imgEmoticons.map((element: cheerio.Element ) => {
+      const emojiData = $(element).data() as { emojiId: string | number, emojiFallback: string };
+      const emojiIdIsStringInstance = typeof emojiData.emojiId === 'string';
+      const emojiIdIsNumberInstance = typeof emojiData.emojiId === 'number';
+
+      // define all cases for emojis
+      const emojiIdIsCustomAtlassianEmmoticon = emojiData.emojiFallback.startsWith(':') && emojiData.emojiFallback.endsWith(':');
+      const emojiIdIsSpecialAtlassianEmoticon = emojiIdIsStringInstance && (emojiData.emojiId as string).substring(0, 9) === 'atlassian';
+      const emojiIdWithCPVHref = (emojiIdIsStringInstance && emojiIdIsSpecialAtlassianEmoticon) || emojiIdIsNumberInstance;
+
+      if (emojiIdIsCustomAtlassianEmmoticon) {
+        const relatedIcon = atlassianSpecialEmojis.find(({ fallback }) => fallback === emojiData.emojiFallback);
+        if (relatedIcon) {
+          const { representation: { imagePath } } = relatedIcon;
+          asiggnEmojiSource(element, $, imagePath);
+        } else {
+          asiggnEmojiSource(element, $, cpvBaseUrlIconFactory(element, $, confluenceBaseUrl));
+        }
+      } else if (emojiIdWithCPVHref) {
+        asiggnEmojiSource(element, $, cpvBaseUrlIconFactory(element, $, confluenceBaseUrl));
+      } else {
+        $(element).replaceWith(emojiData.emojiFallback);
+      }
+    });
+
+    await imgEmoticonsPromisses;
+  }
+
   context.getPerfMeasure('fixEmojis');
 };
+
+function asiggnEmojiSource(element: cheerio.Element, $: cheerio.CheerioAPI, url: string) {
+  $(element).attr('src', url);
+  $(element).attr('srcset', url);
+}
+
+function cpvBaseUrlIconFactory(element: cheerio.Element, $: cheerio.CheerioAPI, confluenceBaseUrl: string) {
+  return $(element).attr('src').replace(/.*\/cpv/, confluenceBaseUrl);
+}
