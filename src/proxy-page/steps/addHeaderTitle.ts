@@ -37,6 +37,8 @@ function getSpecialEmojiData(emoji: string) {
     const [, iconName] = emoji.split('&#x');
     return { iconName: iconName.substring(0, iconName.length - 1), type: 'atlassian' };
   }
+
+  return null;
 }
 
 async function headerIconFacatory(context: ContextService, confluence: ConfluenceService) {
