@@ -7,7 +7,7 @@ export default class CustomHttpCacheInterceptor extends CacheInterceptor {
     const isGetRequest = request.method === 'GET';
     const key = request.url;
 
-    if (!isGetRequest || request.query.cache === 'no-cache') {
+    if (!isGetRequest || request.query.cache === 'no-cache' || request.query.status === 'draft') {
       return undefined;
     }
     if (request.query.cache === 'clear-cache') {

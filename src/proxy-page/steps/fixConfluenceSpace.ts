@@ -27,9 +27,16 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => a
   $('a').each((_, anchor) => {
     const confluenceSpaceRegex = new RegExp('^(.*?)(/wiki/spaces/)(.*)$');
     const href = anchor?.attribs?.href ?? '';
-    const isConfluenceSpace = confluenceSpaceRegex.test(href);
+    // retrieves the text value displayed by the link
+    const textLink = $(anchor).text() ?? '';
+    // this test that the value text looks also as a Confluence space URL
+    const isUrlLink = confluenceSpaceRegex.test(textLink);
+    // links to pages are tagged with special attribute data-linked-resource-type='page'
+    const isPage = anchor?.attribs['data-linked-resource-type'] === 'page';
+    // only if it is not a Confluence page and the URL looks like an space will add the special className
+    const isConfluenceSpace = confluenceSpaceRegex.test(href) && isUrlLink && !isPage;
     if (isConfluenceSpace) {
-      $(anchor).replaceWith(`<a className="${confluenceSpaceClassList}" target="_blank" href="${href}">${href}</a>`);
+      $(anchor).replaceWith(`<a className="${confluenceSpaceClassList}" target="_blank" href="${href}">${textLink}</a>`);
     }
   });
 
