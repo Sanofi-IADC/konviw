@@ -30,7 +30,7 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => a
           const { representation: { imagePath } } = relatedIcon;
           return asiggnEmojiSource(element, $, imagePath);
         }
-        return asiggnEmojiSource(element, $, cpvBaseUrlIconFactory(element, $, confluenceBaseUrl));
+        return $(element).replaceWith(null);
       }
       if (emojiIdWithCPVHref) {
         return asiggnEmojiSource(element, $, cpvBaseUrlIconFactory(element, $, confluenceBaseUrl));

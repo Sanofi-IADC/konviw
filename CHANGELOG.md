@@ -1,3 +1,10 @@
+## [3.6.1](https://github.com/Sanofi-IADC/konviw/compare/v3.6.0...v3.6.1) (2023-05-13)
+
+
+### Bug Fixes
+
+* WEB-1905 avoid rewriting URL of pages ([df958ce](https://github.com/Sanofi-IADC/konviw/commit/df958ce55ef55a130af0915d084c3cf9dc41816a))
+
 # [3.6.0](https://github.com/Sanofi-IADC/konviw/compare/v3.5.1...v3.6.0) (2023-05-11)
 
 
