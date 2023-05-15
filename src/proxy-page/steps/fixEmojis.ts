@@ -21,7 +21,7 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => a
 
       // define all cases for emojis
       const emojiIdIsCustomAtlassianEmmoticon = emojiData.emojiFallback.startsWith(':') && emojiData.emojiFallback.endsWith(':');
-      const emojiIdIsSpecialAtlassianEmoticon = emojiIdIsStringInstance && (emojiData.emojiId as string).substring(0, 9) === 'atlassian';
+      const emojiIdIsSpecialAtlassianEmoticon = emojiIdIsStringInstance && (emojiData.emojiId as string).startsWith('atlassian');
       const emojiIdWithCPVHref = (emojiIdIsStringInstance && emojiIdIsSpecialAtlassianEmoticon) || emojiIdIsNumberInstance;
 
       if (emojiIdIsCustomAtlassianEmmoticon) {
