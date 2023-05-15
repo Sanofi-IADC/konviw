@@ -1,3 +1,10 @@
+## [3.6.2](https://github.com/Sanofi-IADC/konviw/compare/v3.6.1...v3.6.2) (2023-05-15)
+
+
+### Bug Fixes
+
+* WEB-1855 Reimplemented fixEmojis and addHeader steps to get correct icon for title and content ([a602cd3](https://github.com/Sanofi-IADC/konviw/commit/a602cd32ab3e12253bca2c4c6d28211d7a612f18))
+
 ## [3.6.1](https://github.com/Sanofi-IADC/konviw/compare/v3.6.0...v3.6.1) (2023-05-13)
 
 
