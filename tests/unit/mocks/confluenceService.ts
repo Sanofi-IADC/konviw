@@ -18,4 +18,17 @@ export const confluenceServiceMock = {
       },
     },
   }),
+  getSpecialCustomIcons: async (image?: string) => image
+    ? ({
+      representation: {
+        path: 'https://pf-emoji-service--cdn.us-east-1.prod.public.atl-paas.net/atlassian/question_mark_64.png',
+      },
+    })
+    : ([
+      {
+        representation: {
+          path: 'https://pf-emoji-service--cdn.us-east-1.prod.public.atl-paas.net/atlassian/question_mark_64.png',
+        },
+      },
+    ]),
 };

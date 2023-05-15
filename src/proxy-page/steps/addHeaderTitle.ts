@@ -1,33 +1,62 @@
+import { ConfluenceService } from '../../confluence/confluence.service';
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
 
-export default (): Step => (context: ContextService): void => {
+type IconType = 'atlassian' | 'custom' | 'standard';
+
+export default (confluence: ConfluenceService): Step => async (context: ContextService): Promise<void> => {
   context.setPerfMark('addTitleHeader');
   const $ = context.getCheerioBody();
 
-  const element = headerTitleFactory(context, headerIconFacatory(context));
+  const { type, path } = await headerIconFacatory(context, confluence);
 
   if (context.getTitle()) {
-    $('#Content').prepend(element);
+    $('#Content').prepend(headerTitleFactory(context, path, type as IconType));
   }
 
   context.getPerfMeasure('addTitleHeader');
 };
 
-function headerTitleFactory(context: ContextService, icon: string | HTMLElement) {
+function headerTitleFactory(context: ContextService, icon: string | HTMLElement, type: IconType) {
   const title = context.getTitle();
+  if (type === 'atlassian' || type === 'custom') {
+    return `<h1 class="titlePage"><div class="specialAtlassian"><img src="${icon}" />${title}</div></h1>`;
+  }
   return `<h1 class="titlePage">${icon} ${title}</h1>`;
 }
 
-function headerIconFacatory(context: ContextService) {
+function getSpecialEmojiData(emoji: string) {
+  const specialCustomEmoji = emoji.startsWith(':') && emoji.endsWith(':');
+  if (specialCustomEmoji) {
+    const [, iconName] = emoji.split(':');
+    return { iconName, type: 'custom' };
+  }
+
+  const specialAtlassianEmoji = emoji.substring(3, 12) === 'atlassian';
+  if (specialAtlassianEmoji) {
+    const [, iconName] = emoji.split('&#x');
+    return { iconName: iconName.substring(0, iconName.length - 1), type: 'atlassian' };
+  }
+
+  return null;
+}
+
+async function headerIconFacatory(context: ContextService, confluence: ConfluenceService) {
   const emoji = context.getHeaderEmoji();
 
   if (emoji?.length > 0) {
-    const specialAtlassianEmoji = emoji.substring(3, 12) === 'atlassian';
-    if (specialAtlassianEmoji) {
-      return '';
+    const specialIconData = getSpecialEmojiData(emoji);
+    if (specialIconData) {
+      const { iconName, type } = specialIconData;
+
+      const imageData = await confluence.getSpecialAtlassianIcons(iconName);
+
+      if (imageData) {
+        return { type, path: imageData.representation.imagePath };
+      }
+      return { type: 'standard', path: '' };
     }
-    return emoji;
+    return { type: 'standard', path: emoji };
   }
-  return '';
+  return { type: 'standard', path: '' };
 }

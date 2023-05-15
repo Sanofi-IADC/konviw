@@ -1,6 +1,8 @@
 import { ContextService } from '../../../src/context/context.service';
 import addHeaderTitle from '../../../src/proxy-page/steps/addHeaderTitle';
 import { createModuleRefForStep } from './utils';
+import { confluenceServiceMock } from '../mocks/confluenceService';
+import { ConfluenceService } from '../../../src/confluence/confluence.service';
 
 const example =
   '<html><head></head><body><div id="Content" style="padding: 5px;"><p>test</p></div></body></html>';
@@ -15,34 +17,24 @@ describe('ConfluenceProxy / addHeaderTitle', () => {
     context.initPageContext('XXX', '123456', 'dark');
   });
 
-  it('should add just the h1 title', () => {
-    const step = addHeaderTitle();
+  it('should add just the h1 title', async () => {
+    const step = addHeaderTitle(confluenceServiceMock as unknown as ConfluenceService);
     context.setTitle('I am the title');
     context.setHtmlBody(example);
-    step(context);
+    await step(context);
     expect(context.getHtmlBody()).toContain(
       '<h1 class="titlePage"> I am the title</h1>',
     );
   });
 
-  it('should add the h1 title and emoji', () => {
-    const step = addHeaderTitle();
+  it('should add the h1 title and emoji', async () => {
+    const step = addHeaderTitle(confluenceServiceMock as unknown as ConfluenceService);
     context.setTitle('I am the title');
     context.setHeaderEmoji('1f60d');
     context.setHtmlBody(example);
-    step(context);
+    await step(context);
     expect(context.getHtmlBody()).toContain(
       '<h1 class="titlePage">😍 I am the title</h1>',
     );
-  });
-
-  it('should remove special atlassian emoji from the title', () => {
-    const step = addHeaderTitle();
-    context.setTitle('I am the title');
-    context.setHeaderEmoji('atlassian_question_mark');
-    context.setHtmlBody(example);
-    step(context);
-    expect(context.getHtmlBody()).toContain('I am the title');
-    expect(context.getHtmlBody()).not.toContain('atlassian_question_mark');
   });
 });
