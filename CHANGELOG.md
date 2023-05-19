@@ -1,3 +1,31 @@
+## [3.6.2](https://github.com/Sanofi-IADC/konviw/compare/v3.6.1...v3.6.2) (2023-05-15)
+
+
+### Bug Fixes
+
+* WEB-1855 Reimplemented fixEmojis and addHeader steps to get correct icon for title and content ([a602cd3](https://github.com/Sanofi-IADC/konviw/commit/a602cd32ab3e12253bca2c4c6d28211d7a612f18))
+
+## [3.6.1](https://github.com/Sanofi-IADC/konviw/compare/v3.6.0...v3.6.1) (2023-05-13)
+
+
+### Bug Fixes
+
+* WEB-1905 avoid rewriting URL of pages ([df958ce](https://github.com/Sanofi-IADC/konviw/commit/df958ce55ef55a130af0915d084c3cf9dc41816a))
+
+# [3.6.0](https://github.com/Sanofi-IADC/konviw/compare/v3.5.1...v3.6.0) (2023-05-11)
+
+
+### Features
+
+* WEB-1872 update the cypress test - check for profile image ([18b34a1](https://github.com/Sanofi-IADC/konviw/commit/18b34a1a174be257521bb646077478974b424a01))
+
+## [3.5.1](https://github.com/Sanofi-IADC/konviw/compare/v3.5.0...v3.5.1) (2023-05-11)
+
+
+### Bug Fixes
+
+* WEB-1811 Created independent step for confluence space ([9662885](https://github.com/Sanofi-IADC/konviw/commit/9662885882a8b4f66116aeefd664e9e844a5d5e4))
+
 # [3.5.0](https://github.com/Sanofi-IADC/konviw/compare/v3.4.7...v3.5.0) (2023-04-18)
 
 

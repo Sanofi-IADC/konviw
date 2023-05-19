@@ -43,6 +43,7 @@ import fixTableBackground from './steps/fixTableBackground';
 import addSlideTypeByStrategy from './strategySteps/addSlideTypeByStrategy';
 import addSlideContextByStrategy from './strategySteps/addSlideContextByStrategy';
 import fixCaptionImage from './steps/fixCaptionImage';
+import fixConfluenceSpace from './steps/fixConfluenceSpace';
 
 @Injectable()
 export class ProxyPageService {
@@ -100,11 +101,12 @@ export class ProxyPageService {
     fixContentWidth()(this.context);
     fixUserProfile()(this.context);
     fixUserProfile()(this.context);
+    await fixConfluenceSpace(this.config, this.confluence)(this.context);
     await fixLinks(this.config, this.http)(this.context);
     if (view !== 'iframe-resizer') {
       fixToc()(this.context);
     }
-    fixEmojis(this.config)(this.context);
+    await fixEmojis(this.config, this.confluence)(this.context);
     fixDrawioMacro(this.config)(this.context);
     fixChartMacro(this.config)(this.context);
     fixExpander()(this.context);
@@ -121,7 +123,7 @@ export class ProxyPageService {
     if (type === 'blog') {
       await addHeaderBlog()(this.context);
     } else if (type !== 'notitle') {
-      addHeaderTitle()(this.context);
+      await addHeaderTitle(this.confluence)(this.context);
     }
     fixSVG(this.config)(this.context);
     fixTableBackground()(this.context);
@@ -173,9 +175,10 @@ export class ProxyPageService {
     addSlidesCSS(this.config)(this.context);
     fixHtmlHead(this.config)(this.context);
     fixUserProfile()(this.context);
+    await fixConfluenceSpace(this.config, this.confluence)(this.context);
     await fixLinks(this.config, this.http)(this.context);
     fixToc()(this.context);
-    fixEmojis(this.config)(this.context);
+    await fixEmojis(this.config, this.confluence)(this.context);
     fixDrawioMacro(this.config)(this.context);
     fixChartMacro(this.config)(this.context);
     fixExpander()(this.context);

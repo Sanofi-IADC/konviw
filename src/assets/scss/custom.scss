@@ -36,6 +36,15 @@ html {
 h1.titlePage {
   color: var(--heading-color);
   font-size: var(--title-font-size);
+
+  & .specialAtlassian {
+    display: flex;
+    align-items: center;
+    img {
+      width: 32px;
+      height: 32px;
+    }
+  }
 }
 
 p {
@@ -232,4 +241,13 @@ ul.childpages-macro li {
 .image-caption {
   text-align: center;
   margin-top: .5rem;
+}
+
+// Confluence space
+.confluence-space {
+  img {
+    height: 20px;
+    width: 20px;
+    padding-bottom: 0;
+  }
 }
