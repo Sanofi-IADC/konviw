@@ -31,7 +31,7 @@ export class ConfluenceService {
   async getPage(
     spaceKey: string,
     pageId: string,
-    version: string = '2',
+    version?: string,
     status?: string,
   ): Promise<Content> {
     let results: AxiosResponse<Content>;

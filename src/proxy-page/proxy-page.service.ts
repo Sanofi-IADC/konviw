@@ -100,7 +100,6 @@ export class ProxyPageService {
     fixHtmlHead(this.config)(this.context);
     fixContentWidth()(this.context);
     fixUserProfile()(this.context);
-    fixUserProfile()(this.context);
     await fixConfluenceSpace(this.config, this.confluence)(this.context);
     await fixLinks(this.config, this.http)(this.context);
     if (view !== 'iframe-resizer') {
@@ -110,14 +109,12 @@ export class ProxyPageService {
     fixDrawioMacro(this.config)(this.context);
     fixChartMacro(this.config)(this.context);
     fixExpander()(this.context);
-    
     fixVideo()(this.context);
     // fixEmptyLineIncludePage()(this.context);
     fixRoadmap(this.config)(this.context);
     fixCode()(this.context);
     fixFrameAllowFullscreen()(this.context);
     fixImageSize()(this.context);
-    fixCaptionImage(content)(this.context);
     fixCaptionImage(content)(this.context);
     fixColGroupWidth()(this.context);
     if (type === 'blog') {
@@ -186,7 +183,6 @@ export class ProxyPageService {
     fixEmptyLineIncludePage()(this.context);
     fixRoadmap(this.config)(this.context);
     fixImageSize()(this.context);
-    fixCaptionImage(content)(this.context);
     fixCaptionImage(content)(this.context);
     fixFrameAllowFullscreen()(this.context);
     fixSVG(this.config)(this.context);
