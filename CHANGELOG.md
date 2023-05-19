@@ -1,3 +1,45 @@
+# [3.5.0](https://github.com/Sanofi-IADC/konviw/compare/v3.4.7...v3.5.0) (2023-04-18)
+
+
+### Features
+
+* WEB-1806 Fixed user profile ([b8c7e6f](https://github.com/Sanofi-IADC/konviw/commit/b8c7e6f4de546068714cd0c2a9f2db170bfe572b))
+
+## [3.4.7](https://github.com/Sanofi-IADC/konviw/compare/v3.4.6...v3.4.7) (2023-04-14)
+
+
+### Bug Fixes
+
+* WEB-1838 Remove atlassian icons from title ([cca8786](https://github.com/Sanofi-IADC/konviw/commit/cca8786bd79566d59dc5575b078d0eea2fe4806f))
+
+## [3.4.6](https://github.com/Sanofi-IADC/konviw/compare/v3.4.5...v3.4.6) (2023-04-11)
+
+
+### Bug Fixes
+
+* WEB-1533 Fixed wrongly calculated columns ([6d6e0ec](https://github.com/Sanofi-IADC/konviw/commit/6d6e0ecd325dddda534dbca06695bddc0ddbfae6))
+
+## [3.4.5](https://github.com/Sanofi-IADC/konviw/compare/v3.4.4...v3.4.5) (2023-04-07)
+
+
+### Bug Fixes
+
+* WEB-1543 Cleanup code for emoji ([cb93b9b](https://github.com/Sanofi-IADC/konviw/commit/cb93b9bf9cf658e0270f0e12c8c4bdbab2e3f0dd))
+
+## [3.4.4](https://github.com/Sanofi-IADC/konviw/compare/v3.4.3...v3.4.4) (2023-04-06)
+
+
+### Bug Fixes
+
+* WEB-1789 Fixed expander macro logic ([82da98b](https://github.com/Sanofi-IADC/konviw/commit/82da98bdc131d42109999f892aec0f603502dfcf))
+
+## [3.4.3](https://github.com/Sanofi-IADC/konviw/compare/v3.4.2...v3.4.3) (2023-04-05)
+
+
+### Bug Fixes
+
+* WEB-292 fix caption image ([77ff393](https://github.com/Sanofi-IADC/konviw/commit/77ff3939474da3444ddc24b47958aef810de4d75))
+
 ## [3.4.2](https://github.com/Sanofi-IADC/konviw/compare/v3.4.1...v3.4.2) (2023-03-15)
 
 

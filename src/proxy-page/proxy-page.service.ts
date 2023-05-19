@@ -99,6 +99,7 @@ export class ProxyPageService {
     fixHtmlHead(this.config)(this.context);
     fixContentWidth()(this.context);
     fixUserProfile()(this.context);
+    fixUserProfile()(this.context);
     await fixLinks(this.config, this.http)(this.context);
     if (view !== 'iframe-resizer') {
       fixToc()(this.context);
@@ -114,6 +115,7 @@ export class ProxyPageService {
     fixCode()(this.context);
     fixFrameAllowFullscreen()(this.context);
     fixImageSize()(this.context);
+    fixCaptionImage(content)(this.context);
     fixCaptionImage(content)(this.context);
     fixColGroupWidth()(this.context);
     if (type === 'blog') {
@@ -181,6 +183,7 @@ export class ProxyPageService {
     fixEmptyLineIncludePage()(this.context);
     fixRoadmap(this.config)(this.context);
     fixImageSize()(this.context);
+    fixCaptionImage(content)(this.context);
     fixCaptionImage(content)(this.context);
     fixFrameAllowFullscreen()(this.context);
     fixSVG(this.config)(this.context);
