@@ -1,3 +1,10 @@
+## [3.6.3](https://github.com/Sanofi-IADC/konviw/compare/v3.6.2...v3.6.3) (2023-05-24)
+
+
+### Bug Fixes
+
+* WEB-1915 Added implementation for emojis in headings ([c6c12ea](https://github.com/Sanofi-IADC/konviw/commit/c6c12eaaf9bed6ee7d5c2be6cc85c52f51a82959))
+
 ## [3.6.2](https://github.com/Sanofi-IADC/konviw/compare/v3.6.1...v3.6.2) (2023-05-15)
 
 
