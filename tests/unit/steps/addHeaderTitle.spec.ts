@@ -1,8 +1,7 @@
 import { ContextService } from '../../../src/context/context.service';
 import addHeaderTitle from '../../../src/proxy-page/steps/addHeaderTitle';
 import { createModuleRefForStep } from './utils';
-import { confluenceServiceMock } from '../mocks/confluenceService';
-import { ConfluenceService } from '../../../src/confluence/confluence.service';
+import { confluenceMockServiceFactory } from '../mocks/confluenceService';
 
 const example =
   '<html><head></head><body><div id="Content" style="padding: 5px;"><p>test</p></div></body></html>';
@@ -18,7 +17,7 @@ describe('ConfluenceProxy / addHeaderTitle', () => {
   });
 
   it('should add just the h1 title', async () => {
-    const step = addHeaderTitle(confluenceServiceMock as unknown as ConfluenceService);
+    const step = addHeaderTitle(confluenceMockServiceFactory);
     context.setTitle('I am the title');
     context.setHtmlBody(example);
     await step(context);
@@ -28,7 +27,7 @@ describe('ConfluenceProxy / addHeaderTitle', () => {
   });
 
   it('should add the h1 title and emoji', async () => {
-    const step = addHeaderTitle(confluenceServiceMock as unknown as ConfluenceService);
+    const step = addHeaderTitle(confluenceMockServiceFactory);
     context.setTitle('I am the title');
     context.setHeaderEmoji('1f60d');
     context.setHtmlBody(example);
