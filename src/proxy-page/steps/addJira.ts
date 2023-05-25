@@ -102,8 +102,8 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
     let filter = xmlWikimarkup(
       'ac\\:parameter[ac\\:name="jqlQuery"]',
     ).text();
-    if (filter.includes('key')) {
-      filter = filter.replace('=', 'in');
+    if (filter.startsWith('key =')) {
+      filter = filter.replace('key =', 'key in');
     }
     const columns = `${xmlWikimarkup('ac\\:parameter[ac\\:name="columns"]').text()
     },issuetype`;
