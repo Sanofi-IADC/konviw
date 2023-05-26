@@ -1,3 +1,11 @@
+# [3.7.0](https://github.com/Sanofi-IADC/konviw/compare/v3.6.3...v3.7.0) (2023-05-26)
+
+
+### Features
+
+* WEB-1891 Added conditional for header emoji ([9569acd](https://github.com/Sanofi-IADC/konviw/commit/9569acd1c621ccd00bb52061be47d6f2449b82c6))
+* WEB-1891 Migrated attachments into Confluence api v2 ([c7b44f1](https://github.com/Sanofi-IADC/konviw/commit/c7b44f1b188b71cd91ca551cc459aece8700a600))
+
 ## [3.6.3](https://github.com/Sanofi-IADC/konviw/compare/v3.6.2...v3.6.3) (2023-05-24)
 
 
