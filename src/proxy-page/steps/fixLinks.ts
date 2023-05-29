@@ -3,9 +3,9 @@ import { Logger } from '@nestjs/common';
 import * as cheerio from 'cheerio';
 import { HttpService } from '@nestjs/axios';
 import { Observable, firstValueFrom, timeout } from 'rxjs';
+import { AxiosResponse } from 'axios'; // eslint-disable-line import/no-extraneous-dependencies
 import { Step } from '../proxy-page.step';
 import { ContextService } from '../../context/context.service';
-import { AxiosResponse } from 'axios';
 
 /* eslint-disable no-useless-escape, prefer-regex-literals */
 export default (config: ConfigService, http: HttpService): Step => async (context: ContextService): Promise<void> => {
