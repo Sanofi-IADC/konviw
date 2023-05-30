@@ -2,6 +2,7 @@ import { ConfigService } from '@nestjs/config';
 import { ContextService } from '../../../src/context/context.service';
 import { HttpService } from '@nestjs/axios';
 import fixLinks from '../../../src/proxy-page/steps/fixLinks';
+import { jiraMockServiceFactory } from '../mocks/jiraService';
 import { createModuleRefForStep } from './utils';
 
 describe('ConfluenceProxy / fixLinks', () => {
@@ -21,7 +22,7 @@ describe('ConfluenceProxy / fixLinks', () => {
   });
 
   it('should replace page absolute URLs', async () => {
-    const step = fixLinks(config, http);
+    const step = fixLinks(config, http, jiraMockServiceFactory);
     const example =
       '<html><head></head><body>' +
       '<a href="https://test.atlassian.net/wiki/spaces/XXX/pages/4242/Hello+World">test</a>' +
@@ -38,7 +39,7 @@ describe('ConfluenceProxy / fixLinks', () => {
   });
 
   it('should replace page absolute URIs', async () => {
-    const step = fixLinks(config, http);
+    const step = fixLinks(config, http, jiraMockServiceFactory);
     const example =
       '<html><head></head><body>' +
       '<a href="/wiki/spaces/XXX/pages/4242/Hello+World">test</a>' +
@@ -55,7 +56,7 @@ describe('ConfluenceProxy / fixLinks', () => {
   });
 
   it('should replace page absolute URLs with Anchors and without title', async () => {
-    const step = fixLinks(config, http);
+    const step = fixLinks(config, http, jiraMockServiceFactory);
     const example =
       '<html><head></head><body>' +
       '<h2 id="HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">' +
@@ -84,7 +85,7 @@ describe('ConfluenceProxy / fixLinks', () => {
   });
 
   it('should replace page absolute URLs with Anchors and respect original title', async () => {
-    const step = fixLinks(config, http);
+    const step = fixLinks(config, http, jiraMockServiceFactory);
     const example =
       '<html><head></head><body>' +
       '<h2 id="HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">' +
@@ -113,7 +114,7 @@ describe('ConfluenceProxy / fixLinks', () => {
   });
 
   it('should replace page absolute URIs with Anchors and without title', async () => {
-    const step = fixLinks(config, http);
+    const step = fixLinks(config, http, jiraMockServiceFactory);
     const example =
       '<html><head></head><body>' +
       '<h2 id="HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">' +
@@ -142,7 +143,7 @@ describe('ConfluenceProxy / fixLinks', () => {
   });
 
   it('should replace page absolute URIs with Anchors and respect original title', async () => {
-    const step = fixLinks(config, http);
+    const step = fixLinks(config, http, jiraMockServiceFactory);
     const example =
       '<html><head></head><body>' +
       '<h2 id="HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">' +
@@ -171,7 +172,7 @@ describe('ConfluenceProxy / fixLinks', () => {
   });
 
   it('should replace image URLs', async () => {
-    const step = fixLinks(config, http);
+    const step = fixLinks(config, http, jiraMockServiceFactory);
     const example =
       '<html><head></head><body>' +
       '<img src="https://test.atlassian.net/wiki/download/thumbnails/241271570/image-20200312-161409.png?width=521&amp;height=196">' +
@@ -188,7 +189,7 @@ describe('ConfluenceProxy / fixLinks', () => {
   });
 
   it('should open external links in a new tab', async () => {
-    const step = fixLinks(config, http);
+    const step = fixLinks(config, http, jiraMockServiceFactory);
     const example =
       '<html><head></head><body>' +
       '<a href="https://www.example.com/home" class="external-link">Example</a>' +
@@ -205,7 +206,7 @@ describe('ConfluenceProxy / fixLinks', () => {
   });
 
   it('should display data-appearance=inline links with a favicon', async () => {
-    const step = fixLinks(config, http);
+    const step = fixLinks(config, http, jiraMockServiceFactory);
     const example =
     '<html><head></head><body>' +
     '<a data-card-appearance="inline" href="https://github.com/Sanofi-IADC/konviw" class="external-link">Example</a>' +
@@ -217,7 +218,7 @@ describe('ConfluenceProxy / fixLinks', () => {
   });
 
   it('should display data-appearance=inline links without a favicon', async () => {
-    const step = fixLinks(config, http);
+    const step = fixLinks(config, http, jiraMockServiceFactory);
     const example =
     '<html><head></head><body>' +
     '<a data-card-appearance="inline" href="https://www.google.com/about" class="external-link">Example</a>' +
@@ -229,7 +230,7 @@ describe('ConfluenceProxy / fixLinks', () => {
   });
 
   it('should display data-appearance=card links as a card', async () => {
-    const step = fixLinks(config, http);
+    const step = fixLinks(config, http, jiraMockServiceFactory);
     const example =
     '<html><head></head><body>' +
     '<a data-card-appearance="block"  href="https://www.google.com/about" class="external-link">Example</a>' +
@@ -238,5 +239,17 @@ describe('ConfluenceProxy / fixLinks', () => {
     await step(context);
     const $ = context.getCheerioBody();
     expect($('#Content > div').attr('class')).toBe('card');
+  });
+  it('should display jira space link', async () => {
+    const step = fixLinks(config, http, jiraMockServiceFactory);
+    const example =
+    '<html><head></head><body>' +
+    '<a data-card-appearance="block" href="https://test.atlassian.net/jira/software/c/projects/KVW/boards/1" class="external-link"></a>' +
+    '</body></html>';
+    context.setHtmlBody(example);
+    await step(context);
+    const $ = context.getCheerioBody();
+    expect($('img').attr('class')).toContain('jira-space-icon');
+    expect($('a').text().trim()).toBe('Konviw');
   });
 });

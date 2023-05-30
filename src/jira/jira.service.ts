@@ -179,4 +179,30 @@ export class JiraService {
       );
     }
   }
+
+  /**
+   * @function findProjectMetadata Service
+   * @description Return a the projects metadata
+   * @return Promise {any}
+   * @param spaceKey {string} 'konviw - word to be searched
+   */
+  async findProjectMetadata(
+    spaceKey: string,
+  ): Promise<AxiosResponse> {
+    try {
+      const results: AxiosResponse = await firstValueFrom(
+        this.http.get(`${this.baseUrl}/rest/api/3/project/${spaceKey}`, {
+          auth: { username: this.apiUsername, password: this.apiToken },
+        }),
+      );
+      this.logger.log(`Retrieving project metadata from ${spaceKey}`);
+      return results;
+    } catch (err) {
+      this.logger.log(err, 'error:findProjects');
+      throw new HttpException(
+        `error:API findProjectMetadata for ${spaceKey} > ${err}`,
+        404,
+      );
+    }
+  }
 }

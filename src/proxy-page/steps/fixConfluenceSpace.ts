@@ -15,8 +15,28 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => a
 
   const confluenceBaseURL = config.get('confluence.baseURL');
 
+  const isValidURL = (value: string) => {
+    try {
+      const url = new URL(value);
+      const protocols = ['http:', 'https:'];
+      return protocols.includes(url.protocol);
+    } catch (_) {
+      return false;
+    }
+  };
+
+  const generateSpaceKey = (href: string) => {
+    const isValid = isValidURL(href);
+    if (isValid) {
+      const [, , , , , spaceKey] = href.split('/');
+      return spaceKey;
+    }
+    const [, , , spaceKey] = href.split('/');
+    return spaceKey;
+  };
+
   const fetchResourcesCallback = async (element: cheerio.Element & { children: { data: string }[] }) => {
-    const [, , , spaceKey] = element.attribs.href.split('/');
+    const spaceKey = generateSpaceKey(element.attribs.href);
     const { data } = await confluence.getSpaceMetadata(spaceKey);
     return data;
   };
