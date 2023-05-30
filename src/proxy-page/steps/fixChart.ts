@@ -80,7 +80,6 @@ export default (config: ConfigService): Step => (context: ContextService): void 
 
         // get the body of the macro, suposed to be several html tables
         const tablesHtml = chartRenderData.bodyHtml;
-        // console.log({ tablesHtml })
 
         // Let's convert the HTML table(s) to JSON via the npm package tabletojson
         const tables = Tabletojson.convert(tablesHtml);
