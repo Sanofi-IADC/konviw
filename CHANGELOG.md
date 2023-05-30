@@ -1,3 +1,10 @@
+## [3.7.1](https://github.com/Sanofi-IADC/konviw/compare/v3.7.0...v3.7.1) (2023-05-30)
+
+
+### Bug Fixes
+
+* WEB-1927 Created observable timeout for external resources ([cf28615](https://github.com/Sanofi-IADC/konviw/commit/cf28615ee2eeb7759d41980bf3ec66fbdba794f3))
+
 # [3.7.0](https://github.com/Sanofi-IADC/konviw/compare/v3.6.3...v3.7.0) (2023-05-26)
 
 
