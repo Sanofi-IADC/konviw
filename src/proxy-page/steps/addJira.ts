@@ -7,6 +7,7 @@ import { ContextService } from '../../context/context.service';
 export default (config: ConfigService, jiraService: JiraService): Step => async (context: ContextService): Promise<void> => {
   context.setPerfMark('addJira');
   const $ = context.getCheerioBody();
+  console.log($.html());
 
   const basePath = config.get('web.basePath');
   const version = config.get('version');
@@ -295,5 +296,6 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
       $(element).remove();
     },
   );
+  console.log($.html());
   context.getPerfMeasure('addJira');
 };

@@ -5,7 +5,6 @@ context('User profile', () => {
       '/wiki/spaces/KONVIW/pages/64075268842/Jira+Snapshot+with+JQL+Query+key',
       '/wiki/spaces/KONVIW/pages/1727008116/Jira+Snapshot+with+JQL+Project+in'
     ];
-  
     it('checks if the Jira snapshot is displayed and matches the whole page', () => {
       JIRA_URL.forEach((url) => {
         cy.visit(url);
