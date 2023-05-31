@@ -215,7 +215,8 @@ export class JiraService {
           404,
         );
       });
-    
+  }
+
   /**
    * @function findProjectMetadata Service
    * @description Return a the projects metadata
@@ -240,6 +241,5 @@ export class JiraService {
         404,
       );
     }
-
   }
 }
