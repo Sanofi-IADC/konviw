@@ -123,7 +123,7 @@ describe('Confluence Proxy / addJira', () => {
         <ac:parameter ac:name="server">System JIRA</ac:parameter>
         <ac:parameter ac:name="maximumIssues">100</ac:parameter>
         <ac:parameter ac:name="columns">key,summary,type,assignee,priority,status,resolution</ac:parameter>
-        <ac:parameter ac:name="jqlQuery">key in (csdigauto-308, csdigauto-312, csdigauto-314)
+        <ac:parameter ac:name="jqlQuery">key = (csdigauto-308, csdigauto-312, csdigauto-314)
         <ac:parameter ac:name="serverId">server-id</ac:parameter>
         <ac:parameter ac:name=": = | RAW | = :">server=System JIRA|maximumIssues=100|columns=key,summary,type,assignee,priority,status,resolution|jqlQuery=project = FND AND "Epic Link" = FND-303 ORDER BY resolution DESC, priority |serverId=server-id</ac:parameter>
         <ac:parameter ac:name=": = | TOKEN_TYPE | = :">BLOCK</ac:parameter>
