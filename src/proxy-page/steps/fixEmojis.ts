@@ -41,6 +41,23 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => a
     await imgEmoticonsPromisses;
   }
 
+  const convertUnicodeToChar = (text: string) =>
+    text.replace(/\\u[\dA-F]{4}/gi, (match) =>
+      String.fromCharCode(parseInt(match.replace(/\\u/g, ''), 16)));
+
+  $('h1,h2,h3,h4,h5,h6').each((_, element) => {
+    const unicodeEmoticons = element?.children?.length > 0 && element.children.filter((child: any) =>
+      typeof child?.data === 'string' && child?.data?.includes('\\'));
+
+    if (unicodeEmoticons.length > 0) {
+      $(unicodeEmoticons).each((__, emoticonHeader: cheerio.Node & { data: string }) => {
+        const convertedHeader = convertUnicodeToChar(emoticonHeader.data);
+        // eslint-disable-next-line no-param-reassign
+        emoticonHeader.data = convertedHeader;
+      });
+    }
+  });
+
   context.getPerfMeasure('fixEmojis');
 };
 

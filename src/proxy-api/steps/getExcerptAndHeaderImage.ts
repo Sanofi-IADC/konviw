@@ -18,9 +18,9 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => a
     const attachments = await confluence.getAttachments(context.getPageId());
     const blogImgAttachment = attachments.find((e) =>
     // find the attachment matching the UID got from the headerImage attribute
-      e?.extensions?.fileId === blogImgSrc);
+      e.fileId === blogImgSrc);
     if (blogImgAttachment) {
-      blogImgSrc = `${webBasePath}/wiki${blogImgAttachment?._links?.download}`;
+      blogImgSrc = `${webBasePath}/wiki${blogImgAttachment?.downloadLink}`;
       context.setHeaderImage(blogImgSrc);
     }
   }

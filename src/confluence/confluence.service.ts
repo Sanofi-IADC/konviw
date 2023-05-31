@@ -279,7 +279,7 @@ export class ConfluenceService {
   async getAttachments(pageId: string): Promise<any> {
     const results: AxiosResponse = await firstValueFrom(
       this.http.get<Content>(
-        `/wiki/rest/api/content/${pageId}/child/attachment`,
+        `/wiki/api/v2/pages/${pageId}/attachments`,
       ),
     );
     return results.data?.results;

@@ -1,7 +1,8 @@
 import { ContextService } from '../../../src/context/context.service';
 import { ConfigService } from '@nestjs/config';
 import { createModuleRefForStep } from '../steps/utils';
-import { confluenceServiceMock } from '../mocks/confluenceService';
+import { confluenceMockServiceFactory } from '../mocks/confluenceService';
+import { jiraMockServiceFactory } from '../mocks/jiraService';
 import * as fs from 'fs';
 
 /**
@@ -50,8 +51,12 @@ describe('Speed / Steps', () => {
 
   const argumentsFactory = (filename: string) => {
     switch (filename) {
-      case 'fixConfluenceSpace': {
-        return confluenceServiceMock;
+      case 'fixConfluenceSpace':
+      case 'fixEmojis': {
+        return confluenceMockServiceFactory;
+      }
+      case 'fixLinks': {
+        return jiraMockServiceFactory;
       }
       default: {};
     }
