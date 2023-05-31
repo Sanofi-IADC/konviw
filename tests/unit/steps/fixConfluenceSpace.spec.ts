@@ -3,8 +3,7 @@ import { ContextService } from '../../../src/context/context.service';
 import { HttpService } from '@nestjs/axios';
 import fixConfluenceSpace from '../../../src/proxy-page/steps/fixConfluenceSpace';
 import { createModuleRefForStep } from './utils';
-import { ConfluenceService } from '../../../src/confluence/confluence.service';
-import { confluenceServiceMock } from '../mocks/confluenceService';
+import { confluenceMockServiceFactory } from '../mocks/confluenceService';
 
 describe('ConfluenceProxy / fixConfluenceSpace', () => {
   let context: ContextService;
@@ -21,7 +20,7 @@ describe('ConfluenceProxy / fixConfluenceSpace', () => {
   });
 
   it('should replace confluence space icon', async () => {
-    const step = fixConfluenceSpace(config, confluenceServiceMock as unknown as ConfluenceService);
+    const step = fixConfluenceSpace(config, confluenceMockServiceFactory);
     context.setHtmlBody(input);
     await step(context);
     const expected = '<img class="confluence-space-icon" src="https://test.atlassian.net/wiki/download/attachments/63859916803/konviw?version=1&amp;modificationDate=1664237784553&amp;cacheVersion=1&amp;api=v2">';
@@ -29,7 +28,7 @@ describe('ConfluenceProxy / fixConfluenceSpace', () => {
   });
 
   it('should replace homepage for confluence page with id', async () => {
-    const step = fixConfluenceSpace(config, confluenceServiceMock as unknown as ConfluenceService);
+    const step = fixConfluenceSpace(config, confluenceMockServiceFactory);
     context.setHtmlBody(input);
     await step(context);
     const expected = '<a class="confluence-space" href="/wiki/spaces/konviw/pages/63862669800">';

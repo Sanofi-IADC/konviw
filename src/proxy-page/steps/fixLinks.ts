@@ -2,12 +2,14 @@ import { ConfigService } from '@nestjs/config';
 import { Logger } from '@nestjs/common';
 import * as cheerio from 'cheerio';
 import { HttpService } from '@nestjs/axios';
-import { firstValueFrom } from 'rxjs';
+import { Observable, firstValueFrom, timeout } from 'rxjs';
+import { AxiosResponse } from 'axios'; // eslint-disable-line import/no-extraneous-dependencies
 import { Step } from '../proxy-page.step';
 import { ContextService } from '../../context/context.service';
+import { JiraService } from '../../jira/jira.service';
 
 /* eslint-disable no-useless-escape, prefer-regex-literals */
-export default (config: ConfigService, http: HttpService): Step => async (context: ContextService): Promise<void> => {
+export default (config: ConfigService, http: HttpService, jira: JiraService): Step => async (context: ContextService): Promise<void> => {
   const logger = new Logger('fixLinks');
   context.setPerfMark('fixLinks');
 
@@ -36,12 +38,6 @@ export default (config: ConfigService, http: HttpService): Step => async (contex
     return '';
   };
 
-  const titleFactory = (body: cheerio.CheerioAPI) =>
-    body('head title').text();
-
-  const faviconFactory = (body: cheerio.CheerioAPI) =>
-    (body('head link[rel="shortcut icon"]').attr('href') || body('head link[rel="icon"]').attr('href')) ?? '';
-
   const toogleImageDisplayAttribiute = (link: cheerio.Element) => {
     const href = $(link).attr().src;
     const existHrefAttribiute = href?.length;
@@ -50,16 +46,52 @@ export default (config: ConfigService, http: HttpService): Step => async (contex
     }
   };
 
-  const isJiraSpace = (url: string) => url.startsWith(`${confluenceBaseURL}/browse`);
+  const externalResourcesFactory = (url: string, data: any) => {
+    const body = cheerio.load(data);
+    const title = body('head title').text();
+    const favicon = (body('head link[rel="shortcut icon"]').attr('href') || body('head link[rel="icon"]').attr('href')) ?? '';
+    const description = body('head meta[name="description"]').attr(
+      'content',
+    ) ?? '';
+    const imageSrc = body(
+      'head meta[name="twitter:image:src"], head meta[name="og:image"]',
+    ).attr('content');
+    const path = createImagePath(favicon, url);
+    return {
+      title,
+      description,
+      imageSrc,
+      path,
+      classIconName: 'favicon',
+    };
+  };
+
+  const jiraResponseFactory = (data: any) => ({
+    title: data.name,
+    description: data.description,
+    imageSrc: data.avatarUrls['48x48'],
+    path: data.avatarUrls['48x48'],
+    classIconName: 'jira-space-icon',
+  });
+
+  const isJiraSpace = (url: string) => {
+    const jiraSpaceUrls = [
+      `${confluenceBaseURL}/browse`,
+      `${confluenceBaseURL}/jira`,
+    ];
+    return jiraSpaceUrls.some((jiraURL) => url.startsWith(jiraURL));
+  };
+
+  const httpObservableFactory = <T>(httpObservable: Observable<AxiosResponse<T>>) =>
+    httpObservable.pipe(timeout(5000));
 
   const fetchResourcesCallback = (url: string) => {
     const jiraSpace = isJiraSpace(url);
     if (jiraSpace) {
-      return firstValueFrom(http.get(url, {
-        auth: { username: config.get('confluence.apiUsername'), password: config.get('confluence.apiToken') },
-      }));
+      const [, , , , , , , spaceKey] = url.split('/');
+      return jira.findProjectMetadata(spaceKey);
     }
-    return firstValueFrom(http.get(url));
+    return firstValueFrom(httpObservableFactory(http.get(url)));
   };
 
   // External links are tagged with the class external-link
@@ -77,27 +109,29 @@ export default (config: ConfigService, http: HttpService): Step => async (contex
     }
 
     return fetchResourcesCallback(url).then((res) => {
-      const body = cheerio.load(res.data);
-      const title = titleFactory(body);
-      const favicon = faviconFactory(body);
-      const description = body('head meta[name="description"]').attr(
-        'content',
-      ) ?? '';
-      const imageSrc = body(
-        'head meta[name="twitter:image:src"], head meta[name="og:image"]',
-      ).attr('content');
-      const imagePath = createImagePath(favicon, url);
+      const isJiraResponse = res?.data?.expand;
+
+      const {
+        title,
+        description,
+        imageSrc,
+        path,
+        classIconName,
+      } = isJiraResponse
+        ? jiraResponseFactory(res.data)
+        : externalResourcesFactory(url, res.data);
+
       let replacement = '';
       if (dataCardAppearance === 'inline') {
-        replacement = `<a target="_blank" href="${url}"> <img class="favicon" src="${imagePath}"/> ${title}</a>`;
+        replacement = `<a target="_blank" href="${url}"> <img class="${classIconName}" src="${path}"/> ${title}</a>`;
       } else if (dataCardAppearance === 'block') {
         const imgTag = imageSrc ? `<img src="${imageSrc}"/>` : '';
         replacement = `
           <div class="card">
             <div class="thumb">${imgTag}</div>
             <div class="title-desc">
-              <a target="_blank" href="${url}"> <img class="favicon" src="${imagePath}"/> ${title}</a>
-              <p>${description}</p>
+              <a target="_blank" href="${url}"> <img class="${classIconName}" src="${path}"/> ${title}</a>
+              <p>${description ?? ''}</p>
             </div>
           </div>`;
       }

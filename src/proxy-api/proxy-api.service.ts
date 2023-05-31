@@ -402,7 +402,7 @@ export class ProxyApiService {
     // await getExcerptAndHeaderImage(this.config, this.confluence)(this.context);
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
     fixContentWidth()(this.context);
-    await fixLinks(this.config, this.http)(this.context);
+    await fixLinks(this.config, this.http, this.jira)(this.context);
     fixToc()(this.context);
     await fixEmojis(this.config, this.confluence)(this.context);
     fixDrawio(this.config)(this.context);
