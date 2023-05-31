@@ -1,9 +1,9 @@
 /// <reference types="cypress" />
 
-context('User profile', () => {
+context('Jira snapshot', () => {
     const JIRA_URL = [
-      '/wiki/spaces/KONVIW/pages/64075268842/Jira+Snapshot+with+JQL+Query+key',
-      '/wiki/spaces/KONVIW/pages/1727008116/Jira+Snapshot+with+JQL+Project+in'
+      '/wiki/spaces/KONVIW/pages/237469697/Demo+Jira+Snapshot+with+JQL+Query+key',
+      '/wiki/spaces/KONVIW/pages/237371394/Demo+Jira+snapshot+with+project'
     ];
     it('checks if the Jira snapshot is displayed and matches the whole page', () => {
       JIRA_URL.forEach((url) => {
