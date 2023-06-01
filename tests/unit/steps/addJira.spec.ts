@@ -113,6 +113,29 @@ describe('Confluence Proxy / addJira', () => {
     ]);
     expect($('body').html()).toContain(`data: ${data}`);
   });
+  it('key = should be transformed into key in', async () => {
+    const cheerioBody = `<input
+      type="hidden"
+      class="refresh-wiki"
+      id="refresh-wiki-1366834209"
+      data-wikimarkup='
+        <ac:structured-macro ac:name="jira" ac:schema-version="1" ac:macro-id="macro-id">
+        <ac:parameter ac:name="server">System JIRA</ac:parameter>
+        <ac:parameter ac:name="maximumIssues">100</ac:parameter>
+        <ac:parameter ac:name="columns">key,summary,type,assignee,priority,status,resolution</ac:parameter>
+        <ac:parameter ac:name="jqlQuery">key = (FND-319)
+        <ac:parameter ac:name="serverId">server-id</ac:parameter>
+        <ac:parameter ac:name=": = | RAW | = :">server=System JIRA|maximumIssues=100|columns=key,summary,type,assignee,priority,status,resolution|jqlQuery=key = (FND-319) |serverId=server-id</ac:parameter>
+        <ac:parameter ac:name=": = | TOKEN_TYPE | = :">BLOCK</ac:parameter>
+        </ac:structured-macro>' data-pageid="page-id">`;
+
+    context.setHtmlBody(
+      `<html><head><title>test</title></head><body><div id='Content'><div class='confluence-jim-macro jira-table'>${cheerioBody}</div></div></body></html>`,
+    );
+    await step(context);
+    const $ = context.getCheerioBody();
+    expect($('body').html()).toContain(`Jira issues for key in (FND-319)`);
+  });
 
   it('should update the issue title and status of a jira-issue', async () => {
     const example =
