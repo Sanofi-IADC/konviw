@@ -1,3 +1,10 @@
+## [3.7.2](https://github.com/Sanofi-IADC/konviw/compare/v3.7.1...v3.7.2) (2023-06-01)
+
+
+### Bug Fixes
+
+* WEB-1805 Fixed JQL wrong filter pattern ([964566c](https://github.com/Sanofi-IADC/konviw/commit/964566cbc22ea3069efc5254a3883a308b9cf076))
+
 ## [3.7.1](https://github.com/Sanofi-IADC/konviw/compare/v3.7.0...v3.7.1) (2023-05-30)
 
 
