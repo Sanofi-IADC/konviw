@@ -361,6 +361,7 @@ export class ProxyApiService {
    * @param id {string} '123' - GA property ID
    * @param startDate {string} '2023-06-04' - start date of report
    * @param endDate {string} '2023-06-05' - end date of report
+   * @param params {GoogleAnalyticsReportParams}
    */
   async getGoogleAnalyticsReport(
     id: string,
