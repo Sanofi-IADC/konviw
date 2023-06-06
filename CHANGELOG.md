@@ -1,3 +1,10 @@
+# [3.8.0](https://github.com/Sanofi-IADC/konviw/compare/v3.7.2...v3.8.0) (2023-06-02)
+
+
+### Features
+
+* WEB-1912 Removed matomo ([f235573](https://github.com/Sanofi-IADC/konviw/commit/f235573cb4b9ecef3e81f5581e4843eff107341e))
+
 ## [3.7.2](https://github.com/Sanofi-IADC/konviw/compare/v3.7.1...v3.7.2) (2023-06-01)
 
 
