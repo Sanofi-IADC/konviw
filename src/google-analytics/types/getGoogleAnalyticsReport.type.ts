@@ -7,3 +7,5 @@ export type GoogleAnalyticsReportParams = google.analytics.data.v1beta.IRunRepor
 export type GoogleAnalyticsReportMetrics = google.analytics.data.v1beta.IMetric[];
 
 export type GoogleAnalyticsReportDimensions = google.analytics.data.v1beta.IDimension[];
+
+export type GoogleAnalyticsReportDimensionsFilter = google.analytics.data.v1beta.IFilterExpression;
