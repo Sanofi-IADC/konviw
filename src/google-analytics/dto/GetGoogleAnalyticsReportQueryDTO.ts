@@ -4,7 +4,11 @@ import {
   IsArray,
   IsNotEmpty, IsOptional, IsString,
 } from 'class-validator';
-import { GoogleAnalyticsReportMetrics, GoogleAnalyticsReportDimensions, GoogleAnalyticsReportDimensionsFilter } from '../types/getGoogleAnalyticsReport.type';
+import {
+  GoogleAnalyticsReportMetrics,
+  GoogleAnalyticsReportDimensions,
+  GoogleAnalyticsReportDimensionsFilter,
+} from '../types/getGoogleAnalyticsReport.type';
 
 export default class GetGoogleAnalyticsReportQueryDTO {
   @ApiProperty({
@@ -51,6 +55,6 @@ export default class GetGoogleAnalyticsReportQueryDTO {
     example: '{"filter":{"fieldName":"hostName","stringFilter":{"matchType":"CONTAINS","value":"VALUE"}}}',
   })
   @IsOptional()
-  @Transform(({ value }) => value ? JSON.parse(value) : '')
+  @Transform(({ value }) => (value ? JSON.parse(value) : ''))
     dimensionFilter: GoogleAnalyticsReportDimensionsFilter;
 }
