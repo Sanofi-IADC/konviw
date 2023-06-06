@@ -1,3 +1,10 @@
+## [3.8.1](https://github.com/Sanofi-IADC/konviw/compare/v3.8.0...v3.8.1) (2023-06-06)
+
+
+### Bug Fixes
+
+* WEB-1941 style margin adjusted to 0.5em ([2a0cf7d](https://github.com/Sanofi-IADC/konviw/commit/2a0cf7d01a2f5a21719e63359f2c3ffb4509e551))
+
 # [3.8.0](https://github.com/Sanofi-IADC/konviw/compare/v3.7.2...v3.8.0) (2023-06-02)
 
 
