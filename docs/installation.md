@@ -32,6 +32,8 @@ Configuration is made with environment variables. They can also be defined with 
 - `CPV_MATOMO_BASE_URL`: Matomo server base URL. _Optional_
 - `CPV_MATOMO_ID_SITE`: Id of the Confluence public viewer site in Matomo. _Optional_
 - `CPV_GOOGLE_ANALYTICS`: Tag for tracking web analytics vis Google Analytics. _Optional_
+- `CPV_GOOGLE_ANALYTICS_PRIVATE_KEY`: Private key for Google Analytics API. _Optional_
+- `CPV_GOOGLE_ANALYTICS_CLIENT_EMAIL`: Service account email for Google Analytics API. _Optional_
 
 If you have multiple Jira instances connected to your Confluence server you can provide the URL and access credentials so konviw will render properly the Jira Issues/Filter macros for each respective server:
 

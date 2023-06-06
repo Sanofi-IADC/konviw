@@ -33,6 +33,11 @@ interface Config {
     tag: string;
   };
 
+  googleAnalytics: {
+    privateKey: string;
+    clientEmail: string;
+  };
+
   cache: {
     cacheTTL: number;
     cacheMax: number;

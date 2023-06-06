@@ -15,6 +15,7 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { ConfluenceModule } from './confluence/confluence.module';
 import { ProxyPageModule } from './proxy-page/proxy-page.module';
 import { ProxyApiModule } from './proxy-api/proxy-api.module';
+import { GoogleAnalyticsModule } from './google-analytics/google-analytics.module';
 import configuration from './config/configuration';
 import CustomHttpCacheInterceptor from './cache/custom-http-cache.interceptor';
 
@@ -22,6 +23,7 @@ import CustomHttpCacheInterceptor from './cache/custom-http-cache.interceptor';
   imports: [
     TerminusModule,
     ConfluenceModule,
+    GoogleAnalyticsModule,
     ProxyPageModule,
     ProxyApiModule,
     ConfigModule.forRoot({

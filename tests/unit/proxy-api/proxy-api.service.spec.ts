@@ -7,6 +7,8 @@ import { HttpModule } from '../../../src/http/http.module';
 import { ConfigModule } from '@nestjs/config';
 import { Content } from '../../../src/confluence/confluence.interface';
 import configuration from '../../../src/config/configuration.test';
+import { GoogleAnalyticsService } from '../../../src/google-analytics/google-analytics.service';
+import { GoogleAnalyticsReportParams } from '../../../src/google-analytics/types/getGoogleAnalyticsReport.type';
 
 jest.mock('../../../src/confluence/confluence.service');
 jest.mock('../../../src/jira/jira.service');
@@ -44,6 +46,48 @@ class ConfluenceServiceMock {
   }
 }
 
+class GoogleAnalyticsServiceMock {
+  getGoogleAnalyticsReport(id: string, params: GoogleAnalyticsReportParams): DeepPartial<Content>{
+    return {
+      dimensionHeaders: [
+        {
+          name: 'date',
+        },
+      ],
+      metricHeaders: [
+        {
+          name: 'activeUsers',
+          type: 'TYPE_INTEGER',
+        },
+        {
+          name: 'totalUsers',
+          type: 'TYPE_INTEGER',
+        },
+      ],
+      rows: [
+        {
+          dimensionValues: [
+            {
+              value: '20230321',
+              oneValue: 'value',
+            },
+          ],
+          metricValues: [
+            {
+              value: '363',
+              oneValue: 'value',
+            },
+            {
+              value: '382',
+              oneValue: 'value',
+            },
+          ],
+        },
+      ],
+    };
+  }
+}
+
 describe('proxy-api.service', () => {
   let app: TestingModule;
   let proxyApiService: ProxyApiService;
@@ -54,6 +98,10 @@ describe('proxy-api.service', () => {
       provide: ConfluenceService,
       useClass: ConfluenceServiceMock,
     };
+    const GoogleAnalyticsServiceProvider = {
+      provide: GoogleAnalyticsService,
+      useClass: GoogleAnalyticsServiceMock,
+    };
     app = await Test.createTestingModule({
       imports: [ConfigModule.forRoot({ load: [configuration] }), HttpModule],
       providers: [
@@ -61,6 +109,7 @@ describe('proxy-api.service', () => {
         ConfluenceServiceProvider,
         ProxyApiService,
         JiraService,
+        GoogleAnalyticsServiceProvider,
       ],
     }).compile();
     proxyApiService = app.get<ProxyApiService>(ProxyApiService);
@@ -106,6 +155,15 @@ describe('proxy-api.service', () => {
 
       await proxyApiService.getPage('space', '1234', 'type');
       expect(addLibrariesJS.default).not.toHaveBeenCalled();
+    });
+
+    it('should call getGoogleAnalyticsReport construct the google analytics report including mandatory fields', async () => {
+      jest.spyOn(proxyApiService, 'getGoogleAnalyticsReport');
+      const results = await proxyApiService.getGoogleAnalyticsReport('123', '2023-05-05', '2023-05-07', {});
+      expect(proxyApiService.getGoogleAnalyticsReport).toHaveBeenCalledTimes(1);
+      expect(results.dimensionHeaders).toBeDefined();
+      expect(results.metricHeaders).toBeDefined();
+      expect(results.rows).toBeDefined();
     });
   });
 });

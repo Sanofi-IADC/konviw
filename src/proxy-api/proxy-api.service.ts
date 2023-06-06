@@ -9,6 +9,7 @@ import {
 } from '../confluence/confluence.interface';
 import { ConfluenceService } from '../confluence/confluence.service';
 import { JiraService } from '../jira/jira.service';
+import { GoogleAnalyticsService } from '../google-analytics/google-analytics.service';
 import getExcerptAndHeaderImage from './steps/getExcerptAndHeaderImage';
 import fixContentWidth from '../proxy-page/steps/fixContentWidth';
 import fixLinks from '../proxy-page/steps/fixLinks';
@@ -32,6 +33,7 @@ import {
   KonviwResults,
   MetadataSearch,
 } from './proxy-api.interface';
+import { GetGoogleAnalyticsReport, GoogleAnalyticsReportParams } from '../google-analytics/types/getGoogleAnalyticsReport.type';
 
 @Injectable()
 export class ProxyApiService {
@@ -43,6 +45,7 @@ export class ProxyApiService {
     private jira: JiraService,
     private context: ContextService,
     private readonly http: HttpService,
+    private googleAnalytics: GoogleAnalyticsService,
   ) {}
 
   /**
@@ -348,5 +351,34 @@ export class ProxyApiService {
       imgblog: this.context.getImgBlog(),
       space: this.context.getSpaceKey(),
     };
+  }
+
+  /**
+   * Function getGoogleAnalyticsReport
+   *
+   * @description Returns a JSON GoogleAnalytics report
+   * @return Promise {Partial<todo>}
+   * @param id {string} '123' - GA property ID
+   * @param startDate {string} '2023-06-04' - start date of report
+   * @param endDate {string} '2023-06-05' - end date of report
+   */
+  async getGoogleAnalyticsReport(
+    id: string,
+    startDate: string,
+    endDate: string,
+    params: GoogleAnalyticsReportParams,
+  ): Promise<GetGoogleAnalyticsReport> {
+    return this.googleAnalytics.getGoogleAnalyticsReport(
+      id,
+      {
+        dateRanges: [
+          {
+            startDate,
+            endDate,
+          },
+        ],
+        ...params,
+      },
+    );
   }
 }

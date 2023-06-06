@@ -26,6 +26,10 @@ export default (): Config => ({
   google: {
     tag: process.env.CPV_GOOGLE_ANALYTICS || '',
   },
+  googleAnalytics: {
+    privateKey: process.env.CPV_GOOGLE_ANALYTICS_PRIVATE_KEY || '',
+    clientEmail: process.env.CPV_GOOGLE_ANALYTICS_CLIENT_EMAIL || '',
+  },
   cache: {
     cacheTTL:
       (process.env.CACHE_TTL && parseInt(process.env.CACHE_TTL, 10)) || 86400,

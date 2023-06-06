@@ -16,6 +16,9 @@ import {
   GetSpacesQueryDTO,
 } from './proxy-api.validation.dto';
 import { KonviwResults } from './proxy-api.interface';
+import GetGoogleAnalyticsReportParamsDTO from '../google-analytics/dto/GetGoogleAnalyticsReportParamsDTO';
+import GetGoogleAnalyticsReportQueryDTO from '../google-analytics/dto/GetGoogleAnalyticsReportQueryDTO';
+import { GetGoogleAnalyticsReport } from '../google-analytics/types/getGoogleAnalyticsReport.type';
 
 @ApiTags('proxy-api')
 @Controller('api')
@@ -138,5 +141,28 @@ export class ProxyApiController {
       `Getting page through API ... /${params.spaceKey}/${params.pageId}`,
     );
     return this.proxyApi.getPage(params.spaceKey, params.pageId, queries.type);
+  }
+
+  /**
+   * @GET (controller) api/google-analytics/id/report
+   * @description Route to retrieve google analytics data for GA property id
+   * @return {string} 'JSON' - JSON with the google analytics report data content
+   */
+  @ApiOkResponse({ description: 'Get google analytics report' })
+  @Version('0.1-alpha')
+  @Get('/google-analytics/:id/report')
+  async getGoogleAnalyticsReport(
+    @Param() { id }: GetGoogleAnalyticsReportParamsDTO,
+    @Query() { startDate, endDate, ...params }: GetGoogleAnalyticsReportQueryDTO,
+  ): Promise<GetGoogleAnalyticsReport> {
+    this.logger.log(
+      `Getting google analytics report through API ... /${id}, ${startDate}, ${endDate}, ${params}`,
+    );
+    return this.proxyApi.getGoogleAnalyticsReport(
+      id,
+      startDate,
+      endDate,
+      params,
+    );
   }
 }
