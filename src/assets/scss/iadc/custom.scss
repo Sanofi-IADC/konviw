@@ -223,32 +223,40 @@ ul.childpages-macro li {
 }
 @media (max-width: 700px) {
   tbody {
-    margin: 0;
-    border-spacing: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
+  margin: 0;
+  border-spacing: 0;
+  padding-bottom: 1rem;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
   th {
     display: none;
   }
-  
-  td {
+
+  tbody tr td {
     display: block;
     width: 95vw;
-    padding: 0.5rem 1rem;
-    box-sizing: border-box; /* Ensure padding is included in the width */
+    box-sizing: border-box;
   }
-  tr tr{
-    background-color: #42c46b;
+  tr td:not(:first-of-type):not(:last-of-type):not(:only-of-type) {
+    border-bottom: none;
+    border-top: none;
   }
 
+  tr td:first-of-type:not(:only-of-type) {
+    border-bottom: none;
+  }
 
-  td::before {
-    content : attr(data-column-id)" ";
+  tr td:last-of-type:not(:only-of-type) {
+    border-top: none;
+  }
+
+  tr td::before {
+    content: attr(data-column-id) " " attr(data-lign-id);
     font-weight: bold;
     text-transform: capitalize;
   }
-
+  
 }
+
