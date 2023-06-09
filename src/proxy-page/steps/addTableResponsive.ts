@@ -8,6 +8,7 @@ export default (): Step => (context: ContextService): void => {
   // for each table
   $('tbody').each((_index: number, tbodyElement: cheerio.Element) => {
     // Handling headers
+    // get all the column headers and row headers
     const headers_column: string[] = [];
     const headers_row: string[] = [];
     const tbody = $(tbodyElement);
@@ -35,13 +36,12 @@ export default (): Step => (context: ContextService): void => {
     // case where we have column and row headers we want the column header array to start at 1 for td
     // so if headers_column and headers_row are not both empty
     const slice_number = headers_column.length > 0 && headers_row.length > 0 ? 1 : 0;
-
+    // add headers_column and headers_row content to each td
     trElements.slice(slice_number).each((_index_row: number, trElement: cheerio.Element) => {
       const row = _index_row;
       const tr = $(trElement);
       const tdElements = tr.find('td');
       tdElements.each((_index_column: number, tdElement: cheerio.Element) => {
-        // add header_column and header_row content to each td
         const td = $(tdElement);
         const header_column = headers_column[_index_column + slice_number];
         const header_row = headers_row[row];
