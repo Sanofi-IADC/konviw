@@ -27,6 +27,7 @@ describe('HealthController (e2e)', () => {
   it('Returns healthy status', async () => {
     jest.useFakeTimers('legacy');
     const res = await request(app.getHttpServer()).get('/health');
+    console.log(res);
     expect(res.statusCode).toBe(HttpStatus.OK);
   });
 });
