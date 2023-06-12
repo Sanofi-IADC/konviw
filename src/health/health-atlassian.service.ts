@@ -26,13 +26,16 @@ export class ApiHealthService extends HealthIndicator {
     } catch (error) {
       isHealthy = false;
     }
+    console.log(isHealthy);
     let result;
     if (isHealthy) {
       result = this.getStatus('Atlassian API', isHealthy, { message: 'up' });
+      console.log(result);
       this.logger.log(`Health Status is Up: ${JSON.stringify(result)}`);
       return result;
     }
     result = this.getStatus('Atlassian API', isHealthy, { message: 'down' });
+    console.log(result);
     this.logger.log(`Health Status is Down: ${JSON.stringify(result)}`);
 
     throw new HealthCheckError('Atlassian API failed', result);
