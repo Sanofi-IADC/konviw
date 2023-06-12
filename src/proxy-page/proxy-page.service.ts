@@ -45,6 +45,7 @@ import addSlideContextByStrategy from './strategySteps/addSlideContextByStrategy
 import fixCaptionImage from './steps/fixCaptionImage';
 import fixConfluenceSpace from './steps/fixConfluenceSpace';
 import addTableResponsive from './steps/addTableResponsive';
+import addAuthor_Version from './steps/addAuthor_Version';
 
 @Injectable()
 export class ProxyPageService {
@@ -125,7 +126,8 @@ export class ProxyPageService {
     }
     fixSVG(this.config)(this.context);
     fixTableBackground()(this.context);
-    await addTableResponsive()(this.context);
+    addAuthor_Version()(this.context);
+    addTableResponsive()(this.context);
     delUnnecessaryCode()(this.context);
     addCustomCss(this.config, style)(this.context);
     addLibrariesCSS()(this.context);
@@ -189,7 +191,8 @@ export class ProxyPageService {
     fixFrameAllowFullscreen()(this.context);
     fixSVG(this.config)(this.context);
     fixTableBackground()(this.context);
-    await addTableResponsive()(this.context);
+    addAuthor_Version()(this.context);
+    addTableResponsive()(this.context);
     delUnnecessaryCode()(this.context);
     await addJiraPromise;
     addSlideTypeByStrategy(content, this.config)(this.context);
