@@ -1,3 +1,17 @@
+# [3.10.0](https://github.com/Sanofi-IADC/konviw/compare/v3.9.0...v3.10.0) (2023-06-13)
+
+
+### Features
+
+* ARM-1296 Create API for Jira Issue Page ([0889f10](https://github.com/Sanofi-IADC/konviw/commit/0889f10b4c42a1d4244e343dc5f67c1610095f15))
+
+# [3.9.0](https://github.com/Sanofi-IADC/konviw/compare/v3.8.1...v3.9.0) (2023-06-13)
+
+
+### Features
+
+* WEB-1649 Reverted Matomo ([afc3241](https://github.com/Sanofi-IADC/konviw/commit/afc3241d479e02ea37f86450620ac386df4e5e16))
+
 ## [3.8.1](https://github.com/Sanofi-IADC/konviw/compare/v3.8.0...v3.8.1) (2023-06-06)
 
 
