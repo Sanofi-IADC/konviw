@@ -1,3 +1,10 @@
+# [3.9.0](https://github.com/Sanofi-IADC/konviw/compare/v3.8.1...v3.9.0) (2023-06-13)
+
+
+### Features
+
+* WEB-1649 Reverted Matomo ([afc3241](https://github.com/Sanofi-IADC/konviw/commit/afc3241d479e02ea37f86450620ac386df4e5e16))
+
 ## [3.8.1](https://github.com/Sanofi-IADC/konviw/compare/v3.8.0...v3.8.1) (2023-06-06)
 
 

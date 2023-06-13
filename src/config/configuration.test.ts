@@ -19,6 +19,10 @@ export default (): Config => ({
   konviw: {
     private: process.env.CPV_KONVIW_PRIVATE_PAGE,
   },
+  matomo: {
+    baseURL: process.env.CPV_MATOMO_BASE_URL || '',
+    idSite: process.env.CPV_MATOMO_ID_SITE || '',
+  },
   google: {
     tag: process.env.CPV_GOOGLE_ANALYTICS || '',
   },
