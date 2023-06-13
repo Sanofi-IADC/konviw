@@ -1,6 +1,6 @@
 import { ContextService } from "../../../src/context/context.service";
 import { Step } from "../../../src/proxy-page/proxy-page.step";
-import addAuthor_Version from "../../../src/proxy-page/steps/addAuthor_Version";
+import addAuthorVersion from "../../../src/proxy-page/steps/addAuthorVersion";
 import { createModuleRefForStep } from "./utils";
 import { Version } from "../../../src/context/context.interface";
 describe("Confluence Proxy / addTheme", () => {
@@ -8,7 +8,7 @@ describe("Confluence Proxy / addTheme", () => {
   let step: Step;
 
   beforeEach(async () => {
-    step = addAuthor_Version();
+    step = addAuthorVersion();
     const moduleRef = await createModuleRefForStep();
     context = moduleRef.get<ContextService>(ContextService);
     context.setAuthor("Test");
