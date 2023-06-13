@@ -24,6 +24,11 @@ interface Config {
     private: string;
   };
 
+  matomo: {
+    baseURL: string;
+    idSite: string;
+  };
+
   google: {
     tag: string;
   };
