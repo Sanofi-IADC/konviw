@@ -33,7 +33,7 @@ describe("Confluence Proxy / addTheme", () => {
     step(context);
     expect(context.getHtmlBody()).toMatchInlineSnapshot(`
       "<html><head></head><body><div id=\\"Content\\"><div id=\\"Content\\"><h1 class=\\"titlePage\\"> Demo table</h1><div class=\\"author_header\\"><img src=\\"Test.jpg\\" class=\\"author_image\\"><div class=\\"author_textbox\\">
-        <p class=\\"author_text\\">Creator : Test</p><p class=\\"author_text\\">Page version : 2</p></div></div></div></div></body></html>"
+        <p class=\\"author_text\\">Creator: Test</p><p class=\\"author_text\\">Page version: 2</p></div></div></div></div></body></html>"
     `);
   });
 });
