@@ -12,10 +12,12 @@ import {
   SearchQueryDTO,
   SearchProjectsQueryDTO,
   SearchProjectCategoriesQueryDTO,
+  SearchProjectIssuesQueryDTO,
   GetSpacesParamsDTO,
   GetSpacesQueryDTO,
 } from './proxy-api.validation.dto';
 import { KonviwResults } from './proxy-api.interface';
+import SearchProjectIssueTypesWithStatusQueryDTO from './dto/SearchProjectIssueTypesWithStatusQueryDTO';
 
 @ApiTags('proxy-api')
 @Controller('api')
@@ -96,6 +98,43 @@ export class ProxyApiController {
     @Query() queries: SearchProjectCategoriesQueryDTO,
   ): Promise<any> {
     return this.proxyApi.getJiraProjectCategories(queries.server);
+  }
+
+  /**
+   * @GET (controller) api/projects/issues
+   * @description Route to retrieve the list of project issues from a Jira server
+   * @return {string} 'JSON' - JSON with the list of Jira project issues
+   */
+  @ApiOkResponse({
+    description: 'List project issues from a Jira server using JQL',
+  })
+  @Get('projects/issues')
+  async getJiraProjectIssues(
+    @Query() queries: SearchProjectIssuesQueryDTO,
+  ): Promise<any> {
+    return this.proxyApi.getJiraProjectIssues(
+      queries.server,
+      queries.jqlSearch,
+      queries.fields,
+      queries.startAt,
+      queries.maxResults,
+    );
+  }
+
+  /**
+   * @GET (controller) api/projects/statuses
+   * @description Route to retrieve the list of project statuses(grouped by issue type) from a Jira server
+   * @return {string} 'JSON' - Returns the valid statuses for a project. The statuses are grouped by issue type,
+   *                  as each project has a set of valid issue types and each issue type has a set of valid statuses
+   */
+  @ApiOkResponse({
+    description: 'List project statuses from a Jira server',
+  })
+  @Get('projects/statuses')
+  async getJiraProjectIssueTypesWithStatus(
+    @Query() queries: SearchProjectIssueTypesWithStatusQueryDTO,
+  ): Promise<any> {
+    return this.proxyApi.getJiraProjectIssueTypesWithStatus(queries.server, queries.projectIdOrKey);
   }
 
   /**
