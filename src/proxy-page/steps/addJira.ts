@@ -10,7 +10,6 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
   const basePath = config.get('web.basePath');
   const version = config.get('version');
   const confluenceDomain = config.get('confluence.baseURL');
-
   /* fetch Jira issues details and update the title and status for each one */
   const issuesDetailsPromises = [];
   $('span.confluence-jim-macro.jira-issue').each(
@@ -99,9 +98,12 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
     const wikimarkup: string = elementJira.attribs['data-wikimarkup'];
     const xmlWikimarkup = cheerio.load(wikimarkup, { xmlMode: true });
     const server = xmlWikimarkup('ac\\:parameter[ac\\:name="server"]').text();
-    const filter = xmlWikimarkup(
+    let filter = xmlWikimarkup(
       'ac\\:parameter[ac\\:name="jqlQuery"]',
     ).text();
+    if (filter.startsWith('key =')) {
+      filter = filter.replace('key =', 'key in');
+    }
     const columns = `${xmlWikimarkup('ac\\:parameter[ac\\:name="columns"]').text()
     },issuetype`;
     const maximumIssues = xmlWikimarkup(

@@ -1,3 +1,24 @@
+## [3.8.1](https://github.com/Sanofi-IADC/konviw/compare/v3.8.0...v3.8.1) (2023-06-06)
+
+
+### Bug Fixes
+
+* WEB-1941 style margin adjusted to 0.5em ([2a0cf7d](https://github.com/Sanofi-IADC/konviw/commit/2a0cf7d01a2f5a21719e63359f2c3ffb4509e551))
+
+# [3.8.0](https://github.com/Sanofi-IADC/konviw/compare/v3.7.2...v3.8.0) (2023-06-02)
+
+
+### Features
+
+* WEB-1912 Removed matomo ([f235573](https://github.com/Sanofi-IADC/konviw/commit/f235573cb4b9ecef3e81f5581e4843eff107341e))
+
+## [3.7.2](https://github.com/Sanofi-IADC/konviw/compare/v3.7.1...v3.7.2) (2023-06-01)
+
+
+### Bug Fixes
+
+* WEB-1805 Fixed JQL wrong filter pattern ([964566c](https://github.com/Sanofi-IADC/konviw/commit/964566cbc22ea3069efc5254a3883a308b9cf076))
+
 ## [3.7.1](https://github.com/Sanofi-IADC/konviw/compare/v3.7.0...v3.7.1) (2023-05-30)
 
 
