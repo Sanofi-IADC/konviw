@@ -1,9 +1,10 @@
-import { ContextService } from "../../../src/context/context.service";
-import { Step } from "../../../src/proxy-page/proxy-page.step";
-import addAuthorVersion from "../../../src/proxy-page/steps/addAuthorVersion";
-import { createModuleRefForStep } from "./utils";
-import { Version } from "../../../src/context/context.interface";
-describe("Confluence Proxy / addTheme", () => {
+import { ContextService } from '../../../src/context/context.service';
+import { Step } from '../../../src/proxy-page/proxy-page.step';
+import addAuthorVersion from '../../../src/proxy-page/steps/addAuthorVersion';
+import { createModuleRefForStep } from './utils';
+import { Version } from '../../../src/context/context.interface';
+
+describe('Confluence Proxy / addAuthorVersion', () => {
   let context: ContextService;
   let step: Step;
 
@@ -11,21 +12,21 @@ describe("Confluence Proxy / addTheme", () => {
     step = addAuthorVersion();
     const moduleRef = await createModuleRefForStep();
     context = moduleRef.get<ContextService>(ContextService);
-    context.setAuthor("Test");
-    context.setAvatar("Test.jpg");
+    context.setAuthor('Test');
+    context.setAvatar('Test.jpg');
     const mockversion: Version = {
       versionNumber: 2,
-      when: "Test",
+      when: 'Test',
       modificationBy: {
-        displayName: "Test",
-        email: "Test@sanofi.com",
-        profilePicture: `Test.jpg`,
+        displayName: 'Test',
+        email: 'Test@sanofi.com',
+        profilePicture: 'Test.jpg',
       },
     };
     context.setLastVersion(mockversion);
   });
 
-  it("should add data-column-id from th to each td (column headers)", () => {
+  it('should render author name and page version', () => {
     context.setHtmlBody(
       '<html><head></head><body><div id="Content"><h1 class="titlePage"> Demo table</h1>' +
         "</body></html>"
