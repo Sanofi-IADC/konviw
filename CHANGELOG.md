@@ -1,3 +1,10 @@
+# [3.11.0](https://github.com/Sanofi-IADC/konviw/compare/v3.10.0...v3.11.0) (2023-06-15)
+
+
+### Features
+
+* WEB-270 Add creator name and page version ([a7445e0](https://github.com/Sanofi-IADC/konviw/commit/a7445e04f77d3ee003e2abb1b08e7c5468f8ef0b))
+
 # [3.10.0](https://github.com/Sanofi-IADC/konviw/compare/v3.9.0...v3.10.0) (2023-06-13)
 
 
