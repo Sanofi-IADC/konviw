@@ -262,12 +262,12 @@ ul.childpages-macro li {
 
 @media (max-width: 700px) {
   tbody {
-  margin: 0;
-  border-spacing: 0;
-  padding-bottom: 1rem;
-  align-items: flex-start;
-  flex-direction: column;
-}
+    margin: 0;
+    border-spacing: 0;
+    padding-bottom: 1rem;
+    align-items: flex-start;
+    flex-direction: column;
+  }
 
   th {
     display: none;
