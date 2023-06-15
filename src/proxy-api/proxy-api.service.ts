@@ -26,6 +26,7 @@ import delUnnecessaryCode from '../proxy-page/steps/delUnnecessaryCode';
 import fixCode from '../proxy-page/steps/fixCode';
 import addCopyLinks from '../proxy-page/steps/addCopyLinks';
 import addJira from '../proxy-page/steps/addJira';
+import addAuthorVersion from '../proxy-page/steps/addAuthorVersion';
 
 import {
   KonviwContent,
@@ -162,6 +163,7 @@ export class ProxyApiService {
     );
 
     const parseResults = data.values.map((project: any) => ({
+      id: project.id,
       key: project.key,
       name: project.name,
       description: project.description,
@@ -219,6 +221,89 @@ export class ProxyApiService {
     return {
       meta,
       categories: parseResults,
+    };
+  }
+
+  /**
+   * @function getJiraProjectIssues Service
+   * @description Retrieve all Jira project Issues
+   * @return Promise {string}
+   * @param server {string} 'System Jira' - Jira server to list Issues from
+   * @param jqlSearch {string} 'iadc' - word to be searched
+   * @param fields {string} 'fields=field1,field2&fields=field3' - A list of fields to return for each issue
+   * @param maxResult {number} 100 - maximum number of issues retrieved
+   * @param startAt {number} 15 - starting position to handle paginated results
+   */
+  async getJiraProjectIssues(
+    server: string,
+    jqlSearch: string,
+    fields: string,
+    startAt: number,
+    maxResults: number,
+  ): Promise<any> {
+    const {
+      total, issues,
+    }: any = await this.jira.findTickets(
+      server,
+      jqlSearch,
+      fields,
+      startAt,
+      maxResults,
+    );
+    const parseResults = issues.map((issue: any) => ({
+      id: issue.id,
+      key: issue.key,
+      selfUri: issue.self,
+      fields: Object.keys(issue.fields).reduce((acc, curr) => {
+        if (issue.fields[curr] !== null) {
+          acc[curr] = issue.fields[curr];
+        }
+        return acc;
+      }, {}),
+    }));
+
+    const meta = {
+      totalSize: total,
+      server,
+    };
+
+    return {
+      meta,
+      issues: parseResults,
+    };
+  }
+
+  /**
+   * @function getJiraProjectIssueTypesWithStatus Service
+   * @description Retrieve all Jira project Issues
+   * @return Promise {string}
+   * @param server {string} 'System Jira' - Jira server to list Issues from
+   * @param projectKey {string} FACTSWT - Jira project key
+   */
+  async getJiraProjectIssueTypesWithStatus(
+    server: string,
+    projectKey: string,
+  ): Promise<any> {
+    const { data }: any = await this.jira.findProjectIssueTypesWithStatus(
+      server,
+      projectKey,
+    );
+    const parseResults = data.map((issueTypeWithStatus: any) => ({
+      id: issueTypeWithStatus.id,
+      name: issueTypeWithStatus.name,
+      subtask: issueTypeWithStatus.subtask,
+      statuses: issueTypeWithStatus.statuses,
+    }));
+
+    const meta = {
+      totalSize: parseResults.length,
+      server,
+      projectKey,
+    };
+
+    return {
+      meta,
+      issueTypeWithStatuses: parseResults,
     };
   }
 
@@ -329,6 +414,7 @@ export class ProxyApiService {
     fixTableColGroup()(this.context);
     fixEmptyLineIncludePage()(this.context);
     fixRoadmap(this.config)(this.context);
+    addAuthorVersion()(this.context);
     delUnnecessaryCode()(this.context);
     fixCode()(this.context);
     addCopyLinks()(this.context);
