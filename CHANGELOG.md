@@ -1,3 +1,10 @@
+# [3.12.0](https://github.com/Sanofi-IADC/konviw/compare/v3.11.0...v3.12.0) (2023-06-15)
+
+
+### Features
+
+* WEB-1906 Add responsive table ([b197fa3](https://github.com/Sanofi-IADC/konviw/commit/b197fa310edf1c4d9d51dc2738824da1b6abe738))
+
 # [3.11.0](https://github.com/Sanofi-IADC/konviw/compare/v3.10.0...v3.11.0) (2023-06-15)
 
 
