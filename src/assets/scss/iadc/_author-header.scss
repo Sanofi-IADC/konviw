@@ -1,26 +1,25 @@
 .author_header {
-    display: flex;
-    align-items: flex-start;
+  display: flex;
+  align-items: flex-start;
+}
+
+.author_image {
+  border-radius: 50%;
+  width: 2em;
+  height: 2em;
+}
+
+.author_textbox {
+  padding: 0.5em;
+}
+
+.author_text {
+  margin: 0;
+  color: #696969;
+  font-size: 0.8em;
+  margin-top: -0.3em;
+
+  &:last-child {
+    margin-top: 0.3em;
   }
-  
-  .author_image {
-    border-radius: 50%;
-    width: 2em;
-    height: 2em;
-  }
-  
-  .author_textbox {
-    padding: 0.5em;
-  }
-  
-  .author_text {
-    margin: 0;
-    color: #696969;
-    font-size: 0.8em;
-    margin-top: -0.3em;
-  
-    &:last-child {
-      margin-top: 0.3em;
-    }
-  }
-  
+}
