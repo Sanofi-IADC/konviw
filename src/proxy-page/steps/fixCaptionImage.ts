@@ -14,10 +14,8 @@ import { Step } from '../proxy-page.step';
  */
 export default (content: Content): Step => (context: ContextService): void => {
   context.setPerfMark('fixCaptionImage');
-
   const $ = context.getCheerioBody();
   const xmlStorageFormat = cheerio.load(content?.body?.storage?.value ?? '', { xmlMode: true });
-
   const getImageCaption = (elementImg: cheerio.Element) => {
     const filename = elementImg.attribs['data-linked-resource-default-alias'];
     const attachmentContent = xmlStorageFormat(`ri\\:attachment[ri\\:filename="${filename}"]`);
