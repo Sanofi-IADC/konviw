@@ -3,7 +3,7 @@
 context('Check if the header is displayed', () => {
     it('the header should display correctly', () => {
       cy.visit(
-        '/wiki/spaces/KONVIW/pages/238354433/Random+Confluence+Page',
+        '/wiki/spaces/KONVIW/pages/240418817/Demo+Author+and+Page+version',
       ).then(() => {
         cy.document().toMatchImageSnapshot();
       });
