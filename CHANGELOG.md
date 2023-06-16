@@ -1,3 +1,10 @@
+## [3.12.1](https://github.com/Sanofi-IADC/konviw/compare/v3.12.0...v3.12.1) (2023-06-16)
+
+
+### Bug Fixes
+
+* WEB-269 Force deployment ([c849ace](https://github.com/Sanofi-IADC/konviw/commit/c849acee4399969e187e7d0dacbca36eefb11efd))
+
 # [3.12.0](https://github.com/Sanofi-IADC/konviw/compare/v3.11.0...v3.12.0) (2023-06-15)
 
 
