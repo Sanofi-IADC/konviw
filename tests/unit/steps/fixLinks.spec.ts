@@ -5,8 +5,6 @@ import fixLinks from '../../../src/proxy-page/steps/fixLinks';
 import { jiraMockServiceFactory } from '../mocks/jiraService';
 import { createModuleRefForStep } from './utils';
 
-jest.setTimeout(7000);
-
 describe('ConfluenceProxy / fixLinks', () => {
   let context: ContextService;
   let config: ConfigService;
