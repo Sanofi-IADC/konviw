@@ -233,7 +233,7 @@ describe('ConfluenceProxy / fixLinks', () => {
     const step = fixLinks(config, http, jiraMockServiceFactory);
     const example =
     '<html><head></head><body>' +
-    '<a data-card-appearance="block"  href="https://www.google.com/about" class="external-link">Example</a>' +
+    '<a data-card-appearance="block" href="https://www.google.com/about" class="external-link">Example</a>' +
     '</body></html>';
     context.setHtmlBody(example);
     await step(context);
