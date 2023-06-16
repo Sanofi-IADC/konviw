@@ -28,13 +28,13 @@ describe('Confluence Proxy / addAuthorVersion', () => {
 
   it('should render author name and page version', () => {
     context.setHtmlBody(
-      '<html><head></head><body><div id="Content"><h1 class="titlePage"> Demo table</h1>' +
-        "</body></html>"
+      '<html><head></head><body><div id="Content"><h1 class="titlePage"> Demo table</h1><h1>Test</h1><table><colgroup><col></colgroup><tbody><tr><th><h1>Test</h1></th></tr><tr><td><h1>Test</h1></td></tr></tbody></table><div>' +
+        '</body></html>',
     );
     step(context);
     expect(context.getHtmlBody()).toMatchInlineSnapshot(`
       "<html><head></head><body><div id=\\"Content\\"><div id=\\"Content\\"><h1 class=\\"titlePage\\"> Demo table</h1><div class=\\"author_header\\"><img src=\\"Test.jpg\\" class=\\"author_image\\"><div class=\\"author_textbox\\">
-        <p class=\\"author_text\\">Creator: Test</p><p class=\\"author_text\\">Page version: 2</p></div></div></div></div></body></html>"
+        <p class=\\"author_text\\">Creator: Test</p><p class=\\"author_text\\">Page version: 2</p></div></div><h1>Test</h1><table><colgroup><col></colgroup><tbody><tr><th><h1>Test</h1></th></tr><tr><td><h1>Test</h1></td></tr></tbody></table><div></div></div></div></body></html>"
     `);
   });
 });
