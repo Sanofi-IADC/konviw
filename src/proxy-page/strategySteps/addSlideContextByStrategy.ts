@@ -20,6 +20,7 @@ export default (context: ContextService, spaceKey: string, pageId: string, style
     spaceKey,
     pageId,
     'light',
+    'page', // default 'page' assuming slides not used for blogposts
     existSlideStyle ? valueSlideStyle : style,
     content,
     true,

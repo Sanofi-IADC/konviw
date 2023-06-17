@@ -276,13 +276,24 @@ export class ConfluenceService {
     }
   }
 
-  async getAttachments(pageId: string): Promise<any> {
-    const results: AxiosResponse = await firstValueFrom(
-      this.http.get<Content>(
-        `/wiki/api/v2/pages/${pageId}/attachments`,
-      ),
-    );
-    return results.data?.results;
+  async getAttachments(type:string, pageId: string): Promise<any> {
+    // adjust the API endpoint in plural
+    // while type comes from the search in singular
+    const apiEndPoint = type === 'page' ? 'pages' : 'blogposts';
+    try {
+      const results: AxiosResponse = await firstValueFrom(
+        this.http.get<Content>(
+          `/wiki/api/v2/${apiEndPoint}/${pageId}/attachments`,
+        ),
+      );
+      this.logger.log(
+        `Retrieving attachments from ${type} ${pageId} via REST API v2`,
+      );
+      return results.data?.results;
+    } catch (err: any) {
+      this.logger.log(err, `error:getAttachments from page ${pageId}`);
+      throw new HttpException(`error:getAttachments > ${err}`, err.response.status);
+    }
   }
 
   async getSpecialAtlassianIcons(image?: string): Promise<any> {

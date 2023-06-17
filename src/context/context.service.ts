@@ -9,10 +9,16 @@ import { Version } from './context.interface';
 export class ContextService {
   private readonly logger = new Logger(ContextService.name);
 
+  // The Confluence space key
   private spaceKey = '';
 
+  // The unique page ID
   private pageId = '';
 
+  // Document type could be 'page' or 'blogpost'
+  private type = '';
+
+  // Theme between 'light' (default) and 'dark'
   private theme = '';
 
   private style = '';
@@ -60,7 +66,8 @@ export class ContextService {
   initPageContext(
     spaceKey: string,
     pageId: string,
-    theme?: string,
+    theme: string,
+    type?: string,
     style?: string,
     data?: Content,
     loadAsDocument = true, // eslint-disable-line default-param-last
@@ -69,6 +76,7 @@ export class ContextService {
     this.spaceKey = spaceKey;
     this.pageId = pageId;
     this.theme = theme;
+    this.type = type;
     this.style = style;
     const logger = new Logger(ContextService.name);
 
@@ -195,6 +203,14 @@ export class ContextService {
 
   getSpaceKey(): string {
     return this.spaceKey;
+  }
+
+  getType(): string {
+    return this.type;
+  }
+
+  setType(type: string): void {
+    this.type = type;
   }
 
   getTitle(): string {

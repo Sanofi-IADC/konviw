@@ -92,9 +92,10 @@ export class ProxyPageService {
       spaceKey,
       pageId,
       theme,
+      type,
       style,
       content,
-      true,
+      true, // loadAsDocument
       view,
     );
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
