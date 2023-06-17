@@ -1,3 +1,10 @@
+## [3.12.2](https://github.com/Sanofi-IADC/konviw/compare/v3.12.1...v3.12.2) (2023-06-17)
+
+
+### Bug Fixes
+
+* WEB-1959 attachments API v2 for blogposts ([1c57a97](https://github.com/Sanofi-IADC/konviw/commit/1c57a97c46f318a4505f362e097479fae118ac44))
+
 ## [3.12.1](https://github.com/Sanofi-IADC/konviw/compare/v3.12.0...v3.12.1) (2023-06-16)
 
 
