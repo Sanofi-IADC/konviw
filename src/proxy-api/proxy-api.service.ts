@@ -70,7 +70,7 @@ export class ProxyApiService {
     const { data }: { data: SearchResults } = await this.confluence.Search(
       spaceKeys,
       query,
-      type,
+      type, // 'page' or 'blogpost'
       labels,
       maxResults,
       cursorResults,
@@ -86,8 +86,9 @@ export class ProxyApiService {
         context.initPageContext(
           spacekey,
           doc.content.id,
-          undefined,
-          undefined,
+          undefined, // theme
+          type, // 'page' or 'blogpost'
+          undefined, // data
           doc.content,
         );
         context.setHtmlBody(doc.content.body.view.value);
@@ -398,7 +399,7 @@ export class ProxyApiService {
     type: string,
   ): Promise<Partial<KonviwContent>> {
     const content: Content = await this.confluence.getPage(spaceKey, pageId);
-    this.context.initPageContext(spaceKey, pageId, null, type, content, false);
+    this.context.initPageContext(spaceKey, pageId, undefined, type, undefined, content, false);
     // TODO: check whether we could add the excerpt and image header image also to the API metadata
     // await getExcerptAndHeaderImage(this.config, this.confluence)(this.context);
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
