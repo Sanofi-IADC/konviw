@@ -1,3 +1,10 @@
+## [3.12.4](https://github.com/Sanofi-IADC/konviw/compare/v3.12.3...v3.12.4) (2023-06-19)
+
+
+### Bug Fixes
+
+* WEB-1958 Fixed code smell ([b07c9d3](https://github.com/Sanofi-IADC/konviw/commit/b07c9d37f6e7dabe6e3ac145ac64f97a23117345))
+
 ## [3.12.3](https://github.com/Sanofi-IADC/konviw/compare/v3.12.2...v3.12.3) (2023-06-19)
 
 
