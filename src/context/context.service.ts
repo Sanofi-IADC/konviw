@@ -205,8 +205,8 @@ export class ContextService {
     return this.spaceKey;
   }
 
-  getType(): string {
-    return this.type;
+  getType(): string[] {
+    return this.type?.split(',') ?? [];
   }
 
   setType(type: string): void {
