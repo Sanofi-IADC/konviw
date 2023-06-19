@@ -34,8 +34,8 @@ describe('Confluence Proxy / addAuthorVersion', () => {
     );
     step(context);
     const htmlBody = context.getHtmlBody().trim();
-    expect(htmlBody.includes(`<p class=\"author_text\">Creator: Test</p>`)).toBe(true);
-    expect(htmlBody.includes(`<p class=\"author_text\">Page version: 2</p>`)).toBe(true);
+    expect(htmlBody.includes(`<p class="author_text">Creator: Test</p>`)).toBe(true);
+    expect(htmlBody.includes(`<p class="author_text">Page version: 2</p>`)).toBe(true);
   });
 
   it('should render only author name', () => {
@@ -46,8 +46,8 @@ describe('Confluence Proxy / addAuthorVersion', () => {
     );
     step(context);
     const htmlBody = context.getHtmlBody().trim();
-    expect(htmlBody.includes(`<p class=\"author_text\">Creator: Test</p>`)).toBe(true);
-    expect(htmlBody.includes(`<p class=\"author_text\">Page version: 2</p>`)).toBe(false);
+    expect(htmlBody.includes(`<p class="author_text">Creator: Test</p>`)).toBe(true);
+    expect(htmlBody.includes(`<p class="author_text">Page version: 2</p>`)).toBe(false);
   });
 
   it('should not render author name and page version', () => {
@@ -58,7 +58,7 @@ describe('Confluence Proxy / addAuthorVersion', () => {
     );
     step(context);
     const htmlBody = context.getHtmlBody().trim();
-    expect(htmlBody.includes(`<p class=\"author_text\">Creator: Test</p>`)).toBe(false);
-    expect(htmlBody.includes(`<p class=\"author_text\">Page version: 2</p>`)).toBe(false);
+    expect(htmlBody.includes(`<p class="author_text">Creator: Test</p>`)).toBe(false);
+    expect(htmlBody.includes(`<p class="author_text">Page version: 2</p>`)).toBe(false);
   });
 });
