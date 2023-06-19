@@ -1,3 +1,10 @@
+## [3.12.3](https://github.com/Sanofi-IADC/konviw/compare/v3.12.2...v3.12.3) (2023-06-19)
+
+
+### Bug Fixes
+
+* WEB-1958 Fixed displaying multiple author, added conditional to display author and version ([a99ebd7](https://github.com/Sanofi-IADC/konviw/commit/a99ebd7a430f37157b329ac57b508ed85bb7c744))
+
 ## [3.12.2](https://github.com/Sanofi-IADC/konviw/compare/v3.12.1...v3.12.2) (2023-06-17)
 
 
