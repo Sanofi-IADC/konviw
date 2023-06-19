@@ -27,14 +27,38 @@ describe('Confluence Proxy / addAuthorVersion', () => {
   });
 
   it('should render author name and page version', () => {
+    context.setType('title,author,version');
     context.setHtmlBody(
       '<html><head></head><body><div id="Content"><h1 class="titlePage"> Demo table</h1><h1>Test</h1><table><colgroup><col></colgroup><tbody><tr><th><h1>Test</h1></th></tr><tr><td><h1>Test</h1></td></tr></tbody></table><div>' +
         '</body></html>',
     );
     step(context);
-    expect(context.getHtmlBody()).toMatchInlineSnapshot(`
-      "<html><head></head><body><div id=\\"Content\\"><div id=\\"Content\\"><h1 class=\\"titlePage\\"> Demo table</h1><div class=\\"author_header\\"><img src=\\"Test.jpg\\" class=\\"author_image\\"><div class=\\"author_textbox\\">
-        <p class=\\"author_text\\">Creator: Test</p><p class=\\"author_text\\">Page version: 2</p></div></div><h1>Test</h1><table><colgroup><col></colgroup><tbody><tr><th><h1>Test</h1></th></tr><tr><td><h1>Test</h1></td></tr></tbody></table><div></div></div></div></body></html>"
-    `);
+    const htmlBody = context.getHtmlBody().trim();
+    expect(htmlBody.includes(`<p class=\"author_text\">Creator: Test</p>`)).toBe(true);
+    expect(htmlBody.includes(`<p class=\"author_text\">Page version: 2</p>`)).toBe(true);
+  });
+
+  it('should render only author name', () => {
+    context.setType('title,author');
+    context.setHtmlBody(
+      '<html><head></head><body><div id="Content"><h1 class="titlePage"> Demo table</h1><h1>Test</h1><table><colgroup><col></colgroup><tbody><tr><th><h1>Test</h1></th></tr><tr><td><h1>Test</h1></td></tr></tbody></table><div>' +
+        '</body></html>',
+    );
+    step(context);
+    const htmlBody = context.getHtmlBody().trim();
+    expect(htmlBody.includes(`<p class=\"author_text\">Creator: Test</p>`)).toBe(true);
+    expect(htmlBody.includes(`<p class=\"author_text\">Page version: 2</p>`)).toBe(false);
+  });
+
+  it('should not render author name and page version', () => {
+    context.setType('title');
+    context.setHtmlBody(
+      '<html><head></head><body><div id="Content"><h1 class="titlePage"> Demo table</h1><h1>Test</h1><table><colgroup><col></colgroup><tbody><tr><th><h1>Test</h1></th></tr><tr><td><h1>Test</h1></td></tr></tbody></table><div>' +
+        '</body></html>',
+    );
+    step(context);
+    const htmlBody = context.getHtmlBody().trim();
+    expect(htmlBody.includes(`<p class=\"author_text\">Creator: Test</p>`)).toBe(false);
+    expect(htmlBody.includes(`<p class=\"author_text\">Page version: 2</p>`)).toBe(false);
   });
 });

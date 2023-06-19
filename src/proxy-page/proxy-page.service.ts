@@ -98,6 +98,7 @@ export class ProxyPageService {
       true, // loadAsDocument
       view,
     );
+    const contextType = this.context.getType();
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
     await getExcerptAndHeaderImage(this.config, this.confluence)(this.context);
     fixHtmlHead(this.config)(this.context);
@@ -120,9 +121,9 @@ export class ProxyPageService {
     fixImageSize()(this.context);
     fixCaptionImage(content)(this.context);
     fixColGroupWidth()(this.context);
-    if (type === 'blog') {
+    if (contextType.includes('blog')) {
       await addHeaderBlog()(this.context);
-    } else if (type !== 'notitle') {
+    } else if (!contextType.includes('notitle')) {
       await addHeaderTitle(this.confluence)(this.context);
     }
     fixSVG(this.config)(this.context);
@@ -193,7 +194,6 @@ export class ProxyPageService {
     fixSVG(this.config)(this.context);
     fixTableBackground()(this.context);
     addTableResponsive()(this.context);
-    addAuthorVersion()(this.context);
     delUnnecessaryCode()(this.context);
     await addJiraPromise;
     addSlideTypeByStrategy(content, this.config)(this.context);

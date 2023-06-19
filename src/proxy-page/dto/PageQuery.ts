@@ -31,12 +31,13 @@ export default class PageQueryDTO {
   @ApiPropertyOptional({
     type: String,
     required: false,
-    description: 'Special layout for the page. Choose between \'log\', \'notitle\' or \'title\'.',
+    description:
+      'Special layout for the page. Choose between \'log\', \'notitle\', \'title\', \'title,author\' or \'title,author,version\'.',
     example: 'title',
   })
   @IsOptional()
   @IsString()
-  @IsIn(['blog', 'notitle', 'title'])
+  @IsIn(['blog', 'notitle', 'title', 'title,author', 'title,author,version'])
     type = 'title';
 
   @ApiPropertyOptional({

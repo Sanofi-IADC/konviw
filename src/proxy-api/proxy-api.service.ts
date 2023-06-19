@@ -26,7 +26,6 @@ import delUnnecessaryCode from '../proxy-page/steps/delUnnecessaryCode';
 import fixCode from '../proxy-page/steps/fixCode';
 import addCopyLinks from '../proxy-page/steps/addCopyLinks';
 import addJira from '../proxy-page/steps/addJira';
-import addAuthorVersion from '../proxy-page/steps/addAuthorVersion';
 
 import {
   KonviwContent,
@@ -415,7 +414,6 @@ export class ProxyApiService {
     fixTableColGroup()(this.context);
     fixEmptyLineIncludePage()(this.context);
     fixRoadmap(this.config)(this.context);
-    addAuthorVersion()(this.context);
     delUnnecessaryCode()(this.context);
     fixCode()(this.context);
     addCopyLinks()(this.context);

@@ -276,10 +276,10 @@ export class ConfluenceService {
     }
   }
 
-  async getAttachments(type:string, pageId: string): Promise<any> {
+  async getAttachments(type: string[], pageId: string): Promise<any> {
     // adjust the API endpoint in plural
     // while type comes from the search in singular
-    const apiEndPoint = type === 'page' ? 'pages' : 'blogposts';
+    const apiEndPoint = type.includes('page') ? 'pages' : 'blogposts';
     try {
       const results: AxiosResponse = await firstValueFrom(
         this.http.get<Content>(

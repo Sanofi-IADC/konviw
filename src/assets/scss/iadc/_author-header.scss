@@ -1,6 +1,6 @@
 .author_header {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .author_image {
@@ -10,16 +10,12 @@
 }
 
 .author_textbox {
-  padding: 0.5em;
+  display: flex;
+  flex-direction: column;
 }
 
 .author_text {
   margin: 0;
   color: #696969;
   font-size: 0.8em;
-  margin-top: -0.3em;
-
-  &:last-child {
-    margin-top: 0.3em;
-  }
 }
