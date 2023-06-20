@@ -1,0 +1,21 @@
+.author_header {
+  display: flex;
+  align-items: center;
+}
+
+.author_image {
+  border-radius: 50%;
+  width: 2em;
+  height: 2em;
+}
+
+.author_textbox {
+  display: flex;
+  flex-direction: column;
+}
+
+.author_text {
+  margin: 0;
+  color: #696969;
+  font-size: 0.8em;
+}

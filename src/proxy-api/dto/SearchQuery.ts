@@ -24,7 +24,7 @@ export default class SearchQueryDTO {
 
   @ApiPropertyOptional({
     required: false,
-    description: 'The type of page. Options are \'page\' or \'blogpage\'',
+    description: 'The type of page. Options are \'page\' or \'blogpost\'',
     example: 'blogpost',
   })
   @IsOptional()

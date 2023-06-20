@@ -32,11 +32,13 @@ export class HttpModule implements OnModuleInit {
 
     // Add request interceptor and response interceptor to log request infos
     const axios = this.httpService.axiosRef;
+
     axios.interceptors.request.use((config) => {
       /* eslint-disable dot-notation, no-param-reassign */
       config['metadata'] = { ...config['metadata'], startDate: new Date() };
       return config;
     });
+
     axios.interceptors.response.use(
       (response) => {
         const { config } = response;

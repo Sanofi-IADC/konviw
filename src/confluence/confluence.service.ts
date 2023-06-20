@@ -8,7 +8,7 @@ import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import { AxiosResponse } from 'axios'; // eslint-disable-line import/no-extraneous-dependencies
 import { firstValueFrom } from 'rxjs';
-import { Content, SearchResults } from './confluence.interface';
+import { Content, SearchResults, Attachment } from './confluence.interface';
 
 @Injectable()
 export class ConfluenceService {
@@ -276,13 +276,26 @@ export class ConfluenceService {
     }
   }
 
-  async getAttachments(pageId: string): Promise<any> {
-    const results: AxiosResponse = await firstValueFrom(
-      this.http.get<Content>(
-        `/wiki/api/v2/pages/${pageId}/attachments`,
-      ),
+  async getAttachments(pageId: string): Promise<Attachment[]> {
+    // from API v2 we have to use first this API to identify the proper content from the pageID
+    const typeContent: AxiosResponse = await firstValueFrom(
+      this.http.post('/wiki/api/v2/content/convert-ids-to-types', { contentIds: [pageId] }),
     );
-    return results.data?.results;
+    if (typeContent?.data.results[pageId]) {
+      // set the proper API endpoint based on the appropiate content
+      const apiEndPoint = typeContent?.data.results[pageId] === 'page' ? 'pages' : 'blogposts';
+      try {
+        const results: AxiosResponse = await firstValueFrom(
+          this.http.get(`/wiki/api/v2/${apiEndPoint}/${pageId}/attachments`),
+        );
+        this.logger.log(`Retrieving attachments from ${typeContent?.data.results[pageId]} ${pageId} via REST API v2`);
+        return results.data?.results;
+      } catch (err: any) {
+        this.logger.log(err, `error:getAttachments from ${typeContent?.data.results[pageId]} ${pageId}`);
+        return undefined;
+      }
+    }
+    return undefined;
   }
 
   async getSpecialAtlassianIcons(image?: string): Promise<any> {

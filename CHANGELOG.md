@@ -1,3 +1,52 @@
+## [3.12.5](https://github.com/Sanofi-IADC/konviw/compare/v3.12.4...v3.12.5) (2023-06-20)
+
+
+### Bug Fixes
+
+* WEB-1961 control content type attachments ([6ec9f17](https://github.com/Sanofi-IADC/konviw/commit/6ec9f17594ee4a3a2070d4aeff688b94c2def70e))
+
+## [3.12.4](https://github.com/Sanofi-IADC/konviw/compare/v3.12.3...v3.12.4) (2023-06-19)
+
+
+### Bug Fixes
+
+* WEB-1958 Fixed code smell ([b07c9d3](https://github.com/Sanofi-IADC/konviw/commit/b07c9d37f6e7dabe6e3ac145ac64f97a23117345))
+
+## [3.12.3](https://github.com/Sanofi-IADC/konviw/compare/v3.12.2...v3.12.3) (2023-06-19)
+
+
+### Bug Fixes
+
+* WEB-1958 Fixed displaying multiple author, added conditional to display author and version ([a99ebd7](https://github.com/Sanofi-IADC/konviw/commit/a99ebd7a430f37157b329ac57b508ed85bb7c744))
+
+## [3.12.2](https://github.com/Sanofi-IADC/konviw/compare/v3.12.1...v3.12.2) (2023-06-17)
+
+
+### Bug Fixes
+
+* WEB-1959 attachments API v2 for blogposts ([1c57a97](https://github.com/Sanofi-IADC/konviw/commit/1c57a97c46f318a4505f362e097479fae118ac44))
+
+## [3.12.1](https://github.com/Sanofi-IADC/konviw/compare/v3.12.0...v3.12.1) (2023-06-16)
+
+
+### Bug Fixes
+
+* WEB-269 Force deployment ([c849ace](https://github.com/Sanofi-IADC/konviw/commit/c849acee4399969e187e7d0dacbca36eefb11efd))
+
+# [3.12.0](https://github.com/Sanofi-IADC/konviw/compare/v3.11.0...v3.12.0) (2023-06-15)
+
+
+### Features
+
+* WEB-1906 Add responsive table ([b197fa3](https://github.com/Sanofi-IADC/konviw/commit/b197fa310edf1c4d9d51dc2738824da1b6abe738))
+
+# [3.11.0](https://github.com/Sanofi-IADC/konviw/compare/v3.10.0...v3.11.0) (2023-06-15)
+
+
+### Features
+
+* WEB-270 Add creator name and page version ([a7445e0](https://github.com/Sanofi-IADC/konviw/commit/a7445e04f77d3ee003e2abb1b08e7c5468f8ef0b))
+
 # [3.10.0](https://github.com/Sanofi-IADC/konviw/compare/v3.9.0...v3.10.0) (2023-06-13)
 
 

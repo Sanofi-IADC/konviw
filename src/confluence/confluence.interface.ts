@@ -223,3 +223,25 @@ export interface ResultGlobalContainer {
   title: string;
   displayUrl: string;
 }
+
+export interface Attachment {
+  id: string,
+  comment: string,
+  version: {
+    number: number,
+    message: string,
+    minorEdit: boolean,
+    authorId: string,
+    createdAt: string // date-time
+},
+  downloadLink: string,
+  mediaType: string,
+  title: string,
+  fileSize: number,
+  status: ContentStatusType,
+  pageId: number,
+  fileId: string,
+  mediaTypeDescription: string,
+  webuiLink: string,
+  _links: GenericLinks
+}
