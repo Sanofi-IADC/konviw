@@ -113,7 +113,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
     jiraIssuesPromises.push({
       issues: {
         issues: jiraService
-          .findTickets(server, filter, columns, Number(maximumIssues))
+          .findTickets(server, filter, columns, 0, Number(maximumIssues))
           .then((res) => res.issues),
       },
       columns,
