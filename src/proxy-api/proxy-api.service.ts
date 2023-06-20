@@ -321,13 +321,11 @@ export class ProxyApiService {
     const isAdmin = true;
     const issueTypeScreenSchemesRes = await this.jira.findIssueTypeScreenSchemes(projectId, isAdmin);
     const issueTypeScreenSchemeId = issueTypeScreenSchemesRes.data.values[0]?.issueTypeScreenScheme.id;
-    // console.log('issueTypeScreenSchemeId => ', issueTypeScreenSchemeId);
     if (issueTypeScreenSchemeId) {
       const itemsRes = await this.jira.findIssueTypeScreenSchemeItems(isAdmin, issueTypeScreenSchemeId);
       const item = itemsRes.data.values.find((value: any) => value.issueTypeId === issueTypeId);
       const screenSchemeId = item ? item.screenSchemeId
         : (itemsRes.data.values.find((value: any) => value.issueTypeId === 'default').screenSchemeId);
-      // console.log('screenSchemeId => ', screenSchemeId);
       const schemeRes = await this.jira.findScreenSchemes(isAdmin, screenSchemeId);
       const { screens } = schemeRes.data.values[0];
       const screenId = screens.view ? screens.view : screens.default;
