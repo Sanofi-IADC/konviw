@@ -228,7 +228,7 @@ export interface Attachment {
   id: string,
   comment: string,
   version: {
-    number: 1,
+    number: number,
     message: string,
     minorEdit: boolean,
     authorId: string,
