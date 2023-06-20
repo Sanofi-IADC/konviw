@@ -1,3 +1,10 @@
+## [3.12.6](https://github.com/Sanofi-IADC/konviw/compare/v3.12.5...v3.12.6) (2023-06-20)
+
+
+### Bug Fixes
+
+* WEB-1962 Fixed correct order of parameters ([c843f96](https://github.com/Sanofi-IADC/konviw/commit/c843f9690dfc3081f76b6e0dad8aa51c630a4956))
+
 ## [3.12.5](https://github.com/Sanofi-IADC/konviw/compare/v3.12.4...v3.12.5) (2023-06-20)
 
 
