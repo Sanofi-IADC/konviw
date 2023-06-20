@@ -8,7 +8,7 @@ import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import { AxiosResponse } from 'axios'; // eslint-disable-line import/no-extraneous-dependencies
 import { firstValueFrom } from 'rxjs';
-import { Content, SearchResults } from './confluence.interface';
+import { Content, SearchResults, Attachment } from './confluence.interface';
 
 @Injectable()
 export class ConfluenceService {
@@ -276,24 +276,26 @@ export class ConfluenceService {
     }
   }
 
-  async getAttachments(type: string[], pageId: string): Promise<any> {
-    // adjust the API endpoint in plural
-    // while type comes from the search in singular
-    const apiEndPoint = type.includes('page') ? 'pages' : 'blogposts';
-    try {
-      const results: AxiosResponse = await firstValueFrom(
-        this.http.get<Content>(
-          `/wiki/api/v2/${apiEndPoint}/${pageId}/attachments`,
-        ),
-      );
-      this.logger.log(
-        `Retrieving attachments from ${type} ${pageId} via REST API v2`,
-      );
-      return results.data?.results;
-    } catch (err: any) {
-      this.logger.log(err, `error:getAttachments from page ${pageId}`);
-      throw new HttpException(`error:getAttachments > ${err}`, err.response.status);
+  async getAttachments(pageId: string): Promise<Attachment[]> {
+    // from API v2 we have to use first this API to identify the proper content from the pageID
+    const typeContent: AxiosResponse = await firstValueFrom(
+      this.http.post('/wiki/api/v2/content/convert-ids-to-types', { contentIds: [pageId] }),
+    );
+    if (typeContent?.data.results[pageId]) {
+      // set the proper API endpoint based on the appropiate content
+      const apiEndPoint = typeContent?.data.results[pageId] === 'page' ? 'pages' : 'blogposts';
+      try {
+        const results: AxiosResponse = await firstValueFrom(
+          this.http.get(`/wiki/api/v2/${apiEndPoint}/${pageId}/attachments`),
+        );
+        this.logger.log(`Retrieving attachments from ${typeContent?.data.results[pageId]} ${pageId} via REST API v2`);
+        return results.data?.results;
+      } catch (err: any) {
+        this.logger.log(err, `error:getAttachments from ${typeContent?.data.results[pageId]} ${pageId}`);
+        return undefined;
+      }
     }
+    return undefined;
   }
 
   async getSpecialAtlassianIcons(image?: string): Promise<any> {

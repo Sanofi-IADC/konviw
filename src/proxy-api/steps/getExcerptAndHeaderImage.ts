@@ -15,13 +15,15 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => a
   let blogImgSrc = context.getHeaderImage();
   if (blogImgSrc && !blogImgSrc.startsWith('http')) {
     // not a URL (image uploaded to Confluence)
-    const attachments = await confluence.getAttachments(context.getType(), context.getPageId());
-    const blogImgAttachment = attachments.find((e) =>
-    // find the attachment matching the UID got from the headerImage attribute
-      e.fileId === blogImgSrc);
-    if (blogImgAttachment) {
-      blogImgSrc = `${webBasePath}/wiki${blogImgAttachment?.downloadLink}`;
-      context.setHeaderImage(blogImgSrc);
+    const attachments = await confluence.getAttachments(context.getPageId());
+    if (attachments) {
+      const blogImgAttachment = attachments.find((e) =>
+      // find the attachment matching the UID got from the headerImage attribute
+        e.fileId === blogImgSrc);
+      if (blogImgAttachment) {
+        blogImgSrc = `${webBasePath}/wiki${blogImgAttachment?.downloadLink}`;
+        context.setHeaderImage(blogImgSrc);
+      }
     }
   }
 
