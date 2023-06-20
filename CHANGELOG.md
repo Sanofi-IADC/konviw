@@ -1,3 +1,10 @@
+## [3.12.5](https://github.com/Sanofi-IADC/konviw/compare/v3.12.4...v3.12.5) (2023-06-20)
+
+
+### Bug Fixes
+
+* WEB-1961 control content type attachments ([6ec9f17](https://github.com/Sanofi-IADC/konviw/commit/6ec9f17594ee4a3a2070d4aeff688b94c2def70e))
+
 ## [3.12.4](https://github.com/Sanofi-IADC/konviw/compare/v3.12.3...v3.12.4) (2023-06-19)
 
 
