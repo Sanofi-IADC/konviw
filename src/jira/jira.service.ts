@@ -67,8 +67,8 @@ export class JiraService {
    * @return Promise {any}
    * @param jqlSearch {string} 'project = FND ORDER BY resolution DESC' - Jira Query Language to filter the issues to retrieve
    * @param fields {string} 'fields=field1,field2&fields=field3' - A list of fields to return for each issue
+   * @param startAt {number} 0 - starting position to handle paginated results
    * @param maxResult {number} 100 - maximum number of issues retrieved
-   * @param startAt {number} 15 - starting position to handle paginated results
    */
   async findTickets(
     server: string,
