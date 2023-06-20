@@ -218,6 +218,161 @@ export class JiraService {
   }
 
   /**
+   * @function findIssueTypeScreenSchemes Service
+   * @description Returns a paginated list of issue type screen schemes and,
+   *              for each issue type screen scheme, a list of the projects that use it
+   * @return Promise {any}
+   */
+  async findIssueTypeScreenSchemes(projectId: number, isAdmin: boolean): Promise<AxiosResponse> {
+    if (isAdmin) {
+      this.apiUsername = process.env.CPV_JIRA_ADMIN_API_USERNAME;
+      this.apiToken = process.env.CPV_JIRA_ADMIN_API_TOKEN;
+    }
+    return firstValueFrom(
+      this.http.get(
+        `${this.baseUrl}/rest/api/3/issuetypescreenscheme/project?projectId=${projectId}`,
+        { auth: { username: this.apiUsername, password: this.apiToken } },
+      ),
+    )
+      .then((response) => {
+        this.logger.log('Retrieving issue type screen schemes');
+        return response;
+      })
+      .catch((err) => {
+        this.logger.log(err, 'error:findIssueTypeScreenSchemes');
+        throw new HttpException(
+          `error:API findIssueTypeScreenSchemes > ${err}`,
+          404,
+        );
+      });
+  }
+
+  /**
+   * @function findIssueTypeScreenSchemeItems Service
+   * @description Returns a paginated list of issue type screen scheme items
+   * @return Promise {any}
+   */
+  async findIssueTypeScreenSchemeItems(isAdmin: boolean, issueTypeScreenSchemeId: number): Promise<AxiosResponse> {
+    if (isAdmin) {
+      this.apiUsername = process.env.CPV_JIRA_ADMIN_API_USERNAME;
+      this.apiToken = process.env.CPV_JIRA_ADMIN_API_TOKEN;
+    }
+    return firstValueFrom(
+      this.http.get(
+        `${this.baseUrl}/rest/api/3/issuetypescreenscheme/mapping`,
+        {
+          auth: { username: this.apiUsername, password: this.apiToken },
+          params: { issueTypeScreenSchemeId },
+        },
+      ),
+    )
+      .then((response) => {
+        this.logger.log('Retrieving issue type screen scheme items');
+        return response;
+      })
+      .catch((err) => {
+        this.logger.log(err, 'error:findIssueTypeScreenSchemeItems');
+        throw new HttpException(
+          `error:API findIssueTypeScreenSchemeItems > ${err}`,
+          404,
+        );
+      });
+  }
+
+  /**
+   * @function findScreenSchemes Service
+   * @description Returns a paginated list of screen schemes.
+                  Only screen schemes used in classic projects are returned.
+   * @return Promise {any}
+   */
+  async findScreenSchemes(isAdmin: boolean, screenSchemeId: number, maxResults = 100, startAt = 0): Promise<AxiosResponse> {
+    if (isAdmin) {
+      this.apiUsername = process.env.CPV_JIRA_ADMIN_API_USERNAME;
+      this.apiToken = process.env.CPV_JIRA_ADMIN_API_TOKEN;
+    }
+    return firstValueFrom(
+      this.http.get(`${this.baseUrl}/rest/api/3/screenscheme`, {
+        auth: { username: this.apiUsername, password: this.apiToken },
+        params: {
+          startAt,
+          maxResults,
+          id: screenSchemeId,
+          expand: 'issueTypeScreenSchemes',
+        },
+      }),
+    )
+      .then((response) => {
+        this.logger.log('Retrieving screenschemes');
+        return response;
+      })
+      .catch((err) => {
+        this.logger.log(err, 'error:findScreenSchemes');
+        throw new HttpException(
+          `error:API findScreenSchemes > ${err}`,
+          404,
+        );
+      });
+  }
+
+  /**
+   * @function findScreenTabs Service
+   * @description Returns the list of tabs for a screen.
+   * @return Promise {any}
+   */
+  async findScreenTabs(screenId: number, isAdmin: boolean): Promise<AxiosResponse> {
+    if (isAdmin) {
+      this.apiUsername = process.env.CPV_JIRA_ADMIN_API_USERNAME;
+      this.apiToken = process.env.CPV_JIRA_ADMIN_API_TOKEN;
+    }
+    return firstValueFrom(
+      this.http.get(
+        `${this.baseUrl}/rest/api/3/screens/${screenId}/tabs`,
+        { auth: { username: this.apiUsername, password: this.apiToken } },
+      ),
+    )
+      .then((response) => {
+        this.logger.log('Retrieving findScreenTabs');
+        return response;
+      })
+      .catch((err) => {
+        this.logger.log(err, 'error:findScreenTabs');
+        throw new HttpException(
+          `error:API findScreenTabs > ${err}`,
+          404,
+        );
+      });
+  }
+
+  /**
+   * @function findScreenTabFields Service
+   * @description Returns all fields for a screen tab.
+   * @return Promise {any}
+   */
+  async findScreenTabFields(screenId: number, tabId: number, isAdmin: boolean): Promise<AxiosResponse> {
+    if (isAdmin) {
+      this.apiUsername = process.env.CPV_JIRA_ADMIN_API_USERNAME;
+      this.apiToken = process.env.CPV_JIRA_ADMIN_API_TOKEN;
+    }
+    return firstValueFrom(
+      this.http.get(
+        `${this.baseUrl}/rest/api/3/screens/${screenId}/tabs/${tabId}/fields`,
+        { auth: { username: this.apiUsername, password: this.apiToken } },
+      ),
+    )
+      .then((response) => {
+        this.logger.log('Retrieving findScreenTabFields');
+        return response;
+      })
+      .catch((err) => {
+        this.logger.log(err, 'error:findScreenTabFields');
+        throw new HttpException(
+          `error:API findScreenTabFields > ${err}`,
+          404,
+        );
+      });
+  }
+
+  /**
    * @function findProjectMetadata Service
    * @description Return a the projects metadata
    * @return Promise {any}

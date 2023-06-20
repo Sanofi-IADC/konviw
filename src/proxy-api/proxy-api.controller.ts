@@ -17,7 +17,8 @@ import {
   GetSpacesQueryDTO,
 } from './proxy-api.validation.dto';
 import { KonviwResults } from './proxy-api.interface';
-import SearchProjectIssueTypesWithStatusQueryDTO from './dto/SearchProjectIssueTypesWithStatusQueryDTO';
+import SearchProjectIssueTypesWithStatusQueryDTO from './dto/SearchProjectIssueTypesWithStatusQuery';
+import GetScreenDetailsDTO from './dto/GetScreenDetails';
 
 @ApiTags('proxy-api')
 @Controller('api')
@@ -135,6 +136,36 @@ export class ProxyApiController {
     @Query() queries: SearchProjectIssueTypesWithStatusQueryDTO,
   ): Promise<any> {
     return this.proxyApi.getJiraProjectIssueTypesWithStatus(queries.server, queries.projectIdOrKey);
+  }
+
+  /**
+   * @GET (controller) api/issueDetails
+   * @description Route to retrieve details of an Issue from a Jira server
+   * @return {string} 'JSON' - Returns the details of the issue
+   */
+  // @ApiOkResponse({
+  //   description: 'Get Issue details from a Jira server',
+  // })
+  // @Get('issueDetails')
+  // async getJiraIssueDetails(
+  //   @Query() queries: SearchIssueDetailsDTO,
+  // ): Promise<any> {
+  //   return this.proxyApi.getJiraIssueDetails(queries.server, queries.issueIdOrKey);
+  // }
+
+  /**
+   * @GET (controller) api/screenDetails
+   * @description Route to retrieve details of Screen from a Jira server
+   * @return {string} 'JSON' - Returns the details of the screen
+   */
+  @ApiOkResponse({
+    description: 'Get Issue Screen details',
+  })
+  @Get('screenDetails')
+  async getJiraScreenDetails(
+    @Query() queries: GetScreenDetailsDTO,
+  ): Promise<any> {
+    return this.proxyApi.getJiraIssueScreenDetails(queries.projectId, queries.issueTypeId);
   }
 
   /**

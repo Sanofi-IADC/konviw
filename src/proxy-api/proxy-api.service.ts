@@ -307,6 +307,41 @@ export class ProxyApiService {
   }
 
   /**
+   * @function getJiraIssueScreenDetails Service
+   * @description Retrieve Screen details
+   * @return Promise {string}
+   * @param server {string} 'System Jira' - Jira server to list Issues from
+   * @param screenKey {string} 1234 - Jira screen or Id
+   */
+  async getJiraIssueScreenDetails(
+    projectId: number,
+    issueTypeId: number,
+  ): Promise<any> {
+    const isAdmin = true;
+    const issueTypeScreenSchemesRes = await this.jira.findIssueTypeScreenSchemes(projectId, isAdmin);
+    const issueTypeScreenSchemeId = issueTypeScreenSchemesRes.data.values[0]?.issueTypeScreenScheme.id;
+    // console.log('issueTypeScreenSchemeId => ', issueTypeScreenSchemeId);
+    if (issueTypeScreenSchemeId) {
+      const itemsRes = await this.jira.findIssueTypeScreenSchemeItems(isAdmin, issueTypeScreenSchemeId);
+      const item = itemsRes.data.values.find((value: any) => value.issueTypeId === issueTypeId);
+      const screenSchemeId = item ? item.screenSchemeId
+        : (itemsRes.data.values.find((value: any) => value.issueTypeId === 'default').screenSchemeId);
+      // console.log('screenSchemeId => ', screenSchemeId);
+      const schemeRes = await this.jira.findScreenSchemes(isAdmin, screenSchemeId);
+      const { screens } = schemeRes.data.values[0];
+      const screenId = screens.view ? screens.view : screens.default;
+      const tabsRes = await this.jira.findScreenTabs(screenId, isAdmin);
+      const tabId = tabsRes.data[0].id;
+      const fieldsRes = await this.jira.findScreenTabFields(screenId, tabId, isAdmin);
+      const screenDetails = fieldsRes.data;
+      return {
+        screenDetails,
+      };
+    }
+    return {};
+  }
+
+  /**
    * @function getAllSpaces Service
    * @description Retrieve all spaces from a Confluence server
    * @return Promise {any}
