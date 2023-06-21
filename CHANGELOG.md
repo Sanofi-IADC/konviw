@@ -1,3 +1,10 @@
+## [3.12.7](https://github.com/Sanofi-IADC/konviw/compare/v3.12.6...v3.12.7) (2023-06-21)
+
+
+### Bug Fixes
+
+* Fixed workaround which proceed issue on another pages using  jql search ([5c22699](https://github.com/Sanofi-IADC/konviw/commit/5c226994aac7259d7a006d62a7ca0ca98776bb82))
+
 ## [3.12.6](https://github.com/Sanofi-IADC/konviw/compare/v3.12.5...v3.12.6) (2023-06-20)
 
 
