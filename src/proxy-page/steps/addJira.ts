@@ -98,7 +98,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
     const wikimarkup: string = elementJira.attribs['data-wikimarkup'];
     const xmlWikimarkup = cheerio.load(wikimarkup, { xmlMode: true });
     const server = xmlWikimarkup('ac\\:parameter[ac\\:name="server"]').text();
-    let filter = xmlWikimarkup(
+    const filter = xmlWikimarkup(
       'ac\\:parameter[ac\\:name="jqlQuery"]',
     ).text();
     const columns = `${xmlWikimarkup('ac\\:parameter[ac\\:name="columns"]').text()
