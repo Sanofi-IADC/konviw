@@ -1,3 +1,10 @@
+# [3.13.0](https://github.com/Sanofi-IADC/konviw/compare/v3.12.7...v3.13.0) (2023-06-21)
+
+
+### Features
+
+* ARM-1356 API implementation for Jira Details View ([eecfe69](https://github.com/Sanofi-IADC/konviw/commit/eecfe69d85bba37157ccd8e834d8152f5826ff4b))
+
 ## [3.12.7](https://github.com/Sanofi-IADC/konviw/compare/v3.12.6...v3.12.7) (2023-06-21)
 
 
