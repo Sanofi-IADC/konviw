@@ -10,6 +10,7 @@ import {
 import { ConfluenceService } from '../confluence/confluence.service';
 import { JiraService } from '../jira/jira.service';
 import getExcerptAndHeaderImage from './steps/getExcerptAndHeaderImage';
+import getTable from './steps/getTable';
 import fixContentWidth from '../proxy-page/steps/fixContentWidth';
 import fixLinks from '../proxy-page/steps/fixLinks';
 import fixToc from '../proxy-page/steps/fixToc';
@@ -31,6 +32,7 @@ import {
   KonviwContent,
   KonviwResults,
   MetadataSearch,
+  RadarContent,
 } from './proxy-api.interface';
 
 @Injectable()
@@ -433,7 +435,7 @@ export class ProxyApiService {
     const content: Content = await this.confluence.getPage(spaceKey, pageId);
     this.context.initPageContext(spaceKey, pageId, undefined, type, undefined, content, false);
     // TODO: check whether we could add the excerpt and image header image also to the API metadata
-    // await getExcerptAndHeaderImage(this.config, this.confluence)(this.context);
+    await getExcerptAndHeaderImage(this.config, this.confluence)(this.context);
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
     fixContentWidth()(this.context);
     await fixLinks(this.config, this.http, this.jira)(this.context);
@@ -466,5 +468,61 @@ export class ProxyApiService {
       imgblog: this.context.getImgBlog(),
       space: this.context.getSpaceKey(),
     };
+  }
+
+  /**
+   * @function getTechnologyRadar Service
+   * @description Search content in Confluence
+   * @return Promise {string}
+   * @param spaceKeys {string} 'iadc|dgbi' - space key where the page belongs
+   * @param query {string} 'vision factory' - words to be searched
+   * @param type {string} 'blogpost' - type of Confluence page, either 'page' or 'blogpost'
+   * @param labels {string} 'label1,label2' - labels to include as filters in the search
+   * @param maxResults {number} '15' - limit of records to be retrieved
+   * @param cursorResults {string} 'URI' - one of the two URIs provided by Confluence to navigate to the next or previous set of records
+   */
+  async getTechnologyRadar(
+    spaceKeys: string,
+    pageId: string,
+    period: string,
+    type = undefined,
+    labels = undefined,
+    maxResults = 999,
+    cursorResults = '',
+  ): Promise<RadarContent[]> {
+    // destructuring data gets implicity typed from the response
+    // while we explicitly type it for better control
+    const { data }: { data: SearchResults } = await this.confluence.getChildrenPages(
+      spaceKeys,
+      pageId,
+      labels,
+      maxResults,
+      cursorResults,
+    );
+
+    const parseResults: RadarContent[] = await Promise.all(
+      // TODO convert to .reduce to remove null values from the array
+      data.results.map(async (doc: ResultsContent): Promise<RadarContent> => {
+        const spacekey = doc.resultGlobalContainer.displayUrl.split('/')[2];
+        const context = new ContextService(this.config);
+        context.initPageContext(
+          spacekey,
+          doc.content.id,
+          undefined, // theme
+          type, // 'page'
+          undefined, // data
+          doc.content,
+        );
+        context.setHtmlBody(doc.content.body.view.value);
+
+        // TODO extend fixLings with an option to make relative links absolute
+        // for API responses the relative URLs shall be converted to full path
+        await fixLinks(this.config, this.http, this.jira)(this.context);
+        const metadataRadar: RadarContent = await getTable(this.config, period)(context);
+        // }
+        return metadataRadar;
+      }),
+    );
+    return parseResults;
   }
 }
