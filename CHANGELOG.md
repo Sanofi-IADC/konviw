@@ -1,3 +1,10 @@
+## [3.13.1](https://github.com/Sanofi-IADC/konviw/compare/v3.13.0...v3.13.1) (2023-07-04)
+
+
+### Bug Fixes
+
+* WEB-1969 Added support for description and fix version fields ([d300ab2](https://github.com/Sanofi-IADC/konviw/commit/d300ab2c9e01b4f1507681d507ba577636c6d244))
+
 # [3.13.0](https://github.com/Sanofi-IADC/konviw/compare/v3.12.7...v3.13.0) (2023-06-21)
 
 
