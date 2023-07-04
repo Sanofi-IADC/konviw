@@ -77,6 +77,14 @@ export class JiraService {
     startAt = 0,
     maxResult = 100,
   ): Promise<any> {
+    const expand = [
+      {
+        field: 'description',
+        apiExpand: 'renderedFields',
+      },
+    ].filter(({ field }) => fields.includes(field))
+      .map(({ apiExpand }) => apiExpand)
+      .join(',');
     // Load new base URL and credencials if defined a specific connection for Jira as ENV variables
     const key = `CPV_JIRA_${server.replace(/\s/, '_')}`;
     const baseUrl = process.env[`${key}_BASE_URL`];
@@ -88,7 +96,10 @@ export class JiraService {
     return firstValueFrom(
       this.http.get(
         `${this.baseUrl}/rest/api/3/search?jql=${jqlSearch}&fields=${fields}&maxResults=${maxResult}&startAt=${startAt}`,
-        { auth: { username: this.apiUsername, password: this.apiToken } },
+        {
+          auth: { username: this.apiUsername, password: this.apiToken },
+          params: { expand },
+        },
       ),
     )
       .then((response) => response.data)

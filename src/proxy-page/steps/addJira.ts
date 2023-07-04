@@ -140,6 +140,39 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
     filter: jira.filter,
   }));
 
+  const descriptionIssueFactory = (
+    issue: { [key: string]: any },
+    baseUrl: string,
+  ) => issue.renderedFields?.description
+    .replace(
+      // eslint-disable-next-line prefer-regex-literals
+      new RegExp('src="/rest/api/3/', 'g'),
+      `src="${baseUrl}/rest/api/3/`,
+    );
+
+  const getFixVersionObject = (issue: { [key: string]: any }) => {
+    const fixVersion = issue.fields?.fixVersions;
+    if (fixVersion && fixVersion[0]) {
+      return fixVersion[0];
+    }
+    return {};
+  };
+
+  const fixVersionUrlFactory = (issue: { [key: string]: any }) => {
+    const description = getFixVersionObject(issue)?.description;
+    if (description) {
+      const urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g;
+      const results = description.match(urlRegex);
+      return (results && results[0]) ?? '';
+    }
+    return '';
+  };
+
+  const fixVersionNameFactory = (issue: { [key: string]: any }) => {
+    const name = getFixVersionObject(issue)?.name;
+    return name ?? '';
+  };
+
   issuesColumns.forEach(
     ({
       issues, columns, element, server, filter,
@@ -182,6 +215,13 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
             color: issue.fields.status?.statusCategory.colorName,
           },
           resolution: issue.fields.resolution?.name,
+          fixVersion: {
+            name: fixVersionNameFactory(issue),
+            link: fixVersionUrlFactory(issue),
+          },
+          description: {
+            name: descriptionIssueFactory(issue, baseUrl),
+          },
         });
       });
 
@@ -204,7 +244,15 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
                 formatter: (cell) => gridjs.html(${'`<a href="${cell.link}" target="_blank">${cell.name}</a>`'})
               },`;
       }
-
+      if (requestedFields.includes('description')) {
+        gridjsColumns += `{
+                name: 'Description',
+                sort: {
+                  compare: (a, b) => (a.name > b.name ? 1 : -1),
+                },
+                formatter: (cell) => gridjs.html(${'`${cell.name}`'})
+              },`;
+      }
       if (requestedFields.includes('issuetype')) {
         gridjsColumns += `{
                 name: 'T',
@@ -251,6 +299,16 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
                 name: 'Resolution',
               },`;
       }
+      if (requestedFields.includes('fixVersions')) {
+        gridjsColumns += `{
+                name: 'Fix Version',
+                sort: {
+                  compare: (a, b) => (a.name > b.name ? 1 : -1),
+                },
+                formatter: (cell) =>
+                  cell.link ? gridjs.html(${'`<a href="${cell.link}" target="_blank">${cell.name}</a>`'}) : gridjs.html(${'`${cell.name}`'})
+              },`;
+      }
       gridjsColumns += ']';
 
       // remove the header
@@ -278,7 +336,10 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
             width: '100%',
             style: {
               td: {
-                padding: '5px 5px'
+                padding: '5px 5px',
+                maxWidth: '500px',
+                minWidth: '25px',
+                overflow: 'auto',
               },
               th: {
                 padding: '5px 5px'
