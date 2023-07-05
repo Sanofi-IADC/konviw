@@ -51,4 +51,13 @@ export default class SearchProjectsQueryDTO {
   @IsInt()
   @Type(() => Number)
     categoryId: number;
+
+  @ApiProperty({
+    type: String,
+    description: 'The Component from which this APi is called',
+    example: 'jiraIssues',
+  })
+  @IsOptional()
+  @IsString()
+    component: string;
 }

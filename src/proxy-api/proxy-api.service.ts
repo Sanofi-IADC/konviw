@@ -153,6 +153,7 @@ export class ProxyApiService {
     startAt: number,
     maxResults: number,
     categoryId,
+    component?: string,
   ): Promise<any> {
     const { data }: any = await this.jira.findProjects(
       server,
@@ -160,6 +161,7 @@ export class ProxyApiService {
       startAt,
       maxResults,
       categoryId,
+      component,
     );
 
     const parseResults = data.values.map((project: any) => ({
@@ -240,6 +242,7 @@ export class ProxyApiService {
     fields: string,
     startAt: number,
     maxResults: number,
+    component?: string,
   ): Promise<any> {
     const {
       total, issues,
@@ -249,6 +252,7 @@ export class ProxyApiService {
       fields,
       startAt,
       maxResults,
+      component,
     );
     const parseResults = issues.map((issue: any) => ({
       id: issue.id,
@@ -318,20 +322,19 @@ export class ProxyApiService {
     projectId: number,
     issueTypeId: number,
   ): Promise<any> {
-    const isAdmin = true;
-    const issueTypeScreenSchemesRes = await this.jira.findIssueTypeScreenSchemes(projectId, isAdmin);
+    const issueTypeScreenSchemesRes = await this.jira.findIssueTypeScreenSchemes(projectId);
     const issueTypeScreenSchemeId = issueTypeScreenSchemesRes.data.values[0]?.issueTypeScreenScheme.id;
     if (issueTypeScreenSchemeId) {
-      const itemsRes = await this.jira.findIssueTypeScreenSchemeItems(isAdmin, issueTypeScreenSchemeId);
+      const itemsRes = await this.jira.findIssueTypeScreenSchemeItems(issueTypeScreenSchemeId);
       const item = itemsRes.data.values.find((value: any) => value.issueTypeId === issueTypeId);
       const screenSchemeId = item ? item.screenSchemeId
         : (itemsRes.data.values.find((value: any) => value.issueTypeId === 'default').screenSchemeId);
-      const schemeRes = await this.jira.findScreenSchemes(isAdmin, screenSchemeId);
+      const schemeRes = await this.jira.findScreenSchemes(screenSchemeId);
       const { screens } = schemeRes.data.values[0];
       const screenId = screens.view ? screens.view : screens.default;
-      const tabsRes = await this.jira.findScreenTabs(screenId, isAdmin);
+      const tabsRes = await this.jira.findScreenTabs(screenId);
       const tabId = tabsRes.data[0].id;
-      const fieldsRes = await this.jira.findScreenTabFields(screenId, tabId, isAdmin);
+      const fieldsRes = await this.jira.findScreenTabFields(screenId, tabId);
       const screenDetails = fieldsRes.data;
       return {
         screenDetails,

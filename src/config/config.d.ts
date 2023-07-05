@@ -41,6 +41,11 @@ interface Config {
   logging: {
     enableLoggerMiddleware: boolean;
   };
+
+  jiraIssues: {
+    apiReaderUsername: string;
+    apiReaderToken: string;
+  }
 }
 
 export default Config;

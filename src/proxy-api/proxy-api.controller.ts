@@ -18,7 +18,7 @@ import {
 } from './proxy-api.validation.dto';
 import { KonviwResults } from './proxy-api.interface';
 import SearchProjectIssueTypesWithStatusQueryDTO from './dto/SearchProjectIssueTypesWithStatusQuery';
-import GetScreenDetailsDTO from './dto/GetScreenDetails';
+import GetScreenDetailsDTO from './dto/GetScreenDetailsQuery';
 
 @ApiTags('proxy-api')
 @Controller('api')
@@ -83,6 +83,7 @@ export class ProxyApiController {
       queries.startAt,
       queries.maxResults,
       queries.categoryId,
+      queries.component,
     );
   }
 
@@ -119,6 +120,7 @@ export class ProxyApiController {
       queries.fields,
       queries.startAt,
       queries.maxResults,
+      queries.component,
     );
   }
 

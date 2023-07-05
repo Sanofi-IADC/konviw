@@ -49,4 +49,13 @@ export default class SearchProjectIssuesQueryDTO {
   @IsInt()
   @Type(() => Number)
     maxResults: number;
+
+  @ApiProperty({
+    type: String,
+    description: 'The Component from which this APi is called',
+    example: 'jiraIssues',
+  })
+  @IsOptional()
+  @IsString()
+    component: string;
 }
