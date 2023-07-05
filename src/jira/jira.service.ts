@@ -82,6 +82,15 @@ export class JiraService {
     maxResult = 100,
     component = '',
   ): Promise<any> {
+    const expand = [
+      {
+        field: 'description',
+        apiExpand: 'renderedFields',
+      },
+    ].filter(({ field }) => fields.includes(field))
+      .map(({ apiExpand }) => apiExpand)
+      .join(',');
+
     if (component !== '' && component === 'jiraIssues') {
       this.apiUsername = this.config.get('jiraIssues.apiReaderUsername');
       this.apiToken = this.config.get('jiraIssues.apiReaderToken');
@@ -98,7 +107,10 @@ export class JiraService {
     return firstValueFrom(
       this.http.get(
         `${this.baseUrl}/rest/api/3/search?jql=${jqlSearch}&fields=${fields}&maxResults=${maxResult}&startAt=${startAt}`,
-        { auth: { username: this.apiUsername, password: this.apiToken } },
+        {
+          auth: { username: this.apiUsername, password: this.apiToken },
+          params: { expand },
+        },
       ),
     )
       .then((response) => response.data)
