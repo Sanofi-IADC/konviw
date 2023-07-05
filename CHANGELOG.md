@@ -1,3 +1,16 @@
+# [3.14.0](https://github.com/Sanofi-IADC/konviw/compare/v3.13.1...v3.14.0) (2023-07-05)
+
+
+### Bug Fixes
+
+* ARM-1276 merge origin main ([57002c0](https://github.com/Sanofi-IADC/konviw/commit/57002c00efe9043d0fe8b622250cf4df1e88828e))
+* ARM-1276 optimize code for Sonar ([fbb6f5a](https://github.com/Sanofi-IADC/konviw/commit/fbb6f5a330c10905b827a92543abc7f81220bbaa))
+
+
+### Features
+
+* ARM-1276 using reader technical users for Jira Issues APIs ([e49a1f8](https://github.com/Sanofi-IADC/konviw/commit/e49a1f8bafb6e1ad1899c17f36e7b917200438de))
+
 ## [3.13.1](https://github.com/Sanofi-IADC/konviw/compare/v3.13.0...v3.13.1) (2023-07-04)
 
 
