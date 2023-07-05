@@ -16,9 +16,18 @@ export class JiraService {
 
   // Default API connection for Jira is the same as for Confluence
   constructor(private http: HttpService, private config: ConfigService) {
-    this.baseUrl = this.config.get('confluence.baseURL');
-    this.apiUsername = this.config.get('confluence.apiUsername');
-    this.apiToken = this.config.get('confluence.apiToken');
+    this.init();
+  }
+
+  private init(component = '') {
+    if (component !== '' && component === 'jiraIssues') {
+      this.apiUsername = this.config.get('jiraIssues.apiReaderUsername');
+      this.apiToken = this.config.get('jiraIssues.apiReaderToken');
+    } else {
+      this.baseUrl = this.config.get('confluence.baseURL');
+      this.apiUsername = this.config.get('confluence.apiUsername');
+      this.apiToken = this.config.get('confluence.apiToken');
+    }
   }
 
   /**
@@ -76,6 +85,7 @@ export class JiraService {
     fields: string,
     startAt = 0,
     maxResult = 100,
+    component = '',
   ): Promise<any> {
     const expand = [
       {
@@ -85,13 +95,18 @@ export class JiraService {
     ].filter(({ field }) => fields.includes(field))
       .map(({ apiExpand }) => apiExpand)
       .join(',');
-    // Load new base URL and credencials if defined a specific connection for Jira as ENV variables
-    const key = `CPV_JIRA_${server.replace(/\s/, '_')}`;
-    const baseUrl = process.env[`${key}_BASE_URL`];
-    if (baseUrl) {
-      this.baseUrl = baseUrl;
-      this.apiUsername = process.env[`${key}_API_USERNAME`];
-      this.apiToken = process.env[`${key}_API_TOKEN`];
+
+    if (component !== '') {
+      this.init(component);
+    } else {
+      // Load new base URL and credencials if defined a specific connection for Jira as ENV variables
+      const key = `CPV_JIRA_${server.replace(/\s/, '_')}`;
+      const baseUrl = process.env[`${key}_BASE_URL`];
+      if (baseUrl) {
+        this.baseUrl = baseUrl;
+        this.apiUsername = process.env[`${key}_API_USERNAME`];
+        this.apiToken = process.env[`${key}_API_TOKEN`];
+      }
     }
     return firstValueFrom(
       this.http.get(
@@ -122,14 +137,19 @@ export class JiraService {
     startAt: number,
     maxResults: number,
     categoryId,
+    component = '',
   ): Promise<AxiosResponse> {
-    // Load new base URL and credencials if defined a specific connection for Jira as ENV variables
-    const key = `CPV_JIRA_${server.replace(/\s/, '_')}`;
-    const baseUrl = process.env[`${key}_BASE_URL`];
-    if (baseUrl) {
-      this.baseUrl = baseUrl;
-      this.apiUsername = process.env[`${key}_API_USERNAME`];
-      this.apiToken = process.env[`${key}_API_TOKEN`];
+    if (component !== '') {
+      this.init(component);
+    } else {
+      // Load new base URL and credencials if defined a specific connection for Jira as ENV variables
+      const key = `CPV_JIRA_${server.replace(/\s/, '_')}`;
+      const baseUrl = process.env[`${key}_BASE_URL`];
+      if (baseUrl) {
+        this.baseUrl = baseUrl;
+        this.apiUsername = process.env[`${key}_API_USERNAME`];
+        this.apiToken = process.env[`${key}_API_TOKEN`];
+      }
     }
     let params: any = {
       startAt,
@@ -234,11 +254,8 @@ export class JiraService {
    *              for each issue type screen scheme, a list of the projects that use it
    * @return Promise {any}
    */
-  async findIssueTypeScreenSchemes(projectId: number, isAdmin: boolean): Promise<AxiosResponse> {
-    if (isAdmin) {
-      this.apiUsername = process.env.CPV_JIRA_ADMIN_API_USERNAME;
-      this.apiToken = process.env.CPV_JIRA_ADMIN_API_TOKEN;
-    }
+  async findIssueTypeScreenSchemes(projectId: number): Promise<AxiosResponse> {
+    this.init();
     return firstValueFrom(
       this.http.get(
         `${this.baseUrl}/rest/api/3/issuetypescreenscheme/project?projectId=${projectId}`,
@@ -263,11 +280,8 @@ export class JiraService {
    * @description Returns a paginated list of issue type screen scheme items
    * @return Promise {any}
    */
-  async findIssueTypeScreenSchemeItems(isAdmin: boolean, issueTypeScreenSchemeId: number): Promise<AxiosResponse> {
-    if (isAdmin) {
-      this.apiUsername = process.env.CPV_JIRA_ADMIN_API_USERNAME;
-      this.apiToken = process.env.CPV_JIRA_ADMIN_API_TOKEN;
-    }
+  async findIssueTypeScreenSchemeItems(issueTypeScreenSchemeId: number): Promise<AxiosResponse> {
+    this.init();
     return firstValueFrom(
       this.http.get(
         `${this.baseUrl}/rest/api/3/issuetypescreenscheme/mapping`,
@@ -296,11 +310,8 @@ export class JiraService {
                   Only screen schemes used in classic projects are returned.
    * @return Promise {any}
    */
-  async findScreenSchemes(isAdmin: boolean, screenSchemeId: number, maxResults = 100, startAt = 0): Promise<AxiosResponse> {
-    if (isAdmin) {
-      this.apiUsername = process.env.CPV_JIRA_ADMIN_API_USERNAME;
-      this.apiToken = process.env.CPV_JIRA_ADMIN_API_TOKEN;
-    }
+  async findScreenSchemes(screenSchemeId: number, maxResults = 100, startAt = 0): Promise<AxiosResponse> {
+    this.init();
     return firstValueFrom(
       this.http.get(`${this.baseUrl}/rest/api/3/screenscheme`, {
         auth: { username: this.apiUsername, password: this.apiToken },
@@ -330,11 +341,8 @@ export class JiraService {
    * @description Returns the list of tabs for a screen.
    * @return Promise {any}
    */
-  async findScreenTabs(screenId: number, isAdmin: boolean): Promise<AxiosResponse> {
-    if (isAdmin) {
-      this.apiUsername = process.env.CPV_JIRA_ADMIN_API_USERNAME;
-      this.apiToken = process.env.CPV_JIRA_ADMIN_API_TOKEN;
-    }
+  async findScreenTabs(screenId: number): Promise<AxiosResponse> {
+    this.init();
     return firstValueFrom(
       this.http.get(
         `${this.baseUrl}/rest/api/3/screens/${screenId}/tabs`,
@@ -359,11 +367,8 @@ export class JiraService {
    * @description Returns all fields for a screen tab.
    * @return Promise {any}
    */
-  async findScreenTabFields(screenId: number, tabId: number, isAdmin: boolean): Promise<AxiosResponse> {
-    if (isAdmin) {
-      this.apiUsername = process.env.CPV_JIRA_ADMIN_API_USERNAME;
-      this.apiToken = process.env.CPV_JIRA_ADMIN_API_TOKEN;
-    }
+  async findScreenTabFields(screenId: number, tabId: number): Promise<AxiosResponse> {
+    this.init();
     return firstValueFrom(
       this.http.get(
         `${this.baseUrl}/rest/api/3/screens/${screenId}/tabs/${tabId}/fields`,
