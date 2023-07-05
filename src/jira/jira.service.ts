@@ -19,10 +19,15 @@ export class JiraService {
     this.init();
   }
 
-  private init() {
-    this.baseUrl = this.config.get('confluence.baseURL');
-    this.apiUsername = this.config.get('confluence.apiUsername');
-    this.apiToken = this.config.get('confluence.apiToken');
+  private init(component = '') {
+    if (component !== '' && component === 'jiraIssues') {
+      this.apiUsername = this.config.get('jiraIssues.apiReaderUsername');
+      this.apiToken = this.config.get('jiraIssues.apiReaderToken');
+    } else {
+      this.baseUrl = this.config.get('confluence.baseURL');
+      this.apiUsername = this.config.get('confluence.apiUsername');
+      this.apiToken = this.config.get('confluence.apiToken');
+    }
   }
 
   /**
@@ -91,9 +96,8 @@ export class JiraService {
       .map(({ apiExpand }) => apiExpand)
       .join(',');
 
-    if (component !== '' && component === 'jiraIssues') {
-      this.apiUsername = this.config.get('jiraIssues.apiReaderUsername');
-      this.apiToken = this.config.get('jiraIssues.apiReaderToken');
+    if (component !== '') {
+      this.init(component);
     } else {
       // Load new base URL and credencials if defined a specific connection for Jira as ENV variables
       const key = `CPV_JIRA_${server.replace(/\s/, '_')}`;
@@ -135,9 +139,8 @@ export class JiraService {
     categoryId,
     component = '',
   ): Promise<AxiosResponse> {
-    if (component !== '' && component === 'jiraIssues') {
-      this.apiUsername = this.config.get('jiraIssues.apiReaderUsername');
-      this.apiToken = this.config.get('jiraIssues.apiReaderToken');
+    if (component !== '') {
+      this.init(component);
     } else {
       // Load new base URL and credencials if defined a specific connection for Jira as ENV variables
       const key = `CPV_JIRA_${server.replace(/\s/, '_')}`;
