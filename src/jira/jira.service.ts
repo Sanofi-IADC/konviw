@@ -19,8 +19,8 @@ export class JiraService {
     this.init();
   }
 
-  private init(component = '') {
-    if (component !== '' && component === 'jiraIssues') {
+  private init(reader = false) {
+    if (reader) {
       this.apiUsername = this.config.get('jiraIssues.apiReaderUsername');
       this.apiToken = this.config.get('jiraIssues.apiReaderToken');
     } else {
@@ -85,7 +85,7 @@ export class JiraService {
     fields: string,
     startAt = 0,
     maxResult = 100,
-    component = '',
+    reader = false,
   ): Promise<any> {
     const expand = [
       {
@@ -96,8 +96,8 @@ export class JiraService {
       .map(({ apiExpand }) => apiExpand)
       .join(',');
 
-    if (component !== '') {
-      this.init(component);
+    if (reader) {
+      this.init(reader);
     } else {
       // Load new base URL and credencials if defined a specific connection for Jira as ENV variables
       const key = `CPV_JIRA_${server.replace(/\s/, '_')}`;
@@ -137,10 +137,10 @@ export class JiraService {
     startAt: number,
     maxResults: number,
     categoryId,
-    component = '',
+    reader = false,
   ): Promise<AxiosResponse> {
-    if (component !== '') {
-      this.init(component);
+    if (reader) {
+      this.init(reader);
     } else {
       // Load new base URL and credencials if defined a specific connection for Jira as ENV variables
       const key = `CPV_JIRA_${server.replace(/\s/, '_')}`;

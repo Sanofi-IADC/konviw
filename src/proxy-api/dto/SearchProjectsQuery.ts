@@ -53,11 +53,11 @@ export default class SearchProjectsQueryDTO {
     categoryId: number;
 
   @ApiProperty({
-    type: String,
-    description: 'The Component from which this APi is called',
-    example: 'jiraIssues',
+    type: Boolean,
+    description: 'To set reader access - true or false ',
+    example: true,
   })
   @IsOptional()
   @IsString()
-    component: string;
+    reader: boolean;
 }
