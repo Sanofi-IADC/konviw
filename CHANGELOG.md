@@ -1,3 +1,10 @@
+## [3.14.1](https://github.com/Sanofi-IADC/konviw/compare/v3.14.0...v3.14.1) (2023-07-06)
+
+
+### Bug Fixes
+
+* ARM-1276 optimize reader access code ([4d2815b](https://github.com/Sanofi-IADC/konviw/commit/4d2815b69dab46127aa528019a1dcfb8d443d76b))
+
 # [3.14.0](https://github.com/Sanofi-IADC/konviw/compare/v3.13.1...v3.14.0) (2023-07-05)
 
 
