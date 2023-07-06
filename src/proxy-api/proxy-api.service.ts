@@ -153,7 +153,7 @@ export class ProxyApiService {
     startAt: number,
     maxResults: number,
     categoryId,
-    component?: string,
+    reader?: boolean,
   ): Promise<any> {
     const { data }: any = await this.jira.findProjects(
       server,
@@ -161,7 +161,7 @@ export class ProxyApiService {
       startAt,
       maxResults,
       categoryId,
-      component,
+      reader,
     );
 
     const parseResults = data.values.map((project: any) => ({
@@ -242,7 +242,7 @@ export class ProxyApiService {
     fields: string,
     startAt: number,
     maxResults: number,
-    component?: string,
+    reader?: boolean,
   ): Promise<any> {
     const {
       total, issues,
@@ -252,7 +252,7 @@ export class ProxyApiService {
       fields,
       startAt,
       maxResults,
-      component,
+      reader,
     );
     const parseResults = issues.map((issue: any) => ({
       id: issue.id,

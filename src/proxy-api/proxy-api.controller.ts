@@ -83,7 +83,7 @@ export class ProxyApiController {
       queries.startAt,
       queries.maxResults,
       queries.categoryId,
-      queries.component,
+      queries.reader,
     );
   }
 
@@ -120,7 +120,7 @@ export class ProxyApiController {
       queries.fields,
       queries.startAt,
       queries.maxResults,
-      queries.component,
+      queries.reader,
     );
   }
 
