@@ -36,26 +36,6 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => a
       context.setExcerpt(excerptPage.text());
     });
 
-  // TODO: [WEB-344] to be removed and release new major version
-  // this section is just to keep retro-compatibility with the header images
-  // defined in a page-properties section in a blog post
-  // a macro page-properties with an image and blockquote inside will be used alternatively to define
-  // both image and blockquote for the blog post
-  // $(".plugin-tabmeta-details[data-macro-name='details']")
-  //   .first()
-  //   .each((_index: number, elementProperties: cheerio.Element) => {
-  //     const imgBlog = $(elementProperties).find('img');
-  //     const excerptBlog = $(elementProperties).find('blockquote');
-  //     if (!blogImgSrc) {
-  //       // header image has priority over page-proterties's image
-  //       blogImgSrc = imgBlog?.attr('src');
-  //       context.setHeaderImage(blogImgSrc);
-  //     }
-  //     if (context.getExcerpt() === '') {
-  //       context.setExcerpt(excerptBlog.text());
-  //     }
-  //   });
-
   // if not excerpt at all then alternatively we take a summary of the body of the document
   if (context.getExcerpt() === '') {
     const tmpTextBody = context.getTextBody();
