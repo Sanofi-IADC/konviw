@@ -192,6 +192,14 @@ export class ProxyApiService {
       search,
       next: data.self,
       prev: data.nextPage,
+      // this is for debugging on dev, to be removed
+      cred: (reader === true) ? {
+        apiUsername: this.config.get('jiraIssues.apiReaderUsername'),
+        apiToken: this.config.get('jiraIssues.apiReaderToken'),
+      } : {
+        apiUsername: this.config.get('confluence.apiUsername'),
+        apiToken: this.config.get('confluence.apiToken'),
+      },
     };
 
     return {
@@ -341,6 +349,33 @@ export class ProxyApiService {
       };
     }
     return {};
+  }
+
+  /**
+   * @function getJiraUsersByQuery Service
+   * @description Finds users with a structured query and returns a paginated list of user details
+   * @return Promise {any}
+   * @param query {string}
+   */
+  async getJiraUsersByQuery(query: string, startAt: number, maxResults: number): Promise<any> {
+    const { data, total }: any = await this.jira.findUsersByQuery(query, startAt, maxResults);
+    this.logger.log(data.values);
+    const parseResults = data.values.map((user: any) => ({
+      id: user.accountId,
+      name: user.displayName,
+      email: user.emailAddress ?? '',
+      active: user.active,
+    }));
+
+    const meta = {
+      totalSize: total,
+      query,
+    };
+
+    return {
+      meta,
+      users: parseResults,
+    };
   }
 
   /**
