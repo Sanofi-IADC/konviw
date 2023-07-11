@@ -20,7 +20,7 @@ export class JiraService {
   }
 
   private init(reader = false) {
-    if (reader) {
+    if (reader === true) {
       this.apiUsername = this.config.get('jiraIssues.apiReaderUsername');
       this.apiToken = this.config.get('jiraIssues.apiReaderToken');
     } else {
@@ -96,7 +96,7 @@ export class JiraService {
       .map(({ apiExpand }) => apiExpand)
       .join(',');
 
-    if (reader) {
+    if (reader === true) {
       this.init(reader);
     } else {
       // Load new base URL and credencials if defined a specific connection for Jira as ENV variables
@@ -139,7 +139,7 @@ export class JiraService {
     categoryId,
     reader = false,
   ): Promise<AxiosResponse> {
-    if (reader) {
+    if (reader === true) {
       this.init(reader);
     } else {
       // Load new base URL and credencials if defined a specific connection for Jira as ENV variables
@@ -383,6 +383,36 @@ export class JiraService {
         this.logger.log(err, 'error:findScreenTabFields');
         throw new HttpException(
           `error:API findScreenTabFields > ${err}`,
+          404,
+        );
+      });
+  }
+
+  /**
+   * @function findUsersByQuery Service
+   * @description Finds users with a structured query and returns a paginated list of user details
+   * @return Promise {any}
+   */
+  async findUsersByQuery(query: string, startAt = 0, maxResults = 100): Promise<AxiosResponse> {
+    this.init();
+    return firstValueFrom(
+      this.http.get(`${this.baseUrl}/rest/api/3/user/search/query`, {
+        auth: { username: this.apiUsername, password: this.apiToken },
+        params: {
+          query,
+          startAt,
+          maxResults,
+        },
+      }),
+    )
+      .then((response) => {
+        this.logger.log(`Retrieving findUsersByQuery ${response.data}`);
+        return response;
+      })
+      .catch((err) => {
+        this.logger.log(err, 'error:findUsersByQuery');
+        throw new HttpException(
+          `error:API findUsersByQuery > ${err}`,
           404,
         );
       });

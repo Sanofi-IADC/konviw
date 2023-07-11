@@ -19,6 +19,7 @@ import {
 import { KonviwResults } from './proxy-api.interface';
 import SearchProjectIssueTypesWithStatusQueryDTO from './dto/SearchProjectIssueTypesWithStatusQuery';
 import GetScreenDetailsDTO from './dto/GetScreenDetailsQuery';
+import SearchProjectUsersQueryDTO from './dto/SearchProjectUsersQuery';
 
 @ApiTags('proxy-api')
 @Controller('api')
@@ -153,6 +154,21 @@ export class ProxyApiController {
     @Query() queries: GetScreenDetailsDTO,
   ): Promise<any> {
     return this.proxyApi.getJiraIssueScreenDetails(queries.projectId, queries.issueTypeId);
+  }
+
+  /**
+   * @GET (controller) api/projects/users
+   * @description Route to retrieve the list of project categories from a Jira server
+   * @return {string} 'JSON' - JSON with the list of Jira project categories
+   */
+  @ApiOkResponse({
+    description: 'List users by query',
+  })
+  @Get('projects/users')
+  async getJiraUsersByQuery(
+    @Query() queries: SearchProjectUsersQueryDTO,
+  ): Promise<any> {
+    return this.proxyApi.getJiraUsersByQuery(queries.query, queries.startAt, queries.maxResults);
   }
 
   /**
