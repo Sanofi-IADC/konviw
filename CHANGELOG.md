@@ -1,3 +1,10 @@
+# [3.15.0](https://github.com/Sanofi-IADC/konviw/compare/v3.14.1...v3.15.0) (2023-07-11)
+
+
+### Features
+
+* ARM-1330 Create API to get Jira Users ([699561a](https://github.com/Sanofi-IADC/konviw/commit/699561a2a7b4762b7dea750e4449a37b480a1348))
+
 ## [3.14.1](https://github.com/Sanofi-IADC/konviw/compare/v3.14.0...v3.14.1) (2023-07-06)
 
 
