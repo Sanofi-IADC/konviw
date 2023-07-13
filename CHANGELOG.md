@@ -1,3 +1,10 @@
+## [3.15.1](https://github.com/Sanofi-IADC/konviw/compare/v3.15.0...v3.15.1) (2023-07-13)
+
+
+### Bug Fixes
+
+* ARM-1276 fix reader param type ([266cc73](https://github.com/Sanofi-IADC/konviw/commit/266cc73254361a1f8886f936cf36c214a0d468b9))
+
 # [3.15.0](https://github.com/Sanofi-IADC/konviw/compare/v3.14.1...v3.15.0) (2023-07-11)
 
 
