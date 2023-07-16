@@ -20,6 +20,7 @@ import { KonviwResults } from './proxy-api.interface';
 import SearchProjectIssueTypesWithStatusQueryDTO from './dto/SearchProjectIssueTypesWithStatusQuery';
 import GetScreenDetailsDTO from './dto/GetScreenDetailsQuery';
 import SearchProjectUsersQueryDTO from './dto/SearchProjectUsersQuery';
+import SearchProjectVersionsQueryDTO from './dto/SearchProjectVersionsQuery';
 
 @ApiTags('proxy-api')
 @Controller('api')
@@ -169,6 +170,21 @@ export class ProxyApiController {
     @Query() queries: SearchProjectUsersQueryDTO,
   ): Promise<any> {
     return this.proxyApi.getJiraUsersByQuery(queries.query, queries.startAt, queries.maxResults);
+  }
+
+  /**
+   * @GET (controller) api/projects/versions
+   * @description Returns all versions in a project
+   * @return {string} 'JSON' - Returns the valid versions for a project.
+   */
+  @ApiOkResponse({
+    description: 'List project versions',
+  })
+  @Get('projects/versions')
+  async getJiraProjectVersions(
+    @Query() queries: SearchProjectVersionsQueryDTO,
+  ): Promise<any> {
+    return this.proxyApi.getJiraProjectVersions(queries.projectIdOrKey);
   }
 
   /**
