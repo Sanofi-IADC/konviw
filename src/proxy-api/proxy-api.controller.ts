@@ -16,7 +16,7 @@ import {
   GetSpacesParamsDTO,
   GetSpacesQueryDTO,
 } from './proxy-api.validation.dto';
-import { KonviwResults } from './proxy-api.interface';
+import { FixVersion, KonviwResults } from './proxy-api.interface';
 import SearchProjectIssueTypesWithStatusQueryDTO from './dto/SearchProjectIssueTypesWithStatusQuery';
 import GetScreenDetailsDTO from './dto/GetScreenDetailsQuery';
 import SearchProjectUsersQueryDTO from './dto/SearchProjectUsersQuery';
@@ -183,7 +183,7 @@ export class ProxyApiController {
   @Get('projects/versions')
   async getJiraProjectVersions(
     @Query() queries: SearchProjectVersionsQueryDTO,
-  ): Promise<any> {
+  ): Promise<FixVersion> {
     return this.proxyApi.getJiraProjectVersions(queries.projectIdOrKey);
   }
 
