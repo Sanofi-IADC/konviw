@@ -1,3 +1,16 @@
+# [3.16.0](https://github.com/Sanofi-IADC/konviw/compare/v3.15.1...v3.16.0) (2023-07-17)
+
+
+### Bug Fixes
+
+* ARM-1357 reset state update ([2afcd31](https://github.com/Sanofi-IADC/konviw/commit/2afcd3108a9d464fe336890e3038fb87138d4802))
+* ARM-1357 review changes ([4ded270](https://github.com/Sanofi-IADC/konviw/commit/4ded2705b0a61dc27c6c3e4754d550d30bea33dc))
+
+
+### Features
+
+* ARM-1357 add API to get versions on a project ([4c32ebd](https://github.com/Sanofi-IADC/konviw/commit/4c32ebd9b5e5c29e4d2c352ff3ef2bcdb0be2486))
+
 ## [3.15.1](https://github.com/Sanofi-IADC/konviw/compare/v3.15.0...v3.15.1) (2023-07-13)
 
 
