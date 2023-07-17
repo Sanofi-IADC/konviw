@@ -117,7 +117,10 @@ export class JiraService {
         },
       ),
     )
-      .then((response) => response.data)
+      .then((response) => {
+        this.logger.log('Retrieving findTickets');
+        return response;
+      })
       .catch((e) => {
         this.logger.log(e, 'error:findTickets');
       });
@@ -413,6 +416,32 @@ export class JiraService {
         this.logger.log(err, 'error:findUsersByQuery');
         throw new HttpException(
           `error:API findUsersByQuery > ${err}`,
+          404,
+        );
+      });
+  }
+
+  /**
+   * @function findProjectVersions Service
+   * @description Returns the list of project versions.
+   * @return Promise {any}
+   */
+  async findProjectVersions(projectIdOrKey: string): Promise<AxiosResponse> {
+    this.init();
+    return firstValueFrom(
+      this.http.get(
+        `${this.baseUrl}/rest/api/3/project/${projectIdOrKey}/versions`,
+        { auth: { username: this.apiUsername, password: this.apiToken } },
+      ),
+    )
+      .then((response) => {
+        this.logger.log('Retrieving findProjectVersions');
+        return response;
+      })
+      .catch((err) => {
+        this.logger.log(err, 'error:findProjectVersions');
+        throw new HttpException(
+          `error:API findProjectVersions > ${err}`,
           404,
         );
       });

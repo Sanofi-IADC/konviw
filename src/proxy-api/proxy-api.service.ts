@@ -252,9 +252,7 @@ export class ProxyApiService {
     maxResults: number,
     reader?: boolean,
   ): Promise<any> {
-    const {
-      total, issues,
-    }: any = await this.jira.findTickets(
+    const { data }: any = await this.jira.findTickets(
       server,
       jqlSearch,
       fields,
@@ -262,7 +260,7 @@ export class ProxyApiService {
       maxResults,
       reader,
     );
-    const parseResults = issues.map((issue: any) => ({
+    const parseResults = data.issues.map((issue: any) => ({
       id: issue.id,
       key: issue.key,
       selfUri: issue.self,
@@ -275,7 +273,7 @@ export class ProxyApiService {
     }));
 
     const meta = {
-      totalSize: total,
+      totalSize: data.total,
       server,
     };
 
@@ -359,7 +357,6 @@ export class ProxyApiService {
    */
   async getJiraUsersByQuery(query: string, startAt: number, maxResults: number): Promise<any> {
     const { data, total }: any = await this.jira.findUsersByQuery(query, startAt, maxResults);
-    this.logger.log(data.values);
     const parseResults = data.values.map((user: any) => ({
       id: user.accountId,
       name: user.displayName,
@@ -375,6 +372,19 @@ export class ProxyApiService {
     return {
       meta,
       users: parseResults,
+    };
+  }
+
+  /**
+   * @function getJiraProjectVersions Service
+   * @description Finds users with a structured query and returns a paginated list of user details
+   * @return Promise {any}
+   * @param query {string}
+   */
+  async getJiraProjectVersions(projectIdOrKey: string): Promise<any> {
+    const { data }: any = await this.jira.findProjectVersions(projectIdOrKey);
+    return {
+      fixVersions: data,
     };
   }
 
