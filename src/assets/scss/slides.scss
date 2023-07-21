@@ -130,3 +130,19 @@ ul.childpages-macro {
 ul.childpages-macro li {
   padding-top: 5px;
 }
+.message {
+  position: absolute;
+  bottom: 2em;
+  left: 0;
+  right: 0;
+  text-decoration: none;
+  text-align: center;
+}
+.message a {
+  font-family: monospace;
+}
+.scrollable {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  height: 700px;
+  }

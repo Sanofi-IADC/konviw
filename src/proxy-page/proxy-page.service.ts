@@ -46,6 +46,7 @@ import fixCaptionImage from './steps/fixCaptionImage';
 import fixConfluenceSpace from './steps/fixConfluenceSpace';
 import addTableResponsive from './steps/addTableResponsive';
 import addAuthorVersion from './steps/addAuthorVersion';
+import addMessageLastSlide from './steps/addMessageLastSlide';
 
 @Injectable()
 export class ProxyPageService {
@@ -119,7 +120,6 @@ export class ProxyPageService {
     fixCode()(this.context);
     fixFrameAllowFullscreen()(this.context);
     fixImageSize()(this.context);
-    fixCaptionImage(content)(this.context);
     fixColGroupWidth()(this.context);
     if (contextType.includes('blog')) {
       await addHeaderBlog()(this.context);
@@ -175,6 +175,7 @@ export class ProxyPageService {
       content,
     );
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
+    addMessageLastSlide()(this.context);
     addSlidesCSS(this.config)(this.context);
     fixHtmlHead(this.config)(this.context);
     fixUserProfile()(this.context);
@@ -198,6 +199,7 @@ export class ProxyPageService {
     await addJiraPromise;
     addSlideTypeByStrategy(content, this.config)(this.context);
     addSlidesJS(this.config)(this.context);
+    addMessageLastSlide()(this.context);
     addWebStatsTracker(this.config)(this.context);
     this.context.Close();
     return this.context.getHtmlBody();

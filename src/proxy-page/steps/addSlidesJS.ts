@@ -64,8 +64,9 @@ export default (config: ConfigService): Step => (context: ContextService): void 
           minScale: 1,
           maxScale: 1
         });
-      })
+      })  
     </script>`,
+
   );
 
   context.getPerfMeasure('addSlidesJS');
