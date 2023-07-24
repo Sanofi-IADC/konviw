@@ -120,6 +120,7 @@ export class ProxyPageService {
     fixCode()(this.context);
     fixFrameAllowFullscreen()(this.context);
     fixImageSize()(this.context);
+    fixCaptionImage(content)(this.context);
     fixColGroupWidth()(this.context);
     if (contextType.includes('blog')) {
       await addHeaderBlog()(this.context);
@@ -175,7 +176,6 @@ export class ProxyPageService {
       content,
     );
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
-    addMessageLastSlide()(this.context);
     addSlidesCSS(this.config)(this.context);
     fixHtmlHead(this.config)(this.context);
     fixUserProfile()(this.context);

@@ -138,7 +138,6 @@ export default (config: ConfigService, content: Content): Step => (context: Cont
       + `<div class="slides">${sectionsHtml}</div>`
       + '</div></div>';
   $('#Content').replaceWith(newHtmlBody);
-  
   context.getPerfMeasure('addNewSlides');
 };
 

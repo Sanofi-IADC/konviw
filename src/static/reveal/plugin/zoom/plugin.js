@@ -5,8 +5,7 @@ const Plugin = {
 
 	id: 'zoom',
 
-	init: function( reveal ) {
-		
+	init: function( reveal ) {		
 		reveal.getRevealElement().addEventListener( 'mousedown', function( event ) {
 			var defaultModifier = /Linux/.test( window.navigator.platform ) ? 'ctrl' : 'alt';
 
@@ -24,16 +23,7 @@ const Plugin = {
 				});
 			}
 		}
-
 		 );
-		 function updateMessageVisibility() {
-            const lastSlideIndex = reveal.getTotalSlides() - 1;
-            const isLastSlide = reveal.getIndices().h === lastSlideIndex;
-            document.querySelector('.message').style.display = isLastSlide ? 'block' : 'none';
-          }
-          
-          reveal.getRevealElement().addEventListener('slidechanged', updateMessageVisibility);          
-          updateMessageVisibility();
 	}
 
 };

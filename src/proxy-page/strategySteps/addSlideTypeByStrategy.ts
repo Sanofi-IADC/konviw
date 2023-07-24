@@ -4,7 +4,6 @@ import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
 import addNewSlides from '../steps/addNewSlides';
 import addSlides from '../steps/addSlides';
-import addMessageLastSlide from '../steps/addMessageLastSlide';
 
 export default (content: Content, config: ConfigService): Step => (context: ContextService): void => {
   const $ = context.getCheerioBody();
