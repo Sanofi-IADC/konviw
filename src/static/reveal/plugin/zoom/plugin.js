@@ -5,7 +5,8 @@ const Plugin = {
 
 	id: 'zoom',
 
-	init: function( reveal ) {		
+	init: function( reveal ) {
+
 		reveal.getRevealElement().addEventListener( 'mousedown', function( event ) {
 			var defaultModifier = /Linux/.test( window.navigator.platform ) ? 'ctrl' : 'alt';
 
@@ -22,8 +23,8 @@ const Plugin = {
 					pan: false
 				});
 			}
-		}
-		 );
+		} );
+
 	}
 
 };
