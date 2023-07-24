@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
+import { Type, Transform } from 'class-transformer';
 import {
+  IsBoolean,
   IsInt, IsNotEmpty, IsOptional, IsString,
 } from 'class-validator';
 
@@ -51,4 +52,14 @@ export default class SearchProjectsQueryDTO {
   @IsInt()
   @Type(() => Number)
     categoryId: number;
+
+  @ApiProperty({
+    type: Boolean,
+    description: 'To set reader access - true or false ',
+    example: true,
+  })
+  @IsOptional()
+  @IsBoolean()
+  @Transform(({ value }) => (value === 'true'))
+    reader: boolean;
 }

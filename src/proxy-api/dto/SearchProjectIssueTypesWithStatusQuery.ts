@@ -3,7 +3,7 @@ import {
   IsNotEmpty, IsString,
 } from 'class-validator';
 
-export default class SearchProjectCategoriesQueryDTO {
+export default class SearchProjectIssueTypesWithStatusQueryDTO {
   @ApiProperty({
     type: String,
     description: 'The Jira server to search in',

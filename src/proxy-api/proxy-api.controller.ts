@@ -16,8 +16,11 @@ import {
   GetSpacesParamsDTO,
   GetSpacesQueryDTO,
 } from './proxy-api.validation.dto';
-import { KonviwResults } from './proxy-api.interface';
-import SearchProjectIssueTypesWithStatusQueryDTO from './dto/SearchProjectIssueTypesWithStatusQueryDTO';
+import { FixVersion, KonviwResults } from './proxy-api.interface';
+import SearchProjectIssueTypesWithStatusQueryDTO from './dto/SearchProjectIssueTypesWithStatusQuery';
+import GetScreenDetailsDTO from './dto/GetScreenDetailsQuery';
+import SearchProjectUsersQueryDTO from './dto/SearchProjectUsersQuery';
+import SearchProjectVersionsQueryDTO from './dto/SearchProjectVersionsQuery';
 
 @ApiTags('proxy-api')
 @Controller('api')
@@ -82,6 +85,7 @@ export class ProxyApiController {
       queries.startAt,
       queries.maxResults,
       queries.categoryId,
+      queries.reader,
     );
   }
 
@@ -118,6 +122,7 @@ export class ProxyApiController {
       queries.fields,
       queries.startAt,
       queries.maxResults,
+      queries.reader,
     );
   }
 
@@ -135,6 +140,51 @@ export class ProxyApiController {
     @Query() queries: SearchProjectIssueTypesWithStatusQueryDTO,
   ): Promise<any> {
     return this.proxyApi.getJiraProjectIssueTypesWithStatus(queries.server, queries.projectIdOrKey);
+  }
+
+  /**
+   * @GET (controller) api/screenDetails
+   * @description Route to retrieve details of Screen from a Jira server
+   * @return {string} 'JSON' - Returns the details of the screen
+   */
+  @ApiOkResponse({
+    description: 'Get Issue Screen details',
+  })
+  @Get('screenDetails')
+  async getJiraScreenDetails(
+    @Query() queries: GetScreenDetailsDTO,
+  ): Promise<any> {
+    return this.proxyApi.getJiraIssueScreenDetails(queries.projectId, queries.issueTypeId);
+  }
+
+  /**
+   * @GET (controller) api/projects/users
+   * @description Route to retrieve the list of project categories from a Jira server
+   * @return {string} 'JSON' - JSON with the list of Jira project categories
+   */
+  @ApiOkResponse({
+    description: 'List users by query',
+  })
+  @Get('projects/users')
+  async getJiraUsersByQuery(
+    @Query() queries: SearchProjectUsersQueryDTO,
+  ): Promise<any> {
+    return this.proxyApi.getJiraUsersByQuery(queries.query, queries.startAt, queries.maxResults);
+  }
+
+  /**
+   * @GET (controller) api/projects/versions
+   * @description Returns all versions in a project
+   * @return {string} 'JSON' - Returns the valid versions for a project.
+   */
+  @ApiOkResponse({
+    description: 'List project versions',
+  })
+  @Get('projects/versions')
+  async getJiraProjectVersions(
+    @Query() queries: SearchProjectVersionsQueryDTO,
+  ): Promise<FixVersion> {
+    return this.proxyApi.getJiraProjectVersions(queries.projectIdOrKey);
   }
 
   /**

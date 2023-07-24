@@ -16,9 +16,18 @@ export class JiraService {
 
   // Default API connection for Jira is the same as for Confluence
   constructor(private http: HttpService, private config: ConfigService) {
-    this.baseUrl = this.config.get('confluence.baseURL');
-    this.apiUsername = this.config.get('confluence.apiUsername');
-    this.apiToken = this.config.get('confluence.apiToken');
+    this.init();
+  }
+
+  private init(reader = false) {
+    if (reader === true) {
+      this.apiUsername = this.config.get('jiraIssues.apiReaderUsername');
+      this.apiToken = this.config.get('jiraIssues.apiReaderToken');
+    } else {
+      this.baseUrl = this.config.get('confluence.baseURL');
+      this.apiUsername = this.config.get('confluence.apiUsername');
+      this.apiToken = this.config.get('confluence.apiToken');
+    }
   }
 
   /**
@@ -67,8 +76,8 @@ export class JiraService {
    * @return Promise {any}
    * @param jqlSearch {string} 'project = FND ORDER BY resolution DESC' - Jira Query Language to filter the issues to retrieve
    * @param fields {string} 'fields=field1,field2&fields=field3' - A list of fields to return for each issue
+   * @param startAt {number} 0 - starting position to handle paginated results
    * @param maxResult {number} 100 - maximum number of issues retrieved
-   * @param startAt {number} 15 - starting position to handle paginated results
    */
   async findTickets(
     server: string,
@@ -76,22 +85,42 @@ export class JiraService {
     fields: string,
     startAt = 0,
     maxResult = 100,
+    reader = false,
   ): Promise<any> {
-    // Load new base URL and credencials if defined a specific connection for Jira as ENV variables
-    const key = `CPV_JIRA_${server.replace(/\s/, '_')}`;
-    const baseUrl = process.env[`${key}_BASE_URL`];
-    if (baseUrl) {
-      this.baseUrl = baseUrl;
-      this.apiUsername = process.env[`${key}_API_USERNAME`];
-      this.apiToken = process.env[`${key}_API_TOKEN`];
+    const expand = [
+      {
+        field: 'description',
+        apiExpand: 'renderedFields',
+      },
+    ].filter(({ field }) => fields.includes(field))
+      .map(({ apiExpand }) => apiExpand)
+      .join(',');
+
+    if (reader === true) {
+      this.init(reader);
+    } else {
+      // Load new base URL and credencials if defined a specific connection for Jira as ENV variables
+      const key = `CPV_JIRA_${server.replace(/\s/, '_')}`;
+      const baseUrl = process.env[`${key}_BASE_URL`];
+      if (baseUrl) {
+        this.baseUrl = baseUrl;
+        this.apiUsername = process.env[`${key}_API_USERNAME`];
+        this.apiToken = process.env[`${key}_API_TOKEN`];
+      }
     }
     return firstValueFrom(
       this.http.get(
         `${this.baseUrl}/rest/api/3/search?jql=${jqlSearch}&fields=${fields}&maxResults=${maxResult}&startAt=${startAt}`,
-        { auth: { username: this.apiUsername, password: this.apiToken } },
+        {
+          auth: { username: this.apiUsername, password: this.apiToken },
+          params: { expand },
+        },
       ),
     )
-      .then((response) => response.data)
+      .then((response) => {
+        this.logger.log('Retrieving findTickets');
+        return response;
+      })
       .catch((e) => {
         this.logger.log(e, 'error:findTickets');
       });
@@ -111,14 +140,19 @@ export class JiraService {
     startAt: number,
     maxResults: number,
     categoryId,
+    reader = false,
   ): Promise<AxiosResponse> {
-    // Load new base URL and credencials if defined a specific connection for Jira as ENV variables
-    const key = `CPV_JIRA_${server.replace(/\s/, '_')}`;
-    const baseUrl = process.env[`${key}_BASE_URL`];
-    if (baseUrl) {
-      this.baseUrl = baseUrl;
-      this.apiUsername = process.env[`${key}_API_USERNAME`];
-      this.apiToken = process.env[`${key}_API_TOKEN`];
+    if (reader === true) {
+      this.init(reader);
+    } else {
+      // Load new base URL and credencials if defined a specific connection for Jira as ENV variables
+      const key = `CPV_JIRA_${server.replace(/\s/, '_')}`;
+      const baseUrl = process.env[`${key}_BASE_URL`];
+      if (baseUrl) {
+        this.baseUrl = baseUrl;
+        this.apiUsername = process.env[`${key}_API_USERNAME`];
+        this.apiToken = process.env[`${key}_API_TOKEN`];
+      }
     }
     let params: any = {
       startAt,
@@ -212,6 +246,202 @@ export class JiraService {
         this.logger.log(err, 'error:findProjectIssuesTypeWithStatus');
         throw new HttpException(
           `error:API findProjectIssuesTypeWithStatus for server ${server} > ${err}`,
+          404,
+        );
+      });
+  }
+
+  /**
+   * @function findIssueTypeScreenSchemes Service
+   * @description Returns a paginated list of issue type screen schemes and,
+   *              for each issue type screen scheme, a list of the projects that use it
+   * @return Promise {any}
+   */
+  async findIssueTypeScreenSchemes(projectId: number): Promise<AxiosResponse> {
+    this.init();
+    return firstValueFrom(
+      this.http.get(
+        `${this.baseUrl}/rest/api/3/issuetypescreenscheme/project?projectId=${projectId}`,
+        { auth: { username: this.apiUsername, password: this.apiToken } },
+      ),
+    )
+      .then((response) => {
+        this.logger.log('Retrieving issue type screen schemes');
+        return response;
+      })
+      .catch((err) => {
+        this.logger.log(err, 'error:findIssueTypeScreenSchemes');
+        throw new HttpException(
+          `error:API findIssueTypeScreenSchemes > ${err}`,
+          404,
+        );
+      });
+  }
+
+  /**
+   * @function findIssueTypeScreenSchemeItems Service
+   * @description Returns a paginated list of issue type screen scheme items
+   * @return Promise {any}
+   */
+  async findIssueTypeScreenSchemeItems(issueTypeScreenSchemeId: number): Promise<AxiosResponse> {
+    this.init();
+    return firstValueFrom(
+      this.http.get(
+        `${this.baseUrl}/rest/api/3/issuetypescreenscheme/mapping`,
+        {
+          auth: { username: this.apiUsername, password: this.apiToken },
+          params: { issueTypeScreenSchemeId },
+        },
+      ),
+    )
+      .then((response) => {
+        this.logger.log('Retrieving issue type screen scheme items');
+        return response;
+      })
+      .catch((err) => {
+        this.logger.log(err, 'error:findIssueTypeScreenSchemeItems');
+        throw new HttpException(
+          `error:API findIssueTypeScreenSchemeItems > ${err}`,
+          404,
+        );
+      });
+  }
+
+  /**
+   * @function findScreenSchemes Service
+   * @description Returns a paginated list of screen schemes.
+                  Only screen schemes used in classic projects are returned.
+   * @return Promise {any}
+   */
+  async findScreenSchemes(screenSchemeId: number, maxResults = 100, startAt = 0): Promise<AxiosResponse> {
+    this.init();
+    return firstValueFrom(
+      this.http.get(`${this.baseUrl}/rest/api/3/screenscheme`, {
+        auth: { username: this.apiUsername, password: this.apiToken },
+        params: {
+          startAt,
+          maxResults,
+          id: screenSchemeId,
+          expand: 'issueTypeScreenSchemes',
+        },
+      }),
+    )
+      .then((response) => {
+        this.logger.log('Retrieving screenschemes');
+        return response;
+      })
+      .catch((err) => {
+        this.logger.log(err, 'error:findScreenSchemes');
+        throw new HttpException(
+          `error:API findScreenSchemes > ${err}`,
+          404,
+        );
+      });
+  }
+
+  /**
+   * @function findScreenTabs Service
+   * @description Returns the list of tabs for a screen.
+   * @return Promise {any}
+   */
+  async findScreenTabs(screenId: number): Promise<AxiosResponse> {
+    this.init();
+    return firstValueFrom(
+      this.http.get(
+        `${this.baseUrl}/rest/api/3/screens/${screenId}/tabs`,
+        { auth: { username: this.apiUsername, password: this.apiToken } },
+      ),
+    )
+      .then((response) => {
+        this.logger.log('Retrieving findScreenTabs');
+        return response;
+      })
+      .catch((err) => {
+        this.logger.log(err, 'error:findScreenTabs');
+        throw new HttpException(
+          `error:API findScreenTabs > ${err}`,
+          404,
+        );
+      });
+  }
+
+  /**
+   * @function findScreenTabFields Service
+   * @description Returns all fields for a screen tab.
+   * @return Promise {any}
+   */
+  async findScreenTabFields(screenId: number, tabId: number): Promise<AxiosResponse> {
+    this.init();
+    return firstValueFrom(
+      this.http.get(
+        `${this.baseUrl}/rest/api/3/screens/${screenId}/tabs/${tabId}/fields`,
+        { auth: { username: this.apiUsername, password: this.apiToken } },
+      ),
+    )
+      .then((response) => {
+        this.logger.log('Retrieving findScreenTabFields');
+        return response;
+      })
+      .catch((err) => {
+        this.logger.log(err, 'error:findScreenTabFields');
+        throw new HttpException(
+          `error:API findScreenTabFields > ${err}`,
+          404,
+        );
+      });
+  }
+
+  /**
+   * @function findUsersByQuery Service
+   * @description Finds users with a structured query and returns a paginated list of user details
+   * @return Promise {any}
+   */
+  async findUsersByQuery(query: string, startAt = 0, maxResults = 100): Promise<AxiosResponse> {
+    this.init();
+    return firstValueFrom(
+      this.http.get(`${this.baseUrl}/rest/api/3/user/search/query`, {
+        auth: { username: this.apiUsername, password: this.apiToken },
+        params: {
+          query,
+          startAt,
+          maxResults,
+        },
+      }),
+    )
+      .then((response) => {
+        this.logger.log(`Retrieving findUsersByQuery ${response.data}`);
+        return response;
+      })
+      .catch((err) => {
+        this.logger.log(err, 'error:findUsersByQuery');
+        throw new HttpException(
+          `error:API findUsersByQuery > ${err}`,
+          404,
+        );
+      });
+  }
+
+  /**
+   * @function findProjectVersions Service
+   * @description Returns the list of project versions.
+   * @return Promise {any}
+   */
+  async findProjectVersions(projectIdOrKey: string): Promise<AxiosResponse> {
+    this.init();
+    return firstValueFrom(
+      this.http.get(
+        `${this.baseUrl}/rest/api/3/project/${projectIdOrKey}/versions`,
+        { auth: { username: this.apiUsername, password: this.apiToken } },
+      ),
+    )
+      .then((response) => {
+        this.logger.log('Retrieving findProjectVersions');
+        return response;
+      })
+      .catch((err) => {
+        this.logger.log(err, 'error:findProjectVersions');
+        throw new HttpException(
+          `error:API findProjectVersions > ${err}`,
           404,
         );
       });

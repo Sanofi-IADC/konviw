@@ -3,8 +3,6 @@ import { ContextService } from '../../../src/context/context.service';
 import { Step } from '../../../src/proxy-page/proxy-page.step';
 import addJira from '../../../src/proxy-page/steps/addJira';
 import { createModuleRefForStep } from './utils';
-import { JiraService } from '../../../src/jira/jira.service';
-import { resolve } from 'path';
 
 const mockedIssueData = {
   expand:
@@ -46,7 +44,6 @@ class JiraServiceMock {
       }
     };
   }
-  
 }
 
 describe('Confluence Proxy / addJira', () => {
@@ -109,6 +106,8 @@ describe('Confluence Proxy / addJira', () => {
         pr: { name: 'low', icon: 'image.png' },
         status: { name: 'a status' },
         resolution: 'resolved',
+        fixVersion: { name: '', link: '', },
+        description: {},
       },
     ]);
     expect($('body').html()).toContain(`data: ${data}`);
@@ -134,7 +133,7 @@ describe('Confluence Proxy / addJira', () => {
     );
     await step(context);
     const $ = context.getCheerioBody();
-    expect($('body').html()).toContain(`Jira issues for key in (FND-319)`);
+    expect($('body').html()).toContain(`Jira issues for key = (FND-319)`);
   });
 
   it('should update the issue title and status of a jira-issue', async () => {

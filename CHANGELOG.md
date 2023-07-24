@@ -1,3 +1,92 @@
+# [3.16.0](https://github.com/Sanofi-IADC/konviw/compare/v3.15.1...v3.16.0) (2023-07-17)
+
+
+### Bug Fixes
+
+* ARM-1357 reset state update ([2afcd31](https://github.com/Sanofi-IADC/konviw/commit/2afcd3108a9d464fe336890e3038fb87138d4802))
+* ARM-1357 review changes ([4ded270](https://github.com/Sanofi-IADC/konviw/commit/4ded2705b0a61dc27c6c3e4754d550d30bea33dc))
+
+
+### Features
+
+* ARM-1357 add API to get versions on a project ([4c32ebd](https://github.com/Sanofi-IADC/konviw/commit/4c32ebd9b5e5c29e4d2c352ff3ef2bcdb0be2486))
+
+## [3.15.1](https://github.com/Sanofi-IADC/konviw/compare/v3.15.0...v3.15.1) (2023-07-13)
+
+
+### Bug Fixes
+
+* ARM-1276 fix reader param type ([266cc73](https://github.com/Sanofi-IADC/konviw/commit/266cc73254361a1f8886f936cf36c214a0d468b9))
+
+# [3.15.0](https://github.com/Sanofi-IADC/konviw/compare/v3.14.1...v3.15.0) (2023-07-11)
+
+
+### Features
+
+* ARM-1330 Create API to get Jira Users ([699561a](https://github.com/Sanofi-IADC/konviw/commit/699561a2a7b4762b7dea750e4449a37b480a1348))
+
+## [3.14.1](https://github.com/Sanofi-IADC/konviw/compare/v3.14.0...v3.14.1) (2023-07-06)
+
+
+### Bug Fixes
+
+* ARM-1276 optimize reader access code ([4d2815b](https://github.com/Sanofi-IADC/konviw/commit/4d2815b69dab46127aa528019a1dcfb8d443d76b))
+
+# [3.14.0](https://github.com/Sanofi-IADC/konviw/compare/v3.13.1...v3.14.0) (2023-07-05)
+
+
+### Bug Fixes
+
+* ARM-1276 merge origin main ([57002c0](https://github.com/Sanofi-IADC/konviw/commit/57002c00efe9043d0fe8b622250cf4df1e88828e))
+* ARM-1276 optimize code for Sonar ([fbb6f5a](https://github.com/Sanofi-IADC/konviw/commit/fbb6f5a330c10905b827a92543abc7f81220bbaa))
+
+
+### Features
+
+* ARM-1276 using reader technical users for Jira Issues APIs ([e49a1f8](https://github.com/Sanofi-IADC/konviw/commit/e49a1f8bafb6e1ad1899c17f36e7b917200438de))
+
+## [3.13.1](https://github.com/Sanofi-IADC/konviw/compare/v3.13.0...v3.13.1) (2023-07-04)
+
+
+### Bug Fixes
+
+* WEB-1969 Added support for description and fix version fields ([d300ab2](https://github.com/Sanofi-IADC/konviw/commit/d300ab2c9e01b4f1507681d507ba577636c6d244))
+
+# [3.13.0](https://github.com/Sanofi-IADC/konviw/compare/v3.12.7...v3.13.0) (2023-06-21)
+
+
+### Features
+
+* ARM-1356 API implementation for Jira Details View ([eecfe69](https://github.com/Sanofi-IADC/konviw/commit/eecfe69d85bba37157ccd8e834d8152f5826ff4b))
+
+## [3.12.7](https://github.com/Sanofi-IADC/konviw/compare/v3.12.6...v3.12.7) (2023-06-21)
+
+
+### Bug Fixes
+
+* Fixed workaround which proceed issue on another pages using  jql search ([5c22699](https://github.com/Sanofi-IADC/konviw/commit/5c226994aac7259d7a006d62a7ca0ca98776bb82))
+
+## [3.12.6](https://github.com/Sanofi-IADC/konviw/compare/v3.12.5...v3.12.6) (2023-06-20)
+
+
+### Bug Fixes
+
+* WEB-1962 Fixed correct order of parameters ([c843f96](https://github.com/Sanofi-IADC/konviw/commit/c843f9690dfc3081f76b6e0dad8aa51c630a4956))
+
+## [3.12.5](https://github.com/Sanofi-IADC/konviw/compare/v3.12.4...v3.12.5) (2023-06-20)
+
+
+### Bug Fixes
+
+* WEB-1961 control content type attachments ([6ec9f17](https://github.com/Sanofi-IADC/konviw/commit/6ec9f17594ee4a3a2070d4aeff688b94c2def70e))
+
+## [3.12.4](https://github.com/Sanofi-IADC/konviw/compare/v3.12.3...v3.12.4) (2023-06-19)
+
+
+### Bug Fixes
+
+* WEB-1958 Fixed code smell ([b07c9d3](https://github.com/Sanofi-IADC/konviw/commit/b07c9d37f6e7dabe6e3ac145ac64f97a23117345))
+
 ## [3.12.3](https://github.com/Sanofi-IADC/konviw/compare/v3.12.2...v3.12.3) (2023-06-19)
 
 

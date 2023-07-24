@@ -153,6 +153,7 @@ export class ProxyApiService {
     startAt: number,
     maxResults: number,
     categoryId,
+    reader?: boolean,
   ): Promise<any> {
     const { data }: any = await this.jira.findProjects(
       server,
@@ -160,6 +161,7 @@ export class ProxyApiService {
       startAt,
       maxResults,
       categoryId,
+      reader,
     );
 
     const parseResults = data.values.map((project: any) => ({
@@ -190,6 +192,14 @@ export class ProxyApiService {
       search,
       next: data.self,
       prev: data.nextPage,
+      // this is for debugging on dev, to be removed
+      cred: (reader === true) ? {
+        apiUsername: this.config.get('jiraIssues.apiReaderUsername'),
+        apiToken: this.config.get('jiraIssues.apiReaderToken'),
+      } : {
+        apiUsername: this.config.get('confluence.apiUsername'),
+        apiToken: this.config.get('confluence.apiToken'),
+      },
     };
 
     return {
@@ -240,17 +250,17 @@ export class ProxyApiService {
     fields: string,
     startAt: number,
     maxResults: number,
+    reader?: boolean,
   ): Promise<any> {
-    const {
-      total, issues,
-    }: any = await this.jira.findTickets(
+    const { data }: any = await this.jira.findTickets(
       server,
       jqlSearch,
       fields,
       startAt,
       maxResults,
+      reader,
     );
-    const parseResults = issues.map((issue: any) => ({
+    const parseResults = data.issues.map((issue: any) => ({
       id: issue.id,
       key: issue.key,
       selfUri: issue.self,
@@ -263,7 +273,7 @@ export class ProxyApiService {
     }));
 
     const meta = {
-      totalSize: total,
+      totalSize: data.total,
       server,
     };
 
@@ -304,6 +314,77 @@ export class ProxyApiService {
     return {
       meta,
       issueTypeWithStatuses: parseResults,
+    };
+  }
+
+  /**
+   * @function getJiraIssueScreenDetails Service
+   * @description Retrieve Screen details
+   * @return Promise {string}
+   * @param server {string} 'System Jira' - Jira server to list Issues from
+   * @param screenKey {string} 1234 - Jira screen or Id
+   */
+  async getJiraIssueScreenDetails(
+    projectId: number,
+    issueTypeId: number,
+  ): Promise<any> {
+    const issueTypeScreenSchemesRes = await this.jira.findIssueTypeScreenSchemes(projectId);
+    const issueTypeScreenSchemeId = issueTypeScreenSchemesRes.data.values[0]?.issueTypeScreenScheme.id;
+    if (issueTypeScreenSchemeId) {
+      const itemsRes = await this.jira.findIssueTypeScreenSchemeItems(issueTypeScreenSchemeId);
+      const item = itemsRes.data.values.find((value: any) => value.issueTypeId === issueTypeId);
+      const screenSchemeId = item ? item.screenSchemeId
+        : (itemsRes.data.values.find((value: any) => value.issueTypeId === 'default').screenSchemeId);
+      const schemeRes = await this.jira.findScreenSchemes(screenSchemeId);
+      const { screens } = schemeRes.data.values[0];
+      const screenId = screens.view ? screens.view : screens.default;
+      const tabsRes = await this.jira.findScreenTabs(screenId);
+      const tabId = tabsRes.data[0].id;
+      const fieldsRes = await this.jira.findScreenTabFields(screenId, tabId);
+      const screenDetails = fieldsRes.data;
+      return {
+        screenDetails,
+      };
+    }
+    return {};
+  }
+
+  /**
+   * @function getJiraUsersByQuery Service
+   * @description Finds users with a structured query and returns a paginated list of user details
+   * @return Promise {any}
+   * @param query {string}
+   */
+  async getJiraUsersByQuery(query: string, startAt: number, maxResults: number): Promise<any> {
+    const { data, total }: any = await this.jira.findUsersByQuery(query, startAt, maxResults);
+    const parseResults = data.values.map((user: any) => ({
+      id: user.accountId,
+      name: user.displayName,
+      email: user.emailAddress ?? '',
+      active: user.active,
+    }));
+
+    const meta = {
+      totalSize: total,
+      query,
+    };
+
+    return {
+      meta,
+      users: parseResults,
+    };
+  }
+
+  /**
+   * @function getJiraProjectVersions Service
+   * @description Finds users with a structured query and returns a paginated list of user details
+   * @return Promise {any}
+   * @param query {string}
+   */
+  async getJiraProjectVersions(projectIdOrKey: string): Promise<any> {
+    const { data }: any = await this.jira.findProjectVersions(projectIdOrKey);
+    return {
+      fixVersions: data,
     };
   }
 

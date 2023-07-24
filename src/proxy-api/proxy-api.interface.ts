@@ -37,3 +37,17 @@ export interface MetadataSearch {
   next: string;
   prev: string;
 }
+
+export interface FixVersion {
+  archived: boolean;
+  id: string;
+  name: string;
+  overdue: boolean;
+  projectId: number;
+  releaseDate: string;
+  released: boolean;
+  self: string;
+  startDate: string;
+  userReleaseDate: string;
+  userStartDate: string;
+}
