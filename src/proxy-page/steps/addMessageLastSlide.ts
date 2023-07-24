@@ -6,9 +6,9 @@ export default (): Step => (context: ContextService): void => {
   const $ = context.getCheerioBody();
   const lastSlide = $('#Content').first();
   const message = '<section class="message"><a href="https://docs.sanofi.com/cpv/wiki/spaces/konviw/pages/63865589801?style=digital">'
-   +'Made with ❤️ Confluence and konviw</a></div>';
+    +'Made with ❤️ Confluence and konviw</a></div>';
   lastSlide.append(message);
-  $('body').find('script').last().after( 
+  $('body').find('script').last().after(
     `<script defer>
       function updateMessageVisibility() {
         const lastSlideIndex = Reveal.getHorizontalSlides().length - 1;
