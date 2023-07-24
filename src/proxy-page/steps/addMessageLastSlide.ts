@@ -9,22 +9,23 @@ export default (): Step => (context: ContextService): void => {
   +'Made with ❤️ Confluence and konviw</a></div>';
   lastSlide.append(message);
   $('body').find('script').last().after(    
-    `<script defer>
-      function updateMessageVisibility() {
-        const lastSlideIndex = Reveal.getHorizontalSlides().length - 1;
-        const isLastSlide = Reveal.getIndices().h === lastSlideIndex;
-        console.log(lastSlideIndex, isLastSlide);
-        console.log(Reveal.getIndices().h);
-        if (isLastSlide) {
-          document.querySelector('.message').style.display = 'block';
-        } else {
-          document.querySelector('.message').style.display = 'none';
-        }
+  `<script defer>
+    function updateMessageVisibility() {
+      const lastSlideIndex = Reveal.getHorizontalSlides().length - 1;
+      const isLastSlide = Reveal.getIndices().h === lastSlideIndex;
+      console.log(lastSlideIndex,isLastSlide);
+      console.log(Reveal.getIndices().h);
+      if (isLastSlide){
+        document.querySelector('.message').style.display = 'block';
       }
-      Reveal.initialize();
-      Reveal.getRevealElement().addEventListener('slidechanged', updateMessageVisibility);          
-      updateMessageVisibility();        
-    </script>`,
+      else{
+        document.querySelector('.message').style.display = 'none';
+      }
+    }
+    Reveal.initialize();
+    Reveal.getRevealElement().addEventListener('slidechanged', updateMessageVisibility);          
+    updateMessageVisibility();        
+  </script>`,
   );
   context.getPerfMeasure('addMessageLastSlide');
 };
