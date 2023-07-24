@@ -38,7 +38,7 @@ export default class PageQueryDTO {
   @IsOptional()
   @IsString()
   @IsIn(['blog', 'notitle', 'title', 'title,author', 'title,author,version'])
-    type = 'title,author';
+    type = 'title';
 
   @ApiPropertyOptional({
     type: String,
