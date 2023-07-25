@@ -1,3 +1,10 @@
+# [3.17.0](https://github.com/Sanofi-IADC/konviw/compare/v3.16.0...v3.17.0) (2023-07-24)
+
+
+### Features
+
+* WEB-1775 Add message in the last slide ([4c94542](https://github.com/Sanofi-IADC/konviw/commit/4c94542698c5a7cc1d0fff58d4daa608f4677791))
+
 # [3.16.0](https://github.com/Sanofi-IADC/konviw/compare/v3.15.1...v3.16.0) (2023-07-17)
 
 

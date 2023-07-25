@@ -130,3 +130,15 @@ ul.childpages-macro {
 ul.childpages-macro li {
   padding-top: 5px;
 }
+.message {
+  position: absolute;
+  bottom: 2em;
+  left: 0;
+  right: 0;
+  text-decoration: none;
+  text-align: center;
+  display : none;
+}
+.message a {
+  font-family: monospace;
+}
