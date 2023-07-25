@@ -26,8 +26,10 @@ class JiraServiceMock {
   }
   async findTickets(server: string, query: string, fields: string) {
     return {
-      total: 1,
-      issues: [mockedIssueData]
+      data: {
+        total: 1,
+        issues: [mockedIssueData]
+      },
     };
   }
   async getMaCro(pageId: string, macroId: string) {
@@ -171,7 +173,7 @@ describe('Confluence Proxy / addJira', () => {
     const example =
       '<html><head></head><body>' +
       '<span class="static-jira-issues_count" data-macro-name="jira" data-macro-id="5dde2a55-e3e6-4050-b9bc-bdcc27718465">' +
-        '<span class="aui-icon aui-icon-wait issue-placeholder"> </span>' + 
+        '<span class="aui-icon aui-icon-wait issue-placeholder"> </span>' +
           'Getting issues...' +
         '</span>' +
       '</span>' +

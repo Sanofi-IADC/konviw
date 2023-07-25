@@ -61,7 +61,8 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
       const server = parameters.server.value;
       const query = parameters.jqlQuery.value;
       issuesCountQueries.push(query);
-      issuesToFindPromises.push(jiraService.findTickets(server, query, ''));
+      const { data } = await jiraService.findTickets(server, query, '');
+      issuesToFindPromises.push(data);
     });
   });
   await Promise.allSettled(issuesToFindPromises).then((results) => {
