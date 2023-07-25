@@ -111,7 +111,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
       issues: {
         issues: jiraService
           .findTickets(server, filter, columns, 0, Number(maximumIssues))
-          .then((res) => res.issues),
+          .then((res) => res?.data?.issues ?? []),
       },
       columns,
       server,
