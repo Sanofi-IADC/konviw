@@ -1,3 +1,10 @@
+## [3.17.1](https://github.com/Sanofi-IADC/konviw/compare/v3.17.0...v3.17.1) (2023-07-25)
+
+
+### Bug Fixes
+
+* WEB-1993 Fixed issue related to Jira service in findTickets method ([3d07104](https://github.com/Sanofi-IADC/konviw/commit/3d07104f90435768c4046962e4f6b8975152d5b8))
+
 # [3.17.0](https://github.com/Sanofi-IADC/konviw/compare/v3.16.0...v3.17.0) (2023-07-24)
 
 
