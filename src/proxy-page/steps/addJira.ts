@@ -61,14 +61,13 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
       const server = parameters.server.value;
       const query = parameters.jqlQuery.value;
       issuesCountQueries.push(query);
-      const { data } = await jiraService.findTickets(server, query, '');
-      issuesToFindPromises.push(data);
+      issuesToFindPromises.push(jiraService.findTickets(server, query, ''));
     });
   });
   await Promise.allSettled(issuesToFindPromises).then((results) => {
     results.forEach((res: any, index: number) => {
       const {
-        value: { total },
+        value: { data: { total } },
       } = res;
       const url = encodeURI(
         `${confluenceDomain}/secure/IssueNavigator.jspa?reset=true&jqlQuery=${issuesCountQueries[index]}`,
