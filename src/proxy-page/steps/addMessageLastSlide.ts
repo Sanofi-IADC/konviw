@@ -5,7 +5,7 @@ export default (): Step => (context: ContextService): void => {
   context.setPerfMark('addMessageLastSlide');
   const $ = context.getCheerioBody();
   const lastSlide = $('#Content').first();
-  const message = '<section class="message"><a href="https://docs.sanofi.com/cpv/wiki/spaces/konviw/pages/63865589801?style=digital">'
+  const message = '<section class="message"><a href="https://github.com/Sanofi-IADC/konviw">'
     + 'Made with ❤️ Confluence and konviw</a></div>';
   lastSlide.append(message);
   $('body').find('script').last().after(
