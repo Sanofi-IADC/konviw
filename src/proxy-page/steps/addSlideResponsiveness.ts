@@ -9,7 +9,7 @@ export default (): Step => (context: ContextService): void => {
     .last()
     .attr('defer', 'true')
     .append(
-    `
+      `
     function handleVerticalSlide(slide) {
         const screenHeight = window.innerHeight;
         setTimeout(function () {
@@ -33,6 +33,6 @@ export default (): Step => (context: ContextService): void => {
         handleVerticalSlide(event);
       });
     `,
-  );
+    );
   context.getPerfMeasure('addSlideResponsiveness');
 };
