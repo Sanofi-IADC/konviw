@@ -5,10 +5,10 @@ export default (): Step => (context: ContextService): void => {
   context.setPerfMark('addSlideResponsiveness');
   const $ = context.getCheerioBody();
   $('body')
-  .find('script')
-  .last()
-  .attr('defer', 'true')
-  .append(
+    .find('script')
+    .last()
+    .attr('defer', 'true')
+    .append(
     `
     function handleVerticalSlide(slide) {
         const screenHeight = window.innerHeight;
