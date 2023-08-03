@@ -4,7 +4,11 @@ import { Step } from '../proxy-page.step';
 export default (): Step => (context: ContextService): void => {
   context.setPerfMark('addSlideResponsiveness');
   const $ = context.getCheerioBody();
-  $('body').find('script').last().attr('defer', 'true').append(
+  $('body')
+  .find('script')
+  .last()
+  .attr('defer', 'true')
+  .append(
     `
     function handleVerticalSlide(slide) {
         const screenHeight = window.innerHeight;
