@@ -142,3 +142,20 @@ ul.childpages-macro li {
 .message a {
   font-family: monospace;
 }
+.slides .present{
+  position : relative;
+  height:85vh;
+  overflow-y: auto;
+  overflow-x: hidden !important;
+  pointer-events: auto !important;
+}
+
+.reveal .hljs {
+  min-height: 0 !important;
+  max-height: 350px !important;
+  overflow: auto !important;
+}
+
+.slides img, .slides video, .slides iframe{
+  flex: 1;
+}

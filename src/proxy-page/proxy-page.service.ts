@@ -46,6 +46,7 @@ import fixCaptionImage from './steps/fixCaptionImage';
 import fixConfluenceSpace from './steps/fixConfluenceSpace';
 import addTableResponsive from './steps/addTableResponsive';
 import addAuthorVersion from './steps/addAuthorVersion';
+import addSlideResponsiveness from './steps/addSlideResponsiveness';
 import addMessageLastSlide from './steps/addMessageLastSlide';
 
 @Injectable()
@@ -200,6 +201,7 @@ export class ProxyPageService {
     addSlideTypeByStrategy(content, this.config)(this.context);
     addSlidesJS(this.config)(this.context);
     addMessageLastSlide()(this.context);
+    addSlideResponsiveness()(this.context);
     addWebStatsTracker(this.config)(this.context);
     this.context.Close();
     return this.context.getHtmlBody();
