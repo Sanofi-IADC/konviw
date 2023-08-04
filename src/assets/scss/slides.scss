@@ -158,4 +158,6 @@ ul.childpages-macro li {
 
 .slides img, .slides video, .slides iframe{
   flex: 1;
+  width: auto;
+  max-height :15.625rem;
 }
