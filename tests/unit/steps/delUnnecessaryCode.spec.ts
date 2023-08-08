@@ -19,7 +19,7 @@ describe('ConfluenceProxy / del unnecessary code', () => {
     const moduleRef = await createModuleRefForStep();
     context = moduleRef.get<ContextService>(ContextService);
 
-    context.initPageContext('XXX', '123456', 'dark');
+    context.initPageContextRestAPIv2('XXX', '123456', 'dark');
   });
 
   it('Remove CDATA blocks from Drawio ap-iframe-body-script', () => {

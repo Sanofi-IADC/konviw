@@ -18,7 +18,7 @@ describe('ConfluenceProxy / fixLinks', () => {
     http = moduleRef.get<HttpService>(HttpService);
     webBasePath = config.get('web.absoluteBasePath');
 
-    context.initPageContext('XXX', '123456', 'dark');
+    context.initPageContextRestAPIv2('XXX', '123456', 'dark');
   });
 
   it('should replace page absolute URLs', async () => {

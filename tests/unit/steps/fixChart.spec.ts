@@ -119,7 +119,7 @@ describe('ConfluenceProxy / fixChartMacro', () => {
     config = moduleRef.get<ConfigService>(ConfigService);
     webBasePath = config.get('web.absoluteBasePath');
 
-    context.initPageContext('XXX', '123456', 'dark');
+    context.initPageContextRestAPIv2('XXX', '123456', 'dark');
   });
 
   describe('Chart created in the same page', () => {

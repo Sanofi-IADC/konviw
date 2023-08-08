@@ -1,5 +1,5 @@
 import * as cheerio from 'cheerio';
-import { ConfluenceRestAPIv2PageContent } from '../../confluence/confluence.interface';
+import { Content } from '../../confluence/confluence.interface';
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
 
@@ -12,7 +12,7 @@ import { Step } from '../proxy-page.step';
  * @param  {ConfigService} config
  * @returns void
  */
-export default (content: ConfluenceRestAPIv2PageContent): Step => (context: ContextService): void => {
+export default (content: Content): Step => (context: ContextService): void => {
   context.setPerfMark('fixCaptionImage');
   const $ = context.getCheerioBody();
   const xmlStorageFormat = cheerio.load(content?.pageContent?.body?.storage?.value ?? '', { xmlMode: true });

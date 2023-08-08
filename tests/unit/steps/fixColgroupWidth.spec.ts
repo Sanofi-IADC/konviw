@@ -10,7 +10,7 @@ describe('ConfluenceProxy / fixColGroupWidth', () => {
   beforeEach(async () => {
     const moduleRef = await createModuleRefForStep();
     context = moduleRef.get<ContextService>(ContextService);
-    context.initPageContext('XXX', '123456', 'dark');
+    context.initPageContextRestAPIv2('XXX', '123456', 'dark');
     context.setHtmlBody('<html><head></head><body></body></html>');
   });
 

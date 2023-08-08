@@ -28,7 +28,7 @@ describe('ConfluenceProxy / fix TOC', () => {
     context = moduleRef.get<ContextService>(ContextService);
     step = fixToc();
 
-    context.initPageContext('XXX', '123456', 'dark');
+    context.initPageContextRestAPIv2('XXX', '123456', 'dark');
     context.setHtmlBody(example);
   });
 

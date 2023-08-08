@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import * as cheerio from 'cheerio';
 import { performance, PerformanceObserver } from 'perf_hooks';
 import { ConfigService } from '@nestjs/config';
-import { ConfluenceRestAPIv2PageContent, Content, Label } from '../confluence/confluence.interface';
+import { Content, Label } from '../confluence/confluence.interface';
 import { Version } from './context.interface';
 
 @Injectable()
@@ -63,13 +63,13 @@ export class ContextService {
 
   constructor(private config: ConfigService) {}
 
-  initPageContext(
+  initPageContextRestAPIv2(
     spaceKey: string,
     pageId: string,
     theme: string,
     type?: string,
     style?: string,
-    data?: ConfluenceRestAPIv2PageContent | Content,
+    data?: Content,
     loadAsDocument = true, // eslint-disable-line default-param-last
     view?: string,
   ) {
@@ -161,6 +161,118 @@ export class ContextService {
       if (data.propertiesContent['emoji-title-published']) {
         this.setHeaderEmoji(
           data.propertiesContent['emoji-title-published'].value,
+        );
+        logger.log(
+          `GET emoji-title-published to set context 'headerEmoji' to ${this.getHeaderEmoji()}`,
+        );
+      } else {
+        this.setHeaderEmoji('');
+      }
+    }
+  }
+
+  initPageContext(
+    spaceKey: string,
+    pageId: string,
+    theme: string,
+    type?: string,
+    style?: string,
+    data?: Content,
+    loadAsDocument = true, // eslint-disable-line default-param-last
+    view?: string,
+  ) {
+    this.spaceKey = spaceKey;
+    this.pageId = pageId;
+    this.theme = theme;
+    this.type = type;
+    this.style = style;
+    const logger = new Logger(ContextService.name);
+
+    // Activate the observer in development
+    if (this.config.get('env').toString() === 'development') {
+      this.observer = new PerformanceObserver((list) => {
+        const entry = list.getEntries()[0];
+        logger.log(`Time for [${entry.name}] = ${entry.duration}ms`);
+      });
+      this.observer.observe({ entryTypes: ['measure'], buffered: false });
+    }
+
+    if (view) {
+      this.setView(view);
+    }
+    if (data) {
+      const baseHost = this.config.get('web.baseHost');
+      const basePath = this.config.get('web.basePath');
+
+      this.setTitle(data.title);
+      [,,,, this.spaceKey] = data._expandable.space.split('/');
+      this.setHtmlBody(data.body.view.value, loadAsDocument);
+      this.setAuthor(data.history.createdBy?.displayName);
+      this.setEmail(data.history.createdBy?.email);
+      this.setAvatar(
+        `${baseHost}${basePath}/${data.history.createdBy?.profilePicture.path.replace(
+          /^\/wiki/,
+          'wiki',
+        )}`,
+      );
+      this.setWhen(data.history.createdDate);
+      this.setLabels(data.metadata.labels.results);
+
+      const createdBy: Version = {
+        versionNumber: 1,
+        when: data.history.createdDate,
+        friendlyWhen: timeFromNow(data.history.createdDate),
+        modificationBy: {
+          displayName: data.history.createdBy?.displayName,
+          email: data.history.createdBy?.email,
+          profilePicture: this.getAvatar(),
+        },
+      };
+      this.setCreatedVersion(createdBy);
+
+      const modifiedBy: Version = {
+        versionNumber: data.version.number,
+        when: data.version.when,
+        friendlyWhen: timeFromNow(data.version.when),
+        modificationBy: {
+          displayName: data.version.by.publicName,
+          email: data.version.by.email,
+          profilePicture: `${baseHost}${basePath}/${data.version.by.profilePicture?.path.replace(
+            /^\/wiki/,
+            'wiki',
+          )}`,
+        },
+      };
+      this.setLastVersion(modifiedBy);
+
+      if (
+        data.metadata?.properties['content-appearance-published']
+        && data.metadata?.properties['content-appearance-published'].value
+          === 'full-width'
+      ) {
+        this.setFullWidth(true);
+      } else {
+        this.setFullWidth(false);
+      }
+
+      // retrieve the header image published and set in context
+      if (data.metadata?.properties['cover-picture-id-published']) {
+        this.setHeaderImage(
+          JSON.parse(
+            data.metadata?.properties['cover-picture-id-published'].value,
+          ).id,
+        );
+        logger.log(
+          `GET cover-picture-id-published to set context 'headerImage' to ${this.getHeaderImage()}`,
+        );
+      } else {
+        this.setHeaderImage('');
+      }
+
+      // retrieve the header emoji published and set in context
+      if (data.metadata?.properties['emoji-title-published']) {
+        this.setHeaderEmoji(
+          data.metadata?.properties['emoji-title-published'].value,
         );
         logger.log(
           `GET emoji-title-published to set context 'headerEmoji' to ${this.getHeaderEmoji()}`,

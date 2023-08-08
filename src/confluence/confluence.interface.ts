@@ -150,7 +150,7 @@ export interface ContentHistory {
   _links?: GenericLinks;
 }
 
-export interface Content {
+export interface Content extends ContentRestAPIv2 {
   [key: string]: any;
 
   id: string;
@@ -290,7 +290,7 @@ export type SpaceContent = {
 
 export type LabelsContent = LabelsArray;
 
-export type PropertiesContent = Properties[];
+export type PropertiesContent = Properties;
 
 export type AuthorContent = {
   type: string;
@@ -318,7 +318,7 @@ export type VersionAuthorContent = {
   _links: GenericLinks;
 };
 
-export type ConfluenceRestAPIv2PageContent = {
+export type ContentRestAPIv2 = {
   [key: string]: any;
   pageContent: PageContent;
   spaceContent: SpaceContent;

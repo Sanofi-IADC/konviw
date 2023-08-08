@@ -1,5 +1,5 @@
 import { ConfigService } from '@nestjs/config';
-import { ConfluenceRestAPIv2PageContent } from '../../../src/confluence/confluence.interface';
+import { Content } from '../../../src/confluence/confluence.interface';
 import { ContextService } from '../../../src/context/context.service';
 import addNewSlides from '../../../src/proxy-page/steps/addNewSlides';
 import { createModuleRefForStep } from './utils';
@@ -7,7 +7,7 @@ import { createModuleRefForStep } from './utils';
 describe('ConfluenceProxy / addNewSlides', () => {
     let context: ContextService;
     let config: ConfigService;
-    let content: ConfluenceRestAPIv2PageContent = { pageContent: { body: { storage: { value: '' } } }} as any;
+    let content: Content = { pageContent: { body: { storage: { value: '' } } }} as any;
 
     beforeEach(async () => {
         const moduleRef = await createModuleRefForStep();
@@ -23,7 +23,7 @@ describe('ConfluenceProxy / addNewSlides', () => {
         '<ri:attachment ri:filename="1529923467_Javascript.png" ri:version-at-save="1" /></ac:parameter>' +
         '<ac:rich-text-body><p>Content of slide</p></ac:rich-text-body></ac:structured-macro><p />';
         config = moduleRef.get<ConfigService>(ConfigService);
-        context.initPageContext('XXX', '123456', 'dark');
+        context.initPageContextRestAPIv2('XXX', '123456', 'dark');
     });
 
     it('Add new slides parameters defined in slide macro are overriding slide deck', () => {

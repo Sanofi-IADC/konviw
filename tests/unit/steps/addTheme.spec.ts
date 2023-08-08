@@ -14,7 +14,7 @@ describe('Confluence Proxy / addTheme', () => {
   });
 
   it('should add dark theme', () => {
-    context.initPageContext('XXX', '123456', 'dark');
+    context.initPageContextRestAPIv2('XXX', '123456', 'dark');
     context.setHtmlBody('<html><head></head><body>BODY CONTENT</body></html>');
     step(context);
     expect(context.getHtmlBody())
@@ -27,7 +27,7 @@ describe('Confluence Proxy / addTheme', () => {
   });
 
   it('should add light theme', () => {
-    context.initPageContext('XXX', '123456', 'light');
+    context.initPageContextRestAPIv2('XXX', '123456', 'light');
     context.setHtmlBody('<html><head></head><body>BODY CONTENT</body></html>');
     step(context);
     expect(context.getHtmlBody())

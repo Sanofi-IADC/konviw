@@ -23,7 +23,7 @@ class ConfluenceServiceMock {
       pageContent: {
         title: 'Page title',
         body: { view: { value: '<Content>page content</Content>' } },
-        version: { number: 21, friendlyWhen: '19 January 2021', publicName: 'Name LastName'},
+        version: { number: 21, createdAt: '19 January 2021' },
         createdAt: '2020-01-01T01:30:00.000',
       },
       authorContent: {
@@ -91,10 +91,10 @@ describe('proxy-api.service', () => {
     });
 
     it('should call initPageContext construct the basic page context', async () => {
-      jest.spyOn(contextService, 'initPageContext');
+      jest.spyOn(contextService, 'initPageContextRestAPIv2');
       await proxyApiService.getPage('space', '1234', 'type');
 
-      expect(contextService.initPageContext).toHaveBeenCalledTimes(1);
+      expect(contextService.initPageContextRestAPIv2).toHaveBeenCalledTimes(1);
     });
 
     it('should not call addLibrariesCSS as CSS cannot be injected by setting innerHTML', async () => {

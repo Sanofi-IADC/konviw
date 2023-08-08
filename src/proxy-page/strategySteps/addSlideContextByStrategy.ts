@@ -1,4 +1,4 @@
-import { ConfluenceRestAPIv2PageContent } from '../../confluence/confluence.interface';
+import { Content } from '../../confluence/confluence.interface';
 import { ContextService } from '../../context/context.service';
 import { getMacroSlideSettingsPropertyValueByKey, loadStorageContentToXML } from '../utils/macroSlide';
 import { MacroSlideSettingsProperty } from '../utils/macroSlide.interface';
@@ -8,7 +8,7 @@ export default (
   spaceKey: string,
   pageId: string,
   style?: string,
-  content?: ConfluenceRestAPIv2PageContent,
+  content?: Content,
 ): void => {
   const storageXML = loadStorageContentToXML(content);
 
@@ -22,7 +22,7 @@ export default (
     value: valueSlideTransition,
   }: MacroSlideSettingsProperty = getMacroSlideSettingsPropertyValueByKey(storageXML, 'slide_settings_transition', 'slide');
 
-  context.initPageContext(
+  context.initPageContextRestAPIv2(
     spaceKey,
     pageId,
     'light',

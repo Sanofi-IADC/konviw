@@ -1,11 +1,11 @@
 import { ConfigService } from '@nestjs/config';
 import * as cheerio from 'cheerio';
-import { ConfluenceRestAPIv2PageContent } from '../../confluence/confluence.interface';
+import { Content } from '../../confluence/confluence.interface';
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
 import { getAttributesFromChildren, getObjectFromStorageXMLForPageProperties } from '../utils/macroSlide';
 
-export default (config: ConfigService, content: ConfluenceRestAPIv2PageContent): Step => (context: ContextService): void => {
+export default (config: ConfigService, content: Content): Step => (context: ContextService): void => {
   context.setPerfMark('addNewSlides');
 
   const commonUnexpectedExpression = [

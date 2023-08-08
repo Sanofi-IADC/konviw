@@ -16,7 +16,7 @@ describe('ConfluenceProxy / fixConfluenceSpace', () => {
     context = moduleRef.get<ContextService>(ContextService);
     config = moduleRef.get<ConfigService>(ConfigService);
     http = moduleRef.get<HttpService>(HttpService);
-    context.initPageContext('XXX', '123456', 'dark');
+    context.initPageContextRestAPIv2('XXX', '123456', 'dark');
   });
 
   it('should replace confluence space icon', async () => {

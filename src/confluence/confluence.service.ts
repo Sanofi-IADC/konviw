@@ -12,7 +12,6 @@ import {
   Content,
   SearchResults,
   Attachment,
-  ConfluenceRestAPIv2PageContent,
 } from './confluence.interface';
 
 @Injectable()
@@ -38,7 +37,7 @@ export class ConfluenceService {
     pageId: string,
     version?: string,
     status?: string,
-  ): Promise<ConfluenceRestAPIv2PageContent> {
+  ): Promise<Content> {
     try {
       const [typeContentResponse, spaceContentResponse]: AxiosResponse[] = await Promise.all([
         firstValueFrom(
@@ -52,12 +51,15 @@ export class ConfluenceService {
       const spaceContent = this.getSpaceContent(spaceContentResponse);
       const contentType = this.getApiEndPoint(typeContentResponse, pageId);
 
-      if (contentType && spaceContent) {
+      if (contentType) {
         const params = {
           version,
-          'space-id': spaceContent.id,
           status: status ?? 'current',
         };
+
+        if (spaceContent) {
+          params['space-id'] = spaceContent.id;
+        }
 
         const getPageContentByFormats = async () => {
           const [viewFormat, storageFormat] = await Promise.all([
@@ -96,7 +98,7 @@ export class ConfluenceService {
 
         const content = {
           pageContent,
-          spaceContent,
+          spaceContent: spaceContent ?? { key: spaceKey },
           labelsContent,
           propertiesContent: convertedPagePropertiesContentToObject,
           authorContent,
@@ -113,7 +115,7 @@ export class ConfluenceService {
           this.logger.log(`Page ${pageId} can't be rendered because is private`);
           throw new ForbiddenException('This page is private.');
         }
-        return content;
+        return content as Content;
       }
       return undefined;
     } catch (err) {

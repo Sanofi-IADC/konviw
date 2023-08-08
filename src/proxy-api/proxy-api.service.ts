@@ -5,7 +5,7 @@ import { ContextService } from '../context/context.service';
 import {
   SearchResults,
   ResultsContent,
-  ConfluenceRestAPIv2PageContent,
+  Content,
 } from '../confluence/confluence.interface';
 import { ConfluenceService } from '../confluence/confluence.service';
 import { JiraService } from '../jira/jira.service';
@@ -478,8 +478,8 @@ export class ProxyApiService {
     pageId: string,
     type: string,
   ): Promise<Partial<KonviwContent>> {
-    const content: ConfluenceRestAPIv2PageContent = await this.confluence.getPage(spaceKey, pageId);
-    this.context.initPageContext(spaceKey, pageId, undefined, type, undefined, content, false);
+    const content: Content = await this.confluence.getPage(spaceKey, pageId);
+    this.context.initPageContextRestAPIv2(spaceKey, pageId, undefined, type, undefined, content, false);
     // TODO: check whether we could add the excerpt and image header image also to the API metadata
     // await getExcerptAndHeaderImage(this.config, this.confluence)(this.context);
     const addJiraPromise = addJira(this.config, this.jira)(this.context);

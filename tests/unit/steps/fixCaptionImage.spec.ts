@@ -1,5 +1,5 @@
 import { ConfigService } from '@nestjs/config';
-import { ConfluenceRestAPIv2PageContent } from '../../../src/confluence/confluence.interface';
+import { Content } from '../../../src/confluence/confluence.interface';
 import { ContextService } from '../../../src/context/context.service';
 import fixCaptionImage from '../../../src/proxy-page/steps/fixCaptionImage';
 import { createModuleRefForStep } from './utils';
@@ -7,14 +7,14 @@ import { createModuleRefForStep } from './utils';
 describe('ConfluenceProxy / fixCaptionImage', () => {
     let context: ContextService;
     let config: ConfigService;
-    let content: ConfluenceRestAPIv2PageContent & { pageContent: { body: { storage: { value: string } } }} = { pageContent: { body: { storage: { value: '' } } }} as any;
+    let content: Content & { pageContent: { body: { storage: { value: string } } }} = { pageContent: { body: { storage: { value: '' } } }} as any;
 
     beforeEach(async () => {
         const moduleRef = await createModuleRefForStep();
         context = moduleRef.get<ContextService>(ContextService);
         content.pageContent.body.storage.value = '<ac:image ac:align="center" ac:layout="center" ac:original-height="512" ac:original-width="512"><ri:attachment ri:filename="unnamed (1).png" ri:version-at-save="1" /><ac:caption><p>exampleCaption</p></ac:caption></ac:image><p />';
         config = moduleRef.get<ConfigService>(ConfigService);
-        context.initPageContext('XXX', '123456', 'dark');
+        context.initPageContextRestAPIv2('XXX', '123456', 'dark');
     });
 
     it('FixCaptionImage should create caption', () => {

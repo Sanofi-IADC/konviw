@@ -10,7 +10,7 @@ describe('ConfluenceProxy / fixFrameAllowFullscreen', () => {
     const moduleRef = await createModuleRefForStep();
     context = moduleRef.get<ContextService>(ContextService);
 
-    context.initPageContext('XXX', '123456', 'dark');
+    context.initPageContextRestAPIv2('XXX', '123456', 'dark');
   });
 
   it('Enable fullscreen lazy loading and other attributes', () => {

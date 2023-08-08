@@ -66,7 +66,7 @@ describe('Speed / Steps', () => {
     const moduleRef = await createModuleRefForStep();
     context = moduleRef.get<ContextService>(ContextService);
     config = moduleRef.get<ConfigService>(ConfigService);
-    context.initPageContext('XXX', '123456', 'dark');
+    context.initPageContextRestAPIv2('XXX', '123456', 'dark');
   });
 
   it(`Should execute each step under ${timeExpected}ms ${iteration} times in a row`, async () => {

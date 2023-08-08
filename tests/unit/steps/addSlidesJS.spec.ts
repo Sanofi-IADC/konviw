@@ -14,7 +14,7 @@ describe('ConfluenceProxy / addLibrariesJS', () => {
     config = moduleRef.get<ConfigService>(ConfigService);
     basePath = config.get('web.basePath');
     context = moduleRef.get<ContextService>(ContextService);
-    context.initPageContext('XXX', '123456', 'dark');
+    context.initPageContextRestAPIv2('XXX', '123456', 'dark');
     const step = addSlidesJS(config);
     context.setHtmlBody('<html><head></head><body></body></html>');
     step(context);
