@@ -5,7 +5,7 @@ import getExcerptAndHeaderImage from '../proxy-api/steps/getExcerptAndHeaderImag
 import { ConfluenceService } from '../confluence/confluence.service';
 import { JiraService } from '../jira/jira.service';
 import { ContextService } from '../context/context.service';
-import { Content } from '../confluence/confluence.interface';
+import { ConfluenceRestAPIv2PageContent } from '../confluence/confluence.interface';
 import delUnnecessaryCode from './steps/delUnnecessaryCode';
 import fixLinks from './steps/fixLinks';
 import fixEmojis from './steps/fixEmojis';
@@ -83,7 +83,7 @@ export class ProxyPageService {
     view: string,
     status: string,
   ): Promise<string> {
-    const content: Content = await this.confluence.getPage(
+    const content: ConfluenceRestAPIv2PageContent = await this.confluence.getPage(
       spaceKey,
       pageId,
       version,
@@ -167,7 +167,7 @@ export class ProxyPageService {
     style: string,
     status: string,
   ): Promise<string> {
-    const content: Content = await this.confluence.getPage(spaceKey, pageId, version, status);
+    const content: ConfluenceRestAPIv2PageContent = await this.confluence.getPage(spaceKey, pageId, version, status);
     addSlideContextByStrategy(
       this.context,
       spaceKey,

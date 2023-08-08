@@ -8,7 +8,12 @@ import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import { AxiosResponse } from 'axios'; // eslint-disable-line import/no-extraneous-dependencies
 import { firstValueFrom } from 'rxjs';
-import { Content, SearchResults, Attachment } from './confluence.interface';
+import {
+  Content,
+  SearchResults,
+  Attachment,
+  ConfluenceRestAPIv2PageContent,
+} from './confluence.interface';
 
 @Injectable()
 export class ConfluenceService {
@@ -33,57 +38,88 @@ export class ConfluenceService {
     pageId: string,
     version?: string,
     status?: string,
-  ): Promise<Content> {
-    let results: AxiosResponse<Content>;
+  ): Promise<ConfluenceRestAPIv2PageContent> {
     try {
-      const uri = version ? `${pageId}/version/${version}` : `${pageId}`;
-      const prefix = version ? 'content.' : '';
-      // default to 'current'
-      const statusPage = status ?? 'current';
-      this.logger.log(`Retrieving page ${pageId}`);
-      this.logger.log(`Retrieving version ${version}`);
-      results = await firstValueFrom(
-        this.http.get<Content>(`/wiki/rest/api/content/${uri}`, {
-          params: {
-            type: 'page',
-            status: statusPage,
-            spaceKey,
-            // select special fields to retrieve
-            expand: [
-              // content body with html tags
-              `${prefix}body.view`,
-              // content body with macro confluence attribiutes
-              `${prefix}body.storage`,
-              // contains the value 'full-width' when pages are displayed in full width
-              `${prefix}metadata.properties.content_appearance_published`,
-              // labels defined for the page
-              `${prefix}metadata.labels`,
-              `${prefix}version`,
-              `${prefix}history`,
-              // header image if any defined
-              `${prefix}metadata.properties.cover_picture_id_published`,
-              // title emoji if any defined
-              `${prefix}metadata.properties.emoji_title_published`,
-            ].join(','),
-          },
-        }),
-      );
+      const [typeContentResponse, spaceContentResponse]: AxiosResponse[] = await Promise.all([
+        firstValueFrom(
+          this.http.post('/wiki/api/v2/content/convert-ids-to-types', { contentIds: [pageId] }),
+        ),
+        firstValueFrom(
+          this.http.get(`/wiki/api/v2/spaces?keys=${spaceKey}`),
+        ),
+      ]);
+
+      const spaceContent = this.getSpaceContent(spaceContentResponse);
+      const contentType = this.getApiEndPoint(typeContentResponse, pageId);
+
+      if (contentType && spaceContent) {
+        const params = {
+          version,
+          'space-id': spaceContent.id,
+          status: status ?? 'current',
+        };
+
+        const getPageContentByFormats = async () => {
+          const [viewFormat, storageFormat] = await Promise.all([
+            firstValueFrom(
+              this.http.get<any>(`/wiki/api/v2/${contentType}/${pageId}`, { params: { ...params, 'body-format': 'view' } }),
+            ),
+            firstValueFrom(
+              this.http.get<any>(`/wiki/api/v2/${contentType}/${pageId}`, { params: { ...params, 'body-format': 'storage' } }),
+            ),
+          ]);
+          return { ...viewFormat.data, body: { ...viewFormat.data.body, ...storageFormat.data.body } };
+        };
+
+        const getPageContentByArea = async (area: string) => {
+          const { data } = await firstValueFrom(
+            this.http.get<any>(`/wiki/api/v2/${contentType}/${pageId}/${area}`, { params }),
+          );
+          return data;
+        };
+
+        const [pageContent, labelsContent, propertiesContent] = await Promise.all([
+          getPageContentByFormats(),
+          getPageContentByArea('labels'),
+          getPageContentByArea('properties'),
+        ]);
+
+        const [authorContent, versionAuthorContent] = await Promise.all([
+          this.getAccountDataById(pageContent.authorId),
+          this.getAccountDataById(pageContent.version.authorId),
+        ]);
+
+        const convertedPagePropertiesContentToObject = propertiesContent.results.reduce((acc, property) => {
+          acc[property.key] = { ...property };
+          return acc;
+        }, {});
+
+        const content = {
+          pageContent,
+          spaceContent,
+          labelsContent,
+          propertiesContent: convertedPagePropertiesContentToObject,
+          authorContent,
+          versionAuthorContent,
+        };
+
+        // Check if the label defined in configuration for private pages is present in the metadata labels
+        if (
+          content.labelsContent.results.find(
+            (label: { name: string }) =>
+              label.name === this.config.get('konviw.private'),
+          )
+        ) {
+          this.logger.log(`Page ${pageId} can't be rendered because is private`);
+          throw new ForbiddenException('This page is private.');
+        }
+        return content;
+      }
+      return undefined;
     } catch (err) {
       this.logger.log(err, 'error:getPage');
       throw new HttpException(`${err}\nPage ${pageId} Not Found`, 404);
     }
-    const content: Content = version ? results.data.content : results.data;
-    // Check if the label defined in configuration for private pages is present in the metadata labels
-    if (
-      content.metadata.labels.results.find(
-        (label: { name: string }) =>
-          label.name === this.config.get('konviw.private'),
-      )
-    ) {
-      this.logger.log(`Page ${pageId} can't be rendered because is private`);
-      throw new ForbiddenException('This page is private.');
-    }
-    return content;
   }
 
   /**
@@ -309,5 +345,22 @@ export class ConfluenceService {
       return results.find(({ id }) => id === image);
     }
     return results;
+  }
+
+  private async getAccountDataById(accountId: string): Promise<any> {
+    const { data } = await firstValueFrom(
+      this.http.get<Content>(`wiki/rest/api/user?accountId=${accountId}`),
+    );
+    return data;
+  }
+
+  /* eslint-disable class-methods-use-this */
+  private getSpaceContent(spaceContentResponse): any {
+    return spaceContentResponse.data.results[0];
+  }
+
+  /* eslint-disable class-methods-use-this */
+  private getApiEndPoint(typeContent: any, pageId: string): string {
+    return typeContent?.data.results[pageId] === 'page' ? 'pages' : 'blogposts';
   }
 }

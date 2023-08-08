@@ -20,24 +20,33 @@ class ConfluenceServiceMock {
   getPage(spaceKey: string, pageId: string, version?: string): DeepPartial<Content>{
 
     const confluenceContent: DeepPartial<Content> = {
-      title: 'Page title',
-      history: {
-        createdBy: {
-          email: 'email@somewhere.com',
-          displayName: 'Author name',
-          profilePicture: {
-            path: '//profilepic',
-          },
-        },
-        createdDate: '2020-01-01T01:30:00.000',
+      pageContent: {
+        title: 'Page title',
+        body: { view: { value: '<Content>page content</Content>' } },
+        version: { number: 21, friendlyWhen: '19 January 2021', publicName: 'Name LastName'},
+        createdAt: '2020-01-01T01:30:00.000',
       },
-      body: { view: { value: '<Content>page content</Content>' } },
-      version: { number: 21, friendlyWhen: '19 January 2021', by: { publicName: 'Name LastName' } },
-      _expandable: {space: '/rest/api/space/MySpace'},
-      metadata: {
-        labels: {results: [{name: 'one'},{name: 'two'},{name: 'three'}]},
-        properties: {}
-      }
+      authorContent: {
+        email: 'email@somewhere.com',
+        publicName: 'Author name',
+        profilePicture: {
+          path: '//profilepic',
+        },
+      },
+      versionAuthorContent: {
+        email: 'email@somewhere.com',
+        publicName: 'Author name',
+        profilePicture: {
+          path: '//profilepic',
+        },
+      },
+      spaceContent: {
+        key: 'MySpace',
+      },
+      labelsContent: {
+        results: [{name: 'one'}, {name: 'two'}, {name: 'three'}],
+      },
+      propertiesContent: {},
     };
 
     return confluenceContent

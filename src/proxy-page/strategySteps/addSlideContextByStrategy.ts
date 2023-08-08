@@ -1,9 +1,15 @@
-import { Content } from '../../confluence/confluence.interface';
+import { ConfluenceRestAPIv2PageContent } from '../../confluence/confluence.interface';
 import { ContextService } from '../../context/context.service';
 import { getMacroSlideSettingsPropertyValueByKey, loadStorageContentToXML } from '../utils/macroSlide';
 import { MacroSlideSettingsProperty } from '../utils/macroSlide.interface';
 
-export default (context: ContextService, spaceKey: string, pageId: string, style?: string, content?: Content): void => {
+export default (
+  context: ContextService,
+  spaceKey: string,
+  pageId: string,
+  style?: string,
+  content?: ConfluenceRestAPIv2PageContent,
+): void => {
   const storageXML = loadStorageContentToXML(content);
 
   const {

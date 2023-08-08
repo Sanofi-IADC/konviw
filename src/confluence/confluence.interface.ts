@@ -245,3 +245,85 @@ export interface Attachment {
   webuiLink: string,
   _links: GenericLinks
 }
+
+export type Properties = {
+  [key: string]: {
+    value: string;
+    key: string;
+    id: string;
+    version: any;
+  }
+}
+
+export type PageContent = {
+  id: string;
+  version: {
+    number: number;
+    message: string;
+    minorEdit: boolean;
+    authorId: string;
+    createdAt: string;
+  },
+  parentType: string;
+  authorId: string;
+  title: string;
+  status: ContentStatusType;
+  body: { view: { value: string }, storage: { value: string } },
+  parentId: string;
+  spaceId: string;
+  createdAt: string;
+  position: number;
+  _links: GenericLinks;
+};
+
+export type SpaceContent = {
+  name: string;
+  key: string;
+  id: string;
+  type: string;
+  homepageId: string;
+  icon: string | null;
+  description: string | null;
+  status: string;
+  createdAt: string;
+};
+
+export type LabelsContent = LabelsArray;
+
+export type PropertiesContent = Properties[];
+
+export type AuthorContent = {
+  type: string;
+  accountId: string;
+  accountType: string;
+  email: string;
+  publicName: string;
+  profilePicture: Icon,
+  displayName: string;
+  isExternalCollaborator: boolean,
+  _expandable: GenericLinks;
+  _links: GenericLinks;
+};
+
+export type VersionAuthorContent = {
+  type: string;
+  accountId: string;
+  accountType: string;
+  email: string;
+  publicName: string;
+  profilePicture: Icon,
+  displayName: string;
+  isExternalCollaborator: boolean;
+  _expandable: GenericLinks;
+  _links: GenericLinks;
+};
+
+export type ConfluenceRestAPIv2PageContent = {
+  [key: string]: any;
+  pageContent: PageContent;
+  spaceContent: SpaceContent;
+  labelsContent: LabelsContent;
+  propertiesContent: PropertiesContent;
+  authorContent: AuthorContent;
+  versionAuthorContent: VersionAuthorContent;
+};

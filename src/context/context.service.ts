@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import * as cheerio from 'cheerio';
 import { performance, PerformanceObserver } from 'perf_hooks';
 import { ConfigService } from '@nestjs/config';
-import { Content, Label } from '../confluence/confluence.interface';
+import { ConfluenceRestAPIv2PageContent, Content, Label } from '../confluence/confluence.interface';
 import { Version } from './context.interface';
 
 @Injectable()
@@ -69,7 +69,7 @@ export class ContextService {
     theme: string,
     type?: string,
     style?: string,
-    data?: Content,
+    data?: ConfluenceRestAPIv2PageContent | Content,
     loadAsDocument = true, // eslint-disable-line default-param-last
     view?: string,
   ) {
@@ -96,40 +96,40 @@ export class ContextService {
       const baseHost = this.config.get('web.baseHost');
       const basePath = this.config.get('web.basePath');
 
-      this.setTitle(data.title);
-      [,,,, this.spaceKey] = data._expandable.space.split('/');
-      this.setHtmlBody(data.body.view.value, loadAsDocument);
-      this.setAuthor(data.history.createdBy?.displayName);
-      this.setEmail(data.history.createdBy?.email);
+      this.setTitle(data.pageContent.title);
+      this.spaceKey = data.spaceContent.key;
+      this.setHtmlBody(data.pageContent.body.view.value, loadAsDocument);
+      this.setAuthor(data.authorContent.publicName);
+      this.setEmail(data.authorContent.email);
       this.setAvatar(
-        `${baseHost}${basePath}/${data.history.createdBy?.profilePicture.path.replace(
+        `${baseHost}${basePath}/${data.authorContent.profilePicture.path.replace(
           /^\/wiki/,
           'wiki',
         )}`,
       );
-      this.setWhen(data.history.createdDate);
-      this.setLabels(data.metadata.labels.results);
+      this.setWhen(data.pageContent.createdAt);
+      this.setLabels(data.labelsContent.results);
 
       const createdBy: Version = {
         versionNumber: 1,
-        when: data.history.createdDate,
-        friendlyWhen: timeFromNow(data.history.createdDate),
+        when: data.pageContent.createdAt,
+        friendlyWhen: timeFromNow(data.pageContent.createdAt),
         modificationBy: {
-          displayName: data.history.createdBy?.displayName,
-          email: data.history.createdBy?.email,
+          displayName: data.authorContent.publicName,
+          email: data.authorContent.email,
           profilePicture: this.getAvatar(),
         },
       };
       this.setCreatedVersion(createdBy);
 
       const modifiedBy: Version = {
-        versionNumber: data.version.number,
-        when: data.version.when,
-        friendlyWhen: timeFromNow(data.version.when),
+        versionNumber: data.pageContent.version.number,
+        when: data.pageContent.version.createdAt,
+        friendlyWhen: timeFromNow(data.pageContent.version.createdAt),
         modificationBy: {
-          displayName: data.version.by.publicName,
-          email: data.version.by.email,
-          profilePicture: `${baseHost}${basePath}/${data.version.by.profilePicture?.path.replace(
+          displayName: data.versionAuthorContent.publicName,
+          email: data.versionAuthorContent.email,
+          profilePicture: `${baseHost}${basePath}/${data.versionAuthorContent.profilePicture?.path.replace(
             /^\/wiki/,
             'wiki',
           )}`,
@@ -137,21 +137,17 @@ export class ContextService {
       };
       this.setLastVersion(modifiedBy);
 
-      if (
-        data.metadata?.properties['content-appearance-published']
-        && data.metadata?.properties['content-appearance-published'].value
-          === 'full-width'
-      ) {
+      if (data.propertiesContent['content-appearance-published']?.value === 'full-width') {
         this.setFullWidth(true);
       } else {
         this.setFullWidth(false);
       }
 
       // retrieve the header image published and set in context
-      if (data.metadata?.properties['cover-picture-id-published']) {
+      if (data.propertiesContent['cover-picture-id-published']) {
         this.setHeaderImage(
           JSON.parse(
-            data.metadata?.properties['cover-picture-id-published'].value,
+            data.propertiesContent['cover-picture-id-published'].value,
           ).id,
         );
         logger.log(
@@ -162,9 +158,9 @@ export class ContextService {
       }
 
       // retrieve the header emoji published and set in context
-      if (data.metadata?.properties['emoji-title-published']) {
+      if (data.propertiesContent['emoji-title-published']) {
         this.setHeaderEmoji(
-          data.metadata?.properties['emoji-title-published'].value,
+          data.propertiesContent['emoji-title-published'].value,
         );
         logger.log(
           `GET emoji-title-published to set context 'headerEmoji' to ${this.getHeaderEmoji()}`,

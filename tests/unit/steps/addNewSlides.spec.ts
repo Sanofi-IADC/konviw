@@ -1,5 +1,5 @@
 import { ConfigService } from '@nestjs/config';
-import { Content } from '../../../src/confluence/confluence.interface';
+import { ConfluenceRestAPIv2PageContent } from '../../../src/confluence/confluence.interface';
 import { ContextService } from '../../../src/context/context.service';
 import addNewSlides from '../../../src/proxy-page/steps/addNewSlides';
 import { createModuleRefForStep } from './utils';
@@ -7,12 +7,12 @@ import { createModuleRefForStep } from './utils';
 describe('ConfluenceProxy / addNewSlides', () => {
     let context: ContextService;
     let config: ConfigService;
-    let content: Content & { body: { storage: { value: string } } } = { body: { storage: { value: '' } } } as any;
+    let content: ConfluenceRestAPIv2PageContent = { pageContent: { body: { storage: { value: '' } } }} as any;
 
     beforeEach(async () => {
         const moduleRef = await createModuleRefForStep();
         context = moduleRef.get<ContextService>(ContextService);
-        content.body.storage.value = '<ac:structured-macro ac:name="slideSettings" ac:schema-version="1" data-layout="default" ' +
+        content.pageContent.body.storage.value = '<ac:structured-macro ac:name="slideSettings" ac:schema-version="1" data-layout="default" ' +
         'ac:local-id="141105b0-1baf-44ce-9c96-27004ad82793" ac:macro-id="00d0b33919f6759e73e5e7699a6238fc">' +
         '<ac:parameter ac:name="slide_settings_title">Test</ac:parameter><ac:parameter ac:name="slide_settings_theme">' +
         'iadc</ac:parameter><ac:parameter ac:name="slide_settings_transition">convex</ac:parameter>' +
@@ -97,6 +97,6 @@ describe('ConfluenceProxy / addNewSlides', () => {
         context.setHtmlBody(mockBody);
         addNewSlides(config, content)(context);
         expect(mockBody.includes('data-macro-id="e8dea08a24d1c4cb8a2be48f9e7de56c"'))
-            .toBe(content.body.storage.value.includes('ac:local-id="141105b0-1baf-44ce-9c96-27004ad82793"'));
+            .toBe(content.pageContent.body.storage.value.includes('ac:local-id="141105b0-1baf-44ce-9c96-27004ad82793"'));
     });
 });
