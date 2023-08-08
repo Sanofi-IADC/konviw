@@ -12,7 +12,7 @@ describe('ConfluenceProxy / addNewSlides', () => {
     beforeEach(async () => {
         const moduleRef = await createModuleRefForStep();
         context = moduleRef.get<ContextService>(ContextService);
-        content.pageContent.body.storage.value = '<ac:structured-macro ac:name="slideSettings" ac:schema-version="1" data-layout="default" ' +
+        context.setBodyStorage('<ac:structured-macro ac:name="slideSettings" ac:schema-version="1" data-layout="default" ' +
         'ac:local-id="141105b0-1baf-44ce-9c96-27004ad82793" ac:macro-id="00d0b33919f6759e73e5e7699a6238fc">' +
         '<ac:parameter ac:name="slide_settings_title">Test</ac:parameter><ac:parameter ac:name="slide_settings_theme">' +
         'iadc</ac:parameter><ac:parameter ac:name="slide_settings_transition">convex</ac:parameter>' +
@@ -21,9 +21,9 @@ describe('ConfluenceProxy / addNewSlides', () => {
         '<ac:parameter ac:name="slide_type">bubble</ac:parameter><ac:parameter ac:name="slide_id">1</ac:parameter>' +
         '<ac:parameter ac:name="slide_transition">concave</ac:parameter><ac:parameter ac:name="slide_background_attachment">' +
         '<ri:attachment ri:filename="1529923467_Javascript.png" ri:version-at-save="1" /></ac:parameter>' +
-        '<ac:rich-text-body><p>Content of slide</p></ac:rich-text-body></ac:structured-macro><p />';
+        '<ac:rich-text-body><p>Content of slide</p></ac:rich-text-body></ac:structured-macro><p />');
         config = moduleRef.get<ConfigService>(ConfigService);
-        context.initPageContextRestAPIv2('XXX', '123456', 'dark');
+        context.initPageContext('v2', 'XXX', '123456', 'dark');
     });
 
     it('Add new slides parameters defined in slide macro are overriding slide deck', () => {
@@ -34,7 +34,7 @@ describe('ConfluenceProxy / addNewSlides', () => {
         'data-macro-name="slide"><p>Content of slide</p></div><p />';
         content.getCheerioBody = () => mockBody;
         context.setHtmlBody(mockBody);
-        addNewSlides(config, content)(context);
+        addNewSlides(config)(context);
         expect(context.getHtmlBody().includes('data-transition="concave"')).toBe(true);
     });
 
@@ -42,7 +42,7 @@ describe('ConfluenceProxy / addNewSlides', () => {
         const mockBody = '';
         content.getCheerioBody = () => mockBody;
         context.setHtmlBody(mockBody);
-        addNewSlides(config, content)(context);
+        addNewSlides(config)(context);
         const result = '<html><head></head><body><div id="Content"><section id="slides-logo"></section>' +
         '<div class="reveal slide"><div class="slides"></div></div></div></body></html>';
         expect(context.getHtmlBody()).toEqual(result);
@@ -56,7 +56,7 @@ describe('ConfluenceProxy / addNewSlides', () => {
         'data-macro-id="e8dea08a24d1c4cb8a2be48f9e7de56c" data-macro-name="slide"><p>Content of slide</p></div><p />';
         content.getCheerioBody = () => mockBody;
         context.setHtmlBody(mockBody);
-        addNewSlides(config, content)(context);
+        addNewSlides(config)(context);
         const fileAttribiute = 'data-background-image="'
         const fileName = '1529923467_Javascript.png'
         const htmlBody = context.getHtmlBody();
@@ -71,7 +71,7 @@ describe('ConfluenceProxy / addNewSlides', () => {
         'data-macro-name="slide"><p>Content of slide</p></div><p />';
         content.getCheerioBody = () => mockBody;
         context.setHtmlBody(mockBody);
-        addNewSlides(config, content)(context);
+        addNewSlides(config)(context);
         expect(context.getHtmlBody().includes('Content of slide')).toBe(true);
     });
 
@@ -83,7 +83,7 @@ describe('ConfluenceProxy / addNewSlides', () => {
         'data-macro-name="slide"><p>Content of slide</p></div><p />';
         content.getCheerioBody = () => mockBody;
         context.setHtmlBody(mockBody);
-        addNewSlides(config, content)(context);
+        addNewSlides(config)(context);
         expect(context.getHtmlBody().includes('data-state="bubble"')).toBe(true);
     });
 
@@ -95,8 +95,8 @@ describe('ConfluenceProxy / addNewSlides', () => {
         'data-macro-name="slide"><p>Content of slide</p></div><p />';
         content.getCheerioBody = () => mockBody;
         context.setHtmlBody(mockBody);
-        addNewSlides(config, content)(context);
+        addNewSlides(config)(context);
         expect(mockBody.includes('data-macro-id="e8dea08a24d1c4cb8a2be48f9e7de56c"'))
-            .toBe(content.pageContent.body.storage.value.includes('ac:local-id="141105b0-1baf-44ce-9c96-27004ad82793"'));
+            .toBe(context.getBodyStorage().includes('ac:local-id="141105b0-1baf-44ce-9c96-27004ad82793"'));
     });
 });

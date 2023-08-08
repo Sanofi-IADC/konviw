@@ -10,7 +10,7 @@ export default (
   style?: string,
   content?: Content,
 ): void => {
-  const storageXML = loadStorageContentToXML(content);
+  const storageXML = loadStorageContentToXML(context);
 
   const {
     exist: existSlideStyle,
@@ -22,7 +22,8 @@ export default (
     value: valueSlideTransition,
   }: MacroSlideSettingsProperty = getMacroSlideSettingsPropertyValueByKey(storageXML, 'slide_settings_transition', 'slide');
 
-  context.initPageContextRestAPIv2(
+  context.initPageContext(
+    context.getApiVersion(),
     spaceKey,
     pageId,
     'light',

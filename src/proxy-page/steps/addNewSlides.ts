@@ -1,11 +1,10 @@
 import { ConfigService } from '@nestjs/config';
 import * as cheerio from 'cheerio';
-import { Content } from '../../confluence/confluence.interface';
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
 import { getAttributesFromChildren, getObjectFromStorageXMLForPageProperties } from '../utils/macroSlide';
 
-export default (config: ConfigService, content: Content): Step => (context: ContextService): void => {
+export default (config: ConfigService): Step => (context: ContextService): void => {
   context.setPerfMark('addNewSlides');
 
   const commonUnexpectedExpression = [
@@ -87,7 +86,7 @@ export default (config: ConfigService, content: Content): Step => (context: Cont
   // Div with class conf-macro and property slide (Confluence macro "slide") is framing the sections for each slide
   $(".conf-macro[data-macro-name='slide']").each(
     (_index: number, slideProperties: cheerio.Element) => {
-      const storageXML = getObjectFromStorageXMLForPageProperties(slideProperties, content);
+      const storageXML = getObjectFromStorageXMLForPageProperties(slideProperties, context);
       const { options } = getAttributesFromChildren(storageXML);
       const {
         slideBackgroundAttachment, slideType, slideTransition, slideParagraphAnimation,

@@ -11,7 +11,7 @@ describe('ConfluenceProxy / addLibrariesCSS', () => {
   });
 
   it('should add highlight.js css', () => {
-    context.initPageContextRestAPIv2('XXX', '123456', 'dark');
+    context.initPageContext('v2', 'XXX', '123456', 'dark');
     const step = addLibrariesCSS();
     context.setHtmlBody('<html><head></head><body></body></html>');
     step(context);

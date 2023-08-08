@@ -91,10 +91,10 @@ describe('proxy-api.service', () => {
     });
 
     it('should call initPageContext construct the basic page context', async () => {
-      jest.spyOn(contextService, 'initPageContextRestAPIv2');
+      jest.spyOn(contextService, 'initPageContext');
       await proxyApiService.getPage('space', '1234', 'type');
 
-      expect(contextService.initPageContextRestAPIv2).toHaveBeenCalledTimes(1);
+      expect(contextService.initPageContext).toHaveBeenCalledTimes(1);
     });
 
     it('should not call addLibrariesCSS as CSS cannot be injected by setting innerHTML', async () => {

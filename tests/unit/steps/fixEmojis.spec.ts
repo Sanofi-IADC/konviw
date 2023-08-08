@@ -12,7 +12,7 @@ describe('ConfluenceProxy / fixEmojis', () => {
     const moduleRef = await createModuleRefForStep();
     context = moduleRef.get<ContextService>(ContextService);
     config = moduleRef.get<ConfigService>(ConfigService);
-    context.initPageContextRestAPIv2('XXX', '123456', 'dark');
+    context.initPageContext('v2', 'XXX', '123456', 'dark');
   });
 
   it('Emojis inserted in headings are displaying correctly', async () => {

@@ -14,7 +14,7 @@ describe('ConfluenceProxy / fixLinks', () => {
     config = moduleRef.get<ConfigService>(ConfigService);
     webBasePath = config.get('web.absoluteBasePath');
 
-    context.initPageContextRestAPIv2('XXX', '123456', 'dark');
+    context.initPageContext('v2', 'XXX', '123456', 'dark');
   });
 
   it('should replace the img src, width and class', () => {
