@@ -288,10 +288,6 @@ export type SpaceContent = {
   createdAt: string;
 };
 
-export type LabelsContent = LabelsArray;
-
-export type PropertiesContent = Properties;
-
 export type AuthorContent = {
   type: string;
   accountId: string;
@@ -322,8 +318,8 @@ export type ContentRestAPIv2 = {
   [key: string]: any;
   pageContent: PageContent;
   spaceContent: SpaceContent;
-  labelsContent: LabelsContent;
-  propertiesContent: PropertiesContent;
+  labelsContent: LabelsArray;
+  propertiesContent: Properties;
   authorContent: AuthorContent;
   versionAuthorContent: VersionAuthorContent;
 };
