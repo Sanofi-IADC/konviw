@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
-import { AxiosResponse } from 'axios'; // eslint-disable-line import/no-extraneous-dependencies
+import { AxiosRequestConfig, AxiosResponse } from 'axios'; // eslint-disable-line import/no-extraneous-dependencies
 import { firstValueFrom } from 'rxjs';
 import {
   Content,
@@ -40,12 +40,8 @@ export class ConfluenceService {
   ): Promise<Content> {
     try {
       const [typeContentResponse, spaceContentResponse]: AxiosResponse[] = await Promise.all([
-        firstValueFrom(
-          this.http.post('/wiki/api/v2/content/convert-ids-to-types', { contentIds: [pageId] }),
-        ),
-        firstValueFrom(
-          this.http.get(`/wiki/api/v2/spaces?keys=${spaceKey}`),
-        ),
+        this.getContentType(pageId),
+        this.getSpaceData(spaceKey),
       ]);
 
       const spaceContent = this.getSpaceContent(spaceContentResponse);
@@ -61,34 +57,15 @@ export class ConfluenceService {
           params['space-id'] = spaceContent.id;
         }
 
-        const getPageContentByFormats = async () => {
-          const [viewFormat, storageFormat] = await Promise.all([
-            firstValueFrom(
-              this.http.get<any>(`/wiki/api/v2/${contentType}/${pageId}`, { params: { ...params, 'body-format': 'view' } }),
-            ),
-            firstValueFrom(
-              this.http.get<any>(`/wiki/api/v2/${contentType}/${pageId}`, { params: { ...params, 'body-format': 'storage' } }),
-            ),
-          ]);
-          return { ...viewFormat.data, body: { ...viewFormat.data.body, ...storageFormat.data.body } };
-        };
-
-        const getPageContentByArea = async (area: string) => {
-          const { data } = await firstValueFrom(
-            this.http.get<any>(`/wiki/api/v2/${contentType}/${pageId}/${area}`, { params }),
-          );
-          return data;
-        };
-
         const [pageContent, labelsContent, propertiesContent] = await Promise.all([
-          getPageContentByFormats(),
-          getPageContentByArea('labels'),
-          getPageContentByArea('properties'),
+          this.getContentTypeBody(contentType, pageId, params),
+          this.getContentTypeResource(contentType, pageId, 'labels', params),
+          this.getContentTypeResource(contentType, pageId, 'properties', params),
         ]);
 
         const [authorContent, versionAuthorContent] = await Promise.all([
-          this.getAccountDataById(pageContent.authorId),
-          this.getAccountDataById(pageContent.version.authorId),
+          this.getAccountDataById((pageContent as Content['pageContent']).authorId),
+          this.getAccountDataById((pageContent as Content['pageContent']).version.authorId),
         ]);
 
         const convertedPagePropertiesContentToObject = propertiesContent.results.reduce((acc, property) => {
@@ -316,9 +293,7 @@ export class ConfluenceService {
 
   async getAttachments(pageId: string): Promise<Attachment[]> {
     // from API v2 we have to use first this API to identify the proper content from the pageID
-    const typeContentResponse: AxiosResponse = await firstValueFrom(
-      this.http.post('/wiki/api/v2/content/convert-ids-to-types', { contentIds: [pageId] }),
-    );
+    const typeContentResponse: AxiosResponse = await this.getContentType(pageId);
     const contentType = this.getApiEndPoint(typeContentResponse, pageId);
     if (contentType) {
       try {
@@ -363,5 +338,45 @@ export class ConfluenceService {
   /* eslint-disable class-methods-use-this */
   private getApiEndPoint(typeContent: any, pageId: string): string {
     return typeContent?.data.results[pageId] === 'page' ? 'pages' : 'blogposts';
+  }
+
+  private async getSpaceData(spaceKey: string) {
+    return firstValueFrom(
+      this.http.get(`/wiki/api/v2/spaces?keys=${spaceKey}`),
+    );
+  }
+
+  private async getContentType(pageId: string): Promise<any> {
+    return firstValueFrom(
+      this.http.post('/wiki/api/v2/content/convert-ids-to-types', { contentIds: [pageId] }),
+    );
+  }
+
+  private async getContentTypeBody(
+    contentType: string,
+    pageId: string,
+    params: AxiosRequestConfig<any>['params'],
+  ): Promise<Content['pageContent'] | Content> {
+    const [viewFormat, storageFormat] = await Promise.all([
+      firstValueFrom(
+        this.http.get<any>(`/wiki/api/v2/${contentType}/${pageId}`, { params: { ...params, 'body-format': 'view' } }),
+      ),
+      firstValueFrom(
+        this.http.get<any>(`/wiki/api/v2/${contentType}/${pageId}`, { params: { ...params, 'body-format': 'storage' } }),
+      ),
+    ]);
+    return { ...viewFormat.data, body: { ...viewFormat.data.body, ...storageFormat.data.body } };
+  }
+
+  private async getContentTypeResource(
+    contentType: string,
+    pageId: string,
+    resource: string,
+    params: AxiosRequestConfig<any>['params'],
+  ): Promise<Content['labelsContent'] | Content['Properties']> {
+    const { data } = await firstValueFrom(
+      this.http.get<any>(`/wiki/api/v2/${contentType}/${pageId}/${resource}`, { params }),
+    );
+    return data;
   }
 }

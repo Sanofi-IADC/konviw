@@ -1,45 +1,16 @@
+import { formatDistance } from 'date-fns';
 import { Content } from '../confluence/confluence.interface';
 import { ApiVersion } from './context.interface';
 
-/*
- * Get the amount of time from now for a date
- * (c) 2019 Chris Ferdinandi, MIT License
- * https://gomakethings.com/a-vanilla-js-alternative-to-the-moment.js-timefromnow-method/
- * @param  {String} The date to get the time from now for
- * @return {String} The time from now data
- */
-export const timeFromNow = (TimeToConvert: string): string => {
-  // Get timestamps
-  const unixTime = new Date(TimeToConvert).getTime();
-  if (!unixTime) return '';
-  const now = new Date().getTime();
-  // Calculate difference
-  let difference = unixTime / 1000 - now / 1000;
-  // Convert difference to absolute
-  difference = Math.abs(difference);
-  let unitOfTime = '';
-  let time = 0;
-  // Calculate time unit
-  if (difference / (60 * 60 * 24 * 365) > 1) {
-    unitOfTime = 'years';
-    time = Math.floor(difference / (60 * 60 * 24 * 365));
-  } else if (difference / (60 * 60 * 24 * 45) > 1) {
-    unitOfTime = 'months';
-    time = Math.floor(difference / (60 * 60 * 24 * 45));
-  } else if (difference / (60 * 60 * 24) > 1) {
-    unitOfTime = 'days';
-    time = Math.floor(difference / (60 * 60 * 24));
-  } else if (difference / (60 * 60) > 1) {
-    unitOfTime = 'hours';
-    time = Math.floor(difference / (60 * 60));
-  } else {
-    unitOfTime = 'seconds';
-    time = Math.floor(difference);
-  }
-  // Return time from now data
-  return `${time} ${unitOfTime} ago`;
-};
+export const timeFromNow = (TimeToConvert: string): string =>
+  formatDistance(new Date(TimeToConvert), new Date(), { addSuffix: true });
 
+/**
+ * ### Content Migration Helper
+ * The following list of features is used in the migration process.
+ * After its completion, please remove the function and apply the code ultimately at the website level.
+ * Anonymous functions are helpful in the fact that we collect data and get from it only within the api version, which avoids errors.
+ */
 export const setTitleHelper = (data: Content, apiVersion: ApiVersion) => {
   const config = {
     v1: () => data.title,
