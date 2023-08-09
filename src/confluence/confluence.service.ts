@@ -316,20 +316,19 @@ export class ConfluenceService {
 
   async getAttachments(pageId: string): Promise<Attachment[]> {
     // from API v2 we have to use first this API to identify the proper content from the pageID
-    const typeContent: AxiosResponse = await firstValueFrom(
+    const typeContentResponse: AxiosResponse = await firstValueFrom(
       this.http.post('/wiki/api/v2/content/convert-ids-to-types', { contentIds: [pageId] }),
     );
-    if (typeContent?.data.results[pageId]) {
-      // set the proper API endpoint based on the appropiate content
-      const apiEndPoint = typeContent?.data.results[pageId] === 'page' ? 'pages' : 'blogposts';
+    const contentType = this.getApiEndPoint(typeContentResponse, pageId);
+    if (contentType) {
       try {
         const results: AxiosResponse = await firstValueFrom(
-          this.http.get(`/wiki/api/v2/${apiEndPoint}/${pageId}/attachments`),
+          this.http.get(`/wiki/api/v2/${contentType}/${pageId}/attachments`),
         );
-        this.logger.log(`Retrieving attachments from ${typeContent?.data.results[pageId]} ${pageId} via REST API v2`);
+        this.logger.log(`Retrieving attachments from ${contentType} ${pageId} via REST API v2`);
         return results.data?.results;
       } catch (err: any) {
-        this.logger.log(err, `error:getAttachments from ${typeContent?.data.results[pageId]} ${pageId}`);
+        this.logger.log(err, `error:getAttachments from ${contentType} ${pageId}`);
         return undefined;
       }
     }
