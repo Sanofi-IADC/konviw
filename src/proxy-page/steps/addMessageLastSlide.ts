@@ -13,12 +13,9 @@ export default (): Step => (context: ContextService): void => {
       function updateMessageVisibility() {
         const lastSlideIndex = Reveal.getHorizontalSlides().length - 1;
         const isLastSlide = Reveal.getIndices().h === lastSlideIndex;
-        console.log(lastSlideIndex,isLastSlide);
-        console.log(Reveal.getIndices().h);
         if (isLastSlide){
           document.querySelector('.message').style.display = 'block';
-        }
-        else{
+        } else{
           document.querySelector('.message').style.display = 'none';
         }
       }

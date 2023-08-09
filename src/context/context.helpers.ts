@@ -1,4 +1,5 @@
 import { Content } from '../confluence/confluence.interface';
+import { ApiVersion } from './context.interface';
 
 /*
  * Get the amount of time from now for a date
@@ -39,7 +40,7 @@ export const timeFromNow = (TimeToConvert: string): string => {
   return `${time} ${unitOfTime} ago`;
 };
 
-export const setTitleHelper = (data: Content, apiVersion: string) => {
+export const setTitleHelper = (data: Content, apiVersion: ApiVersion) => {
   const config = {
     v1: () => data.title,
     v2: () => data.pageContent.title,
@@ -47,7 +48,7 @@ export const setTitleHelper = (data: Content, apiVersion: string) => {
   return config[apiVersion]();
 };
 
-export const setSpaceKeyHelper = (data: Content, apiVersion: string) => {
+export const setSpaceKeyHelper = (data: Content, apiVersion: ApiVersion) => {
   const config = {
     v1: () => {
       const [,,,, key] = data._expandable.space.split('/');
@@ -58,7 +59,7 @@ export const setSpaceKeyHelper = (data: Content, apiVersion: string) => {
   return config[apiVersion]();
 };
 
-export const setHtmlBodyHelper = (data: Content, apiVersion: string) => {
+export const setHtmlBodyHelper = (data: Content, apiVersion: ApiVersion) => {
   const config = {
     v1: () => data.body.view.value,
     v2: () => data.pageContent.body.view.value,
@@ -66,15 +67,15 @@ export const setHtmlBodyHelper = (data: Content, apiVersion: string) => {
   return config[apiVersion]();
 };
 
-export const setBodyStorageHelper = (data: Content, apiVersion: string) => {
+export const setBodyStorageHelper = (data: Content, apiVersion: ApiVersion) => {
   const config = {
-    v1: () => data.body?.storage.value,
+    v1: () => data.body?.storage?.value,
     v2: () => data.pageContent?.body?.storage?.value,
   };
   return config[apiVersion]();
 };
 
-export const setAuthorHelper = (data: Content, apiVersion: string) => {
+export const setAuthorHelper = (data: Content, apiVersion: ApiVersion) => {
   const config = {
     v1: () => data.history.createdBy?.displayName,
     v2: () => data.authorContent.publicName,
@@ -82,7 +83,7 @@ export const setAuthorHelper = (data: Content, apiVersion: string) => {
   return config[apiVersion]();
 };
 
-export const setEmailHelper = (data: Content, apiVersion: string) => {
+export const setEmailHelper = (data: Content, apiVersion: ApiVersion) => {
   const config = {
     v1: () => data.history.createdBy?.email,
     v2: () => data.authorContent.email,
@@ -90,7 +91,7 @@ export const setEmailHelper = (data: Content, apiVersion: string) => {
   return config[apiVersion]();
 };
 
-export const setAvatarHelper = (baseHost: string, basePath: string, data: Content, apiVersion: string) => {
+export const setAvatarHelper = (baseHost: string, basePath: string, data: Content, apiVersion: ApiVersion) => {
   const config = {
     v1: () => `${baseHost}${basePath}/${data.history.createdBy?.profilePicture.path.replace(
       /^\/wiki/,
@@ -104,7 +105,7 @@ export const setAvatarHelper = (baseHost: string, basePath: string, data: Conten
   return config[apiVersion]();
 };
 
-export const setWhenHelper = (data: Content, apiVersion: string) => {
+export const setWhenHelper = (data: Content, apiVersion: ApiVersion) => {
   const config = {
     v1: () => data.history.createdDate,
     v2: () => data.pageContent.createdAt,
@@ -112,7 +113,7 @@ export const setWhenHelper = (data: Content, apiVersion: string) => {
   return config[apiVersion]();
 };
 
-export const setLabelsHelper = (data: Content, apiVersion: string) => {
+export const setLabelsHelper = (data: Content, apiVersion: ApiVersion) => {
   const config = {
     v1: () => data.metadata.labels.results,
     v2: () => data.labelsContent.results,
@@ -120,7 +121,7 @@ export const setLabelsHelper = (data: Content, apiVersion: string) => {
   return config[apiVersion]();
 };
 
-export const setCreatedVersionHelper = (data: Content, apiVersion: string, getAvatar: () => string) => {
+export const setCreatedVersionHelper = (data: Content, apiVersion: ApiVersion, getAvatar: () => string) => {
   const config = {
     v1: () => ({
       when: data.history.createdDate,
@@ -147,7 +148,7 @@ export const setCreatedVersionHelper = (data: Content, apiVersion: string, getAv
   };
 };
 
-export const setLastVersionHelper = (baseHost: string, basePath: string, data: Content, apiVersion: string) => {
+export const setLastVersionHelper = (baseHost: string, basePath: string, data: Content, apiVersion: ApiVersion) => {
   const config = {
     v1: () => ({
       versionNumber: data.version.number,
@@ -179,7 +180,7 @@ export const setLastVersionHelper = (baseHost: string, basePath: string, data: C
   return config[apiVersion]();
 };
 
-export const contentAppearancePublishedHelper = (data: Content, apiVersion: string) => {
+export const contentAppearancePublishedHelper = (data: Content, apiVersion: ApiVersion) => {
   const config = {
     v1: () => data.metadata?.properties['content-appearance-published']?.value,
     v2: () => data.propertiesContent['content-appearance-published']?.value,
@@ -187,7 +188,7 @@ export const contentAppearancePublishedHelper = (data: Content, apiVersion: stri
   return config[apiVersion]();
 };
 
-export const coverPictureIdPublishedHelper = (data: Content, apiVersion: string) => {
+export const coverPictureIdPublishedHelper = (data: Content, apiVersion: ApiVersion) => {
   const config = {
     v1: () => data.metadata?.properties['cover-picture-id-published']?.value,
     v2: () => data.propertiesContent['cover-picture-id-published']?.value,
@@ -195,7 +196,7 @@ export const coverPictureIdPublishedHelper = (data: Content, apiVersion: string)
   return config[apiVersion]();
 };
 
-export const emojiTitlePublishedHelper = (data: Content, apiVersion: string) => {
+export const emojiTitlePublishedHelper = (data: Content, apiVersion: ApiVersion) => {
   const config = {
     v1: () => data.metadata?.properties['emoji-title-published']?.value,
     v2: () => data.propertiesContent['emoji-title-published']?.value,

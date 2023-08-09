@@ -3,7 +3,7 @@ import * as cheerio from 'cheerio';
 import { performance, PerformanceObserver } from 'perf_hooks';
 import { ConfigService } from '@nestjs/config';
 import { Content, Label } from '../confluence/confluence.interface';
-import { Version } from './context.interface';
+import { ApiVersion, Version } from './context.interface';
 import {
   contentAppearancePublishedHelper,
   coverPictureIdPublishedHelper,
@@ -44,7 +44,7 @@ export class ContextService {
 
   private view = '';
 
-  private apiVersion: 'v1' | 'v2';
+  private apiVersion: ApiVersion;
 
   private cheerioBody = cheerio.load('html');
 
@@ -85,7 +85,7 @@ export class ContextService {
   constructor(private config: ConfigService) {}
 
   initPageContext(
-    apiVersion: 'v1' | 'v2',
+    apiVersion: ApiVersion,
     spaceKey: string,
     pageId: string,
     theme: string,
@@ -391,11 +391,11 @@ export class ContextService {
     return this.headerEmoji;
   }
 
-  setApiVersion(version: 'v1' | 'v2'): void {
+  setApiVersion(version: ApiVersion): void {
     this.apiVersion = version;
   }
 
-  getApiVersion(): 'v1' | 'v2' {
+  getApiVersion(): ApiVersion {
     return this.apiVersion;
   }
 }
