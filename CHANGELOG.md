@@ -1,3 +1,10 @@
+# [3.18.0](https://github.com/Sanofi-IADC/konviw/compare/v3.17.1...v3.18.0) (2023-08-09)
+
+
+### Features
+
+* WEB-1894 Migrated getPage functionality into Confluence REST API v2 ([2344e73](https://github.com/Sanofi-IADC/konviw/commit/2344e73826d0b9f4c1b5c9d61997d5d24d807f05))
+
 ## [3.17.1](https://github.com/Sanofi-IADC/konviw/compare/v3.17.0...v3.17.1) (2023-07-25)
 
 
