@@ -10,3 +10,5 @@ export interface User {
   email: string;
   profilePicture: string;
 }
+
+export type ApiVersion = 'v1' | 'v2';

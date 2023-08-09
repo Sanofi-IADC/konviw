@@ -1,8 +1,9 @@
 import * as cheerio from 'cheerio';
-import { Content } from '../../confluence/confluence.interface';
 import { MacroSlideSettingsProperty } from './macroSlide.interface';
+import { ContextService } from '../../context/context.service';
 
-export const loadStorageContentToXML = (content: Content) => cheerio.load(content?.body?.storage?.value ?? '', { xmlMode: true });
+export const loadStorageContentToXML = (context: ContextService) =>
+  cheerio.load(context.getBodyStorage(), { xmlMode: true });
 
 export const getMacroSlideSettingsPropertyValueByKey = ($storageContent: cheerio.CheerioAPI, key: string, defaultValue: string):
 MacroSlideSettingsProperty => {
@@ -15,8 +16,8 @@ MacroSlideSettingsProperty => {
   };
 };
 
-export const getObjectFromStorageXMLForPageProperties = (pageProperties: cheerio.Element, content: Content): any => {
-  const $storageContent = loadStorageContentToXML(content);
+export const getObjectFromStorageXMLForPageProperties = (pageProperties: cheerio.Element, context: ContextService): any => {
+  const $storageContent = loadStorageContentToXML(context);
   const dataLocalId = pageProperties.attribs['data-local-id'];
   const storageXML = $storageContent(`ac\\:structured-macro[ac\\:local-id="${dataLocalId}"]`);
   return storageXML;

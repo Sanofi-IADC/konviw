@@ -90,6 +90,7 @@ export class ProxyPageService {
       status,
     );
     this.context.initPageContext(
+      'v2',
       spaceKey,
       pageId,
       theme,
@@ -120,7 +121,7 @@ export class ProxyPageService {
     fixCode()(this.context);
     fixFrameAllowFullscreen()(this.context);
     fixImageSize()(this.context);
-    fixCaptionImage(content)(this.context);
+    fixCaptionImage()(this.context);
     fixColGroupWidth()(this.context);
     if (contextType.includes('blog')) {
       await addHeaderBlog()(this.context);
@@ -190,14 +191,14 @@ export class ProxyPageService {
     fixEmptyLineIncludePage()(this.context);
     fixRoadmap(this.config)(this.context);
     fixImageSize()(this.context);
-    fixCaptionImage(content)(this.context);
+    fixCaptionImage()(this.context);
     fixFrameAllowFullscreen()(this.context);
     fixSVG(this.config)(this.context);
     fixTableBackground()(this.context);
     addTableResponsive()(this.context);
     delUnnecessaryCode()(this.context);
     await addJiraPromise;
-    addSlideTypeByStrategy(content, this.config)(this.context);
+    addSlideTypeByStrategy(this.config)(this.context);
     addSlidesJS(this.config)(this.context);
     addMessageLastSlide()(this.context);
     addWebStatsTracker(this.config)(this.context);

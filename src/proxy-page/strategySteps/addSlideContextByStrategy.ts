@@ -3,8 +3,14 @@ import { ContextService } from '../../context/context.service';
 import { getMacroSlideSettingsPropertyValueByKey, loadStorageContentToXML } from '../utils/macroSlide';
 import { MacroSlideSettingsProperty } from '../utils/macroSlide.interface';
 
-export default (context: ContextService, spaceKey: string, pageId: string, style?: string, content?: Content): void => {
-  const storageXML = loadStorageContentToXML(content);
+export default (
+  context: ContextService,
+  spaceKey: string,
+  pageId: string,
+  style?: string,
+  content?: Content,
+): void => {
+  const storageXML = loadStorageContentToXML(context);
 
   const {
     exist: existSlideStyle,
@@ -17,6 +23,7 @@ export default (context: ContextService, spaceKey: string, pageId: string, style
   }: MacroSlideSettingsProperty = getMacroSlideSettingsPropertyValueByKey(storageXML, 'slide_settings_transition', 'slide');
 
   context.initPageContext(
+    context.getApiVersion(),
     spaceKey,
     pageId,
     'light',

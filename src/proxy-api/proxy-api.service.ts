@@ -3,9 +3,9 @@ import { ConfigService } from '@nestjs/config';
 import { HttpService } from '@nestjs/axios';
 import { ContextService } from '../context/context.service';
 import {
-  Content,
   SearchResults,
   ResultsContent,
+  Content,
 } from '../confluence/confluence.interface';
 import { ConfluenceService } from '../confluence/confluence.service';
 import { JiraService } from '../jira/jira.service';
@@ -83,6 +83,7 @@ export class ProxyApiService {
         const spacekey = doc.resultGlobalContainer.displayUrl.split('/')[2];
         const context = new ContextService(this.config);
         context.initPageContext(
+          'v1',
           spacekey,
           doc.content.id,
           undefined, // theme
@@ -479,7 +480,7 @@ export class ProxyApiService {
     type: string,
   ): Promise<Partial<KonviwContent>> {
     const content: Content = await this.confluence.getPage(spaceKey, pageId);
-    this.context.initPageContext(spaceKey, pageId, undefined, type, undefined, content, false);
+    this.context.initPageContext('v2', spaceKey, pageId, undefined, type, undefined, content, false);
     // TODO: check whether we could add the excerpt and image header image also to the API metadata
     // await getExcerptAndHeaderImage(this.config, this.confluence)(this.context);
     const addJiraPromise = addJira(this.config, this.jira)(this.context);

@@ -30,7 +30,6 @@ describe('proxy-api', () => {
     const res = await request(app.getHttpServer()).get(
       `/api/spaces/konviw/pages/${INTRO_TO_KONVIW_ID}`,
     );
-
     expect(res.statusCode).toBe(HttpStatus.OK);
 
     checkBasicPageEquality(

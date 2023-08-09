@@ -48,9 +48,9 @@ describe('ConfluenceProxy / fixDrawio', () => {
     const moduleRef = await createModuleRefForStep();
     context = moduleRef.get<ContextService>(ContextService);
     config = moduleRef.get<ConfigService>(ConfigService);
-    webBasePath = config.get('web.absoluteBasePath');
+    webBasePath = config.get('web.absoluteBasePath') ?? '';
 
-    context.initPageContext('XXX', '123456', 'dark');
+    context.initPageContext('v2', 'XXX', '123456', 'dark');
     const step = fixDrawio(config);
     context.setHtmlBody(example);
     step(context);

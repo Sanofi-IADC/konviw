@@ -3,7 +3,24 @@ import * as cheerio from 'cheerio';
 import { performance, PerformanceObserver } from 'perf_hooks';
 import { ConfigService } from '@nestjs/config';
 import { Content, Label } from '../confluence/confluence.interface';
-import { Version } from './context.interface';
+import { ApiVersion, Version } from './context.interface';
+import {
+  contentAppearancePublishedHelper,
+  coverPictureIdPublishedHelper,
+  emojiTitlePublishedHelper,
+  setAuthorHelper,
+  setAvatarHelper,
+  setCreatedVersionHelper,
+  setEmailHelper,
+  setBodyStorageHelper,
+  setLabelsHelper,
+  setLastVersionHelper,
+  setSpaceKeyHelper,
+  setTitleHelper,
+  setWhenHelper,
+  timeFromNow,
+  setHtmlBodyHelper,
+} from './context.helpers';
 
 @Injectable()
 export class ContextService {
@@ -27,7 +44,11 @@ export class ContextService {
 
   private view = '';
 
+  private apiVersion: ApiVersion;
+
   private cheerioBody = cheerio.load('html');
+
+  private bodyStorage = '';
 
   private title = '';
 
@@ -64,6 +85,7 @@ export class ContextService {
   constructor(private config: ConfigService) {}
 
   initPageContext(
+    apiVersion: ApiVersion,
     spaceKey: string,
     pageId: string,
     theme: string,
@@ -89,6 +111,8 @@ export class ContextService {
       this.observer.observe({ entryTypes: ['measure'], buffered: false });
     }
 
+    this.setApiVersion(apiVersion);
+
     if (view) {
       this.setView(view);
     }
@@ -96,64 +120,29 @@ export class ContextService {
       const baseHost = this.config.get('web.baseHost');
       const basePath = this.config.get('web.basePath');
 
-      this.setTitle(data.title);
-      [,,,, this.spaceKey] = data._expandable.space.split('/');
-      this.setHtmlBody(data.body.view.value, loadAsDocument);
-      this.setAuthor(data.history.createdBy?.displayName);
-      this.setEmail(data.history.createdBy?.email);
-      this.setAvatar(
-        `${baseHost}${basePath}/${data.history.createdBy?.profilePicture.path.replace(
-          /^\/wiki/,
-          'wiki',
-        )}`,
-      );
-      this.setWhen(data.history.createdDate);
-      this.setLabels(data.metadata.labels.results);
+      this.setTitle(setTitleHelper(data, apiVersion));
+      this.spaceKey = setSpaceKeyHelper(data, apiVersion);
+      this.setHtmlBody(setHtmlBodyHelper(data, apiVersion), loadAsDocument);
+      this.setBodyStorage(setBodyStorageHelper(data, apiVersion));
+      this.setAuthor(setAuthorHelper(data, apiVersion));
+      this.setEmail(setEmailHelper(data, apiVersion));
+      this.setAvatar(setAvatarHelper(baseHost, basePath, data, apiVersion));
+      this.setWhen(setWhenHelper(data, apiVersion));
+      this.setLabels(setLabelsHelper(data, apiVersion));
+      this.setCreatedVersion(setCreatedVersionHelper(data, apiVersion, () => this.getAvatar()));
+      this.setLastVersion(setLastVersionHelper(baseHost, basePath, data, apiVersion));
 
-      const createdBy: Version = {
-        versionNumber: 1,
-        when: data.history.createdDate,
-        friendlyWhen: timeFromNow(data.history.createdDate),
-        modificationBy: {
-          displayName: data.history.createdBy?.displayName,
-          email: data.history.createdBy?.email,
-          profilePicture: this.getAvatar(),
-        },
-      };
-      this.setCreatedVersion(createdBy);
-
-      const modifiedBy: Version = {
-        versionNumber: data.version.number,
-        when: data.version.when,
-        friendlyWhen: timeFromNow(data.version.when),
-        modificationBy: {
-          displayName: data.version.by.publicName,
-          email: data.version.by.email,
-          profilePicture: `${baseHost}${basePath}/${data.version.by.profilePicture?.path.replace(
-            /^\/wiki/,
-            'wiki',
-          )}`,
-        },
-      };
-      this.setLastVersion(modifiedBy);
-
-      if (
-        data.metadata?.properties['content-appearance-published']
-        && data.metadata?.properties['content-appearance-published'].value
-          === 'full-width'
-      ) {
+      const contentAppearancePublished = contentAppearancePublishedHelper(data, apiVersion);
+      if (contentAppearancePublished === 'full-width') {
         this.setFullWidth(true);
       } else {
         this.setFullWidth(false);
       }
 
       // retrieve the header image published and set in context
-      if (data.metadata?.properties['cover-picture-id-published']) {
-        this.setHeaderImage(
-          JSON.parse(
-            data.metadata?.properties['cover-picture-id-published'].value,
-          ).id,
-        );
+      const coverPictureIdPublished = coverPictureIdPublishedHelper(data, apiVersion);
+      if (coverPictureIdPublished) {
+        this.setHeaderImage(JSON.parse(coverPictureIdPublished).id);
         logger.log(
           `GET cover-picture-id-published to set context 'headerImage' to ${this.getHeaderImage()}`,
         );
@@ -162,10 +151,9 @@ export class ContextService {
       }
 
       // retrieve the header emoji published and set in context
-      if (data.metadata?.properties['emoji-title-published']) {
-        this.setHeaderEmoji(
-          data.metadata?.properties['emoji-title-published'].value,
-        );
+      const emojiTitlePublished = emojiTitlePublishedHelper(data, apiVersion);
+      if (emojiTitlePublished) {
+        this.setHeaderEmoji(emojiTitlePublished);
         logger.log(
           `GET emoji-title-published to set context 'headerEmoji' to ${this.getHeaderEmoji()}`,
         );
@@ -243,6 +231,14 @@ export class ContextService {
 
   getHtmlBody(): string {
     return this.getCheerioBody().html();
+  }
+
+  setBodyStorage(body: string) {
+    this.bodyStorage = body;
+  }
+
+  getBodyStorage(): string {
+    return this.bodyStorage;
   }
 
   getHtmlInnerBody(): string {
@@ -394,47 +390,12 @@ export class ContextService {
   getHeaderEmoji(): string {
     return this.headerEmoji;
   }
-}
 
-/*
- * Get the amount of time from now for a date
- * (c) 2019 Chris Ferdinandi, MIT License
- * https://gomakethings.com/a-vanilla-js-alternative-to-the-moment.js-timefromnow-method/
- * @param  {String} The date to get the time from now for
- * @return {String} The time from now data
- */
-function timeFromNow(TimeToConvert: string): string {
-  // Get timestamps
-  const unixTime = new Date(TimeToConvert).getTime();
-  if (!unixTime) return '';
-  const now = new Date().getTime();
-
-  // Calculate difference
-  let difference = unixTime / 1000 - now / 1000;
-
-  // Convert difference to absolute
-  difference = Math.abs(difference);
-  let unitOfTime = '';
-  let time = 0;
-
-  // Calculate time unit
-  if (difference / (60 * 60 * 24 * 365) > 1) {
-    unitOfTime = 'years';
-    time = Math.floor(difference / (60 * 60 * 24 * 365));
-  } else if (difference / (60 * 60 * 24 * 45) > 1) {
-    unitOfTime = 'months';
-    time = Math.floor(difference / (60 * 60 * 24 * 45));
-  } else if (difference / (60 * 60 * 24) > 1) {
-    unitOfTime = 'days';
-    time = Math.floor(difference / (60 * 60 * 24));
-  } else if (difference / (60 * 60) > 1) {
-    unitOfTime = 'hours';
-    time = Math.floor(difference / (60 * 60));
-  } else {
-    unitOfTime = 'seconds';
-    time = Math.floor(difference);
+  setApiVersion(version: ApiVersion): void {
+    this.apiVersion = version;
   }
 
-  // Return time from now data
-  return `${time} ${unitOfTime} ago`;
+  getApiVersion(): ApiVersion {
+    return this.apiVersion;
+  }
 }

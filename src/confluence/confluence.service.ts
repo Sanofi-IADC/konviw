@@ -6,9 +6,13 @@ import {
 } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
-import { AxiosResponse } from 'axios'; // eslint-disable-line import/no-extraneous-dependencies
+import { AxiosRequestConfig, AxiosResponse } from 'axios'; // eslint-disable-line import/no-extraneous-dependencies
 import { firstValueFrom } from 'rxjs';
-import { Content, SearchResults, Attachment } from './confluence.interface';
+import {
+  Content,
+  SearchResults,
+  Attachment,
+} from './confluence.interface';
 
 @Injectable()
 export class ConfluenceService {
@@ -34,56 +38,67 @@ export class ConfluenceService {
     version?: string,
     status?: string,
   ): Promise<Content> {
-    let results: AxiosResponse<Content>;
     try {
-      const uri = version ? `${pageId}/version/${version}` : `${pageId}`;
-      const prefix = version ? 'content.' : '';
-      // default to 'current'
-      const statusPage = status ?? 'current';
-      this.logger.log(`Retrieving page ${pageId}`);
-      this.logger.log(`Retrieving version ${version}`);
-      results = await firstValueFrom(
-        this.http.get<Content>(`/wiki/rest/api/content/${uri}`, {
-          params: {
-            type: 'page',
-            status: statusPage,
-            spaceKey,
-            // select special fields to retrieve
-            expand: [
-              // content body with html tags
-              `${prefix}body.view`,
-              // content body with macro confluence attribiutes
-              `${prefix}body.storage`,
-              // contains the value 'full-width' when pages are displayed in full width
-              `${prefix}metadata.properties.content_appearance_published`,
-              // labels defined for the page
-              `${prefix}metadata.labels`,
-              `${prefix}version`,
-              `${prefix}history`,
-              // header image if any defined
-              `${prefix}metadata.properties.cover_picture_id_published`,
-              // title emoji if any defined
-              `${prefix}metadata.properties.emoji_title_published`,
-            ].join(','),
-          },
-        }),
-      );
+      const [typeContentResponse, spaceContentResponse]: AxiosResponse[] = await Promise.all([
+        this.getContentType(pageId),
+        this.getSpaceData(spaceKey),
+      ]);
+
+      const spaceContent = this.getSpaceContent(spaceContentResponse);
+      const contentType = this.getApiEndPoint(typeContentResponse, pageId);
+
+      if (contentType) {
+        const params = {
+          version,
+          status: status ?? 'current',
+        };
+
+        if (spaceContent) {
+          params['space-id'] = spaceContent.id;
+        }
+
+        const [pageContent, labelsContent, propertiesContent] = await Promise.all([
+          this.getContentTypeBody(contentType, pageId, params),
+          this.getContentTypeResource(contentType, pageId, 'labels', params),
+          this.getContentTypeResource(contentType, pageId, 'properties', params),
+        ]);
+
+        const [authorContent, versionAuthorContent] = await Promise.all([
+          this.getAccountDataById((pageContent as Content['pageContent']).authorId),
+          this.getAccountDataById((pageContent as Content['pageContent']).version.authorId),
+        ]);
+
+        const convertedPagePropertiesContentToObject = propertiesContent.results.reduce((acc, property) => {
+          acc[property.key] = { ...property };
+          return acc;
+        }, {});
+
+        const content = {
+          pageContent,
+          spaceContent: spaceContent ?? { key: spaceKey },
+          labelsContent,
+          propertiesContent: convertedPagePropertiesContentToObject,
+          authorContent,
+          versionAuthorContent,
+        };
+
+        // Check if the label defined in configuration for private pages is present in the metadata labels
+        if (
+          content.labelsContent.results.find(
+            (label: { name: string }) =>
+              label.name === this.config.get('konviw.private'),
+          )
+        ) {
+          this.logger.log(`Page ${pageId} can't be rendered because is private`);
+          throw new ForbiddenException('This page is private.');
+        }
+        return content as Content;
+      }
+      return undefined;
     } catch (err) {
       this.logger.log(err, 'error:getPage');
       throw new HttpException(`${err}\nPage ${pageId} Not Found`, 404);
     }
-    const content: Content = version ? results.data.content : results.data;
-    // Check if the label defined in configuration for private pages is present in the metadata labels
-    if (
-      content.metadata.labels.results.find(
-        (label: { name: string }) =>
-          label.name === this.config.get('konviw.private'),
-      )
-    ) {
-      this.logger.log(`Page ${pageId} can't be rendered because is private`);
-      throw new ForbiddenException('This page is private.');
-    }
-    return content;
   }
 
   /**
@@ -278,20 +293,17 @@ export class ConfluenceService {
 
   async getAttachments(pageId: string): Promise<Attachment[]> {
     // from API v2 we have to use first this API to identify the proper content from the pageID
-    const typeContent: AxiosResponse = await firstValueFrom(
-      this.http.post('/wiki/api/v2/content/convert-ids-to-types', { contentIds: [pageId] }),
-    );
-    if (typeContent?.data.results[pageId]) {
-      // set the proper API endpoint based on the appropiate content
-      const apiEndPoint = typeContent?.data.results[pageId] === 'page' ? 'pages' : 'blogposts';
+    const typeContentResponse: AxiosResponse = await this.getContentType(pageId);
+    const contentType = this.getApiEndPoint(typeContentResponse, pageId);
+    if (contentType) {
       try {
         const results: AxiosResponse = await firstValueFrom(
-          this.http.get(`/wiki/api/v2/${apiEndPoint}/${pageId}/attachments`),
+          this.http.get(`/wiki/api/v2/${contentType}/${pageId}/attachments`),
         );
-        this.logger.log(`Retrieving attachments from ${typeContent?.data.results[pageId]} ${pageId} via REST API v2`);
+        this.logger.log(`Retrieving attachments from ${contentType} ${pageId} via REST API v2`);
         return results.data?.results;
       } catch (err: any) {
-        this.logger.log(err, `error:getAttachments from ${typeContent?.data.results[pageId]} ${pageId}`);
+        this.logger.log(err, `error:getAttachments from ${contentType} ${pageId}`);
         return undefined;
       }
     }
@@ -309,5 +321,62 @@ export class ConfluenceService {
       return results.find(({ id }) => id === image);
     }
     return results;
+  }
+
+  private async getAccountDataById(accountId: string): Promise<any> {
+    const { data } = await firstValueFrom(
+      this.http.get<Content>(`wiki/rest/api/user?accountId=${accountId}`),
+    );
+    return data;
+  }
+
+  /* eslint-disable class-methods-use-this */
+  private getSpaceContent(spaceContentResponse): any {
+    return spaceContentResponse.data.results[0];
+  }
+
+  /* eslint-disable class-methods-use-this */
+  private getApiEndPoint(typeContent: any, pageId: string): string {
+    return typeContent?.data.results[pageId] === 'page' ? 'pages' : 'blogposts';
+  }
+
+  private async getSpaceData(spaceKey: string) {
+    return firstValueFrom(
+      this.http.get(`/wiki/api/v2/spaces?keys=${spaceKey}`),
+    );
+  }
+
+  private async getContentType(pageId: string): Promise<any> {
+    return firstValueFrom(
+      this.http.post('/wiki/api/v2/content/convert-ids-to-types', { contentIds: [pageId] }),
+    );
+  }
+
+  private async getContentTypeBody(
+    contentType: string,
+    pageId: string,
+    params: AxiosRequestConfig<any>['params'],
+  ): Promise<Content['pageContent'] | Content> {
+    const [viewFormat, storageFormat] = await Promise.all([
+      firstValueFrom(
+        this.http.get<any>(`/wiki/api/v2/${contentType}/${pageId}`, { params: { ...params, 'body-format': 'view' } }),
+      ),
+      firstValueFrom(
+        this.http.get<any>(`/wiki/api/v2/${contentType}/${pageId}`, { params: { ...params, 'body-format': 'storage' } }),
+      ),
+    ]);
+    return { ...viewFormat.data, body: { ...viewFormat.data.body, ...storageFormat.data.body } };
+  }
+
+  private async getContentTypeResource(
+    contentType: string,
+    pageId: string,
+    resource: string,
+    params: AxiosRequestConfig<any>['params'],
+  ): Promise<Content['labelsContent'] | Content['Properties']> {
+    const { data } = await firstValueFrom(
+      this.http.get<any>(`/wiki/api/v2/${contentType}/${pageId}/${resource}`, { params }),
+    );
+    return data;
   }
 }
