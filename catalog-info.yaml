@@ -1,0 +1,11 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: Konviw
+  description: Enterprise public viewer for your Confluence pages
+  annotations:
+    github.com/project-slug: Sanofi-IADC/konviw
+spec:
+  type: service
+  owner: Sanofi-IADC/konviw
+  lifecycle: experimental
