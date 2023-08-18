@@ -47,6 +47,7 @@ import fixConfluenceSpace from './steps/fixConfluenceSpace';
 import addTableResponsive from './steps/addTableResponsive';
 import addAuthorVersion from './steps/addAuthorVersion';
 import addMessageLastSlide from './steps/addMessageLastSlide';
+import addPDF from './steps/addPDF';
 
 @Injectable()
 export class ProxyPageService {
@@ -146,6 +147,7 @@ export class ProxyPageService {
     await addJiraPromise;
     addLibrariesJS()(this.context);
     addUnsupportedMacroIndicator()(this.context);
+    await addPDF(this.config, this.confluence)(this.context);
     this.context.Close();
     return this.context.getHtmlBody();
   }
@@ -202,6 +204,7 @@ export class ProxyPageService {
     addSlidesJS(this.config)(this.context);
     addMessageLastSlide()(this.context);
     addWebStatsTracker(this.config)(this.context);
+    await addPDF(this.config, this.confluence)(this.context);
     this.context.Close();
     return this.context.getHtmlBody();
   }
