@@ -10,7 +10,6 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => a
 
   const $ = context.getCheerioBody();
 
-
   const confluenceSpaceClassList = 'confluence-space';
   const confluenceSpaceIconClassList = 'confluence-space-icon';
 
