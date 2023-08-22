@@ -3,8 +3,9 @@ import { ConfigService } from '@nestjs/config';
 import { createModuleRefForStep } from '../steps/utils';
 import { confluenceMockServiceFactory } from '../mocks/confluenceService';
 import { jiraMockServiceFactory } from '../mocks/jiraService';
+import { mockPdfData, axiosdata } from '../mocks/mockAxios';
+import axios from 'axios';
 import * as fs from 'fs';
-
 /**
  * An html context which each step should have things to fix/do
  */
@@ -51,9 +52,11 @@ describe('Speed / Steps', () => {
 
   const argumentsFactory = (filename: string) => {
     switch (filename) {
-      case 'addPDF':
       case 'fixConfluenceSpace':
       case 'fixEmojis': {
+        return confluenceMockServiceFactory;
+      }
+      case 'addPDF':{
         return confluenceMockServiceFactory;
       }
       case 'fixLinks': {
@@ -71,6 +74,7 @@ describe('Speed / Steps', () => {
   });
 
   it(`Should execute each step under ${timeExpected}ms ${iteration} times in a row`, async () => {
+
     // Reading of the step files
     const files = await fs.promises.readdir('src/proxy-page/steps');
     for (const file of files) {
@@ -86,6 +90,9 @@ describe('Speed / Steps', () => {
       if (!module) break;
       // Get the step from the module
       const additionalStepArguments = argumentsFactory(filename);
+      if(filename==="AddPDF"){
+        (axios as any).get = axiosdata;
+      }
       const step = module.default(config, additionalStepArguments);
       // Do the speed test
       for (let i = 0; i < iteration; i++) {

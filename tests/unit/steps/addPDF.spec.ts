@@ -5,6 +5,8 @@ import addPDF from '../../../src/proxy-page/steps/addPDF';
 import { createModuleRefForStep } from './utils';
 import { confluenceMockServiceFactory } from '../mocks/confluenceService';
 import axios from 'axios';
+import { mockPdfData, axiosdata } from '../mocks/mockAxios'; // Adjust the path
+
 
 describe('Add PDF', () => {
     let context: ContextService;
@@ -21,16 +23,7 @@ describe('Add PDF', () => {
     });
   
     it('should replace media viewer content by iframe', async () => {
-      const mockPdfData = {
-          data: 'c2FsdXQ=',
-          pdfData: {
-              title: 'test.pdf',
-          },
-      };
-        
-      const axiosdata = jest.spyOn(axios, 'get').mockResolvedValue({
-        data: mockPdfData,
-      });
+      (axios as any).get = axiosdata;
       const step = addPDF(config, confluenceMockServiceFactory);
       context.setHtmlBody(input);
       await step(context);
