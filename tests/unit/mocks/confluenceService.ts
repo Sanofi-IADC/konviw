@@ -52,6 +52,7 @@ const GET_ATTACHMENTS = jest.fn().mockImplementation(() => ([{
 
 
 
+
 export const confluenceMockServiceFactory = {
   getSpaceMetadata: GET_SPACE_METADATA,
   getSpecialAtlassianIcons: GET_SPECIAL_ATLASSIAN_ICONS,
