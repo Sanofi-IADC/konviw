@@ -14,7 +14,6 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => a
   const attachments = await confluence.getAttachments(context.getPageId());
 
   const attachmentsPDF = attachments.filter((attachemnt) => attachemnt.mediaType === 'application/pdf');
-
   const attachmentsPDFPromises = attachmentsPDF.map(async (pdfData) => {
     const { data } = await axios.get(`${webBasePath}/wiki${pdfData.downloadLink}`, {
       responseType: 'arraybuffer',

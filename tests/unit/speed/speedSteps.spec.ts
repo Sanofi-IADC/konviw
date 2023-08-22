@@ -51,6 +51,7 @@ describe('Speed / Steps', () => {
 
   const argumentsFactory = (filename: string) => {
     switch (filename) {
+      case 'addPDF':
       case 'fixConfluenceSpace':
       case 'fixEmojis': {
         return confluenceMockServiceFactory;
