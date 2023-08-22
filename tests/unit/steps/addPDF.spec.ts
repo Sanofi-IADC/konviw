@@ -4,8 +4,9 @@ import { HttpService } from '@nestjs/axios';
 import addPDF from '../../../src/proxy-page/steps/addPDF';
 import { createModuleRefForStep } from './utils';
 import { confluenceMockServiceFactory } from '../mocks/confluenceService';
+import axios from 'axios';
 
-describe('ConfluenceProxy / fixConfluenceSpace', () => {
+describe('Add PDF', () => {
     let context: ContextService;
     let config: ConfigService;
     let http: HttpService;
@@ -20,6 +21,16 @@ describe('ConfluenceProxy / fixConfluenceSpace', () => {
     });
   
     it('should replace media viewer content by iframe', async () => {
+      const mockPdfData = {
+          data: 'c2FsdXQ=',
+          pdfData: {
+              title: 'test.pdf',
+          },
+      };
+        
+      const axiosdata = jest.spyOn(axios, 'get').mockResolvedValue({
+        data: mockPdfData,
+      });
       const step = addPDF(config, confluenceMockServiceFactory);
       context.setHtmlBody(input);
       await step(context);

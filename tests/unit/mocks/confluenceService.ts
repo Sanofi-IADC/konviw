@@ -24,7 +24,6 @@ const GET_SPECIAL_ATLASSIAN_ICONS = jest.fn().mockImplementation((image: string)
   image ? {} : [],
 );
 const GET_ATTACHMENTS = jest.fn().mockImplementation(() => ([{
-  downloadLink: '/download/attachments/246153217/test.pdf?version=1&modificationDate=1692603703844&cacheVersion=1&api=v2',
   webuiLink: '/pages/viewpageattachments.action?pageId=246153217&preview=%2F246153217%2F246251521%2Ftest.pdf',
   mediaTypeDescription: 'PDF Document',
   id: 'att246251521',
