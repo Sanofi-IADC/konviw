@@ -1,3 +1,17 @@
+# [3.19.0](https://github.com/Sanofi-IADC/konviw/compare/v3.18.0...v3.19.0) (2023-08-23)
+
+
+### Features
+
+* 1986 add pdf and tests ([9d083cc](https://github.com/Sanofi-IADC/konviw/commit/9d083cc41cf8d741b0cc70ff8de9b6d4ebb704bc))
+* 1986 add pdf and tests ([5f7665c](https://github.com/Sanofi-IADC/konviw/commit/5f7665c9817b5153ab7977cf0830b4247050941e))
+* 1986 add pdf and tests ([5e3c70a](https://github.com/Sanofi-IADC/konviw/commit/5e3c70a1793df982027d17df4e98f6debf949824))
+* 1986 add pdf and tests ([3b75bdd](https://github.com/Sanofi-IADC/konviw/commit/3b75bddce55308e2aca8d64fd40ee56c3a9fc4b9))
+* 1986 add pdf and tests ([f931a89](https://github.com/Sanofi-IADC/konviw/commit/f931a896fd7ba7cfd6d2a9356b22c61929a8574c))
+* 1986 add pdf and tests ([5fe7ce6](https://github.com/Sanofi-IADC/konviw/commit/5fe7ce6eacf3cf673cd2684f2244099bccf25227))
+* 1986 add pdf and tests ([aa31601](https://github.com/Sanofi-IADC/konviw/commit/aa31601875d798f6528a6b5d33fdd2bd11cca269))
+* WEB-1986 Added support for pdf macro ([ddcc0d3](https://github.com/Sanofi-IADC/konviw/commit/ddcc0d3d8ee4bfd1847f331890eacf54bcdd03b9))
+
 # [3.18.0](https://github.com/Sanofi-IADC/konviw/compare/v3.17.1...v3.18.0) (2023-08-09)
 
 
