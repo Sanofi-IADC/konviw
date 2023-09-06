@@ -315,7 +315,7 @@ export class ConfluenceService {
       const { data }: AxiosResponse = await firstValueFrom(
         this.http.get(`/wiki${url}`, { responseType: 'arraybuffer' }),
       );
-      this.logger.log(`Retrieving attachments from ${url} via REST API v2`);
+      this.logger.log(`Retrieving attachmentBase64 from ${url} via REST API v2`);
       return data.toString('base64');
     } catch (err: any) {
       this.logger.log(err, `error:getAttachmentBase64 from ${url}`);
