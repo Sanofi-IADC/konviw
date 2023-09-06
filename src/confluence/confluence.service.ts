@@ -310,6 +310,19 @@ export class ConfluenceService {
     return undefined;
   }
 
+  async getAttachmentBase64(url: string): Promise<string> {
+    try {
+      const { data }: AxiosResponse = await firstValueFrom(
+        this.http.get(`/wiki${url}`, { responseType: 'arraybuffer' }),
+      );
+      this.logger.log(`Retrieving attachments from ${url} via REST API v2`);
+      return data.toString('base64');
+    } catch (err: any) {
+      this.logger.log(err, `error:getAttachmentBase64 from ${url}`);
+      return undefined;
+    }
+  }
+
   async getSpecialAtlassianIcons(image?: string): Promise<any> {
     const response: AxiosResponse = await firstValueFrom(
       this.http.get<Content>(

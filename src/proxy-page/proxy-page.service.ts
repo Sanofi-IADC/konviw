@@ -147,7 +147,7 @@ export class ProxyPageService {
     await addJiraPromise;
     addLibrariesJS()(this.context);
     addUnsupportedMacroIndicator()(this.context);
-    await addPDF(this.config, this.confluence)(this.context);
+    await addPDF(this.confluence)(this.context);
     this.context.Close();
     return this.context.getHtmlBody();
   }
@@ -204,7 +204,7 @@ export class ProxyPageService {
     addSlidesJS(this.config)(this.context);
     addMessageLastSlide()(this.context);
     addWebStatsTracker(this.config)(this.context);
-    await addPDF(this.config, this.confluence)(this.context);
+    await addPDF(this.confluence)(this.context);
     this.context.Close();
     return this.context.getHtmlBody();
   }
