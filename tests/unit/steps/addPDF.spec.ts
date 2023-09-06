@@ -21,10 +21,10 @@ describe('Add PDF', () => {
       http = moduleRef.get<HttpService>(HttpService);
       context.initPageContext('v2', 'XXX', '123456', 'dark');
     });
-  
+
     it('should replace media viewer content by iframe', async () => {
       (axios as any).get = axiosdata;
-      const step = addPDF(config, confluenceMockServiceFactory);
+      const step = addPDF(confluenceMockServiceFactory);
       context.setHtmlBody(input);
       await step(context);
       const expected = new RegExp('<html><head></head><body><div id=\"Content\"><div id=\"Content\"><div class=\"office-container\"><iframe src=\"data:application/pdf;base64.*\" width=\"800px\" height=\"400px\"></iframe></div></div></div></body></html>');

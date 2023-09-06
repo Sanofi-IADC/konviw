@@ -48,12 +48,11 @@ const GET_ATTACHMENTS = jest.fn().mockImplementation(() => ([{
   }
 }]));
 
-
-
-
+const GET_ATTACHMENT_BASE64 = jest.fn().mockImplementation(() => 'testBase64');
 
 export const confluenceMockServiceFactory = {
   getSpaceMetadata: GET_SPACE_METADATA,
   getSpecialAtlassianIcons: GET_SPECIAL_ATLASSIAN_ICONS,
-  getAttachments : GET_ATTACHMENTS
+  getAttachments : GET_ATTACHMENTS,
+  getAttachmentBase64: GET_ATTACHMENT_BASE64,
 } as unknown as ConfluenceService;
