@@ -1,3 +1,10 @@
+## [3.19.2](https://github.com/Sanofi-IADC/konviw/compare/v3.19.1...v3.19.2) (2023-09-06)
+
+
+### Bug Fixes
+
+* WEB-2064 Fixed typo attachment base64 method ([683edbd](https://github.com/Sanofi-IADC/konviw/commit/683edbd4e2d1b0dfbaa81392fbc1c7d22f074c6a))
+
 ## [3.19.1](https://github.com/Sanofi-IADC/konviw/compare/v3.19.0...v3.19.1) (2023-09-06)
 
 
