@@ -1,3 +1,10 @@
+## [3.19.1](https://github.com/Sanofi-IADC/konviw/compare/v3.19.0...v3.19.1) (2023-09-06)
+
+
+### Bug Fixes
+
+* WEB-2064 Created seperate method to fetch base64 ([caf7918](https://github.com/Sanofi-IADC/konviw/commit/caf7918781e21dd6ed87c05424556d5bae0335d5))
+
 # [3.19.0](https://github.com/Sanofi-IADC/konviw/compare/v3.18.0...v3.19.0) (2023-08-23)
 
 
