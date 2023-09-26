@@ -48,6 +48,7 @@ import addTableResponsive from './steps/addTableResponsive';
 import addAuthorVersion from './steps/addAuthorVersion';
 import addMessageLastSlide from './steps/addMessageLastSlide';
 import addPDF from './steps/addPDF';
+import fixProfilePicture from './steps/fixProfilePicture';
 
 @Injectable()
 export class ProxyPageService {
@@ -107,6 +108,7 @@ export class ProxyPageService {
     fixHtmlHead(this.config)(this.context);
     fixContentWidth()(this.context);
     fixUserProfile()(this.context);
+    fixProfilePicture()(this.context);
     await fixConfluenceSpace(this.config, this.confluence)(this.context);
     await fixLinks(this.config, this.http, this.jira)(this.context);
     if (view !== 'iframe-resizer') {
@@ -182,6 +184,7 @@ export class ProxyPageService {
     addSlidesCSS(this.config)(this.context);
     fixHtmlHead(this.config)(this.context);
     fixUserProfile()(this.context);
+    fixProfilePicture()(this.context);
     await fixConfluenceSpace(this.config, this.confluence)(this.context);
     await fixLinks(this.config, this.http, this.jira)(this.context);
     fixToc()(this.context);
