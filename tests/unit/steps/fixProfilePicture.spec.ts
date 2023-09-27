@@ -22,7 +22,7 @@ describe('ConfluenceProxy / fixProfilePicture', () => {
       '</body></html>';
     context.setHtmlBody(example);
     step(context);
-    const expected = '<html><head></head><body><div id="Content"></div></body></html>';
+    const expected = '<html><head></head><body><div id="Content"><div class="cell aside" data-type="aside"><div class="innerCell"></div></div></div></body></html>';
     expect(context.getHtmlBody()).toEqual(expected);
   });
 
