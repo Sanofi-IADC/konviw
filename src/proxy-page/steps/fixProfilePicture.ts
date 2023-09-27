@@ -9,12 +9,13 @@ export default (): Step => async (context: ContextService): Promise<void> => {
 
   const speakerExceptionText = "Error rendering macro 'profile-picture'";
 
-  $('.cell.aside').each((_, element) => {
-    const speakerNotHandled = $(element).find('.innerCell').find('.error').text()
+  $('.cell').each((_, element) => {
+    const errorProfilePictureCaptured = $(element).find('.innerCell').find('.error');
+    const exceptionMessageExist = errorProfilePictureCaptured.text()
       .includes(speakerExceptionText);
 
-    if (speakerNotHandled) {
-      $(element).remove();
+    if (exceptionMessageExist) {
+      $(errorProfilePictureCaptured).remove();
     }
   });
 
