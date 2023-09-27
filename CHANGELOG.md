@@ -1,3 +1,10 @@
+## [3.19.4](https://github.com/Sanofi-IADC/konviw/compare/v3.19.3...v3.19.4) (2023-09-27)
+
+
+### Bug Fixes
+
+* WEB-2083 Error management for profile picture ([b5ed859](https://github.com/Sanofi-IADC/konviw/commit/b5ed8590bdbdce5010498969f4f23b476c5c6556))
+
 ## [3.19.3](https://github.com/Sanofi-IADC/konviw/compare/v3.19.2...v3.19.3) (2023-09-27)
 
 
