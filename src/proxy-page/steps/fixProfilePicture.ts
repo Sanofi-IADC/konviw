@@ -11,11 +11,14 @@ export default (): Step => async (context: ContextService): Promise<void> => {
 
   $('.cell').each((_, element) => {
     const errorProfilePictureCaptured = $(element).find('.innerCell').find('.error');
-    const exceptionMessageExist = errorProfilePictureCaptured.text()
-      .includes(speakerExceptionText);
 
-    if (exceptionMessageExist) {
-      $(errorProfilePictureCaptured).remove();
+    if (errorProfilePictureCaptured) {
+      const exceptionMessageExist = errorProfilePictureCaptured.text()
+        .includes(speakerExceptionText);
+
+      if (exceptionMessageExist) {
+        $(errorProfilePictureCaptured).remove();
+      }
     }
   });
 
