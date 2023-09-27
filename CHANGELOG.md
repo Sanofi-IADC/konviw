@@ -1,3 +1,10 @@
+## [3.19.3](https://github.com/Sanofi-IADC/konviw/compare/v3.19.2...v3.19.3) (2023-09-27)
+
+
+### Bug Fixes
+
+* WEB-2083 Handled not correct profile picture macro ([bc45e6d](https://github.com/Sanofi-IADC/konviw/commit/bc45e6d23f9d0da3108d9b7d9e74e9ec1f7cb1b1))
+
 ## [3.19.2](https://github.com/Sanofi-IADC/konviw/compare/v3.19.1...v3.19.2) (2023-09-06)
 
 
