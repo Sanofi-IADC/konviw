@@ -84,6 +84,35 @@ describe('ConfluenceProxy / fixLinks', () => {
     expect(context.getHtmlBody()).toEqual(expected);
   });
 
+  it('should replace page absolute URLs & URIs with Anchors and convert to text from URL with hyphen symbol', async () => {
+    const step = fixLinks(config, http, jiraMockServiceFactory);
+    const example =
+      '<html><head></head><body>' +
+      '<h2 id="HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">' +
+      'Nulla tempus vitae ipsum vitae rhoncus.' +
+      '</h2> ' +
+      '<h3 id="HelloWorld-ThisIsAnotherHeading">' +
+      'Nulla tempus vitae ipsum vitae rhoncus.' +
+      '</h3> ' +
+      '<a href="https://test.atlassian.net/wiki/spaces/XXX/pages/4242/Hello+World#HyphenSymbol"></a>' +
+      '<a href="/wiki/spaces/XXX/pages/4343/Hello+World#HyphenSymbol"></a>' +
+      '</body></html>';
+    context.setHtmlBody(example);
+    await step(context);
+    const expected =
+      '<html><head></head><body><div id="Content">' +
+      '<h2 id="HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">' +
+      'Nulla tempus vitae ipsum vitae rhoncus.' +
+      '</h2> ' +
+      '<h3 id="HelloWorld-ThisIsAnotherHeading">' +
+      'Nulla tempus vitae ipsum vitae rhoncus.' +
+      '</h3> ' +
+      `<a href="${webBasePath}/wiki/spaces/XXX/pages/4242/#HelloWorld-HyphenSymbol">Hello World | HyphenSymbol</a>` +
+      `<a href="${webBasePath}/wiki/spaces/XXX/pages/4343/#HelloWorld-HyphenSymbol">Hello World | HyphenSymbol</a>` +
+      '</div></body></html>';
+    expect(context.getHtmlBody()).toEqual(expected);
+  });
+
   it('should replace page absolute URLs with Anchors and respect original title', async () => {
     const step = fixLinks(config, http, jiraMockServiceFactory);
     const example =

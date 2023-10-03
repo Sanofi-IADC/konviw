@@ -158,6 +158,22 @@ export default (config: ConfigService, http: HttpService, jira: JiraService): St
   );
   const searchUriwithAnchor = new RegExp('^(\/wiki)(.*\/)(.*)#(.*)');
 
+  const composeTextFactory = (title: string, heading: string) =>
+    `${title.replace(/\+/g, ' ')} | ${heading.replace(
+      /\-/g,
+      ' ',
+    )}`;
+
+  const composeUrlFactory = (path: string, title: string, heading: string) =>
+    `${webBasePath}/wiki${path}#`
+      + `${title.replace(/\+/g, '')}-`
+      + `${heading.replace(/\-/g, '')}`;
+
+  const verifyComposeUrl = (link: cheerio.Element) => {
+    const text = $(link).html();
+    return text === '' || text.startsWith(confluenceBaseURL);
+  };
+
   const replaceAttributeLink = (attr: string, link: cheerio.Element) => {
     const [, , pathPageAnchorUrl, titlePageUrl, headingPageUrl] = searchUrlwithAnchor.exec($(link).attr(attr)) ?? [];
     const [, , pathPageAnchorUri, titlePageUri, headingPageUri] = searchUriwithAnchor.exec($(link).attr(attr)) ?? [];
@@ -168,34 +184,20 @@ export default (config: ConfigService, http: HttpService, jira: JiraService): St
     if (pathPageAnchorUrl) {
       $(link).attr(
         attr,
-        `${webBasePath}/wiki${pathPageAnchorUrl}#`
-            + `${titlePageUrl.replace(/\+/g, '')}-`
-            + `${headingPageUrl.replace(/\-/g, '')}`,
+        composeUrlFactory(pathPageAnchorUrl, titlePageUrl, headingPageUrl),
       );
-      // if there is no display text for the Url we try to compose one
-      if ($(link).html() === '') {
-        $(link).text(
-          `${titlePageUrl.replace(/\+/g, ' ')} | ${headingPageUrl.replace(
-            /\-/g,
-            ' ',
-          )}`,
-        );
+      // if there is no display text for the Url we try to compose one or modify if starts with confluence domain
+      if (verifyComposeUrl(link)) {
+        $(link).text(composeTextFactory(titlePageUrl, headingPageUrl));
       }
     } else if (pathPageAnchorUri) {
       $(link).attr(
         attr,
-        `${webBasePath}/wiki${pathPageAnchorUri}#`
-            + `${titlePageUri.replace(/\+/g, '')}-`
-            + `${headingPageUri.replace(/\-/g, '')}`,
+        composeUrlFactory(pathPageAnchorUri, titlePageUri, headingPageUri),
       );
       // if there is no display text for the Url we try to compose one
-      if ($(link).html() === '') {
-        $(link).text(
-          `${titlePageUri.replace(/\+/g, ' ')} | ${headingPageUri.replace(
-            /\-/g,
-            ' ',
-          )}`,
-        );
+      if (verifyComposeUrl(link)) {
+        $(link).text(composeTextFactory(titlePageUri, headingPageUri));
       }
     } else if (pathPageUrl) {
       // Step 1: replace absolute URLs by absolute URIs
