@@ -1,3 +1,10 @@
+## [3.19.5](https://github.com/Sanofi-IADC/konviw/compare/v3.19.4...v3.19.5) (2023-10-03)
+
+
+### Bug Fixes
+
+* WEB-2088 Fixed issue with links and confluence links to display correct internal urls and uri ([72fc7a6](https://github.com/Sanofi-IADC/konviw/commit/72fc7a687c1c54ce6e9b51d48b4c5782c8a6a376))
+
 ## [3.19.4](https://github.com/Sanofi-IADC/konviw/compare/v3.19.3...v3.19.4) (2023-09-27)
 
 
