@@ -53,8 +53,9 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => a
     const isUrlLink = confluenceSpaceRegex.test(textLink);
     // links to pages are tagged with special attribute data-linked-resource-type='page'
     const isPage = anchor?.attribs['data-linked-resource-type'] === 'page';
+    const isPageBasedOnUrl = href.includes('/pages/');
     // only if it is not a Confluence page and the URL looks like an space will add the special className
-    const isConfluenceSpace = confluenceSpaceRegex.test(href) && isUrlLink && !isPage;
+    const isConfluenceSpace = confluenceSpaceRegex.test(href) && isUrlLink && !isPage && !isPageBasedOnUrl;
     if (isConfluenceSpace) {
       $(anchor).replaceWith(`<a className="${confluenceSpaceClassList}" target="_blank" href="${href}">${textLink}</a>`);
     }
