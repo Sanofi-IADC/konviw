@@ -29,8 +29,8 @@ export default (config: ConfigService): Step => (context: ContextService): void 
     if (!thisBlock) {
       return;
     }
-    const pageIdRegex = new RegExp(
-      // Will find <pageId> in => "productCtx": { ... "pageId": "<pageId>" ... }
+    const contentIdRegex = new RegExp(
+      // Will find <content.id> in => "productCtx": { ... "content.id": "<content.id>" ... }
       /"productCtx".*"content.id\\":\\"(\d*)\\"/g,
     ).exec(thisBlock);
     const diagramNameRegex = new RegExp(
@@ -38,13 +38,13 @@ export default (config: ConfigService): Step => (context: ContextService): void 
       '"productCtx".*diagramName=([^|]*).*,',
     ).exec(thisBlock);
 
-    const [, pageId] = pageIdRegex ?? [];
+    const [, contentId] = contentIdRegex ?? [];
     const [, diagramName] = diagramNameRegex ?? [];
 
-    if (pageId && diagramName) {
+    if (contentId && diagramName) {
       $(elementDrawio).prepend(
         `<figure><img class="drawio-zoomable"
-                  src="${webBasePath}/wiki/download/attachments/${pageId}/${diagramName}.png"
+                  src="${webBasePath}/wiki/download/attachments/${contentId}/${diagramName}.png"
                   alt="${diagramName}" /></figure>`,
       );
     }
