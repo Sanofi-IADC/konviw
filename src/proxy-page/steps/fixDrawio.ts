@@ -31,7 +31,7 @@ export default (config: ConfigService): Step => (context: ContextService): void 
     }
     const pageIdRegex = new RegExp(
       // Will find <pageId> in => "productCtx": { ... "pageId": "<pageId>" ... }
-      /"productCtx".*"pageId\\":\\"(\d*)\\"/g,
+      /"productCtx".*"content.id\\":\\"(\d*)\\"/g,
     ).exec(thisBlock);
     const diagramNameRegex = new RegExp(
       // Will find <diagramName> in => "productCtx": { ... ": = | RAW | = :": ... |<diagramName>| ..." ... }
