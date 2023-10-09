@@ -1,3 +1,10 @@
+## [3.19.6](https://github.com/Sanofi-IADC/konviw/compare/v3.19.5...v3.19.6) (2023-10-09)
+
+
+### Bug Fixes
+
+* WEB-2099 Fixed Drawio Macro in which we are pointing to not correct PageID ([4c13e15](https://github.com/Sanofi-IADC/konviw/commit/4c13e15b0196c6fc3e0fe014e1636a4ab139c1d7))
+
 ## [3.19.5](https://github.com/Sanofi-IADC/konviw/compare/v3.19.4...v3.19.5) (2023-10-03)
 
 
