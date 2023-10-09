@@ -6,6 +6,7 @@ import { createModuleRefForStep } from './utils';
 
 const image1PageId = '493027878';
 const image1DiagramName = 'awesome-diagram';
+const image1ContentId = '123456';
 
 const image2DiagramName = 'prettycool-diagram';
 const image2AspectHash = '079f65948d008454029450fc73f0e032de29ca68';
@@ -19,7 +20,7 @@ const example = `
         <script>
           (function () {
             var data = {
-              "productCtx":"{\\"pageId\\":\\"${image1PageId}\\",\\": = | RAW | = :\\":\\"diagramName=${image1DiagramName}|\\"}",};
+              "productCtx":"{\\"pageId\\":\\"${image1PageId}\\",\\"content.id\\":\\"${image1ContentId}\\",\\": = | RAW | = :\\":\\"diagramName=${image1DiagramName}|\\"}",};
           })();
         </script>
       </div>
@@ -62,9 +63,9 @@ describe('ConfluenceProxy / fixDrawio', () => {
   });
 
   describe('Diagram created in the same page', () => {
-    it('should set the src of the image with the pageId and the diagramName', () => {
+    it('should set the src of the image with the image1ContentId and the diagramName', () => {
       const image = $(images[0]).html();
-      const expectedSrc = `${webBasePath}/wiki/download/attachments/${image1PageId}/${image1DiagramName}.png`;
+      const expectedSrc = `${webBasePath}/wiki/download/attachments/${image1ContentId}/${image1DiagramName}.png`;
       const imgSrc = getImgSrc(image);
       expect(imgSrc).toBe(expectedSrc);
     });
