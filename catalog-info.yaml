@@ -10,3 +10,9 @@ spec:
   type: service
   owner: Sanofi-IADC/konviw
   lifecycle: experimental
+  kind: Contributors
+  contributors:
+    - username: BENBEN5959
+      role: developer
+    - username: krystiankedra
+      role: tester
