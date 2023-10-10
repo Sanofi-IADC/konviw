@@ -1,0 +1,11 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: konviw
+  description: konviw Backstage application.
+  annotations:
+    github.com/project-slug: Sanofi-IADC/konviw
+spec:
+  type: service
+  owner: Sanofi-IADC/konviw-admins
+  lifecycle: experimental
