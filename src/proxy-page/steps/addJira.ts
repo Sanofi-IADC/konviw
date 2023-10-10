@@ -175,7 +175,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
 
   issuesColumns.forEach(
     ({
-      issues, columns, element, server, filter,
+      issues, columns, element, server,
     }, index) => {
       const data = [];
       // Load new base URL if defined a specific connection for Jira as ENV variables
@@ -321,7 +321,6 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
       $('.refresh-issues-bottom').remove();
 
       $(element).before(
-        `<strong>Jira issues for ${filter}</strong>`,
         `<div id="gridjs${index}"></div>`,
         `<script>
         document.addEventListener('DOMContentLoaded', function () {
