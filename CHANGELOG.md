@@ -1,3 +1,10 @@
+# [3.20.0](https://github.com/Sanofi-IADC/konviw/compare/v3.19.6...v3.20.0) (2023-10-10)
+
+
+### Features
+
+* WEB-2058 Hide JQL Filters ([f83f75f](https://github.com/Sanofi-IADC/konviw/commit/f83f75f3cacd76e9849e37d458c6367977686438))
+
 ## [3.19.6](https://github.com/Sanofi-IADC/konviw/compare/v3.19.5...v3.19.6) (2023-10-09)
 
 
