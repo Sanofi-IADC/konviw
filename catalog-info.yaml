@@ -8,5 +8,5 @@ metadata:
     backstage.io/techdocs-ref: value
 spec:
   type: service
-  owner: Sanofi-IADC/konviw-admins
+  owner: Sanofi-IADC/konviw
   lifecycle: experimental
