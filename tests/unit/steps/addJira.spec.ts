@@ -114,7 +114,7 @@ describe('Confluence Proxy / addJira', () => {
     ]);
     expect($('body').html()).toContain(`data: ${data}`);
   });
-  it('key = should be transformed into key in', async () => {
+  it('key should not be displayed', async () => {
     const cheerioBody = `<input
       type="hidden"
       class="refresh-wiki"
@@ -135,7 +135,7 @@ describe('Confluence Proxy / addJira', () => {
     );
     await step(context);
     const $ = context.getCheerioBody();
-    expect($('body').html()).toContain(`Jira issues for key = (FND-319)`);
+    expect($('body').html()).not.toContain(`Jira issues for key = (FND-319)`);
   });
 
   it('should update the issue title and status of a jira-issue', async () => {
