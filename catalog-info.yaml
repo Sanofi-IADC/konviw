@@ -5,6 +5,7 @@ metadata:
   description: konviw Backstage application.
   annotations:
     github.com/project-slug: Sanofi-IADC/konviw
+    backstage.io/techdocs-ref: value
 spec:
   type: service
   owner: Sanofi-IADC/konviw-admins
