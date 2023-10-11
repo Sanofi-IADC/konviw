@@ -18,7 +18,11 @@ export default (): Step => (context: ContextService): void => {
   const getImageCaption = (elementImg: cheerio.Element) => {
     const filename = elementImg.attribs['data-linked-resource-default-alias'];
     const attachmentContent = xmlStorageFormat(`ri\\:attachment[ri\\:filename="${filename}"]`);
-    const caption = Array.from(attachmentContent.parent().children()).find((el) => el.name === 'ac:caption');
+    const caption = Array.from(attachmentContent.parent().children()).find((el) =>
+      el.name === 'ac:caption' && !el.attribs['custom-property-available']);
+    if (caption) {
+      caption.attribs['custom-property-available'] = '1';
+    }
     return $(caption).text();
   };
 
