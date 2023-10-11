@@ -1,3 +1,10 @@
+## [3.20.1](https://github.com/Sanofi-IADC/konviw/compare/v3.20.0...v3.20.1) (2023-10-11)
+
+
+### Bug Fixes
+
+* WEB-2100 Fixed creating image caption ([a09e2d7](https://github.com/Sanofi-IADC/konviw/commit/a09e2d7ceacc55b9f29ab48f659e9fdd10e4310a))
+
 # [3.20.0](https://github.com/Sanofi-IADC/konviw/compare/v3.19.6...v3.20.0) (2023-10-10)
 
 
