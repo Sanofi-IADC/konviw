@@ -54,7 +54,7 @@ export default (config: ConfigService, http: HttpService, jira: JiraService): St
       'content',
     ) ?? '';
     const imageSrc = body(
-      'head meta[name="twitter:image:src"], head meta[name="og:image"]',
+      'head meta[name="twitter:image"], head meta[property="og:image"]',
     ).attr('content');
     const path = createImagePath(favicon, url);
     return {
@@ -122,19 +122,24 @@ export default (config: ConfigService, http: HttpService, jira: JiraService): St
         : externalResourcesFactory(url, res.data);
 
       let replacement = '';
+
       if (dataCardAppearance === 'inline') {
         replacement = `<a target="_blank" href="${url}"> <img class="${classIconName}" src="${path}"/> ${title}</a>`;
-      } else if (dataCardAppearance === 'block') {
-        const imgTag = imageSrc ? `<img src="${imageSrc}"/>` : '';
+      }
+
+      if (dataCardAppearance === 'block') {
+        const imgTag = imageSrc ? `<img class="link-card-image" src="${imageSrc}"/>` : '';
         replacement = `
-          <div class="card">
-            <div class="thumb">${imgTag}</div>
-            <div class="title-desc">
+          <div class="link-card">
+            <div class="link-card-content">
               <a target="_blank" href="${url}"> <img class="${classIconName}" src="${path}"/> ${title}</a>
-              <p>${description ?? ''}</p>
+              <p class="link-card-description">${description ?? ''}</p>
+              <a target="_blank" href="${getDomain(url)}">${getDomain(url)}</a>
             </div>
+            ${imgTag}
           </div>`;
       }
+
       if (replacement) {
         $(element).replaceWith(replacement);
       }
@@ -244,3 +249,8 @@ export default (config: ConfigService, http: HttpService, jira: JiraService): St
 
   context.getPerfMeasure('fixLinks');
 };
+
+// Helpers
+
+// Get the domain of a url
+const getDomain = (url: string) => new URL(url).host;

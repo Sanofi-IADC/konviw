@@ -1,0 +1,115 @@
+// Hyperlink styles ==============================================
+
+// Internal Hyperlinks ============================================
+a {
+  transition: background-size 0.4s ease;
+  background-image: linear-gradient(180deg, transparent 80%, #42c46b 0em);
+  background-size: 0 100%;
+  background-repeat: no-repeat;
+  color: var(--primary-color-link);
+  text-decoration: none;
+  &:hover {
+    background-size: 100% 100%;
+    color: var(--font-color);
+  }
+}
+
+// External Hyperlinks ============================================
+a.external-link {
+  transition: background-size 0.4s ease;
+  background-image: linear-gradient(180deg, transparent 80%, #4b85e8 0em);
+  background-size: 0 100%;
+  background-repeat: no-repeat;
+  color: var(--primary-color-link);
+  text-decoration: none;
+  &:hover {
+    background-size: 100% 100%;
+    color: var(--font-color);
+  }
+  &:only-child:before {
+    content: var(--external-link-symbol);
+    padding-left: 2px;
+    padding-right: 5px;
+  }
+}
+
+.favicon {
+  width: 14px;
+  padding: 0;
+  margin-right: 4px;
+}
+
+// Smart links Cards ============================================
+.link-card {
+  --content-padding: 0.5rem;
+  --content-spacing: 0.1rem;
+
+  display: flex;
+  background-color: var(--bg-color);
+  margin: 0.75rem 0px 0px;
+  padding: 0px;
+  border: 0.8px solid var(--secondary-color);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  max-width: 850px;
+  max-height: 150px;
+  align-items: flex-start;
+}
+
+.link-card-content {
+  font-size: 1rem;
+  gap: var(--content-spacing);
+  padding: var(--content-padding);
+  width: 100%;
+}
+
+.link-card-description {
+  font-size: 0.8rem;
+  line-height: 1;
+}
+
+img.link-card-image {
+  max-height: 150px;
+  object-fit:cover;
+  max-width: max-content;
+  padding: 0;
+}
+
+
+// User mention with @ ===================================
+a.user-mention {
+  background: var(--user-mention-bg);
+  padding: 2px;
+  border-radius: 15px;
+  color: var(--font-color);
+  font-size: var(--user-mention-size);
+  white-space: nowrap;
+  &:hover {
+    color: white;
+  }
+  &::before {
+    content: '@ ';
+  }
+}
+
+// Confluence space
+.confluence-space {
+  border: 0.8px solid var(--secondary-color);
+  border-radius: 0.2rem;
+  padding: 2;
+  margin: 2;
+  img {
+    position: relative;
+    top: 0.2rem;
+    width: 1rem;
+    padding-left: 1;
+    padding-bottom: 0;
+  }
+}
+
+// Jira space
+.jira-space-icon {
+  height: 20px;
+  width: 20px;
+  padding-bottom: 0;
+}
