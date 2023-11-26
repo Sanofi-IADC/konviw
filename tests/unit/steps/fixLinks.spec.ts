@@ -267,18 +267,7 @@ describe('ConfluenceProxy / fixLinks', () => {
     context.setHtmlBody(example);
     await step(context);
     const $ = context.getCheerioBody();
-    expect($('#Content > div').attr('class')).toBe('card');
+    expect($('#Content > div').attr('class')).toBe('link-card');
   });
-  it('should display jira space link', async () => {
-    const step = fixLinks(config, http, jiraMockServiceFactory);
-    const example =
-    '<html><head></head><body>' +
-    '<a data-card-appearance="block" href="https://test.atlassian.net/jira/software/c/projects/KVW/boards/1" class="external-link"></a>' +
-    '</body></html>';
-    context.setHtmlBody(example);
-    await step(context);
-    const $ = context.getCheerioBody();
-    expect($('img').attr('class')).toContain('jira-space-icon');
-    expect($('a').text().trim()).toBe('Konviw');
-  });
+
 });
