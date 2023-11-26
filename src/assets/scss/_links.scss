@@ -50,7 +50,6 @@ a.external-link {
   padding: 0px;
   border: 0.8px solid var(--secondary-color);
   border-radius: 0.5rem;
-  align-items: center;
   overflow: hidden;
   max-width: 850px;
   max-height: 150px;
@@ -95,9 +94,15 @@ a.user-mention {
 
 // Confluence space
 .confluence-space {
+  border: 0.8px solid var(--secondary-color);
+  border-radius: 0.2rem;
+  padding: 2;
+  margin: 2;
   img {
-    height: 20px;
-    width: 20px;
+    position: relative;
+    top: 0.2rem;
+    width: 1rem;
+    padding-left: 1;
     padding-bottom: 0;
   }
 }
