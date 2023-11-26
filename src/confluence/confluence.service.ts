@@ -48,14 +48,12 @@ export class ConfluenceService {
       const contentType = this.getApiEndPoint(typeContentResponse, pageId);
 
       if (contentType) {
-        const params = {
-          version,
-          status: status ?? 'current',
-        };
+        const params = { version };
 
-        if (spaceContent) {
-          params['space-id'] = spaceContent.id;
-        }
+        params['space-id'] = (spaceContent) ? spaceContent.id : null;
+        // get-draft parameter expected by the new API v2
+        // https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-page/#api-pages-id-get
+        params['get-draft'] = (status === 'draft');
 
         const [pageContent, labelsContent, propertiesContent] = await Promise.all([
           this.getContentTypeBody(contentType, pageId, params),
