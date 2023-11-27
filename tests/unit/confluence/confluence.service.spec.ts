@@ -3,7 +3,6 @@ import configuration from '../../../src/config/configuration.test';
 import { HttpModule } from '../../../src/http/http.module';
 import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule} from '@nestjs/testing';
-import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 
 
@@ -17,7 +16,6 @@ jest.mock('rxjs', () => {
 
 describe('confluence.service', () => {
   let confluenceService: ConfluenceService;
-  let httpService: HttpService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -26,7 +24,6 @@ describe('confluence.service', () => {
     }).compile();
 
     confluenceService = module.get<ConfluenceService>(ConfluenceService);
-    httpService = module.get<HttpService>(HttpService);
   });
 
   it('should be defined', () => {
