@@ -1,3 +1,11 @@
+## [3.20.2](https://github.com/Sanofi-IADC/konviw/compare/v3.20.1...v3.20.2) (2023-11-27)
+
+
+### Bug Fixes
+
+* new release for fixes WEB-2133 and WEB-2137 ([f83fc28](https://github.com/Sanofi-IADC/konviw/commit/f83fc282a4cb1450ecbe19ec1b3b1a6c1909d86e))
+* WEB-2133 Added test cases for get-draft and status properties ([431a0d8](https://github.com/Sanofi-IADC/konviw/commit/431a0d8e4986630b38ed762ae2c54414a04bf917))
+
 ## [3.20.1](https://github.com/Sanofi-IADC/konviw/compare/v3.20.0...v3.20.1) (2023-10-11)
 
 
