@@ -363,7 +363,7 @@ export class ConfluenceService {
     );
   }
 
-  private async getContentTypeBody(
+  async getContentTypeBody(
     contentType: string,
     pageId: string,
     params: AxiosRequestConfig<any>['params'],
@@ -379,7 +379,7 @@ export class ConfluenceService {
     return { ...viewFormat.data, body: { ...viewFormat.data.body, ...storageFormat.data.body } };
   }
 
-  private async getContentTypeResource(
+  async getContentTypeResource(
     contentType: string,
     pageId: string,
     resource: string,
