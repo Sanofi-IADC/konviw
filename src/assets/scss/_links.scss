@@ -54,6 +54,20 @@ a.external-link {
   max-width: 850px;
   max-height: 150px;
   align-items: flex-start;
+
+  &:hover {
+    filter: invert(3%);
+  }
+
+  a {
+    color: var(--primary-color-link);
+    transition: none;
+    background-image: none;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 
 .link-card-content {
