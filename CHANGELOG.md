@@ -1,3 +1,10 @@
+## [3.20.3](https://github.com/Sanofi-IADC/konviw/compare/v3.20.2...v3.20.3) (2023-12-04)
+
+
+### Bug Fixes
+
+* Web 2132 adjust konviw to new table width ([#561](https://github.com/Sanofi-IADC/konviw/issues/561)) ([32efc09](https://github.com/Sanofi-IADC/konviw/commit/32efc09eb04b0d7a7a5dc50c7156eb30e6ef7871))
+
 ## [3.20.2](https://github.com/Sanofi-IADC/konviw/compare/v3.20.1...v3.20.2) (2023-11-27)
 
 
