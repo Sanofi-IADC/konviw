@@ -10,7 +10,7 @@ table.confluenceTable {
 
   // Fix 'default' tables to 60% of the layout width
   &[data-layout='default'] {
-    max-width: 60%;
+    max-width: 100%;
   }
 
   // Fix 'wide' tables to fit the 100% of the layout
@@ -57,6 +57,8 @@ table.confluenceTable th.confluenceTh {
   min-width: 8px; /* CONF-39943: set table cell min-width to which cursor can be focused */
   word-wrap: break-word;
   // word-break: break-word; // breaking words will fix the max-width properties for all tables
+  font-size: 1rem;
+  font-weight: lighter;
 
   h1,
   h2,

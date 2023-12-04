@@ -38,6 +38,7 @@ html {
 h1.titlePage {
   color: var(--heading-color);
   font-size: var(--title-font-size);
+  padding-top: 0.8rem;
 
   & .specialAtlassian {
     display: flex;

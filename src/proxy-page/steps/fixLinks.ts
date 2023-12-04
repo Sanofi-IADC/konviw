@@ -134,7 +134,7 @@ export default (config: ConfigService, http: HttpService, jira: JiraService): St
             <div class="link-card-content">
               <a target="_blank" href="${url}"> <img class="${classIconName}" src="${path}"/> ${title}</a>
               <p class="link-card-description">${description ?? ''}</p>
-              <a target="_blank" href="${getDomain(url)}">${getDomain(url)}</a>
+              <a target="_blank" href="${getOrigin(url)}">${getDomain(url)}</a>
             </div>
             ${imgTag}
           </div>`;
@@ -254,3 +254,6 @@ export default (config: ConfigService, http: HttpService, jira: JiraService): St
 
 // Get the domain of a url
 const getDomain = (url: string) => new URL(url).host;
+
+// Get the origin of a url (domain with protocol)
+const getOrigin = (url: string) => new URL(url).origin;
