@@ -1,3 +1,10 @@
+# [3.21.0](https://github.com/Sanofi-IADC/konviw/compare/v3.20.3...v3.21.0) (2023-12-04)
+
+
+### Features
+
+* WEB-2143 zoom effect images with Alt=(zoom) ([d4dc29e](https://github.com/Sanofi-IADC/konviw/commit/d4dc29ed4e35b7ba54af0be41f3e829061267488))
+
 ## [3.20.3](https://github.com/Sanofi-IADC/konviw/compare/v3.20.2...v3.20.3) (2023-12-04)
 
 
