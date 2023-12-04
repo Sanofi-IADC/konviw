@@ -21,7 +21,7 @@ import addCustomCss from './steps/addCustomCss';
 import addScrollToTop from './steps/addScrollToTop';
 import addHeaderTitle from './steps/addHeaderTitle';
 import addTheme from './steps/addTheme';
-import addNoZoom from './steps/addNoZoom';
+import addZoom from './steps/addZoom';
 import addHeaderBlog from './steps/addHeaderBlog';
 import addCopyLinks from './steps/addCopyLinks';
 import addReadingProgressBar from './steps/addReadingProgressBar';
@@ -140,7 +140,7 @@ export class ProxyPageService {
     delUnnecessaryCode()(this.context);
     addCustomCss(this.config, style)(this.context);
     addLibrariesCSS()(this.context);
-    addNoZoom()(this.context);
+    addZoom()(this.context);
     addTheme()(this.context);
     if (view !== 'iframe-resizer') {
       addScrollToTop()(this.context);

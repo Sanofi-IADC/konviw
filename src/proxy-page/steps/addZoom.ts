@@ -3,7 +3,7 @@ import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
 
 export default (): Step => (context: ContextService): void => {
-  context.setPerfMark('addNoZoom');
+  context.setPerfMark('addZoom');
   const $ = context.getCheerioBody();
 
   // Div with class profile-macro is used for User Profile VCard
@@ -11,13 +11,13 @@ export default (): Step => (context: ContextService): void => {
     (_index: number, embeddedImage: cheerio.Element) => {
       const thisBlock = $(embeddedImage).attr('alt');
       if (thisBlock) {
-        const foundBlock = thisBlock.match(/\(nozoom\)/g);
+        const foundBlock = thisBlock.match(/\(zoom\)/g);
         if (foundBlock) {
-          $(embeddedImage).removeClass('confluence-embedded-image');
+          $(embeddedImage).addClass('konviw-image-zoom-effect');
         }
       }
     },
   );
 
-  context.getPerfMeasure('addNoZoom');
+  context.getPerfMeasure('addZoom');
 };

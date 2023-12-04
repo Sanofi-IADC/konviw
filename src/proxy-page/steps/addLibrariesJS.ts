@@ -48,7 +48,7 @@ export default (): Step => (context: ContextService): void => {
             onClose: (target) => toggleOverflowStyling(getParentZommingElement(target), 'auto'),
           });
           zooming.listen('.drawio-zoomable');
-          zooming.listen('.confluence-embedded-image');
+          zooming.listen('.konviw-image-zoom-effect');
         })
          </script>`,
     );
@@ -58,9 +58,9 @@ export default (): Step => (context: ContextService): void => {
   // and auto resizer of the iframe to the content of the konviw page
   // https://github.com/davidjbradshaw/iframe-resizer
   $('body').append(
-    `<script 
-      src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.3.2/iframeResizer.contentWindow.js" 
-      crossorigin="anonymous" 
+    `<script
+      src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.3.2/iframeResizer.contentWindow.js"
+      crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
       <script type="module">
