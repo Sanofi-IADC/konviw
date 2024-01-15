@@ -41,6 +41,30 @@ function getSpecialEmojiData(emoji: string) {
   return null;
 }
 
+function getMultipleHexCodeEmojiData(emoji: string) {
+  const isNonStandardEmoji = emoji.startsWith('&#x');
+  const extractedMultipleHexCode = emoji.split('-');
+  const isMultipleHexCodeEmoji = extractedMultipleHexCode.length > 0;
+
+  if (isNonStandardEmoji && isMultipleHexCodeEmoji) {
+    const updatedHexCodesPrefix = extractedMultipleHexCode.map((hexCodeEmoji) => {
+      if (hexCodeEmoji.startsWith('&#x')) {
+        return hexCodeEmoji;
+      }
+      return `&#x${hexCodeEmoji}`;
+    });
+    const updatedHexCodesSuffix = updatedHexCodesPrefix.map((hexCodeEmoji) => {
+      if (hexCodeEmoji.endsWith(';')) {
+        return hexCodeEmoji;
+      }
+      return `${hexCodeEmoji};`;
+    });
+    return { iconName: updatedHexCodesSuffix.join(''), type: 'custom' };
+  }
+
+  return null;
+}
+
 async function headerIconFacatory(context: ContextService, confluence: ConfluenceService) {
   const emoji = context.getHeaderEmoji();
 
@@ -56,6 +80,13 @@ async function headerIconFacatory(context: ContextService, confluence: Confluenc
       }
       return { type: 'standard', path: '' };
     }
+
+    const multipleHexCodeEmojiData = getMultipleHexCodeEmojiData(emoji);
+    if (multipleHexCodeEmojiData) {
+      const { iconName } = multipleHexCodeEmojiData;
+      return { type: 'standard', path: iconName };
+    }
+
     return { type: 'standard', path: emoji };
   }
   return { type: 'standard', path: '' };
