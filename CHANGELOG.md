@@ -1,3 +1,10 @@
+## [3.21.1](https://github.com/Sanofi-IADC/konviw/compare/v3.21.0...v3.21.1) (2024-01-15)
+
+
+### Bug Fixes
+
+* WEB-2154 Added fn to extract multiple hexcodes in title ([3ff02ad](https://github.com/Sanofi-IADC/konviw/commit/3ff02ad4006a9ed8e3a14c4001ac241e45dffdf2))
+
 # [3.21.0](https://github.com/Sanofi-IADC/konviw/compare/v3.20.3...v3.21.0) (2023-12-04)
 
 
