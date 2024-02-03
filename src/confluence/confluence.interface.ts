@@ -266,6 +266,7 @@ export type PageContent = {
   },
   parentType: string;
   authorId: string;
+  ownerId: string;
   title: string;
   status: ContentStatusType;
   body: { view: { value: string }, storage: { value: string } },

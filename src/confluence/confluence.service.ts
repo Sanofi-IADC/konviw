@@ -62,7 +62,7 @@ export class ConfluenceService {
         ]);
 
         const [authorContent, versionAuthorContent] = await Promise.all([
-          this.getAccountDataById((pageContent as Content['pageContent']).authorId),
+          this.getAccountDataById((pageContent as Content['pageContent']).ownerId),
           this.getAccountDataById((pageContent as Content['pageContent']).version.authorId),
         ]);
 
