@@ -1,3 +1,17 @@
+# [3.22.0](https://github.com/Sanofi-IADC/konviw/compare/v3.21.1...v3.22.0) (2024-02-05)
+
+
+### Bug Fixes
+
+* remove e2e tests from actions WEB-2182 ([9c54394](https://github.com/Sanofi-IADC/konviw/commit/9c5439422b02825e0533b01d9b7a2e3575681f6c))
+* WEB-2182 Added conditional for authorID if ownerID doesnt exist for some page type ([7250b0c](https://github.com/Sanofi-IADC/konviw/commit/7250b0c42fcfe665167e748a7a8845bab29809f6))
+
+
+### Features
+
+* display page owner instead of creator ([74d8026](https://github.com/Sanofi-IADC/konviw/commit/74d802675d9a3e82c6b35be1b7591471d8b7f297))
+* WEB-2182 display page owner instead of creator ([28dbc37](https://github.com/Sanofi-IADC/konviw/commit/28dbc3727925478cca1d729569b16e5eb8f196c7))
+
 ## [3.21.1](https://github.com/Sanofi-IADC/konviw/compare/v3.21.0...v3.21.1) (2024-01-15)
 
 
