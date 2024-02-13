@@ -1,3 +1,12 @@
+# [3.23.0](https://github.com/Sanofi-IADC/konviw/compare/v3.22.0...v3.23.0) (2024-02-13)
+
+
+### Features
+
+* WEB-2203 Added support for jira issues macro ([0b59fcb](https://github.com/Sanofi-IADC/konviw/commit/0b59fcbfc2cea6cc1190fa26a6e7aa140c44c54b))
+* WEB-2203 Added support for jira issues macro ([047d211](https://github.com/Sanofi-IADC/konviw/commit/047d21142e80c590587fd41818f842aa9c4ca5e9))
+* WEB-2203 Fixed wrong name ([9af2ba6](https://github.com/Sanofi-IADC/konviw/commit/9af2ba66081c7ca8def471d4fcc36ba5b9f3fab7))
+
 # [3.22.0](https://github.com/Sanofi-IADC/konviw/compare/v3.21.1...v3.22.0) (2024-02-05)
 
 
