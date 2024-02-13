@@ -186,4 +186,15 @@ describe('Confluence Proxy / addJira', () => {
     await step(context);
     expect(context.getHtmlBody()).toBe(expected);
   });
+  it('should create new jira issues macro from anchor', async () => {
+    const example =
+      '<html><head></head><body>' +
+      '<a class="external-link" data-card-appearance="block" data-datasource="{&quot;id&quot;:&quot;123&quot;,&quot;parameters&quot;:{&quot;cloudId&quot;:&quot;123d1&quot;,&quot;jql&quot;:&quot;PROJECT=\\&quot;TEI Web Platform\\&quot; ORDER BY created DESC&quot;},&quot;views&quot;:[{&quot;type&quot;:&quot;table&quot;,&quot;properties&quot;:{&quot;columns&quot;:[{&quot;key&quot;:&quot;issuetype&quot;},{&quot;key&quot;:&quot;key&quot;},{&quot;key&quot;:&quot;summary&quot;},{&quot;key&quot;:&quot;assignee&quot;},{&quot;key&quot;:&quot;priority&quot;},{&quot;key&quot;:&quot;status&quot;},{&quot;key&quot;:&quot;updated&quot;}]}}]}" href="https://test.atlassian.net/issues/?jql=PROJECT=%22TEI%20Web%20Platform%22%20ORDER%20BY%20created%20DESC" rel="nofollow">https://test.atlassian.net/issues/?jql=PROJECT=%22TEI%20Web%20Platform%22%20ORDER%20BY%20created%20DESC</a>' +
+      '</body></html>';
+    context.setHtmlBody(example);
+    await step(context);
+    const $ = context.getCheerioBody();
+    expect($('body').html()).not.toContain(`Jira issues for key`);
+    expect($('grid,gridjs-container').html()).toBeDefined();
+  });
 });
