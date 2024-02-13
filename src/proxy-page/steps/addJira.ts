@@ -78,15 +78,15 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
     });
   });
 
-  if (!$('.refresh-wiki') || !$('.refresh-wiki').data()) {
+  if (!$('.refresh-wiki') || !$('.refresh-wiki').data() || !$('a.confluence-jim-macro-new-jira-table')) {
     context.getPerfMeasure('addJira');
     return;
   }
 
   const elementTags = [];
-  // this is the outer div used to wrap the Jira issues macro
+  // this is the outer div used to wrap the Jira issues macro and anchor to wrap the new Jira issues macro
   // which it is saved to place the tables just before
-  $('div.confluence-jim-macro.jira-table').each(
+  $('div.confluence-jim-macro.jira-table,a.confluence-jim-macro-new-jira-table').each(
     (_, elementJira: cheerio.Element) => {
       elementTags.push(elementJira);
     },
@@ -111,6 +111,25 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
       issues: {
         issues: jiraService
           .findTickets(server, filter, columns, 0, Number(maximumIssues))
+          .then((res) => res?.data?.issues ?? []),
+      },
+      columns,
+      server,
+      filter,
+    });
+  });
+
+  // this is the anchor holding the data to scrap the list of issues for new jira macro
+  $('.confluence-jim-macro-new-jira-table').each((_, link: cheerio.Element) => {
+    const wikimarkup = JSON.parse(link.attribs['data-datasource']) as { [key: string]: any };
+    const server = 'System JIRA';
+    const filter = wikimarkup.parameters.jql;
+    const columns = wikimarkup.views[0].properties.columns.map(({ key }) => key).join(',');
+
+    jiraIssuesPromises.push({
+      issues: {
+        issues: jiraService
+          .findTickets(server, filter, columns, 0)
           .then((res) => res?.data?.issues ?? []),
       },
       columns,

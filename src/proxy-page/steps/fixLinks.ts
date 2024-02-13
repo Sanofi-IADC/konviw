@@ -108,6 +108,14 @@ export default (config: ConfigService, http: HttpService, jira: JiraService): St
       return null;
     }
 
+    // New Jira macro links are tagged with the class confluence-jim-macro-new-jira-table
+    const dataSourceAppearance = $(element).attr('data-datasource');
+    if (dataSourceAppearance) {
+      $(element).addClass('confluence-jim-macro-new-jira-table');
+      $(element).removeClass('external-link');
+      return null;
+    }
+
     return fetchResourcesCallback(url).then((res) => {
       const isJiraResponse = res?.data?.expand;
 
