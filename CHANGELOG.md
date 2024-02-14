@@ -1,3 +1,11 @@
+## [3.23.1](https://github.com/Sanofi-IADC/konviw/compare/v3.23.0...v3.23.1) (2024-02-14)
+
+
+### Bug Fixes
+
+* WEB-2203 Added corrected conditional ([d6524c3](https://github.com/Sanofi-IADC/konviw/commit/d6524c3201ac80558788e64b63e850cbc66d363a))
+* WEB-2203 Added corrected conditional ([16530e5](https://github.com/Sanofi-IADC/konviw/commit/16530e51e494ad7be265165072ca51823853ae0e))
+
 # [3.23.0](https://github.com/Sanofi-IADC/konviw/compare/v3.22.0...v3.23.0) (2024-02-13)
 
 
