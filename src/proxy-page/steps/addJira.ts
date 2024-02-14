@@ -78,7 +78,12 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
     });
   });
 
-  if (!$('.refresh-wiki') || !$('.refresh-wiki').data() || !$('a.confluence-jim-macro-new-jira-table')) {
+  const elementsToVerifyStep = [
+    ...$('a.confluence-jim-macro-new-jira-table').toArray(),
+    ...$('.refresh-wiki').toArray(),
+  ];
+
+  if (!elementsToVerifyStep.length) {
     context.getPerfMeasure('addJira');
     return;
   }
@@ -120,7 +125,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
   });
 
   // this is the anchor holding the data to scrap the list of issues for new jira macro
-  $('.confluence-jim-macro-new-jira-table').each((_, link: cheerio.Element) => {
+  $('a.confluence-jim-macro-new-jira-table').each((_, link: cheerio.Element) => {
     const wikimarkup = JSON.parse(link.attribs['data-datasource']) as { [key: string]: any };
     const server = 'System JIRA';
     const filter = wikimarkup.parameters.jql;
