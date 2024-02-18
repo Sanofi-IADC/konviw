@@ -50,6 +50,7 @@ import addAuthorVersion from './steps/addAuthorVersion';
 import addMessageLastSlide from './steps/addMessageLastSlide';
 import addPDF from './steps/addPDF';
 import fixProfilePicture from './steps/fixProfilePicture';
+import fixEmbeddedFile from './steps/fixEmbeddedFile';
 
 @Injectable()
 export class ProxyPageService {
@@ -133,6 +134,7 @@ export class ProxyPageService {
       await addHeaderTitle(this.confluence)(this.context);
     }
     fixSVG(this.config)(this.context);
+    fixEmbeddedFile()(this.context);
     fixTableBackground()(this.context);
     fixTableSize()(this.context);
     addTableResponsive()(this.context);
@@ -187,6 +189,7 @@ export class ProxyPageService {
     fixHtmlHead(this.config)(this.context);
     fixUserProfile()(this.context);
     fixProfilePicture()(this.context);
+    fixEmbeddedFile()(this.context);
     await fixConfluenceSpace(this.config, this.confluence)(this.context);
     await fixLinks(this.config, this.http, this.jira)(this.context);
     fixToc()(this.context);

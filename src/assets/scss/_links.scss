@@ -127,3 +127,63 @@ a.user-mention {
   width: 20px;
   padding-bottom: 0;
 }
+
+// Hyperlinks for embedded files ==================================
+a.konviw-embedded-file-icon {
+  &::before {
+    content: '\f15c';
+    font-family: "Font Awesome 6 free";
+    font-size: 24px;
+    font-weight: 100;
+    padding-right: 5px;
+    color: grey;
+  }
+  &[href*='.pdf']::before {
+    content: '\f1c1';
+  }
+  &[href*='.doc']::before {
+    content: '\f1c2';
+  }
+  &[href*='.ppt']::before {
+    content: '\f1c4';
+  }
+  &[href*='.xls']::before {
+    content: '\f1c3';
+  }
+  &[href*='.zip']::before {
+    content: '\f1c6';
+  }
+  &:is([href*='.mp3'], [href*='.aac'], [href*='.ac3'], [href*='.aif'],
+    [href*='.m4a'], [href*='.mid'], [href*='.ogg'], [href*='.wav'])::before {
+    content: '\f1c7';
+  }
+}
+
+p.media-group {
+  padding: 0px;
+  margin: 0px;
+}
+
+div.konviw-embedded-file {
+  width: 250px;
+  /* To correctly align image, regardless of content height: */
+  padding-top: 10px;
+  vertical-align: top;
+  display: inline-block;
+  /* To horizontally center images and caption */
+  text-align: center;
+  img {
+    box-shadow: var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow);
+    padding: 0px;
+    border: 1px;
+    border-style:solid;
+    border-color: lightgrey;
+    border-radius: 2%;
+  }
+  span.konviw-embedded-file-caption {
+    /* Make the caption a block so it occupies its own line. */
+    padding: 5px;
+    font-size: 0.6em;
+    display: block;
+  }
+}
