@@ -30,7 +30,9 @@ export default (): Step => (context: ContextService): void => {
     const caption = getImageCaption(elementImg);
     if (caption?.length > 0) {
       const parent = $(elementImg).parent();
-      parent.append(`<p class="image-caption">${caption}</p>`);
+      const classes = $(parent).attr('class');
+      const captionPositionClass = classes.split(' ')[1];
+      parent.append(`<p class="image-caption ${captionPositionClass ?? ''}">${caption}</p>`);
     }
   });
 
