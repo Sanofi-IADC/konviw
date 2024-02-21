@@ -1,3 +1,12 @@
+## [3.23.2](https://github.com/Sanofi-IADC/konviw/compare/v3.23.1...v3.23.2) (2024-02-21)
+
+
+### Bug Fixes
+
+* WEB-2210 Align tests ([affe933](https://github.com/Sanofi-IADC/konviw/commit/affe933c9fd84de0dd3f552bb36de6937197a907))
+* WEB-2210 Render caption based on image position ([7bf4a2c](https://github.com/Sanofi-IADC/konviw/commit/7bf4a2cd49884145cd782c2405f09b1ae423dc3b))
+* WEB-2210 Render caption based on image position ([f4450a7](https://github.com/Sanofi-IADC/konviw/commit/f4450a7e48dc59df9c95a78bbce61a8c08072d88))
+
 ## [3.23.1](https://github.com/Sanofi-IADC/konviw/compare/v3.23.0...v3.23.1) (2024-02-14)
 
 
