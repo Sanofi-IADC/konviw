@@ -157,8 +157,16 @@ ul.childpages-macro li {
 
 // Macro image with caption
 .image-caption {
-  text-align: center;
   margin-top: .5rem;
+  &.image-caption-left {
+    text-align: left;
+  }
+  &.image-caption-right {
+    text-align: right;
+  }
+  &.image-caption-center {
+    text-align: center;
+  }
 }
 
 @media (max-width: 700px) {
