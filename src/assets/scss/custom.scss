@@ -146,13 +146,13 @@ ul.childpages-macro li {
 // Macro image with caption
 .image-caption {
   margin-top: .5rem;
-  &.image-caption-left {
+  &.image-left-wrapper {
     text-align: left;
   }
-  &.image-caption-right {
+  &.image-right-wrapper{
     text-align: right;
   }
-  &.image-caption-center {
+  &.image-center-wrapper {
     text-align: center;
   }
 }
