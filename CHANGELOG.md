@@ -1,3 +1,11 @@
+## [3.23.3](https://github.com/Sanofi-IADC/konviw/compare/v3.23.2...v3.23.3) (2024-02-22)
+
+
+### Bug Fixes
+
+* WEB-2210 Align correct classes for images ([803e92a](https://github.com/Sanofi-IADC/konviw/commit/803e92ad8f3014397e3457ede3b504ea11021c1d))
+* WEB-2210 Align correct classes for images ([31859e5](https://github.com/Sanofi-IADC/konviw/commit/31859e52e1517677486027ec5dbbf33c59e13a7e))
+
 ## [3.23.2](https://github.com/Sanofi-IADC/konviw/compare/v3.23.1...v3.23.2) (2024-02-21)
 
 
