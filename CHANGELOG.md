@@ -1,3 +1,17 @@
+# [3.24.0](https://github.com/Sanofi-IADC/konviw/compare/v3.23.3...v3.24.0) (2024-02-22)
+
+
+### Bug Fixes
+
+* WEB-2210 Added conditional to verify external links better as jira issues macro ([66e4702](https://github.com/Sanofi-IADC/konviw/commit/66e4702da1496ef58f098aadd5ef1f488be92493))
+* WEB-2210 Align to main changes ([cce1499](https://github.com/Sanofi-IADC/konviw/commit/cce1499da8fbd56c9c96ab7f28a0755eccc37686))
+* WEB-2210 Fixed lint issues ([3d2014b](https://github.com/Sanofi-IADC/konviw/commit/3d2014ba3b16c1179c4f2097ed492fef11293a4c))
+
+
+### Features
+
+* WEB-2210 Align changes to better interpret new jira issues macro ([9c7969f](https://github.com/Sanofi-IADC/konviw/commit/9c7969fad6d6e78328b12479bd6169d39dd65e9c))
+
 ## [3.23.3](https://github.com/Sanofi-IADC/konviw/compare/v3.23.2...v3.23.3) (2024-02-22)
 
 
