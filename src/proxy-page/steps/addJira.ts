@@ -79,7 +79,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
   });
 
   // collect all new Jira issues macro elements
-  const newJiraIssuesMacroElements = $('.external-link').get().filter((link) => link.attribs['data-datasource'])
+  const newJiraIssuesMacroElements = $('.external-link').get().filter((link) => link.attribs['data-datasource']);
 
   const elementsToVerifyStep = [
     ...$(newJiraIssuesMacroElements).toArray(),
@@ -95,7 +95,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
   // this is the outer div used to wrap the Jira issues macro and anchor to wrap the new Jira issues macro
   // which it is saved to place the tables just before
   const jiraIssuesLegacyMacro = $('div.confluence-jim-macro.jira-table');
-  const newJiraIssuesMacro = $(newJiraIssuesMacroElements)
+  const newJiraIssuesMacro = $(newJiraIssuesMacroElements);
 
   $([...jiraIssuesLegacyMacro, ...newJiraIssuesMacro]).each(
     (_, elementJira: cheerio.Element) => {
