@@ -3,7 +3,7 @@ import { Step } from '../proxy-page.step';
 import { ContextService } from '../../context/context.service';
 
 /* eslint-disable no-useless-escape, prefer-regex-literals */
-export default (): Step => async (context: ContextService): Promise<void> => {
+export default (): Step => (context: ContextService): void => {
   context.setPerfMark('fixEmbeddedFile');
 
   const $ = context.getCheerioBody();
