@@ -1,3 +1,10 @@
+## [3.24.1](https://github.com/Sanofi-IADC/konviw/compare/v3.24.0...v3.24.1) (2024-02-22)
+
+
+### Bug Fixes
+
+* WEB-2209 Display inline text embedded files ([#567](https://github.com/Sanofi-IADC/konviw/issues/567)) ([00bda57](https://github.com/Sanofi-IADC/konviw/commit/00bda57d567af75122af68d02d5c05e3ccd1cfa6))
+
 # [3.24.0](https://github.com/Sanofi-IADC/konviw/compare/v3.23.3...v3.24.0) (2024-02-22)
 
 
