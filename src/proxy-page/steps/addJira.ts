@@ -78,8 +78,11 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
     });
   });
 
+  // collect all new Jira issues macro elements
+  const newJiraIssuesMacroElements = $('.external-link').get().filter((link) => link.attribs['data-datasource']);
+
   const elementsToVerifyStep = [
-    ...$('a.confluence-jim-macro-new-jira-table').toArray(),
+    ...$(newJiraIssuesMacroElements).toArray(),
     ...$('.refresh-wiki').toArray(),
   ];
 
@@ -91,7 +94,10 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
   const elementTags = [];
   // this is the outer div used to wrap the Jira issues macro and anchor to wrap the new Jira issues macro
   // which it is saved to place the tables just before
-  $('div.confluence-jim-macro.jira-table,a.confluence-jim-macro-new-jira-table').each(
+  const jiraIssuesLegacyMacro = $('div.confluence-jim-macro.jira-table');
+  const newJiraIssuesMacro = $(newJiraIssuesMacroElements);
+
+  $([...jiraIssuesLegacyMacro, ...newJiraIssuesMacro]).each(
     (_, elementJira: cheerio.Element) => {
       elementTags.push(elementJira);
     },
@@ -125,7 +131,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
   });
 
   // this is the anchor holding the data to scrap the list of issues for new jira macro
-  $('a.confluence-jim-macro-new-jira-table').each((_, link: cheerio.Element) => {
+  $(newJiraIssuesMacroElements).each((_, link: cheerio.Element) => {
     const wikimarkup = JSON.parse(link.attribs['data-datasource']) as { [key: string]: any };
     const server = 'System JIRA';
     const filter = wikimarkup.parameters.jql;
