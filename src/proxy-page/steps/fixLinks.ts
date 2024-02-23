@@ -32,17 +32,14 @@ export default (config: ConfigService, http: HttpService, jira: JiraService): St
 
   const createImagePath = (favicon: string, url: string) => {
     if (favicon) {
-      const base = new URL(url).origin;
-      let cleanURL;
+      const { origin, protocol } = new URL(url);
       if (isValidURL(favicon)) {
-        cleanURL = favicon;
+        return favicon;
       } else if (favicon.startsWith('//')) {
-        cleanURL = favicon.substring(2);
-        cleanURL = `https://${cleanURL}`;
+        return `${protocol}${favicon}`;
       } else {
-        cleanURL = `${base}${favicon}`;
+        return `${origin}${favicon}`;
       }
-      return cleanURL;
     }
     return '';
   };
