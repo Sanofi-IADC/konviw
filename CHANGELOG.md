@@ -1,3 +1,10 @@
+## [3.24.2](https://github.com/Sanofi-IADC/konviw/compare/v3.24.1...v3.24.2) (2024-02-23)
+
+
+### Bug Fixes
+
+* WEB-2214 fix the URL of favicon starting by // ([#571](https://github.com/Sanofi-IADC/konviw/issues/571)) ([a3367fe](https://github.com/Sanofi-IADC/konviw/commit/a3367fe1d810309cb962800e3596c81b1c51b144))
+
 ## [3.24.1](https://github.com/Sanofi-IADC/konviw/compare/v3.24.0...v3.24.1) (2024-02-22)
 
 
