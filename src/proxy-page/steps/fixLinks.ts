@@ -35,11 +35,11 @@ export default (config: ConfigService, http: HttpService, jira: JiraService): St
       const { origin, protocol } = new URL(url);
       if (isValidURL(favicon)) {
         return favicon;
-      } else if (favicon.startsWith('//')) {
-        return `${protocol}${favicon}`;
-      } else {
-        return `${origin}${favicon}`;
       }
+      if (favicon.startsWith('//')) {
+        return `${protocol}${favicon}`;
+      }
+      return `${origin}${favicon}`;
     }
     return '';
   };
