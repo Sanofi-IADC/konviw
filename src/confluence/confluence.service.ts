@@ -263,27 +263,22 @@ export class ConfluenceService {
   async getSpaceMetadata(
     spaceKey: string,
   ): Promise<AxiosResponse> {
-    const defaultParms = {
-      status: 'current',
-    };
-
-    // we expand extra fields
     const params = {
-      ...defaultParms,
-      expand: [
-        'icon',
-        'homepage',
-      ].join(','),
+      status: 'current',
+      'include-icon': true,
+      keys: spaceKey
     };
 
     try {
       const result: AxiosResponse = await firstValueFrom(
-        this.http.get(`/wiki/rest/api/space/${spaceKey}`, { params }),
+        this.http.get('/wiki/api/v2/spaces', { params }),
       );
       this.logger.log(
         `Retrieving ${spaceKey} space metadata via REST API`,
       );
-      return result;
+
+      const metadataResponse = result.data.results[0];
+      return { ...result, data: metadataResponse };
     } catch (err: any) {
       this.logger.log(err, 'error:getSpaceMetadata');
       throw new HttpException(`error:getSpaceMetadata > ${err}`, 404);

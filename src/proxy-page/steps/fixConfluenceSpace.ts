@@ -42,7 +42,7 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => a
   };
 
   const createImagePath = (icon: { path: string }) =>
-    `${confluenceBaseURL}/wiki${icon.path}`;
+    `${confluenceBaseURL}/${icon.path}`;
 
   $('a').each((_, anchor) => {
     const confluenceSpaceRegex = new RegExp('^(.*?)(/wiki/spaces/)(.*)$');
@@ -69,10 +69,10 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => a
         ({
           name,
           key,
-          homepage,
+          homepageId,
           icon,
         }) => {
-          const href = `/wiki/spaces/${key}/pages/${homepage.id}`;
+          const href = `/wiki/spaces/${key}/pages/${homepageId}`;
           const imagePath = createImagePath(icon);
           if (imagePath) {
             $(element).replaceWith(`<a class="${confluenceSpaceClassList}" href="${href}">
