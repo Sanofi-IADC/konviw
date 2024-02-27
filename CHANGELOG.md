@@ -1,3 +1,13 @@
+# [3.25.0](https://github.com/Sanofi-IADC/konviw/compare/v3.24.2...v3.25.0) (2024-02-27)
+
+
+### Features
+
+* WEB-1892 Align changes for get space metadata for migration to v2 rest api ([7934547](https://github.com/Sanofi-IADC/konviw/commit/79345474c218301fb4c0fc35f4b0cd83a2f848ac))
+* WEB-1892 Align changes for get space metadata for migration to v2 rest api ([305deb4](https://github.com/Sanofi-IADC/konviw/commit/305deb4ffbd9e71468dcfca53337fb2ab1705a83))
+* WEB-1892 Align test mocks ([f58e497](https://github.com/Sanofi-IADC/konviw/commit/f58e497b2bbbefe4a9fa906130d9a38dae0a7319))
+* WEB-1892 Fixed lint issues ([c17038c](https://github.com/Sanofi-IADC/konviw/commit/c17038cb76d114591fabe2486c2854be5648c9f1))
+
 ## [3.24.2](https://github.com/Sanofi-IADC/konviw/compare/v3.24.1...v3.24.2) (2024-02-23)
 
 
