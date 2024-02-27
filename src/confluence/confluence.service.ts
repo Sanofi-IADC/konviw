@@ -266,7 +266,7 @@ export class ConfluenceService {
     const params = {
       status: 'current',
       'include-icon': true,
-      keys: spaceKey
+      keys: spaceKey,
     };
 
     try {
