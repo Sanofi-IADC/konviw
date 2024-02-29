@@ -205,49 +205,120 @@ export class ConfluenceService {
   }
 
   /**
+   * @function getSpacePermissions Service
+   * @description Get Space permissions from Confluence API /wiki/api/v2/spaces/:id/permissions
+   * @return Promise {any}
+   * @param id {string} '1' - space id
+   * @param limit {number} '50'- maximum number of records to retrieve
+   */
+  async getSpacePermissions(id: string, limit = 50) {
+    try {
+      const { data }: AxiosResponse = await firstValueFrom(
+        this.http.get(`/wiki/api/v2/spaces/${id}/permissions`, { params: { limit } }),
+      );
+      const results = await this.getSpacesAccountByPermissions(data.results);
+      this.logger.log(
+        `Retrieving space permissions of ${id} via REST API`,
+      );
+      return results;
+    } catch (err: any) {
+      this.logger.log(err, 'error:getSpacePermissions');
+      throw new HttpException(`error:getSpacePermissions > ${err}`, 404);
+    }
+  }
+
+  /**
+   * @function getSpaceLabels Service
+   * @description Get Space labels from Confluence API /wiki/api/v2/spaces/:id/labels
+   * @return Promise {any}
+   * @param id {string} '1' - space id
+   * @param limit {number} '50' - maximum number of records to retrieve
+   */
+  async getSpaceLabels(id: string, limit = 50) {
+    try {
+      const { data }: AxiosResponse = await firstValueFrom(
+        this.http.get(`/wiki/api/v2/spaces/${id}/labels`, { params: { limit } }),
+      );
+      this.logger.log(
+        `Retrieving space labels of ${id} via REST API`,
+      );
+      return data.results;
+    } catch (err: any) {
+      this.logger.log(err, 'error:getSpaceLabels');
+      throw new HttpException(`error:getSpaceLabels > ${err}`, 404);
+    }
+  }
+
+  /**
+   * @function getSpacesMeta Service
+   * @description Get Space meta from Confluence API /wiki/api/v2/spaces
+   * @return Promise {any}
+   * @param type {string} 'global' - type of space with possible values 'global' or 'personal'
+   * @param collection {array} '[]' - recursive array of collection
+   * @param next {string} 'xyz' - starting cursor used for pagination
+   */
+  async getSpacesMeta(type: string, next?: string, collection = []) {
+    const defaultParams = { type, status: 'current', limit: 250 };
+    try {
+      const { data }: AxiosResponse = await firstValueFrom(
+        this.http.get(next || '/wiki/api/v2/spaces', { params: !next && defaultParams }),
+      );
+      this.logger.log(
+        `Retrieving spaces of ${type} total via REST API`,
+      );
+      collection.push(...data.results);
+      if (data._links?.next) {
+        await this.getSpacesMeta(type, data._links?.next, collection);
+      }
+      return collection;
+    } catch (err: any) {
+      this.logger.log(err, 'error:getSpacesMeta');
+      throw new HttpException(`error:getSpacesMeta > ${err}`, 404);
+    }
+  }
+
+  /**
    * @function getAllSpaces Service
    * @description Retrieve all spaces from endpoint /wiki/rest/api/space
    * @return Promise {any}
    * @param type {string} 'global' - type of space with possible values 'global' or 'personal'
-   * @param startAt {number} 15 - starting position to handle paginated results
-   * @param maxResults {number} 999 - limit of results to be returned
-   * @param getFields {number} 1 - '1' to get icon, labels, description and permissions or '0' for simple list of spaces
+   * @param limit {number} '250' - maximum number of records to retrieve
+   * @param next {string} 'xyz' - starting cursor used for pagination
    */
   async Spaces(
-    type = 'global',
-    startAt = 0,
-    maxResults = 999,
-    getFields = 0,
-  ): Promise<AxiosResponse> {
+    type: string,
+    limit: number,
+    next: string,
+  ): Promise<any> {
     const defaultParms = {
       type,
-      start: startAt,
-      limit: maxResults,
+      limit,
+      'include-icon': true,
+      'description-format': 'plain',
       status: 'current',
     };
 
-    // we expand extra fields if fields === 1 otherwise retrieve the default reponse
-    const params = getFields === 1
-      ? {
-        ...defaultParms,
-        expand: [
-          // extra fields to retrieve
-          'icon',
-          'metadata.labels',
-          'description.plain',
-          'permissions',
-        ].join(','),
-      }
-      : defaultParms;
-
     try {
-      const results: AxiosResponse = await firstValueFrom(
-        this.http.get('/wiki/rest/api/space', { params }),
+      const response : AxiosResponse = await firstValueFrom(
+        this.http.get(next || '/wiki/api/v2/spaces', { params: !next && defaultParms }),
       );
+
+      const results = await Promise.all(response.data.results.map(async (space) => {
+        const [labels, permissions] = await Promise.all([
+          this.getSpaceLabels(space.id),
+          this.getSpacePermissions(space.id),
+        ]);
+        return {
+          ...space,
+          permissions,
+          labels,
+        };
+      }));
+
       this.logger.log(
-        `Retrieving all spaces of type ${type} with ${maxResults} maximum records via REST API`,
+        `Retrieving all spaces of type ${type} with ${limit} maximum records via REST API`,
       );
-      return results;
+      return { ...response, data: { ...response.data, results } };
     } catch (err: any) {
       this.logger.log(err, 'error:getAllSpaces');
       throw new HttpException(`error:getAllSpaces > ${err}`, 404);
@@ -276,9 +347,7 @@ export class ConfluenceService {
       this.logger.log(
         `Retrieving ${spaceKey} space metadata via REST API`,
       );
-
-      const metadataResponse = result.data.results[0];
-      return { ...result, data: metadataResponse };
+      return { ...result, data: result.data.results[0] };
     } catch (err: any) {
       this.logger.log(err, 'error:getSpaceMetadata');
       throw new HttpException(`error:getSpaceMetadata > ${err}`, 404);
@@ -328,6 +397,14 @@ export class ConfluenceService {
       return results.find(({ id }) => id === image);
     }
     return results;
+  }
+
+  private async getSpacesAccountByPermissions(data) {
+    const permissionsDefinedAsUser = data.filter((permission) => permission.principal.type === 'user');
+    return Promise.all(permissionsDefinedAsUser.map(async (permission) => ({
+      ...permission,
+      user: await this.getAccountDataById(permission.principal.id),
+    })));
   }
 
   private async getAccountDataById(accountId: string): Promise<any> {

@@ -390,51 +390,58 @@ export class ProxyApiService {
   }
 
   /**
+   * @function getSpacesMeta Service
+   * @description Retrieve spaces meta from a Confluence server
+   * @return Promise {any}
+   * @param type {string} 'global' - type of space with possible values 'global' or 'personal'
+   */
+  async getSpacesMeta(type: string): Promise<any> {
+    const data = await this.confluence.getSpacesMeta(type);
+    return {
+      meta: {
+        total: data.length,
+      },
+    };
+  }
+
+  /**
    * @function getAllSpaces Service
    * @description Retrieve all spaces from a Confluence server
    * @return Promise {any}
    * @param type {string} 'global' - type of space with possible values 'global' or 'personal'
-   * @param startAt {number} 15 - starting position to handle paginated results
-   * @param maxResults {number} 999 - limit of results to be returned
-   * @param getFields {number} 1 - '1' to get icon, labels, description and permissions or '0' for simple list of spaces
+   * @param limit {number} '250' - maximum number of records to retrieve
+   * @param next {string} 'xyz' - starting cursor used for pagination
    */
   async getAllSpaces(
     type: string,
-    startAt: number,
-    maxResults: number,
-    getFields: number,
+    limit: number,
+    next: string,
   ): Promise<any> {
     const baseHost = this.config.get('web.baseHost');
     const basePath = this.config.get('web.basePath');
 
     const { data }: any = await this.confluence.Spaces(
       type,
-      startAt,
-      maxResults,
-      getFields,
+      limit,
+      next,
     );
 
     const parseResults = data.results.map((space: any) => {
-      const labels = space.metadata === undefined
-        ? []
-        : space.metadata.labels.results.map((label: any) => label.name);
-
-      const permissions = space.permissions === undefined
-        ? []
-        : space.permissions.reduce((permissionsTmp, permission) => {
-          if (permission.subjects?.user) {
-            if (
-              permission.subjects.user.results[0].accountType
-                  === 'atlassian'
-            ) {
-              const name = permission.subjects.user.results[0].displayName;
-              const avatar = `${baseHost}${basePath}${permission.subjects.user.results[0].profilePicture.path}`;
-              const { operation } = permission;
-              permissionsTmp.push({ name, avatar, operation });
-            }
+      const labels = space.labels ? space.labels.map((label: any) => label.name) : [];
+      const permissions = space.permissions ? space.permissions.reduce((permissionsTmp, permission) => {
+        if (permission.user) {
+          if (
+            permission.user.accountType
+                === 'atlassian'
+          ) {
+            const name = permission.user.displayName;
+            const avatar = `${baseHost}${basePath}${permission.user.profilePicture.path}`;
+            const { operation } = permission;
+            permissionsTmp.push({ name, avatar, operation });
           }
-          return permissionsTmp;
-        }, []);
+        }
+        return permissionsTmp;
+      }, []) : [];
 
       const icon = space.icon === undefined
         ? undefined
@@ -454,9 +461,7 @@ export class ProxyApiService {
     });
 
     const meta = {
-      start: startAt,
-      maxResults: data.limit,
-      totalSize: data.size,
+      next: data._links.next,
     };
 
     return {
