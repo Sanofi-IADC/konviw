@@ -289,7 +289,7 @@ export class ConfluenceService {
     type: string,
     limit: number,
     next: string,
-  ): Promise<any> {
+  ): Promise<AxiosResponse> {
     const defaultParms = {
       type,
       limit,
