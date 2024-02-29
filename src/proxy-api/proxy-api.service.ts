@@ -395,7 +395,7 @@ export class ProxyApiService {
    * @return Promise {any}
    * @param type {string} 'global' - type of space with possible values 'global' or 'personal'
    */
-  async getSpacesMeta(type: string): Promise<any> {
+  async getSpacesMeta(type: string): Promise<{ meta: { total: number } }> {
     const data = await this.confluence.getSpacesMeta(type);
     return {
       meta: {
