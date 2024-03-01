@@ -445,7 +445,7 @@ export class ProxyApiService {
 
       const icon = space.icon === undefined
         ? undefined
-        : `${baseHost}${basePath}/wiki${space.icon.path}`;
+        : `${baseHost}${basePath}${space.icon.path}`;
 
       return {
         id: space.id,
