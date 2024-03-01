@@ -21,6 +21,7 @@ import SearchProjectIssueTypesWithStatusQueryDTO from './dto/SearchProjectIssueT
 import GetScreenDetailsDTO from './dto/GetScreenDetailsQuery';
 import SearchProjectUsersQueryDTO from './dto/SearchProjectUsersQuery';
 import SearchProjectVersionsQueryDTO from './dto/SearchProjectVersionsQuery';
+import GetSpacesMetaParamsDTO from './dto/GetSpacesMetaParams';
 
 @ApiTags('proxy-api')
 @Controller('api')
@@ -202,9 +203,25 @@ export class ProxyApiController {
   ): Promise<any> {
     return this.proxyApi.getAllSpaces(
       params.type,
-      queries.startAt,
-      queries.maxResults,
-      queries.getFields,
+      queries.limit,
+      queries.next,
+    );
+  }
+
+  /**
+   * @GET (controller) api/spaces/:type/meta
+   * @description Route to retrieve meta of the Confluence spaces of a type
+   * @return {string} 'JSON' - JSON with the meta of Confluence spaces
+   */
+  @ApiOkResponse({
+    description: 'Meta of spaces from a Confluence server for the given type',
+  })
+  @Get('spaces/:type/meta')
+  async getSpacesMeta(
+    @Param() params: GetSpacesMetaParamsDTO,
+  ): Promise<any> {
+    return this.proxyApi.getSpacesMeta(
+      params.type,
     );
   }
 
