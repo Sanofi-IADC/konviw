@@ -1,3 +1,14 @@
+# [3.26.0](https://github.com/Sanofi-IADC/konviw/compare/v3.25.0...v3.26.0) (2024-03-01)
+
+
+### Features
+
+* WEB-1893 Changed icon path ([d7fa1e1](https://github.com/Sanofi-IADC/konviw/commit/d7fa1e1d188c824924a86db9855746afdf3c6079))
+* WEB-1893 Migrated Space endpoint to Confluence REST API v2 ([fbc73a1](https://github.com/Sanofi-IADC/konviw/commit/fbc73a1f8840348d315a9278aecab0773f2f2812))
+* WEB-1893 Migrated Space endpoint to Confluence REST API v2 ([cc5ee4d](https://github.com/Sanofi-IADC/konviw/commit/cc5ee4dcb76271a749828aba494df0e76bb9f235))
+* WEB-1893 Removed unnecessary any ([00c5e45](https://github.com/Sanofi-IADC/konviw/commit/00c5e4588526f5b9c59f5ff8f666d160445b00ba))
+* WEB-1893 Removed unnecessary any ([5f36f1f](https://github.com/Sanofi-IADC/konviw/commit/5f36f1f8566084a54f52b30b98246b58d1b64f9f))
+
 # [3.25.0](https://github.com/Sanofi-IADC/konviw/compare/v3.24.2...v3.25.0) (2024-02-27)
 
 
