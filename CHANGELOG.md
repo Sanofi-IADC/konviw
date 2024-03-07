@@ -1,3 +1,11 @@
+# [3.27.0](https://github.com/Sanofi-IADC/konviw/compare/v3.26.0...v3.27.0) (2024-03-07)
+
+
+### Features
+
+* WEB-1892 Improvment path icon ([db7910d](https://github.com/Sanofi-IADC/konviw/commit/db7910df86cc47020c9bcf9b997841985662ddba))
+* WEB-1892 Improvment path icon ([48441f1](https://github.com/Sanofi-IADC/konviw/commit/48441f1cbb8adafc5aab03eddb5fd19bad167c13))
+
 # [3.26.0](https://github.com/Sanofi-IADC/konviw/compare/v3.25.0...v3.26.0) (2024-03-01)
 
 
