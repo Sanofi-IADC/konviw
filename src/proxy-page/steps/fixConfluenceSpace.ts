@@ -42,7 +42,7 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => a
   };
 
   const createImagePath = (icon: { path: string }) =>
-    `${confluenceBaseURL}/${icon.path}`;
+    `${confluenceBaseURL}${icon.path}`;
 
   $('a').each((_, anchor) => {
     const confluenceSpaceRegex = new RegExp('^(.*?)(/wiki/spaces/)(.*)$');
