@@ -1,3 +1,10 @@
+## [3.27.1](https://github.com/Sanofi-IADC/konviw/compare/v3.27.0...v3.27.1) (2024-04-27)
+
+
+### Bug Fixes
+
+* display new feature inline icon ([#575](https://github.com/Sanofi-IADC/konviw/issues/575)) ([ca4565b](https://github.com/Sanofi-IADC/konviw/commit/ca4565b477218f6ea08c7336258f33582a6bdd83))
+
 # [3.27.0](https://github.com/Sanofi-IADC/konviw/compare/v3.26.0...v3.27.0) (2024-03-07)
 
 
