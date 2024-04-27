@@ -1,3 +1,10 @@
+## [3.27.2](https://github.com/Sanofi-IADC/konviw/compare/v3.27.1...v3.27.2) (2024-04-27)
+
+
+### Bug Fixes
+
+* regression legacy images ([#576](https://github.com/Sanofi-IADC/konviw/issues/576)) ([e590f38](https://github.com/Sanofi-IADC/konviw/commit/e590f38492904e6f71fd3a9bb169293045d40f59))
+
 ## [3.27.1](https://github.com/Sanofi-IADC/konviw/compare/v3.27.0...v3.27.1) (2024-04-27)
 
 
