@@ -40,7 +40,7 @@ table.confluenceTable th.confluenceTh {
   font-weight: bold;
 
   p {
-    font-weight: initial;
+    font-weight: var(--main-font-weight);
   }
 }
 
@@ -128,13 +128,6 @@ table.confluenceTable td.confluenceTd {
   &.highlight-yellow > p {
     background-color: var(--highlight-yellow);
   }
-}
-
-table.confluenceTable th.confluenceTh.nohighlight, /* deprecated */
-table.confluenceTable th.confluenceTh.nohighlight > p {
-  /* deprecated */
-  font-weight: normal;
-  background-color: transparent;
 }
 
 table.confluenceTable td.confluenceTd img,

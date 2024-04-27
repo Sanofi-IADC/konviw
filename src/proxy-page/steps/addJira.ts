@@ -67,7 +67,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
   await Promise.allSettled(issuesToFindPromises).then((results) => {
     results.forEach((res: any, index: number) => {
       const {
-        value: { total },
+        value: { data: { total } },
       } = res;
       const url = encodeURI(
         `${confluenceDomain}/secure/IssueNavigator.jspa?reset=true&jqlQuery=${issuesCountQueries[index]}`,
@@ -78,15 +78,26 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
     });
   });
 
-  if (!$('.refresh-wiki') || !$('.refresh-wiki').data()) {
+  // collect all new Jira issues macro elements
+  const newJiraIssuesMacroElements = $('.external-link').get().filter((link) => link.attribs['data-datasource']);
+
+  const elementsToVerifyStep = [
+    ...$(newJiraIssuesMacroElements).toArray(),
+    ...$('.refresh-wiki').toArray(),
+  ];
+
+  if (!elementsToVerifyStep.length) {
     context.getPerfMeasure('addJira');
     return;
   }
 
   const elementTags = [];
-  // this is the outer div used to wrap the Jira issues macro
+  // this is the outer div used to wrap the Jira issues macro and anchor to wrap the new Jira issues macro
   // which it is saved to place the tables just before
-  $('div.confluence-jim-macro.jira-table').each(
+  const jiraIssuesLegacyMacro = $('div.confluence-jim-macro.jira-table');
+  const newJiraIssuesMacro = $(newJiraIssuesMacroElements);
+
+  $([...jiraIssuesLegacyMacro, ...newJiraIssuesMacro]).each(
     (_, elementJira: cheerio.Element) => {
       elementTags.push(elementJira);
     },
@@ -111,7 +122,26 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
       issues: {
         issues: jiraService
           .findTickets(server, filter, columns, 0, Number(maximumIssues))
-          .then((res) => res.issues),
+          .then((res) => res?.data?.issues ?? []),
+      },
+      columns,
+      server,
+      filter,
+    });
+  });
+
+  // this is the anchor holding the data to scrap the list of issues for new jira macro
+  $(newJiraIssuesMacroElements).each((_, link: cheerio.Element) => {
+    const wikimarkup = JSON.parse(link.attribs['data-datasource']) as { [key: string]: any };
+    const server = 'System JIRA';
+    const filter = wikimarkup.parameters.jql;
+    const columns = wikimarkup.views[0].properties.columns.map(({ key }) => key).join(',');
+
+    jiraIssuesPromises.push({
+      issues: {
+        issues: jiraService
+          .findTickets(server, filter, columns, 0)
+          .then((res) => res?.data?.issues ?? []),
       },
       columns,
       server,
@@ -140,9 +170,42 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
     filter: jira.filter,
   }));
 
+  const descriptionIssueFactory = (
+    issue: { [key: string]: any },
+    baseUrl: string,
+  ) => issue.renderedFields?.description
+    .replace(
+      // eslint-disable-next-line prefer-regex-literals
+      new RegExp('src="/rest/api/3/', 'g'),
+      `src="${baseUrl}/rest/api/3/`,
+    );
+
+  const getFixVersionObject = (issue: { [key: string]: any }) => {
+    const fixVersion = issue.fields?.fixVersions;
+    if (fixVersion && fixVersion[0]) {
+      return fixVersion[0];
+    }
+    return {};
+  };
+
+  const fixVersionUrlFactory = (issue: { [key: string]: any }) => {
+    const description = getFixVersionObject(issue)?.description;
+    if (description) {
+      const urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g;
+      const results = description.match(urlRegex);
+      return (results && results[0]) ?? '';
+    }
+    return '';
+  };
+
+  const fixVersionNameFactory = (issue: { [key: string]: any }) => {
+    const name = getFixVersionObject(issue)?.name;
+    return name ?? '';
+  };
+
   issuesColumns.forEach(
     ({
-      issues, columns, element, server, filter,
+      issues, columns, element, server,
     }, index) => {
       const data = [];
       // Load new base URL if defined a specific connection for Jira as ENV variables
@@ -182,6 +245,13 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
             color: issue.fields.status?.statusCategory.colorName,
           },
           resolution: issue.fields.resolution?.name,
+          fixVersion: {
+            name: fixVersionNameFactory(issue),
+            link: fixVersionUrlFactory(issue),
+          },
+          description: {
+            name: descriptionIssueFactory(issue, baseUrl),
+          },
         });
       });
 
@@ -204,7 +274,15 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
                 formatter: (cell) => gridjs.html(${'`<a href="${cell.link}" target="_blank">${cell.name}</a>`'})
               },`;
       }
-
+      if (requestedFields.includes('description')) {
+        gridjsColumns += `{
+                name: 'Description',
+                sort: {
+                  compare: (a, b) => (a.name > b.name ? 1 : -1),
+                },
+                formatter: (cell) => gridjs.html(${'`${cell.name}`'})
+              },`;
+      }
       if (requestedFields.includes('issuetype')) {
         gridjsColumns += `{
                 name: 'T',
@@ -251,6 +329,16 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
                 name: 'Resolution',
               },`;
       }
+      if (requestedFields.includes('fixVersions')) {
+        gridjsColumns += `{
+                name: 'Fix Version',
+                sort: {
+                  compare: (a, b) => (a.name > b.name ? 1 : -1),
+                },
+                formatter: (cell) =>
+                  cell.link ? gridjs.html(${'`<a href="${cell.link}" target="_blank">${cell.name}</a>`'}) : gridjs.html(${'`${cell.name}`'})
+              },`;
+      }
       gridjsColumns += ']';
 
       // remove the header
@@ -263,7 +351,6 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
       $('.refresh-issues-bottom').remove();
 
       $(element).before(
-        `<strong>Jira issues for ${filter}</strong>`,
         `<div id="gridjs${index}"></div>`,
         `<script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -278,7 +365,10 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
             width: '100%',
             style: {
               td: {
-                padding: '5px 5px'
+                padding: '5px 5px',
+                maxWidth: '500px',
+                minWidth: '25px',
+                overflow: 'auto',
               },
               th: {
                 padding: '5px 5px'

@@ -18,7 +18,7 @@ describe('ConfluenceProxy / fixLinks', () => {
     http = moduleRef.get<HttpService>(HttpService);
     webBasePath = config.get('web.absoluteBasePath');
 
-    context.initPageContext('XXX', '123456', 'dark');
+    context.initPageContext('v2', 'XXX', '123456', 'dark');
   });
 
   it('should replace page absolute URLs', async () => {
@@ -80,6 +80,35 @@ describe('ConfluenceProxy / fixLinks', () => {
       '</h3> ' +
       `<a href="${webBasePath}/wiki/spaces/XXX/pages/4242/#HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">Hello World | Nulla tempus vitae ipsum vitae rhoncus.</a>` +
       `<a href="${webBasePath}/wiki/spaces/XXX/pages/4343/#HelloWorld-ThisIsAnotherHeading">Hello World | This Is Another Heading</a>` +
+      '</div></body></html>';
+    expect(context.getHtmlBody()).toEqual(expected);
+  });
+
+  it('should replace page absolute URLs & URIs with Anchors and convert to text from URL with hyphen symbol', async () => {
+    const step = fixLinks(config, http, jiraMockServiceFactory);
+    const example =
+      '<html><head></head><body>' +
+      '<h2 id="HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">' +
+      'Nulla tempus vitae ipsum vitae rhoncus.' +
+      '</h2> ' +
+      '<h3 id="HelloWorld-ThisIsAnotherHeading">' +
+      'Nulla tempus vitae ipsum vitae rhoncus.' +
+      '</h3> ' +
+      '<a href="https://test.atlassian.net/wiki/spaces/XXX/pages/4242/Hello+World#HyphenSymbol"></a>' +
+      '<a href="/wiki/spaces/XXX/pages/4343/Hello+World#HyphenSymbol"></a>' +
+      '</body></html>';
+    context.setHtmlBody(example);
+    await step(context);
+    const expected =
+      '<html><head></head><body><div id="Content">' +
+      '<h2 id="HelloWorld-Nullatempusvitaeipsumvitaerhoncus.">' +
+      'Nulla tempus vitae ipsum vitae rhoncus.' +
+      '</h2> ' +
+      '<h3 id="HelloWorld-ThisIsAnotherHeading">' +
+      'Nulla tempus vitae ipsum vitae rhoncus.' +
+      '</h3> ' +
+      `<a href="${webBasePath}/wiki/spaces/XXX/pages/4242/#HelloWorld-HyphenSymbol">Hello World | HyphenSymbol</a>` +
+      `<a href="${webBasePath}/wiki/spaces/XXX/pages/4343/#HelloWorld-HyphenSymbol">Hello World | HyphenSymbol</a>` +
       '</div></body></html>';
     expect(context.getHtmlBody()).toEqual(expected);
   });
@@ -238,18 +267,7 @@ describe('ConfluenceProxy / fixLinks', () => {
     context.setHtmlBody(example);
     await step(context);
     const $ = context.getCheerioBody();
-    expect($('#Content > div').attr('class')).toBe('card');
+    expect($('#Content > div').attr('class')).toBe('link-card');
   });
-  it('should display jira space link', async () => {
-    const step = fixLinks(config, http, jiraMockServiceFactory);
-    const example =
-    '<html><head></head><body>' +
-    '<a data-card-appearance="block" href="https://test.atlassian.net/jira/software/c/projects/KVW/boards/1" class="external-link"></a>' +
-    '</body></html>';
-    context.setHtmlBody(example);
-    await step(context);
-    const $ = context.getCheerioBody();
-    expect($('img').attr('class')).toContain('jira-space-icon');
-    expect($('a').text().trim()).toBe('Konviw');
-  });
+
 });

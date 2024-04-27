@@ -10,6 +10,7 @@
 @import 'status';
 @import 'blockquote';
 @import 'copy-link';
+@import 'links';
 @import 'macro-decisions';
 @import 'macro-expand-panel';
 @import 'macro-info-panel';
@@ -37,6 +38,7 @@ html {
 h1.titlePage {
   color: var(--heading-color);
   font-size: var(--title-font-size);
+  padding-top: 0.8rem;
 
   & .specialAtlassian {
     display: flex;
@@ -131,55 +133,6 @@ code {
   word-wrap: break-word;
 }
 
-// Internal Hyperlinks ============================================
-a {
-  transition: background-size 0.4s ease;
-  background-image: linear-gradient(180deg, transparent 80%, #42c46b 0em);
-  background-size: 0 100%;
-  background-repeat: no-repeat;
-  color: var(--primary-color-link);
-  text-decoration: none;
-  &:hover {
-    background-size: 100% 100%;
-    color: var(--font-color);
-  }
-}
-
-// External Hyperlinks ============================================
-a.external-link {
-  transition: background-size 0.4s ease;
-  background-image: linear-gradient(180deg, transparent 80%, #4b85e8 0em);
-  background-size: 0 100%;
-  background-repeat: no-repeat;
-  color: var(--primary-color-link);
-  text-decoration: none;
-  &:hover {
-    background-size: 100% 100%;
-    color: var(--font-color);
-  }
-  &:only-child:before {
-    content: var(--external-link-symbol);
-    padding-left: 2px;
-    padding-right: 5px;
-  }
-}
-
-// User mention with @ ===================================
-a.user-mention {
-  background: var(--user-mention-bg);
-  padding: 2px;
-  border-radius: 15px;
-  color: var(--font-color);
-  font-size: var(--user-mention-size);
-  white-space: nowrap;
-  &:hover {
-    color: white;
-  }
-  &::before {
-    content: '@ ';
-  }
-}
-
 // Macro Child Pages ==================================
 ul.childpages-macro {
   font-size: 16px;
@@ -204,24 +157,18 @@ ul.childpages-macro li {
 
 // Macro image with caption
 .image-caption {
-  text-align: center;
   margin-top: .5rem;
-}
-
-// Confluence space
-.confluence-space {
-  img {
-    height: 48px;
-    width: 48px;
+  &.image-left-wrapper {
+    text-align: left;
+  }
+  &.image-right-wrapper{
+    text-align: right;
+  }
+  &.image-center-wrapper {
+    text-align: center;
   }
 }
 
-// Jira space
-.jira-space-icon {
-  height: 20px !important;
-  width: 20px !important;
-  padding-bottom: 0;
-}
 @media (max-width: 700px) {
   tbody {
     margin: 0;

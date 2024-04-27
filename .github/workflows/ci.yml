@@ -21,6 +21,8 @@ jobs:
       CPV_CONFLUENCE_BASE_URL: ${{ secrets.CPV_CONFLUENCE_BASE_URL }}
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      CPV_JIRA_READER_API_USERNAME: ${{ secrets.CPV_JIRA_READER_API_USERNAME }}
+      CPV_JIRA_READER_API_TOKEN: ${{ secrets.CPV_JIRA_READER_API_TOKEN }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -102,7 +104,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          token: ${{ secrets.SEMANTIC_RELEASE_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Node
         uses: actions/setup-node@v3
@@ -136,5 +138,5 @@ jobs:
         env:
           # MDF_BRANCH_TAG: latest
           # MDF_BUILD_PARAMS: --cache-from ${{ env.CACHE_IMAGE }}
-          GH_TOKEN: ${{ secrets.SEMANTIC_RELEASE_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx semantic-release

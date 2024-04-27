@@ -30,7 +30,6 @@ describe('proxy-api', () => {
     const res = await request(app.getHttpServer()).get(
       `/api/spaces/konviw/pages/${INTRO_TO_KONVIW_ID}`,
     );
-
     expect(res.statusCode).toBe(HttpStatus.OK);
 
     checkBasicPageEquality(
@@ -74,6 +73,20 @@ describe('proxy-api', () => {
       `/api/spaces/konviw/pages/0000`,
     );
     expect(res.statusCode).toBe(HttpStatus.NOT_FOUND);
+  });
+
+  it(`/GET page with JQL Macro, body begins with Content div and page content matches`, async () => {
+    const res = await request(app.getHttpServer()).get(
+      `/api/spaces/konviw/pages/237371394`,
+    );
+    expect(res.statusCode).toBe(HttpStatus.OK);
+
+    checkBasicPageEquality(
+      res.body as Partial<KonviwContent>,
+      'Demo Jira snapshot with project =',
+      'Done',
+      HTML_DIV_REGEXP,
+    );
   });
 
   function checkBasicPageEquality(

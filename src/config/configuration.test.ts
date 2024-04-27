@@ -35,4 +35,8 @@ export default (): Config => ({
   logging: {
     enableLoggerMiddleware: process.env.ENABLE_LOGGER_MIDDLEWARE === 'true',
   },
+  jiraIssues: {
+    apiReaderUsername: process.env.CPV_JIRA_READER_API_USERNAME || '',
+    apiReaderToken: process.env.CPV_JIRA_READER_API_TOKEN || '',
+  },
 });

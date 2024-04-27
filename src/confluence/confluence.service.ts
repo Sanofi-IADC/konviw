@@ -6,9 +6,13 @@ import {
 } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
-import { AxiosResponse } from 'axios'; // eslint-disable-line import/no-extraneous-dependencies
+import { AxiosRequestConfig, AxiosResponse } from 'axios'; // eslint-disable-line import/no-extraneous-dependencies
 import { firstValueFrom } from 'rxjs';
-import { Content, SearchResults, Attachment } from './confluence.interface';
+import {
+  Content,
+  SearchResults,
+  Attachment,
+} from './confluence.interface';
 
 @Injectable()
 export class ConfluenceService {
@@ -34,56 +38,66 @@ export class ConfluenceService {
     version?: string,
     status?: string,
   ): Promise<Content> {
-    let results: AxiosResponse<Content>;
     try {
-      const uri = version ? `${pageId}/version/${version}` : `${pageId}`;
-      const prefix = version ? 'content.' : '';
-      // default to 'current'
-      const statusPage = status ?? 'current';
-      this.logger.log(`Retrieving page ${pageId}`);
-      this.logger.log(`Retrieving version ${version}`);
-      results = await firstValueFrom(
-        this.http.get<Content>(`/wiki/rest/api/content/${uri}`, {
-          params: {
-            type: 'page',
-            status: statusPage,
-            spaceKey,
-            // select special fields to retrieve
-            expand: [
-              // content body with html tags
-              `${prefix}body.view`,
-              // content body with macro confluence attribiutes
-              `${prefix}body.storage`,
-              // contains the value 'full-width' when pages are displayed in full width
-              `${prefix}metadata.properties.content_appearance_published`,
-              // labels defined for the page
-              `${prefix}metadata.labels`,
-              `${prefix}version`,
-              `${prefix}history`,
-              // header image if any defined
-              `${prefix}metadata.properties.cover_picture_id_published`,
-              // title emoji if any defined
-              `${prefix}metadata.properties.emoji_title_published`,
-            ].join(','),
-          },
-        }),
-      );
+      const [typeContentResponse, spaceContentResponse]: AxiosResponse[] = await Promise.all([
+        this.getContentType(pageId),
+        this.getSpaceData(spaceKey),
+      ]);
+
+      const spaceContent = this.getSpaceContent(spaceContentResponse);
+      const contentType = this.getApiEndPoint(typeContentResponse, pageId);
+
+      if (contentType) {
+        const params = { version };
+
+        params['space-id'] = (spaceContent) ? spaceContent.id : null;
+        // get-draft parameter expected by the new API v2
+        // https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-page/#api-pages-id-get
+        params['get-draft'] = (status === 'draft');
+
+        const [pageContent, labelsContent, propertiesContent] = await Promise.all([
+          this.getContentTypeBody(contentType, pageId, params),
+          this.getContentTypeResource(contentType, pageId, 'labels', params),
+          this.getContentTypeResource(contentType, pageId, 'properties', params),
+        ]);
+
+        const [authorContent, versionAuthorContent] = await Promise.all([
+          this.getAccountDataById((pageContent as Content['pageContent']).ownerId
+            ?? (pageContent as Content['pageContent']).authorId),
+          this.getAccountDataById((pageContent as Content['pageContent']).version.authorId),
+        ]);
+
+        const convertedPagePropertiesContentToObject = propertiesContent.results.reduce((acc, property) => {
+          acc[property.key] = { ...property };
+          return acc;
+        }, {});
+
+        const content = {
+          pageContent,
+          spaceContent: spaceContent ?? { key: spaceKey },
+          labelsContent,
+          propertiesContent: convertedPagePropertiesContentToObject,
+          authorContent,
+          versionAuthorContent,
+        };
+
+        // Check if the label defined in configuration for private pages is present in the metadata labels
+        if (
+          content.labelsContent.results.find(
+            (label: { name: string }) =>
+              label.name === this.config.get('konviw.private'),
+          )
+        ) {
+          this.logger.log(`Page ${pageId} can't be rendered because is private`);
+          throw new ForbiddenException('This page is private.');
+        }
+        return content as Content;
+      }
+      return undefined;
     } catch (err) {
       this.logger.log(err, 'error:getPage');
       throw new HttpException(`${err}\nPage ${pageId} Not Found`, 404);
     }
-    const content: Content = version ? results.data.content : results.data;
-    // Check if the label defined in configuration for private pages is present in the metadata labels
-    if (
-      content.metadata.labels.results.find(
-        (label: { name: string }) =>
-          label.name === this.config.get('konviw.private'),
-      )
-    ) {
-      this.logger.log(`Page ${pageId} can't be rendered because is private`);
-      throw new ForbiddenException('This page is private.');
-    }
-    return content;
   }
 
   /**
@@ -191,49 +205,120 @@ export class ConfluenceService {
   }
 
   /**
+   * @function getSpacePermissions Service
+   * @description Get Space permissions from Confluence API /wiki/api/v2/spaces/:id/permissions
+   * @return Promise {any}
+   * @param id {string} '1' - space id
+   * @param limit {number} '50'- maximum number of records to retrieve
+   */
+  async getSpacePermissions(id: string, limit = 50) {
+    try {
+      const { data }: AxiosResponse = await firstValueFrom(
+        this.http.get(`/wiki/api/v2/spaces/${id}/permissions`, { params: { limit } }),
+      );
+      const results = await this.getSpacesAccountByPermissions(data.results);
+      this.logger.log(
+        `Retrieving space permissions of ${id} via REST API`,
+      );
+      return results;
+    } catch (err: any) {
+      this.logger.log(err, 'error:getSpacePermissions');
+      throw new HttpException(`error:getSpacePermissions > ${err}`, 404);
+    }
+  }
+
+  /**
+   * @function getSpaceLabels Service
+   * @description Get Space labels from Confluence API /wiki/api/v2/spaces/:id/labels
+   * @return Promise {any}
+   * @param id {string} '1' - space id
+   * @param limit {number} '50' - maximum number of records to retrieve
+   */
+  async getSpaceLabels(id: string, limit = 50) {
+    try {
+      const { data }: AxiosResponse = await firstValueFrom(
+        this.http.get(`/wiki/api/v2/spaces/${id}/labels`, { params: { limit } }),
+      );
+      this.logger.log(
+        `Retrieving space labels of ${id} via REST API`,
+      );
+      return data.results;
+    } catch (err: any) {
+      this.logger.log(err, 'error:getSpaceLabels');
+      throw new HttpException(`error:getSpaceLabels > ${err}`, 404);
+    }
+  }
+
+  /**
+   * @function getSpacesMeta Service
+   * @description Get Space meta from Confluence API /wiki/api/v2/spaces
+   * @return Promise {any}
+   * @param type {string} 'global' - type of space with possible values 'global' or 'personal'
+   * @param collection {array} '[]' - recursive array of collection
+   * @param next {string} 'xyz' - starting cursor used for pagination
+   */
+  async getSpacesMeta(type: string, next?: string, collection = []) {
+    const defaultParams = { type, status: 'current', limit: 250 };
+    try {
+      const { data }: AxiosResponse = await firstValueFrom(
+        this.http.get(next || '/wiki/api/v2/spaces', { params: !next && defaultParams }),
+      );
+      this.logger.log(
+        `Retrieving spaces of ${type} total via REST API`,
+      );
+      collection.push(...data.results);
+      if (data._links?.next) {
+        await this.getSpacesMeta(type, data._links?.next, collection);
+      }
+      return collection;
+    } catch (err: any) {
+      this.logger.log(err, 'error:getSpacesMeta');
+      throw new HttpException(`error:getSpacesMeta > ${err}`, 404);
+    }
+  }
+
+  /**
    * @function getAllSpaces Service
    * @description Retrieve all spaces from endpoint /wiki/rest/api/space
    * @return Promise {any}
    * @param type {string} 'global' - type of space with possible values 'global' or 'personal'
-   * @param startAt {number} 15 - starting position to handle paginated results
-   * @param maxResults {number} 999 - limit of results to be returned
-   * @param getFields {number} 1 - '1' to get icon, labels, description and permissions or '0' for simple list of spaces
+   * @param limit {number} '250' - maximum number of records to retrieve
+   * @param next {string} 'xyz' - starting cursor used for pagination
    */
   async Spaces(
-    type = 'global',
-    startAt = 0,
-    maxResults = 999,
-    getFields = 0,
+    type: string,
+    limit: number,
+    next: string,
   ): Promise<AxiosResponse> {
     const defaultParms = {
       type,
-      start: startAt,
-      limit: maxResults,
+      limit,
+      'include-icon': true,
+      'description-format': 'plain',
       status: 'current',
     };
 
-    // we expand extra fields if fields === 1 otherwise retrieve the default reponse
-    const params = getFields === 1
-      ? {
-        ...defaultParms,
-        expand: [
-          // extra fields to retrieve
-          'icon',
-          'metadata.labels',
-          'description.plain',
-          'permissions',
-        ].join(','),
-      }
-      : defaultParms;
-
     try {
-      const results: AxiosResponse = await firstValueFrom(
-        this.http.get('/wiki/rest/api/space', { params }),
+      const response : AxiosResponse = await firstValueFrom(
+        this.http.get(next || '/wiki/api/v2/spaces', { params: !next && defaultParms }),
       );
+
+      const results = await Promise.all(response.data.results.map(async (space) => {
+        const [labels, permissions] = await Promise.all([
+          this.getSpaceLabels(space.id),
+          this.getSpacePermissions(space.id),
+        ]);
+        return {
+          ...space,
+          permissions,
+          labels,
+        };
+      }));
+
       this.logger.log(
-        `Retrieving all spaces of type ${type} with ${maxResults} maximum records via REST API`,
+        `Retrieving all spaces of type ${type} with ${limit} maximum records via REST API`,
       );
-      return results;
+      return { ...response, data: { ...response.data, results } };
     } catch (err: any) {
       this.logger.log(err, 'error:getAllSpaces');
       throw new HttpException(`error:getAllSpaces > ${err}`, 404);
@@ -249,27 +334,20 @@ export class ConfluenceService {
   async getSpaceMetadata(
     spaceKey: string,
   ): Promise<AxiosResponse> {
-    const defaultParms = {
-      status: 'current',
-    };
-
-    // we expand extra fields
     const params = {
-      ...defaultParms,
-      expand: [
-        'icon',
-        'homepage',
-      ].join(','),
+      status: 'current',
+      'include-icon': true,
+      keys: spaceKey,
     };
 
     try {
       const result: AxiosResponse = await firstValueFrom(
-        this.http.get(`/wiki/rest/api/space/${spaceKey}`, { params }),
+        this.http.get('/wiki/api/v2/spaces', { params }),
       );
       this.logger.log(
         `Retrieving ${spaceKey} space metadata via REST API`,
       );
-      return result;
+      return { ...result, data: result.data.results[0] };
     } catch (err: any) {
       this.logger.log(err, 'error:getSpaceMetadata');
       throw new HttpException(`error:getSpaceMetadata > ${err}`, 404);
@@ -278,24 +356,34 @@ export class ConfluenceService {
 
   async getAttachments(pageId: string): Promise<Attachment[]> {
     // from API v2 we have to use first this API to identify the proper content from the pageID
-    const typeContent: AxiosResponse = await firstValueFrom(
-      this.http.post('/wiki/api/v2/content/convert-ids-to-types', { contentIds: [pageId] }),
-    );
-    if (typeContent?.data.results[pageId]) {
-      // set the proper API endpoint based on the appropiate content
-      const apiEndPoint = typeContent?.data.results[pageId] === 'page' ? 'pages' : 'blogposts';
+    const typeContentResponse: AxiosResponse = await this.getContentType(pageId);
+    const contentType = this.getApiEndPoint(typeContentResponse, pageId);
+    if (contentType) {
       try {
         const results: AxiosResponse = await firstValueFrom(
-          this.http.get(`/wiki/api/v2/${apiEndPoint}/${pageId}/attachments`),
+          this.http.get(`/wiki/api/v2/${contentType}/${pageId}/attachments`),
         );
-        this.logger.log(`Retrieving attachments from ${typeContent?.data.results[pageId]} ${pageId} via REST API v2`);
+        this.logger.log(`Retrieving attachments from ${contentType} ${pageId} via REST API v2`);
         return results.data?.results;
       } catch (err: any) {
-        this.logger.log(err, `error:getAttachments from ${typeContent?.data.results[pageId]} ${pageId}`);
+        this.logger.log(err, `error:getAttachments from ${contentType} ${pageId}`);
         return undefined;
       }
     }
     return undefined;
+  }
+
+  async getAttachmentBase64(url: string): Promise<string> {
+    try {
+      const { data }: AxiosResponse = await firstValueFrom(
+        this.http.get(`/wiki${url}`, { responseType: 'arraybuffer' }),
+      );
+      this.logger.log(`Retrieving attachmentBase64 from ${url} via REST API v2`);
+      return data.toString('base64');
+    } catch (err: any) {
+      this.logger.log(err, `error:getAttachmentBase64 from ${url}`);
+      return undefined;
+    }
   }
 
   async getSpecialAtlassianIcons(image?: string): Promise<any> {
@@ -309,6 +397,71 @@ export class ConfluenceService {
       return results.find(({ id }) => id === image);
     }
     return results;
+  }
+
+  private async getSpacesAccountByPermissions(data) {
+    const permissionsDefinedAsUser = data.filter((permission) => permission.principal.type === 'user');
+    return Promise.all(permissionsDefinedAsUser.map(async (permission) => ({
+      ...permission,
+      user: await this.getAccountDataById(permission.principal.id),
+    })));
+  }
+
+  private async getAccountDataById(accountId: string): Promise<any> {
+    const { data } = await firstValueFrom(
+      this.http.get<Content>(`wiki/rest/api/user?accountId=${accountId}`),
+    );
+    return data;
+  }
+
+  /* eslint-disable class-methods-use-this */
+  private getSpaceContent(spaceContentResponse): any {
+    return spaceContentResponse.data.results[0];
+  }
+
+  /* eslint-disable class-methods-use-this */
+  private getApiEndPoint(typeContent: any, pageId: string): string {
+    return typeContent?.data.results[pageId] === 'page' ? 'pages' : 'blogposts';
+  }
+
+  private async getSpaceData(spaceKey: string) {
+    return firstValueFrom(
+      this.http.get(`/wiki/api/v2/spaces?keys=${spaceKey}`),
+    );
+  }
+
+  private async getContentType(pageId: string): Promise<any> {
+    return firstValueFrom(
+      this.http.post('/wiki/api/v2/content/convert-ids-to-types', { contentIds: [pageId] }),
+    );
+  }
+
+  async getContentTypeBody(
+    contentType: string,
+    pageId: string,
+    params: AxiosRequestConfig<any>['params'],
+  ): Promise<Content['pageContent'] | Content> {
+    const [viewFormat, storageFormat] = await Promise.all([
+      firstValueFrom(
+        this.http.get<any>(`/wiki/api/v2/${contentType}/${pageId}`, { params: { ...params, 'body-format': 'view' } }),
+      ),
+      firstValueFrom(
+        this.http.get<any>(`/wiki/api/v2/${contentType}/${pageId}`, { params: { ...params, 'body-format': 'storage' } }),
+      ),
+    ]);
+    return { ...viewFormat.data, body: { ...viewFormat.data.body, ...storageFormat.data.body } };
+  }
+
+  async getContentTypeResource(
+    contentType: string,
+    pageId: string,
+    resource: string,
+    params: AxiosRequestConfig<any>['params'],
+  ): Promise<Content['labelsContent'] | Content['Properties']> {
+    const { data } = await firstValueFrom(
+      this.http.get<any>(`/wiki/api/v2/${contentType}/${pageId}/${resource}`, { params }),
+    );
+    return data;
   }
 
   /**

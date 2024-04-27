@@ -32,8 +32,14 @@ export default (config: ConfigService, http: HttpService, jira: JiraService): St
 
   const createImagePath = (favicon: string, url: string) => {
     if (favicon) {
-      const base = new URL(url).origin;
-      return isValidURL(favicon) ? favicon : `${base}${favicon}`;
+      const { origin, protocol } = new URL(url);
+      if (isValidURL(favicon)) {
+        return favicon;
+      }
+      if (favicon.startsWith('//')) {
+        return `${protocol}${favicon}`;
+      }
+      return `${origin}${favicon}`;
     }
     return '';
   };
@@ -54,7 +60,7 @@ export default (config: ConfigService, http: HttpService, jira: JiraService): St
       'content',
     ) ?? '';
     const imageSrc = body(
-      'head meta[name="twitter:image:src"], head meta[name="og:image"]',
+      'head meta[name="twitter:image"], head meta[property="og:image"]',
     ).attr('content');
     const path = createImagePath(favicon, url);
     return {
@@ -108,6 +114,12 @@ export default (config: ConfigService, http: HttpService, jira: JiraService): St
       return null;
     }
 
+    // New Jira macro links are skipped
+    const dataSourceAppearance = $(element).attr('data-datasource');
+    if (dataSourceAppearance) {
+      return null;
+    }
+
     return fetchResourcesCallback(url).then((res) => {
       const isJiraResponse = res?.data?.expand;
 
@@ -122,19 +134,24 @@ export default (config: ConfigService, http: HttpService, jira: JiraService): St
         : externalResourcesFactory(url, res.data);
 
       let replacement = '';
+
       if (dataCardAppearance === 'inline') {
         replacement = `<a target="_blank" href="${url}"> <img class="${classIconName}" src="${path}"/> ${title}</a>`;
-      } else if (dataCardAppearance === 'block') {
-        const imgTag = imageSrc ? `<img src="${imageSrc}"/>` : '';
+      }
+
+      if (dataCardAppearance === 'block') {
+        const imgTag = imageSrc ? `<img class="link-card-image" src="${imageSrc}"/>` : '';
         replacement = `
-          <div class="card">
-            <div class="thumb">${imgTag}</div>
-            <div class="title-desc">
+          <div class="link-card">
+            <div class="link-card-content">
               <a target="_blank" href="${url}"> <img class="${classIconName}" src="${path}"/> ${title}</a>
-              <p>${description ?? ''}</p>
+              <p class="link-card-description">${description ?? ''}</p>
+              <a target="_blank" href="${getOrigin(url)}">${getDomain(url)}</a>
             </div>
+            ${imgTag}
           </div>`;
       }
+
       if (replacement) {
         $(element).replaceWith(replacement);
       }
@@ -158,6 +175,22 @@ export default (config: ConfigService, http: HttpService, jira: JiraService): St
   );
   const searchUriwithAnchor = new RegExp('^(\/wiki)(.*\/)(.*)#(.*)');
 
+  const composeTextFactory = (title: string, heading: string) =>
+    `${title.replace(/\+/g, ' ')} | ${heading.replace(
+      /\-/g,
+      ' ',
+    )}`;
+
+  const composeUrlFactory = (path: string, title: string, heading: string) =>
+    `${webBasePath}/wiki${path}#`
+      + `${title.replace(/\+/g, '')}-`
+      + `${heading.replace(/\-/g, '')}`;
+
+  const verifyComposeUrl = (link: cheerio.Element) => {
+    const text = $(link).html();
+    return text === '' || text.startsWith(confluenceBaseURL);
+  };
+
   const replaceAttributeLink = (attr: string, link: cheerio.Element) => {
     const [, , pathPageAnchorUrl, titlePageUrl, headingPageUrl] = searchUrlwithAnchor.exec($(link).attr(attr)) ?? [];
     const [, , pathPageAnchorUri, titlePageUri, headingPageUri] = searchUriwithAnchor.exec($(link).attr(attr)) ?? [];
@@ -168,34 +201,20 @@ export default (config: ConfigService, http: HttpService, jira: JiraService): St
     if (pathPageAnchorUrl) {
       $(link).attr(
         attr,
-        `${webBasePath}/wiki${pathPageAnchorUrl}#`
-            + `${titlePageUrl.replace(/\+/g, '')}-`
-            + `${headingPageUrl.replace(/\-/g, '')}`,
+        composeUrlFactory(pathPageAnchorUrl, titlePageUrl, headingPageUrl),
       );
-      // if there is no display text for the Url we try to compose one
-      if ($(link).html() === '') {
-        $(link).text(
-          `${titlePageUrl.replace(/\+/g, ' ')} | ${headingPageUrl.replace(
-            /\-/g,
-            ' ',
-          )}`,
-        );
+      // if there is no display text for the Url we try to compose one or modify if starts with confluence domain
+      if (verifyComposeUrl(link)) {
+        $(link).text(composeTextFactory(titlePageUrl, headingPageUrl));
       }
     } else if (pathPageAnchorUri) {
       $(link).attr(
         attr,
-        `${webBasePath}/wiki${pathPageAnchorUri}#`
-            + `${titlePageUri.replace(/\+/g, '')}-`
-            + `${headingPageUri.replace(/\-/g, '')}`,
+        composeUrlFactory(pathPageAnchorUri, titlePageUri, headingPageUri),
       );
       // if there is no display text for the Url we try to compose one
-      if ($(link).html() === '') {
-        $(link).text(
-          `${titlePageUri.replace(/\+/g, ' ')} | ${headingPageUri.replace(
-            /\-/g,
-            ' ',
-          )}`,
-        );
+      if (verifyComposeUrl(link)) {
+        $(link).text(composeTextFactory(titlePageUri, headingPageUri));
       }
     } else if (pathPageUrl) {
       // Step 1: replace absolute URLs by absolute URIs
@@ -242,3 +261,11 @@ export default (config: ConfigService, http: HttpService, jira: JiraService): St
 
   context.getPerfMeasure('fixLinks');
 };
+
+// Helpers
+
+// Get the domain of a url
+const getDomain = (url: string) => new URL(url).host;
+
+// Get the origin of a url (domain with protocol)
+const getOrigin = (url: string) => new URL(url).origin;

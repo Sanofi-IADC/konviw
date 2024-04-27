@@ -15,8 +15,8 @@ export default (): Step => (context: ContextService): void => {
   const isTitleType = type.includes('title');
 
   const authorVersionFactory = () => {
-    const pageVersionHtml = isVersionType ? `<p class="author_text">Page version: ${version?.versionNumber}</p>` : '';
-    const pageAuthorHtml = `<p class="author_text">Creator: ${author}</p>`;
+    const pageVersionHtml = isVersionType ? `<p class="author_text">Version: ${version?.versionNumber}</p>` : '';
+    const pageAuthorHtml = `<p class="author_text">Owner: ${author}</p>`;
 
     return `<div class="author_header">
       <img src="${image_author}" class="author_image">

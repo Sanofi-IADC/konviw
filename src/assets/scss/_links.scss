@@ -1,0 +1,189 @@
+// Hyperlink styles ==============================================
+
+// Internal Hyperlinks ============================================
+a {
+  transition: background-size 0.4s ease;
+  background-image: linear-gradient(180deg, transparent 80%, #42c46b 0em);
+  background-size: 0 100%;
+  background-repeat: no-repeat;
+  color: var(--primary-color-link);
+  text-decoration: none;
+  &:hover {
+    background-size: 100% 100%;
+    color: var(--font-color);
+  }
+}
+
+// External Hyperlinks ============================================
+a.external-link {
+  transition: background-size 0.4s ease;
+  background-image: linear-gradient(180deg, transparent 80%, #4b85e8 0em);
+  background-size: 0 100%;
+  background-repeat: no-repeat;
+  color: var(--primary-color-link);
+  text-decoration: none;
+  &:hover {
+    background-size: 100% 100%;
+    color: var(--font-color);
+  }
+  &:only-child:before {
+    content: var(--external-link-symbol);
+    padding-left: 2px;
+    padding-right: 5px;
+  }
+}
+
+.favicon {
+  width: 14px;
+  padding: 0;
+  margin-right: 4px;
+}
+
+// Smart links Cards ============================================
+.link-card {
+  --content-padding: 0.5rem;
+  --content-spacing: 0.1rem;
+
+  display: flex;
+  background-color: var(--bg-color);
+  margin: 0.75rem 0px 0px;
+  padding: 0px;
+  border: 0.8px solid var(--secondary-color);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  max-width: 850px;
+  max-height: 150px;
+  align-items: flex-start;
+
+  &:hover {
+    filter: invert(3%);
+  }
+
+  a {
+    color: var(--primary-color-link);
+    transition: none;
+    background-image: none;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.link-card-content {
+  font-size: 1rem;
+  gap: var(--content-spacing);
+  padding: var(--content-padding);
+  width: 100%;
+}
+
+.link-card-description {
+  font-size: 0.8rem;
+  line-height: 1;
+}
+
+img.link-card-image {
+  max-height: 150px;
+  object-fit:cover;
+  max-width: max-content;
+  padding: 0;
+}
+
+
+// User mention with @ ===================================
+a.user-mention {
+  background: var(--user-mention-bg);
+  padding: 2px;
+  border-radius: 15px;
+  color: var(--font-color);
+  font-size: var(--user-mention-size);
+  white-space: nowrap;
+  &:hover {
+    color: white;
+  }
+  &::before {
+    content: '@ ';
+  }
+}
+
+// Confluence space
+.confluence-space {
+  border: 0.8px solid var(--secondary-color);
+  border-radius: 0.2rem;
+  padding: 2;
+  margin: 2;
+  img {
+    position: relative;
+    top: 0.2rem;
+    width: 1rem;
+    padding-left: 1;
+    padding-bottom: 0;
+  }
+}
+
+// Jira space
+.jira-space-icon {
+  height: 20px;
+  width: 20px;
+  padding-bottom: 0;
+}
+
+// Hyperlinks for embedded files ==================================
+a.konviw-embedded-file-icon {
+  &::before {
+    font-family: 'Font Awesome 5 Free', sans-serif;
+    content: '\f15c';
+    font-size: 24px;
+    font-weight: 100;
+    padding-right: 5px;
+    color: grey;
+  }
+  &[href*='.pdf']::before {
+    content: '\f1c1';
+  }
+  &[href*='.doc']::before {
+    content: '\f1c2';
+  }
+  &[href*='.ppt']::before {
+    content: '\f1c4';
+  }
+  &[href*='.xls']::before {
+    content: '\f1c3';
+  }
+  &[href*='.zip']::before {
+    content: '\f1c6';
+  }
+  &:is([href*='.mp3'], [href*='.aac'], [href*='.ac3'], [href*='.aif'],
+    [href*='.m4a'], [href*='.mid'], [href*='.ogg'], [href*='.wav'])::before {
+    content: '\f1c7';
+  }
+}
+
+p.media-group {
+  padding: 0px;
+  margin: 0px;
+}
+
+div.konviw-embedded-file {
+  width: 250px;
+  /* To correctly align image, regardless of content height: */
+  padding-top: 10px;
+  vertical-align: top;
+  display: inline-block;
+  /* To horizontally center images and caption */
+  text-align: center;
+  img {
+    box-shadow: var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow);
+    padding: 0px;
+    border: 1px;
+    border-style:solid;
+    border-color: lightgrey;
+    border-radius: 2%;
+  }
+  span.konviw-embedded-file-caption {
+    /* Make the caption a block so it occupies its own line. */
+    padding: 5px;
+    font-size: 0.6em;
+    display: block;
+  }
+}

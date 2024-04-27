@@ -1,3 +1,296 @@
+## [3.27.2](https://github.com/Sanofi-IADC/konviw/compare/v3.27.1...v3.27.2) (2024-04-27)
+
+
+### Bug Fixes
+
+* regression legacy images ([#576](https://github.com/Sanofi-IADC/konviw/issues/576)) ([e590f38](https://github.com/Sanofi-IADC/konviw/commit/e590f38492904e6f71fd3a9bb169293045d40f59))
+
+## [3.27.1](https://github.com/Sanofi-IADC/konviw/compare/v3.27.0...v3.27.1) (2024-04-27)
+
+
+### Bug Fixes
+
+* display new feature inline icon ([#575](https://github.com/Sanofi-IADC/konviw/issues/575)) ([ca4565b](https://github.com/Sanofi-IADC/konviw/commit/ca4565b477218f6ea08c7336258f33582a6bdd83))
+
+# [3.27.0](https://github.com/Sanofi-IADC/konviw/compare/v3.26.0...v3.27.0) (2024-03-07)
+
+
+### Features
+
+* WEB-1892 Improvment path icon ([db7910d](https://github.com/Sanofi-IADC/konviw/commit/db7910df86cc47020c9bcf9b997841985662ddba))
+* WEB-1892 Improvment path icon ([48441f1](https://github.com/Sanofi-IADC/konviw/commit/48441f1cbb8adafc5aab03eddb5fd19bad167c13))
+
+# [3.26.0](https://github.com/Sanofi-IADC/konviw/compare/v3.25.0...v3.26.0) (2024-03-01)
+
+
+### Features
+
+* WEB-1893 Changed icon path ([d7fa1e1](https://github.com/Sanofi-IADC/konviw/commit/d7fa1e1d188c824924a86db9855746afdf3c6079))
+* WEB-1893 Migrated Space endpoint to Confluence REST API v2 ([fbc73a1](https://github.com/Sanofi-IADC/konviw/commit/fbc73a1f8840348d315a9278aecab0773f2f2812))
+* WEB-1893 Migrated Space endpoint to Confluence REST API v2 ([cc5ee4d](https://github.com/Sanofi-IADC/konviw/commit/cc5ee4dcb76271a749828aba494df0e76bb9f235))
+* WEB-1893 Removed unnecessary any ([00c5e45](https://github.com/Sanofi-IADC/konviw/commit/00c5e4588526f5b9c59f5ff8f666d160445b00ba))
+* WEB-1893 Removed unnecessary any ([5f36f1f](https://github.com/Sanofi-IADC/konviw/commit/5f36f1f8566084a54f52b30b98246b58d1b64f9f))
+
+# [3.25.0](https://github.com/Sanofi-IADC/konviw/compare/v3.24.2...v3.25.0) (2024-02-27)
+
+
+### Features
+
+* WEB-1892 Align changes for get space metadata for migration to v2 rest api ([7934547](https://github.com/Sanofi-IADC/konviw/commit/79345474c218301fb4c0fc35f4b0cd83a2f848ac))
+* WEB-1892 Align changes for get space metadata for migration to v2 rest api ([305deb4](https://github.com/Sanofi-IADC/konviw/commit/305deb4ffbd9e71468dcfca53337fb2ab1705a83))
+* WEB-1892 Align test mocks ([f58e497](https://github.com/Sanofi-IADC/konviw/commit/f58e497b2bbbefe4a9fa906130d9a38dae0a7319))
+* WEB-1892 Fixed lint issues ([c17038c](https://github.com/Sanofi-IADC/konviw/commit/c17038cb76d114591fabe2486c2854be5648c9f1))
+
+## [3.24.2](https://github.com/Sanofi-IADC/konviw/compare/v3.24.1...v3.24.2) (2024-02-23)
+
+
+### Bug Fixes
+
+* WEB-2214 fix the URL of favicon starting by // ([#571](https://github.com/Sanofi-IADC/konviw/issues/571)) ([a3367fe](https://github.com/Sanofi-IADC/konviw/commit/a3367fe1d810309cb962800e3596c81b1c51b144))
+
+## [3.24.1](https://github.com/Sanofi-IADC/konviw/compare/v3.24.0...v3.24.1) (2024-02-22)
+
+
+### Bug Fixes
+
+* WEB-2209 Display inline text embedded files ([#567](https://github.com/Sanofi-IADC/konviw/issues/567)) ([00bda57](https://github.com/Sanofi-IADC/konviw/commit/00bda57d567af75122af68d02d5c05e3ccd1cfa6))
+
+# [3.24.0](https://github.com/Sanofi-IADC/konviw/compare/v3.23.3...v3.24.0) (2024-02-22)
+
+
+### Bug Fixes
+
+* WEB-2210 Added conditional to verify external links better as jira issues macro ([66e4702](https://github.com/Sanofi-IADC/konviw/commit/66e4702da1496ef58f098aadd5ef1f488be92493))
+* WEB-2210 Align to main changes ([cce1499](https://github.com/Sanofi-IADC/konviw/commit/cce1499da8fbd56c9c96ab7f28a0755eccc37686))
+* WEB-2210 Fixed lint issues ([3d2014b](https://github.com/Sanofi-IADC/konviw/commit/3d2014ba3b16c1179c4f2097ed492fef11293a4c))
+
+
+### Features
+
+* WEB-2210 Align changes to better interpret new jira issues macro ([9c7969f](https://github.com/Sanofi-IADC/konviw/commit/9c7969fad6d6e78328b12479bd6169d39dd65e9c))
+
+## [3.23.3](https://github.com/Sanofi-IADC/konviw/compare/v3.23.2...v3.23.3) (2024-02-22)
+
+
+### Bug Fixes
+
+* WEB-2210 Align correct classes for images ([803e92a](https://github.com/Sanofi-IADC/konviw/commit/803e92ad8f3014397e3457ede3b504ea11021c1d))
+* WEB-2210 Align correct classes for images ([31859e5](https://github.com/Sanofi-IADC/konviw/commit/31859e52e1517677486027ec5dbbf33c59e13a7e))
+
+## [3.23.2](https://github.com/Sanofi-IADC/konviw/compare/v3.23.1...v3.23.2) (2024-02-21)
+
+
+### Bug Fixes
+
+* WEB-2210 Align tests ([affe933](https://github.com/Sanofi-IADC/konviw/commit/affe933c9fd84de0dd3f552bb36de6937197a907))
+* WEB-2210 Render caption based on image position ([7bf4a2c](https://github.com/Sanofi-IADC/konviw/commit/7bf4a2cd49884145cd782c2405f09b1ae423dc3b))
+* WEB-2210 Render caption based on image position ([f4450a7](https://github.com/Sanofi-IADC/konviw/commit/f4450a7e48dc59df9c95a78bbce61a8c08072d88))
+
+## [3.23.1](https://github.com/Sanofi-IADC/konviw/compare/v3.23.0...v3.23.1) (2024-02-14)
+
+
+### Bug Fixes
+
+* WEB-2203 Added corrected conditional ([d6524c3](https://github.com/Sanofi-IADC/konviw/commit/d6524c3201ac80558788e64b63e850cbc66d363a))
+* WEB-2203 Added corrected conditional ([16530e5](https://github.com/Sanofi-IADC/konviw/commit/16530e51e494ad7be265165072ca51823853ae0e))
+
+# [3.23.0](https://github.com/Sanofi-IADC/konviw/compare/v3.22.0...v3.23.0) (2024-02-13)
+
+
+### Features
+
+* WEB-2203 Added support for jira issues macro ([0b59fcb](https://github.com/Sanofi-IADC/konviw/commit/0b59fcbfc2cea6cc1190fa26a6e7aa140c44c54b))
+* WEB-2203 Added support for jira issues macro ([047d211](https://github.com/Sanofi-IADC/konviw/commit/047d21142e80c590587fd41818f842aa9c4ca5e9))
+* WEB-2203 Fixed wrong name ([9af2ba6](https://github.com/Sanofi-IADC/konviw/commit/9af2ba66081c7ca8def471d4fcc36ba5b9f3fab7))
+
+# [3.22.0](https://github.com/Sanofi-IADC/konviw/compare/v3.21.1...v3.22.0) (2024-02-05)
+
+
+### Bug Fixes
+
+* remove e2e tests from actions WEB-2182 ([9c54394](https://github.com/Sanofi-IADC/konviw/commit/9c5439422b02825e0533b01d9b7a2e3575681f6c))
+* WEB-2182 Added conditional for authorID if ownerID doesnt exist for some page type ([7250b0c](https://github.com/Sanofi-IADC/konviw/commit/7250b0c42fcfe665167e748a7a8845bab29809f6))
+
+
+### Features
+
+* display page owner instead of creator ([74d8026](https://github.com/Sanofi-IADC/konviw/commit/74d802675d9a3e82c6b35be1b7591471d8b7f297))
+* WEB-2182 display page owner instead of creator ([28dbc37](https://github.com/Sanofi-IADC/konviw/commit/28dbc3727925478cca1d729569b16e5eb8f196c7))
+
+## [3.21.1](https://github.com/Sanofi-IADC/konviw/compare/v3.21.0...v3.21.1) (2024-01-15)
+
+
+### Bug Fixes
+
+* WEB-2154 Added fn to extract multiple hexcodes in title ([3ff02ad](https://github.com/Sanofi-IADC/konviw/commit/3ff02ad4006a9ed8e3a14c4001ac241e45dffdf2))
+
+# [3.21.0](https://github.com/Sanofi-IADC/konviw/compare/v3.20.3...v3.21.0) (2023-12-04)
+
+
+### Features
+
+* WEB-2143 zoom effect images with Alt=(zoom) ([d4dc29e](https://github.com/Sanofi-IADC/konviw/commit/d4dc29ed4e35b7ba54af0be41f3e829061267488))
+
+## [3.20.3](https://github.com/Sanofi-IADC/konviw/compare/v3.20.2...v3.20.3) (2023-12-04)
+
+
+### Bug Fixes
+
+* Web 2132 adjust konviw to new table width ([#561](https://github.com/Sanofi-IADC/konviw/issues/561)) ([32efc09](https://github.com/Sanofi-IADC/konviw/commit/32efc09eb04b0d7a7a5dc50c7156eb30e6ef7871))
+
+## [3.20.2](https://github.com/Sanofi-IADC/konviw/compare/v3.20.1...v3.20.2) (2023-11-27)
+
+
+### Bug Fixes
+
+* new release for fixes WEB-2133 and WEB-2137 ([f83fc28](https://github.com/Sanofi-IADC/konviw/commit/f83fc282a4cb1450ecbe19ec1b3b1a6c1909d86e))
+* WEB-2133 Added test cases for get-draft and status properties ([431a0d8](https://github.com/Sanofi-IADC/konviw/commit/431a0d8e4986630b38ed762ae2c54414a04bf917))
+
+## [3.20.1](https://github.com/Sanofi-IADC/konviw/compare/v3.20.0...v3.20.1) (2023-10-11)
+
+
+### Bug Fixes
+
+* WEB-2100 Fixed creating image caption ([a09e2d7](https://github.com/Sanofi-IADC/konviw/commit/a09e2d7ceacc55b9f29ab48f659e9fdd10e4310a))
+
+# [3.20.0](https://github.com/Sanofi-IADC/konviw/compare/v3.19.6...v3.20.0) (2023-10-10)
+
+
+### Features
+
+* WEB-2058 Hide JQL Filters ([f83f75f](https://github.com/Sanofi-IADC/konviw/commit/f83f75f3cacd76e9849e37d458c6367977686438))
+
+## [3.19.6](https://github.com/Sanofi-IADC/konviw/compare/v3.19.5...v3.19.6) (2023-10-09)
+
+
+### Bug Fixes
+
+* WEB-2099 Fixed Drawio Macro in which we are pointing to not correct PageID ([4c13e15](https://github.com/Sanofi-IADC/konviw/commit/4c13e15b0196c6fc3e0fe014e1636a4ab139c1d7))
+
+## [3.19.5](https://github.com/Sanofi-IADC/konviw/compare/v3.19.4...v3.19.5) (2023-10-03)
+
+
+### Bug Fixes
+
+* WEB-2088 Fixed issue with links and confluence links to display correct internal urls and uri ([72fc7a6](https://github.com/Sanofi-IADC/konviw/commit/72fc7a687c1c54ce6e9b51d48b4c5782c8a6a376))
+
+## [3.19.4](https://github.com/Sanofi-IADC/konviw/compare/v3.19.3...v3.19.4) (2023-09-27)
+
+
+### Bug Fixes
+
+* WEB-2083 Error management for profile picture ([b5ed859](https://github.com/Sanofi-IADC/konviw/commit/b5ed8590bdbdce5010498969f4f23b476c5c6556))
+
+## [3.19.3](https://github.com/Sanofi-IADC/konviw/compare/v3.19.2...v3.19.3) (2023-09-27)
+
+
+### Bug Fixes
+
+* WEB-2083 Handled not correct profile picture macro ([bc45e6d](https://github.com/Sanofi-IADC/konviw/commit/bc45e6d23f9d0da3108d9b7d9e74e9ec1f7cb1b1))
+
+## [3.19.2](https://github.com/Sanofi-IADC/konviw/compare/v3.19.1...v3.19.2) (2023-09-06)
+
+
+### Bug Fixes
+
+* WEB-2064 Fixed typo attachment base64 method ([683edbd](https://github.com/Sanofi-IADC/konviw/commit/683edbd4e2d1b0dfbaa81392fbc1c7d22f074c6a))
+
+## [3.19.1](https://github.com/Sanofi-IADC/konviw/compare/v3.19.0...v3.19.1) (2023-09-06)
+
+
+### Bug Fixes
+
+* WEB-2064 Created seperate method to fetch base64 ([caf7918](https://github.com/Sanofi-IADC/konviw/commit/caf7918781e21dd6ed87c05424556d5bae0335d5))
+
+# [3.19.0](https://github.com/Sanofi-IADC/konviw/compare/v3.18.0...v3.19.0) (2023-08-23)
+
+
+### Features
+
+* 1986 add pdf and tests ([9d083cc](https://github.com/Sanofi-IADC/konviw/commit/9d083cc41cf8d741b0cc70ff8de9b6d4ebb704bc))
+* 1986 add pdf and tests ([5f7665c](https://github.com/Sanofi-IADC/konviw/commit/5f7665c9817b5153ab7977cf0830b4247050941e))
+* 1986 add pdf and tests ([5e3c70a](https://github.com/Sanofi-IADC/konviw/commit/5e3c70a1793df982027d17df4e98f6debf949824))
+* 1986 add pdf and tests ([3b75bdd](https://github.com/Sanofi-IADC/konviw/commit/3b75bddce55308e2aca8d64fd40ee56c3a9fc4b9))
+* 1986 add pdf and tests ([f931a89](https://github.com/Sanofi-IADC/konviw/commit/f931a896fd7ba7cfd6d2a9356b22c61929a8574c))
+* 1986 add pdf and tests ([5fe7ce6](https://github.com/Sanofi-IADC/konviw/commit/5fe7ce6eacf3cf673cd2684f2244099bccf25227))
+* 1986 add pdf and tests ([aa31601](https://github.com/Sanofi-IADC/konviw/commit/aa31601875d798f6528a6b5d33fdd2bd11cca269))
+* WEB-1986 Added support for pdf macro ([ddcc0d3](https://github.com/Sanofi-IADC/konviw/commit/ddcc0d3d8ee4bfd1847f331890eacf54bcdd03b9))
+
+# [3.18.0](https://github.com/Sanofi-IADC/konviw/compare/v3.17.1...v3.18.0) (2023-08-09)
+
+
+### Features
+
+* WEB-1894 Migrated getPage functionality into Confluence REST API v2 ([2344e73](https://github.com/Sanofi-IADC/konviw/commit/2344e73826d0b9f4c1b5c9d61997d5d24d807f05))
+
+## [3.17.1](https://github.com/Sanofi-IADC/konviw/compare/v3.17.0...v3.17.1) (2023-07-25)
+
+
+### Bug Fixes
+
+* WEB-1993 Fixed issue related to Jira service in findTickets method ([3d07104](https://github.com/Sanofi-IADC/konviw/commit/3d07104f90435768c4046962e4f6b8975152d5b8))
+
+# [3.17.0](https://github.com/Sanofi-IADC/konviw/compare/v3.16.0...v3.17.0) (2023-07-24)
+
+
+### Features
+
+* WEB-1775 Add message in the last slide ([4c94542](https://github.com/Sanofi-IADC/konviw/commit/4c94542698c5a7cc1d0fff58d4daa608f4677791))
+
+# [3.16.0](https://github.com/Sanofi-IADC/konviw/compare/v3.15.1...v3.16.0) (2023-07-17)
+
+
+### Bug Fixes
+
+* ARM-1357 reset state update ([2afcd31](https://github.com/Sanofi-IADC/konviw/commit/2afcd3108a9d464fe336890e3038fb87138d4802))
+* ARM-1357 review changes ([4ded270](https://github.com/Sanofi-IADC/konviw/commit/4ded2705b0a61dc27c6c3e4754d550d30bea33dc))
+
+
+### Features
+
+* ARM-1357 add API to get versions on a project ([4c32ebd](https://github.com/Sanofi-IADC/konviw/commit/4c32ebd9b5e5c29e4d2c352ff3ef2bcdb0be2486))
+
+## [3.15.1](https://github.com/Sanofi-IADC/konviw/compare/v3.15.0...v3.15.1) (2023-07-13)
+
+
+### Bug Fixes
+
+* ARM-1276 fix reader param type ([266cc73](https://github.com/Sanofi-IADC/konviw/commit/266cc73254361a1f8886f936cf36c214a0d468b9))
+
+# [3.15.0](https://github.com/Sanofi-IADC/konviw/compare/v3.14.1...v3.15.0) (2023-07-11)
+
+
+### Features
+
+* ARM-1330 Create API to get Jira Users ([699561a](https://github.com/Sanofi-IADC/konviw/commit/699561a2a7b4762b7dea750e4449a37b480a1348))
+
+## [3.14.1](https://github.com/Sanofi-IADC/konviw/compare/v3.14.0...v3.14.1) (2023-07-06)
+
+
+### Bug Fixes
+
+* ARM-1276 optimize reader access code ([4d2815b](https://github.com/Sanofi-IADC/konviw/commit/4d2815b69dab46127aa528019a1dcfb8d443d76b))
+
+# [3.14.0](https://github.com/Sanofi-IADC/konviw/compare/v3.13.1...v3.14.0) (2023-07-05)
+
+
+### Bug Fixes
+
+* ARM-1276 merge origin main ([57002c0](https://github.com/Sanofi-IADC/konviw/commit/57002c00efe9043d0fe8b622250cf4df1e88828e))
+* ARM-1276 optimize code for Sonar ([fbb6f5a](https://github.com/Sanofi-IADC/konviw/commit/fbb6f5a330c10905b827a92543abc7f81220bbaa))
+
+
+### Features
+
+* ARM-1276 using reader technical users for Jira Issues APIs ([e49a1f8](https://github.com/Sanofi-IADC/konviw/commit/e49a1f8bafb6e1ad1899c17f36e7b917200438de))
+
+## [3.13.1](https://github.com/Sanofi-IADC/konviw/compare/v3.13.0...v3.13.1) (2023-07-04)
+
+
+### Bug Fixes
+
+* WEB-1969 Added support for description and fix version fields ([d300ab2](https://github.com/Sanofi-IADC/konviw/commit/d300ab2c9e01b4f1507681d507ba577636c6d244))
+
 # [3.13.0](https://github.com/Sanofi-IADC/konviw/compare/v3.12.7...v3.13.0) (2023-06-21)
 
 

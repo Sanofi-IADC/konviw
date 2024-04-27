@@ -49,4 +49,13 @@ export default class SearchProjectIssuesQueryDTO {
   @IsInt()
   @Type(() => Number)
     maxResults: number;
+
+  @ApiProperty({
+    type: Boolean,
+    description: 'To set reader access - true or false ',
+    example: true,
+  })
+  @IsOptional()
+  @IsString()
+    reader: boolean;
 }

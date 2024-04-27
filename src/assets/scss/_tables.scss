@@ -10,7 +10,7 @@ table.confluenceTable {
 
   // Fix 'default' tables to 60% of the layout width
   &[data-layout='default'] {
-    max-width: 60%;
+    max-width: 100%;
   }
 
   // Fix 'wide' tables to fit the 100% of the layout
@@ -40,7 +40,7 @@ table.confluenceTable th.confluenceTh {
   font-weight: bold;
 
   p {
-    font-weight: initial;
+    font-weight: var(--main-font-weight);
   }
 }
 
@@ -57,6 +57,8 @@ table.confluenceTable th.confluenceTh {
   min-width: 8px; /* CONF-39943: set table cell min-width to which cursor can be focused */
   word-wrap: break-word;
   // word-break: break-word; // breaking words will fix the max-width properties for all tables
+  font-size: 1rem;
+  font-weight: lighter;
 
   h1,
   h2,
@@ -130,12 +132,6 @@ table.confluenceTable td.confluenceTd {
   }
 }
 
-table.confluenceTable th.confluenceTh.nohighlight, /* deprecated */
-table.confluenceTable th.confluenceTh.nohighlight > p {
-  /* deprecated */
-  font-weight: normal;
-  background-color: transparent;
-}
 
 table.confluenceTable td.confluenceTd img,
 table.confluenceTable td.confluenceTd .confluence-embedded-file-wrapper img,

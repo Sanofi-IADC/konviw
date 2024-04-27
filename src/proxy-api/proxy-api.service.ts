@@ -3,9 +3,9 @@ import { ConfigService } from '@nestjs/config';
 import { HttpService } from '@nestjs/axios';
 import { ContextService } from '../context/context.service';
 import {
-  Content,
   SearchResults,
   ResultsContent,
+  Content,
 } from '../confluence/confluence.interface';
 import { ConfluenceService } from '../confluence/confluence.service';
 import { JiraService } from '../jira/jira.service';
@@ -85,6 +85,7 @@ export class ProxyApiService {
         const spacekey = doc.resultGlobalContainer.displayUrl.split('/')[2];
         const context = new ContextService(this.config);
         context.initPageContext(
+          'v1',
           spacekey,
           doc.content.id,
           undefined, // theme
@@ -155,6 +156,7 @@ export class ProxyApiService {
     startAt: number,
     maxResults: number,
     categoryId,
+    reader?: boolean,
   ): Promise<any> {
     const { data }: any = await this.jira.findProjects(
       server,
@@ -162,6 +164,7 @@ export class ProxyApiService {
       startAt,
       maxResults,
       categoryId,
+      reader,
     );
 
     const parseResults = data.values.map((project: any) => ({
@@ -192,6 +195,14 @@ export class ProxyApiService {
       search,
       next: data.self,
       prev: data.nextPage,
+      // this is for debugging on dev, to be removed
+      cred: (reader === true) ? {
+        apiUsername: this.config.get('jiraIssues.apiReaderUsername'),
+        apiToken: this.config.get('jiraIssues.apiReaderToken'),
+      } : {
+        apiUsername: this.config.get('confluence.apiUsername'),
+        apiToken: this.config.get('confluence.apiToken'),
+      },
     };
 
     return {
@@ -242,17 +253,17 @@ export class ProxyApiService {
     fields: string,
     startAt: number,
     maxResults: number,
+    reader?: boolean,
   ): Promise<any> {
-    const {
-      total, issues,
-    }: any = await this.jira.findTickets(
+    const { data }: any = await this.jira.findTickets(
       server,
       jqlSearch,
       fields,
       startAt,
       maxResults,
+      reader,
     );
-    const parseResults = issues.map((issue: any) => ({
+    const parseResults = data.issues.map((issue: any) => ({
       id: issue.id,
       key: issue.key,
       selfUri: issue.self,
@@ -265,7 +276,7 @@ export class ProxyApiService {
     }));
 
     const meta = {
-      totalSize: total,
+      totalSize: data.total,
       server,
     };
 
@@ -320,20 +331,19 @@ export class ProxyApiService {
     projectId: number,
     issueTypeId: number,
   ): Promise<any> {
-    const isAdmin = true;
-    const issueTypeScreenSchemesRes = await this.jira.findIssueTypeScreenSchemes(projectId, isAdmin);
+    const issueTypeScreenSchemesRes = await this.jira.findIssueTypeScreenSchemes(projectId);
     const issueTypeScreenSchemeId = issueTypeScreenSchemesRes.data.values[0]?.issueTypeScreenScheme.id;
     if (issueTypeScreenSchemeId) {
-      const itemsRes = await this.jira.findIssueTypeScreenSchemeItems(isAdmin, issueTypeScreenSchemeId);
+      const itemsRes = await this.jira.findIssueTypeScreenSchemeItems(issueTypeScreenSchemeId);
       const item = itemsRes.data.values.find((value: any) => value.issueTypeId === issueTypeId);
       const screenSchemeId = item ? item.screenSchemeId
         : (itemsRes.data.values.find((value: any) => value.issueTypeId === 'default').screenSchemeId);
-      const schemeRes = await this.jira.findScreenSchemes(isAdmin, screenSchemeId);
+      const schemeRes = await this.jira.findScreenSchemes(screenSchemeId);
       const { screens } = schemeRes.data.values[0];
       const screenId = screens.view ? screens.view : screens.default;
-      const tabsRes = await this.jira.findScreenTabs(screenId, isAdmin);
+      const tabsRes = await this.jira.findScreenTabs(screenId);
       const tabId = tabsRes.data[0].id;
-      const fieldsRes = await this.jira.findScreenTabFields(screenId, tabId, isAdmin);
+      const fieldsRes = await this.jira.findScreenTabFields(screenId, tabId);
       const screenDetails = fieldsRes.data;
       return {
         screenDetails,
@@ -343,55 +353,101 @@ export class ProxyApiService {
   }
 
   /**
+   * @function getJiraUsersByQuery Service
+   * @description Finds users with a structured query and returns a paginated list of user details
+   * @return Promise {any}
+   * @param query {string}
+   */
+  async getJiraUsersByQuery(query: string, startAt: number, maxResults: number): Promise<any> {
+    const { data, total }: any = await this.jira.findUsersByQuery(query, startAt, maxResults);
+    const parseResults = data.values.map((user: any) => ({
+      id: user.accountId,
+      name: user.displayName,
+      email: user.emailAddress ?? '',
+      active: user.active,
+    }));
+
+    const meta = {
+      totalSize: total,
+      query,
+    };
+
+    return {
+      meta,
+      users: parseResults,
+    };
+  }
+
+  /**
+   * @function getJiraProjectVersions Service
+   * @description Finds users with a structured query and returns a paginated list of user details
+   * @return Promise {any}
+   * @param query {string}
+   */
+  async getJiraProjectVersions(projectIdOrKey: string): Promise<any> {
+    const { data }: any = await this.jira.findProjectVersions(projectIdOrKey);
+    return {
+      fixVersions: data,
+    };
+  }
+
+  /**
+   * @function getSpacesMeta Service
+   * @description Retrieve spaces meta from a Confluence server
+   * @return Promise {any}
+   * @param type {string} 'global' - type of space with possible values 'global' or 'personal'
+   */
+  async getSpacesMeta(type: string): Promise<{ meta: { total: number } }> {
+    const data = await this.confluence.getSpacesMeta(type);
+    return {
+      meta: {
+        total: data.length,
+      },
+    };
+  }
+
+  /**
    * @function getAllSpaces Service
    * @description Retrieve all spaces from a Confluence server
    * @return Promise {any}
    * @param type {string} 'global' - type of space with possible values 'global' or 'personal'
-   * @param startAt {number} 15 - starting position to handle paginated results
-   * @param maxResults {number} 999 - limit of results to be returned
-   * @param getFields {number} 1 - '1' to get icon, labels, description and permissions or '0' for simple list of spaces
+   * @param limit {number} '250' - maximum number of records to retrieve
+   * @param next {string} 'xyz' - starting cursor used for pagination
    */
   async getAllSpaces(
     type: string,
-    startAt: number,
-    maxResults: number,
-    getFields: number,
+    limit: number,
+    next: string,
   ): Promise<any> {
     const baseHost = this.config.get('web.baseHost');
     const basePath = this.config.get('web.basePath');
 
     const { data }: any = await this.confluence.Spaces(
       type,
-      startAt,
-      maxResults,
-      getFields,
+      limit,
+      next,
     );
 
     const parseResults = data.results.map((space: any) => {
-      const labels = space.metadata === undefined
-        ? []
-        : space.metadata.labels.results.map((label: any) => label.name);
-
-      const permissions = space.permissions === undefined
-        ? []
-        : space.permissions.reduce((permissionsTmp, permission) => {
-          if (permission.subjects?.user) {
-            if (
-              permission.subjects.user.results[0].accountType
-                  === 'atlassian'
-            ) {
-              const name = permission.subjects.user.results[0].displayName;
-              const avatar = `${baseHost}${basePath}${permission.subjects.user.results[0].profilePicture.path}`;
-              const { operation } = permission;
-              permissionsTmp.push({ name, avatar, operation });
-            }
+      const labels = space.labels ? space.labels.map((label: any) => label.name) : [];
+      const permissions = space.permissions ? space.permissions.reduce((permissionsTmp, permission) => {
+        if (permission.user) {
+          if (
+            permission.user.accountType
+                === 'atlassian'
+          ) {
+            const name = permission.user.displayName;
+            const avatar = `${baseHost}${basePath}${permission.user.profilePicture.path}`;
+            const { operation } = permission;
+            permissionsTmp.push({ name, avatar, operation });
           }
-          return permissionsTmp;
-        }, []);
+        }
+        return permissionsTmp;
+      }, []) : [];
 
       const icon = space.icon === undefined
         ? undefined
-        : `${baseHost}${basePath}/wiki${space.icon.path}`;
+        : `${baseHost}${basePath}${space.icon.path}`;
 
       return {
         id: space.id,
@@ -407,9 +463,7 @@ export class ProxyApiService {
     });
 
     const meta = {
-      start: startAt,
-      maxResults: data.limit,
-      totalSize: data.size,
+      next: data._links.next,
     };
 
     return {
@@ -433,7 +487,7 @@ export class ProxyApiService {
     type: string,
   ): Promise<Partial<KonviwContent>> {
     const content: Content = await this.confluence.getPage(spaceKey, pageId);
-    this.context.initPageContext(spaceKey, pageId, undefined, type, undefined, content, false);
+    this.context.initPageContext('v2', spaceKey, pageId, undefined, type, undefined, content, false);
     // TODO: check whether we could add the excerpt and image header image also to the API metadata
     await getExcerptAndHeaderImage(this.config, this.confluence)(this.context);
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
@@ -506,6 +560,7 @@ export class ProxyApiService {
         const spacekey = doc.resultGlobalContainer.displayUrl.split('/')[2];
         const context = new ContextService(this.config);
         context.initPageContext(
+          'v1',
           spacekey,
           doc.content.id,
           undefined, // theme

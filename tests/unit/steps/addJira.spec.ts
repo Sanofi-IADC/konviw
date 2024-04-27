@@ -3,8 +3,6 @@ import { ContextService } from '../../../src/context/context.service';
 import { Step } from '../../../src/proxy-page/proxy-page.step';
 import addJira from '../../../src/proxy-page/steps/addJira';
 import { createModuleRefForStep } from './utils';
-import { JiraService } from '../../../src/jira/jira.service';
-import { resolve } from 'path';
 
 const mockedIssueData = {
   expand:
@@ -28,8 +26,10 @@ class JiraServiceMock {
   }
   async findTickets(server: string, query: string, fields: string) {
     return {
-      total: 1,
-      issues: [mockedIssueData]
+      data: {
+        total: 1,
+        issues: [mockedIssueData]
+      },
     };
   }
   async getMaCro(pageId: string, macroId: string) {
@@ -46,7 +46,6 @@ class JiraServiceMock {
       }
     };
   }
-  
 }
 
 describe('Confluence Proxy / addJira', () => {
@@ -64,7 +63,7 @@ describe('Confluence Proxy / addJira', () => {
       config.get('confluence.baseURL');
     step = addJira(config, new JiraServiceMock() as any);
     context = moduleRef.get<ContextService>(ContextService);
-    context.initPageContext('XXX', '123456', 'dark');
+    context.initPageContext('v2', 'XXX', '123456', 'dark');
   });
 
   afterAll(() => {
@@ -109,11 +108,13 @@ describe('Confluence Proxy / addJira', () => {
         pr: { name: 'low', icon: 'image.png' },
         status: { name: 'a status' },
         resolution: 'resolved',
+        fixVersion: { name: '', link: '', },
+        description: {},
       },
     ]);
     expect($('body').html()).toContain(`data: ${data}`);
   });
-  it('key = should be transformed into key in', async () => {
+  it('key should not be displayed', async () => {
     const cheerioBody = `<input
       type="hidden"
       class="refresh-wiki"
@@ -134,7 +135,7 @@ describe('Confluence Proxy / addJira', () => {
     );
     await step(context);
     const $ = context.getCheerioBody();
-    expect($('body').html()).toContain(`Jira issues for key = (FND-319)`);
+    expect($('body').html()).not.toContain(`Jira issues for key = (FND-319)`);
   });
 
   it('should update the issue title and status of a jira-issue', async () => {
@@ -172,7 +173,7 @@ describe('Confluence Proxy / addJira', () => {
     const example =
       '<html><head></head><body>' +
       '<span class="static-jira-issues_count" data-macro-name="jira" data-macro-id="5dde2a55-e3e6-4050-b9bc-bdcc27718465">' +
-        '<span class="aui-icon aui-icon-wait issue-placeholder"> </span>' + 
+        '<span class="aui-icon aui-icon-wait issue-placeholder"> </span>' +
           'Getting issues...' +
         '</span>' +
       '</span>' +
@@ -184,5 +185,16 @@ describe('Confluence Proxy / addJira', () => {
     '</div></body></html>';
     await step(context);
     expect(context.getHtmlBody()).toBe(expected);
+  });
+  it('should create new jira issues macro from anchor', async () => {
+    const example =
+      '<html><head></head><body>' +
+      '<a class="external-link" data-card-appearance="block" data-datasource="{&quot;id&quot;:&quot;123&quot;,&quot;parameters&quot;:{&quot;cloudId&quot;:&quot;123d1&quot;,&quot;jql&quot;:&quot;PROJECT=\\&quot;TEI Web Platform\\&quot; ORDER BY created DESC&quot;},&quot;views&quot;:[{&quot;type&quot;:&quot;table&quot;,&quot;properties&quot;:{&quot;columns&quot;:[{&quot;key&quot;:&quot;issuetype&quot;},{&quot;key&quot;:&quot;key&quot;},{&quot;key&quot;:&quot;summary&quot;},{&quot;key&quot;:&quot;assignee&quot;},{&quot;key&quot;:&quot;priority&quot;},{&quot;key&quot;:&quot;status&quot;},{&quot;key&quot;:&quot;updated&quot;}]}}]}" href="https://test.atlassian.net/issues/?jql=PROJECT=%22TEI%20Web%20Platform%22%20ORDER%20BY%20created%20DESC" rel="nofollow">https://test.atlassian.net/issues/?jql=PROJECT=%22TEI%20Web%20Platform%22%20ORDER%20BY%20created%20DESC</a>' +
+      '</body></html>';
+    context.setHtmlBody(example);
+    await step(context);
+    const $ = context.getCheerioBody();
+    expect($('body').html()).not.toContain(`Jira issues for key`);
+    expect($('grid,gridjs-container').html()).toBeDefined();
   });
 });

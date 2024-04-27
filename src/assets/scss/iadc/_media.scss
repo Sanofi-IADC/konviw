@@ -46,7 +46,9 @@ img {
   }
 }
 
-p.media-group {
-  padding: 0px;
-  margin: 0px;
+span.confluence-embedded-file-wrapper {
+  vertical-align:middle;
+  img.confluence-embedded-image {
+    padding: 0;
+  }
 }

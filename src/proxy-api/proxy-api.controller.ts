@@ -17,9 +17,12 @@ import {
   GetSpacesQueryDTO,
   RadarParamsDTO,
 } from './proxy-api.validation.dto';
-import { KonviwResults, RadarContent } from './proxy-api.interface';
+import { FixVersion, KonviwResults, RadarContent } from './proxy-api.interface';
 import SearchProjectIssueTypesWithStatusQueryDTO from './dto/SearchProjectIssueTypesWithStatusQuery';
-import GetScreenDetailsDTO from './dto/GetScreenDetails';
+import GetScreenDetailsDTO from './dto/GetScreenDetailsQuery';
+import SearchProjectUsersQueryDTO from './dto/SearchProjectUsersQuery';
+import SearchProjectVersionsQueryDTO from './dto/SearchProjectVersionsQuery';
+import GetSpacesMetaParamsDTO from './dto/GetSpacesMetaParams';
 
 @ApiTags('proxy-api')
 @Controller('api')
@@ -84,6 +87,7 @@ export class ProxyApiController {
       queries.startAt,
       queries.maxResults,
       queries.categoryId,
+      queries.reader,
     );
   }
 
@@ -120,6 +124,7 @@ export class ProxyApiController {
       queries.fields,
       queries.startAt,
       queries.maxResults,
+      queries.reader,
     );
   }
 
@@ -155,6 +160,36 @@ export class ProxyApiController {
   }
 
   /**
+   * @GET (controller) api/projects/users
+   * @description Route to retrieve the list of project categories from a Jira server
+   * @return {string} 'JSON' - JSON with the list of Jira project categories
+   */
+  @ApiOkResponse({
+    description: 'List users by query',
+  })
+  @Get('projects/users')
+  async getJiraUsersByQuery(
+    @Query() queries: SearchProjectUsersQueryDTO,
+  ): Promise<any> {
+    return this.proxyApi.getJiraUsersByQuery(queries.query, queries.startAt, queries.maxResults);
+  }
+
+  /**
+   * @GET (controller) api/projects/versions
+   * @description Returns all versions in a project
+   * @return {string} 'JSON' - Returns the valid versions for a project.
+   */
+  @ApiOkResponse({
+    description: 'List project versions',
+  })
+  @Get('projects/versions')
+  async getJiraProjectVersions(
+    @Query() queries: SearchProjectVersionsQueryDTO,
+  ): Promise<FixVersion> {
+    return this.proxyApi.getJiraProjectVersions(queries.projectIdOrKey);
+  }
+
+  /**
    * @GET (controller) api/spaces
    * @description Route to retrieve the Confluence spaces of a type
    * @return {string} 'JSON' - JSON with the list of Confluence spaces
@@ -169,9 +204,25 @@ export class ProxyApiController {
   ): Promise<any> {
     return this.proxyApi.getAllSpaces(
       params.type,
-      queries.startAt,
-      queries.maxResults,
-      queries.getFields,
+      queries.limit,
+      queries.next,
+    );
+  }
+
+  /**
+   * @GET (controller) api/spaces/:type/meta
+   * @description Route to retrieve meta of the Confluence spaces of a type
+   * @return {string} 'JSON' - JSON with the meta of Confluence spaces
+   */
+  @ApiOkResponse({
+    description: 'Meta of spaces from a Confluence server for the given type',
+  })
+  @Get('spaces/:type/meta')
+  async getSpacesMeta(
+    @Param() params: GetSpacesMetaParamsDTO,
+  ): Promise<any> {
+    return this.proxyApi.getSpacesMeta(
+      params.type,
     );
   }
 

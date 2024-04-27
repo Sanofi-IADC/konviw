@@ -1,4 +1,4 @@
-import { Step } from 'src/proxy-page/proxy-page.step';
+import { Step } from '../../../src/proxy-page/proxy-page.step'
 import { ContextService } from '../../../src/context/context.service';
 import { ConfigService } from '@nestjs/config';
 import fixHtmlHead from '../../../src/proxy-page/steps/fixHtmlHead';
@@ -14,12 +14,12 @@ describe('Confluence Proxy / addTheme', () => {
     const moduleRef = await createModuleRefForStep();
     context = moduleRef.get<ContextService>(ContextService);
     config = moduleRef.get<ConfigService>(ConfigService);
-    basePath = config.get('web.basePath');
+    basePath = config.get('web.basePath') ?? '';
     step = fixHtmlHead(config);
   });
 
   it('should add dark theme', () => {
-    context.initPageContext('XXX', '123456', 'dark');
+    context.initPageContext('v2', 'XXX', '123456', 'dark');
     context.setHtmlBody('<html><head></head><body>BODY CONTENT</body></html>');
     context.setTitle('This is the title');
     step(context);

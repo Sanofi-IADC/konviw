@@ -21,7 +21,7 @@ import addCustomCss from './steps/addCustomCss';
 import addScrollToTop from './steps/addScrollToTop';
 import addHeaderTitle from './steps/addHeaderTitle';
 import addTheme from './steps/addTheme';
-import addNoZoom from './steps/addNoZoom';
+import addZoom from './steps/addZoom';
 import addHeaderBlog from './steps/addHeaderBlog';
 import addCopyLinks from './steps/addCopyLinks';
 import addReadingProgressBar from './steps/addReadingProgressBar';
@@ -45,7 +45,12 @@ import addSlideContextByStrategy from './strategySteps/addSlideContextByStrategy
 import fixCaptionImage from './steps/fixCaptionImage';
 import fixConfluenceSpace from './steps/fixConfluenceSpace';
 import addTableResponsive from './steps/addTableResponsive';
+// import fixTableSize from './steps/fixTableSize';
 import addAuthorVersion from './steps/addAuthorVersion';
+import addMessageLastSlide from './steps/addMessageLastSlide';
+import addPDF from './steps/addPDF';
+import fixProfilePicture from './steps/fixProfilePicture';
+import fixEmbeddedFile from './steps/fixEmbeddedFile';
 
 @Injectable()
 export class ProxyPageService {
@@ -89,6 +94,7 @@ export class ProxyPageService {
       status,
     );
     this.context.initPageContext(
+      'v2',
       spaceKey,
       pageId,
       theme,
@@ -104,6 +110,7 @@ export class ProxyPageService {
     fixHtmlHead(this.config)(this.context);
     fixContentWidth()(this.context);
     fixUserProfile()(this.context);
+    fixProfilePicture()(this.context);
     await fixConfluenceSpace(this.config, this.confluence)(this.context);
     await fixLinks(this.config, this.http, this.jira)(this.context);
     if (view !== 'iframe-resizer') {
@@ -119,7 +126,7 @@ export class ProxyPageService {
     fixCode()(this.context);
     fixFrameAllowFullscreen()(this.context);
     fixImageSize()(this.context);
-    fixCaptionImage(content)(this.context);
+    fixCaptionImage()(this.context);
     fixColGroupWidth()(this.context);
     if (contextType.includes('blog')) {
       await addHeaderBlog()(this.context);
@@ -127,13 +134,15 @@ export class ProxyPageService {
       await addHeaderTitle(this.confluence)(this.context);
     }
     fixSVG(this.config)(this.context);
+    fixEmbeddedFile()(this.context);
     fixTableBackground()(this.context);
+    // fixTableSize()(this.context);
     addTableResponsive()(this.context);
     addAuthorVersion()(this.context);
     delUnnecessaryCode()(this.context);
     addCustomCss(this.config, style)(this.context);
     addLibrariesCSS()(this.context);
-    addNoZoom()(this.context);
+    addZoom()(this.context);
     addTheme()(this.context);
     if (view !== 'iframe-resizer') {
       addScrollToTop()(this.context);
@@ -144,6 +153,7 @@ export class ProxyPageService {
     await addJiraPromise;
     addLibrariesJS()(this.context);
     addUnsupportedMacroIndicator()(this.context);
+    await addPDF(this.confluence)(this.context);
     this.context.Close();
     return this.context.getHtmlBody();
   }
@@ -178,6 +188,8 @@ export class ProxyPageService {
     addSlidesCSS(this.config)(this.context);
     fixHtmlHead(this.config)(this.context);
     fixUserProfile()(this.context);
+    fixProfilePicture()(this.context);
+    fixEmbeddedFile()(this.context);
     await fixConfluenceSpace(this.config, this.confluence)(this.context);
     await fixLinks(this.config, this.http, this.jira)(this.context);
     fixToc()(this.context);
@@ -189,16 +201,18 @@ export class ProxyPageService {
     fixEmptyLineIncludePage()(this.context);
     fixRoadmap(this.config)(this.context);
     fixImageSize()(this.context);
-    fixCaptionImage(content)(this.context);
+    fixCaptionImage()(this.context);
     fixFrameAllowFullscreen()(this.context);
     fixSVG(this.config)(this.context);
     fixTableBackground()(this.context);
-    addTableResponsive()(this.context);
+    // addTableResponsive()(this.context);
     delUnnecessaryCode()(this.context);
     await addJiraPromise;
-    addSlideTypeByStrategy(content, this.config)(this.context);
+    addSlideTypeByStrategy(this.config)(this.context);
     addSlidesJS(this.config)(this.context);
+    addMessageLastSlide()(this.context);
     addWebStatsTracker(this.config)(this.context);
+    await addPDF(this.confluence)(this.context);
     this.context.Close();
     return this.context.getHtmlBody();
   }

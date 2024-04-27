@@ -16,4 +16,3 @@ context('Jira snapshot', () => {
       });
     });
   });
-  

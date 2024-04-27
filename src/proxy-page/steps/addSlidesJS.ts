@@ -67,6 +67,5 @@ export default (config: ConfigService): Step => (context: ContextService): void 
       })
     </script>`,
   );
-
   context.getPerfMeasure('addSlidesJS');
 };
