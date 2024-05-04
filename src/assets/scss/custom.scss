@@ -129,20 +129,6 @@ ul.childpages-macro li {
   padding-top: 5px;
 }
 
-// Tables embedded in a ‘Page Properties’ Macro will be displayed borderless
-// this technique will be used to embed footers or menus with tables used for better layout organization
-.conf-macro .plugin-tabmeta-details {
-  padding-top: 40px;
-  .table-wrap {
-    .confluenceTd {
-      border: 0px;
-      padding: 10px;
-      vertical-align: top;
-      font-size: 12px;
-    }
-  }
-}
-
 // Macro image with caption
 .image-caption {
   margin-top: .5rem;

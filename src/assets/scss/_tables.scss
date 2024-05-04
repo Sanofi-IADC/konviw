@@ -10,17 +10,17 @@ table.confluenceTable {
 
   // Fix 'default' tables to 60% of the layout width
   &[data-layout='default'] {
-    max-width: 100%;
+    width: 100%;
   }
 
   // Fix 'wide' tables to fit the 100% of the layout
   &[data-layout='wide'] {
-    max-width: 100%;
+    width: 100%;
   }
 
   // Fix 'full-width' tables to fit the 100% of the layout
   &[data-layout='full-width'] {
-    max-width: 100%;
+    width: 100%;
   }
 
   // Fix SVG's width embedded in tables like roadmap macros
@@ -47,6 +47,7 @@ table.confluenceTable th.confluenceTh {
 .table-wrap {
   box-sizing: border-box;
   // with sticky table headersm we cannot have the horizontal scroll.
+  // overflow:auto; // make tables that are too wide horizontally scrollable
 }
 
 .confluenceTh,

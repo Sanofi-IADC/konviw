@@ -46,7 +46,8 @@ table.confluenceTable th.confluenceTh {
 
 .table-wrap {
   box-sizing: border-box;
-  overflow: auto; // make tables that are too wide horizontally scrollable
+  // with sticky table headersm we cannot have the horizontal scroll.
+  // overflow:auto; // make tables that are too wide horizontally scrollable
 }
 
 .confluenceTh,

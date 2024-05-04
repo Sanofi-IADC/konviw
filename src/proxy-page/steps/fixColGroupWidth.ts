@@ -18,7 +18,12 @@ export default (): Step => (context: ContextService): void => {
   const $ = context.getCheerioBody();
   $(
     // similar to 'table:not([data-layout="default"])>colgroup' we apply to fill-width and wide tables
-    "table[data-layout='full-width']>colgroup, table[data-layout= 'wide']> colgroup",
+    // Since Atlassian changed to fixed tabled it does not return anymore the data-layout via API
+    // https://community.atlassian.com/t5/Confluence-articles/Resize-Confluence-tables-to-any-width/ba-p/2483925
+    // consequently we apply now the calculation in % for all size of tables, while always returns "default"
+    `table[data-layout='full-width']>colgroup,
+    table[data-layout= 'wide']> colgroup,
+    table[data-layout='default']>colgroup`,
   ).each((_index: number, elementColgroup: cheerio.Element) => {
     let sumColWidth = 0;
     elementColgroup.childNodes.forEach((elementColumn: cheerio.Element) => {
@@ -39,6 +44,6 @@ export default (): Step => (context: ContextService): void => {
 function getElementValue(elementColumn: cheerio.Element): number {
   const attribs = JSON.parse(JSON.stringify(elementColumn.attribs));
   // default value for columns where there is no width defined
-  const defaultWidth = 20;
+  const defaultWidth = 50;
   return attribs.style ? Number(attribs?.style?.match(/\d+/)[0] ?? 0) : defaultWidth;
 }
