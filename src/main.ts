@@ -68,12 +68,23 @@ async function bootstrap() {
     prefix: `${basePath}`,
   });
 
-  // Views folder for Handlebar templates
-  app.setBaseViewsDir(join(__dirname, '..', '/views'));
-  app.setViewEngine('hbs');
-  hbs.registerPartials(join(__dirname, '..', '/views/partials'));
+  // Activate Handlebars
+  useHandlebars(app);
 
-  // Set up Swagger
+  // Activate OpenAPI
+  useOpenApi(app);
+
+  // Listen to server PORT
+  await app.listen(process.env.PORT || 3000);
+}
+
+bootstrap();
+
+// ================= Setup Swagger (OpenAPI) specification
+const useOpenApi = (app: NestExpressApplication) => {
+  const config = app.get(ConfigService);
+  const basePath = config.get('web.basePath');
+
   const configSwagger = new DocumentBuilder()
     .setTitle('konviw')
     .setDescription('Enterprise public viewer for your Confluence pages')
@@ -89,10 +100,13 @@ async function bootstrap() {
     customCssUrl: `${basePath}/css/swagger-theme-outline.css`,
   };
 
-  const document = SwaggerModule.createDocument(app, configSwagger);
+  const document = SwaggerModule.createDocument(app, configSwagger, { ignoreGlobalPrefix: false });
   SwaggerModule.setup(`${basePath}/oas3`, app, document, customOptions);
+};
 
-  // Listen to server PORT
-  await app.listen(process.env.PORT || 3000);
-}
-bootstrap();
+// ================= Setup Handlebars folders and templates
+const useHandlebars = (app:NestExpressApplication) => {
+  app.setBaseViewsDir(join(__dirname, '..', '/views'));
+  app.setViewEngine('hbs');
+  hbs.registerPartials(join(__dirname, '..', '/views/partials'));
+};

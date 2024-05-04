@@ -11,9 +11,8 @@ export default (): Step => (context: ContextService): void => {
       const tableWidth = $(tableElement).attr('data-table-width');
       if (tableWidth) {
         const tableWidthValue = Number(tableWidth);
-        if (tableWidthValue > 1400) {
-          $(tableElement).css('width', '100%');
-        } else {
+        // when data-table-width is <760 the table will not be full width but actual size
+        if (tableWidthValue < 760) {
           $(tableElement).css('width', tableWidth);
         }
       }
