@@ -1,3 +1,10 @@
+## [3.27.3](https://github.com/Sanofi-IADC/konviw/compare/v3.27.2...v3.27.3) (2024-05-04)
+
+
+### Bug Fixes
+
+* improves visualization of new tables ([#577](https://github.com/Sanofi-IADC/konviw/issues/577)) ([71135d0](https://github.com/Sanofi-IADC/konviw/commit/71135d06045fd4a41c5f5e0ad0296f04e3d81bcb))
+
 ## [3.27.2](https://github.com/Sanofi-IADC/konviw/compare/v3.27.1...v3.27.2) (2024-04-27)
 
 
