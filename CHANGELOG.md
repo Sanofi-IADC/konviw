@@ -1,3 +1,10 @@
+## [3.27.4](https://github.com/Sanofi-IADC/konviw/compare/v3.27.3...v3.27.4) (2024-05-08)
+
+
+### Bug Fixes
+
+* add 20px top margin to images ([#578](https://github.com/Sanofi-IADC/konviw/issues/578)) ([d35b69e](https://github.com/Sanofi-IADC/konviw/commit/d35b69e04d47f008b07d0aa539f4427f370b8ce5))
+
 ## [3.27.3](https://github.com/Sanofi-IADC/konviw/compare/v3.27.2...v3.27.3) (2024-05-04)
 
 
