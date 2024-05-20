@@ -39,7 +39,14 @@ export default (): Step => (context: ContextService): void => {
             ).attr('href')}#t=0.1"></video>`,
           )
           .append('<br />')
-          .append($(fileWrapper).addClass('smalltext'));
+          .append($(fileWrapper))
+          .wrap('<div class="konviw-embedded-video">');
+      }
+      // if debug then show the macro debug frame
+      if (context.getView() === 'debug') {
+        $(fileWrapper).parent().wrap(
+          '<div class="debug-macro-indicator debug-fixVideo-embedded">',
+        );
       }
     },
   );
