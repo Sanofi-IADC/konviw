@@ -1,3 +1,10 @@
+## [3.27.5](https://github.com/Sanofi-IADC/konviw/compare/v3.27.4...v3.27.5) (2024-05-21)
+
+
+### Bug Fixes
+
+* display correct caption assigned to each image ([#579](https://github.com/Sanofi-IADC/konviw/issues/579)) ([b8d9b79](https://github.com/Sanofi-IADC/konviw/commit/b8d9b79f1434e9efd313cb8a2458e7215d55fbb2))
+
 ## [3.27.4](https://github.com/Sanofi-IADC/konviw/compare/v3.27.3...v3.27.4) (2024-05-08)
 
 
