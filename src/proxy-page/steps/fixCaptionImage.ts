@@ -29,28 +29,30 @@ export default (): Step => (context: ContextService): void => {
       inline: $xml(elementImg).attr('ac:inline') !== undefined,
     })).get();
 
-  // Let's scrap imgages embedded by Confluence
-  $('img.confluence-embedded-image').each((_index: number, elementImg: cheerio.Element) => {
-    const caption = imagesXML[_index]?.caption ?? '';
-    // for inline images force an small icon of 27px
-    if (imagesXML[_index]?.inline) {
-      $(elementImg).parent().parent().wrap('<div class="konviw-embedded-inline-image">');
-      $(elementImg).attr('width', '27px');
-      // if debug then show the markup
-      addDebug($, $(elementImg).parent().parent(), 'fixCaptionImage-inline', context);
-      logger.log('Fixed width to inline icon');
-    } else {
-      const imgDataWidth = $(elementImg).attr('width');
-      $(elementImg).parent().wrap('<div>');
-      $(elementImg).wrap(`<figure style="width:${imgDataWidth}">`);
-      if (caption?.length > 0) {
-        $(elementImg).parent().append(`<figcaption>${caption}</figcaption>`);
-        logger.log('Fixed caption image');
+  // Let's scrap imgages embedded by Confluence span confluence-embedded-file-wrapper
+  $("span.confluence-embedded-file-wrapper:not([data-macro-name='excerpt-include'])")
+    .each((_index: number, elementSpan: cheerio.Element) => {
+      // $('img.confluence-embedded-image').each((_index: number, elementImg: cheerio.Element) => {
+      const caption = imagesXML[_index]?.caption ?? '';
+      // for inline images force an small icon of 27px
+      if (imagesXML[_index]?.inline) {
+        $(elementSpan).parent().wrap('<div class="konviw-embedded-inline-image">');
+        $(elementSpan).children().attr('width', '27px');
+        // if debug then show the markup
+        addDebug($, $(elementSpan).parent(), 'fixCaptionImage-inline', context);
+        logger.log('Fixed width to inline icon');
+      } else {
+        const imgDataWidth = $(elementSpan).children().attr('width');
+        $(elementSpan).wrap('<div>');
+        $(elementSpan).wrapInner(`<figure style="width:${imgDataWidth}">`);
+        if (caption?.length > 0) {
+          $(elementSpan).children().append(`<figcaption>${caption}</figcaption>`);
+          logger.log('Fixed caption image');
+        }
+        // if debug then show the markup
+        addDebug($, $(elementSpan), 'fixCaptionImage', context);
       }
-      // if debug then show the markup
-      addDebug($, $(elementImg).parent(), 'fixCaptionImage', context);
-    }
-  });
+    });
 
   context.getPerfMeasure('fixCaptionImage');
 };
