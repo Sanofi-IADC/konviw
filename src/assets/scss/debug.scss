@@ -107,19 +107,37 @@
       @include debug-macro-frame('macro Code');
     }
   }
+
+  &.debug-fixCaptionImage {
+    &::before {
+      @include debug-macro-frame('image');
+    }
+  }
+
+  &.debug-fixCaptionImage-inline {
+    &::before {
+      @include debug-macro-frame('inline-image');
+    }
+  }
+
+  &.debug-fixVideo-embedded {
+    &::before {
+      @include debug-macro-frame('embedded-video');
+    }
+  }
 }
 
 // Tables
 table.confluenceTable {
   &[data-layout='default'] {
-    background-color: blue;
+    background-color: rgb(180, 180, 245);
   }
 
   &[data-layout='wide'] {
-    background-color: red;
+    background-color: rgb(138, 138, 242);
   }
 
   &[data-layout='full-width'] {
-    background-color: peru;
+    background-color: rgb(108, 108, 212);
   }
 }
