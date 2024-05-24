@@ -38,7 +38,7 @@
     border-color: royalblue;
     border-width: 4px;
     &::before {
-      @include debug-macro-frame('smaller column');
+      @include debug-macro-frame('smaller-column');
     }
   }
 
@@ -47,7 +47,7 @@
     border-color: hotpink;
     border-width: 4px;
     &::before {
-      @include debug-macro-frame('normal column');
+      @include debug-macro-frame('normal-column');
     }
   }
 
@@ -96,27 +96,39 @@
   border: 1px solid rgb(162, 0, 255);
   border-radius: 5px;
 
-  &.debug-macro-toc {
+  &.debug-fixToc {
     &::before {
-      @include debug-macro-frame('macro TOC');
+      @include debug-macro-frame('macro-TOC');
     }
   }
 
-  &.debug-macro-code {
+  &.debug-fixCode {
     &::before {
-      @include debug-macro-frame('macro Code');
+      @include debug-macro-frame('macro-code');
     }
   }
 
-  &.debug-fixCaptionImage {
+  &.debug-fixEmbeddedFile-thumbnail {
     &::before {
-      @include debug-macro-frame('image');
+      @include debug-macro-frame('thumbnail-file');
+    }
+  }
+
+  &.debug-fixEmbeddedFile-inline {
+    &::before {
+      @include debug-macro-frame('inline-file');
+    }
+  }
+
+  &.debug-fixCaptionImage-caption {
+    &::before {
+      @include debug-macro-frame('image-caption');
     }
   }
 
   &.debug-fixCaptionImage-inline {
     &::before {
-      @include debug-macro-frame('inline-image');
+      @include debug-macro-frame('image-inline');
     }
   }
 

@@ -2,9 +2,11 @@ import { selectOne } from 'css-select';
 import * as cheerio from 'cheerio';
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
+import { DebugIndicator } from '../../common/factory/DebugIndicator';
 import TocBuilder from './toc/TocBuilder';
 
 export default (): Step => (context: ContextService): void => {
+  const debugIndicator = new DebugIndicator(context);
   const $ = context.getCheerioBody();
 
   // If the class konviw-float-menu is present, add the floating TOC btn
@@ -19,11 +21,8 @@ export default (): Step => (context: ContextService): void => {
   $('div.client-side-toc-macro').each(
     (_macroIndex: number, elementTOC: cheerio.Element) => {
       // if debug then show the macro debug frame
-      if (context.getView() === 'debug') {
-        $(elementTOC).wrap(
-          '<div class="debug-macro-indicator debug-macro-toc">',
-        );
-      }
+      debugIndicator.mark($(elementTOC), 'fixToc');
+
       const tocBuilder = new TocBuilder($(elementTOC).data());
 
       $('h1,h2,h3,h4,h5,h6').each(

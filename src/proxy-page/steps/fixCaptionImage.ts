@@ -50,9 +50,8 @@ export default (): Step => (context: ContextService): void => {
         if (caption?.length > 0) {
           $(elementSpan).children().append(`<figcaption>${caption}</figcaption>`);
           logger.log('Fixed caption image');
+          debugIndicator.mark($(elementSpan), 'fixCaptionImage-caption');
         }
-        // if debug then show the markup
-        debugIndicator.mark($(elementSpan), 'fixCaptionImage');
       }
     });
 
