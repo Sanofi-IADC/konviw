@@ -1,3 +1,11 @@
+## [3.27.6](https://github.com/Sanofi-IADC/konviw/compare/v3.27.5...v3.27.6) (2024-05-24)
+
+
+### Bug Fixes
+
+* WEB-2307 Added debug factory as seperate class ([3ab41e9](https://github.com/Sanofi-IADC/konviw/commit/3ab41e97a2e4cdbad1b911377afae344629087d0))
+* WEB-2307 Added tests for debug indicator ([44282d0](https://github.com/Sanofi-IADC/konviw/commit/44282d02ee1c838e198f5fc2926c24ca7866f03c))
+
 ## [3.27.5](https://github.com/Sanofi-IADC/konviw/compare/v3.27.4...v3.27.5) (2024-05-21)
 
 
