@@ -2,6 +2,7 @@ import * as cheerio from 'cheerio';
 import { Logger } from '@nestjs/common';
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
+import { DebugIndicator } from '../../common/factory/DebugIndicator';
 
 /**
  * ### Proxy page step to fix image caiption
@@ -15,6 +16,7 @@ import { Step } from '../proxy-page.step';
 export default (): Step => (context: ContextService): void => {
   context.setPerfMark('fixCaptionImage');
   const logger = new Logger('fixCaptionImage');
+  const debugIndicator = new DebugIndicator(context);
   const $ = context.getCheerioBody();
 
   // Confluence sometimes ships metadata in body-format=storage which is not
@@ -39,7 +41,7 @@ export default (): Step => (context: ContextService): void => {
         $(elementSpan).parent().wrap('<div class="konviw-embedded-inline-image">');
         $(elementSpan).children().attr('width', '27px');
         // if debug then show the markup
-        addDebug($, $(elementSpan).parent(), 'fixCaptionImage-inline', context);
+        debugIndicator.mark($(elementSpan).parent(), 'fixCaptionImage-inline');
         logger.log('Fixed width to inline icon');
       } else {
         const imgDataWidth = $(elementSpan).children().attr('width');
@@ -48,21 +50,10 @@ export default (): Step => (context: ContextService): void => {
         if (caption?.length > 0) {
           $(elementSpan).children().append(`<figcaption>${caption}</figcaption>`);
           logger.log('Fixed caption image');
+          debugIndicator.mark($(elementSpan), 'fixCaptionImage-caption');
         }
-        // if debug then show the markup
-        addDebug($, $(elementSpan), 'fixCaptionImage', context);
       }
     });
 
   context.getPerfMeasure('fixCaptionImage');
-};
-
-// TODO! Refactor this function as a middleware or Factory to add debug markup similarly to the logger
-const addDebug = ($: cheerio.CheerioAPI, element: cheerio.Cheerio<cheerio.Element>, tag: string, context:ContextService): void => {
-  // if debug then show the macro debug frame
-  if (context.getView() === 'debug') {
-    $(element).wrap(
-      `<div class="debug-macro-indicator debug-${tag}">`,
-    );
-  }
 };
