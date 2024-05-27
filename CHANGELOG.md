@@ -1,3 +1,11 @@
+## [3.27.7](https://github.com/Sanofi-IADC/konviw/compare/v3.27.6...v3.27.7) (2024-05-27)
+
+
+### Bug Fixes
+
+* WEB-2318 Used decodeUriComponent to escape special characters for JIRA API ([3b0dca0](https://github.com/Sanofi-IADC/konviw/commit/3b0dca0fb19a0dde2fb746e736bbf19305c1f6be))
+* WEB-2318 Used decodeUriComponent to escape special characters for JIRA API ([ab234f4](https://github.com/Sanofi-IADC/konviw/commit/ab234f468b3dd546152c83476cf6bdbb79ad7f88))
+
 ## [3.27.6](https://github.com/Sanofi-IADC/konviw/compare/v3.27.5...v3.27.6) (2024-05-24)
 
 
