@@ -7,6 +7,9 @@ import { ContextService } from '../../context/context.service';
 export default (config: ConfigService, jiraService: JiraService): Step => async (context: ContextService): Promise<void> => {
   context.setPerfMark('addJira');
   const $ = context.getCheerioBody();
+  console.log("$",$.html());
+  const xmlStorageFormat = cheerio.load(context.getBodyStorage(), { xmlMode: true });
+  console.log("xml",xmlStorageFormat.html());
   const basePath = config.get('web.basePath');
   const version = config.get('version');
   const confluenceDomain = config.get('confluence.baseURL');
@@ -102,11 +105,11 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
       elementTags.push(elementJira);
     },
   );
-
   const jiraIssuesPromises = [];
   // this is the div holding the data to scrap the list of issues
   $('.refresh-wiki').each((_, elementJira: cheerio.Element) => {
     const wikimarkup: string = elementJira.attribs['data-wikimarkup'];
+    console.log("wiki",wikimarkup)
     const xmlWikimarkup = cheerio.load(wikimarkup, { xmlMode: true });
     const server = xmlWikimarkup('ac\\:parameter[ac\\:name="server"]').text();
     const filter = xmlWikimarkup(
@@ -114,6 +117,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
     ).text();
     const columns = `${xmlWikimarkup('ac\\:parameter[ac\\:name="columns"]').text()
     },issuetype`;
+    console.log("columns",columns)
     const maximumIssues = xmlWikimarkup(
       'ac\\:parameter[ac\\:name="maximumIssues"]',
     ).text();
@@ -202,7 +206,8 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
     const name = getFixVersionObject(issue)?.name;
     return name ?? '';
   };
-
+  console.log(issuesColumns[0].issues)
+  console.log("here",xmlStorageFormat)
   issuesColumns.forEach(
     ({
       issues, columns, element, server,
@@ -213,11 +218,50 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
       const baseUrl = process.env[`CPV_JIRA_${server.replace(/\s/, '_')}_BASE_URL`]
           ?? config.get('confluence.baseURL');
       issues.forEach((issue) => {
+        console.log(issue.fields.customfield_10020?.map(sprint => sprint.name))
         data.push({
+          reporter: issue.fields.reporter?.displayName,
+          startdate: issue.fields.customfield_10015
+          ? `${new Date(issue.fields.customfield_10015).toLocaleString('en-EN', {
+            year: 'numeric',
+            month: 'short',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+          })}`
+          : '',
+          duedate: issue.fields.duedate
+          ? `${new Date(issue.fields.duedate).toLocaleString('en-EN', {
+            year: 'numeric',
+            month: 'short',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+          })}`
+          : '',
+          team: issue.fields.customfield_10001?.name,
+          components : issue.fields.components?.map(component => component.name),
+          acceptance_criteria: issue.fields.customfield_10042?.content?.flatMap(item => item.content)?.map(subItem => subItem.text).join(' '),
+          detail_design_reference: issue.fields.customfield_10129?.content?.flatMap(item => item.content)?.map(subItem => subItem.text).join(' '),     
+          storypoints: issue.fields.customfield_10026,
+          labels: issue.fields.labels,
+          sprint: issue.fields.customfield_10020?.map(sprint => sprint.name),
           key: {
             name: issue.key,
             link: `${baseUrl}/browse/${issue.key}?src=confmacro`,
           },
+          parent: {
+            name: issue.fields.parent?.key,
+            link: `${baseUrl}/browse/${issue.fields.parent?.key}?src=confmacro`,
+          },
+          subtasks : issue.fields.subtasks?.map(subtask => ({
+            name: subtask.key,
+            link: `${baseUrl}/browse/${subtask.key}?src=confmacro`
+          })),
+          issuelinks : issue.fields.issuelinks?.map(link => ({
+            name: link.outwardIssue?.key || link.inwardIssue?.key,
+            link: `${baseUrl}/browse/${link.outwardIssue?.key || link.inwardIssue?.key}?src=confmacro`
+          })),
           t: {
             name: issue.fields.issuetype.name,
             icon: issue.fields.issuetype?.iconUrl,
@@ -254,8 +298,9 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
           },
         });
       });
-
+      console.log(data)
       const requestedFields = columns.split(',');
+      console.log(requestedFields)
 
       /* eslint-disable no-template-curly-in-string */
       let gridjsColumns = `[{
@@ -310,11 +355,93 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
                 }
               },`;
       }
+      if (requestedFields.includes('customfield_10015')) { //Starting Date
+        gridjsColumns += `{
+                name: 'Startdate',
+                sort: {
+                  compare: (a, b) => (new Date(a) > new Date(b) ? 1 : -1),
+                }
+              },`;
+      }
+      if (requestedFields.includes('duedate')) {
+        gridjsColumns += `{
+                name: 'Duedate',
+                sort: {
+                  compare: (a, b) => (new Date(a) > new Date(b) ? 1 : -1),
+                }
+              },`;
+      }
       if (requestedFields.includes('assignee')) {
         gridjsColumns += `{
                 name: 'Assignee',
               },`;
       }
+      if (requestedFields.includes('customfield_10001')) { //Team
+        gridjsColumns += `{
+                name: 'Team',
+              },`;
+      }
+      
+      if (requestedFields.includes('customfield_10042')) { // Acceptance Criteria
+        gridjsColumns += `{
+                name: 'Acceptance_Criteria',
+              },`;
+      }
+      if (requestedFields.includes('customfield_10129')) { //Detail Design Reference
+        gridjsColumns += `{
+                name: 'Detail_Design_Reference',
+              },`;
+      }
+      if (requestedFields.includes('customfield_10026')) { //story points
+        gridjsColumns += `{
+                name: 'Storypoints',
+              },`;
+      }
+      if (requestedFields.includes('reporter')) {
+        gridjsColumns += `{
+                name: 'Reporter',
+              },`;
+      }
+      if (requestedFields.includes('parent')) {
+        gridjsColumns += `{
+            name: 'Parent',
+            sort: {
+                compare: (a, b) => (a.name > b.name ? 1 : -1),
+            },
+            formatter: (cell) => gridjs.html(${'`<a href="${cell.link}" target="_blank">${cell.name}</a>`'})
+        },`;
+      }
+      if (requestedFields.includes('labels')) {
+        gridjsColumns += `{
+          name: 'Labels',
+          formatter: (cell) => gridjs.html(cell.map(item => \`<p style="display:inline">\${item}</p>\`).join(''))
+        },`;
+      }
+      if (requestedFields.includes('issuelinks')) {
+        gridjsColumns += `{
+            name: 'Issuelinks',
+            sort: {
+                compare: (a, b) => (a.name > b.name ? 1 : -1),
+            },
+            formatter: (cell) => gridjs.html(cell.map(item => '<a href="' + item.link + '" target="_blank">' + item.name + '</a>').join(', '))
+        },`;
+     }
+      if (requestedFields.includes('subtasks')) {
+        gridjsColumns += `{
+            name: 'Subtasks',
+            sort: {
+                compare: (a, b) => (a.name > b.name ? 1 : -1),
+            },
+            formatter: (cell) => gridjs.html(cell.map(item => '<a href="' + item.link + '" target="_blank">' + item.name + '</a>').join(', '))
+        },`;
+      }
+      if (requestedFields.includes('components')) {
+        gridjsColumns += `{
+          name: 'components',
+          formatter: (cell) => gridjs.html(cell.map(item => \`<p style="display:inline">\${item}</p>\`).join(''))
+        },`;
+      }
+      
       if (requestedFields.includes('priority')) {
         gridjsColumns += `{
                 name: 'Pr',
@@ -328,6 +455,13 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
         gridjsColumns += ` {
                 name: 'Resolution',
               },`;
+      }
+
+      if (requestedFields.includes('customfield_10020')) { //sprint
+        gridjsColumns += ` {
+          name: 'Sprint',
+          formatter: (cell) => gridjs.html(cell.map(item => \`<p style="display:inline-block">\${item}</p>\`).join('')),
+        },`;
       }
       if (requestedFields.includes('fixVersions')) {
         gridjsColumns += `{

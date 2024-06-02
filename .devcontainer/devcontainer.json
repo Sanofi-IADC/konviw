@@ -1,0 +1,13 @@
+{
+    "image": "cypress/included:9.5.4",
+    "forwardPorts": [6080, 5901],
+    "features": {
+        "ghcr.io/devcontainers/features/desktop-lite:1": {}
+    },
+    "portsAttributes": {
+      "6080": {
+        "label": "desktop"
+      }
+    },
+    "postCreateCommand": "npm install && cypress install"
+  }
