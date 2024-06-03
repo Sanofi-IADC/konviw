@@ -31,13 +31,18 @@ export default (): Step => (context: ContextService): void => {
       inline: $xml(elementImg).attr('ac:inline') !== undefined,
     })).get();
 
+  let includeCounter = 0;
   // Let's scrap imgages embedded by Confluence span confluence-embedded-file-wrapper
   $("span.confluence-embedded-file-wrapper:not([data-macro-name='excerpt-include'])")
     .each((_index: number, elementSpan: cheerio.Element) => {
+      if ($(elementSpan).parents(".conf-macro.output-block[data-macro-name='include']").attr('data-macro-name') === 'include') {
+        includeCounter += 1;
+        return;
+      }
       // $('img.confluence-embedded-image').each((_index: number, elementImg: cheerio.Element) => {
-      const caption = imagesXML[_index]?.caption ?? '';
+      const caption = imagesXML[_index - includeCounter]?.caption ?? '';
       // for inline images force an small icon of 27px
-      if (imagesXML[_index]?.inline) {
+      if (imagesXML[_index - includeCounter]?.inline) {
         $(elementSpan).parent().wrap('<div class="konviw-embedded-inline-image">');
         $(elementSpan).children().attr('width', '27px');
         // if debug then show the markup
