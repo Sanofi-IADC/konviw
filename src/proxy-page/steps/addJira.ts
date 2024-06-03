@@ -210,10 +210,55 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
       // Load new base URL if defined a specific connection for Jira as ENV variables
       // otherwise default to standard baseURL defined for main server
       const baseUrl = process.env[`CPV_JIRA_${server.replace(/\s/, '_')}_BASE_URL`]
-          ?? config.get('confluence.baseURL');
+        ?? config.get('confluence.baseURL');
       issues.forEach((issue) => {
         data.push({
-          reporter: issue.fields.reporter?.displayName,
+          reporter: issue.fields.reporter?.displayName || '',
+          components: issue.fields.components?.map((component) => component.name) || [],
+          acceptance_criteria: issue.fields.customfield_10042?.content
+            ?.flatMap((item) => item.content)
+            ?.map((subItem) => subItem.text)
+            .join(' ') || '',
+          detail_design_reference: issue.fields.customfield_10129?.content
+            ?.flatMap((item) => item.content)
+            ?.map((subItem) => subItem.text)
+            .join(' ') || '',
+          storypoints: issue.fields.customfield_10026 || '',
+          labels: issue.fields.labels || [],
+          sprint: issue.fields.customfield_10020?.map((sprint) => sprint.name) || [],
+          key: {
+            name: issue.key,
+            link: `${baseUrl}/browse/${issue.key}?src=confmacro`,
+          },
+          parent: {
+            name: issue.fields.parent?.key ? issue.fields.parent.key : '',
+            link: issue.fields.parent?.key ? `${baseUrl}/browse/${issue.fields.parent.key}?src=confmacro` : '',
+          },
+          subtasks: issue.fields.subtasks?.map((subtask) => ({
+            name: subtask.key,
+            link: `${baseUrl}/browse/${subtask.key}?src=confmacro`,
+          })) || [],
+          issuelinks: issue.fields.issuelinks?.map((link) => ({
+            name: link.outwardIssue?.key || link.inwardIssue?.key,
+            link: `${baseUrl}/browse/${link.outwardIssue?.key || link.inwardIssue?.key}?src=confmacro`,
+          })) || [],
+          t: {
+            name: issue.fields.issuetype.name || '',
+            icon: issue.fields.issuetype?.iconUrl || '',
+          },
+          summary: {
+            name: issue.fields.summary || '',
+            link: `${baseUrl}/browse/${issue.key}?src=confmacro`,
+          },
+          updated: issue.fields.updated
+            ? `${new Date(issue.fields.updated).toLocaleString('en-EN', {
+              year: 'numeric',
+              month: 'short',
+              day: '2-digit',
+              hour: '2-digit',
+              minute: '2-digit',
+            })}`
+            : '',
           startdate: issue.fields.customfield_10015
             ? `${new Date(issue.fields.customfield_10015).toLocaleString('en-EN', {
               year: 'numeric',
@@ -232,72 +277,26 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
               minute: '2-digit',
             })}`
             : '',
-          components: issue.fields.components?.map((component) => component.name),
-          acceptance_criteria: issue.fields.customfield_10042?.content
-            ?.flatMap((item) => item.content)
-            ?.map((subItem) => subItem.text)
-            .join(' '),
-          detail_design_reference: issue.fields.customfield_10129?.content
-            ?.flatMap((item) => item.content)
-            ?.map((subItem) => subItem.text)
-            .join(' '),
-          storypoints: issue.fields.customfield_10026,
-          labels: issue.fields.labels,
-          sprint: issue.fields.customfield_10020?.map((sprint) => sprint.name),
-          key: {
-            name: issue.key,
-            link: `${baseUrl}/browse/${issue.key}?src=confmacro`,
-          },
-          parent: {
-            name: issue.fields.parent?.key,
-            link: `${baseUrl}/browse/${issue.fields.parent?.key}?src=confmacro`,
-          },
-          subtasks: issue.fields.subtasks?.map((subtask) => ({
-            name: subtask.key,
-            link: `${baseUrl}/browse/${subtask.key}?src=confmacro`,
-          })),
-          issuelinks: issue.fields.issuelinks?.map((link) => ({
-            name: link.outwardIssue?.key || link.inwardIssue?.key,
-            link: `${baseUrl}/browse/${link.outwardIssue?.key || link.inwardIssue?.key}?src=confmacro`,
-          })),
-          t: {
-            name: issue.fields.issuetype.name,
-            icon: issue.fields.issuetype?.iconUrl,
-          },
-          summary: {
-            name: issue.fields.summary,
-            link: `${baseUrl}/browse/${issue.key}?src=confmacro`,
-          },
-          updated: issue.fields.updated
-            ? `${new Date(issue.fields.updated).toLocaleString('en-EN', {
-              year: 'numeric',
-              month: 'short',
-              day: '2-digit',
-              hour: '2-digit',
-              minute: '2-digit',
-            })}`
-            : '',
-          assignee: issue.fields.assignee?.displayName,
+          assignee: issue.fields.assignee?.displayName || '',
           pr: {
-            name: issue.fields.priority?.name,
-            icon: issue.fields.priority?.iconUrl,
+            name: issue.fields.priority?.name || '',
+            icon: issue.fields.priority?.iconUrl || '',
           },
           status: {
-            name: issue.fields.status?.name,
-            color: issue.fields.status?.statusCategory.colorName,
+            name: issue.fields.status?.name || '',
+            color: issue.fields.status?.statusCategory.colorName || '',
           },
-          resolution: issue.fields.resolution?.name,
+          resolution: issue.fields.resolution?.name || '',
           fixVersion: {
-            name: fixVersionNameFactory(issue),
-            link: fixVersionUrlFactory(issue),
+            name: fixVersionNameFactory(issue) || '',
+            link: fixVersionUrlFactory(issue) || '',
           },
           description: {
-            name: descriptionIssueFactory(issue, baseUrl),
+            name: descriptionIssueFactory(issue, baseUrl) || '',
           },
         });
       });
       const requestedFields = columns.split(',');
-
       /* eslint-disable no-template-curly-in-string */
       let gridjsColumns = `[{
                 name: 'Key',
