@@ -197,9 +197,37 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
     return '';
   };
 
+
   const fixVersionNameFactory = (issue: { [key: string]: any }) => {
     const name = getFixVersionObject(issue)?.name;
     return name ?? '';
+  };
+
+  const formatDate = (dateString) => {
+    return dateString
+      ? `${new Date(dateString).toLocaleString('en-EN', {
+          year: 'numeric',
+          month: 'short',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+        })}`
+      : '';
+  }
+  const getTextContent = (customField) => {
+    return customField?.content
+      ?.flatMap((item) => item.content)
+      ?.map((subItem) => subItem.text)
+      .join(' ') || '';
+  };
+  const getContentWithMap = (contents) => {
+    return contents?.map((content) => content.name) || [];
+  };
+  const createLinkObject = (key, baseUrl) => {
+    return {
+      name: key || '',
+      link: key ? `${baseUrl}/browse/${key}?src=confmacro` : '',
+    };
   };
 
   issuesColumns.forEach(
@@ -214,25 +242,19 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
       issues.forEach((issue) => {
         data.push({
           reporter: issue.fields.reporter?.displayName || '',
-          components: issue.fields.components?.map((component) => component.name) || [],
-          acceptance_criteria: issue.fields.customfield_10042?.content
-            ?.flatMap((item) => item.content)
-            ?.map((subItem) => subItem.text)
-            .join(' ') || '',
-          detail_design_reference: issue.fields.customfield_10129?.content
-            ?.flatMap((item) => item.content)
-            ?.map((subItem) => subItem.text)
-            .join(' ') || '',
+          components: getContentWithMap(issue.fields.components),
+          acceptance_criteria: getTextContent(issue.fields.customfield_10042),
+          detail_design_reference: getTextContent(issue.fields.customfield_10129),
           storypoints: issue.fields.customfield_10026 || '',
           labels: issue.fields.labels || [],
-          sprint: issue.fields.customfield_10020?.map((sprint) => sprint.name) || [],
+          sprint: getContentWithMap(issue.fields.customfield_10020),
           key: {
             name: issue.key,
             link: `${baseUrl}/browse/${issue.key}?src=confmacro`,
           },
           parent: {
-            name: issue.fields.parent?.key ? issue.fields.parent.key : '',
-            link: issue.fields.parent?.key ? `${baseUrl}/browse/${issue.fields.parent.key}?src=confmacro` : '',
+            name: issue.fields.parent?.key || '',
+            link: `${baseUrl}/browse/${issue.fields.parent?.key}?src=confmacro` || '',
           },
           subtasks: issue.fields.subtasks?.map((subtask) => ({
             name: subtask.key,
@@ -250,33 +272,9 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
             name: issue.fields.summary || '',
             link: `${baseUrl}/browse/${issue.key}?src=confmacro`,
           },
-          updated: issue.fields.updated
-            ? `${new Date(issue.fields.updated).toLocaleString('en-EN', {
-              year: 'numeric',
-              month: 'short',
-              day: '2-digit',
-              hour: '2-digit',
-              minute: '2-digit',
-            })}`
-            : '',
-          startdate: issue.fields.customfield_10015
-            ? `${new Date(issue.fields.customfield_10015).toLocaleString('en-EN', {
-              year: 'numeric',
-              month: 'short',
-              day: '2-digit',
-              hour: '2-digit',
-              minute: '2-digit',
-            })}`
-            : '',
-          duedate: issue.fields.duedate
-            ? `${new Date(issue.fields.duedate).toLocaleString('en-EN', {
-              year: 'numeric',
-              month: 'short',
-              day: '2-digit',
-              hour: '2-digit',
-              minute: '2-digit',
-            })}`
-            : '',
+          updated: formatDate(issue.fields.updated),
+          startdate: formatDate(issue.fields.customfield_10015),
+          duedate: formatDate(issue.fields.duedate),
           assignee: issue.fields.assignee?.displayName || '',
           pr: {
             name: issue.fields.priority?.name || '',
@@ -297,6 +295,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
         });
       });
       const requestedFields = columns.split(',');
+      console.log(requestedFields)
       /* eslint-disable no-template-curly-in-string */
       let gridjsColumns = `[{
                 name: 'Key',
