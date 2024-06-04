@@ -222,9 +222,9 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
   const getContentWithMap = (contents) => {
     return contents?.map((content) => content.name) || [];
   };
-  const createLinkObject = (key, baseUrl) => {
+  const createLinkObject = (key, baseUrl,name = '') => {
     return {
-      name: key || '',
+      name: name || key || '',
       link: key ? `${baseUrl}/browse/${key}?src=confmacro` : '',
     };
   };
@@ -247,14 +247,8 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
           storypoints: issue.fields.customfield_10026 || '',
           labels: issue.fields.labels || [],
           sprint: getContentWithMap(issue.fields.customfield_10020),
-          key: {
-            name: issue.key,
-            link: `${baseUrl}/browse/${issue.key}?src=confmacro`,
-          },
-          parent: {
-            name: issue.fields.parent?.key || '',
-            link: `${baseUrl}/browse/${issue.fields.parent?.key}?src=confmacro` || '',
-          },
+          key: createLinkObject(issue.key,baseUrl),
+          parent: createLinkObject(issue.fields.parent?.key,baseUrl),
           subtasks: issue.fields.subtasks?.map((subtask) => ({
             name: subtask.key,
             link: `${baseUrl}/browse/${subtask.key}?src=confmacro`,
@@ -267,10 +261,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
             name: issue.fields.issuetype.name || '',
             icon: issue.fields.issuetype?.iconUrl || '',
           },
-          summary: {
-            name: issue.fields.summary || '',
-            link: `${baseUrl}/browse/${issue.key}?src=confmacro`,
-          },
+          summary: createLinkObject(issue.key,baseUrl,issue.fields.summary),
           updated: formatDate(issue.fields.updated),
           startdate: formatDate(issue.fields.customfield_10015),
           duedate: formatDate(issue.fields.duedate),
