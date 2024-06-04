@@ -197,7 +197,6 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
     return '';
   };
 
-
   const fixVersionNameFactory = (issue: { [key: string]: any }) => {
     const name = getFixVersionObject(issue)?.name;
     return name ?? '';
@@ -206,14 +205,14 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
   const formatDate = (dateString) => {
     return dateString
       ? `${new Date(dateString).toLocaleString('en-EN', {
-          year: 'numeric',
-          month: 'short',
-          day: '2-digit',
-          hour: '2-digit',
-          minute: '2-digit',
-        })}`
-      : '';
-  }
+        year: 'numeric',
+        month: 'short',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+      })}`
+    : '';
+  };
   const getTextContent = (customField) => {
     return customField?.content
       ?.flatMap((item) => item.content)
@@ -295,7 +294,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
         });
       });
       const requestedFields = columns.split(',');
-      console.log(requestedFields)
+      
       /* eslint-disable no-template-curly-in-string */
       let gridjsColumns = `[{
                 name: 'Key',
