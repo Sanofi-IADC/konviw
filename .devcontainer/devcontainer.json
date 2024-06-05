@@ -1,0 +1,12 @@
+{
+  "name": "ominous-parakeet-pv779xppj9q3655",
+  "customizations": {
+    "codespaces": {
+      "repositories": {
+        "Sanofi-IADC/*": {
+          "permissions": "write-all"
+        }
+      }
+    }
+  }
+}
