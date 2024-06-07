@@ -202,32 +202,33 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
     return name ?? '';
   };
 
-  const formatDate = (dateString) => {
-    return dateString
-      ? `${new Date(dateString).toLocaleString('en-EN', {
-        year: 'numeric',
-        month: 'short',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-      })}`
-    : '';
-  };
-  const getTextContent = (customField) => {
-    return customField?.content
-      ?.flatMap((item) => item.content)
-      ?.map((subItem) => subItem.text)
-      .join(' ') || '';
-  };
-  const getContentWithMap = (contents) => {
-    return contents?.map((content) => content.name) || [];
-  };
-  const createLinkObject = (key, baseUrl,name = '') => {
-    return {
-      name: name || key || '',
-      link: key ? `${baseUrl}/browse/${key}?src=confmacro` : '',
-    };
-  };
+  const formatDate = (dateString) => (dateString
+    ? `${new Date(dateString).toLocaleString('en-EN', {
+      year: 'numeric',
+      month: 'short',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+    })}`
+    : '');
+
+  const getTextContent = (customField) => customField?.content
+    ?.flatMap((item) => item.content)
+    ?.map((subItem) => subItem.text)
+    .join(' ') || '';
+
+  const getContentWithMap = (contents) => contents?.map((content) => content.name) || [];
+
+  const createLinkObject = (key, baseUrl, name = '') => ({
+    name: name || key || '',
+    link: key ? `${baseUrl}/browse/${key}?src=confmacro` : '',
+  });
+
+  const getSubtasksInfo = (subtasks, baseUrl) =>
+    subtasks?.map((subtask) => createLinkObject(subtask.key, baseUrl)) || [];
+
+  const getIssueLinksInfo = (issuelinks, baseUrl) =>
+    issuelinks?.map((link) => createLinkObject(link.outwardIssue?.key || link.inwardIssue?.key, baseUrl)) || [];
 
   issuesColumns.forEach(
     ({
@@ -247,21 +248,15 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
           storypoints: issue.fields.customfield_10026 || '',
           labels: issue.fields.labels || [],
           sprint: getContentWithMap(issue.fields.customfield_10020),
-          key: createLinkObject(issue.key,baseUrl),
-          parent: createLinkObject(issue.fields.parent?.key,baseUrl),
-          subtasks: issue.fields.subtasks?.map((subtask) => ({
-            name: subtask.key,
-            link: `${baseUrl}/browse/${subtask.key}?src=confmacro`,
-          })) || [],
-          issuelinks: issue.fields.issuelinks?.map((link) => ({
-            name: link.outwardIssue?.key || link.inwardIssue?.key,
-            link: `${baseUrl}/browse/${link.outwardIssue?.key || link.inwardIssue?.key}?src=confmacro`,
-          })) || [],
+          key: createLinkObject(issue.key, baseUrl),
+          parent: createLinkObject(issue.fields.parent?.key, baseUrl),
+          subtasks: getSubtasksInfo(issue.fields.subtasks, baseUrl),
+          issuelinks: getIssueLinksInfo(issue.fields.issuelinks, baseUrl),
           t: {
             name: issue.fields.issuetype.name || '',
             icon: issue.fields.issuetype?.iconUrl || '',
           },
-          summary: createLinkObject(issue.key,baseUrl,issue.fields.summary),
+          summary: createLinkObject(issue.key, baseUrl, issue.fields.summary),
           updated: formatDate(issue.fields.updated),
           startdate: formatDate(issue.fields.customfield_10015),
           duedate: formatDate(issue.fields.duedate),
@@ -285,186 +280,136 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
         });
       });
       const requestedFields = columns.split(',');
-      
+
       /* eslint-disable no-template-curly-in-string */
-      let gridjsColumns = `[{
-                name: 'Key',
-                sort: {
-                  compare: (a, b) => (a.name > b.name ? 1 : -1),
-                },
-                formatter: (cell) => gridjs.html(${'`<a href="${cell.link}" target="_blank">${cell.name}</a>`'})
-              },`;
-      if (requestedFields.includes('summary')) {
-        gridjsColumns += `{
-                name: 'Summary',
-                sort: {
-                  compare: (a, b) => (a.name > b.name ? 1 : -1),
-                },
-                formatter: (cell) => gridjs.html(${'`<a href="${cell.link}" target="_blank">${cell.name}</a>`'})
-              },`;
-      }
-      if (requestedFields.includes('description')) {
-        gridjsColumns += `{
-                name: 'Description',
-                sort: {
-                  compare: (a, b) => (a.name > b.name ? 1 : -1),
-                },
-                formatter: (cell) => gridjs.html(${'`${cell.name}`'})
-              },`;
-      }
-      if (requestedFields.includes('issuetype')) {
-        gridjsColumns += `{
-                name: 'T',
-                sort: {
-                  compare: (a, b) => (a.name > b.name ? 1 : -1),
-                },
-                formatter: (cell) => gridjs.html(cell ? ${'`<img src="${cell.icon}" style="height:25px;padding:0"/>`'} : ''),
-              },`;
-      }
-      if (requestedFields.includes('status')) {
-        gridjsColumns += `{
-                name: 'Status',
-                sort: {
-                  compare: (a, b) => (a.name > b.name ? 1 : -1),
-                },
-                formatter: (cell) => gridjs.html(
-                  ${'`<div class="aui-lozenge" style="background-color:${cell.color};color:darkgrey;font-size: 11px;">${cell.name}</div>`'})
-              },`;
-      }
-      if (requestedFields.includes('updated')) {
-        gridjsColumns += `{
-                name: 'Updated',
-                sort: {
-                  compare: (a, b) => (new Date(a) > new Date(b) ? 1 : -1),
-                }
-              },`;
-      }
-      if (requestedFields.includes('customfield_10015')) {
-      // Starting Date
-        gridjsColumns += `{
-                name: 'Startdate',
-                sort: {
-                  compare: (a, b) => (new Date(a) > new Date(b) ? 1 : -1),
-                }
-              },`;
-      }
-      if (requestedFields.includes('duedate')) {
-        gridjsColumns += `{
-                name: 'Duedate',
-                sort: {
-                  compare: (a, b) => (new Date(a) > new Date(b) ? 1 : -1),
-                }
-              },`;
-      }
-      if (requestedFields.includes('assignee')) {
-        gridjsColumns += `{
-                name: 'Assignee',
-              },`;
-      }
-      if (requestedFields.includes('customfield_10001')) {
-      // Team
-        gridjsColumns += `{
-                name: 'Team',
-              },`;
-      }
-      if (requestedFields.includes('customfield_10042')) {
-      // Acceptance Criteria
-        gridjsColumns += `{
-                name: 'Acceptance_Criteria',
-              },`;
-      }
-      if (requestedFields.includes('customfield_10129')) {
-      // Detail Design Reference
-        gridjsColumns += `{
-                name: 'Detail_Design_Reference',
-              },`;
-      }
-      if (requestedFields.includes('customfield_10026')) {
-      // Story points
-        gridjsColumns += `{
-                name: 'Storypoints',
-              },`;
-      }
-      if (requestedFields.includes('reporter')) {
-        gridjsColumns += `{
-                name: 'Reporter',
-              },`;
-      }
-      if (requestedFields.includes('parent')) {
-        gridjsColumns += `{
+
+      const columnConfigs = {
+        key: `
+        { 
+          name: 'Key',
+          sort: { compare: (a, b) => (a.name > b.name ? 1 : -1)},
+          formatter: (cell) => gridjs.html(${'`<a href="${cell.link}" target="_blank">${cell.name}</a>`'})
+        }`,
+        summary: `
+          {
+            name: 'Summary',
+            sort: { compare: (a, b) => (a.name > b.name ? 1 : -1) },
+            formatter: (cell) => gridjs.html(\`<a href="\${cell.link}" target="_blank">\${cell.name}</a>\`)
+          }`,
+        description: `
+          {
+            name: 'Description',
+            sort: { compare: (a, b) => (a.name > b.name ? 1 : -1) },
+            formatter: (cell) => gridjs.html(\`\${cell.name}\`)
+          }`,
+        issuetype: `
+          {
+            name: 'T',
+            sort: { compare: (a, b) => (a.name > b.name ? 1 : -1) },
+            formatter: (cell) => gridjs.html(\`<img src="\${cell.icon}" style="height:25px;padding:0"/>\`)
+          }`,
+        status: `
+          {
+            name: 'Status',
+            sort: { compare: (a, b) => (a.name > b.name ? 1 : -1) },
+            formatter: (cell) => gridjs.html
+              (\`<div class="aui-lozenge" style="background-color:\${cell.color};color:darkgrey;font-size: 11px;">\${cell.name}</div>\`)
+          }`,
+        updated: `
+          {
+            name: 'Updated',
+            sort: { compare: (a, b) => (new Date(a) > new Date(b) ? 1 : -1) }
+          }`,
+        customfield_10015: `
+          {
+            name: 'Startdate',
+            sort: { compare: (a, b) => (new Date(a) > new Date(b) ? 1 : -1) }
+          }`,
+        duedate: `
+          {
+            name: 'Duedate',
+            sort: { compare: (a, b) => (new Date(a) > new Date(b) ? 1 : -1) }
+          }`,
+        assignee: `
+          {
+            name: 'Assignee'
+          }`,
+        customfield_10001: `
+          {
+            name: 'Team'
+          }`,
+        customfield_10042: `
+          {
+            name: 'Acceptance_Criteria'
+          }`,
+        customfield_10129: `
+          {
+            name: 'Detail_Design_Reference'
+          }`,
+        customfield_10026: `
+          {
+            name: 'Storypoints'
+          }`,
+        reporter: `
+          {
+            name: 'Reporter'
+          }`,
+        parent: `
+          {
             name: 'Parent',
-            sort: {
-                compare: (a, b) => (a.name > b.name ? 1 : -1),
-            },
-            formatter: (cell) => gridjs.html(${'`<a href="${cell.link}" target="_blank">${cell.name}</a>`'})
-        },`;
-      }
-      if (requestedFields.includes('labels')) {
-        gridjsColumns += `{
-          name: 'Labels',
-          formatter: (cell) => gridjs.html(cell.map(item => \`<p>\${item}</p>\`).join(''))
-        },`;
-      }
-      if (requestedFields.includes('issuelinks')) {
-        gridjsColumns += `{
-          name: 'Issuelinks',
-          sort: {
-            compare: (a, b) => (a.name > b.name ? 1 : -1),
-          },
-          formatter: (cell) => gridjs.html(cell.map((item) => 
-            '<a href="' + item.link + '" target="_blank">' + item.name + '</a>'
-          ).join(', '))
-        },`;
-      }
-      if (requestedFields.includes('subtasks')) {
-        gridjsColumns += `{
+            sort: { compare: (a, b) => (a.name > b.name ? 1 : -1) },
+            formatter: (cell) => gridjs.html(\`<a href="\${cell.link}" target="_blank">\${cell.name}</a>\`)
+          }`,
+        labels: `
+          {
+            name: 'Labels',
+            formatter: (cell) => gridjs.html(cell.map(item => \`<p>\${item}</p>\`).join(''))
+          }`,
+        issuelinks: `
+          {
+            name: 'Issuelinks',
+            sort: { compare: (a, b) => (a.name > b.name ? 1 : -1) },
+            formatter: (cell) => gridjs.html(cell.map((item) => \`<a href="\${item.link}" target="_blank">\${item.name}</a>\`).join(', '))
+          }`,
+        subtasks: `
+          {
             name: 'Subtasks',
-            sort: {
-                compare: (a, b) => (a.name > b.name ? 1 : -1),
-            },
-            formatter: (cell) => gridjs.html(cell.map((item) => 
-              '<a href="' + item.link + '" target="_blank">' + item.name + '</a>'
-            ).join(', '))
-        },`;
-      }
-      if (requestedFields.includes('components')) {
-        gridjsColumns += `{
-          name: 'Components',
-          formatter: (cell) => gridjs.html(cell.map(item => \`<p>\${item}</p>\`).join(''))
-        },`;
-      }
-      if (requestedFields.includes('priority')) {
-        gridjsColumns += `{
-                name: 'Pr',
-                sort: {
-                  compare: (a, b) => (a.name > b.name ? 1 : -1),
-                },
-                formatter: (cell) => gridjs.html(cell ? ${'`<img src="${cell.icon}" style="height:25px;padding:0"/>`'} : ''),
-              },`;
-      }
-      if (requestedFields.includes('resolution')) {
-        gridjsColumns += ` {
-                name: 'Resolution',
-              },`;
-      }
-      if (requestedFields.includes('customfield_10020')) {
-      // Sprint
-        gridjsColumns += ` {
-          name: 'Sprint',
-          formatter: (cell) => gridjs.html(cell.map(item => \`<p style="display:inline-block">\${item}</p>\`).join('')),
-        },`;
-      }
-      if (requestedFields.includes('fixVersions')) {
-        gridjsColumns += `{
-                name: 'Fix Version',
-                sort: {
-                  compare: (a, b) => (a.name > b.name ? 1 : -1),
-                },
-                formatter: (cell) =>
-                  cell.link ? gridjs.html(${'`<a href="${cell.link}" target="_blank">${cell.name}</a>`'}) : gridjs.html(${'`${cell.name}`'})
-              },`;
-      }
-      gridjsColumns += ']';
+            sort: { compare: (a, b) => (a.name > b.name ? 1 : -1) },
+            formatter: (cell) => gridjs.html(cell.map((item) => \`<a href="\${item.link}" target="_blank">\${item.name}</a>\`).join(', '))
+          }`,
+        components: `
+          {
+            name: 'Components',
+            formatter: (cell) => gridjs.html(cell.map(item => \`<p>\${item}</p>\`).join(''))
+          }`,
+        priority: `
+          {
+            name: 'Pr',
+            sort: { compare: (a, b) => (a.name > b.name ? 1 : -1) },
+            formatter: (cell) => gridjs.html(\`<img src="\${cell.icon}" style="height:25px;padding:0"/>\`)
+          }`,
+        resolution: `
+          {
+            name: 'Resolution'
+          }`,
+        customfield_10020: `
+          {
+            name: 'Sprint',
+            formatter: (cell) => gridjs.html(cell.map(item => \`<p style="display:inline-block">\${item}</p>\`).join(''))
+          }`,
+        fixVersions: `
+          {
+            name: 'Fix Version',
+            sort: { compare: (a, b) => (a.name > b.name ? 1 : -1) },
+            formatter: (cell) => cell.link ? gridjs.html
+              (\`<a href="\${cell.link}" target="_blank">\${cell.name}</a>\`) : gridjs.html(\`\${cell.name}\`)
+          }`,
+      };
+
+      const gridjsColumns = `[${Object.keys(columnConfigs)
+        .filter((field) => requestedFields.includes(field))
+        .map((field) => columnConfigs[field])
+        .join(',')}]`;
 
       // remove the header
       $('div[id^="jira-issues-"]').remove();
@@ -478,29 +423,29 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
       $(element).before(
         `<div id="gridjs${index}"></div>`,
         `<script>
-        document.addEventListener('DOMContentLoaded', function () {
-          new gridjs.Grid({
-            columns: ${gridjsColumns},
-            data: ${JSON.stringify(data)},
-            sort: true,
-            search: {
-              enabled: true,
-              selector: (cell, rowIndex, cellIndex) => cell ? cell.name || cell : ''
-            },
-            width: '100%',
-            style: {
-              td: {
-                padding: '5px 5px',
-                maxWidth: '500px',
-                minWidth: '25px',
-                overflow: 'auto',
-              },
-              th: {
-                padding: '5px 5px'
-              }
-            }
-          }).render(document.getElementById("gridjs${index}"));
-        })
+      document.addEventListener('DOMContentLoaded', function () {
+      new gridjs.Grid({
+        columns: ${gridjsColumns},
+        data: ${JSON.stringify(data)},
+        sort: true,
+        search: {
+          enabled: true,
+          selector: (cell, rowIndex, cellIndex) => cell ? cell.name || cell : ''
+        },
+        width: '100%',
+        style: {
+          td: {
+            padding: '5px 5px',
+            maxWidth: '500px',
+            minWidth: '25px',
+            overflow: 'auto',
+          },
+          th: {
+            padding: '5px 5px'
+          }
+        }
+      }).render(document.getElementById("gridjs${index}"));
+      })
       </script>`,
       );
       $(element).remove();
