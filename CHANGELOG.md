@@ -1,3 +1,10 @@
+## [3.27.8](https://github.com/Sanofi-IADC/konviw/compare/v3.27.7...v3.27.8) (2024-06-08)
+
+
+### Bug Fixes
+
+* exclude the images from emedded page ([#583](https://github.com/Sanofi-IADC/konviw/issues/583)) ([8114a0d](https://github.com/Sanofi-IADC/konviw/commit/8114a0d20a7bb9d26f859076e3ad0f63377a9b33))
+
 ## [3.27.7](https://github.com/Sanofi-IADC/konviw/compare/v3.27.6...v3.27.7) (2024-05-27)
 
 
