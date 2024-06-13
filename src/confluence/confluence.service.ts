@@ -463,4 +463,80 @@ export class ConfluenceService {
     );
     return data;
   }
+
+  /**
+   * @function Search Service
+   * @description Search results from Confluence API /rest/api/search
+   * @return Promise {any}
+   * @param spaceKey {string} 'iadc' - space key where the page belongs
+   * @param query {string} - space key identifying the document space from Confluence
+   * @param type {string} 'blogpost' - type of Confluence page, either 'page' or 'blogpost'
+   * @param labels {string} 'label1,label2' - labels to include as filters in the search
+   * @param maxResults {number} '15' - limit of records to be retrieved
+   * @param cursorResults {string} 'URI' - one of the two URIs provided by Confluence to navigate to the next or previous set of records
+   */
+  async getChildrenPages(
+    spaceKeys: string,
+    ancestor: string,
+    labels = undefined,
+    maxResult = 999,
+    cursorResults = '',
+  ): Promise<AxiosResponse<SearchResults>> {
+    let uriSearch: string;
+    let params: any = {};
+    let cql: string;
+    if (cursorResults !== '') {
+      uriSearch = `/wiki${cursorResults}`;
+    } else {
+      uriSearch = '/wiki/rest/api/search';
+      // filter by the type received or search both blogposts and pages
+      cql = '(type=page)';
+
+      // let's search additional labels while there may be multiple labels separated by ','
+      const labelsList: string[] = labels?.split(',');
+      if (labelsList?.length > 0) {
+        const cqlLablelsStr = labelsList
+          .map((label: any): string => `(label='${label}')`)
+          .join(' AND ');
+        cql = `${cql} AND (${cqlLablelsStr})`;
+      }
+
+      // there may be multiple spaces separated by '|' and a minimum of one space is mandatory
+      const spacesList: string[] = spaceKeys.split('|');
+      const cqlSpacesStr = spacesList
+        .map((space: any): string => `(space=${space})`)
+        .join(' OR ');
+      cql = `${cql} AND (${cqlSpacesStr})`;
+
+      // and finally let's add the searched term, if any
+      cql = `${cql} AND (ancestor = ${ancestor})`;
+      params = {
+        limit: maxResult, // number of item per page
+        cql,
+        excerpt: 'highlight', // use "highlight" to enclosed word found in @@@hl@@@ and @@@endhl@@@
+        expand: [
+          // fields to retrieve
+          'content.history',
+          'content.metadata.labels',
+          'content.body.view',
+          'content.version',
+          // header image if any defined
+          'content.metadata.properties.cover_picture_id_published',
+        ].join(','),
+        includeArchivedSpaces: false,
+      };
+    }
+    try {
+      const results: AxiosResponse<SearchResults> = await firstValueFrom(
+        this.http.get<SearchResults>(uriSearch, { params }),
+      );
+      this.logger.log(
+        `Searching ${uriSearch} with ${maxResult} maximum results and CQL ${cql} or cursor ${cursorResults} via REST API`,
+      );
+      return results;
+    } catch (err) {
+      this.logger.log(err, 'error:getResults');
+      throw new HttpException(`error:getResults > ${err}`, 404);
+    }
+  }
 }

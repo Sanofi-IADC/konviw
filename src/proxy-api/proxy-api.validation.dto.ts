@@ -5,6 +5,7 @@ import SearchProjectCategoriesQueryDTO from './dto/SearchProjectCategoriesQuery'
 import SearchProjectIssuesQueryDTO from './dto/SearchProjectIssuesQuery';
 import SearchProjectsQueryDTO from './dto/SearchProjectsQuery';
 import SearchQueryDTO from './dto/SearchQuery';
+import RadarParamsDTO from './dto/RadarParams';
 
 export {
   GetSpacesParamsDTO,
@@ -14,4 +15,5 @@ export {
   SearchProjectIssuesQueryDTO,
   SearchProjectsQueryDTO,
   SearchQueryDTO,
+  RadarParamsDTO,
 };
