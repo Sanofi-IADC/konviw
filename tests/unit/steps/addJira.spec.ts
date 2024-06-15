@@ -94,24 +94,55 @@ describe('Confluence Proxy / addJira', () => {
     const baseUrl = config.get('confluence.baseURL');
     const data = JSON.stringify([
       {
-        key: {
-          name: 'FND-319',
-          link: `${baseUrl}/browse/FND-319?src=confmacro`,
+        "reporter": "",
+        "components": [],
+        "acceptance_criteria": "",
+        "detail_design_reference": "",
+        "storypoints": "",
+        "labels": [],
+        "sprint": [],
+        "key": {
+          "name": "FND-319",
+          "link": "https://test.atlassian.net/browse/FND-319?src=confmacro"
         },
-        t: { name: 'issue', icon: 'image.png' },
-        summary: {
-          name: 'Awesome Summary',
-          link: `${baseUrl}/browse/FND-319?src=confmacro`,
+        "parent": {
+          "name": "",
+          "link": ""
         },
-        updated: '',
-        assignee: 'an assignee',
-        pr: { name: 'low', icon: 'image.png' },
-        status: { name: 'a status' },
-        resolution: 'resolved',
-        fixVersion: { name: '', link: '', },
-        description: {},
-      },
+        "subtasks": [],
+        "issuelinks": [],
+        "t": {
+          "name": "issue",
+          "icon": "image.png"
+        },
+        "summary": {
+          "name": "Awesome Summary",
+          "link": "https://test.atlassian.net/browse/FND-319?src=confmacro"
+        },
+        "updated": "",
+        "startdate": "",
+        "duedate": "",
+        "assignee": "an assignee",
+        "pr": {
+          "name": "low",
+          "icon": "image.png"
+        },
+        "status": {
+          "name": "a status",
+          "color": ""
+        },
+        "resolution": "resolved",
+        "fixVersion": {
+          "name": "",
+          "link": ""
+        },
+        "description": {
+          "name": ""
+        }
+      }
     ]);
+    
+    
     expect($('body').html()).toContain(`data: ${data}`);
   });
   it('key should not be displayed', async () => {

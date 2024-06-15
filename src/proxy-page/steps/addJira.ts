@@ -102,7 +102,6 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
       elementTags.push(elementJira);
     },
   );
-
   const jiraIssuesPromises = [];
   // this is the div holding the data to scrap the list of issues
   $('.refresh-wiki').each((_, elementJira: cheerio.Element) => {
@@ -203,6 +202,34 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
     return name ?? '';
   };
 
+  const formatDate = (dateString) => (dateString
+    ? `${new Date(dateString).toLocaleString('en-EN', {
+      year: 'numeric',
+      month: 'short',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+    })}`
+    : '');
+
+  const getTextContent = (customField) => customField?.content
+    ?.flatMap((item) => item.content)
+    ?.map((subItem) => subItem.text)
+    .join(' ') || '';
+
+  const getContentWithMap = (contents) => contents?.map((content) => content.name) || [];
+
+  const createLinkObject = (key, baseUrl, name = '') => ({
+    name: name || key || '',
+    link: key ? `${baseUrl}/browse/${key}?src=confmacro` : '',
+  });
+
+  const getSubtasksInfo = (subtasks, baseUrl) =>
+    subtasks?.map((subtask) => createLinkObject(subtask.key, baseUrl)) || [];
+
+  const getIssueLinksInfo = (issuelinks, baseUrl) =>
+    issuelinks?.map((link) => createLinkObject(link.outwardIssue?.key || link.inwardIssue?.key, baseUrl)) || [];
+
   issuesColumns.forEach(
     ({
       issues, columns, element, server,
@@ -211,135 +238,178 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
       // Load new base URL if defined a specific connection for Jira as ENV variables
       // otherwise default to standard baseURL defined for main server
       const baseUrl = process.env[`CPV_JIRA_${server.replace(/\s/, '_')}_BASE_URL`]
-          ?? config.get('confluence.baseURL');
+        ?? config.get('confluence.baseURL');
       issues.forEach((issue) => {
         data.push({
-          key: {
-            name: issue.key,
-            link: `${baseUrl}/browse/${issue.key}?src=confmacro`,
-          },
+          reporter: issue.fields.reporter?.displayName || '',
+          components: getContentWithMap(issue.fields.components),
+          acceptance_criteria: getTextContent(issue.fields.customfield_10042),
+          detail_design_reference: getTextContent(issue.fields.customfield_10129),
+          storypoints: issue.fields.customfield_10026 || '',
+          labels: issue.fields.labels || [],
+          sprint: getContentWithMap(issue.fields.customfield_10020),
+          key: createLinkObject(issue.key, baseUrl),
+          parent: createLinkObject(issue.fields.parent?.key, baseUrl),
+          subtasks: getSubtasksInfo(issue.fields.subtasks, baseUrl),
+          issuelinks: getIssueLinksInfo(issue.fields.issuelinks, baseUrl),
           t: {
-            name: issue.fields.issuetype.name,
-            icon: issue.fields.issuetype?.iconUrl,
+            name: issue.fields.issuetype.name || '',
+            icon: issue.fields.issuetype?.iconUrl || '',
           },
-          summary: {
-            name: issue.fields.summary,
-            link: `${baseUrl}/browse/${issue.key}?src=confmacro`,
-          },
-          updated: issue.fields.updated
-            ? `${new Date(issue.fields.updated).toLocaleString('en-EN', {
-              year: 'numeric',
-              month: 'short',
-              day: '2-digit',
-              hour: '2-digit',
-              minute: '2-digit',
-            })}`
-            : '',
-          assignee: issue.fields.assignee?.displayName,
+          summary: createLinkObject(issue.key, baseUrl, issue.fields.summary),
+          updated: formatDate(issue.fields.updated),
+          startdate: formatDate(issue.fields.customfield_10015),
+          duedate: formatDate(issue.fields.duedate),
+          assignee: issue.fields.assignee?.displayName || '',
           pr: {
-            name: issue.fields.priority?.name,
-            icon: issue.fields.priority?.iconUrl,
+            name: issue.fields.priority?.name || '',
+            icon: issue.fields.priority?.iconUrl || '',
           },
           status: {
-            name: issue.fields.status?.name,
-            color: issue.fields.status?.statusCategory.colorName,
+            name: issue.fields.status?.name || '',
+            color: issue.fields.status?.statusCategory.colorName || '',
           },
-          resolution: issue.fields.resolution?.name,
+          resolution: issue.fields.resolution?.name || '',
           fixVersion: {
-            name: fixVersionNameFactory(issue),
-            link: fixVersionUrlFactory(issue),
+            name: fixVersionNameFactory(issue) || '',
+            link: fixVersionUrlFactory(issue) || '',
           },
           description: {
-            name: descriptionIssueFactory(issue, baseUrl),
+            name: descriptionIssueFactory(issue, baseUrl) || '',
           },
         });
       });
-
       const requestedFields = columns.split(',');
 
       /* eslint-disable no-template-curly-in-string */
-      let gridjsColumns = `[{
-                name: 'Key',
-                sort: {
-                  compare: (a, b) => (a.name > b.name ? 1 : -1),
-                },
-                formatter: (cell) => gridjs.html(${'`<a href="${cell.link}" target="_blank">${cell.name}</a>`'})
-              },`;
-      if (requestedFields.includes('summary')) {
-        gridjsColumns += `{
-                name: 'Summary',
-                sort: {
-                  compare: (a, b) => (a.name > b.name ? 1 : -1),
-                },
-                formatter: (cell) => gridjs.html(${'`<a href="${cell.link}" target="_blank">${cell.name}</a>`'})
-              },`;
-      }
-      if (requestedFields.includes('description')) {
-        gridjsColumns += `{
-                name: 'Description',
-                sort: {
-                  compare: (a, b) => (a.name > b.name ? 1 : -1),
-                },
-                formatter: (cell) => gridjs.html(${'`${cell.name}`'})
-              },`;
-      }
-      if (requestedFields.includes('issuetype')) {
-        gridjsColumns += `{
-                name: 'T',
-                sort: {
-                  compare: (a, b) => (a.name > b.name ? 1 : -1),
-                },
-                formatter: (cell) => gridjs.html(cell ? ${'`<img src="${cell.icon}" style="height:25px;padding:0"/>`'} : ''),
-              },`;
-      }
-      if (requestedFields.includes('status')) {
-        gridjsColumns += `{
-                name: 'Status',
-                sort: {
-                  compare: (a, b) => (a.name > b.name ? 1 : -1),
-                },
-                formatter: (cell) => gridjs.html(
-                  ${'`<div class="aui-lozenge" style="background-color:${cell.color};color:darkgrey;font-size: 11px;">${cell.name}</div>`'})
-              },`;
-      }
-      if (requestedFields.includes('updated')) {
-        gridjsColumns += `{
-                name: 'Updated',
-                sort: {
-                  compare: (a, b) => (new Date(a) > new Date(b) ? 1 : -1),
-                }
-              },`;
-      }
-      if (requestedFields.includes('assignee')) {
-        gridjsColumns += `{
-                name: 'Assignee',
-              },`;
-      }
-      if (requestedFields.includes('priority')) {
-        gridjsColumns += `{
-                name: 'Pr',
-                sort: {
-                  compare: (a, b) => (a.name > b.name ? 1 : -1),
-                },
-                formatter: (cell) => gridjs.html(cell ? ${'`<img src="${cell.icon}" style="height:25px;padding:0"/>`'} : ''),
-              },`;
-      }
-      if (requestedFields.includes('resolution')) {
-        gridjsColumns += ` {
-                name: 'Resolution',
-              },`;
-      }
-      if (requestedFields.includes('fixVersions')) {
-        gridjsColumns += `{
-                name: 'Fix Version',
-                sort: {
-                  compare: (a, b) => (a.name > b.name ? 1 : -1),
-                },
-                formatter: (cell) =>
-                  cell.link ? gridjs.html(${'`<a href="${cell.link}" target="_blank">${cell.name}</a>`'}) : gridjs.html(${'`${cell.name}`'})
-              },`;
-      }
-      gridjsColumns += ']';
+
+      const columnConfigs = {
+        key: `
+        { 
+          name: 'Key',
+          sort: { compare: (a, b) => (a.name > b.name ? 1 : -1)},
+          formatter: (cell) => gridjs.html(${'`<a href="${cell.link}" target="_blank">${cell.name}</a>`'})
+        }`,
+        summary: `
+          {
+            name: 'Summary',
+            sort: { compare: (a, b) => (a.name > b.name ? 1 : -1) },
+            formatter: (cell) => gridjs.html(\`<a href="\${cell.link}" target="_blank">\${cell.name}</a>\`)
+          }`,
+        description: `
+          {
+            name: 'Description',
+            sort: { compare: (a, b) => (a.name > b.name ? 1 : -1) },
+            formatter: (cell) => gridjs.html(\`\${cell.name}\`)
+          }`,
+        issuetype: `
+          {
+            name: 'T',
+            sort: { compare: (a, b) => (a.name > b.name ? 1 : -1) },
+            formatter: (cell) => gridjs.html(\`<img src="\${cell.icon}" style="height:25px;padding:0"/>\`)
+          }`,
+        status: `
+          {
+            name: 'Status',
+            sort: { compare: (a, b) => (a.name > b.name ? 1 : -1) },
+            formatter: (cell) => gridjs.html
+              (\`<div class="aui-lozenge" style="background-color:\${cell.color};color:darkgrey;font-size: 11px;">\${cell.name}</div>\`)
+          }`,
+        updated: `
+          {
+            name: 'Updated',
+            sort: { compare: (a, b) => (new Date(a) > new Date(b) ? 1 : -1) }
+          }`,
+        customfield_10015: `
+          {
+            name: 'Startdate',
+            sort: { compare: (a, b) => (new Date(a) > new Date(b) ? 1 : -1) }
+          }`,
+        duedate: `
+          {
+            name: 'Duedate',
+            sort: { compare: (a, b) => (new Date(a) > new Date(b) ? 1 : -1) }
+          }`,
+        assignee: `
+          {
+            name: 'Assignee'
+          }`,
+        customfield_10001: `
+          {
+            name: 'Team'
+          }`,
+        customfield_10042: `
+          {
+            name: 'Acceptance_Criteria'
+          }`,
+        customfield_10129: `
+          {
+            name: 'Detail_Design_Reference'
+          }`,
+        customfield_10026: `
+          {
+            name: 'Storypoints'
+          }`,
+        reporter: `
+          {
+            name: 'Reporter'
+          }`,
+        parent: `
+          {
+            name: 'Parent',
+            sort: { compare: (a, b) => (a.name > b.name ? 1 : -1) },
+            formatter: (cell) => gridjs.html(\`<a href="\${cell.link}" target="_blank">\${cell.name}</a>\`)
+          }`,
+        labels: `
+          {
+            name: 'Labels',
+            formatter: (cell) => gridjs.html(cell.map(item => \`<p>\${item}</p>\`).join(''))
+          }`,
+        issuelinks: `
+          {
+            name: 'Issuelinks',
+            sort: { compare: (a, b) => (a.name > b.name ? 1 : -1) },
+            formatter: (cell) => gridjs.html(cell.map((item) => \`<a href="\${item.link}" target="_blank">\${item.name}</a>\`).join(', '))
+          }`,
+        subtasks: `
+          {
+            name: 'Subtasks',
+            sort: { compare: (a, b) => (a.name > b.name ? 1 : -1) },
+            formatter: (cell) => gridjs.html(cell.map((item) => \`<a href="\${item.link}" target="_blank">\${item.name}</a>\`).join(', '))
+          }`,
+        components: `
+          {
+            name: 'Components',
+            formatter: (cell) => gridjs.html(cell.map(item => \`<p>\${item}</p>\`).join(''))
+          }`,
+        priority: `
+          {
+            name: 'Pr',
+            sort: { compare: (a, b) => (a.name > b.name ? 1 : -1) },
+            formatter: (cell) => gridjs.html(\`<img src="\${cell.icon}" style="height:25px;padding:0"/>\`)
+          }`,
+        resolution: `
+          {
+            name: 'Resolution'
+          }`,
+        customfield_10020: `
+          {
+            name: 'Sprint',
+            formatter: (cell) => gridjs.html(cell.map(item => \`<p style="display:inline-block">\${item}</p>\`).join(''))
+          }`,
+        fixVersions: `
+          {
+            name: 'Fix Version',
+            sort: { compare: (a, b) => (a.name > b.name ? 1 : -1) },
+            formatter: (cell) => cell.link ? gridjs.html
+              (\`<a href="\${cell.link}" target="_blank">\${cell.name}</a>\`) : gridjs.html(\`\${cell.name}\`)
+          }`,
+      };
+
+      const gridjsColumns = `[${Object.keys(columnConfigs)
+        .filter((field) => requestedFields.includes(field))
+        .map((field) => columnConfigs[field])
+        .join(',')}]`;
 
       // remove the header
       $('div[id^="jira-issues-"]').remove();
@@ -353,29 +423,29 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
       $(element).before(
         `<div id="gridjs${index}"></div>`,
         `<script>
-        document.addEventListener('DOMContentLoaded', function () {
-          new gridjs.Grid({
-            columns: ${gridjsColumns},
-            data: ${JSON.stringify(data)},
-            sort: true,
-            search: {
-              enabled: true,
-              selector: (cell, rowIndex, cellIndex) => cell ? cell.name || cell : ''
-            },
-            width: '100%',
-            style: {
-              td: {
-                padding: '5px 5px',
-                maxWidth: '500px',
-                minWidth: '25px',
-                overflow: 'auto',
-              },
-              th: {
-                padding: '5px 5px'
-              }
-            }
-          }).render(document.getElementById("gridjs${index}"));
-        })
+      document.addEventListener('DOMContentLoaded', function () {
+      new gridjs.Grid({
+        columns: ${gridjsColumns},
+        data: ${JSON.stringify(data)},
+        sort: true,
+        search: {
+          enabled: true,
+          selector: (cell, rowIndex, cellIndex) => cell ? cell.name || cell : ''
+        },
+        width: '100%',
+        style: {
+          td: {
+            padding: '5px 5px',
+            maxWidth: '500px',
+            minWidth: '25px',
+            overflow: 'auto',
+          },
+          th: {
+            padding: '5px 5px'
+          }
+        }
+      }).render(document.getElementById("gridjs${index}"));
+      })
       </script>`,
       );
       $(element).remove();
