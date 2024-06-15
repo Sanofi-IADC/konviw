@@ -125,8 +125,8 @@ export class ProxyPageService {
     fixRoadmap(this.config)(this.context);
     fixCode()(this.context);
     fixFrameAllowFullscreen()(this.context);
-    fixImageSize()(this.context);
     fixCaptionImage()(this.context);
+    fixImageSize()(this.context);
     fixColGroupWidth()(this.context);
     if (contextType.includes('blog')) {
       await addHeaderBlog()(this.context);
@@ -200,8 +200,8 @@ export class ProxyPageService {
     fixVideo()(this.context);
     fixEmptyLineIncludePage()(this.context);
     fixRoadmap(this.config)(this.context);
-    fixImageSize()(this.context);
     fixCaptionImage()(this.context);
+    fixImageSize()(this.context);
     fixFrameAllowFullscreen()(this.context);
     fixSVG(this.config)(this.context);
     fixTableBackground()(this.context);

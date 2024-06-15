@@ -1,6 +1,8 @@
 import * as cheerio from 'cheerio';
+import { Logger } from '@nestjs/common';
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
+import { DebugIndicator } from '../../common/factory/DebugIndicator';
 
 /**
  * ### Proxy page step to add Video tag to display mp4 video attachments.
@@ -15,6 +17,8 @@ import { Step } from '../proxy-page.step';
  */
 export default (): Step => (context: ContextService): void => {
   context.setPerfMark('fixVideo');
+  const logger = new Logger('fixVideo');
+  const debugIndicator = new DebugIndicator(context);
   const $ = context.getCheerioBody();
 
   // Div class with span.confluence-embedded-file-wrapper is used for images and videos
@@ -39,7 +43,11 @@ export default (): Step => (context: ContextService): void => {
             ).attr('href')}#t=0.1"></video>`,
           )
           .append('<br />')
-          .append($(fileWrapper).addClass('smalltext'));
+          .append($(fileWrapper))
+          .wrap('<div class="konviw-embedded-video">');
+        logger.log('Fixed embedded video adding HTML video tag');
+        // if debug then show the macro debug frame
+        debugIndicator.mark($(fileWrapper).parent(), 'fixVideo-embedded');
       }
     },
   );

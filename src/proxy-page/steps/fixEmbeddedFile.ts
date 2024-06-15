@@ -1,11 +1,14 @@
 import * as cheerio from 'cheerio';
+import { Logger } from '@nestjs/common';
 import { Step } from '../proxy-page.step';
 import { ContextService } from '../../context/context.service';
+import { DebugIndicator } from '../../common/factory/DebugIndicator';
 
 /* eslint-disable no-useless-escape, prefer-regex-literals */
 export default (): Step => (context: ContextService): void => {
   context.setPerfMark('fixEmbeddedFile');
-
+  const logger = new Logger('fixEmbeddedFile');
+  const debugIndicator = new DebugIndicator(context);
   const $ = context.getCheerioBody();
 
   $('a.confluence-embedded-file').each(
@@ -17,17 +20,14 @@ export default (): Step => (context: ContextService): void => {
         // to be able to customize accordingly the display of the thumbnail and caption
         $(elementCode).parent().parent().wrap('<div class="konviw-embedded-file">');
         $(elementCode).parent().parent().append(`<span class="konviw-embedded-file-caption">${fileName}</span>`);
+        logger.log('Fixed embedded file with thumbnail');
+        debugIndicator.mark($(elementCode), 'fixEmbeddedFile-thumbnail');
       } else {
         // if there is no media-group class we will add simply the filename to the link
         $(elementCode).text(fileName);
         $(elementCode).addClass('konviw-embedded-file-icon');
-      }
-
-      // if debug then show the macro debug frame
-      if (context.getView() === 'debug') {
-        $(elementCode).wrap(
-          '<div class="debug-macro-indicator debug-macro-code">',
-        );
+        logger.log('Fixed embedded inline file');
+        debugIndicator.mark($(elementCode), 'fixEmbeddedFile-inline');
       }
     },
   );

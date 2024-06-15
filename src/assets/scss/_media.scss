@@ -1,7 +1,96 @@
+
+// Images embedded in Confluence
+span.confluence-embedded-file-wrapper {
+  &.image-center-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  &.image-left-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  &.image-right-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  // Wrapper for images with text floating on the left or on the right of the image
+  &.image-left-wrap-wrapper {
+    float: left;
+  }
+  &.image-right-wrap-wrapper {
+    float: right;
+  }
+
+  figure {
+    margin-block-start: 0em;
+    margin-block-end: 1em;
+    margin-inline-start: 16px;
+    margin-inline-end: 16px;
+
+    img.confluence-embedded-image {
+      max-width: 100%;
+      padding: 0;
+      &.image-left {
+        display: block;
+        margin-left: 0;
+      }
+      &.image-right {
+        display: block;
+        margin-right: 0;
+      }
+      &.image-center {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        align-content: center;
+      }
+
+      // Image positioning with wrapped text ===============
+      &.image-wrap-left {
+        float: left;
+      }
+      &.image-wrap-right {
+        float: right;
+      }
+    }
+
+    // Caption if available is aligned to the center of the image
+    figcaption {
+      text-align: center;
+    }
+  }
+}
+
+// special style for inline images
+div.konviw-embedded-inline-image {
+  span.confluence-embedded-file-wrapper {
+    vertical-align:middle;
+    img.confluence-embedded-image {
+      padding: 0;
+      margin-top: 0;
+    }
+  }
+}
+
+// video embedded files uploaded to Confluence
+div.konviw-embedded-video {
+  span.confluence-embedded-file-wrapper {
+    display: block;
+    video {
+      max-width: 80%;
+      padding-bottom: 0.5em;
+      margin-top: 1em;
+    }
+  }
+}
+
 // Video iframe ===================================
 video {
-  width: 70%;
-  height: auto;
+  max-width: 80%;
 }
 
 iframe.conf-macro {
@@ -11,45 +100,14 @@ iframe.conf-macro {
   border-style: none;
 }
 
-// Image positioning ===================================
-img {
+// When drawio preview is in high definition the image might be
+// quite large and it is better to ensure it fits to the viewport
+img.drawio-zoomable{
   max-width: 100%;
-  height: auto;
-  padding: 5px;
-  &.image-left {
-    display: block;
-    align-content: left;
-    margin-right: auto;
-  }
-  &.image-right {
-    display: block;
-    align-content: right;
-    margin-left: auto;
-  }
-  &.image-center {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    align-content: center;
-  }
-
-  // Image positioning with wrapped text ===============
-  &.image-wrap-left {
-    float: left;
-    margin-right: 10px;
-    margin-top: -5px;
-  }
-  &.image-wrap-right {
-    float: right;
-    margin-left: 10px;
-    margin-top: -5px;
-  }
 }
 
-span.confluence-embedded-file-wrapper {
-  vertical-align:middle;
-  img.confluence-embedded-image {
-    padding: 0;
-    margin-top: 20;
-  }
+// To force to have horizontal line across the page and avoid floating left or right
+hr {
+  clear: both;
+  border-width: 0.5px;
 }

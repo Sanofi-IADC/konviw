@@ -110,7 +110,7 @@ export class JiraService {
     }
     return firstValueFrom(
       this.http.get(
-        `${this.baseUrl}/rest/api/3/search?jql=${jqlSearch}&fields=${fields}&maxResults=${maxResult}&startAt=${startAt}`,
+        `${this.baseUrl}/rest/api/3/search?jql=${encodeURIComponent(jqlSearch)}&fields=${fields}&maxResults=${maxResult}&startAt=${startAt}`,
         {
           auth: { username: this.apiUsername, password: this.apiToken },
           params: { expand },
