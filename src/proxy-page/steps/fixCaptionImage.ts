@@ -1,6 +1,8 @@
 import * as cheerio from 'cheerio';
+import { Logger } from '@nestjs/common';
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
+import { DebugIndicator } from '../../common/factory/DebugIndicator';
 
 /**
  * ### Proxy page step to fix image caiption
@@ -13,28 +15,50 @@ import { Step } from '../proxy-page.step';
  */
 export default (): Step => (context: ContextService): void => {
   context.setPerfMark('fixCaptionImage');
+  const logger = new Logger('fixCaptionImage');
+  const debugIndicator = new DebugIndicator(context);
   const $ = context.getCheerioBody();
-  const xmlStorageFormat = cheerio.load(context.getBodyStorage(), { xmlMode: true });
-  const getImageCaption = (elementImg: cheerio.Element) => {
-    const filename = elementImg.attribs['data-linked-resource-default-alias'];
-    const attachmentContent = xmlStorageFormat(`ri\\:attachment[ri\\:filename="${filename}"]`);
-    const caption = Array.from(attachmentContent.parent().children()).find((el) =>
-      el.name === 'ac:caption' && !el.attribs['custom-property-available']);
-    if (caption) {
-      caption.attribs['custom-property-available'] = '1';
-    }
-    return $(caption).text();
-  };
 
-  $('img').each((_index: number, elementImg: cheerio.Element) => {
-    const caption = getImageCaption(elementImg);
-    if (caption?.length > 0) {
-      const parent = $(elementImg).parent();
-      const classes = $(parent).attr('class');
-      const captionPositionClass = classes.split(' ')[1];
-      parent.append(`<p class="image-caption ${captionPositionClass ?? ''}">${caption}</p>`);
-    }
-  });
+  // Confluence sometimes ships metadata in body-format=storage which is not
+  // available in body-storage=view
+  const $xml = cheerio.load(context.getBodyStorage(), { xmlMode: true });
+
+  // Let's load the metadata related to the images in the current page: filename, caption and inline status
+  const imagesXML = $xml('ac\\:image').map((_index: number, elementImg: cheerio.Element) =>
+    ({
+      filename: $xml(elementImg).find('ri\\:attachment').attr('ri:filename'),
+      caption: $xml(elementImg).find('ac\\:caption').text(),
+      inline: $xml(elementImg).attr('ac:inline') !== undefined,
+    })).get();
+
+  let includeCounter = 0;
+  // Let's scrap imgages embedded by Confluence span confluence-embedded-file-wrapper
+  $("span.confluence-embedded-file-wrapper:not([data-macro-name='excerpt-include'])")
+    .each((_index: number, elementSpan: cheerio.Element) => {
+      if ($(elementSpan).parents(".conf-macro.output-block[data-macro-name='include']").attr('data-macro-name') === 'include') {
+        includeCounter += 1;
+        return;
+      }
+      // $('img.confluence-embedded-image').each((_index: number, elementImg: cheerio.Element) => {
+      const caption = imagesXML[_index - includeCounter]?.caption ?? '';
+      // for inline images force an small icon of 27px
+      if (imagesXML[_index - includeCounter]?.inline) {
+        $(elementSpan).parent().wrap('<div class="konviw-embedded-inline-image">');
+        $(elementSpan).children().attr('width', '27px');
+        // if debug then show the markup
+        debugIndicator.mark($(elementSpan).parent(), 'fixCaptionImage-inline');
+        logger.log('Fixed width to inline icon');
+      } else {
+        const imgDataWidth = $(elementSpan).children().attr('width');
+        $(elementSpan).wrap('<div>');
+        $(elementSpan).wrapInner(`<figure style="width:${imgDataWidth}">`);
+        if (caption?.length > 0) {
+          $(elementSpan).children().append(`<figcaption>${caption}</figcaption>`);
+          logger.log('Fixed caption image');
+          debugIndicator.mark($(elementSpan), 'fixCaptionImage-caption');
+        }
+      }
+    });
 
   context.getPerfMeasure('fixCaptionImage');
 };

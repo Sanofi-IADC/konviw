@@ -1,3 +1,33 @@
+## [3.27.8](https://github.com/Sanofi-IADC/konviw/compare/v3.27.7...v3.27.8) (2024-06-08)
+
+
+### Bug Fixes
+
+* exclude the images from emedded page ([#583](https://github.com/Sanofi-IADC/konviw/issues/583)) ([8114a0d](https://github.com/Sanofi-IADC/konviw/commit/8114a0d20a7bb9d26f859076e3ad0f63377a9b33))
+
+## [3.27.7](https://github.com/Sanofi-IADC/konviw/compare/v3.27.6...v3.27.7) (2024-05-27)
+
+
+### Bug Fixes
+
+* WEB-2318 Used decodeUriComponent to escape special characters for JIRA API ([3b0dca0](https://github.com/Sanofi-IADC/konviw/commit/3b0dca0fb19a0dde2fb746e736bbf19305c1f6be))
+* WEB-2318 Used decodeUriComponent to escape special characters for JIRA API ([ab234f4](https://github.com/Sanofi-IADC/konviw/commit/ab234f468b3dd546152c83476cf6bdbb79ad7f88))
+
+## [3.27.6](https://github.com/Sanofi-IADC/konviw/compare/v3.27.5...v3.27.6) (2024-05-24)
+
+
+### Bug Fixes
+
+* WEB-2307 Added debug factory as seperate class ([3ab41e9](https://github.com/Sanofi-IADC/konviw/commit/3ab41e97a2e4cdbad1b911377afae344629087d0))
+* WEB-2307 Added tests for debug indicator ([44282d0](https://github.com/Sanofi-IADC/konviw/commit/44282d02ee1c838e198f5fc2926c24ca7866f03c))
+
+## [3.27.5](https://github.com/Sanofi-IADC/konviw/compare/v3.27.4...v3.27.5) (2024-05-21)
+
+
+### Bug Fixes
+
+* display correct caption assigned to each image ([#579](https://github.com/Sanofi-IADC/konviw/issues/579)) ([b8d9b79](https://github.com/Sanofi-IADC/konviw/commit/b8d9b79f1434e9efd313cb8a2458e7215d55fbb2))
+
 ## [3.27.4](https://github.com/Sanofi-IADC/konviw/compare/v3.27.3...v3.27.4) (2024-05-08)
 
 

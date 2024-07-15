@@ -34,14 +34,5 @@ export default (): Step => (context: ContextService): void => {
       }
     });
 
-  // for the other images without 'image-xxxxx' class then we assume it is an inline image
-  $('img.confluence-embedded-image').each((_index: number, elementImg: cheerio.Element) => {
-    const imgURL = $(elementImg).attr('src') || $(elementImg).attr('_src');
-    if (imgURL != null && !$(elementImg).attr('width')) {
-      $(elementImg).attr('width', '27px');
-      logger.log('Fixed width to inline icon');
-    }
-  });
-
   context.getPerfMeasure('fixImageSize');
 };

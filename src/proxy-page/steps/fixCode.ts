@@ -1,22 +1,23 @@
 import * as cheerio from 'cheerio';
+import { Logger } from '@nestjs/common';
 import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-page.step';
+import { DebugIndicator } from '../../common/factory/DebugIndicator';
 
 export default (): Step => (context: ContextService): void => {
   context.setPerfMark('fixCode');
+  const logger = new Logger('fixCode');
+  const debugIndicator = new DebugIndicator(context);
   const $ = context.getCheerioBody();
 
   $('pre.syntaxhighlighter-pre').each(
     (_index: number, elementCode: cheerio.Element) => {
-      // if debug then show the macro debug frame
-      if (context.getView() === 'debug') {
-        $(elementCode).wrap(
-          '<div class="debug-macro-indicator debug-macro-code">',
-        );
-      }
       $(elementCode).replaceWith(
         `<pre><code>${$(elementCode).html()}</code></pre>`,
       );
+      logger.log('Fixed code block');
+      // if debug then show the macro debug frame
+      debugIndicator.mark($(elementCode), 'fixCode');
     },
   );
 

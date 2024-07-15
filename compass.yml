@@ -1,0 +1,25 @@
+name: konviw
+id: 'ari:cloud:compass:d4e5abf1-0434-4667-9b35-e6de7b25e585:component/2eb0df9b-53f8-41bd-be74-0cfaa96b485d/e74806ec-22e6-47cb-b560-993d3d904dfa'
+description: Enterprise public viewer for your Confluence pages
+configVersion: 1
+typeId: SERVICE
+ownerId: 'ari:cloud:identity::team/342d4aca-787b-4280-b1e9-e9d74a671d5a'
+fields:
+  tier: 2
+  lifecycle: Active
+links:
+  - name: null
+    type: REPOSITORY
+    url: 'https://github.com/Sanofi-IADC/konviw'
+relationships: {}
+labels:
+  - cms
+  - confluence
+  - headless-cms
+  - 'language:typescript'
+  - 'source:github'
+  - viewer
+customFields: null
+
+# Learn more about formatting compass.yml:
+# https://go.atlassian.com/compass-yml-format
