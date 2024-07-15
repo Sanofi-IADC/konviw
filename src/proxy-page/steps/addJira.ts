@@ -19,6 +19,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
       issuesDetailsPromises.push(jiraService.getTicket(jiraKey));
     },
   );
+
   await Promise.allSettled(issuesDetailsPromises).then((results) => {
     results.forEach((res: any) => {
       if (!res?.value.key || !res?.value?.fields) return;
@@ -37,6 +38,8 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
         .css('background-color', status?.statusCategory?.colorName);
     });
   });
+
+  
 
   /* Retrieve the count issues macro and replace it with the actual number of issues fetched */
   const issuesCountPromises = [];
@@ -168,7 +171,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
     server: jira.server,
     filter: jira.filter,
   }));
-
+  
   const descriptionIssueFactory = (
     issue: { [key: string]: any },
     baseUrl: string,
@@ -202,7 +205,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
     return name ?? '';
   };
 
-  const formatDate = (dateString) => (dateString
+  const formatDateTime = (dateString) => (dateString
     ? `${new Date(dateString).toLocaleString('en-EN', {
       year: 'numeric',
       month: 'short',
@@ -211,11 +214,45 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
       minute: '2-digit',
     })}`
     : '');
+  const formatDate = (dateString) => (dateString
+    ? `${new Date(dateString).toLocaleString('en-EN', {
+      year: 'numeric',
+      month: 'short',
+      day: '2-digit',
+    })}`
+    : '');
+  
+  const formatNumber = (number) => number ||'';
 
+  const formatOption = (option)=> option?.value || '';
+
+  const formatUser = (user) => user?.displayName ||'';
+
+  const formatResolution = (resolution) =>  resolution?.name || '';
+  const formatTeam = (team) =>  team?.name || '';
   const getTextContent = (customField) => customField?.content
     ?.flatMap((item) => item.content)
     ?.map((subItem) => subItem.text)
     .join(' ') || '';
+
+  const formatPriority = (priority: { name?: string; iconUrl?: string }) => {
+    return {
+      name: priority?.name || '',
+      icon: priority?.iconUrl || '',
+    };
+  };
+  const formatString = (string) => {
+    if (string?.content) {
+      return string.content
+        .flatMap((item) => item.content)
+        .map((subItem) => subItem.text)
+        .join(' ');
+    } else if (string) {
+      return string;
+    } else {
+      return '';
+    }
+  };
 
   const getContentWithMap = (contents) => contents?.map((content) => content.name) || [];
 
@@ -230,6 +267,51 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
   const getIssueLinksInfo = (issuelinks, baseUrl) =>
     issuelinks?.map((link) => createLinkObject(link.outwardIssue?.key || link.inwardIssue?.key, baseUrl)) || [];
 
+  let fields = [];
+
+  const promise = jiraService.getFields();
+  
+  await promise.then((result) => {
+    fields = result;
+  });
+
+
+
+
+const checkFieldExistence = (fields, idToCheck: string): { name: string, type: string | undefined, isArray?: boolean } | undefined => {
+  const field = fields.find(field => field.id === idToCheck);
+  if (field) {
+    let type = field.schema?.type;
+    let isArray = false;
+
+    if (type === 'array' && field.schema?.items) {
+      type = field.schema.items;
+      isArray = true;
+    }
+
+    const name = field.name;
+    return { name, type, isArray };
+  }
+  return undefined;
+};
+
+  const fieldFunctions: {
+  [key: string]: (value: any) => any;
+  } = {
+    "date": formatDate,
+    "datetime": formatDateTime,
+    "number": formatNumber,
+    "option": formatOption,
+    "user": formatUser,
+    "priority": formatPriority,
+    "string": formatString,
+    "resolution": formatResolution,
+    //"component": formatComponent,
+    //"json": formantJson,
+    "team": formatTeam,
+
+  };
+
   issuesColumns.forEach(
     ({
       issues, columns, element, server,
@@ -240,6 +322,26 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
       const baseUrl = process.env[`CPV_JIRA_${server.replace(/\s/, '_')}_BASE_URL`]
         ?? config.get('confluence.baseURL');
       issues.forEach((issue) => {
+        console.log(issue)
+        const dataObject: any = {};
+        Object.keys(issue.fields).forEach((fieldName) => {
+          let fieldValue = issue.fields[fieldName];
+          const fieldTypeData = checkFieldExistence(fields,fieldName)
+          if (fieldTypeData.type in fieldFunctions && fieldValue != null) {
+              fieldValue = fieldFunctions[fieldTypeData.type](fieldValue)
+          }
+          if (!dataObject[fieldName]) {
+            dataObject[fieldName] = {};
+          }
+      
+          dataObject[fieldName]['data'] = fieldValue; // Assignation de la valeur directe
+      
+          if (fieldTypeData) {
+            dataObject[fieldName]['name'] = fieldTypeData.name;
+            dataObject[fieldName]['type'] = fieldTypeData.type;
+          }
+          console.log(dataObject[fieldName])
+        });
         data.push({
           reporter: issue.fields.reporter?.displayName || '',
           components: getContentWithMap(issue.fields.components),

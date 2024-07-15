@@ -47,7 +47,23 @@ export class JiraService {
         this.logger.log(e, 'error:getTicket');
       });
   }
-
+  /**
+   * @function getTicket
+   * @description Returns the ticket data based on the ID or key
+   * @param key {string} the ID or key of the desired Jira issue
+   * @return Promise {any}
+   */
+  getFields(): Promise<any> {
+    return firstValueFrom(
+      this.http.get(`${this.baseUrl}/rest/api/latest/field`, {
+        auth: { username: this.apiUsername, password: this.apiToken },
+      }),
+    )
+      .then((res) => res.data)
+      .catch((e) => {
+        this.logger.log(e, 'error:getFields');
+      });
+  }
   /**
    * @function getMacro
    * @description return the macro data based on the pageID and macroID
