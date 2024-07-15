@@ -330,16 +330,12 @@ const checkFieldExistence = (fields, idToCheck: string): { name: string, type: s
           if (fieldTypeData.type in fieldFunctions && fieldValue != null) {
               fieldValue = fieldFunctions[fieldTypeData.type](fieldValue)
           }
-          if (!dataObject[fieldName]) {
-            dataObject[fieldName] = {};
-          }
-      
-          dataObject[fieldName]['data'] = fieldValue; // Assignation de la valeur directe
-      
-          if (fieldTypeData) {
-            dataObject[fieldName]['name'] = fieldTypeData.name;
-            dataObject[fieldName]['type'] = fieldTypeData.type;
-          }
+
+          dataObject[fieldName] = {};
+          
+          dataObject[fieldName]['data'] = fieldValue;
+          dataObject[fieldName]['name'] = fieldTypeData.name;
+          dataObject[fieldName]['type'] = fieldTypeData.type;
           console.log(dataObject[fieldName])
         });
         data.push({
