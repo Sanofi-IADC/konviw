@@ -1,3 +1,11 @@
+# [3.28.0](https://github.com/Sanofi-IADC/konviw/compare/v3.27.8...v3.28.0) (2024-07-22)
+
+
+### Features
+
+* WEB-2349 Force new version proxy decom ([e2d3918](https://github.com/Sanofi-IADC/konviw/commit/e2d3918a5c37d83994bbc058f10d059159892af9))
+* WEB-2349 Force new version proxy decom ([52fc712](https://github.com/Sanofi-IADC/konviw/commit/52fc712fb8213825123d07445db3a471b24ff12d))
+
 ## [3.27.8](https://github.com/Sanofi-IADC/konviw/compare/v3.27.7...v3.27.8) (2024-06-08)
 
 
