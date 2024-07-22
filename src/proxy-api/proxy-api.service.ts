@@ -261,6 +261,7 @@ export class ProxyApiService {
       maxResults,
       reader,
     );
+
     const parseResults = data.issues.map((issue: any) => ({
       id: issue.id,
       key: issue.key,
