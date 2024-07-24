@@ -1,3 +1,12 @@
+# [3.29.0](https://github.com/Sanofi-IADC/konviw/compare/v3.28.0...v3.29.0) (2024-07-24)
+
+
+### Features
+
+* WEB-2349 Added python dependencies ([dc0b879](https://github.com/Sanofi-IADC/konviw/commit/dc0b879fdce0d5d7b7489b5bfc89ab33c999e1d6))
+* WEB-2349 Align to proxy decom different image ([db12c25](https://github.com/Sanofi-IADC/konviw/commit/db12c25426531206772a2bf3cf0e7bcc990aaaac))
+* WEB-2349 Created separate docker file for konviw mirror ([b9e7431](https://github.com/Sanofi-IADC/konviw/commit/b9e7431907a4a097561915b4707863040a6d7fb9))
+
 # [3.28.0](https://github.com/Sanofi-IADC/konviw/compare/v3.27.8...v3.28.0) (2024-07-22)
 
 
