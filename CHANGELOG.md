@@ -1,3 +1,12 @@
+# [3.30.0](https://github.com/Sanofi-IADC/konviw/compare/v3.29.0...v3.30.0) (2024-07-24)
+
+
+### Features
+
+* WEB-2349 Removed docker file prod ([805755f](https://github.com/Sanofi-IADC/konviw/commit/805755f988935bc345f2e824545176feeae78f26))
+* WEB-2349 Removed docker file prod ([64c017b](https://github.com/Sanofi-IADC/konviw/commit/64c017ba83a96c2dd64d9e650a65f342ece71ef0))
+* WEB-2349 Removed docker file prod ([d92fc17](https://github.com/Sanofi-IADC/konviw/commit/d92fc178f45316a62b5bf3546e0f6e3bb483adab))
+
 # [3.29.0](https://github.com/Sanofi-IADC/konviw/compare/v3.28.0...v3.29.0) (2024-07-24)
 
 
