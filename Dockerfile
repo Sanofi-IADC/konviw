@@ -11,6 +11,8 @@ WORKDIR /app
 #  to benefit from Docker layer caching if the dependencies have not changed
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 COPY package*.json ./
+
+RUN apk update && apk add python3 python3-dev py3-pip build-base libffi-dev openssl-dev libgcc
 RUN npm ci --quiet
 
 # Copy source code and build
