@@ -243,7 +243,6 @@ export class ProxyApiController {
     this.logger.log(
       `Getting page through API ... /${params.spaceKey}/${params.pageId}`,
     );
-
     return this.proxyApi.getPage(params.spaceKey, params.pageId, queries.type);
   }
 }
