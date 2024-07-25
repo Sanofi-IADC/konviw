@@ -1,3 +1,11 @@
+# [3.32.0](https://github.com/Sanofi-IADC/konviw/compare/v3.31.0...v3.32.0) (2024-07-25)
+
+
+### Features
+
+* WEB-2394 Proxy validation new version deploy ([00a93ea](https://github.com/Sanofi-IADC/konviw/commit/00a93ea6bb6719f9f30f8bf0aa8a892aed251dce))
+* WEB-2394 Proxy validation new version deploy ([e4927e0](https://github.com/Sanofi-IADC/konviw/commit/e4927e0f292cbbd43596afa27c4140b3a6568abc))
+
 # [3.31.0](https://github.com/Sanofi-IADC/konviw/compare/v3.30.0...v3.31.0) (2024-07-24)
 
 
