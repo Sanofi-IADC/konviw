@@ -291,8 +291,8 @@ export const formatIssueType = (value: any) => {
   const issueTypeNames = getAllValues(value, isIssueType, 'name');
   const issueTypeIcons = getAllValues(value, isIssueType, 'iconUrl');
   const issueTypeArray = issueTypeNames.map((name, index) => ({
-    name,
-    icon: issueTypeIcons[index],
+    name: [name],
+    icon: [issueTypeIcons[index]],
   }));
   return [issueTypeArray || [], 'icon'];
 };
