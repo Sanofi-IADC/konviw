@@ -263,7 +263,7 @@ export const formatStatus = (value: any) => {
 };
 
 export const formatOption = (value: any) => {
-  const idOption = getAllValues(value, isOption, 'id');
+  const idOption = getAllValues(value, isOption, 'value');
   return [idOption, 'normal'] as [string[], string];
 };
 
