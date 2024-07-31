@@ -321,7 +321,7 @@ export const formatDate = (dateString) => {
   return [[formatted], 'date'];
 };
 
-export const formatNumber = (number) => [[number || '', 'normal']];
+export const formatNumber = (number) => [[number || ''], 'normal'];
 
 export const formatString = (string) => {
   if (string?.content) {
