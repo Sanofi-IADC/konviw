@@ -12,12 +12,28 @@ const mockedIssueData = {
   key: 'FND-319',
   fields: {
     summary: 'Awesome Summary',
-    issuetype: { name: 'issue', iconUrl: 'image.png' },
-    assignee: { displayName: 'an assignee' },
-    priority: { name: 'low', iconUrl: 'image.png' },
-    resolution: { name: 'resolved' },
-    status: { name: 'a status', statusCategory: { color: 'green' } },
-  },
+    assignee: { 
+      self: 'self',
+      accountId:'123', 
+      emailAddress:'assignee@sanofi.com', 
+      displayName: 'an assignee' 
+    },
+    lastViewed: "2024-07-10T15:46:37.559+0200",
+    updated: "2024-07-04T09:23:56.190+0200",
+    status: {
+      "self": "https://sanofi.atlassian.net/rest/api/2/status/10003",
+      "description": "",
+      "iconUrl": "https://sanofi.atlassian.net/images/icons/statuses/closed.png",
+      "name": "Completed",
+      "id": "10003",
+      "statusCategory": {
+        "self": "https://sanofi.atlassian.net/rest/api/2/statuscategory/3",
+        "id": 3,
+        "key": "done",
+        "colorName": "green",
+        "name": "Terminé"
+      }
+    },  },
 };
 
 class JiraServiceMock {
@@ -45,6 +61,50 @@ class JiraServiceMock {
         serverId: { value: 'c4936901-d93b-32a1-a5bb-aa37edb45ce3' }
       }
     };
+  }
+  async getFields(){
+    return [
+      {
+        "id": "summary",
+        "key": "summary",
+        "name": "summary",
+        "schema": {
+          "type": "string",
+        }
+      },
+      {
+        "id": "assignee",
+        "key": "assignee",
+        "name": "assignee",
+        "schema": {
+          "type": "user",
+        }
+      },
+      {
+        "id": "updated",
+        "key": "updated",
+        "name": "updated",
+        "schema": {
+          "type": "date",
+        }
+      },
+      {
+        "id": "status",
+        "key": "status",
+        "name": "status",
+        "schema": {
+          "type": "status",
+        }
+      },
+      {
+        "id": "lastViewed",
+        "key": "lastViewed",
+        "name": "last Viewed",
+        "schema": {
+          "type": "date",
+        }
+      }]
+    ;
   }
 }
 
@@ -79,10 +139,10 @@ describe('Confluence Proxy / addJira', () => {
         <ac:structured-macro ac:name="jira" ac:schema-version="1" ac:macro-id="macro-id">
         <ac:parameter ac:name="server">System JIRA</ac:parameter>
         <ac:parameter ac:name="maximumIssues">100</ac:parameter>
-        <ac:parameter ac:name="columns">key,summary,type,assignee,priority,status,resolution</ac:parameter>
+        <ac:parameter ac:name="columns">summary,assignee,updated,lastViewed,status</ac:parameter>
         <ac:parameter ac:name="jqlQuery">project = FND AND "Epic Link" = FND-303 ORDER BY resolution DESC, priority </ac:parameter>
         <ac:parameter ac:name="serverId">server-id</ac:parameter>
-        <ac:parameter ac:name=": = | RAW | = :">server=System JIRA|maximumIssues=100|columns=key,summary,type,assignee,priority,status,resolution|jqlQuery=project = FND AND "Epic Link" = FND-303 ORDER BY resolution DESC, priority |serverId=server-id</ac:parameter>
+        <ac:parameter ac:name=": = | RAW | = :">server=System JIRA|maximumIssues=100|columns=summary,assignee,updated,lastViewed,status|jqlQuery=project = FND AND "Epic Link" = FND-303 ORDER BY resolution DESC, priority |serverId=server-id</ac:parameter>
         <ac:parameter ac:name=": = | TOKEN_TYPE | = :">BLOCK</ac:parameter>
         </ac:structured-macro>' data-pageid="page-id">`;
 
@@ -93,55 +153,44 @@ describe('Confluence Proxy / addJira', () => {
     const $ = context.getCheerioBody();
     const baseUrl = config.get('confluence.baseURL');
     const data = JSON.stringify([
-      {
-        "reporter": "",
-        "components": [],
-        "acceptance_criteria": "",
-        "detail_design_reference": "",
-        "storypoints": "",
-        "labels": [],
-        "sprint": [],
-        "key": {
-          "name": "FND-319",
-          "link": "https://test.atlassian.net/browse/FND-319?src=confmacro"
+      [
+        {
+          "data": ["Awesome Summary"],
+          "name": "summary",
+          "type": "string",
+          "gridtype": "normal"
         },
-        "parent": {
-          "name": "",
-          "link": ""
+        {
+          "data": ["an assignee"],
+          "name": "assignee",
+          "type": "user",
+          "gridtype": "normal"
         },
-        "subtasks": [],
-        "issuelinks": [],
-        "t": {
-          "name": "issue",
-          "icon": "image.png"
+        {
+          "data": ["Jul 04, 2024"],
+          "name": "updated",
+          "type": "date",
+          "gridtype": "date"
         },
-        "summary": {
-          "name": "Awesome Summary",
-          "link": "https://test.atlassian.net/browse/FND-319?src=confmacro"
+        {
+          "data": ["Jul 10, 2024"],
+          "name": "last Viewed",
+          "type": "date",
+          "gridtype": "date"
         },
-        "updated": "",
-        "startdate": "",
-        "duedate": "",
-        "assignee": "an assignee",
-        "pr": {
-          "name": "low",
-          "icon": "image.png"
-        },
-        "status": {
-          "name": "a status",
-          "color": ""
-        },
-        "resolution": "resolved",
-        "fixVersion": {
-          "name": "",
-          "link": ""
-        },
-        "description": {
-          "name": ""
+        {
+          "data": [
+            {
+              "name": ["Completed"],
+              "color": ["green"]
+            }
+          ],
+          "name": "status",
+          "type": "status",
+          "gridtype": "status"
         }
-      }
-    ]);
-    
+      ]
+    ])
     
     expect($('body').html()).toContain(`data: ${data}`);
   });
@@ -154,10 +203,10 @@ describe('Confluence Proxy / addJira', () => {
         <ac:structured-macro ac:name="jira" ac:schema-version="1" ac:macro-id="macro-id">
         <ac:parameter ac:name="server">System JIRA</ac:parameter>
         <ac:parameter ac:name="maximumIssues">100</ac:parameter>
-        <ac:parameter ac:name="columns">key,summary,type,assignee,priority,status,resolution</ac:parameter>
+        <ac:parameter ac:name="columns">summary,assignee,updated,lastViewed,status</ac:parameter>
         <ac:parameter ac:name="jqlQuery">key = (FND-319)
         <ac:parameter ac:name="serverId">server-id</ac:parameter>
-        <ac:parameter ac:name=": = | RAW | = :">server=System JIRA|maximumIssues=100|columns=key,summary,type,assignee,priority,status,resolution|jqlQuery=key = (FND-319) |serverId=server-id</ac:parameter>
+        <ac:parameter ac:name=": = | RAW | = :">server=System JIRA|maximumIssues=100|columns=summary,assignee,updated,lastViewed|jqlQuery=key = (FND-319) |serverId=server-id</ac:parameter>
         <ac:parameter ac:name=": = | TOKEN_TYPE | = :">BLOCK</ac:parameter>
         </ac:structured-macro>' data-pageid="page-id">`;
 
