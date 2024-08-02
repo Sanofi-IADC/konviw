@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { JiraService } from '../../jira/jira.service';
 import { Step } from '../proxy-page.step';
 import { ContextService } from '../../context/context.service';
+import * as FieldInterfaces from '../dto/FieldInterface';
 
 export default (config: ConfigService, jiraService: JiraService): Step => async (context: ContextService): Promise<void> => {
   context.setPerfMark('addJira');
@@ -19,6 +20,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
       issuesDetailsPromises.push(jiraService.getTicket(jiraKey));
     },
   );
+
   await Promise.allSettled(issuesDetailsPromises).then((results) => {
     results.forEach((res: any) => {
       if (!res?.value.key || !res?.value?.fields) return;
@@ -102,7 +104,6 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
       elementTags.push(elementJira);
     },
   );
-
   const jiraIssuesPromises = [];
   // this is the div holding the data to scrap the list of issues
   $('.refresh-wiki').each((_, elementJira: cheerio.Element) => {
@@ -170,176 +171,179 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
     filter: jira.filter,
   }));
 
-  const descriptionIssueFactory = (
-    issue: { [key: string]: any },
-    baseUrl: string,
-  ) => issue.renderedFields?.description
-    .replace(
-      // eslint-disable-next-line prefer-regex-literals
-      new RegExp('src="/rest/api/3/', 'g'),
-      `src="${baseUrl}/rest/api/3/`,
-    );
+  let jiraFields = [];
+  const promise = jiraService.getFields();
+  await promise.then((result) => {
+    jiraFields = result;
+  });
 
-  const getFixVersionObject = (issue: { [key: string]: any }) => {
-    const fixVersion = issue.fields?.fixVersions;
-    if (fixVersion && fixVersion[0]) {
-      return fixVersion[0];
+  const checkFieldExistence = (fields, idToCheck: string): { name: string, type: string | undefined, isArray?: boolean } | undefined => {
+    const targetedField = fields.find((field) => field.id === idToCheck);
+    if (targetedField) {
+      let type = targetedField.schema?.type;
+      let isArray = false;
+
+      if (type === 'array' && targetedField.schema?.items) {
+        type = targetedField.schema.items;
+        isArray = true;
+      }
+
+      const { name } = targetedField;
+      return { name, type, isArray };
     }
-    return {};
+    return undefined;
   };
 
-  const fixVersionUrlFactory = (issue: { [key: string]: any }) => {
-    const description = getFixVersionObject(issue)?.description;
-    if (description) {
-      const urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g;
-      const results = description.match(urlRegex);
-      return (results && results[0]) ?? '';
-    }
-    return '';
+  const fieldFunctions: {
+    [key: string]: (value: any, baseUrl?: string) => any;
+  } = {
+    date: FieldInterfaces.formatDate,
+    datetime: FieldInterfaces.formatDateTime,
+    number: FieldInterfaces.formatNumber,
+    option: FieldInterfaces.formatOption,
+    user: FieldInterfaces.formatUser,
+    priority: FieldInterfaces.formatPriority,
+    string: FieldInterfaces.formatString,
+    resolution: FieldInterfaces.formatResolution,
+    version: FieldInterfaces.formatVersion,
+    component: FieldInterfaces.formatComponent,
+    team: FieldInterfaces.formatTeam,
+    status: FieldInterfaces.formatStatus,
+    issuetype: FieldInterfaces.formatIssueType,
+    issuelinks: (value: any, baseUrl?: string) =>
+      FieldInterfaces.formatIssueLinks(value, baseUrl),
+    json: FieldInterfaces.formatJson,
   };
 
-  const fixVersionNameFactory = (issue: { [key: string]: any }) => {
-    const name = getFixVersionObject(issue)?.name;
-    return name ?? '';
-  };
+  interface Field {
+    data: string[];
+    name: string;
+    type: string;
+    gridtype: string;
+  }
+
+  interface RowData {
+    [key: string]: {
+      data: any[];
+      name: string;
+      type: string;
+      gridtype: string;
+    };
+  }
+
+  type DataObject = Record<string, Field>;
 
   issuesColumns.forEach(
     ({
       issues, columns, element, server,
     }, index) => {
-      const data = [];
+      const requestedFields = columns.split(',');
+      const dataObject:DataObject[] = [];
       // Load new base URL if defined a specific connection for Jira as ENV variables
       // otherwise default to standard baseURL defined for main server
       const baseUrl = process.env[`CPV_JIRA_${server.replace(/\s/, '_')}_BASE_URL`]
-          ?? config.get('confluence.baseURL');
+        ?? config.get('confluence.baseURL');
       issues.forEach((issue) => {
-        data.push({
-          key: {
-            name: issue.key,
-            link: `${baseUrl}/browse/${issue.key}?src=confmacro`,
-          },
-          t: {
-            name: issue.fields.issuetype.name,
-            icon: issue.fields.issuetype?.iconUrl,
-          },
-          summary: {
-            name: issue.fields.summary,
-            link: `${baseUrl}/browse/${issue.key}?src=confmacro`,
-          },
-          updated: issue.fields.updated
-            ? `${new Date(issue.fields.updated).toLocaleString('en-EN', {
-              year: 'numeric',
-              month: 'short',
-              day: '2-digit',
-              hour: '2-digit',
-              minute: '2-digit',
-            })}`
-            : '',
-          assignee: issue.fields.assignee?.displayName,
-          pr: {
-            name: issue.fields.priority?.name,
-            icon: issue.fields.priority?.iconUrl,
-          },
-          status: {
-            name: issue.fields.status?.name,
-            color: issue.fields.status?.statusCategory.colorName,
-          },
-          resolution: issue.fields.resolution?.name,
-          fixVersion: {
-            name: fixVersionNameFactory(issue),
-            link: fixVersionUrlFactory(issue),
-          },
-          description: {
-            name: descriptionIssueFactory(issue, baseUrl),
-          },
+        const rowData:RowData = {};
+        // the Jira API doesnt provide the key field value so we have to create manually
+        if (requestedFields.includes('key')) {
+          rowData.key = {
+            data: [FieldInterfaces.createLinkObject(issue.key, baseUrl)],
+            name: 'Key',
+            type: 'issuelinks',
+            gridtype: 'link',
+          };
+        }
+        Object.keys(issue.fields).forEach((fieldName) => {
+          let fieldValue = issue.fields[fieldName];
+          const fieldTypeData = checkFieldExistence(jiraFields, fieldName);
+          let ColumnProcess = '';
+
+          if (fieldTypeData.type in fieldFunctions) {
+            [fieldValue, ColumnProcess] = fieldFunctions[fieldTypeData.type](fieldValue, baseUrl);
+          } else {
+            fieldValue = ['Type not treated'];
+            ColumnProcess = 'normal';
+          }
+
+          rowData[fieldName] = {
+            data: fieldValue,
+            name: fieldTypeData.name,
+            type: fieldTypeData.type,
+            gridtype: ColumnProcess,
+          };
         });
+        dataObject.push(rowData);
       });
-
-      const requestedFields = columns.split(',');
-
+      // reorder dataObject keys from issuesColumns.columns sometimes it's unordered
+      const reorderedDataArray = dataObject.map((item) => {
+        const reorderedItem = {};
+        requestedFields.forEach((column) => {
+          if (Object.prototype.hasOwnProperty.call(item, column)) {
+            reorderedItem[column] = item[column];
+          }
+        });
+        return reorderedItem;
+      });
+      // prepared data format for grid
+      const preparedData = reorderedDataArray.map((obj) => Object.values(obj));
       /* eslint-disable no-template-curly-in-string */
-      let gridjsColumns = `[{
-                name: 'Key',
-                sort: {
-                  compare: (a, b) => (a.name > b.name ? 1 : -1),
-                },
-                formatter: (cell) => gridjs.html(${'`<a href="${cell.link}" target="_blank">${cell.name}</a>`'})
-              },`;
-      if (requestedFields.includes('summary')) {
-        gridjsColumns += `{
-                name: 'Summary',
-                sort: {
-                  compare: (a, b) => (a.name > b.name ? 1 : -1),
-                },
-                formatter: (cell) => gridjs.html(${'`<a href="${cell.link}" target="_blank">${cell.name}</a>`'})
-              },`;
-      }
-      if (requestedFields.includes('description')) {
-        gridjsColumns += `{
-                name: 'Description',
-                sort: {
-                  compare: (a, b) => (a.name > b.name ? 1 : -1),
-                },
-                formatter: (cell) => gridjs.html(${'`${cell.name}`'})
-              },`;
-      }
-      if (requestedFields.includes('issuetype')) {
-        gridjsColumns += `{
-                name: 'T',
-                sort: {
-                  compare: (a, b) => (a.name > b.name ? 1 : -1),
-                },
-                formatter: (cell) => gridjs.html(cell ? ${'`<img src="${cell.icon}" style="height:25px;padding:0"/>`'} : ''),
-              },`;
-      }
-      if (requestedFields.includes('status')) {
-        gridjsColumns += `{
-                name: 'Status',
-                sort: {
-                  compare: (a, b) => (a.name > b.name ? 1 : -1),
-                },
-                formatter: (cell) => gridjs.html(
-                  ${'`<div class="aui-lozenge" style="background-color:${cell.color};color:darkgrey;font-size: 11px;">${cell.name}</div>`'})
-              },`;
-      }
-      if (requestedFields.includes('updated')) {
-        gridjsColumns += `{
-                name: 'Updated',
-                sort: {
-                  compare: (a, b) => (new Date(a) > new Date(b) ? 1 : -1),
-                }
-              },`;
-      }
-      if (requestedFields.includes('assignee')) {
-        gridjsColumns += `{
-                name: 'Assignee',
-              },`;
-      }
-      if (requestedFields.includes('priority')) {
-        gridjsColumns += `{
-                name: 'Pr',
-                sort: {
-                  compare: (a, b) => (a.name > b.name ? 1 : -1),
-                },
-                formatter: (cell) => gridjs.html(cell ? ${'`<img src="${cell.icon}" style="height:25px;padding:0"/>`'} : ''),
-              },`;
-      }
-      if (requestedFields.includes('resolution')) {
-        gridjsColumns += ` {
-                name: 'Resolution',
-              },`;
-      }
-      if (requestedFields.includes('fixVersions')) {
-        gridjsColumns += `{
-                name: 'Fix Version',
-                sort: {
-                  compare: (a, b) => (a.name > b.name ? 1 : -1),
-                },
-                formatter: (cell) =>
-                  cell.link ? gridjs.html(${'`<a href="${cell.link}" target="_blank">${cell.name}</a>`'}) : gridjs.html(${'`${cell.name}`'})
-              },`;
-      }
-      gridjsColumns += ']';
+
+      const columnConfig = {
+        link: (name) => `{
+          name: \`${name}\`,
+          sort: { compare: (a, b) => (a.data.name > b.data.name ? 1 : -1) },
+          formatter: (cell) => gridjs.html(cell.data.map((item) => \`<a href="\${item.link}" target="_blank">\${item.name}</a>\`).join(' '))
+        }`,
+        date: (name) => `{
+          name: \`${name}\`,
+            sort: {
+          compare: (a, b) => {
+            var dateA = new Date(a.data);
+            var dateB = new Date(b.data);
+            return dateA > dateB ? 1 : (dateA < dateB ? -1 : 0);
+          }
+        },
+          formatter: (cell) => gridjs.html(cell.data.map((item) => \`\${item}\`))
+        }`,
+        normal: (name) => `{
+          name: \`${name}\`,
+          sort: { compare: (a, b) => (a.data > b.data ? 1 : -1) },
+          formatter: (cell) => gridjs.html(cell.data.map((item) => \`\${item}\`).join(' '))
+        }`,
+        status: (name) => `
+        {
+          name: \`${name}\`,
+          sort: { compare: (a, b) => (a.data.name > b.data.name ? 1 : -1) },
+          formatter: (cell) => gridjs.html(
+            cell.data.map(item => \`
+              <div class="aui-lozenge" style="background-color:\${item.color};color:darkgrey;font-size: 11px;">\${item.name}</div>
+            \`).join(' ')
+          )
+        }`,
+        icon: (name) => `
+        {
+          name: \`${name}\`,
+          sort: { compare: (a, b) => (a.data.name > b.data.name ? 1 : -1) },
+          formatter: (cell) => gridjs.html(
+            cell.data.map(item => \`
+              <div style="display: flex; align-items: center;">
+                <img src="\${item.icon}" style="height:25px; margin-right: 5px;" />
+              </div>
+            \`).join(' ')
+          )
+        }`,
+      };
+      const createColumns = (data) => `[${data.slice(0, 1).flatMap((obj) =>
+        Object.keys(obj)
+          .map((key) => {
+            const field = obj[key];
+            const { gridtype } = field;
+            const { name } = field;
+            return columnConfig[gridtype](name);
+          })
+          .filter(Boolean)).join(',')}]`;
+      const gridjsColumns = createColumns(reorderedDataArray);
 
       // remove the header
       $('div[id^="jira-issues-"]').remove();
@@ -353,29 +357,29 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
       $(element).before(
         `<div id="gridjs${index}"></div>`,
         `<script>
-        document.addEventListener('DOMContentLoaded', function () {
-          new gridjs.Grid({
-            columns: ${gridjsColumns},
-            data: ${JSON.stringify(data)},
-            sort: true,
-            search: {
-              enabled: true,
-              selector: (cell, rowIndex, cellIndex) => cell ? cell.name || cell : ''
-            },
-            width: '100%',
-            style: {
-              td: {
-                padding: '5px 5px',
-                maxWidth: '500px',
-                minWidth: '25px',
-                overflow: 'auto',
-              },
-              th: {
-                padding: '5px 5px'
-              }
-            }
-          }).render(document.getElementById("gridjs${index}"));
-        })
+      document.addEventListener('DOMContentLoaded', function () {
+      new gridjs.Grid({
+        columns: ${gridjsColumns},
+        data: ${JSON.stringify(preparedData)},
+        sort: true,
+        search: {
+          enabled: true,
+          selector: (cell, rowIndex, cellIndex) => cell.data.map(item => item.name).join(' ') || cell.data
+        },
+        width: '100%',
+        style: {
+          td: {
+            padding: '5px 5px',
+            maxWidth: '500px',
+            minWidth: '25px',
+            overflow: 'auto',
+          },
+          th: {
+            padding: '5px 5px'
+          }
+        }
+      }).render(document.getElementById("gridjs${index}"));
+      })
       </script>`,
       );
       $(element).remove();

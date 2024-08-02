@@ -49,6 +49,23 @@ export class JiraService {
   }
 
   /**
+   * @function getFields
+   * @description Returns all the fields of the tenant
+   * @return Promise {any}
+   */
+  getFields(): Promise<any> {
+    return firstValueFrom(
+      this.http.get(`${this.baseUrl}/rest/api/latest/field`, {
+        auth: { username: this.apiUsername, password: this.apiToken },
+      }),
+    )
+      .then((res) => res.data)
+      .catch((e) => {
+        this.logger.log(e, 'error:getFields');
+      });
+  }
+
+  /**
    * @function getMacro
    * @description return the macro data based on the pageID and macroID
    * @param pageId
@@ -110,7 +127,8 @@ export class JiraService {
     }
     return firstValueFrom(
       this.http.get(
-        `${this.baseUrl}/rest/api/3/search?jql=${encodeURIComponent(jqlSearch)}&fields=${fields}&maxResults=${maxResult}&startAt=${startAt}`,
+        `${this.baseUrl}/rest/api/3/search?jql=${encodeURIComponent(jqlSearch)}
+        &fields=${fields}&maxResults=${maxResult}&startAt=${startAt}`,
         {
           auth: { username: this.apiUsername, password: this.apiToken },
           params: { expand },
