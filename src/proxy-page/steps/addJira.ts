@@ -342,7 +342,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
             const { name } = field;
             return columnConfig[gridtype](name);
           })
-          .filter((newColumn) => newColumn !== undefined)).join(',')}]`;
+          .filter(Boolean)).join(',')}]`;
       const gridjsColumns = createColumns(reorderedDataArray);
 
       // remove the header
