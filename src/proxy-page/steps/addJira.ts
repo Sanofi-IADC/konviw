@@ -308,8 +308,6 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
         }`,
         normal: (name) => `{
           name: \`${name}\`,
-          width: "200px",
-          heigh: "200px",
           sort: { compare: (a, b) => (a.data > b.data ? 1 : -1) },
           formatter: (cell) => gridjs.html(cell.data.map((item) => \`\${item}\`).join(' '))
         }`,
