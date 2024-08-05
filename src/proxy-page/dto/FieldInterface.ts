@@ -327,8 +327,8 @@ export const formatString = (string) => {
   if (string?.content) {
     return [[string.content
       .flatMap((item) => item.content)
-      .map((subItem) => subItem.text)
-      .join(' ')], 'normal'];
+      .map((subItem) => subItem.text)[0],
+    ], 'normal'];
   } if (string) {
     return [[string], 'normal'];
   }

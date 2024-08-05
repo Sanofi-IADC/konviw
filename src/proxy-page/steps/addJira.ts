@@ -314,7 +314,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
         status: (name) => `
         {
           name: \`${name}\`,
-          sort: { compare: (a, b) => (a.data.name > b.data.name ? 1 : -1) },
+          sort: { compare: (a, b) => (a.data[0].name > b.data[0].name ? 1 : -1) },
           formatter: (cell) => gridjs.html(
             cell.data.map(item => \`
               <div class="aui-lozenge" style="background-color:\${item.color};color:darkgrey;font-size: 11px;">\${item.name}</div>
@@ -324,7 +324,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
         icon: (name) => `
         {
           name: \`${name}\`,
-          sort: { compare: (a, b) => (a.data.name > b.data.name ? 1 : -1) },
+          sort: { compare: (a, b) => (a.data[0].name > b.data[0].name ? 1 : -1) },
           formatter: (cell) => gridjs.html(
             cell.data.map(item => \`
               <div style="display: flex; align-items: center;">
@@ -364,7 +364,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
         sort: true,
         search: {
           enabled: true,
-          selector: (cell, rowIndex, cellIndex) => cell.data.map(item => item.name).join(' ') || cell.data
+          selector: (cell, rowIndex, cellIndex) => cell.data?.map(item => item?.name).filter(name => name).join(', ') || cell.data 
         },
         width: '100%',
         style: {
