@@ -364,7 +364,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
         sort: true,
         search: {
           enabled: true,
-          selector: (cell, rowIndex, cellIndex) => cell.data.map(item => item.name).join(' ') || cell.data
+          selector: (cell, rowIndex, cellIndex) => cell.data
         },
         width: '100%',
         style: {
