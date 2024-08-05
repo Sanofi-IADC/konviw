@@ -1,0 +1,1 @@
+const e={key:"v-e99a0e80",path:"/demoSlidesDocs.html",title:"How to create Konviw Slides",lang:"en-US",frontmatter:{title:"How to create Konviw Slides"},excerpt:"",headers:[],git:{updatedTime:1722856104e3,contributors:[{name:"BENBEN5959",email:"118439991+BENBEN5959@users.noreply.github.com",commits:1}]},filePathRelative:"demoSlidesDocs.md"};export{e as data};
