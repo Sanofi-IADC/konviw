@@ -1,3 +1,11 @@
+# [3.33.0](https://github.com/Sanofi-IADC/konviw/compare/v3.32.0...v3.33.0) (2024-08-13)
+
+
+### Features
+
+* WEB-2335 Force new version release ([ca169f3](https://github.com/Sanofi-IADC/konviw/commit/ca169f381aa7199efd3577d2d3814a190f0e3321))
+* WEB-2335 Force new version release ([f79bb7c](https://github.com/Sanofi-IADC/konviw/commit/f79bb7c5c313f6e91a8b535a596b293a54b34f44))
+
 # [3.32.0](https://github.com/Sanofi-IADC/konviw/compare/v3.31.0...v3.32.0) (2024-07-25)
 
 
