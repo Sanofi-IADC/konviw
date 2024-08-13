@@ -187,7 +187,6 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
         type = targetedField.schema.items;
         isArray = true;
       }
-
       const { name } = targetedField;
       return { name, type, isArray };
     }
