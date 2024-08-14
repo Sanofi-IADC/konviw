@@ -1,3 +1,16 @@
+# [3.36.0](https://github.com/Sanofi-IADC/konviw/compare/v3.35.0...v3.36.0) (2024-08-14)
+
+
+### Bug Fixes
+
+* WEB-2187 Improvements Jira Macro ([e705f48](https://github.com/Sanofi-IADC/konviw/commit/e705f48e0a078ca649576dfd642ece42f262ee8c))
+
+
+### Features
+
+* WEB-2187 fix versions ([b906711](https://github.com/Sanofi-IADC/konviw/commit/b9067111bb5321f1f9843b20e88ae76944c57668))
+* WEB-2187 fix vrsions ([57291ae](https://github.com/Sanofi-IADC/konviw/commit/57291ae3dcdb6e8f16e041a98394588ca890830b))
+
 # [3.35.0](https://github.com/Sanofi-IADC/konviw/compare/v3.34.0...v3.35.0) (2024-08-14)
 
 
