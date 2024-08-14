@@ -1,3 +1,11 @@
+# [3.34.0](https://github.com/Sanofi-IADC/konviw/compare/v3.33.0...v3.34.0) (2024-08-14)
+
+
+### Features
+
+* WEB-2187 fix null string ([a720164](https://github.com/Sanofi-IADC/konviw/commit/a7201645144ce79623d68110567327a1c9861522))
+* WEB-2187 fix null string in Jira Macro ([b2f5cbb](https://github.com/Sanofi-IADC/konviw/commit/b2f5cbb9ebfc9c02b913e908ad79fe27afdf6b33))
+
 # [3.33.0](https://github.com/Sanofi-IADC/konviw/compare/v3.32.0...v3.33.0) (2024-08-13)
 
 
