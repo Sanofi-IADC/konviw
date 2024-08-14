@@ -341,7 +341,7 @@ export const formatString = (string) => {
       text: getAllValues(subItem, isStringContent, 'text').join(' '),
       type: subItem.type,
     }));
-    return [[mappedResult[0].text ?? ''], 'normal'];
+    return [[mappedResult[0]?.text ?? ''], 'normal'];
   } if (string) {
     return [[string], 'normal'];
   }
