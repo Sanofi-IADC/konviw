@@ -135,23 +135,23 @@ export const isIssueType = (obj: any): obj is IssueType =>
   && 'name' in obj;
 
 export interface Version {
-  //self: string;
-  //id: string;
+  self: string;
+  id: string;
   description: string;
   name: string;
-  //archived: boolean;
-  //released: boolean;
+  archived: boolean;
+  released: boolean;
 }
 
 export const isVersion = (obj: any): obj is Version =>
   obj
   && typeof obj === 'object'
-  //&& 'self' in obj
-  //&& 'id' in obj
+  && 'self' in obj
+  && 'id' in obj
   && 'description' in obj
   && 'name' in obj
-  //&& 'archived' in obj
-  //&& 'released' in obj;
+  && 'archived' in obj
+  && 'released' in obj;
 
 export interface Component {
   self: string;
@@ -247,7 +247,6 @@ export const formatVersion = (value: any) => {
       link: [link],
     };
   });
-  
 
   return [fixVersionsArray, 'link'] as [{ name: string[]; link: string[] }[], string];
 };
