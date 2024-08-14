@@ -238,13 +238,16 @@ export const formatVersion = (value: any) => {
   const urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g;
   const result = versionUrl.flatMap((description) => {
     const validDescription = description || '';
-    return validDescription.match(urlRegex) || [];
+    return validDescription.match(urlRegex);
+  });
+  const fixVersionsArray = versionName.map((name, index) => {
+    const link = result[index] || '';
+    return {
+      name: [name],
+      link: [link],
+    };
   });
 
-  const fixVersionsArray = result.map((res, index) => ({
-    name: [versionName[index]],
-    link: [res],
-  }));
   return [fixVersionsArray, 'link'] as [{ name: string[]; link: string[] }[], string];
 };
 
