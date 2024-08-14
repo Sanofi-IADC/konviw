@@ -6,6 +6,17 @@ export interface StatusCategory {
   name: string;
 }
 
+export interface StringContent {
+  type: string;
+  text: number;
+}
+
+export const isStringContent = (obj: any): obj is StringContent =>
+  obj
+  && typeof obj === 'object'
+  && 'type' in obj
+  && 'text' in obj;
+
 export interface Status {
   self: string;
   description: string;
@@ -325,10 +336,12 @@ export const formatNumber = (number) => [[number || ''], 'normal'];
 
 export const formatString = (string) => {
   if (string?.content) {
-    return [[string.content
-      .flatMap((item) => item.content)
-      .map((subItem) => subItem.text)[0],
-    ], 'normal'];
+    const flatMapResult = string.content.flatMap((item) => item.content);
+    const mappedResult = flatMapResult.map((subItem) => ({
+      text: getAllValues(subItem, isStringContent, 'text').join(' '),
+      type: subItem.type,
+    }));
+    return [[mappedResult[0].text ?? ''], 'normal'];
   } if (string) {
     return [[string], 'normal'];
   }
