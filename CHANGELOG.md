@@ -1,3 +1,14 @@
+## [3.36.1](https://github.com/Sanofi-IADC/konviw/compare/v3.36.0...v3.36.1) (2024-11-29)
+
+
+### Bug Fixes
+
+* WEB-2430 Align github workflow ([fb95a83](https://github.com/Sanofi-IADC/konviw/commit/fb95a834baf0488057f9c63b841a2319569c243e))
+* WEB-2430 Disable part of GitHub workflow ([d9af3a4](https://github.com/Sanofi-IADC/konviw/commit/d9af3a48f5bc90fb0b98bdc7d3f6cdf969b52fab))
+* WEB-2430 Fixed addJiraStep to not throw an exception when key of jiraIssue is not defined ([033eff9](https://github.com/Sanofi-IADC/konviw/commit/033eff9c15951ffd38872a933c1d78396cbd5ea4))
+* WEB-2430 Fixed addJiraStep to not throw an exception when key of jiraIssue is not defined ([741f204](https://github.com/Sanofi-IADC/konviw/commit/741f204e74499173ce6368fc69a977d5bc149161))
+* WEB-2430 Sync with main ([eae3c12](https://github.com/Sanofi-IADC/konviw/commit/eae3c12b6d6dec738512962bbdd228908368ef30))
+
 # [3.36.0](https://github.com/Sanofi-IADC/konviw/compare/v3.35.0...v3.36.0) (2024-08-14)
 
 
