@@ -23,7 +23,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
 
   await Promise.allSettled(issuesDetailsPromises).then((results) => {
     results.forEach((res: any) => {
-      if (!res?.value.key || !res?.value?.fields) return;
+      if (!res?.value?.key || !res?.value?.fields) return;
       const {
         value: {
           key,
