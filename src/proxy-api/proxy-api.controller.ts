@@ -15,8 +15,9 @@ import {
   SearchProjectIssuesQueryDTO,
   GetSpacesParamsDTO,
   GetSpacesQueryDTO,
+  RadarParamsDTO,
 } from './proxy-api.validation.dto';
-import { FixVersion, KonviwResults } from './proxy-api.interface';
+import { FixVersion, KonviwResults, RadarContent } from './proxy-api.interface';
 import SearchProjectIssueTypesWithStatusQueryDTO from './dto/SearchProjectIssueTypesWithStatusQuery';
 import GetScreenDetailsDTO from './dto/GetScreenDetailsQuery';
 import SearchProjectUsersQueryDTO from './dto/SearchProjectUsersQuery';
@@ -244,5 +245,25 @@ export class ProxyApiController {
       `Getting page through API ... /${params.spaceKey}/${params.pageId}`,
     );
     return this.proxyApi.getPage(params.spaceKey, params.pageId, queries.type);
+  }
+
+  /**
+   * @GET (controller) api/radar/spaces/:spaceKey/pages/:pageId/:period.:ext?
+   * @description Route to retrieve the metadata defined for the given page and period and according
+   * to the format expected by the Technology Radar fromr Thoughtworks
+   * @return {string} 'JSON' - JSON with Technology Radar metadata
+   */
+  @ApiOkResponse({
+    description: 'JSON data model expectec by Technology Radar',
+  })
+  @Get('radar/spaces/:spaceKey/pages/:pageId/:period.:ext?')
+  async getTechnologyRadar(
+    @Param() params: RadarParamsDTO,
+  ): Promise<RadarContent[]> {
+    return this.proxyApi.getTechnologyRadar(
+      params.spaceKey,
+      params.pageId,
+      params.period,
+    );
   }
 }

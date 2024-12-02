@@ -38,6 +38,18 @@ export interface MetadataSearch {
   prev: string;
 }
 
+export type RadarContent = {
+  name: string;
+  ring: 'hold' | 'assess' | 'trial' | 'adopt';
+  quadrant: 'techniques' | 'tools' | 'languages & frameworks' | 'platforms';
+  isNew: 'TRUE' | 'FALSE';
+  description: string;
+}
+
+export type RadarContentPeriod = {
+  period: string;
+} & RadarContent
+
 export interface FixVersion {
   archived: boolean;
   id: string;
