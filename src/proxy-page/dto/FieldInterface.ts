@@ -340,7 +340,7 @@ export const formatNumber = (number) => [[number || ''], 'normal'];
 export const formatString = (string) => {
   if (string?.content) {
     const flatMapResult = string.content.flatMap((item) => item.content);
-    const mappedResult = flatMapResult.map((subItem) => ({
+    const mappedResult = flatMapResult.filter(Boolean).map((subItem) => ({
       text: getAllValues(subItem, isStringContent, 'text').join(' '),
       type: subItem.type,
     }));
