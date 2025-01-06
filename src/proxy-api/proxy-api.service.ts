@@ -522,4 +522,51 @@ export class ProxyApiService {
       space: this.context.getSpaceKey(),
     };
   }
+
+  /**
+   * @function getAttchmentById
+   * @description Retrieves attachment information by its ID from Confluence.
+   * @param id {string} The ID of the attachment to retrieve.
+   * @return Promise {any} A promise that resolves to the attachment data.
+   */
+  async getAttachmentById(id: string): Promise<any> {
+    const data = await this.confluence.getAttachmentById(id);
+    return data;
+  }
+
+  /**
+   * @function getCustomContentById
+   * @description Retrieves custom content information by its ID from Confluence.
+   * @param id {number} The ID of the custom content to retrieve.
+   * @return Promise {any} A promise that resolves to the custom content data.
+   */
+  async getCustomContentById(id: number): Promise<any> {
+    const data = await this.confluence.getCustomContentById(id);
+    return data;
+  }
+
+  /**
+   * @function getCustomContentByTypeInSpace
+   * @description Retrieves custom content of the specified type from a given space.
+   * Utilizes pagination to accumulate all results.
+   * @param type {string} - The type of content to retrieve.
+   * @param spaceId {number} - The ID of the space to retrieve content from.
+   * @param next {string} - An optional cursor for pagination.
+   * @param collection {array} - Accumulates the retrieved content across paginated requests.
+   * @return Promise {any} - A promise resolving to the accumulated content.
+   */
+  async getCustomContentsByTypeInSpace(
+    type: string,
+    spaceId: number,
+    next?: string,
+    collection = [],
+  ): Promise<any> {
+    const data = await this.confluence.getCustomContentsByTypeInSpace(
+      type,
+      spaceId,
+      next,
+      collection,
+    );
+    return data;
+  }
 }
