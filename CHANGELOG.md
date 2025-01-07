@@ -1,3 +1,11 @@
+# [3.37.0](https://github.com/Sanofi-IADC/konviw/compare/v3.36.1...v3.37.0) (2025-01-07)
+
+
+### Features
+
+* ARM-2020 Add APIs for Official PDF Exports - Custom Content ([bbc27c5](https://github.com/Sanofi-IADC/konviw/commit/bbc27c5434050ff8606b426957234b5e7151666b))
+* ARM-2020 Remove e2e test - temporarily ([4762744](https://github.com/Sanofi-IADC/konviw/commit/47627441f34c9f8ddcf7d7a0bd16e7b83d0b0ee9))
+
 ## [3.36.1](https://github.com/Sanofi-IADC/konviw/compare/v3.36.0...v3.36.1) (2024-11-29)
 
 
