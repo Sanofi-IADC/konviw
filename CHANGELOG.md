@@ -1,3 +1,10 @@
+# [3.38.0](https://github.com/Sanofi-IADC/konviw/compare/v3.37.0...v3.38.0) (2025-01-13)
+
+
+### Features
+
+* ARM-2020 Fix parameter name in getCustomContentsByTypeInSpace ([d446092](https://github.com/Sanofi-IADC/konviw/commit/d44609208c46fdddac0c7f3d9abc2609382efeb9))
+
 # [3.37.0](https://github.com/Sanofi-IADC/konviw/compare/v3.36.1...v3.37.0) (2025-01-07)
 
 
