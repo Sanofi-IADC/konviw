@@ -262,14 +262,14 @@ export class ProxyApiController {
   @ApiOkResponse({
     description: 'Get Custom Contents by Type in a Space',
   })
-  @Get('spaces/:id/custom-content')
+  @Get('spaces/:id/custom-content?')
   async getCustomContentsByTypeInSpace(
     @Param() params: GetCustomContentsInSpaceParamsDTO,
     @Query() queries: GetCustomContentsInSpaceQueryDTO,
   ): Promise<any> {
     return this.proxyApi.getCustomContentsByTypeInSpace(
       queries.type,
-      params.spaceId,
+      params.id,
       queries.next,
     );
   }

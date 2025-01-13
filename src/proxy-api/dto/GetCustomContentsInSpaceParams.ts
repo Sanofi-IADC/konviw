@@ -11,5 +11,5 @@ export default class GetCustomContentsInSpaceParamsDTO {
   })
   @IsNotEmpty()
   @IsString()
-    spaceId: number;
+    id: number;
 }
