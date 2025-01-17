@@ -1,3 +1,12 @@
+# [3.39.0](https://github.com/Sanofi-IADC/konviw/compare/v3.38.0...v3.39.0) (2025-01-17)
+
+
+### Features
+
+* WEB-2429 Improved jira snapshots macro rendering ([4c9b4a0](https://github.com/Sanofi-IADC/konviw/commit/4c9b4a0e8abac63d00e29162394453d3c7549051))
+* WEB-2429 Improved jira snapshots macro rendering ([e167772](https://github.com/Sanofi-IADC/konviw/commit/e1677723f7a45580cb124e83d2d2d71ce984a1a4))
+* WEB-2429 Sync with main ([d6c8448](https://github.com/Sanofi-IADC/konviw/commit/d6c8448481ff7aca16dd04feae210bb9a4400dec))
+
 # [3.38.0](https://github.com/Sanofi-IADC/konviw/compare/v3.37.0...v3.38.0) (2025-01-13)
 
 
