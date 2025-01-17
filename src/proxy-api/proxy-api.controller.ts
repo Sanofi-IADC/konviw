@@ -22,6 +22,10 @@ import GetScreenDetailsDTO from './dto/GetScreenDetailsQuery';
 import SearchProjectUsersQueryDTO from './dto/SearchProjectUsersQuery';
 import SearchProjectVersionsQueryDTO from './dto/SearchProjectVersionsQuery';
 import GetSpacesMetaParamsDTO from './dto/GetSpacesMetaParams';
+import GetCustomContentsInSpaceParamsDTO from './dto/GetCustomContentsInSpaceParams';
+import GetCustomContentsInSpaceQueryDTO from './dto/GetCustomContentsInSpaceQuery';
+import GetCustomContentByIdParamsDTO from './dto/GetCustomContentByIdParams';
+import GetAttachmentByIdParamsDTO from './dto/GetAttachmentByIdParams';
 
 @ApiTags('proxy-api')
 @Controller('api')
@@ -244,5 +248,61 @@ export class ProxyApiController {
       `Getting page through API ... /${params.spaceKey}/${params.pageId}`,
     );
     return this.proxyApi.getPage(params.spaceKey, params.pageId, queries.type);
+  }
+
+  /**
+   * @GET (controller) api/spaces/:id/custom-content
+   * @description Retrieve custom content of the specified type from a given space.
+   * Utilizes pagination to accumulate all results.
+   * @return {Promise<any>} - A promise resolving to the accumulated content.
+   * @param {GetCustomContentsInSpaceParamsDTO} params - Parameters object, must contain the spaceId property.
+   * @param {GetCustomContentsInSpaceQueryDTO} queries - Query object,
+   * must contain the type property and optionally the next property for pagination.
+   */
+  @ApiOkResponse({
+    description: 'Get Custom Contents by Type in a Space',
+  })
+  @Get('spaces/:id/custom-content?')
+  async getCustomContentsByTypeInSpace(
+    @Param() params: GetCustomContentsInSpaceParamsDTO,
+    @Query() queries: GetCustomContentsInSpaceQueryDTO,
+  ): Promise<any> {
+    return this.proxyApi.getCustomContentsByTypeInSpace(
+      queries.type,
+      params.id,
+      queries.next,
+    );
+  }
+
+  /**
+   * @GET (controller) api/custom-content/:id
+   * @description Retrieves a single custom content by its id.
+   * @return {Promise<any>} - A promise resolving to the custom content.
+   * @param {GetCustomContentByIdParamsDTO} params - Parameters object, must contain the id property.
+   */
+  @ApiOkResponse({
+    description: 'Get Custom Content By Id',
+  })
+  @Get('custom-content/:id')
+  async getCustomContentById(
+    @Param() params: GetCustomContentByIdParamsDTO,
+  ): Promise<any> {
+    return this.proxyApi.getCustomContentById(params.id);
+  }
+
+  /**
+   * @GET (controller) api/attachments/:id
+   * @description Retrieves a single attachment by its id.
+   * @return {Promise<any>} - A promise resolving to the attachment.
+   * @param {GetAttachmentByIdParamsDTO} params - Parameters object, must contain the id property.
+   */
+  @ApiOkResponse({
+    description: 'Get Attachment By Id',
+  })
+  @Get('attachments/:id')
+  async getAttachmentById(
+    @Param() params: GetAttachmentByIdParamsDTO,
+  ): Promise<any> {
+    return this.proxyApi.getAttachmentById(params.id);
   }
 }

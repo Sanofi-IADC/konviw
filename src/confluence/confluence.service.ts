@@ -463,4 +463,82 @@ export class ConfluenceService {
     );
     return data;
   }
+
+  /**
+   * @function getCustomContentByTypeInSpace
+   * @description Return custom content of specified type in the given space
+   * @param type {string} - type of content to retrieve
+   * @param spaceId {number} - id of the space to retrieve content from
+   * @param next {string} - starting cursor used for pagination
+   * @param collection {array} - recursive array of collection
+   * @return Promise {any}
+   */
+  async getCustomContentsByTypeInSpace(
+    type: string,
+    spaceId: number,
+    next?: string,
+    collection = [],
+  ): Promise<any> {
+    const defaultParams = {
+      type,
+      limit: 250,
+      'body-format': 'atlas_doc_format',
+    };
+    try {
+      const { data }: AxiosResponse = await firstValueFrom(
+        this.http.get(next || `/wiki/api/v2/spaces/${spaceId}/custom-content`, { params: !next && defaultParams }),
+      );
+      this.logger.log(
+        `Retrieving Custom content of ${type} in Space ${spaceId} via REST API`,
+      );
+      collection.push(...data.results);
+      if (data._links?.next) {
+        await this.getSpacesMeta(type, data._links?.next, collection);
+      }
+      return collection;
+    } catch (err: any) {
+      this.logger.log(err, 'error:getCustomContentByTypeInSpace');
+      throw new HttpException(`error:getCustomContentByTypeInSpace > ${err}`, 404);
+    }
+  }
+
+  /**
+   * @function getCustomContentById
+   * @description Return custom content by id
+   * @param id {number} id of the custom content to retrieve
+   * @return Promise {any}
+   * @throws {HttpException} if there is a problem with the request
+   */
+  async getCustomContentById(id: number): Promise<any> {
+    try {
+      const { data }: AxiosResponse = await firstValueFrom(
+        this.http.get(`/wiki/api/v2/custom-content/${id}`),
+      );
+      this.logger.log(`Retrieving custom-content ${id} via REST API`);
+      return data;
+    } catch (err: any) {
+      this.logger.log(err, `error:getCustomContentById ${id}`);
+      throw new HttpException(`error:getCustomContentById > ${err}`, 404);
+    }
+  }
+
+  /**
+   * @function getAttchmentById
+   * @description Return attachment info by id
+   * @param id {string} id of the attachment to retrieve
+   * @return Promise {any}
+   * @throws {HttpException} if there is a problem with the request
+   */
+  async getAttachmentById(id: string): Promise<any> {
+    try {
+      const { data }: AxiosResponse = await firstValueFrom(
+        this.http.get(`/wiki/api/v2/attachments/${id}`),
+      );
+      this.logger.log(`Retrieving attachment ${id} via REST API`);
+      return data;
+    } catch (err: any) {
+      this.logger.log(err, `error:getAttchmentById ${id}`);
+      throw new HttpException(`error:getAttchmentById > ${err}`, 404);
+    }
+  }
 }
