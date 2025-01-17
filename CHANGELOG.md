@@ -1,3 +1,11 @@
+# [3.40.0](https://github.com/Sanofi-IADC/konviw/compare/v3.39.0...v3.40.0) (2025-01-17)
+
+
+### Features
+
+* WEB-2437 Added support for nested expansion macros ([f72cd24](https://github.com/Sanofi-IADC/konviw/commit/f72cd24ef265651b556b0c1c866b47636c64e541))
+* WEB-2437 Added support for nested expansion macros ([134e65b](https://github.com/Sanofi-IADC/konviw/commit/134e65b901a5405f860f3341479bf797b29a91e3))
+
 # [3.39.0](https://github.com/Sanofi-IADC/konviw/compare/v3.38.0...v3.39.0) (2025-01-17)
 
 
