@@ -14,22 +14,35 @@ export default (): Step => (context: ContextService): void => {
         let promiseFinallyState = false;
         coll[i].addEventListener("click", function() {
           this.classList.toggle("active");
+
           const content = this.nextElementSibling;
-          const toggleMaxHeight = (clear = false) =>
-            content.style.maxHeight = clear ? null : content.scrollHeight + "px";
-          const toggleOpacity = (value) => content.style.opacity = value;
-          const togglePromiseFinallyState = () => promiseFinallyState = !promiseFinallyState;
+
+          const toggleMaxHeight = (clear = false) => {
+            content.style.maxHeight = clear ? null : 'max-content';
+          };
+
+          const toggleOpacity = (value) => {
+            content.style.opacity = value;
+          };
+
+          const togglePromiseFinallyState = () => {
+            promiseFinallyState = !promiseFinallyState;
+          };
+
           if (content.style.maxHeight) {
             toggleMaxHeight(true);
           } else {
             const imagesCollection = content.querySelectorAll('img.confluence-embedded-image');
             const notCompletedIamges = Array.from(imagesCollection).filter((image) => !image.complete);
+
             if (notCompletedIamges && notCompletedIamges.length > 0 && !promiseFinallyState) {
               toggleOpacity('0');
               toggleMaxHeight();
+
               const loadImageStatusFn = (image) => new Promise(
                 (res) => image.addEventListener('load', () => res())
               );
+
               Promise.all([...notCompletedIamges].map(loadImageStatusFn)).finally(() => {
                 toggleMaxHeight();
                 toggleOpacity('1');
