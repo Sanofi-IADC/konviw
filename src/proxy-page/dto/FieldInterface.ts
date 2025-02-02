@@ -58,7 +58,6 @@ export const isIssue = (obj: any): obj is Issue =>
   && 'id' in obj
   && 'key' in obj
   && 'self' in obj;
-
 export interface Option {
   self: string;
   value: string;
@@ -71,6 +70,19 @@ export const isOption = (obj: any): obj is Option =>
   && 'self' in obj
   && 'value' in obj
   && 'id' in obj;
+
+export interface Votes {
+  self: string;
+  votes: number;
+  hasVoted: boolean;
+}
+
+export const isVotes = (obj: any): obj is Votes =>
+  obj
+  && typeof obj === 'object'
+  && 'self' in obj
+  && 'votes' in obj
+  && 'hasVoted' in obj;
 
 export interface User {
   self: string;
@@ -333,6 +345,11 @@ export const formatDate = (dateString) => {
     })}`
     : '';
   return [[formatted], 'date'];
+};
+
+export const formatVotes = (value: any) => {
+  const votes = getAllValues(value, isVotes, 'votes');
+  return [votes, 'normal'];
 };
 
 export const formatNumber = (number) => [[number || ''], 'normal'];
