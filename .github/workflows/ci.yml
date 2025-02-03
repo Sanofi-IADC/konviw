@@ -77,20 +77,20 @@ jobs:
           CYPRESS_BASE_URL: ${{ steps.vercel-deploy.outputs.PREVIEW_URL }}/cpv
 
       - name: Upload Cypress Screenshots
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: cypress-screenshots-artifacts
           retention-days: 5
-          path: tests/e2e/cypress/screenshots/
+          path: ${{ github.repository }}/tests/e2e/cypress/screenshots/
 
       - name: Upload Cypress Videos
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: cypress-videos-artifacts
           retention-days: 1
-          path: tests/e2e/cypress/videos/
+          path: ${{ github.repository }}/tests/e2e/cypress/videos/
 
   release:
     name: Release
