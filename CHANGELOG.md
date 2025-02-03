@@ -1,3 +1,11 @@
+# [3.41.0](https://github.com/Sanofi-IADC/konviw/compare/v3.40.0...v3.41.0) (2025-02-03)
+
+
+### Features
+
+* WEB-2466 Changed depcreated upload-artifact v3 and moved to v4 ([9c19591](https://github.com/Sanofi-IADC/konviw/commit/9c19591fa4f3c60827b458570047a99f7f814474))
+* WEB-2466 Changed depcreated upload-artifact v3 and moved to v4 ([62e8cea](https://github.com/Sanofi-IADC/konviw/commit/62e8cead4c43af4d59fbb7f9becf482e26b06f3a))
+
 # [3.40.0](https://github.com/Sanofi-IADC/konviw/compare/v3.39.0...v3.40.0) (2025-01-17)
 
 
