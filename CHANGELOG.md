@@ -1,3 +1,10 @@
+# [3.42.0](https://github.com/Sanofi-IADC/konviw/compare/v3.41.0...v3.42.0) (2025-02-04)
+
+
+### Features
+
+* votes added if selected as field ([#603](https://github.com/Sanofi-IADC/konviw/issues/603)) ([0bac1cf](https://github.com/Sanofi-IADC/konviw/commit/0bac1cf425b8a5044aae06599aff1c8fb59f6b3c))
+
 # [3.41.0](https://github.com/Sanofi-IADC/konviw/compare/v3.40.0...v3.41.0) (2025-02-03)
 
 
