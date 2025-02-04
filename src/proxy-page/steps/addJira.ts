@@ -205,6 +205,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
     string: FieldInterfaces.formatString,
     resolution: FieldInterfaces.formatResolution,
     version: FieldInterfaces.formatVersion,
+    votes: FieldInterfaces.formatVotes,
     component: FieldInterfaces.formatComponent,
     team: FieldInterfaces.formatTeam,
     status: FieldInterfaces.formatStatus,
@@ -360,17 +361,18 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
       new gridjs.Grid({
         columns: ${gridjsColumns},
         data: ${JSON.stringify(preparedData)},
+        resizable: true,
         sort: true,
         search: {
           enabled: true,
-          selector: (cell, rowIndex, cellIndex) => cell.data?.map(item => item?.name).filter(name => name).join(', ') || cell.data 
+          selector: (cell, rowIndex, cellIndex) => cell.data?.map(item => item?.name).filter(name => name).join(', ') || cell.data
         },
         width: '100%',
         style: {
           td: {
             padding: '5px 5px',
-            maxWidth: '500px',
-            minWidth: '25px',
+            maxWidth: '200px',
+            minWidth: '10px',
             overflow: 'auto',
           },
           th: {
