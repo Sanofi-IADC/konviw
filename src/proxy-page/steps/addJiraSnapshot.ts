@@ -4,13 +4,11 @@ import { JiraService } from '../../jira/jira.service';
 import { Step } from '../proxy-page.step';
 import { ContextService } from '../../context/context.service';
 import * as FieldInterfaces from '../dto/FieldInterface';
-import { Body } from '@nestjs/common';
 
 export default (config: ConfigService, jiraService: JiraService): Step => async (context: ContextService): Promise<void> => {
   context.setPerfMark('addJiraSnapshot');
   const $ = context.getCheerioBody();
   const $xml = cheerio.load(context.getBodyStorage(), { xmlMode: true });
-  console.log($xml.text())
   const basePath = config.get('web.basePath');
   const version = config.get('version');
   const confluenceDomain = config.get('confluence.baseURL');
@@ -31,13 +29,13 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
     return undefined;
   };
 
-    let jiraFields = [];
-    const promise = jiraService.getFields();
-    await promise.then((result) => {
-      jiraFields = result;
-    });
+  let jiraFields_ = [];
+  const promise = jiraService.getFields();
+  await promise.then((result) => {
+    jiraFields_ = result;
+  });
 
-    const fieldFunctions: {
+  const fieldFunctions: {
       [key: string]: (value: any, baseUrl?: string) => any;
     } = {
       date: FieldInterfaces.formatDate,
@@ -58,131 +56,117 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
       json: FieldInterfaces.formatJson,
     };
 
-    const macroParamsList = [];
-    $xml('ac\\:parameter[ac\\:name="macroParams"]').each((i, element) => {
-      const macroParams = $(element).text();
-      macroParamsList.push(macroParams);
-    });
+  const macroParamsList = [];
+  $xml('ac\\:parameter[ac\\:name="macroParams"]').each((i, element) => {
+    const macroParams = $(element).text();
+    macroParamsList.push(macroParams);
+  });
 
-      // add the grid using http://gridjs.io library
-    $('head').append(
-      `<link href="${basePath}/gridjs/mermaid.min.css?cache=${version}" rel="stylesheet" />`,
-    );
-    $('body').append(
-      `<script defer src="${basePath}/gridjs/gridjs.production.min.js?cache=${version}"></script>`,
-    );
+  // add the grid using http://gridjs.io library
+  $('head').append(
+    `<link href="${basePath}/gridjs/mermaid.min.css?cache=${version}" rel="stylesheet" />`,
+  );
+  $('body').append(
+    `<script defer src="${basePath}/gridjs/gridjs.production.min.js?cache=${version}"></script>`,
+  );
 
-      const jiraJqlSnapshots = [];
+  const jiraJqlSnapshots = [];
 
   // Select elements with the attribute data-macro-name="jira-jql-snapshot"
   $('div[data-macro-name="jira-jql-snapshot"]').each((i, element) => {
     jiraJqlSnapshots.push($(element));
   });
 
-    const processJqls = async () => {
-      for (const [index, params] of macroParamsList.entries()) {
-        let jsonData;
-        try {
-          jsonData = JSON.parse(params);
-        } catch (e) {
-          console.error("Erreur lors de l'analyse du JSON :", e);
-          continue;
-        }
-        console.log("json",jsonData)
-        // Initialiser les tableaux pour chaque catégorie
-        const jqls = [];
-        const columns = new Map();
-        const columnIds = new Set();
-        const titles = [];
-        const allColumnsId = [];
-        const allColumnsName = [];
-        
-        // Vérifiez si jsonData contient des niveaux avant de les parcourir
-        if (jsonData.levels) {
-          jsonData.levels.forEach(level => {
-            // Ajouter le JQL
-            const cleanedJql = level.jql.replace(/\n/g, '');
-            jqls.push(cleanedJql);
-    
-            // Ajouter le titre
-            titles.push(level.title);
-    
-            // Ajouter les colonnes (fieldsPosition)
-            const columnsId = [];
-            const columnsName = []; // Utiliser un tableau pour stocker les noms des colonnes de ce niveau
-            level.fieldsPosition.forEach(field => {
-              columnsId.push(field.value.id);
-              columnsName.push(field.label);
-            });
-            // Joindre les colonnes en une seule chaîne séparée par des virgules et l'ajouter à allColumnsFormatted
-            allColumnsId.push(columnsId.join(','));
-            allColumnsName.push(columnsName.join(','))
+  /* eslint-disable no-await-in-loop */
+  /* eslint-disable no-return-await */
+  /* eslint-disable no-restricted-syntax */
+  const processJqls = async () => {
+    for (const [index, params] of macroParamsList.entries()) {
+      const jsonData = JSON.parse(params);
+      // Initialiser les tableaux pour chaque catégorie
+      const jqls = [];
+      const titles = [];
+      const allColumnsId = [];
+      const allColumnsName = [];
+      const numberTicket = [];
+      // Vérifiez si jsonData contient des niveaux avant de les parcourir
+      if (jsonData.levels) {
+        jsonData.levels.forEach((level) => {
+          // Ajouter le JQL
+          const cleanedJql = level.jql.replace(/\n/g, '');
+          jqls.push(cleanedJql);
+
+          // Ajouter le titre
+          titles.push(level.title);
+
+          // Ajouter les colonnes (fieldsPosition)
+          const columnsId = [];
+          const columnsName = []; // Utiliser un tableau pour stocker les noms des colonnes de ce niveau
+          level.fieldsPosition.forEach((field) => {
+            columnsId.push(field.value.id);
+            columnsName.push(field.label);
           });
-        }
-        
-        const splitedColumnsId = splitStrings(allColumnsId);
-        const splitedColumnsName = splitStrings(allColumnsName);
-    
-        const columnsArray = Array.from(columns.entries());
-        const columnIdsString = Array.from(columnIds).join(',');
-    
-        // Créer l'objet final dans la structure désirée
-        const result = [jqls, columnsArray, titles];
-    
-        const processJqlsWithKeys = async (jqls, columnIdsString) => {
-          let keys = []; // Définir keys en dehors de la boucle
-          const allIssues = [];
-    
-          for (let i = 0; i < jqls.length; i++) { // Correction de la condition de la boucle
-            const issuesTest = [];
-            const apiCalls = []; // Nouveau tableau pour stocker les appels API
-    
-            if (i == 0) {
+          // Joindre les colonnes en une seule chaîne séparée par des virgules et l'ajouter à allColumnsFormatted
+          allColumnsId.push(columnsId.join(','));
+          allColumnsName.push(columnsName.join(','));
+        });
+      }
+      const processJqlsWithKeys = async (jql, jiraFields) => {
+        let keys = []; // Définir keys en dehors de la boucle
+        const allIssues = [];
+        /* eslint-disable no-plusplus */
+        for (let i = 0; i < jql.length; i++) { // Correction de la condition de la boucle
+        /* eslint-enable no-plusplus */
+          const issuesTest = [];
+          const apiCalls = []; // Nouveau tableau pour stocker les appels API
+
+          if (i === 0) {
+            issuesTest.push({
+              issues: {
+                issues: jiraService
+                  .findTickets('System JIRA', jql[i], allColumnsId[i])
+                  .then((res) => res?.data?.issues ?? []),
+              },
+            });
+          } else {
+            keys.forEach((key) => {
+              const newJql = jqls[i].replace(/\$key/g, key);
               issuesTest.push({
                 issues: {
                   issues: jiraService
-                    .findTickets('System JIRA', jqls[i], allColumnsId[i])
+                    .findTickets('System JIRA', newJql, allColumnsId[i])
                     .then((res) => res?.data?.issues ?? []),
                 },
               });
-            } else {
-              keys.forEach(key => {
-                const newJql = jqls[i].replace(/\$key/g, key);
-                issuesTest.push({
-                  issues: {
-                    issues: jiraService
-                      .findTickets('System JIRA', newJql, allColumnsId[i])
-                      .then((res) => res?.data?.issues ?? []),
-                  },
-                });
-              });
-            }
-    
-            // Ajouter les appels API au nouveau tableau
-            apiCalls.push(
-              ...issuesTest.map(async (j) => await j.issues?.issues)
-            );
-    
-            // Attendre la résolution de toutes les promesses dans apiCalls
-            const jirasIssuesTest = await Promise.all(apiCalls);
-            allIssues.push(jirasIssuesTest);
-    
-            // Extraire les clés des résultats obtenus
-            keys = extractKeys(jirasIssuesTest);
+            });
           }
-    
-          const HierarchiedIssues = buildHierarchy(allIssues)
-          const duplicatedIssue = HierarchiedIssues.flatMap(issue => traverseIssues(issue));
-          const gridData = extractKeysColumns(duplicatedIssue, allColumnsId)
-          const preparedData = gridData.map((obj) => Object.values(obj));
-    
-          const columnConfig = {
-            link: (name) => `{
+
+          // Ajouter les appels API au nouveau tableau
+          apiCalls.push(
+            ...issuesTest.map(async (j) => await j.issues?.issues),
+          );
+
+          // Attendre la résolution de toutes les promesses dans apiCalls
+          const jirasIssuesTest = await Promise.all(apiCalls);
+          allIssues.push(jirasIssuesTest);
+
+          // Extraire les clés des résultats obtenus
+          keys = extractKeys(jirasIssuesTest);
+          numberTicket.push(keys.length);
+        }
+
+        const HierarchiedIssues = buildHierarchy(allIssues);
+        const duplicatedIssue = HierarchiedIssues.flatMap((issue) => traverseIssues(issue));
+        const gridData = extractKeysColumns(duplicatedIssue, allColumnsId, jiraFields);
+        const preparedData = gridData.map((obj) => Object.values(obj));
+
+        const columnConfig = {
+          link: (name) => `{
               name: \`${name}\`,
               sort: { compare: (a, b) => (a?.data.name > b?.data.name ? 1 : -1) },
               formatter: (cell) => gridjs.html(cell?.data.map((item) => \`<a href="\${item.link}" target="_blank">\${item.name}</a>\`).join(' '))
             }`,
-            date: (name) => `{
+          date: (name) => `{
                 name: \`${name}\`,
                 sort: {
                 compare: (a, b) => {
@@ -193,12 +177,12 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
             },
               formatter: (cell) => gridjs.html(cell?.data.map((item) => \`\${item}\`))
             }`,
-            normal: (name) => `{
+          normal: (name) => `{
               name: \`${name}\`,
               sort: { compare: (a, b) => (a?.data > b?.data ? 1 : -1) },
               formatter: (cell) => gridjs.html(cell?.data.map((item) => \`\${item}\`).join(' '))
             }`,
-            status: (name) => `
+          status: (name) => `
             {
               name: \`${name}\`,
               sort: { compare: (a, b) => (a?.data[0].name > b?.data[0].name ? 1 : -1) },
@@ -208,7 +192,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
                 \`).join(' ')
               )
             }`,
-            icon: (name) => `
+          icon: (name) => `
             {
               name: \`${name}\`,
               sort: { compare: (a, b) => (a?.data[0].name > b?.data[0].name ? 1 : -1) },
@@ -220,53 +204,46 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
                 \`).join(' ')
               )
             }`,
-          };
-    
-          const createGridColumns = (columns,columnsName) => {
-            console.log("loulou",columns)
-            const allColumns = columns.flatMap((column, index) => {
-              console.log("kikou",column)
-              if (column == 'key') {
-                console.log(columnConfig['link'](column))
-                return columnConfig['link'](column);
-              } else {
-                const fieldTypeData = checkFieldExistence(jiraFields, column);
-                if (fieldTypeData === undefined) {
-                  return columnConfig["normal"](columnsName[index]);
-                } else if (fieldTypeData.type in fieldFunctions) {
-                  let fieldValue = '';
-                  let columnProcess = '';
-                  [fieldValue, columnProcess] = fieldFunctions[fieldTypeData.type](fieldValue, confluenceDomain);
-                  return columnConfig[columnProcess](columnsName[index]);
-                } else {
-                  return columnConfig["normal"](columnsName[index]);
-                }
-              }
-            }).filter(Boolean);
-            return `[${allColumns.join(',')}]`;
-          };
+        };
 
-          const createGridColumnsss = (columns,columnsName, title) => {
-            const gridColumns = columns.map((column, index) => {
-               const columnId = splitStrings([column])
-               const columnName = splitStrings([columnsName[index]])
-              const header = `{
-                name: '${title[index]}',
-                columns: ${createGridColumns(columnId,columnName)}
-              }`
-              return header;
-            });
-            return `[${gridColumns.join(',')}]`;
-          };
-          const gridjsColumnsss = createGridColumnsss(allColumnsId,allColumnsName,titles)
-          console.log(gridjsColumnsss)
-          const gridjsColumns = createGridColumns(splitedColumnsId,splitedColumnsName);
-          $(jiraJqlSnapshots[index]).append(
-            `<div id="gridjs${index}"></div>`,
-            `<script>
+        const createGridColumns = (columns: string[], columnsName: string[]) => {
+          const allColumns = columns.flatMap((column, index_) => {
+            const fieldTypeData = checkFieldExistence(jiraFields, column);
+
+            if (column === 'key') {
+              return columnConfig.link(column);
+            }
+
+            if (fieldTypeData === undefined || !(fieldTypeData.type in fieldFunctions)) {
+              return columnConfig.normal(columnsName[index_]);
+            }
+
+            const columnProcess = fieldFunctions[fieldTypeData.type]('', confluenceDomain);
+            return columnConfig[columnProcess[1]](columnsName[index_]);
+          }).filter(Boolean);
+
+          return `[${allColumns.join(',')}]`;
+        };
+
+        const createHeaderGridColumns = (columns, columnsName, title) => {
+          const gridColumns = columns.map((column, index__) => {
+            const columnId = splitStrings([column]);
+            const columnName = splitStrings([columnsName[index__]]);
+            const header = `{
+                name: '${title[index]} (Total: ${numberTicket[index__]})',
+                columns: ${createGridColumns(columnId, columnName)}
+              }`;
+            return header;
+          });
+          return `[${gridColumns.join(',')}]`;
+        };
+        const gridjsColumns = createHeaderGridColumns(allColumnsId, allColumnsName, titles);
+        $(jiraJqlSnapshots[index]).append(
+          `<div id="gridjs${index}"></div>`,
+          `<script>
           document.addEventListener('DOMContentLoaded', function () {
           new gridjs.Grid({
-            columns: ${gridjsColumnsss},
+            columns: ${gridjsColumns},
             data: ${JSON.stringify(preparedData)},
             sort: true,
             search: {
@@ -288,14 +265,16 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
           }).render(document.getElementById("gridjs${index}"));
           })
           </script>`,
-          );
-        };
-    
-        await processJqlsWithKeys(jqls, columnIdsString);
+        );
+      };
+      await processJqlsWithKeys(jqls, jiraFields_);
+    }
+  };
+  await processJqls();
+  /* eslint-enable no-await-in-loop */
+  /* eslint-enable no-return-await */
+  /* eslint-disable no-restricted-syntax */
 
-      }
-    };  
-    await processJqls();
     type Issues = {
       item: {
         expand: string;
@@ -306,148 +285,136 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
       };
       children: Issues[];
     };
+    interface Field {
+      data: string[];
+      name: string;
+      type: string;
+      gridtype: string;
+    }
 
-    function extractKeysColumns(issuesArray, allColumnsId): DataObject[] {
+    interface RowData {
+      [key: string]: {
+        data: any[];
+        name: string;
+        type: string;
+        gridtype: string;
+      };
+    }
+
+    type DataObject = Record<string, Field>;
+
+    function extractKeysColumns(issuesArray, allColumnsId, jiraFields): DataObject[] {
       const baseUrl = config.get('confluence.baseURL');
       const dataObjects: DataObject[] = [];
-      
-      issuesArray.forEach(issueArray => {
-        if (issueArray) {
-          const rowData: RowData = {};
-          issueArray.forEach((issue, index) => {
-            if (issue && allColumnsId[index].includes('key')) {
-              rowData[`${'key'}${index}`]= {
+
+      issuesArray.forEach((issueArray) => {
+        if (!issueArray) return;
+
+        const rowData: RowData = {};
+
+        issueArray.forEach((issue, levelIndex) => {
+          const columns = splitStrings([allColumnsId[levelIndex]]);
+          columns.forEach((column) => {
+            const isKeyColumn = column === 'key';
+            const fieldTypeData = checkFieldExistence(jiraFields, column);
+
+            let fieldValue = issue.fields[column];
+            let columnProcess = '';
+
+            if (isKeyColumn) {
+              rowData[`key${levelIndex}`] = {
                 data: [FieldInterfaces.createLinkObject(issue.key, baseUrl)],
                 name: 'Key',
                 type: 'issuelinks',
                 gridtype: 'link',
               };
+            } else if (fieldTypeData === undefined) {
+              fieldValue = ['column undefined'];
+              columnProcess = 'normal';
+            } else if (fieldTypeData.type in fieldFunctions) {
+              [fieldValue, columnProcess] = fieldFunctions[fieldTypeData.type](fieldValue, baseUrl);
+            } else {
+              fieldValue = ['Type not treated'];
+              columnProcess = 'normal';
             }
-            if (issue.fields) {
-              Object.keys(issue.fields).forEach(key => {
-                const fieldTypeData = checkFieldExistence(jiraFields, key);
-                let fieldValue = issue.fields[key];
-                let columnProcess = '';
-    
-                if (fieldTypeData === undefined) {
-                  fieldValue = ['column undefined'];
-                  columnProcess = 'normal';
-                  rowData[`${key}${index}`] = {
-                    data: fieldValue,
-                    name: key,
-                    type: 'string',
-                    gridtype: columnProcess,
-                  };
-                } else {
-                  if (fieldTypeData.type in fieldFunctions) {
-                    [fieldValue, columnProcess] = fieldFunctions[fieldTypeData.type](fieldValue, baseUrl);
-                  } else {
-                    fieldValue = ['Type not treated'];
-                    columnProcess = 'normal';
-                  }
-    
-                  rowData[`${key}${index}`] = {
-                    data: fieldValue,
-                    name: fieldTypeData.name,
-                    type: fieldTypeData.type,
-                    gridtype: columnProcess,
-                  };
-                }
-              });
+
+            if (!isKeyColumn) {
+              rowData[`${column}${levelIndex}`] = {
+                data: fieldValue,
+                name: fieldTypeData ? fieldTypeData.name : column,
+                type: fieldTypeData ? fieldTypeData.type : 'string',
+                gridtype: columnProcess,
+              };
             }
           });
-          dataObjects.push(rowData);
-        }
+        });
+
+        dataObjects.push(rowData);
       });
-    
+
       return dataObjects;
     }
-    
+
     function traverseIssues(issue: Issues, parentStructure: Issues['item'][] = []): Issues['item'][][] {
       // Append the current issue's item to the parent structure
       const currentStructure = [...parentStructure, issue.item];
-    
       // If the current issue has no children, return the current structure
       if (!issue.children || issue.children.length === 0) {
         return [currentStructure];
       }
-    
       // Otherwise, traverse each child and accumulate the results
-      let results: Issues['item'][][] = [];
-      for (const child of issue.children) {
-        results = results.concat(traverseIssues(child, currentStructure));
-      }
-    
-      return results;
+      return issue.children.reduce((results, child) => results.concat(traverseIssues(child, currentStructure)), []);
     }
+
     function extractKeys(issuesResponse: any[][]): string[] {
       const keys: string[] = [];
 
-      issuesResponse.forEach(issueArray => {
-        issueArray.forEach(issue => {
+      issuesResponse.forEach((issueArray) => {
+        issueArray.forEach((issue) => {
           if (issue.key) {
             keys.push(issue.key);
           }
         });
-      });   
+      });
       return keys;
     }
     function splitStrings(inputArray: string[]): string[] {
-      return inputArray.flatMap(str => str.split(','));
+      return inputArray.flatMap((str) => str.split(','));
     }
-    
-    
+
     function buildHierarchy(data: any[][][]): Issues[] {
       const hierarchy = [];
-    
+
       // Parcourir le premier niveau de données
       data[0][0].forEach((item: any, index: number) => {
         const node = {
-          item: item,
-          children: buildChildren(data, 1, index)
+          item,
+          children: buildChildren(data, 1, index),
         };
         hierarchy.push(node);
       });
-      
+
       return hierarchy;
     }
-    
+
     function buildChildren(data: any[][][], level: number, parentIndex: number): Issues[] {
       const children = [];
-    
+
       // Si le niveau dépasse la profondeur des données, retourner les enfants actuels
       if (level >= data.length) {
         return children;
       }
-    
+
       // Parcourir les éléments du niveau actuel et ajouter des enfants
       data[level][parentIndex].forEach((childItem: any, index: number) => {
         const childNode = {
           item: childItem,
-          children: buildChildren(data, level + 1, index)
+          children: buildChildren(data, level + 1, index),
         };
         children.push(childNode);
       });
       return children;
     }
 
-  interface Field {
-    data: string[];
-    name: string;
-    type: string;
-    gridtype: string;
-  }
-
-  interface RowData {
-    [key: string]: {
-      data: any[];
-      name: string;
-      type: string;
-      gridtype: string;
-    };
-  }
-
-  type DataObject = Record<string, Field>;
-     
-  context.getPerfMeasure('addJiraSnapshot');
+    context.getPerfMeasure('addJiraSnapshot');
 };
