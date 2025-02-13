@@ -8,7 +8,6 @@ import * as FieldInterfaces from '../dto/FieldInterface';
 export default (config: ConfigService, jiraService: JiraService): Step => async (context: ContextService): Promise<void> => {
   context.setPerfMark('addJira');
   const $ = context.getCheerioBody();
-  const $xml = cheerio.load(context.getBodyStorage(), { xmlMode: true });
   const basePath = config.get('web.basePath');
   const version = config.get('version');
   const confluenceDomain = config.get('confluence.baseURL');
