@@ -118,6 +118,7 @@ export class JiraService {
     } else {
       // Load new base URL and credencials if defined a specific connection for Jira as ENV variables
       const key = `CPV_JIRA_${server.replace(/\s/, '_')}`;
+      console.log(key)
       const baseUrl = process.env[`${key}_BASE_URL`];
       if (baseUrl) {
         this.baseUrl = baseUrl;

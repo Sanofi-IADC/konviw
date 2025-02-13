@@ -51,6 +51,7 @@ import addMessageLastSlide from './steps/addMessageLastSlide';
 import addPDF from './steps/addPDF';
 import fixProfilePicture from './steps/fixProfilePicture';
 import fixEmbeddedFile from './steps/fixEmbeddedFile';
+import addJiraSnapshot from './steps/addJiraSnapshot';
 
 @Injectable()
 export class ProxyPageService {
@@ -106,6 +107,7 @@ export class ProxyPageService {
     );
     const contextType = this.context.getType();
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
+    const addJiraSnapshotPromise = addJiraSnapshot(this.config, this.jira)(this.context);
     await getExcerptAndHeaderImage(this.config, this.confluence)(this.context);
     fixHtmlHead(this.config)(this.context);
     fixContentWidth()(this.context);
@@ -151,6 +153,7 @@ export class ProxyPageService {
     addCopyLinks()(this.context);
     addWebStatsTracker(this.config)(this.context);
     await addJiraPromise;
+    await addJiraSnapshotPromise;
     addLibrariesJS()(this.context);
     addUnsupportedMacroIndicator()(this.context);
     await addPDF(this.confluence)(this.context);
@@ -185,6 +188,7 @@ export class ProxyPageService {
       content,
     );
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
+    const addJiraSnapshotPromise = addJiraSnapshot(this.config, this.jira)(this.context);
     addSlidesCSS(this.config)(this.context);
     fixHtmlHead(this.config)(this.context);
     fixUserProfile()(this.context);
@@ -208,6 +212,7 @@ export class ProxyPageService {
     // addTableResponsive()(this.context);
     delUnnecessaryCode()(this.context);
     await addJiraPromise;
+    await addJiraSnapshotPromise;
     addSlideTypeByStrategy(this.config)(this.context);
     addSlidesJS(this.config)(this.context);
     addMessageLastSlide()(this.context);
