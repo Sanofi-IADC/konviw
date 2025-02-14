@@ -125,21 +125,20 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
             allColumns[field.label] = field.value.id;
           });
           console.log("result",allColumns)
-          // Joindre les colonnes en une seule chaîne séparée par des virgules et l'ajouter à allColumnsFormatted
           allColumnsId.push(columnsId.join(','));
           allColumnsName.push(columnsName.join(','));
         });
       }
       const processJqlsWithKeys = async (jql, jiraFields) => {
-        let keys = []; // Définir keys en dehors de la boucle
+        let keys = [];
         const allIssues = [];
         let jirasIssuesTest = [];
         /* eslint-disable no-plusplus */
-        for (let i = 0; i < jql.length; i++) { // Correction de la condition de la boucle
+        for (let i = 0; i < jql.length; i++) {
           let child ='';
         /* eslint-enable no-plusplus */
           const issuesTest = [];
-          const apiCalls = []; // Nouveau tableau pour stocker les appels API
+          const apiCalls = []; 
 
           if (i === 0) {
             issuesTest.push({
@@ -165,16 +164,13 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
           }
 
           
-          // Ajouter les appels API au nouveau tableau
           apiCalls.push(
             ...issuesTest.map(async (j) => await j.issues?.issues),
           );
 
-          // Attendre la résolution de toutes les promesses dans apiCalls
           jirasIssuesTest = await Promise.all(apiCalls);
           allIssues.push(jirasIssuesTest);
 
-          // Extraire les clés des résultats obtenus
           numberTicket.push(keys.length);
         }
 
@@ -414,7 +410,6 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
     function buildHierarchy(data: any[][][]): Issues[] {
       const hierarchy = [];
 
-      // Parcourir le premier niveau de données
       data[0][0].forEach((item: any, index: number) => {
         const node = {
           item,
@@ -429,12 +424,10 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
     function buildChildren(data: any[][][], level: number, parentIndex: number): Issues[] {
       const children = [];
 
-      // Si le niveau dépasse la profondeur des données, retourner les enfants actuels
       if (level >= data.length) {
         return children;
       }
 
-      // Parcourir les éléments du niveau actuel et ajouter des enfants
       data[level][parentIndex].forEach((childItem: any, index: number) => {
         const childNode = {
           item: childItem,
