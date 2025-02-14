@@ -355,3 +355,24 @@ export const createLinkObject = (key, baseUrl, name = '') => ({
   name: name || key || '',
   link: key ? `${baseUrl}/browse/${key}?src=confmacro` : '',
 });
+
+export const fieldFunctions: {
+  [key: string]: (value: any, baseUrl?: string) => any;
+} = {
+  date: formatDate,
+  datetime: formatDateTime,
+  number: formatNumber,
+  option: formatOption,
+  user: formatUser,
+  priority: formatPriority,
+  string: formatString,
+  resolution: formatResolution,
+  version: formatVersion,
+  component: formatComponent,
+  team: formatTeam,
+  status: formatStatus,
+  issuetype: formatIssueType,
+  issuelinks: (value: any, baseUrl?: string) =>
+    formatIssueLinks(value, baseUrl),
+  json: formatJson,
+};

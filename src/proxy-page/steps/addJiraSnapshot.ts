@@ -36,26 +36,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
     jiraFields_ = result;
   });
 
-  const fieldFunctions: {
-      [key: string]: (value: any, baseUrl?: string) => any;
-    } = {
-      date: FieldInterfaces.formatDate,
-      datetime: FieldInterfaces.formatDateTime,
-      number: FieldInterfaces.formatNumber,
-      option: FieldInterfaces.formatOption,
-      user: FieldInterfaces.formatUser,
-      priority: FieldInterfaces.formatPriority,
-      string: FieldInterfaces.formatString,
-      resolution: FieldInterfaces.formatResolution,
-      version: FieldInterfaces.formatVersion,
-      component: FieldInterfaces.formatComponent,
-      team: FieldInterfaces.formatTeam,
-      status: FieldInterfaces.formatStatus,
-      issuetype: FieldInterfaces.formatIssueType,
-      issuelinks: (value: any, baseUrl?: string) =>
-        FieldInterfaces.formatIssueLinks(value, baseUrl),
-      json: FieldInterfaces.formatJson,
-    };
+  const fieldFunctions = FieldInterfaces.fieldFunctions
 
   const macroParamsList = [];
   $xml('ac\\:parameter[ac\\:name="macroParams"]').each((i, element) => {
@@ -70,6 +51,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
   $('body').append(
     `<script defer src="${basePath}/gridjs/gridjs.production.min.js?cache=${version}"></script>`,
   );
+  
   function getJqlVariables(jql: string): string {
     const variablePattern = /\$\s*"?([a-zA-Z0-9\s_]+)"?/g;
     const matches = jql.matchAll(variablePattern);
