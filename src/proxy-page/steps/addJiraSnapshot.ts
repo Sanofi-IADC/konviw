@@ -51,7 +51,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
   $('body').append(
     `<script defer src="${basePath}/gridjs/gridjs.production.min.js?cache=${version}"></script>`,
   );
-  
+
   function getJqlVariables(jql: string): string {
     const variablePattern = /\$\s*"?([a-zA-Z0-9\s_]+)"?/g;
     const matches = jql.matchAll(variablePattern);
@@ -78,26 +78,20 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
   const processJqls = async () => {
     for (const [index, params] of macroParamsList.entries()) {
       const jsonData = JSON.parse(params);
-      // Initialiser les tableaux pour chaque catégorie
       const jqls = [];
       const titles = [];
       const allColumnsId = [];
       const allColumnsName = [];
       const numberTicket = [];
       const allColumns: Record<string, string> = {};
-      // Vérifiez si jsonData contient des niveaux avant de les parcourir
+
       if (jsonData.levels) {
         jsonData.levels.forEach((level) => {
-          // Ajouter le JQL
           const cleanedJql = level.jql.replace(/\n/g, '');
           jqls.push(cleanedJql);
-
-          // Ajouter le titre
           titles.push(level.title);
-
-          // Ajouter les colonnes (fieldsPosition)
           const columnsId = [];
-          const columnsName = []; // Utiliser un tableau pour stocker les noms des colonnes de ce niveau
+          const columnsName = [];
           level.fieldsPosition.forEach((field) => {
             columnsId.push(field.value.id);
             columnsName.push(field.label);
@@ -106,7 +100,6 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
           level.fieldsPosition.forEach((field) => {
             allColumns[field.label] = field.value.id;
           });
-          console.log("result",allColumns)
           allColumnsId.push(columnsId.join(','));
           allColumnsName.push(columnsName.join(','));
         });
