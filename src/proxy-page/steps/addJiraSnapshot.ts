@@ -13,6 +13,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
   const version = config.get('version');
   const confluenceDomain = config.get('confluence.baseURL');
 
+  
   const checkFieldExistence = (fields, idToCheck: string): { name: string, type: string | undefined, isArray?: boolean } | undefined => {
     const targetedField = fields.find((field) => field.id === idToCheck);
     if (targetedField) {
@@ -69,7 +70,19 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
   $('body').append(
     `<script defer src="${basePath}/gridjs/gridjs.production.min.js?cache=${version}"></script>`,
   );
-
+  function getJqlVariables(jql: string): string {
+    const variablePattern = /\$\s*"?([a-zA-Z0-9\s_]+)"?/g;
+    const matches = jql.matchAll(variablePattern);
+    const variables: string[] = [];
+  
+    for (const match of matches) {
+      if (match[1]) {
+        variables.push(match[1].trim());
+      }
+    }
+  
+    return variables.join(', ');
+  }
   const jiraJqlSnapshots = [];
 
   // Select elements with the attribute data-macro-name="jira-jql-snapshot"
@@ -89,6 +102,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
       const allColumnsId = [];
       const allColumnsName = [];
       const numberTicket = [];
+      const allColumns: Record<string, string> = {};
       // Vérifiez si jsonData contient des niveaux avant de les parcourir
       if (jsonData.levels) {
         jsonData.levels.forEach((level) => {
@@ -106,6 +120,11 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
             columnsId.push(field.value.id);
             columnsName.push(field.label);
           });
+          
+          level.fieldsPosition.forEach((field) => {
+            allColumns[field.label] = field.value.id;
+          });
+          console.log("result",allColumns)
           // Joindre les colonnes en une seule chaîne séparée par des virgules et l'ajouter à allColumnsFormatted
           allColumnsId.push(columnsId.join(','));
           allColumnsName.push(columnsName.join(','));
@@ -114,8 +133,10 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
       const processJqlsWithKeys = async (jql, jiraFields) => {
         let keys = []; // Définir keys en dehors de la boucle
         const allIssues = [];
+        let jirasIssuesTest = [];
         /* eslint-disable no-plusplus */
         for (let i = 0; i < jql.length; i++) { // Correction de la condition de la boucle
+          let child ='';
         /* eslint-enable no-plusplus */
           const issuesTest = [];
           const apiCalls = []; // Nouveau tableau pour stocker les appels API
@@ -129,8 +150,10 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
               },
             });
           } else {
+            child = getJqlVariables(jqls[i]);
+            keys = extractKeys(jirasIssuesTest,allColumns,child);
             keys.forEach((key) => {
-              const newJql = jqls[i].replace(/\$key/g, key);
+              const newJql = jqls[i].replace(new RegExp(`\\$${child}`, 'g'), `${key}`);
               issuesTest.push({
                 issues: {
                   issues: jiraService
@@ -141,17 +164,17 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
             });
           }
 
+          
           // Ajouter les appels API au nouveau tableau
           apiCalls.push(
             ...issuesTest.map(async (j) => await j.issues?.issues),
           );
 
           // Attendre la résolution de toutes les promesses dans apiCalls
-          const jirasIssuesTest = await Promise.all(apiCalls);
+          jirasIssuesTest = await Promise.all(apiCalls);
           allIssues.push(jirasIssuesTest);
 
           // Extraire les clés des résultats obtenus
-          keys = extractKeys(jirasIssuesTest);
           numberTicket.push(keys.length);
         }
 
@@ -366,18 +389,24 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
       return issue.children.reduce((results, child) => results.concat(traverseIssues(child, currentStructure)), []);
     }
 
-    function extractKeys(issuesResponse: any[][]): string[] {
+    function extractKeys(issuesResponse: any[][], columnObject: Record<string, string>, child: string): string[] {
       const keys: string[] = [];
-
       issuesResponse.forEach((issueArray) => {
-        issueArray.forEach((issue) => {
-          if (issue.key) {
+        if (child === 'key') {
+          issueArray.forEach((issue) => {
             keys.push(issue.key);
-          }
-        });
+          });
+        } else {
+          issueArray.forEach((issue) => {
+            if (issue.fields[columnObject[child]]) {
+              keys.push(issue.fields[columnObject[child]]);
+            }
+          });
+        }
       });
       return keys;
     }
+    
     function splitStrings(inputArray: string[]): string[] {
       return inputArray.flatMap((str) => str.split(','));
     }
