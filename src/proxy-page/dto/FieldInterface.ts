@@ -1,3 +1,5 @@
+import { flatMap } from "rxjs";
+
 export interface StatusCategory {
   self: string;
   id: number;
@@ -71,6 +73,19 @@ export const isOption = (obj: any): obj is Option =>
   && 'self' in obj
   && 'value' in obj
   && 'id' in obj;
+
+export interface Votes {
+  self: string;
+  votes: number;
+  hasVoted: boolean;
+}
+
+export const isVotes = (obj: any): obj is Votes =>
+  obj
+  && typeof obj === 'object'
+  && 'self' in obj
+  && 'votes' in obj
+  && 'hasVoted' in obj;
 
 export interface User {
   self: string;
@@ -335,16 +350,27 @@ export const formatDate = (dateString) => {
   return [[formatted], 'date'];
 };
 
+export const formatVotes = (value: any) => {
+  const votes = getAllValues(value, isVotes, 'votes');
+  return [votes, 'normal'];
+};
+
+
+
 export const formatNumber = (number) => [[number || ''], 'normal'];
 
 export const formatString = (string) => {
   if (string?.content) {
     const flatMapResult = string.content.flatMap((item) => item.content);
-    const mappedResult = flatMapResult.map((subItem) => ({
-      text: getAllValues(subItem, isStringContent, 'text').join(' '),
-      type: subItem.type,
-    }));
-    return [[mappedResult[0]?.text ?? ''], 'normal'];
+    const mappedResults = flatMapResult.map((subItem) => {
+      
+      if (subItem.type === 'inlineCard') {
+        return subItem.attrs.url
+      }
+      return getAllValues(subItem, isStringContent, 'text');
+    });
+    const combinedString = mappedResults.flat().join(' ');
+    return [[combinedString ?? ''], 'normal'];
   } if (string) {
     return [[string], 'normal'];
   }
@@ -368,6 +394,7 @@ export const fieldFunctions: {
   string: formatString,
   resolution: formatResolution,
   version: formatVersion,
+  votes: formatVotes,
   component: formatComponent,
   team: formatTeam,
   status: formatStatus,

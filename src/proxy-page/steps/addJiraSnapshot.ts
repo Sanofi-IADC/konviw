@@ -4,6 +4,8 @@ import { JiraService } from '../../jira/jira.service';
 import { Step } from '../proxy-page.step';
 import { ContextService } from '../../context/context.service';
 import * as FieldInterfaces from '../dto/FieldInterface';
+import { json } from 'stream/consumers';
+import * as jiraGrid from '../utils/jiraGrid'
 
 export default (config: ConfigService, jiraService: JiraService): Step => async (context: ContextService): Promise<void> => {
   context.setPerfMark('addJiraSnapshot');
@@ -13,7 +15,6 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
   const version = config.get('version');
   const confluenceDomain = config.get('confluence.baseURL');
 
-  
   const checkFieldExistence = (fields, idToCheck: string): { name: string, type: string | undefined, isArray?: boolean } | undefined => {
     const targetedField = fields.find((field) => field.id === idToCheck);
     if (targetedField) {
@@ -37,7 +38,8 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
   });
 
   const fieldFunctions = FieldInterfaces.fieldFunctions
-
+  const columnConfig = jiraGrid.columnConfig
+  const createGridTable = jiraGrid.createTable
   const macroParamsList = [];
   $xml('ac\\:parameter[ac\\:name="macroParams"]').each((i, element) => {
     const macroParams = $(element).text();
@@ -52,19 +54,6 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
     `<script defer src="${basePath}/gridjs/gridjs.production.min.js?cache=${version}"></script>`,
   );
 
-  function getJqlVariables(jql: string): string {
-    const variablePattern = /\$\s*"?([a-zA-Z0-9\s_]+)"?/g;
-    const matches = jql.matchAll(variablePattern);
-    const variables: string[] = [];
-  
-    for (const match of matches) {
-      if (match[1]) {
-        variables.push(match[1].trim());
-      }
-    }
-  
-    return variables.join(', ');
-  }
   const jiraJqlSnapshots = [];
 
   // Select elements with the attribute data-macro-name="jira-jql-snapshot"
@@ -78,13 +67,14 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
   const processJqls = async () => {
     for (const [index, params] of macroParamsList.entries()) {
       const jsonData = JSON.parse(params);
+      console.log(params)
       const jqls = [];
       const titles = [];
+      const levelType =[];
       const allColumnsId = [];
       const allColumnsName = [];
       const numberTicket = [];
-      const allColumns: Record<string, string> = {};
-
+      const allColumns = {};
       if (jsonData.levels) {
         jsonData.levels.forEach((level) => {
           const cleanedJql = level.jql.replace(/\n/g, '');
@@ -92,11 +82,11 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
           titles.push(level.title);
           const columnsId = [];
           const columnsName = [];
+          levelType.push(level.levelType)
           level.fieldsPosition.forEach((field) => {
             columnsId.push(field.value.id);
             columnsName.push(field.label);
           });
-          
           level.fieldsPosition.forEach((field) => {
             allColumns[field.label] = field.value.id;
           });
@@ -104,6 +94,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
           allColumnsName.push(columnsName.join(','));
         });
       }
+      console.log(levelType)
       const processJqlsWithKeys = async (jql, jiraFields) => {
         let keys = [];
         const allIssues = [];
@@ -124,28 +115,31 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
               },
             });
           } else {
-            child = getJqlVariables(jqls[i]);
-            keys = extractKeys(jirasIssuesTest,allColumns,child);
-            keys.forEach((key) => {
-              const newJql = jqls[i].replace(new RegExp(`\\$${child}`, 'g'), `${key}`);
-              issuesTest.push({
-                issues: {
-                  issues: jiraService
-                    .findTickets('System JIRA', newJql, allColumnsId[i])
-                    .then((res) => res?.data?.issues ?? []),
-                },
+            if (levelType[i] != 'XRAY_TESTRUNS')
+            {
+              child = getJqlVariables(jqls[i]);
+              keys = extractKeys(jirasIssuesTest,allColumns,child);
+              keys.forEach((key) => {
+                const newJql = jqls[i].replace(new RegExp(`\\$${child}`, 'g'), `${key}`);
+                issuesTest.push({
+                  issues: {
+                    issues: jiraService
+                      .findTickets('System JIRA', newJql, allColumnsId[i])
+                      .then((res) => res?.data?.issues ?? []),
+                  },
+                });
               });
-            });
+            }
           }
 
           
           apiCalls.push(
             ...issuesTest.map(async (j) => await j.issues?.issues),
           );
-
           jirasIssuesTest = await Promise.all(apiCalls);
-          allIssues.push(jirasIssuesTest);
-
+          if (jirasIssuesTest.length > 0) {
+            allIssues.push(jirasIssuesTest);
+          }
           numberTicket.push(keys.length);
         }
 
@@ -153,52 +147,6 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
         const duplicatedIssue = HierarchiedIssues.flatMap((issue) => traverseIssues(issue));
         const gridData = extractKeysColumns(duplicatedIssue, allColumnsId, jiraFields);
         const preparedData = gridData.map((obj) => Object.values(obj));
-
-        const columnConfig = {
-          link: (name) => `{
-              name: \`${name}\`,
-              sort: { compare: (a, b) => (a?.data.name > b?.data.name ? 1 : -1) },
-              formatter: (cell) => gridjs.html(cell?.data.map((item) => \`<a href="\${item.link}" target="_blank">\${item.name}</a>\`).join(' '))
-            }`,
-          date: (name) => `{
-                name: \`${name}\`,
-                sort: {
-                compare: (a, b) => {
-                  var dateA = new Date(a?.data);
-                  var dateB = new Date(b?.data);
-                  return dateA > dateB ? 1 : (dateA < dateB ? -1 : 0);
-              }
-            },
-              formatter: (cell) => gridjs.html(cell?.data.map((item) => \`\${item}\`))
-            }`,
-          normal: (name) => `{
-              name: \`${name}\`,
-              sort: { compare: (a, b) => (a?.data > b?.data ? 1 : -1) },
-              formatter: (cell) => gridjs.html(cell?.data.map((item) => \`\${item}\`).join(' '))
-            }`,
-          status: (name) => `
-            {
-              name: \`${name}\`,
-              sort: { compare: (a, b) => (a?.data[0].name > b?.data[0].name ? 1 : -1) },
-              formatter: (cell) => gridjs.html(
-                cell?.data.map(item => \`
-                  <div class="aui-lozenge" style="background-color:\${item.color};color:darkgrey;font-size: 11px;">\${item.name}</div>
-                \`).join(' ')
-              )
-            }`,
-          icon: (name) => `
-            {
-              name: \`${name}\`,
-              sort: { compare: (a, b) => (a?.data[0].name > b?.data[0].name ? 1 : -1) },
-              formatter: (cell) => gridjs.html(
-                cell?.data.map(item => \`
-                  <div style="display: flex; align-items: center;">
-                    <img src="\${item.icon}" style="height:25px; margin-right: 5px;" />
-                  </div>
-                \`).join(' ')
-              )
-            }`,
-        };
 
         const createGridColumns = (columns: string[], columnsName: string[]) => {
           const allColumns = columns.flatMap((column, index_) => {
@@ -218,48 +166,26 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
 
           return `[${allColumns.join(',')}]`;
         };
-
-        const createHeaderGridColumns = (columns, columnsName, title) => {
-          const gridColumns = columns.map((column, index__) => {
+        const createHeaderGridColumns = (columns, columnsName, title, levelType, numberTicket) => {
+          const gridColumns = columns.map((column, indexLevel) => {
             const columnId = splitStrings([column]);
-            const columnName = splitStrings([columnsName[index__]]);
+            const columnName = splitStrings([columnsName[indexLevel]]);
+            const name = levelType[indexLevel] === 'XRAY_TESTRUNS'
+              ? 'TEST RUN NOT SUPPORTED YET'
+              : `${title[indexLevel]} (Total: ${numberTicket[indexLevel]})`;
+        
             const header = `{
-                name: '${title[index]} (Total: ${numberTicket[index__]})',
-                columns: ${createGridColumns(columnId, columnName)}
-              }`;
+              name: '${name}',
+              columns: ${createGridColumns(columnId, columnName)}
+            }`;
+        
             return header;
           });
+        
           return `[${gridColumns.join(',')}]`;
         };
-        const gridjsColumns = createHeaderGridColumns(allColumnsId, allColumnsName, titles);
-        $(jiraJqlSnapshots[index]).append(
-          `<div id="gridjs${index}"></div>`,
-          `<script>
-          document.addEventListener('DOMContentLoaded', function () {
-          new gridjs.Grid({
-            columns: ${gridjsColumns},
-            data: ${JSON.stringify(preparedData)},
-            sort: true,
-            search: {
-              enabled: true,
-              selector: (cell, rowIndex, cellIndex) => cell?.data?.map(item => item?.name).filter(name => name).join(', ') || cell?.data 
-            },
-            width: '100%',
-            style: {
-              td: {
-                padding: '5px 5px',
-                maxWidth: '500px',
-                minWidth: '25px',
-                overflow: 'auto',
-              },
-              th: {
-                padding: '5px 5px'
-              }
-            }
-          }).render(document.getElementById("gridjs${index}"));
-          })
-          </script>`,
-        );
+        const gridjsColumns = createHeaderGridColumns(allColumnsId, allColumnsName, titles,levelType,numberTicket);
+        $(jiraJqlSnapshots[index]).append(createGridTable(index,gridjsColumns,preparedData))
       };
       await processJqlsWithKeys(jqls, jiraFields_);
     }
@@ -269,33 +195,6 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
   /* eslint-enable no-return-await */
   /* eslint-disable no-restricted-syntax */
 
-    type Issues = {
-      item: {
-        expand: string;
-        id: string;
-        self: string;
-        key: string;
-        fields: Record<string, any>;
-      };
-      children: Issues[];
-    };
-    interface Field {
-      data: string[];
-      name: string;
-      type: string;
-      gridtype: string;
-    }
-
-    interface RowData {
-      [key: string]: {
-        data: any[];
-        name: string;
-        type: string;
-        gridtype: string;
-      };
-    }
-
-    type DataObject = Record<string, Field>;
 
     function extractKeysColumns(issuesArray, allColumnsId, jiraFields): DataObject[] {
       const baseUrl = config.get('confluence.baseURL');
@@ -348,70 +247,113 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
 
       return dataObjects;
     }
-
-    function traverseIssues(issue: Issues, parentStructure: Issues['item'][] = []): Issues['item'][][] {
-      // Append the current issue's item to the parent structure
-      const currentStructure = [...parentStructure, issue.item];
-      // If the current issue has no children, return the current structure
-      if (!issue.children || issue.children.length === 0) {
-        return [currentStructure];
-      }
-      // Otherwise, traverse each child and accumulate the results
-      return issue.children.reduce((results, child) => results.concat(traverseIssues(child, currentStructure)), []);
-    }
-
-    function extractKeys(issuesResponse: any[][], columnObject: Record<string, string>, child: string): string[] {
-      const keys: string[] = [];
-      issuesResponse.forEach((issueArray) => {
-        if (child === 'key') {
-          issueArray.forEach((issue) => {
-            keys.push(issue.key);
-          });
-        } else {
-          issueArray.forEach((issue) => {
-            if (issue.fields[columnObject[child]]) {
-              keys.push(issue.fields[columnObject[child]]);
-            }
-          });
-        }
-      });
-      return keys;
-    }
-    
-    function splitStrings(inputArray: string[]): string[] {
-      return inputArray.flatMap((str) => str.split(','));
-    }
-
-    function buildHierarchy(data: any[][][]): Issues[] {
-      const hierarchy = [];
-
-      data[0][0].forEach((item: any, index: number) => {
-        const node = {
-          item,
-          children: buildChildren(data, 1, index),
-        };
-        hierarchy.push(node);
-      });
-
-      return hierarchy;
-    }
-
-    function buildChildren(data: any[][][], level: number, parentIndex: number): Issues[] {
-      const children = [];
-
-      if (level >= data.length) {
-        return children;
-      }
-
-      data[level][parentIndex].forEach((childItem: any, index: number) => {
-        const childNode = {
-          item: childItem,
-          children: buildChildren(data, level + 1, index),
-        };
-        children.push(childNode);
-      });
-      return children;
-    }
-
     context.getPerfMeasure('addJiraSnapshot');
 };
+
+function traverseIssues(issue: Issues, parentStructure: Issues['item'][] = []): Issues['item'][][] {
+  // Append the current issue's item to the parent structure
+  const currentStructure = [...parentStructure, issue.item];
+  // If the current issue has no children, return the current structure
+  if (!issue.children || issue.children.length === 0) {
+    return [currentStructure];
+  }
+  // Otherwise, traverse each child and accumulate the results
+  return issue.children.reduce((results, child) => results.concat(traverseIssues(child, currentStructure)), []);
+}
+
+
+function extractKeys(issuesResponse: any[][], columnObject: Record<string, string>, child: string): string[] {
+  const keys: string[] = [];
+  issuesResponse.forEach((issueArray) => {
+    if (child === 'key') {
+      issueArray.forEach((issue) => {
+        keys.push(issue.key);
+      });
+    } else {
+      issueArray.forEach((issue) => {
+        if (issue.fields[columnObject[child]]) {
+          keys.push(issue.fields[columnObject[child]]);
+        }
+      });
+    }
+  });
+  return keys;
+}
+
+function splitStrings(inputArray: string[]): string[] {
+  return inputArray.flatMap((str) => str.split(','));
+}
+
+function getJqlVariables(jql: string): string {
+  const variablePattern = /\$\s*"?([a-zA-Z0-9\s_]+)"?/g;
+  const matches = jql.matchAll(variablePattern);
+  const variables: string[] = [];
+
+  for (const match of matches) {
+    if (match[1]) {
+      variables.push(match[1].trim());
+    }
+  }
+
+  return variables.join(', ');
+}
+
+function buildChildren(data: any[][][], level: number, parentIndex: number): Issues[] {
+  const children = [];
+
+  if (level >= data.length) {
+    return children;
+  }
+
+  data[level][parentIndex].forEach((childItem: any, index: number) => {
+    const childNode = {
+      item: childItem,
+      children: buildChildren(data, level + 1, index),
+    };
+    children.push(childNode);
+  });
+  return children;
+}
+
+
+function buildHierarchy(data: any[][][]): Issues[] {
+  const hierarchy = [];
+
+  data[0][0].forEach((item: any, index: number) => {
+    const node = {
+      item,
+      children: buildChildren(data, 1, index),
+    };
+    hierarchy.push(node);
+  });
+
+  return hierarchy;
+}
+
+type Issues = {
+  item: {
+    expand: string;
+    id: string;
+    self: string;
+    key: string;
+    fields: Record<string, any>;
+  };
+  children: Issues[];
+};
+interface Field {
+  data: string[];
+  name: string;
+  type: string;
+  gridtype: string;
+}
+
+interface RowData {
+  [key: string]: {
+    data: any[];
+    name: string;
+    type: string;
+    gridtype: string;
+  };
+}
+
+type DataObject = Record<string, Field>;
