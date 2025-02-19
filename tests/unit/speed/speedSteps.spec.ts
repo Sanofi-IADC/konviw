@@ -62,6 +62,9 @@ describe('Speed / Steps', () => {
       case 'fixLinks': {
         return jiraMockServiceFactory;
       }
+      case 'addJiraSnapshot':{
+        return jiraMockServiceFactory
+      }
       default: {};
     }
   }

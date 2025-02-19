@@ -14,12 +14,6 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
   const version = config.get('version');
   const confluenceDomain = config.get('confluence.baseURL');
 
-  let jiraFields_ = [];
-  const promise = jiraService.getFields();
-  await promise.then((result) => {
-    jiraFields_ = result;
-  });
-
   const { fieldFunctions } = FieldInterfaces;
   const { columnConfig } = jiraGrid;
   const createGridTable = jiraGrid.createTable;
@@ -43,6 +37,12 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
   $xml('ac\\:parameter[ac\\:name="macroParams"]').each((i, element) => {
     const macroParams = $(element).text();
     macroParamsList.push(macroParams);
+  });
+
+  let jiraFields_ = [];
+  const promise = jiraService.getFields();
+  await promise.then((result) => {
+    jiraFields_ = result;
   });
 
   const processJqlsWithKeys = async (jqlParams: JqlParams, jiraFields, index) => {
