@@ -357,11 +357,14 @@ export const formatNumber = (number) => [[number || ''], 'normal'];
 export const formatString = (string) => {
   if (string?.content) {
     const flatMapResult = string.content.flatMap((item) => item.content);
-    const mappedResult = flatMapResult.filter(Boolean).map((subItem) => ({
-      text: getAllValues(subItem, isStringContent, 'text').join(' '),
-      type: subItem.type,
-    }));
-    return [[mappedResult[0]?.text ?? ''], 'normal'];
+    const mappedResults = flatMapResult.map((subItem) => {
+      if (subItem.type === 'inlineCard') {
+        return subItem.attrs.url;
+      }
+      return getAllValues(subItem, isStringContent, 'text');
+    });
+    const combinedString = mappedResults.flat().join(' ');
+    return [[combinedString ?? ''], 'normal'];
   } if (string) {
     return [[string], 'normal'];
   }
@@ -372,3 +375,25 @@ export const createLinkObject = (key, baseUrl, name = '') => ({
   name: name || key || '',
   link: key ? `${baseUrl}/browse/${key}?src=confmacro` : '',
 });
+
+export const fieldFunctions: {
+  [key: string]: (value: any, baseUrl?: string) => any;
+} = {
+  date: formatDate,
+  datetime: formatDateTime,
+  number: formatNumber,
+  option: formatOption,
+  user: formatUser,
+  priority: formatPriority,
+  string: formatString,
+  resolution: formatResolution,
+  version: formatVersion,
+  votes: formatVotes,
+  component: formatComponent,
+  team: formatTeam,
+  status: formatStatus,
+  issuetype: formatIssueType,
+  issuelinks: (value: any, baseUrl?: string) =>
+    formatIssueLinks(value, baseUrl),
+  json: formatJson,
+};
