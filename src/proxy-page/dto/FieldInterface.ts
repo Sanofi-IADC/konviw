@@ -60,7 +60,6 @@ export const isIssue = (obj: any): obj is Issue =>
   && 'id' in obj
   && 'key' in obj
   && 'self' in obj;
-
 export interface Option {
   self: string;
   value: string;

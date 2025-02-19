@@ -1,3 +1,42 @@
+# [3.42.0](https://github.com/Sanofi-IADC/konviw/compare/v3.41.0...v3.42.0) (2025-02-04)
+
+
+### Features
+
+* votes added if selected as field ([#603](https://github.com/Sanofi-IADC/konviw/issues/603)) ([0bac1cf](https://github.com/Sanofi-IADC/konviw/commit/0bac1cf425b8a5044aae06599aff1c8fb59f6b3c))
+
+# [3.41.0](https://github.com/Sanofi-IADC/konviw/compare/v3.40.0...v3.41.0) (2025-02-03)
+
+
+### Features
+
+* WEB-2466 Changed depcreated upload-artifact v3 and moved to v4 ([9c19591](https://github.com/Sanofi-IADC/konviw/commit/9c19591fa4f3c60827b458570047a99f7f814474))
+* WEB-2466 Changed depcreated upload-artifact v3 and moved to v4 ([62e8cea](https://github.com/Sanofi-IADC/konviw/commit/62e8cead4c43af4d59fbb7f9becf482e26b06f3a))
+
+# [3.40.0](https://github.com/Sanofi-IADC/konviw/compare/v3.39.0...v3.40.0) (2025-01-17)
+
+
+### Features
+
+* WEB-2437 Added support for nested expansion macros ([f72cd24](https://github.com/Sanofi-IADC/konviw/commit/f72cd24ef265651b556b0c1c866b47636c64e541))
+* WEB-2437 Added support for nested expansion macros ([134e65b](https://github.com/Sanofi-IADC/konviw/commit/134e65b901a5405f860f3341479bf797b29a91e3))
+
+# [3.39.0](https://github.com/Sanofi-IADC/konviw/compare/v3.38.0...v3.39.0) (2025-01-17)
+
+
+### Features
+
+* WEB-2429 Improved jira snapshots macro rendering ([4c9b4a0](https://github.com/Sanofi-IADC/konviw/commit/4c9b4a0e8abac63d00e29162394453d3c7549051))
+* WEB-2429 Improved jira snapshots macro rendering ([e167772](https://github.com/Sanofi-IADC/konviw/commit/e1677723f7a45580cb124e83d2d2d71ce984a1a4))
+* WEB-2429 Sync with main ([d6c8448](https://github.com/Sanofi-IADC/konviw/commit/d6c8448481ff7aca16dd04feae210bb9a4400dec))
+
+# [3.38.0](https://github.com/Sanofi-IADC/konviw/compare/v3.37.0...v3.38.0) (2025-01-13)
+
+
+### Features
+
+* ARM-2020 Fix parameter name in getCustomContentsByTypeInSpace ([d446092](https://github.com/Sanofi-IADC/konviw/commit/d44609208c46fdddac0c7f3d9abc2609382efeb9))
+
 # [3.37.0](https://github.com/Sanofi-IADC/konviw/compare/v3.36.1...v3.37.0) (2025-01-07)
 
 
