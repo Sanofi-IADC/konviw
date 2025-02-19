@@ -1,4 +1,4 @@
-import { flatMap } from "rxjs";
+import { flatMap } from 'rxjs';
 
 export interface StatusCategory {
   self: string;
@@ -355,17 +355,14 @@ export const formatVotes = (value: any) => {
   return [votes, 'normal'];
 };
 
-
-
 export const formatNumber = (number) => [[number || ''], 'normal'];
 
 export const formatString = (string) => {
   if (string?.content) {
     const flatMapResult = string.content.flatMap((item) => item.content);
     const mappedResults = flatMapResult.map((subItem) => {
-      
       if (subItem.type === 'inlineCard') {
-        return subItem.attrs.url
+        return subItem.attrs.url;
       }
       return getAllValues(subItem, isStringContent, 'text');
     });

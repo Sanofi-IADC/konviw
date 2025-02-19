@@ -193,7 +193,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
     }
     return undefined;
   };
-  const fieldFunctions = FieldInterfaces.fieldFunctions
+  const { fieldFunctions } = FieldInterfaces;
 
   interface Field {
     data: string[];
@@ -268,7 +268,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
       // prepared data format for grid
       const preparedData = reorderedDataArray.map((obj) => Object.values(obj));
       /* eslint-disable no-template-curly-in-string */
-      const columnConfig = JiraTable.columnConfig
+      const { columnConfig } = JiraTable;
       const createColumns = (data) => `[${data.slice(0, 1).flatMap((obj) =>
         Object.keys(obj)
           .map((key) => {
@@ -279,7 +279,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
           })
           .filter(Boolean)).join(',')}]`;
       const gridjsColumns = createColumns(reorderedDataArray);
-      const createGridTable = JiraTable.createTable
+      const createGridTable = JiraTable.createTable;
       // remove the header
       $('div[id^="jira-issues-"]').remove();
 
@@ -289,7 +289,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
       // remove the actualize link
       $('.refresh-issues-bottom').remove();
 
-      $(element).before(createGridTable(index,gridjsColumns,preparedData));
+      $(element).before(createGridTable(index, gridjsColumns, preparedData));
       $(element).remove();
     },
   );

@@ -4,8 +4,7 @@ import { JiraService } from '../../jira/jira.service';
 import { Step } from '../proxy-page.step';
 import { ContextService } from '../../context/context.service';
 import * as FieldInterfaces from '../dto/FieldInterface';
-import { json } from 'stream/consumers';
-import * as jiraGrid from '../utils/jiraGrid'
+import * as jiraGrid from '../utils/jiraGrid';
 
 export default (config: ConfigService, jiraService: JiraService): Step => async (context: ContextService): Promise<void> => {
   context.setPerfMark('addJiraSnapshot');
@@ -15,36 +14,15 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
   const version = config.get('version');
   const confluenceDomain = config.get('confluence.baseURL');
 
-  const checkFieldExistence = (fields, idToCheck: string): { name: string, type: string | undefined, isArray?: boolean } | undefined => {
-    const targetedField = fields.find((field) => field.id === idToCheck);
-    if (targetedField) {
-      let type = targetedField.schema?.type;
-      let isArray = false;
-
-      if (type === 'array' && targetedField.schema?.items) {
-        type = targetedField.schema.items;
-        isArray = true;
-      }
-      const { name } = targetedField;
-      return { name, type, isArray };
-    }
-    return undefined;
-  };
-
   let jiraFields_ = [];
   const promise = jiraService.getFields();
   await promise.then((result) => {
     jiraFields_ = result;
   });
 
-  const fieldFunctions = FieldInterfaces.fieldFunctions
-  const columnConfig = jiraGrid.columnConfig
-  const createGridTable = jiraGrid.createTable
-  const macroParamsList = [];
-  $xml('ac\\:parameter[ac\\:name="macroParams"]').each((i, element) => {
-    const macroParams = $(element).text();
-    macroParamsList.push(macroParams);
-  });
+  const { fieldFunctions } = FieldInterfaces;
+  const { columnConfig } = jiraGrid;
+  const createGridTable = jiraGrid.createTable;
 
   // add the grid using http://gridjs.io library
   $('head').append(
@@ -61,194 +39,131 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
     jiraJqlSnapshots.push($(element));
   });
 
-  /* eslint-disable no-await-in-loop */
-  /* eslint-disable no-return-await */
-  /* eslint-disable no-restricted-syntax */
-  const processJqls = async () => {
-    for (const [index, params] of macroParamsList.entries()) {
-      const jsonData = JSON.parse(params);
-      console.log(params)
-      const jqls = [];
-      const titles = [];
-      const levelType =[];
-      const allColumnsId = [];
-      const allColumnsName = [];
-      const numberTicket = [];
-      const allColumns = {};
-      if (jsonData.levels) {
-        jsonData.levels.forEach((level) => {
-          const cleanedJql = level.jql.replace(/\n/g, '');
-          jqls.push(cleanedJql);
-          titles.push(level.title);
-          const columnsId = [];
-          const columnsName = [];
-          levelType.push(level.levelType)
-          level.fieldsPosition.forEach((field) => {
-            columnsId.push(field.value.id);
-            columnsName.push(field.label);
+  const macroParamsList = [];
+  $xml('ac\\:parameter[ac\\:name="macroParams"]').each((i, element) => {
+    const macroParams = $(element).text();
+    macroParamsList.push(macroParams);
+  });
+
+  const processJqlsWithKeys = async (jqlParams: JqlParams, jiraFields, index) => {
+    const allIssues = [];
+    let levelJiraIssues = [];
+    let keys = [];
+    /* eslint-disable no-plusplus */
+    for (let i = 0; i < jqlParams.jqls.length; i++) {
+      let child = '';
+      const jiraIssues = [];
+      const apiCalls = [];
+
+      if (i === 0) {
+        jiraIssues.push({
+          issues: {
+            issues: jiraService
+              .findTickets('System JIRA', jqlParams.jqls[i], jqlParams.allColumnsId[i])
+              .then((res) => res?.data?.issues ?? []),
+          },
+        });
+      } else if (jqlParams.levelType[i] !== 'XRAY_TESTRUNS') {
+        child = getJqlVariables(jqlParams.jqls[i]);
+        keys = extractKeys(levelJiraIssues, jqlParams.allColumns, child);
+        keys.forEach((key) => {
+          const newJql = jqlParams.jqls[i].replace(new RegExp(`\\$${child}`, 'g'), `${key}`);
+          jiraIssues.push({
+            issues: {
+              issues: jiraService
+                .findTickets('System JIRA', newJql, jqlParams.allColumnsId[i])
+                .then((res) => res?.data?.issues ?? []),
+            },
           });
-          level.fieldsPosition.forEach((field) => {
-            allColumns[field.label] = field.value.id;
-          });
-          allColumnsId.push(columnsId.join(','));
-          allColumnsName.push(columnsName.join(','));
         });
       }
-      console.log(levelType)
-      const processJqlsWithKeys = async (jql, jiraFields) => {
-        let keys = [];
-        const allIssues = [];
-        let jirasIssuesTest = [];
-        /* eslint-disable no-plusplus */
-        for (let i = 0; i < jql.length; i++) {
-          let child ='';
-        /* eslint-enable no-plusplus */
-          const issuesTest = [];
-          const apiCalls = []; 
 
-          if (i === 0) {
-            issuesTest.push({
-              issues: {
-                issues: jiraService
-                  .findTickets('System JIRA', jql[i], allColumnsId[i])
-                  .then((res) => res?.data?.issues ?? []),
-              },
-            });
-          } else {
-            if (levelType[i] != 'XRAY_TESTRUNS')
-            {
-              child = getJqlVariables(jqls[i]);
-              keys = extractKeys(jirasIssuesTest,allColumns,child);
-              keys.forEach((key) => {
-                const newJql = jqls[i].replace(new RegExp(`\\$${child}`, 'g'), `${key}`);
-                issuesTest.push({
-                  issues: {
-                    issues: jiraService
-                      .findTickets('System JIRA', newJql, allColumnsId[i])
-                      .then((res) => res?.data?.issues ?? []),
-                  },
-                });
-              });
-            }
-          }
-
-          
-          apiCalls.push(
-            ...issuesTest.map(async (j) => await j.issues?.issues),
-          );
-          jirasIssuesTest = await Promise.all(apiCalls);
-          if (jirasIssuesTest.length > 0) {
-            allIssues.push(jirasIssuesTest);
-          }
-          numberTicket.push(keys.length);
-        }
-
-        const HierarchiedIssues = buildHierarchy(allIssues);
-        const duplicatedIssue = HierarchiedIssues.flatMap((issue) => traverseIssues(issue));
-        const gridData = extractKeysColumns(duplicatedIssue, allColumnsId, jiraFields);
-        const preparedData = gridData.map((obj) => Object.values(obj));
-
-        const createGridColumns = (columns: string[], columnsName: string[]) => {
-          const allColumns = columns.flatMap((column, index_) => {
-            const fieldTypeData = checkFieldExistence(jiraFields, column);
-
-            if (column === 'key') {
-              return columnConfig.link(column);
-            }
-
-            if (fieldTypeData === undefined || !(fieldTypeData.type in fieldFunctions)) {
-              return columnConfig.normal(columnsName[index_]);
-            }
-
-            const columnProcess = fieldFunctions[fieldTypeData.type]('', confluenceDomain);
-            return columnConfig[columnProcess[1]](columnsName[index_]);
-          }).filter(Boolean);
-
-          return `[${allColumns.join(',')}]`;
-        };
-        const createHeaderGridColumns = (columns, columnsName, title, levelType, numberTicket) => {
-          const gridColumns = columns.map((column, indexLevel) => {
-            const columnId = splitStrings([column]);
-            const columnName = splitStrings([columnsName[indexLevel]]);
-            const name = levelType[indexLevel] === 'XRAY_TESTRUNS'
-              ? 'TEST RUN NOT SUPPORTED YET'
-              : `${title[indexLevel]} (Total: ${numberTicket[indexLevel]})`;
-        
-            const header = `{
-              name: '${name}',
-              columns: ${createGridColumns(columnId, columnName)}
-            }`;
-        
-            return header;
-          });
-        
-          return `[${gridColumns.join(',')}]`;
-        };
-        const gridjsColumns = createHeaderGridColumns(allColumnsId, allColumnsName, titles,levelType,numberTicket);
-        $(jiraJqlSnapshots[index]).append(createGridTable(index,gridjsColumns,preparedData))
-      };
-      await processJqlsWithKeys(jqls, jiraFields_);
+      apiCalls.push(...jiraIssues.map((j) => j.issues?.issues));
+      /* eslint-disable no-await-in-loop */
+      // order has to be respected
+      levelJiraIssues = await Promise.all(apiCalls);
+      /* eslint-disable no-await-in-loop */
+      if (levelJiraIssues.length > 0) {
+        allIssues.push(levelJiraIssues);
+      }
+      jqlParams.numberTicket.push(numberIssues(levelJiraIssues));
     }
+
+    // After fetching data we will build a hierarchy (parents, children of all levels)
+    const hierarchiedIssues = buildHierarchy(allIssues);
+
+    // To display the data, we will duplicate the values in a format where each child contains the path of all its parents
+    const duplicatedIssue = hierarchiedIssues.flatMap((issue) => traverseIssues(issue));
+
+    // Then based on the duplicate value we will build the row format for gridjs
+    const gridData = extractKeysColumns(duplicatedIssue, jqlParams.allColumnsId, jiraFields, fieldFunctions, confluenceDomain);
+    const preparedData = gridData.map((obj) => Object.values(obj));
+    const gridjsColumns = createHeaderGridColumns(jqlParams, jiraFields, columnConfig, fieldFunctions, confluenceDomain);
+    // Implementation of the gridjs table
+    $(jiraJqlSnapshots[index]).append(createGridTable(index, gridjsColumns, preparedData));
   };
-  await processJqls();
-  /* eslint-enable no-await-in-loop */
-  /* eslint-enable no-return-await */
-  /* eslint-disable no-restricted-syntax */
 
+  const promises = macroParamsList.map((params, index) => {
+    const jsonData = JSON.parse(params);
+    const jqlParams: JqlParams = {
+      jqls: [],
+      titles: [],
+      levelType: [],
+      allColumnsId: [],
+      allColumnsName: [],
+      numberTicket: [],
+      allColumns: {},
+    };
 
-    function extractKeysColumns(issuesArray, allColumnsId, jiraFields): DataObject[] {
-      const baseUrl = config.get('confluence.baseURL');
-      const dataObjects: DataObject[] = [];
-
-      issuesArray.forEach((issueArray) => {
-        if (!issueArray) return;
-
-        const rowData: RowData = {};
-
-        issueArray.forEach((issue, levelIndex) => {
-          const columns = splitStrings([allColumnsId[levelIndex]]);
-          columns.forEach((column) => {
-            const isKeyColumn = column === 'key';
-            const fieldTypeData = checkFieldExistence(jiraFields, column);
-
-            let fieldValue = issue.fields[column];
-            let columnProcess = '';
-
-            if (isKeyColumn) {
-              rowData[`key${levelIndex}`] = {
-                data: [FieldInterfaces.createLinkObject(issue.key, baseUrl)],
-                name: 'Key',
-                type: 'issuelinks',
-                gridtype: 'link',
-              };
-            } else if (fieldTypeData === undefined) {
-              fieldValue = ['column undefined'];
-              columnProcess = 'normal';
-            } else if (fieldTypeData.type in fieldFunctions) {
-              [fieldValue, columnProcess] = fieldFunctions[fieldTypeData.type](fieldValue, baseUrl);
-            } else {
-              fieldValue = ['Type not treated'];
-              columnProcess = 'normal';
-            }
-
-            if (!isKeyColumn) {
-              rowData[`${column}${levelIndex}`] = {
-                data: fieldValue,
-                name: fieldTypeData ? fieldTypeData.name : column,
-                type: fieldTypeData ? fieldTypeData.type : 'string',
-                gridtype: columnProcess,
-              };
-            }
-          });
-        });
-
-        dataObjects.push(rowData);
+    if (jsonData.levels) {
+      jsonData.levels.forEach((level) => {
+        processLevel(level, jqlParams);
       });
-
-      return dataObjects;
     }
-    context.getPerfMeasure('addJiraSnapshot');
+
+    return processJqlsWithKeys(jqlParams, jiraFields_, index);
+  });
+
+  await Promise.all(promises);
+  context.getPerfMeasure('addJiraSnapshot');
 };
+
+function processLevel(level, jqlParams: JqlParams) {
+  const cleanedJql = level.jql.replace(/\n/g, '');
+  jqlParams.jqls.push(cleanedJql);
+  jqlParams.titles.push(level.title);
+  const columnsId = [];
+  const columnsName = [];
+  jqlParams.levelType.push(level.levelType);
+  level.fieldsPosition.forEach((field) => {
+    columnsId.push(field.value.id);
+    columnsName.push(field.label);
+  });
+  /* eslint-disable no-param-reassign */
+  // in our case there is no override since each field.label has different values
+  level.fieldsPosition.forEach((field) => {
+    jqlParams.allColumns[field.label] = field.value.id;
+  });
+  /* eslint-enable no-param-reassign */
+  jqlParams.allColumnsId.push(columnsId.join(','));
+  jqlParams.allColumnsName.push(columnsName.join(','));
+}
+
+function checkFieldExistence(fields: jiraField[], idToCheck: string): CheckFieldResult | undefined {
+  const targetedField = fields.find((field) => field.id === idToCheck);
+  if (targetedField) {
+    let type = targetedField.schema?.type;
+    let isArray = false;
+
+    if (type === 'array' && targetedField.schema?.items) {
+      type = targetedField.schema.items;
+      isArray = true;
+    }
+    const { name } = targetedField;
+    return { name, type, isArray };
+  }
+  return undefined;
+}
 
 function traverseIssues(issue: Issues, parentStructure: Issues['item'][] = []): Issues['item'][][] {
   // Append the current issue's item to the parent structure
@@ -260,7 +175,6 @@ function traverseIssues(issue: Issues, parentStructure: Issues['item'][] = []): 
   // Otherwise, traverse each child and accumulate the results
   return issue.children.reduce((results, child) => results.concat(traverseIssues(child, currentStructure)), []);
 }
-
 
 function extractKeys(issuesResponse: any[][], columnObject: Record<string, string>, child: string): string[] {
   const keys: string[] = [];
@@ -280,20 +194,23 @@ function extractKeys(issuesResponse: any[][], columnObject: Record<string, strin
   return keys;
 }
 
+function numberIssues(issuesResponse: any[][]) {
+  let number = 0;
+  issuesResponse.forEach((issueArray) => {
+    number += issueArray.length;
+  });
+  return number;
+}
+
 function splitStrings(inputArray: string[]): string[] {
   return inputArray.flatMap((str) => str.split(','));
 }
-
 function getJqlVariables(jql: string): string {
   const variablePattern = /\$\s*"?([a-zA-Z0-9\s_]+)"?/g;
-  const matches = jql.matchAll(variablePattern);
-  const variables: string[] = [];
-
-  for (const match of matches) {
-    if (match[1]) {
-      variables.push(match[1].trim());
-    }
-  }
+  const matches = Array.from(jql.matchAll(variablePattern));
+  const variables = matches
+    .filter((match) => match[1])
+    .map((match) => match[1].trim());
 
   return variables.join(', ');
 }
@@ -315,7 +232,6 @@ function buildChildren(data: any[][][], level: number, parentIndex: number): Iss
   return children;
 }
 
-
 function buildHierarchy(data: any[][][]): Issues[] {
   const hierarchy = [];
 
@@ -328,6 +244,104 @@ function buildHierarchy(data: any[][][]): Issues[] {
   });
 
   return hierarchy;
+}
+
+function extractKeysColumns(issuesArray, allColumnsId, jiraFields, fieldFunctions, baseUrl): DataObject[] {
+  const dataObjects: DataObject[] = [];
+
+  issuesArray.forEach((issueArray) => {
+    if (!issueArray) return;
+
+    const rowData: RowData = {};
+
+    issueArray.forEach((issue, levelIndex) => {
+      const columns = splitStrings([allColumnsId[levelIndex]]);
+      columns.forEach((column) => {
+        const isKeyColumn = column === 'key';
+        const fieldTypeData = checkFieldExistence(jiraFields, column);
+
+        let fieldValue = issue.fields[column];
+        let columnProcess = '';
+
+        if (isKeyColumn) {
+          rowData[`key${levelIndex}`] = {
+            data: [FieldInterfaces.createLinkObject(issue.key, baseUrl)],
+            name: 'Key',
+            type: 'issuelinks',
+            gridtype: 'link',
+          };
+        } else if (fieldTypeData === undefined) {
+          fieldValue = ['column undefined'];
+          columnProcess = 'normal';
+        } else if (fieldTypeData.type in fieldFunctions) {
+          [fieldValue, columnProcess] = fieldFunctions[fieldTypeData.type](fieldValue, baseUrl);
+        } else {
+          fieldValue = ['Type not treated'];
+          columnProcess = 'normal';
+        }
+
+        if (!isKeyColumn) {
+          rowData[`${column}${levelIndex}`] = {
+            data: fieldValue,
+            name: fieldTypeData ? fieldTypeData.name : column,
+            type: fieldTypeData ? fieldTypeData.type : 'string',
+            gridtype: columnProcess,
+          };
+        }
+      });
+    });
+
+    dataObjects.push(rowData);
+  });
+
+  return dataObjects;
+}
+
+function createGridColumns(columns, columnsName, jiraFields, columnConfig, fieldFunctions, confluenceDomain) {
+  const allColumns_ = columns.flatMap((column, index) => {
+    const fieldTypeData = checkFieldExistence(jiraFields, column);
+
+    if (column === 'key') {
+      return columnConfig.link(column);
+    }
+
+    if (fieldTypeData === undefined || !(fieldTypeData.type in fieldFunctions)) {
+      return columnConfig.normal(columnsName[index]);
+    }
+
+    const columnProcess = fieldFunctions[fieldTypeData.type]('', confluenceDomain);
+    return columnConfig[columnProcess[1]](columnsName[index]);
+  }).filter(Boolean);
+
+  return `[${allColumns_.join(',')}]`;
+}
+
+function createHeaderGridColumns(jqlParams:JqlParams, jiraFields, columnConfig, fieldFunctions, confluenceDomain) {
+  const gridColumns = jqlParams.allColumnsId.map((column, indexLevel) => {
+    const columnId = splitStrings([column]);
+    const columnName = splitStrings([jqlParams.allColumnsName[indexLevel]]);
+    const name = jqlParams.levelType[indexLevel] === 'XRAY_TESTRUNS'
+      ? 'TEST RUN NOT SUPPORTED YET'
+      : `${jqlParams.titles[indexLevel]} (Total: ${jqlParams.numberTicket[indexLevel]})`;
+
+    const header = `{
+      name: '${name}',
+      columns: ${createGridColumns(columnId, columnName, jiraFields, columnConfig, fieldFunctions, confluenceDomain)}
+    }`;
+
+    return header;
+  });
+
+  return `[${gridColumns.join(',')}]`;
+}
+interface JqlParams {
+  jqls: string[];
+  titles: string[];
+  levelType: string[];
+  allColumnsId: string[];
+  allColumnsName: string[];
+  numberTicket: number[];
+  allColumns: Record<string, string>;
 }
 
 type Issues = {
@@ -355,5 +369,18 @@ interface RowData {
     gridtype: string;
   };
 }
+type CheckFieldResult = {
+  name: string;
+  type: string | undefined;
+  isArray?: boolean;
+};
+type jiraField = {
+  id: string;
+  name: string;
+  schema?: {
+    type: string;
+    items?: string;
+  };
+};
 
 type DataObject = Record<string, Field>;

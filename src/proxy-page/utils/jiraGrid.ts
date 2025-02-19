@@ -1,10 +1,10 @@
 export const columnConfig = {
-    link: (name) => `{
+  link: (name) => `{
         name: \`${name}\`,
         sort: { compare: (a, b) => (a?.data.name > b?.data.name ? 1 : -1) },
         formatter: (cell) => gridjs.html(cell?.data.map((item) => \`<a href="\${item.link}" target="_blank">\${item.name}</a>\`).join(' '))
       }`,
-    date: (name) => `{
+  date: (name) => `{
           name: \`${name}\`,
           sort: {
           compare: (a, b) => {
@@ -15,12 +15,12 @@ export const columnConfig = {
       },
         formatter: (cell) => gridjs.html(cell?.data.map((item) => \`\${item}\`))
       }`,
-    normal: (name) => `{
+  normal: (name) => `{
         name: \`${name}\`,
         sort: { compare: (a, b) => (a?.data > b?.data ? 1 : -1) },
         formatter: (cell) => gridjs.html(cell?.data.map((item) => \`\${item}\`).join(' '))
       }`,
-    status: (name) => `
+  status: (name) => `
       {
         name: \`${name}\`,
         sort: { compare: (a, b) => (a?.data[0].name > b?.data[0].name ? 1 : -1) },
@@ -30,7 +30,7 @@ export const columnConfig = {
           \`).join(' ')
         )
       }`,
-    icon: (name) => `
+  icon: (name) => `
       {
         name: \`${name}\`,
         sort: { compare: (a, b) => (a?.data[0].name > b?.data[0].name ? 1 : -1) },
@@ -42,9 +42,9 @@ export const columnConfig = {
           \`).join(' ')
         )
       }`,
-  };
+};
 
-  export const createTable = (index, gridjsColumns, preparedData) => `
+export const createTable = (index, gridjsColumns, preparedData) => `
   <div id="gridjs${index}"></div>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
