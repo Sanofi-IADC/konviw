@@ -1,3 +1,15 @@
+# [3.43.0](https://github.com/Sanofi-IADC/konviw/compare/v3.42.0...v3.43.0) (2025-02-19)
+
+
+### Features
+
+* WEB-1818 add jira snapshot ([2dcbc4c](https://github.com/Sanofi-IADC/konviw/commit/2dcbc4c9dabb80671c7252d06ae017033df63b26))
+* WEB-1818 add jira snapshot ([ef03296](https://github.com/Sanofi-IADC/konviw/commit/ef032962235611ed6910d319114823545feb3fc4))
+* WEB-1818 add jira snapshot ([ecb1ee2](https://github.com/Sanofi-IADC/konviw/commit/ecb1ee2883385eea66e2eee46def5925dc90ab45))
+* WEB-1818 add jira snapshot ([69f00ed](https://github.com/Sanofi-IADC/konviw/commit/69f00edd756e1aed83c0d580ad6ea2f4f9128d83))
+* WEB-1818 add jira snapshot ([71be927](https://github.com/Sanofi-IADC/konviw/commit/71be927640d1623d2cde973b2a9db5ea810159f1))
+* WEB-1818 add jira snapshot ([256f538](https://github.com/Sanofi-IADC/konviw/commit/256f538be5a87eeaa0cb67b944c9cdc740ba6ca8))
+
 # [3.42.0](https://github.com/Sanofi-IADC/konviw/compare/v3.41.0...v3.42.0) (2025-02-04)
 
 
