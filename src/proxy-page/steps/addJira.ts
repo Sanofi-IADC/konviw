@@ -193,9 +193,8 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
     }
     return undefined;
   };
-                                                            
+
   const { fieldFunctions } = FieldInterfaces;
-                                                            
   interface Field {
     data: string[];
     name: string;
