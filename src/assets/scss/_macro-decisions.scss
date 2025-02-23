@@ -4,12 +4,17 @@ ul.decision-list {
   margin: 0;
   padding: 0;
 
-  > li {
-    padding: 5px 20px 0px;
+  li {
+    padding: 0px 5px 10px 5px;
+    margin: 5px 0 5px 0;
+    background: var(--bg-blockquote);
+    border-radius: 5px;
+    vertical-align: top;
 
     &::before {
       content: var(--macro-decision-symbol);
       padding-right: 5px;
     }
   }
+
 }
