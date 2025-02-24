@@ -1,3 +1,10 @@
+## [3.43.1](https://github.com/Sanofi-IADC/konviw/compare/v3.43.0...v3.43.1) (2025-02-24)
+
+
+### Bug Fixes
+
+* Web-2476 proper rendering of titles of confluence roadmap in bars ([#606](https://github.com/Sanofi-IADC/konviw/issues/606)) ([a2b3193](https://github.com/Sanofi-IADC/konviw/commit/a2b319311c1e0bdadfa95e90f72985fb538fb53c))
+
 # [3.43.0](https://github.com/Sanofi-IADC/konviw/compare/v3.42.0...v3.43.0) (2025-02-19)
 
 
