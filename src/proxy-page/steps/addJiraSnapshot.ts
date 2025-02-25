@@ -177,24 +177,16 @@ function traverseIssues(issue: Issues, parentStructure: Issues['item'][] = []): 
 }
 
 function extractKeys(issuesResponse: any[][], columnObject: Record<string, string>, child: string): string[] {
-  const keys: string[] = [];
-  issuesResponse.forEach((issueArray) => {
+  return issuesResponse.flatMap((issueArray) => issueArray.map((issue) => {
     if (child === 'key') {
-      issueArray.forEach((issue) => {
-        keys.push(issue.key);
-      });
-    } else {
-      issueArray.forEach((issue) => {
-        if (issue.fields[columnObject[child]]?.key) {
-          keys.push(issue.fields[columnObject[child]].key);
-        }
-        else {
-          keys.push(issue.fields[columnObject[child]])
-        }
-      });
+      return issue.key;
     }
-  });
-  return keys;
+    const field = issue.fields[columnObject[child]];
+    if (field) {
+      return field?.key ?? field;
+    }
+    return '';
+  }));
 }
 
 function numberIssues(issuesResponse: any[][]) {
