@@ -185,8 +185,11 @@ function extractKeys(issuesResponse: any[][], columnObject: Record<string, strin
       });
     } else {
       issueArray.forEach((issue) => {
-        if (issue.fields[columnObject[child]]) {
-          keys.push(issue.fields[columnObject[child]]);
+        if (issue.fields[columnObject[child]]?.key) {
+          keys.push(issue.fields[columnObject[child]].key);
+        }
+        else {
+          keys.push(issue.fields[columnObject[child]])
         }
       });
     }
