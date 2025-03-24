@@ -1,3 +1,10 @@
+# [3.44.0](https://github.com/Sanofi-IADC/konviw/compare/v3.43.1...v3.44.0) (2025-03-24)
+
+
+### Features
+
+* render macro recently-updated ([#608](https://github.com/Sanofi-IADC/konviw/issues/608)) ([8d269dd](https://github.com/Sanofi-IADC/konviw/commit/8d269dd929c67defb31dbe8cb7ae6cd66dff4bf7))
+
 ## [3.43.1](https://github.com/Sanofi-IADC/konviw/compare/v3.43.0...v3.43.1) (2025-02-24)
 
 
