@@ -1,0 +1,41 @@
+// Recently Updated ===========================================
+
+.recently-updated-social {
+
+  ul.update-groupings {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+    li.grouping {
+      padding: 10px 10px 10px 10px;
+      margin: 10px 0px 10px 0px;
+      border-style: solid;
+      border-width: 0.5px;
+      border-color: var(--secondary-color);
+      border-radius: 5px;
+      vertical-align: top;
+
+      .update-item-profile {
+        float: left;
+      }
+
+      ul.update-items {
+
+        a.confluence-userlink {
+          font-size: large;
+          font-weight: bold;
+        }
+
+        li.update-item {
+          list-style-type: disc;
+          margin-left: 30px;
+        }
+
+        div+.update-item {
+          margin-top: 7px;
+        }
+      }
+    }
+  }
+}

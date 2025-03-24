@@ -52,6 +52,7 @@ import addPDF from './steps/addPDF';
 import fixProfilePicture from './steps/fixProfilePicture';
 import fixEmbeddedFile from './steps/fixEmbeddedFile';
 import addJiraSnapshot from './steps/addJiraSnapshot';
+import fixRecentlyUpdated from './steps/fixRecentlyUpdated';
 
 @Injectable()
 export class ProxyPageService {
@@ -139,6 +140,7 @@ export class ProxyPageService {
     fixEmbeddedFile()(this.context);
     fixTableBackground()(this.context);
     fixTableSize()(this.context);
+    fixRecentlyUpdated()(this.context);
     addTableResponsive()(this.context);
     addAuthorVersion()(this.context);
     delUnnecessaryCode()(this.context);
