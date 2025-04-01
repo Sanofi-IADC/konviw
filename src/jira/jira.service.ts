@@ -19,7 +19,7 @@ export class JiraService {
     this.init();
   }
 
-  private init(reader = true) {
+  private init(reader = false) {
     if (reader === true) {
       this.baseUrl = this.config.get('confluence.baseURL');
       this.apiUsername = this.config.get('jiraIssues.apiReaderUsername');
