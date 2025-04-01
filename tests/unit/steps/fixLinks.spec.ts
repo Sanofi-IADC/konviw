@@ -255,7 +255,7 @@ describe('ConfluenceProxy / fixLinks', () => {
     context.setHtmlBody(example);
     await step(context);
     const $ = context.getCheerioBody();
-    expect($('#Content > a > img').attr('class')).toBe('favicon hidden');
+    expect($('#Content > a > img').attr('class')).toBe('favicon');
   });
 
   it('should display data-appearance=card links as a card', async () => {
