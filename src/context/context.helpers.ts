@@ -31,6 +31,7 @@ export const setSpaceKeyHelper = (data: Content, apiVersion: ApiVersion) => {
 };
 
 export const setHtmlBodyHelper = (data: Content, apiVersion: ApiVersion) => {
+  console.log(data.pageContent)
   const config = {
     v1: () => data.body.view.value,
     v2: () => data.pageContent.body.view.value,

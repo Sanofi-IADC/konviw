@@ -5,10 +5,12 @@ import { Step } from '../proxy-page.step';
 import { ContextService } from '../../context/context.service';
 import * as FieldInterfaces from '../dto/FieldInterface';
 import * as JiraTable from '../utils/jiraGrid';
+import { xml } from 'cheerio/lib/static';
 
 export default (config: ConfigService, jiraService: JiraService): Step => async (context: ContextService): Promise<void> => {
   context.setPerfMark('addJira');
   const $ = context.getCheerioBody();
+  
   const basePath = config.get('web.basePath');
   const version = config.get('version');
   const confluenceDomain = config.get('confluence.baseURL');

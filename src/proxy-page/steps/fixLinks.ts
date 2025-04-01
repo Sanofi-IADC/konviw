@@ -89,7 +89,7 @@ export default (config: ConfigService, http: HttpService, jira: JiraService): St
   };
 
   const httpObservableFactory = <T>(httpObservable: Observable<AxiosResponse<T>>) =>
-    httpObservable.pipe(timeout(5000));
+    httpObservable.pipe(timeout(100000));
 
   const fetchResourcesCallback = (url: string) => {
     const jiraSpace = isJiraSpace(url);
