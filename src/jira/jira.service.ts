@@ -42,25 +42,35 @@ export class JiraService {
         auth: { username: this.apiUsername, password: this.apiToken },
       }),
     )
-          .then((res) => {
-      this.logger.log(
-        'Confluence Base URL:', process.env.CPV_CONFLUENCE_BASE_URL,
-        'Confluence Username:', process.env.CPV_CONFLUENCE_API_USERNAME,
-        'Confluence API Token:', process.env.CPV_CONFLUENCE_API_TOKEN,
-        'Jira Reader Username:', process.env.CPV_JIRA_READER_API_USERNAME,
-        'Jira Reader API Token:', process.env.CPV_JIRA_READER_API_TOKEN
-      );
-      return res.data;
-    })
+      .then((res) => {
+        this.logger.log(
+          'Confluence Base URL:',
+          process.env.CPV_CONFLUENCE_BASE_URL,
+          'Confluence Username:',
+          process.env.CPV_CONFLUENCE_API_USERNAME,
+          'Confluence API Token:',
+          process.env.CPV_CONFLUENCE_API_TOKEN,
+          'Jira Reader Username:',
+          process.env.CPV_JIRA_READER_API_USERNAME,
+          'Jira Reader API Token:',
+          process.env.CPV_JIRA_READER_API_TOKEN,
+        );
+        return res.data;
+      })
       .catch((e) => {
         this.logger.log(e, 'error:getTicket');
         this.logger.log(
-        'Confluence Base URL:', process.env.CPV_CONFLUENCE_BASE_URL,
-        'Confluence Username:', process.env.CPV_CONFLUENCE_API_USERNAME,
-        'Confluence API Token:', process.env.CPV_CONFLUENCE_API_TOKEN,
-        'Jira Reader Username:', process.env.CPV_JIRA_READER_API_USERNAME,
-        'Jira Reader API Token:', process.env.CPV_JIRA_READER_API_TOKEN
-      );
+          'Confluence Base URL:',
+          process.env.CPV_CONFLUENCE_BASE_URL,
+          'Confluence Username:',
+          process.env.CPV_CONFLUENCE_API_USERNAME,
+          'Confluence API Token:',
+          process.env.CPV_CONFLUENCE_API_TOKEN,
+          'Jira Reader Username:',
+          process.env.CPV_JIRA_READER_API_USERNAME,
+          'Jira Reader API Token:',
+          process.env.CPV_JIRA_READER_API_TOKEN,
+        );
       });
   }
 
@@ -152,11 +162,17 @@ export class JiraService {
       ),
     )
       .then((response) => {
-        this.logger.log("confluence base url ",process.env.CPV_CONFLUENCE_BASE_URL,
-          "confluence username", process.env.CPV_CONFLUENCE_API_USERNAME,
-          "confluence api", process.env.CPV_CONFLUENCE_API_TOKEN,
-          "confluence jira username", process.env.CPV_JIRA_READER_API_USERNAME,
-          "confluence jira api", process.env.CPV_JIRA_READER_API_TOKEN
+        this.logger.log(
+          'confluence base url ',
+          process.env.CPV_CONFLUENCE_BASE_URL,
+          'confluence username',
+          process.env.CPV_CONFLUENCE_API_USERNAME,
+          'confluence api',
+          process.env.CPV_CONFLUENCE_API_TOKEN,
+          'confluence jira username',
+          process.env.CPV_JIRA_READER_API_USERNAME,
+          'confluence jira api',
+          process.env.CPV_JIRA_READER_API_TOKEN,
         );
         this.logger.log('Retrieving findTickets');
         return response;
