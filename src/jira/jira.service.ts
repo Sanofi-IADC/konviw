@@ -97,13 +97,7 @@ export class JiraService {
         },
       ),
     )
-      .then((res) =>       
-        this.logger.log("confluence base url ",process.env.CPV_CONFLUENCE_BASE_URL,
-        "confluence username", process.env.CPV_CONFLUENCE_API_USERNAME,
-        "confluence api", process.env.CPV_CONFLUENCE_API_TOKEN,
-        "confluence jira username", process.env.CPV_JIRA_READER_API_USERNAME,
-        "confluence jira api", process.env.CPV_JIRA_READER_API_TOKEN);
-        res.data)
+      .then((res) => res.data)
       .catch((e) => {
         this.logger.log(e, 'error:getMaCro');
       });
