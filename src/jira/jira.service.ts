@@ -124,7 +124,7 @@ export class JiraService {
       'path',
       `${this.baseUrl}/rest/api/3/search?jql=${encodeURIComponent(jqlSearch)}`,
       'this.api',
-      `${this.apiUsername, this.apiToken}`,
+      `${this.apiUsername, this.apiToken}`
     );
     const expand = [
       {
