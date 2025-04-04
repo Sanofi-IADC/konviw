@@ -43,7 +43,7 @@ export class JiraService {
       }),
     )
       .then((res) => {
-        this.logger.log(
+        this.logger.error(
           'Confluence Base URL:',
           process.env.CPV_CONFLUENCE_BASE_URL,
           'Confluence Username:',
@@ -162,7 +162,7 @@ export class JiraService {
       ),
     )
       .then((response) => {
-        this.logger.log(
+        this.logger.error(
           'confluence base url ',
           process.env.CPV_CONFLUENCE_BASE_URL,
           'confluence username',

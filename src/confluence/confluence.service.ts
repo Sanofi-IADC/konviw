@@ -39,7 +39,7 @@ export class ConfluenceService {
     status?: string,
   ): Promise<Content> {
     try {
-      this.logger.log(
+      this.logger.error(
         'confluence base url ',
         process.env.CPV_CONFLUENCE_BASE_URL,
         'confluence username',
