@@ -37,42 +37,24 @@ export class JiraService {
    * @return Promise {any}
    */
   getTicket(key: string): Promise<any> {
+    this.logger.error(
+      'path',
+      `${this.baseUrl}/rest/api/2/issue/${key}`,
+      'Confluence Username:',
+      this.apiUsername,
+      'token',
+      this.apiToken,
+    );
     return firstValueFrom(
       this.http.get(`${this.baseUrl}/rest/api/2/issue/${key}`, {
         auth: { username: this.apiUsername, password: this.apiToken },
       }),
     )
       .then((res) => {
-        this.logger.error(
-          'Confluence Base URL:',
-          process.env.CPV_CONFLUENCE_BASE_URL,
-          'Confluence Username:',
-          process.env.CPV_CONFLUENCE_API_USERNAME,
-          'Confluence API Token:',
-          process.env.CPV_CONFLUENCE_API_TOKEN,
-          'Jira Reader Username:',
-          process.env.CPV_JIRA_READER_API_USERNAME,
-          'Jira Reader API Token:',
-          process.env.CPV_JIRA_READER_API_TOKEN,
-        );
         return res.data;
       })
       .catch((e) => {
         this.logger.log(e, 'error:getTicket');
-        this.logger.error(
-          'path',`${this.baseUrl}/rest/api/2/issue/${key}`,
-          'this.api',`${this.apiUsername,this.apiToken}`,
-          'Confluence Base URL:',
-          process.env.CPV_CONFLUENCE_BASE_URL,
-          'Confluence Username:',
-          process.env.CPV_CONFLUENCE_API_USERNAME,
-          'Confluence API Token:',
-          process.env.CPV_CONFLUENCE_API_TOKEN,
-          'Jira Reader Username:',
-          process.env.CPV_JIRA_READER_API_USERNAME,
-          'Jira Reader API Token:',
-          process.env.CPV_JIRA_READER_API_TOKEN,
-        );
       });
   }
 
@@ -82,6 +64,14 @@ export class JiraService {
    * @return Promise {any}
    */
   getFields(): Promise<any> {
+    this.logger.error(
+      'path',
+      `${this.baseUrl}/rest/api/latest/field`,
+      'Confluence Username:',
+      this.apiUsername,
+      'token',
+      this.apiToken,
+    );
     return firstValueFrom(
       this.http.get(`${this.baseUrl}/rest/api/latest/field`, {
         auth: { username: this.apiUsername, password: this.apiToken },
@@ -132,6 +122,9 @@ export class JiraService {
     maxResult = 100,
     reader = false,
   ): Promise<any> {
+    this.logger.error(
+      'path',`${this.baseUrl}/rest/api/3/search?jql=${encodeURIComponent(jqlSearch)}`,
+      'this.api',`${this.apiUsername,this.apiToken}`)
     const expand = [
       {
         field: 'description',
@@ -164,20 +157,6 @@ export class JiraService {
       ),
     )
       .then((response) => {
-        this.logger.error(
-          'path',`${this.baseUrl}/rest/api/3/search?jql=${encodeURIComponent(jqlSearch)}`,
-          'this.api',`${this.apiUsername,this.apiToken}`,
-          'confluence base url ',
-          process.env.CPV_CONFLUENCE_BASE_URL,
-          'confluence username',
-          process.env.CPV_CONFLUENCE_API_USERNAME,
-          'confluence api',
-          process.env.CPV_CONFLUENCE_API_TOKEN,
-          'confluence jira username',
-          process.env.CPV_JIRA_READER_API_USERNAME,
-          'confluence jira api',
-          process.env.CPV_JIRA_READER_API_TOKEN,
-        );
         this.logger.log('Retrieving findTickets');
         return response;
       })
