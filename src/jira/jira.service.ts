@@ -43,7 +43,7 @@ export class JiraService {
       }),
     )
       .then((res) => {
-        this.logger.log(
+        this.logger.error(
           'Confluence Base URL:',
           process.env.CPV_CONFLUENCE_BASE_URL,
           'Confluence Username:',
@@ -59,7 +59,9 @@ export class JiraService {
       })
       .catch((e) => {
         this.logger.log(e, 'error:getTicket');
-        this.logger.log(
+        this.logger.error(
+          'path',`${this.baseUrl}/rest/api/2/issue/${key}`,
+          'this.api',`${this.apiUsername,this.apiToken}`,
           'Confluence Base URL:',
           process.env.CPV_CONFLUENCE_BASE_URL,
           'Confluence Username:',
@@ -162,7 +164,9 @@ export class JiraService {
       ),
     )
       .then((response) => {
-        this.logger.log(
+        this.logger.error(
+          'path',`${this.baseUrl}/rest/api/3/search?jql=${encodeURIComponent(jqlSearch)}`,
+          'this.api',`${this.apiUsername,this.apiToken}`,
           'confluence base url ',
           process.env.CPV_CONFLUENCE_BASE_URL,
           'confluence username',
