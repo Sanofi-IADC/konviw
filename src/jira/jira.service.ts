@@ -120,12 +120,6 @@ export class JiraService {
     maxResult = 100,
     reader = false,
   ): Promise<any> {
-    this.logger.error(
-      'path',
-      `${this.baseUrl}/rest/api/3/search?jql=${encodeURIComponent(jqlSearch)}`,
-      'this.api',
-      `${this.apiUsername, this.apiToken}`
-    );
     const expand = [
       {
         field: 'description',
@@ -134,7 +128,14 @@ export class JiraService {
     ].filter(({ field }) => fields.includes(field))
       .map(({ apiExpand }) => apiExpand)
       .join(',');
-
+    this.logger.error(
+      'path',
+      `${this.baseUrl}/rest/api/3/search?jql=${encodeURIComponent(jqlSearch)}`,
+      'Confluence Username:',
+      this.apiUsername,
+      'token',
+      this.apiToken,
+    );
     if (reader === true) {
       this.init(reader);
     } else {
