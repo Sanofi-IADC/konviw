@@ -32,7 +32,7 @@ async function bootstrap() {
   if (process.env.NODE_ENV === 'development') {
     logLevel = ['log', 'warn', 'error', 'debug', 'verbose'];
   } else {
-    logLevel = ['log', 'warn', 'error', 'debug', 'verbose'];
+    logLevel = ['log', 'error', 'debug', 'verbose'];
   }
   // as we need to access the Express API
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
