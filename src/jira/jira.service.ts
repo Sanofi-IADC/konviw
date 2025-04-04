@@ -19,7 +19,7 @@ export class JiraService {
     this.init();
   }
 
-  private init(reader = true) {
+  private init(reader = false) {
     if (reader === true) {
       this.apiUsername = this.config.get('jiraIssues.apiReaderUsername');
       this.apiToken = this.config.get('jiraIssues.apiReaderToken');
@@ -50,9 +50,7 @@ export class JiraService {
         auth: { username: this.apiUsername, password: this.apiToken },
       }),
     )
-      .then((res) => {
-        return res.data;
-      })
+      .then((res) => res.data)
       .catch((e) => {
         this.logger.log(e, 'error:getTicket');
       });
@@ -123,8 +121,11 @@ export class JiraService {
     reader = false,
   ): Promise<any> {
     this.logger.error(
-      'path',`${this.baseUrl}/rest/api/3/search?jql=${encodeURIComponent(jqlSearch)}`,
-      'this.api',`${this.apiUsername,this.apiToken}`)
+      'path',
+      `${this.baseUrl}/rest/api/3/search?jql=${encodeURIComponent(jqlSearch)}`,
+      'this.api',
+      `${this.apiUsername, this.apiToken}`,
+    );
     const expand = [
       {
         field: 'description',
