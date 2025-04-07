@@ -133,8 +133,6 @@ export class JiraService {
       `${this.baseUrl}/rest/api/3/search?jql=${encodeURIComponent(jqlSearch)}`,
       'Confluence Username:',
       this.apiUsername,
-      'token',
-      this.apiToken,
     );
     if (reader === true) {
       this.init(reader);
