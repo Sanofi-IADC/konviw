@@ -38,12 +38,10 @@ export class JiraService {
    */
   getTicket(key: string): Promise<any> {
     this.logger.error(
-      'path',
+      'endpoint getTicket',
       `${this.baseUrl}/rest/api/2/issue/${key}`,
       'Confluence Username:',
       this.apiUsername,
-      'token',
-      this.apiToken,
     );
     return firstValueFrom(
       this.http.get(`${this.baseUrl}/rest/api/2/issue/${key}`, {
@@ -52,7 +50,7 @@ export class JiraService {
     )
       .then((res) => res.data)
       .catch((e) => {
-        this.logger.log(e, 'error:getTicket');
+        this.logger.error(e, 'error:getTicket');
       });
   }
 
@@ -63,12 +61,10 @@ export class JiraService {
    */
   getFields(): Promise<any> {
     this.logger.error(
-      'path',
+      'endpoint getFields',
       `${this.baseUrl}/rest/api/latest/field`,
       'Confluence Username:',
       this.apiUsername,
-      'token',
-      this.apiToken,
     );
     return firstValueFrom(
       this.http.get(`${this.baseUrl}/rest/api/latest/field`, {
@@ -77,7 +73,7 @@ export class JiraService {
     )
       .then((res) => res.data)
       .catch((e) => {
-        this.logger.log(e, 'error:getFields');
+        this.logger.error(e, 'error:getFields');
       });
   }
 
@@ -129,7 +125,7 @@ export class JiraService {
       .map(({ apiExpand }) => apiExpand)
       .join(',');
     this.logger.error(
-      'path',
+      'endpoint findtickets',
       `${this.baseUrl}/rest/api/3/search?jql=${encodeURIComponent(jqlSearch)}`,
       'Confluence Username:',
       this.apiUsername,
@@ -161,7 +157,7 @@ export class JiraService {
         return response;
       })
       .catch((e) => {
-        this.logger.log(e, 'error:findTickets');
+        this.logger.error(e, 'error:findTickets');
       });
   }
 
