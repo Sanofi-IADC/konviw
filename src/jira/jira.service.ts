@@ -48,7 +48,10 @@ export class JiraService {
         auth: { username: this.apiUsername, password: this.apiToken },
       }),
     )
-      .then((res) => res.data)
+      .then((res) => {
+        this.logger.error(res, 'Retrieving getTicket');
+        return res.data;
+      })
       .catch((e) => {
         this.logger.error(e, 'error:getTicket');
       });
@@ -71,7 +74,10 @@ export class JiraService {
         auth: { username: this.apiUsername, password: this.apiToken },
       }),
     )
-      .then((res) => res.data)
+      .then((res) => {
+        this.logger.error(res, 'Retrieving getFields');
+        return res.data;
+      })
       .catch((e) => {
         this.logger.error(e, 'error:getFields');
       });
@@ -124,12 +130,6 @@ export class JiraService {
     ].filter(({ field }) => fields.includes(field))
       .map(({ apiExpand }) => apiExpand)
       .join(',');
-    this.logger.error(
-      'endpoint findtickets',
-      `${this.baseUrl}/rest/api/3/search?jql=${encodeURIComponent(jqlSearch)}`,
-      'Confluence Username:',
-      this.apiUsername,
-    );
     if (reader === true) {
       this.init(reader);
     } else {
@@ -142,6 +142,12 @@ export class JiraService {
         this.apiToken = process.env[`${key}_API_TOKEN`];
       }
     }
+    this.logger.error(
+      'endpoint findtickets',
+      `${this.baseUrl}/rest/api/3/search?jql=${encodeURIComponent(jqlSearch)}`,
+      'Confluence Username:',
+      this.apiUsername,
+    );
     return firstValueFrom(
       this.http.get(
         `${this.baseUrl}/rest/api/3/search?jql=${encodeURIComponent(jqlSearch)}
@@ -153,7 +159,7 @@ export class JiraService {
       ),
     )
       .then((response) => {
-        this.logger.log('Retrieving findTickets');
+        this.logger.error(response, 'Retrieving findTickets');
         return response;
       })
       .catch((e) => {
