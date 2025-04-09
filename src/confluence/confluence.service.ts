@@ -39,14 +39,6 @@ export class ConfluenceService {
     status?: string,
   ): Promise<Content> {
     try {
-      this.logger.error(
-        'confluence base url ',
-        process.env.CPV_CONFLUENCE_BASE_URL,
-        'confluence username',
-        process.env.CPV_CONFLUENCE_API_USERNAME,
-        'confluence jira username',
-        process.env.CPV_JIRA_READER_API_USERNAME,
-      );
       const [typeContentResponse, spaceContentResponse]: AxiosResponse[] = await Promise.all([
         this.getContentType(pageId),
         this.getSpaceData(spaceKey),
