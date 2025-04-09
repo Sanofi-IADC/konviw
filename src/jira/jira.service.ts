@@ -46,7 +46,7 @@ export class JiraService {
       }),
     )
       .then((res) => {
-        this.logger.log(res, 'Retrieving getTicket');
+        this.logger.log('Retrieving getTicket');
         return res.data;
       })
       .catch((e) => {
