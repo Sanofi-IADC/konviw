@@ -69,7 +69,7 @@ export class JiraService {
       }),
     )
       .then((res) => {
-        this.logger.log("Retrieving getFields");
+        this.logger.log('Retrieving getFields');
         return res.data;
       })
       .catch((e) => {
