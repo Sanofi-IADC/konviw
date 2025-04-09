@@ -38,10 +38,7 @@ export class JiraService {
    */
   getTicket(key: string): Promise<any> {
     this.logger.error(
-      'endpoint getTicket',
-      `${this.baseUrl}/rest/api/2/issue/${key}`,
-      'Confluence Username:',
-      this.apiUsername,
+      `endpoint getTicket - URL: ${this.baseUrl}/rest/api/2/issue/${key} - Confluence Username: ${this.apiUsername}`,
     );
     return firstValueFrom(
       this.http.get(`${this.baseUrl}/rest/api/2/issue/${key}`, {
@@ -49,7 +46,7 @@ export class JiraService {
       }),
     )
       .then((res) => {
-        this.logger.error(res, 'Retrieving getTicket');
+        this.logger.log(res, 'Retrieving getTicket');
         return res.data;
       })
       .catch((e) => {
@@ -64,10 +61,7 @@ export class JiraService {
    */
   getFields(): Promise<any> {
     this.logger.error(
-      'endpoint getFields',
-      `${this.baseUrl}/rest/api/latest/field`,
-      'Confluence Username:',
-      this.apiUsername,
+      `endpoint getFields - URL: ${this.baseUrl}/rest/api/latest/field - Confluence Username: ${this.apiUsername}`,
     );
     return firstValueFrom(
       this.http.get(`${this.baseUrl}/rest/api/latest/field`, {
@@ -75,7 +69,7 @@ export class JiraService {
       }),
     )
       .then((res) => {
-        this.logger.error(res, 'Retrieving getFields');
+        this.logger.log(res, 'Retrieving getFields');
         return res.data;
       })
       .catch((e) => {
@@ -143,10 +137,7 @@ export class JiraService {
       }
     }
     this.logger.error(
-      'endpoint findtickets',
-      `${this.baseUrl}/rest/api/3/search?jql=${encodeURIComponent(jqlSearch)}`,
-      'Confluence Username:',
-      this.apiUsername,
+      `endpoint findtickets - URL: ${this.baseUrl}/rest/api/3/search?jql=${encodeURIComponent(jqlSearch)} - Confluence Username: ${this.apiUsername}`,
     );
     return firstValueFrom(
       this.http.get(
@@ -159,7 +150,7 @@ export class JiraService {
       ),
     )
       .then((response) => {
-        this.logger.error(response, 'Retrieving findTickets');
+        this.logger.log(response, 'Retrieving findTickets');
         return response;
       })
       .catch((e) => {
