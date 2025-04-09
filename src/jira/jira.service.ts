@@ -69,7 +69,7 @@ export class JiraService {
       }),
     )
       .then((res) => {
-        this.logger.log(res, 'Retrieving getFields');
+        this.logger.log("Retrieving getFields");
         return res.data;
       })
       .catch((e) => {
@@ -150,7 +150,7 @@ export class JiraService {
       ),
     )
       .then((response) => {
-        this.logger.log(response, 'Retrieving findTickets');
+        this.logger.log('Retrieving findTickets');
         return response;
       })
       .catch((e) => {
