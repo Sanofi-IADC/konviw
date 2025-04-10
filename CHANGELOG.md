@@ -1,3 +1,11 @@
+## [3.44.6](https://github.com/Sanofi-IADC/konviw/compare/v3.44.5...v3.44.6) (2025-04-10)
+
+
+### Bug Fixes
+
+* WEB-2498 lint fixes ([20e8239](https://github.com/Sanofi-IADC/konviw/commit/20e823943d001926d92b719ecd4984da9b9fa89d))
+* WEB-2498 load jira fields before tickets to debug ([d76f093](https://github.com/Sanofi-IADC/konviw/commit/d76f093e844e4e110a8e87233ede3e8d0a51e7b3))
+
 ## [3.44.3](https://github.com/Sanofi-IADC/konviw/compare/v3.44.2...v3.44.3) (2025-04-07)
 
 
