@@ -159,6 +159,12 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
     `<script defer src="${basePath}/gridjs/gridjs.production.min.js?cache=${version}"></script>`,
   );
 
+  let jiraFields = [];
+  const promise = jiraService.getFields();
+  await promise.then((result) => {
+    jiraFields = result;
+  });
+
   // TODO: to handle a potential failure of one of the promises gracefully
   const jirasIssues = await Promise.all(
     jiraIssuesPromises.map((j) => j.issues.issues),
@@ -171,12 +177,6 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
     server: jira.server,
     filter: jira.filter,
   }));
-
-  let jiraFields = [];
-  const promise = jiraService.getFields();
-  await promise.then((result) => {
-    jiraFields = result;
-  });
 
   const checkFieldExistence = (fields, idToCheck: string): { name: string, type: string | undefined, isArray?: boolean } | undefined => {
     const targetedField = fields.find((field) => field.id === idToCheck);
