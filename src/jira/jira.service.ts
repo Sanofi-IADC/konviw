@@ -38,21 +38,19 @@ export class JiraService {
    */
   getTicket(key: string): Promise<any> {
     this.logger.error(
-      'path',
-      `${this.baseUrl}/rest/api/2/issue/${key}`,
-      'Confluence Username:',
-      this.apiUsername,
-      'token',
-      this.apiToken,
+      `endpoint getTicket - URL: ${this.baseUrl}/rest/api/2/issue/${key} - Confluence Username: ${this.apiUsername}`,
     );
     return firstValueFrom(
       this.http.get(`${this.baseUrl}/rest/api/2/issue/${key}`, {
         auth: { username: this.apiUsername, password: this.apiToken },
       }),
     )
-      .then((res) => res.data)
+      .then((res) => {
+        this.logger.log('Retrieving getTicket');
+        return res.data;
+      })
       .catch((e) => {
-        this.logger.log(e, 'error:getTicket');
+        this.logger.error(e, 'error:getTicket');
       });
   }
 
@@ -63,21 +61,19 @@ export class JiraService {
    */
   getFields(): Promise<any> {
     this.logger.error(
-      'path',
-      `${this.baseUrl}/rest/api/latest/field`,
-      'Confluence Username:',
-      this.apiUsername,
-      'token',
-      this.apiToken,
+      `endpoint getFields - URL: ${this.baseUrl}/rest/api/latest/field - Confluence Username: ${this.apiUsername}`,
     );
     return firstValueFrom(
       this.http.get(`${this.baseUrl}/rest/api/latest/field`, {
         auth: { username: this.apiUsername, password: this.apiToken },
       }),
     )
-      .then((res) => res.data)
+      .then((res) => {
+        this.logger.log('Retrieving getFields');
+        return res.data;
+      })
       .catch((e) => {
-        this.logger.log(e, 'error:getFields');
+        this.logger.error(e, 'error:getFields');
       });
   }
 
@@ -128,14 +124,6 @@ export class JiraService {
     ].filter(({ field }) => fields.includes(field))
       .map(({ apiExpand }) => apiExpand)
       .join(',');
-    this.logger.error(
-      'path',
-      `${this.baseUrl}/rest/api/3/search?jql=${encodeURIComponent(jqlSearch)}`,
-      'Confluence Username:',
-      this.apiUsername,
-      'token',
-      this.apiToken,
-    );
     if (reader === true) {
       this.init(reader);
     } else {
@@ -148,6 +136,9 @@ export class JiraService {
         this.apiToken = process.env[`${key}_API_TOKEN`];
       }
     }
+    this.logger.error(
+      `endpoint findtickets - URL: ${this.baseUrl}/rest/api/3/search?jql=${encodeURIComponent(jqlSearch)} - Confluence Username: ${this.apiUsername}`,
+    );
     return firstValueFrom(
       this.http.get(
         `${this.baseUrl}/rest/api/3/search?jql=${encodeURIComponent(jqlSearch)}
@@ -163,7 +154,7 @@ export class JiraService {
         return response;
       })
       .catch((e) => {
-        this.logger.log(e, 'error:findTickets');
+        this.logger.error(e, 'error:findTickets');
       });
   }
 

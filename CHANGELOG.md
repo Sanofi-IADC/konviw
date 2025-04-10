@@ -1,3 +1,11 @@
+## [3.44.3](https://github.com/Sanofi-IADC/konviw/compare/v3.44.2...v3.44.3) (2025-04-07)
+
+
+### Bug Fixes
+
+* WEB-2498 remove tokens from logs ([e8034f0](https://github.com/Sanofi-IADC/konviw/commit/e8034f038e2b8b7e1fbbbb71d179ce36fd8992ae))
+* WEB-2498 remove tokens from logs ([fc49924](https://github.com/Sanofi-IADC/konviw/commit/fc499248c54f2627696e55ff0fd83a90ea3737b7))
+
 # [3.44.0](https://github.com/Sanofi-IADC/konviw/compare/v3.43.1...v3.44.0) (2025-03-24)
 
 
