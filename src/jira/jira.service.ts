@@ -136,13 +136,40 @@ export class JiraService {
         this.apiToken = process.env[`${key}_API_TOKEN`];
       }
     }
+    const url = `${this.baseUrl}/rest/api/3/search?jql=${encodeURIComponent(
+      jqlSearch,
+    )}&fields=${fields}&maxResults=${maxResult}&startAt=${startAt}`;
     this.logger.error(
-      `endpoint findtickets - URL: ${this.baseUrl}/rest/api/3/search?jql=${encodeURIComponent(jqlSearch)} - Confluence Username: ${this.apiUsername}`,
+      `endpoint findtickets - URL: ${url} - Confluence Username: ${this.apiUsername}`,
     );
+    this.logger.log(`jqlSearch before encoding ${jqlSearch}`);
+    this.logger.log(
+      `jqlSearch after encoding ${encodeURIComponent(jqlSearch)}`,
+    );
+    firstValueFrom(
+      this.http.get(
+        `${this.baseUrl}/rest/api/3/search?jql=${jqlSearch}
+    &fields=${fields}&maxResults=${maxResult}&startAt=${startAt}`,
+        {
+          auth: { username: this.apiUsername, password: this.apiToken },
+          params: { expand },
+        },
+      ),
+    )
+      .then((response) => {
+        this.logger.log(
+          `Retrieving findTickets without url encoding ${JSON.stringify(
+            response.data,
+          )}`,
+        );
+        return response;
+      })
+      .catch((e) => {
+        this.logger.error(e, 'error:findTickets');
+      });
     return firstValueFrom(
       this.http.get(
-        `${this.baseUrl}/rest/api/3/search?jql=${encodeURIComponent(jqlSearch)}
-        &fields=${fields}&maxResults=${maxResult}&startAt=${startAt}`,
+        url,
         {
           auth: { username: this.apiUsername, password: this.apiToken },
           params: { expand },
