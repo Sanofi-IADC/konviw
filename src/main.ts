@@ -30,9 +30,9 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   let logLevel: Array<LogLevel>;
   if (process.env.NODE_ENV === 'development') {
-    logLevel = ['log', 'warn', 'error'];
+    logLevel = ['log', 'warn', 'error', 'debug'];
   } else {
-    logLevel = ['warn', 'error'];
+    logLevel = ['log', 'warn', 'error'];
   }
   // as we need to access the Express API
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
