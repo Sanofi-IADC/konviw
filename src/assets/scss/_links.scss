@@ -92,15 +92,13 @@ img.link-card-image {
 
 // User mention with @ ===================================
 a.user-mention {
+  color: var(--user-mention-color);
   background: var(--user-mention-bg);
-  padding: 2px;
-  border-radius: 15px;
-  color: var(--font-color);
   font-size: var(--user-mention-size);
+  padding: 1 8 2 5;
+  margin-left: 1;
+  border-radius: 15px;
   white-space: nowrap;
-  &:hover {
-    color: white;
-  }
   &::before {
     content: '@ ';
   }

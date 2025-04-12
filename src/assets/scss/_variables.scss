@@ -22,7 +22,6 @@ $small-text: 12px;
   --main-font-size: #{$main-font-screen};
   --main-font-weight: #{$main-font-weight};
   --title-font-size: #{$title-font-screen};
-  --user-mention-bg: #92b5f7;
   --primary-color: #a262c2;
   --primary-color-link: #2e95c4;
   --secondary-color: #7785ab;
@@ -35,6 +34,9 @@ $small-text: 12px;
   --highlight-green: #ddfade;
   --highlight-red: #ffe7e7;
   --highlight-yellow: #ffffdd;
+  --user-mention-bg: #d7edd3;
+  --user-mention-size: #{$main-font-mobile};
+  --user-mention-color: #424242;
   --reading-progress-color: #61a786;
   --toc-background-color:#efd2f9;
   --toc-color: #d786f2;
@@ -91,7 +93,6 @@ $small-text: 12px;
 }
 
 [data-theme='dark'] {
-  --user-mention-bg: #75a2f7;
   --primary-color: #f1f1f1; // #9a97f3;
   --primary-color-link: #9792f5;
   --secondary-color: #818cab;
@@ -104,6 +105,9 @@ $small-text: 12px;
   --highlight-green: #2e8e31;
   --highlight-red: #9f2f2f;
   --highlight-yellow: #ebeb3f;
+  --user-mention-bg: #d7edd3;
+  --user-mention-size: #{$main-font-mobile};
+  --user-mention-color: #424242;
 
   // external links
   // or alternatively just an emoji works --external-link-symbol: '⇢';
