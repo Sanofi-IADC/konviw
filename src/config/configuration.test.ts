@@ -15,6 +15,7 @@ export default (): Config => ({
     apiToken: process.env.CPV_CONFLUENCE_API_TOKEN || '',
     apiTimeOut: process.env.CPV_CONFLUENCE_API_TIMEOUT,
     apiMaxRedirects: process.env.CPV_CONFLUENCE_API_MAX_REDIRECTS || '5',
+    emojiCollection: process.env.CPV_CONFLUENCE_EMOJI_COLLECTION || '',
   },
   konviw: {
     private: process.env.CPV_KONVIW_PRIVATE_PAGE,

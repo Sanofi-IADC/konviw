@@ -3,7 +3,9 @@ import * as cheerio from 'cheerio';
 import { performance, PerformanceObserver } from 'perf_hooks';
 import { ConfigService } from '@nestjs/config';
 import { Content, Label } from '../confluence/confluence.interface';
-import { ApiVersion, Version } from './context.interface';
+import {
+  ApiVersion, Version, EmojiType, IconType,
+} from './context.interface';
 import {
   contentAppearancePublishedHelper,
   coverPictureIdPublishedHelper,
@@ -78,7 +80,7 @@ export class ContextService {
 
   private headerImage = '';
 
-  private headerEmoji = '';
+  private headerEmoji : EmojiType;
 
   private observer: PerformanceObserver;
 
@@ -155,7 +157,7 @@ export class ContextService {
       if (emojiTitlePublished) {
         this.setHeaderEmoji(emojiTitlePublished);
         logger.log(
-          `GET emoji-title-published to set context 'headerEmoji' to ${this.getHeaderEmoji()}`,
+          `GET emoji-title-published to set context 'headerEmoji' to ${this.getHeaderEmoji().code}`,
         );
       } else {
         this.setHeaderEmoji('');
@@ -383,11 +385,26 @@ export class ContextService {
     return this.headerImage;
   }
 
-  setHeaderEmoji(code: string): void {
-    this.headerEmoji = code ? `&#x${code};` : '';
+  setHeaderEmoji(code: string) {
+    let emojiType : IconType = 'standard';
+    let hexCode = '';
+    if (code.length > 12) {
+      // Either is a special emoji from Atlassian with ID like 'atlassian-logo_confluence'
+      // or a manually uploaded one with ID like '16183a4b-bad2-4f3f-8c7c-3fd9d1c1ccdf'
+      emojiType = code.substring(0, 9) === 'atlassian' ? 'atlassian' : 'upload';
+      this.headerEmoji = { code, type: emojiType, path: '' };
+    } else {
+      // ! unclear and to be determined when this is yet needed (probably for a certain type of emoji
+      hexCode = `&#x${code};`;
+      if (hexCode === '&#x;') {
+        this.headerEmoji = { code: '', type: emojiType, path: '' };
+      } else {
+        this.headerEmoji = { code: hexCode, type: emojiType, path: '' };
+      }
+    }
   }
 
-  getHeaderEmoji(): string {
+  getHeaderEmoji(): EmojiType {
     return this.headerEmoji;
   }
 

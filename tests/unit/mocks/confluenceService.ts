@@ -18,6 +18,11 @@ const GET_SPACE_METADATA = jest.fn().mockImplementation(() => ({
 const GET_SPECIAL_ATLASSIAN_ICONS = jest.fn().mockImplementation((image: string) =>
   image ? {} : [],
 );
+
+const GET_UPLOADED_ATLASSIAN_ICONS = jest.fn().mockImplementation((image: string) =>
+  image ? {emojis:[]} : {emojis:[]},
+);
+
 const GET_ATTACHMENTS = jest.fn().mockImplementation(() => ([{
   webuiLink: '/pages/viewpageattachments.action?pageId=246153217&preview=%2F246153217%2F246251521%2Ftest.pdf',
   mediaTypeDescription: 'PDF Document',
@@ -48,6 +53,7 @@ const GET_ATTACHMENT_BASE64 = jest.fn().mockImplementation(() => 'testBase64');
 export const confluenceMockServiceFactory = {
   getSpaceMetadata: GET_SPACE_METADATA,
   getSpecialAtlassianIcons: GET_SPECIAL_ATLASSIAN_ICONS,
+  getSpecialUploadedIcons: GET_UPLOADED_ATLASSIAN_ICONS,
   getAttachments : GET_ATTACHMENTS,
   getAttachmentBase64: GET_ATTACHMENT_BASE64,
 } as unknown as ConfluenceService;

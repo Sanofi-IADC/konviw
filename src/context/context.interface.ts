@@ -12,3 +12,11 @@ export interface User {
 }
 
 export type ApiVersion = 'v1' | 'v2';
+
+export type IconType = 'atlassian' | 'upload' | 'standard';
+
+export interface EmojiType {
+  code: string;
+  type: IconType;
+  path: string;
+}

@@ -50,7 +50,7 @@ export class ConfluenceService {
       if (contentType) {
         const params = { version };
 
-        params['space-id'] = (spaceContent) ? spaceContent.id : null;
+        params['space-id'] = spaceContent?.id || null;
         // get-draft parameter expected by the new API v2
         // https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-page/#api-pages-id-get
         params['get-draft'] = (status === 'draft');
@@ -63,7 +63,7 @@ export class ConfluenceService {
 
         const [authorContent, versionAuthorContent] = await Promise.all([
           this.getAccountDataById((pageContent as Content['pageContent']).ownerId
-            ?? (pageContent as Content['pageContent']).authorId),
+          ?? (pageContent as Content['pageContent']).authorId),
           this.getAccountDataById((pageContent as Content['pageContent']).version.authorId),
         ]);
 
@@ -394,9 +394,34 @@ export class ConfluenceService {
     );
     const results = response.data?.emojis ?? [];
     if (image) {
-      return results.find(({ id }) => id === image);
+      const imageData = results.find(({ id }) => id === image);
+      const { imagePath } = imageData.representation;
+      return imagePath;
     }
     return results;
+  }
+
+  async getSpecialUploadedIcons(image?: string): Promise<any> {
+    const response: AxiosResponse = await firstValueFrom(
+      // Special custom emojis are uploaded to a specific collection per site, so we set it up
+      // via env variable emojiCollection
+      this.http.get<Content>(
+        `/gateway/api/emoji/${this.config.get('confluence.emojiCollection')}/site`
+        + '?scale=XHDPI&altScale=XXXHDPI&preferredRepresentation=IMAGE',
+      ),
+    );
+    // retrieve the custom uploaded emojis and image path
+    const results = response.data?.emojis ?? [];
+    // retrieve the metadata for retrieving the images from the media library, specially JWT token and client
+    const meta = response.data?.meta ?? {};
+    if (image) {
+      const imageData = results.find(({ id }) => id === image);
+      const baseImagePath = imageData.representation.imagePath;
+      const imagePath = `${baseImagePath}&token=${meta.mediaApiToken.jwt}&client=${meta.mediaApiToken.clientId}`;
+
+      return imagePath;
+    }
+    return response.data;
   }
 
   private async getSpacesAccountByPermissions(data) {
