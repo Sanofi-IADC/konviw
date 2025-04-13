@@ -50,7 +50,7 @@ export class ConfluenceService {
       if (contentType) {
         const params = { version };
 
-        params['space-id'] = spaceContent?.id || null;
+        params['space-id'] = spaceContent?.id ?? null;
         // get-draft parameter expected by the new API v2
         // https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-page/#api-pages-id-get
         params['get-draft'] = (status === 'draft');

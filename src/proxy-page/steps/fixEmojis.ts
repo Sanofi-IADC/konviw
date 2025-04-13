@@ -23,7 +23,6 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => a
       const emojiIdIsSpecialUploadedEmoticon = (((emojiData.emojiId as string).length > 10) && (!emojiIdIsSpecialAtlassianEmoticon));
 
       if (emojiIdIsSpecialUploadedEmoticon) {
-        // console.log('uploadedSpecialEmojis ', uploadedSpecialEmojis);
         const relatedIcon = uploadedSpecialEmojis.emojis.find(({ fallback }) => fallback === emojiData.emojiFallback);
         if (relatedIcon) {
           const { representation: { imagePath } } = relatedIcon;
@@ -34,7 +33,6 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => a
       }
 
       if (emojiIdIsCustomAtlassianEmmoticon) {
-        // console.log('atlassianSpecialEmojis ', uploadedSpecialEmojis);
         const relatedIcon = atlassianSpecialEmojis.find(({ fallback }) => fallback === emojiData.emojiFallback);
         if (relatedIcon) {
           const { representation: { imagePath } } = relatedIcon;

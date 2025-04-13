@@ -20,7 +20,8 @@ async function headerIconFacatory(context: ContextService, confluence: Confluenc
   const emoji : EmojiType = context.getHeaderEmoji();
   if (emoji.type === 'atlassian') {
     emoji.path = await confluence.getSpecialAtlassianIcons(emoji.code);
-  } if (emoji.type === 'upload') {
+  }
+  if (emoji.type === 'upload') {
     emoji.path = await confluence.getSpecialUploadedIcons(emoji.code);
   }
   return emoji;

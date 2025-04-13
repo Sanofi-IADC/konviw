@@ -391,7 +391,7 @@ export class ContextService {
     if (code.length > 12) {
       // Either is a special emoji from Atlassian with ID like 'atlassian-logo_confluence'
       // or a manually uploaded one with ID like '16183a4b-bad2-4f3f-8c7c-3fd9d1c1ccdf'
-      emojiType = code.substring(0, 9) === 'atlassian' ? 'atlassian' : 'upload';
+      emojiType = code.startsWith('atlassian') ? 'atlassian' : 'upload';
       this.headerEmoji = { code, type: emojiType, path: '' };
     } else {
       // ! unclear and to be determined when this is yet needed (probably for a certain type of emoji
