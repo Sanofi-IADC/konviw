@@ -20,7 +20,7 @@ const GET_SPECIAL_ATLASSIAN_ICONS = jest.fn().mockImplementation((image: string)
 );
 
 const GET_UPLOADED_ATLASSIAN_ICONS = jest.fn().mockImplementation((image: string) =>
-  image ? {emojis:[]} : {emojis:[]},
+  image ? {} : {emojis:[]},
 );
 
 const GET_ATTACHMENTS = jest.fn().mockImplementation(() => ([{
