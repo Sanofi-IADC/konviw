@@ -1,3 +1,22 @@
+## [3.44.7](https://github.com/Sanofi-IADC/konviw/compare/v3.44.6...v3.44.7) (2025-04-11)
+
+
+### Bug Fixes
+
+* WEB-2498 change log level in prod ([56f0105](https://github.com/Sanofi-IADC/konviw/commit/56f0105e4ca40eff747210f63d4b7e8a690e36fa))
+* WEB-2498 changed log level ([b14b07c](https://github.com/Sanofi-IADC/konviw/commit/b14b07c6ccd60d44c16d8d4e066209fb63130f5e))
+* WEB-2498 check response without encoding url ([bedd4b9](https://github.com/Sanofi-IADC/konviw/commit/bedd4b90a93c9f99e2a829bf6a6d9473bfddfa13))
+* WEB-2498 check response without encoding url ([493e274](https://github.com/Sanofi-IADC/konviw/commit/493e274953475a2bb17420f91e25092da6c551c6))
+* WEB-2498 lint fixes ([cc95ea0](https://github.com/Sanofi-IADC/konviw/commit/cc95ea0b7ab7e75f79326576ff43b7ec190c4ef9))
+
+## [3.44.6](https://github.com/Sanofi-IADC/konviw/compare/v3.44.5...v3.44.6) (2025-04-10)
+
+
+### Bug Fixes
+
+* WEB-2498 lint fixes ([20e8239](https://github.com/Sanofi-IADC/konviw/commit/20e823943d001926d92b719ecd4984da9b9fa89d))
+* WEB-2498 load jira fields before tickets to debug ([d76f093](https://github.com/Sanofi-IADC/konviw/commit/d76f093e844e4e110a8e87233ede3e8d0a51e7b3))
+
 ## [3.44.3](https://github.com/Sanofi-IADC/konviw/compare/v3.44.2...v3.44.3) (2025-04-07)
 
 
