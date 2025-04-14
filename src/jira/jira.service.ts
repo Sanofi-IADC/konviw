@@ -60,7 +60,7 @@ export class JiraService {
    * @return Promise {any}
    */
   getFields(): Promise<any> {
-    this.logger.error(
+    this.logger.log(
       `endpoint getFields - URL: ${this.baseUrl}/rest/api/latest/field - Confluence Username: ${this.apiUsername}`,
     );
     return firstValueFrom(
@@ -136,8 +136,8 @@ export class JiraService {
         this.apiToken = process.env[`${key}_API_TOKEN`];
       }
     }
-    const url = `${this.baseUrl}/rest/api/3/search?jql=${encodeURIComponent(jqlSearch)}&fields=${fields}&maxResults=${maxResult}&startAt=${startAt}`;
-    this.logger.error(
+    const url = `${this.baseUrl}/rest/api/3/search?jql=${encodeURIComponent(jqlSearch)}&fields=${fields}&maxResults=${maxResult}&startAt=${startAt}&expand=${expand}`;
+    this.logger.log(
       `endpoint findtickets - URL: ${url} - Confluence Username: ${this.apiUsername}`,
     );
     this.logger.log(`jqlSearch before encoding ${jqlSearch}`);
@@ -146,10 +146,9 @@ export class JiraService {
     );
     firstValueFrom(
       this.http.get(
-        `${this.baseUrl}/rest/api/3/search?jql=${jqlSearch}&fields=${fields}&maxResults=${maxResult}&startAt=${startAt}`,
+        url,
         {
           auth: { username: this.apiUsername, password: this.apiToken },
-          params: { expand },
         },
       ),
     )
@@ -162,14 +161,13 @@ export class JiraService {
         return response;
       })
       .catch((e) => {
-        this.logger.error(e, 'error:findTickets');
+        this.logger.error(e, 'error:findTickets test');
       });
     return firstValueFrom(
       this.http.get(
         url,
         {
           auth: { username: this.apiUsername, password: this.apiToken },
-          params: { expand },
         },
       ),
     )
