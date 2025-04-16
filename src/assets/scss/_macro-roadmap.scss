@@ -7,7 +7,6 @@
 
 // Title with link to Page
 .roadmap-macro-view .bar-title-page {
-  padding-top: 10px;
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: center;
@@ -17,4 +16,10 @@
 .roadmap-macro-view .bar-title {
   line-height: 12px !important;
   cursor: auto !important;
+  a {
+    color: var(--highlight-green);
+  }
+  a:hover {
+    font-weight: bold;
+  }
 }
