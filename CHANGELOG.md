@@ -1,3 +1,10 @@
+# [3.45.0](https://github.com/Sanofi-IADC/konviw/compare/v3.44.8...v3.45.0) (2025-04-16)
+
+
+### Features
+
+* display custom uploaded emojis WEB-2500 ([#621](https://github.com/Sanofi-IADC/konviw/issues/621)) ([3396d15](https://github.com/Sanofi-IADC/konviw/commit/3396d15b9360129c6b405c7fd89fddbf10040c2a))
+
 ## [3.44.8](https://github.com/Sanofi-IADC/konviw/compare/v3.44.7...v3.44.8) (2025-04-14)
 
 
