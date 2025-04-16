@@ -1,3 +1,10 @@
+## [3.44.8](https://github.com/Sanofi-IADC/konviw/compare/v3.44.7...v3.44.8) (2025-04-14)
+
+
+### Bug Fixes
+
+* WEB-2498 added expand param as part of url ([93e97e8](https://github.com/Sanofi-IADC/konviw/commit/93e97e854c4f878ffb77b3fd34b3d9d6a0cccb45))
+
 ## [3.44.7](https://github.com/Sanofi-IADC/konviw/compare/v3.44.6...v3.44.7) (2025-04-11)
 
 
