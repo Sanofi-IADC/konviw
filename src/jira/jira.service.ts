@@ -147,7 +147,7 @@ export class JiraService {
     );
     firstValueFrom(
       this.http.get(
-        url,
+        `${this.baseUrl}/rest/api/3/search?fields=assignee&maxResults=${maxResult}&startAt=${startAt}&expand=${expand}`,
         {
           auth: { username: this.apiUsername, password: this.apiToken },
         },
@@ -155,14 +155,14 @@ export class JiraService {
     )
       .then((response) => {
         this.logger.log(
-          `Retrieving findTickets without url encoding ${JSON.stringify(
+          `Retrieving findTickets with basic url ${JSON.stringify(
             response.data,
           )}`,
         );
         return response;
       })
       .catch((e) => {
-        this.logger.error(e, 'error:findTickets test');
+        this.logger.error(e, 'error:findTickets test with basic url');
       });
     return firstValueFrom(
       this.http.get(
