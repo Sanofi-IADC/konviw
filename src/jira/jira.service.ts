@@ -136,25 +136,26 @@ export class JiraService {
         this.apiToken = process.env[`${key}_API_TOKEN`];
       }
     }
-    const url = `${this.baseUrl}/rest/api/3/search?jql=${encodeURIComponent(jqlSearch)}&fields=${fields}&maxResults=${maxResult}&startAt=${startAt}&expand=${expand}`;
+    const url = `${this.baseUrl}/rest/api/3/search?jql=${encodeURIComponent(jqlSearch)}`
+      + `&fields=${fields}&maxResults=${maxResult}&startAt=${startAt}&expand=${expand}`;
     this.logger.log(
       `endpoint findtickets - URL: ${url} - Confluence Username: ${this.apiUsername}`,
     );
     firstValueFrom(
       this.http.get(
-        `${this.baseUrl}/rest/api/3/search?fields=assignee&maxResults=${maxResult}&startAt=${startAt}&expand=${expand}`
-      )
+        `${this.baseUrl}/rest/api/3/search?fields=assignee&maxResults=${maxResult}&startAt=${startAt}&expand=${expand}`,
+      ),
     )
       .then((response) => {
         this.logger.log(
           `Retrieving findTickets with basic url ${JSON.stringify(
-            response.data
-          )}`
+            response.data,
+          )}`,
         );
         return response;
       })
       .catch((e) => {
-        this.logger.error(e, "error:findTickets test with basic url");
+        this.logger.error(e, 'error:findTickets test with basic url');
       });
     this.logger.log(`basic auth password substring - ${this.apiToken.substring(0, 5)}`);
     axios.get(
@@ -162,19 +163,19 @@ export class JiraService {
       {
         headers: {
           Authorization: `Basic ${Buffer.from(
-            `${this.apiUsername}:${this.apiToken}`
-          ).toString("base64")}`,
+            `${this.apiUsername}:${this.apiToken}`,
+          ).toString('base64')}`,
         },
-      }
+      },
     ).then((response) => {
       this.logger.log(
         `Retrieving findTickets directly from axios ${JSON.stringify(
-          response.data
-        )}`
+          response.data,
+        )}`,
       );
       return response;
     }).catch((e) => {
-      this.logger.error(e, "error:findTickets directly from axios");
+      this.logger.error(e, 'error:findTickets directly from axios');
     });
     firstValueFrom(
       this.http.get(
@@ -182,31 +183,31 @@ export class JiraService {
         {
           headers: {
             Authorization: `Basic ${Buffer.from(
-              `${this.apiUsername}:${this.apiToken}`
-            ).toString("base64")}`,
+              `${this.apiUsername}:${this.apiToken}`,
+            ).toString('base64')}`,
           },
-        }
-      )
+        },
+      ),
     )
       .then((response) => {
         this.logger.log(
           `Retrieving findTickets with basic url with auth header ${JSON.stringify(
-            response.data
-          )}`
+            response.data,
+          )}`,
         );
         return response;
       })
       .catch((e) => {
-        this.logger.error(e, "error:findTickets test with basic url");
+        this.logger.error(e, 'error:findTickets test with basic url');
       });
     return firstValueFrom(this.http.get(url))
       .then((response) => {
-        this.logger.log("Retrieving findTickets");
+        this.logger.log('Retrieving findTickets');
         return response;
       })
       .catch((error) => {
         this.logger.error({
-          msg: "HTTP request error in findTickets",
+          msg: 'HTTP request error in findTickets',
           message: error.message,
           code: error.code,
           config: {
@@ -216,10 +217,10 @@ export class JiraService {
           },
           response: error.response
             ? {
-                status: error.response.status,
-                data: error.response.data,
-                headers: error.response.headers,
-              }
+              status: error.response.status,
+              data: error.response.data,
+              headers: error.response.headers,
+            }
             : undefined,
         });
       });
