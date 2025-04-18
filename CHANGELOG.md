@@ -1,3 +1,11 @@
+## [3.45.2](https://github.com/Sanofi-IADC/konviw/compare/v3.45.1...v3.45.2) (2025-04-18)
+
+
+### Bug Fixes
+
+* WEB-2498 added test logs to find issue with findTickets ([a93b113](https://github.com/Sanofi-IADC/konviw/commit/a93b113ca55f1cb0d10eb36756cb42a812b6d463))
+* WEB-2498 lint fixes ([f30b1a2](https://github.com/Sanofi-IADC/konviw/commit/f30b1a25ad645722a9e5398bd15dc0789de7581f))
+
 ## [3.45.1](https://github.com/Sanofi-IADC/konviw/compare/v3.45.0...v3.45.1) (2025-04-17)
 
 
