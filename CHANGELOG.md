@@ -1,3 +1,24 @@
+## [3.45.1](https://github.com/Sanofi-IADC/konviw/compare/v3.45.0...v3.45.1) (2025-04-17)
+
+
+### Bug Fixes
+
+* WEB-2498 test find tickets with basic url ([7eedae7](https://github.com/Sanofi-IADC/konviw/commit/7eedae76d50d1a6f8626f16fb8018854d0d02ae2))
+
+# [3.45.0](https://github.com/Sanofi-IADC/konviw/compare/v3.44.8...v3.45.0) (2025-04-16)
+
+
+### Features
+
+* display custom uploaded emojis WEB-2500 ([#621](https://github.com/Sanofi-IADC/konviw/issues/621)) ([3396d15](https://github.com/Sanofi-IADC/konviw/commit/3396d15b9360129c6b405c7fd89fddbf10040c2a))
+
+## [3.44.8](https://github.com/Sanofi-IADC/konviw/compare/v3.44.7...v3.44.8) (2025-04-14)
+
+
+### Bug Fixes
+
+* WEB-2498 added expand param as part of url ([93e97e8](https://github.com/Sanofi-IADC/konviw/commit/93e97e854c4f878ffb77b3fd34b3d9d6a0cccb45))
+
 ## [3.44.7](https://github.com/Sanofi-IADC/konviw/compare/v3.44.6...v3.44.7) (2025-04-11)
 
 

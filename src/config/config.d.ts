@@ -18,6 +18,7 @@ interface Config {
     apiToken: string;
     apiTimeOut: string;
     apiMaxRedirects: string;
+    emojiCollection: string;
   };
 
   konviw: {
