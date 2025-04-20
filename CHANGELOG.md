@@ -1,3 +1,10 @@
+## [3.45.3](https://github.com/Sanofi-IADC/konviw/compare/v3.45.2...v3.45.3) (2025-04-20)
+
+
+### Bug Fixes
+
+* WEB-2498 remove api calls that were added to debug ([431db60](https://github.com/Sanofi-IADC/konviw/commit/431db608b6b9b57c9c5c6e387a97f0ad534b8bfd))
+
 ## [3.45.2](https://github.com/Sanofi-IADC/konviw/compare/v3.45.1...v3.45.2) (2025-04-18)
 
 
