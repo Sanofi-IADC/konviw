@@ -1,7 +1,7 @@
 import { Injectable, Logger, HttpException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
-import axios, { AxiosResponse } from 'axios'; // eslint-disable-line import/no-extraneous-dependencies
+import { AxiosResponse } from 'axios'; // eslint-disable-line import/no-extraneous-dependencies
 import { firstValueFrom } from 'rxjs';
 
 @Injectable()
@@ -141,66 +141,11 @@ export class JiraService {
     this.logger.log(
       `endpoint findtickets - URL: ${url} - Confluence Username: ${this.apiUsername}`,
     );
-    firstValueFrom(
-      this.http.get(
-        `${this.baseUrl}/rest/api/3/search?fields=assignee&maxResults=${maxResult}&startAt=${startAt}&expand=${expand}`,
-      ),
+    return firstValueFrom(
+      this.http.get(url, {
+        auth: { username: this.apiUsername, password: this.apiToken },
+      }),
     )
-      .then((response) => {
-        this.logger.log(
-          `Retrieving findTickets with basic url ${JSON.stringify(
-            response.data,
-          )}`,
-        );
-        return response;
-      })
-      .catch((e) => {
-        this.logger.error(e, 'error:findTickets test with basic url');
-      });
-    this.logger.log(`basic auth password substring - ${this.apiToken.substring(0, 5)}`);
-    axios.get(
-      `${this.baseUrl}/rest/api/3/search?fields=assignee&maxResults=${maxResult}&startAt=${startAt}&expand=${expand}`,
-      {
-        headers: {
-          Authorization: `Basic ${Buffer.from(
-            `${this.apiUsername}:${this.apiToken}`,
-          ).toString('base64')}`,
-        },
-      },
-    ).then((response) => {
-      this.logger.log(
-        `Retrieving findTickets directly from axios ${JSON.stringify(
-          response.data,
-        )}`,
-      );
-      return response;
-    }).catch((e) => {
-      this.logger.error(e, 'error:findTickets directly from axios');
-    });
-    firstValueFrom(
-      this.http.get(
-        `${this.baseUrl}/rest/api/3/search?fields=assignee&maxResults=${maxResult}&startAt=${startAt}&expand=${expand}`,
-        {
-          headers: {
-            Authorization: `Basic ${Buffer.from(
-              `${this.apiUsername}:${this.apiToken}`,
-            ).toString('base64')}`,
-          },
-        },
-      ),
-    )
-      .then((response) => {
-        this.logger.log(
-          `Retrieving findTickets with basic url with auth header ${JSON.stringify(
-            response.data,
-          )}`,
-        );
-        return response;
-      })
-      .catch((e) => {
-        this.logger.error(e, 'error:findTickets test with basic url');
-      });
-    return firstValueFrom(this.http.get(url))
       .then((response) => {
         this.logger.log('Retrieving findTickets');
         return response;
