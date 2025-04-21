@@ -1,3 +1,10 @@
+## [3.45.4](https://github.com/Sanofi-IADC/konviw/compare/v3.45.3...v3.45.4) (2025-04-21)
+
+
+### Bug Fixes
+
+* WEB-2498 enable jira snapshot macro ([88e393d](https://github.com/Sanofi-IADC/konviw/commit/88e393d574a34b258e5a85a212565c38ae0d7af6))
+
 ## [3.45.3](https://github.com/Sanofi-IADC/konviw/compare/v3.45.2...v3.45.3) (2025-04-20)
 
 
