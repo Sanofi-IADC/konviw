@@ -275,15 +275,10 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
             const field = obj[key];
             const { gridtype } = field;
             const { name } = field;
-            console.log('gridtype', gridtype);
-            console.log('name', name);
-            console.log('field', field)
-            console.log('return', columnConfig[gridtype](name))
             return columnConfig[gridtype](name);
           })
           .filter(Boolean)).join(',')}]`;
       const gridjsColumns = createColumns(reorderedDataArray);
-      console.log(gridjsColumns)
       const createGridTable = JiraTable.createTable;
       // remove the header
       $('div[id^="jira-issues-"]').remove();
