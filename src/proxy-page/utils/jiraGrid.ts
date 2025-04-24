@@ -18,7 +18,15 @@ export const columnConfig = {
   normal: (name) => `{
         name: \`${name}\`,
         sort: { compare: (a, b) => (a?.data > b?.data ? 1 : -1) },
-        formatter: (cell) => gridjs.html(cell?.data.map((item) => \`\${item}\`).join(' '))
+        formatter: (cell) => {
+          const text = cell?.data.map((item) => \`\${item}\`).join(' ')
+          let shortText = text;
+          if (text.length > 500) {
+            shortText = text.substring(0, 500);
+            shortText += '...';
+          }
+          return gridjs.html(\`<div>\${shortText}</div>\`)
+        }
       }`,
   status: (name) => `
       {
