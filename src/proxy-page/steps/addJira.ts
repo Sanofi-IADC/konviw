@@ -261,6 +261,11 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
         requestedFields.forEach((column) => {
           if (Object.prototype.hasOwnProperty.call(item, column)) {
             reorderedItem[column] = item[column];
+            if(reorderedItem[column].type === 'string') {
+              if(reorderedItem[column].data?.[0]?.length > 500) {
+                reorderedItem[column]['data'][0] = reorderedItem[column].data[0].slice(0,500)+'...';
+              }
+            }
           }
         });
         return reorderedItem;
