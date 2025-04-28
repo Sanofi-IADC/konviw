@@ -23,7 +23,10 @@ export default (): Step => (context: ContextService): void => {
     // consequently we apply now the calculation in % for all size of tables, while always returns "default"
     `table[data-layout='full-width']>colgroup,
     table[data-layout= 'wide']> colgroup,
-    table[data-layout='default']>colgroup`,
+    table[data-layout='default']>colgroup,
+    table[data-layout= 'align-start']> colgroup,
+    table[data-layout= 'center']> colgroup`,
+    // 'table[data-table-display-mode=\'fixed\']',   // eventually to define whether we need special style to display fixed tables
   ).each((_index: number, elementColgroup: cheerio.Element) => {
     let sumColWidth = 0;
     elementColgroup.childNodes.forEach((elementColumn: cheerio.Element) => {

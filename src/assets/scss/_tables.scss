@@ -8,20 +8,35 @@ table.confluenceTable {
   margin-right: auto;
   table-layout: fixed;
 
-  // Fix 'default' tables to 60% of the layout width
+  // 'Large' tables to 100% of the layout width
+  &[data-konviw-table-size='large'] {
+    width: 100%;
+  }
+
+  // 'Small' tables may be centered
+  &[data-konviw-table-size='small'] {
+    &[data-layout='center'] {
+      margin-left: auto;
+      margin-right: auto;
+      table-layout: fixed;
+    }
+  }
+
+  // ===============================================
+  // Fix 'default', 'wide' and 'full-width' tables
+  // while this is only for leagacy visualization
+  // and to be dprecated when Altassian compleates
+  // the whole migration to the new tables layout
   &[data-layout='default'] {
     width: 100%;
   }
-
-  // Fix 'wide' tables to fit the 100% of the layout
   &[data-layout='wide'] {
     width: 100%;
   }
-
-  // Fix 'full-width' tables to fit the 100% of the layout
   &[data-layout='full-width'] {
     width: 100%;
   }
+  // ===============================================
 
   // Fix SVG's width embedded in tables like roadmap macros
   svg {
@@ -185,5 +200,45 @@ table.tasks-report {
     text-align: left;
     padding: 0.2em 0.5em 0.2em 0.5em;
     vertical-align: top;
+  }
+}
+
+
+// Responsive Tables for small width devices ==============
+@media (max-width: 700px) {
+  tbody {
+    margin: 0;
+    border-spacing: 0;
+    padding-bottom: 1rem;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  th {
+    display: none;
+  }
+
+  tbody tr td {
+    display: block;
+    width: 95vw;
+    box-sizing: border-box;
+  }
+  tr td:not(:first-of-type):not(:last-of-type):not(:only-of-type) {
+    border-bottom: none;
+    border-top: none;
+  }
+
+  tr td:first-of-type:not(:only-of-type) {
+    border-bottom: none;
+  }
+
+  tr td:last-of-type:not(:only-of-type) {
+    border-top: none;
+  }
+
+  tr td::before {
+    content: attr(data-column-id) " " attr(data-lign-id);
+    font-weight: bold;
+    text-transform: capitalize;
   }
 }

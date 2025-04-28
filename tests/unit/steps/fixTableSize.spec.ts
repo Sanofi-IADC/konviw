@@ -25,7 +25,7 @@ describe('Confluence Proxy / fixTableSize', () => {
     step(context);
     expect(context.getHtmlBody()).toEqual('<html><head></head><body><div id=\"Content\"><h1 class=\"titlePage\"> Demo table</h1>'+
     '<div class=\"table-wrap\">'+
-    '<table data-table-width=\"750\" data-layout=\"default\" class=\"confluenceTable\" style=\"width: 750;\">'+
+    '<table data-table-width=\"750\" data-layout=\"default\" class=\"confluenceTable\" style=\"width: 750;\" data-konviw-table-size=\"small\">'+
     '<colgroup><col><col><col></colgroup>'+
     '<tbody><tr><th><p><strong>A</strong></p></th><th><p><strong>B</strong></p></th><th><p><strong>C</strong></p>'+
     '</th></tr><tr><td><p>Test1</p></td><td><p>Test2</p></td><td><p>Test3</p>'+
@@ -45,7 +45,7 @@ describe('Confluence Proxy / fixTableSize', () => {
     step(context);
     expect(context.getHtmlBody()).toEqual('<html><head></head><body><div id=\"Content\"><h1 class=\"titlePage\"> Demo table</h1>'+
     '<div class=\"table-wrap\">'+
-    '<table data-table-width=\"1500\" data-layout=\"default\" class=\"confluenceTable\">'+
+    '<table data-table-width=\"1500\" data-layout=\"default\" class=\"confluenceTable\" data-konviw-table-size=\"large\">'+
     '<colgroup><col><col><col></colgroup>'+
     '<tbody><tr><th><p><strong>A</strong></p></th><th><p><strong>B</strong></p></th><th><p><strong>C</strong></p>'+
     '</th></tr><tr><td><p>Test1</p></td><td><p>Test2</p></td><td><p>Test3</p>'+

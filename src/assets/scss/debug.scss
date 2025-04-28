@@ -1,7 +1,7 @@
 // Mixin to display the name of the macro or content to debug
 @mixin debug-macro-frame($name) {
   position: relative;
-  top: -8px;
+  top: -2px;
   left: 10px;
   font-family: 'Courier New', Courier, monospace;
   content: $name;
@@ -139,17 +139,27 @@
   }
 }
 
-// Tables
+// Tables legacy layout
 table.confluenceTable {
-  &[data-layout='default'] {
-    background-color: rgb(180, 180, 245);
-  }
-
-  &[data-layout='wide'] {
-    background-color: rgb(138, 138, 242);
-  }
-
+  &[data-layout='default'],
+  &[data-layout='wide'],
   &[data-layout='full-width'] {
-    background-color: rgb(108, 108, 212);
+    background-color: #ffdada;
   }
+}
+
+// Tables legacy layout
+table.confluenceTable {
+  &[data-layout='center'],
+  &[data-layout='align-start'] {
+    background-color: #e5fdef;
+  }
+}
+
+// Excerpt included in a page
+.panel[data-macro-name='excerpt-include'] {
+  &::before {
+    @include debug-macro-frame('excerpt-include');
+  }
+  background-color: #d0f4d2;
 }
