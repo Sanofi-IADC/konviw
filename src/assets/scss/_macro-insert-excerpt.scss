@@ -8,23 +8,23 @@
 .panel[data-macro-name='excerpt-include'],
 .panel[data-macro-name='include'] {
   color: #333;
-  margin: 0;
+  margin: 1em 0 0 0;
   border: 1px solid #d2cdcd;
   overflow: hidden;
   border-radius: 5px;
   width: 100%;
   p {
-    margin: 10;
+    margin: 0.2em;
   }
 
   .panelHeader {
-    padding: 20px;
-    font-size: 1.2em;
+    padding: 0.5em;
+    font-size: 1.1em;
     border-bottom: 1px solid #d2cdcd;
   }
 
   .panelContent {
-    padding: 20px;
+    padding: 0em 1em 1em 1em;
     blockquote {
       width: 70%;
       margin: 20px auto;
