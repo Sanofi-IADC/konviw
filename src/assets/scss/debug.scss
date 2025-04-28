@@ -144,12 +144,8 @@ table.confluenceTable {
   &[data-layout='default'],
   &[data-layout='wide'],
   &[data-layout='full-width'] {
-    background-color: #ffdada;
+    background-color: #ffe2e2;
   }
-}
-
-// Tables legacy layout
-table.confluenceTable {
   &[data-layout='center'],
   &[data-layout='align-start'] {
     background-color: #e5fdef;
