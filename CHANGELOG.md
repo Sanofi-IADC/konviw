@@ -1,3 +1,10 @@
+# [3.46.0](https://github.com/Sanofi-IADC/konviw/compare/v3.45.4...v3.46.0) (2025-04-29)
+
+
+### Features
+
+* WEB-2507 improve visualization of tables ([#628](https://github.com/Sanofi-IADC/konviw/issues/628)) ([cd2414b](https://github.com/Sanofi-IADC/konviw/commit/cd2414b66cc689957e980fc3a521ca94517f9796))
+
 ## [3.45.4](https://github.com/Sanofi-IADC/konviw/compare/v3.45.3...v3.45.4) (2025-04-21)
 
 
