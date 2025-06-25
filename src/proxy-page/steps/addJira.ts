@@ -178,8 +178,6 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
     filter: jira.filter,
   }));
 
-  
-
   const checkFieldExistence = (fields, idToCheck: string): { name: string, type: string | undefined, isArray?: boolean } | undefined => {
     const targetedField = fields.find((field) => field.id === idToCheck);
     if (targetedField) {

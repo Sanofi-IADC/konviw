@@ -60,7 +60,7 @@ export class JiraService {
    * @return Promise {any}
    */
   getFields(): Promise<any> {
-    this.logger.error(
+    this.logger.log(
       `endpoint getFields - URL: ${this.baseUrl}/rest/api/latest/field - Confluence Username: ${this.apiUsername}`,
     );
     return firstValueFrom(
@@ -136,25 +136,38 @@ export class JiraService {
         this.apiToken = process.env[`${key}_API_TOKEN`];
       }
     }
-    this.logger.error(
-      `endpoint findtickets - URL: ${this.baseUrl}/rest/api/3/search?jql=${encodeURIComponent(jqlSearch)} - Confluence Username: ${this.apiUsername}`,
+    const url = `${this.baseUrl}/rest/api/3/search?jql=${encodeURIComponent(jqlSearch)}`
+      + `&fields=${fields}&maxResults=${maxResult}&startAt=${startAt}&expand=${expand}`;
+    this.logger.log(
+      `endpoint findtickets - URL: ${url} - Confluence Username: ${this.apiUsername}`,
     );
     return firstValueFrom(
-      this.http.get(
-        `${this.baseUrl}/rest/api/3/search?jql=${encodeURIComponent(jqlSearch)}
-        &fields=${fields}&maxResults=${maxResult}&startAt=${startAt}`,
-        {
-          auth: { username: this.apiUsername, password: this.apiToken },
-          params: { expand },
-        },
-      ),
+      this.http.get(url, {
+        auth: { username: this.apiUsername, password: this.apiToken },
+      }),
     )
       .then((response) => {
         this.logger.log('Retrieving findTickets');
         return response;
       })
-      .catch((e) => {
-        this.logger.error(e, 'error:findTickets');
+      .catch((error) => {
+        this.logger.error({
+          msg: 'HTTP request error in findTickets',
+          message: error.message,
+          code: error.code,
+          config: {
+            method: error.config?.method,
+            url: error.config?.url,
+            headers: error.config?.headers,
+          },
+          response: error.response
+            ? {
+              status: error.response.status,
+              data: error.response.data,
+              headers: error.response.headers,
+            }
+            : undefined,
+        });
       });
   }
 

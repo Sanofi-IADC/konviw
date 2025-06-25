@@ -12,8 +12,11 @@ export default (): Step => (context: ContextService): void => {
       if (tableWidth) {
         const tableWidthValue = Number(tableWidth);
         // when data-table-width is <760 the table will not be full width but actual size
-        if (tableWidthValue < 760) {
+        if (tableWidthValue < 800) {
           $(tableElement).css('width', tableWidth);
+          $(tableElement).attr('data-konviw-table-size', 'small');
+        } else {
+          $(tableElement).attr('data-konviw-table-size', 'large');
         }
       }
     },

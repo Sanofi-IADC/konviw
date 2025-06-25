@@ -19,6 +19,7 @@ describe('ConfluenceProxy / addHeaderTitle', () => {
   it('should add just the h1 title', async () => {
     const step = addHeaderTitle(confluenceMockServiceFactory);
     context.setTitle('I am the title');
+    context.setHeaderEmoji('');
     context.setHtmlBody(example);
     await step(context);
     expect(context.getHtmlBody()).toContain(
