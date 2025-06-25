@@ -357,7 +357,8 @@ export const formatNumber = (number) => [[number || ''], 'normal'];
 export const formatString = (string) => {
   if (string?.content) {
     const flatMapResult = string.content.flatMap((item) => item.content);
-    const mappedResults = flatMapResult.map((subItem) => {
+    const mappedResults = flatMapResult.filter(Boolean).map((subItem) => {
+      console.log(flatMapResult)
       if (subItem.type === 'inlineCard') {
         return subItem.attrs.url;
       }
