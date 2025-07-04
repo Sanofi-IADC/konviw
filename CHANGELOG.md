@@ -1,3 +1,10 @@
+## [3.46.1](https://github.com/Sanofi-IADC/konviw/compare/v3.46.0...v3.46.1) (2025-07-04)
+
+
+### Bug Fixes
+
+* WEB-2521 null check ([71d3bac](https://github.com/Sanofi-IADC/konviw/commit/71d3bac3e17b2760b3b61fe9e3d853a735b51223))
+
 # [3.46.0](https://github.com/Sanofi-IADC/konviw/compare/v3.45.4...v3.46.0) (2025-04-29)
 
 
