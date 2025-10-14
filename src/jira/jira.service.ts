@@ -136,7 +136,7 @@ export class JiraService {
         this.apiToken = process.env[`${key}_API_TOKEN`];
       }
     }
-    const url = `${this.baseUrl}/rest/api/3/search?jql=${encodeURIComponent(jqlSearch)}`
+    const url = `${this.baseUrl}/rest/api/3/search/jql?jql=${encodeURIComponent(jqlSearch)}`
       + `&fields=${fields}&maxResults=${maxResult}&startAt=${startAt}&expand=${expand}`;
     this.logger.log(
       `endpoint findtickets - URL: ${url} - Confluence Username: ${this.apiUsername}`,
