@@ -11,7 +11,7 @@ export default (confluence: ConfluenceService): Step => async (context: ContextS
   if (type === 'atlassian' || type === 'upload') {
     $('#Content').prepend(`<h1 class="titlePage"><div class="specialAtlassian"><img src="${path}"/>&nbsp${title}</div></h1>`);
   } else {
-    $('#Content').prepend(`<h1 class="titlePage">${code} ${title}</h1>`); // to set page title for knoiw
+    $('#Content').prepend(`<h1 class="titlePage">${code} ${title}</h1>`); // to set page title
   }
   context.getPerfMeasure('addTitleHeader');
 };
