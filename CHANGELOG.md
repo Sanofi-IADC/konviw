@@ -1,3 +1,11 @@
+## [3.46.4](https://github.com/Sanofi-IADC/konviw/compare/v3.46.3...v3.46.4) (2025-10-15)
+
+
+### Bug Fixes
+
+* WEB-2574 depricated JIRA API fix ([02c48fc](https://github.com/Sanofi-IADC/konviw/commit/02c48fc407a370edf14f7aed53258f66173d690c))
+* WEB-2574 depricated JIRA API fix ([33e9039](https://github.com/Sanofi-IADC/konviw/commit/33e90398b89a681305f5068857b044a5fd6ebf5a))
+
 ## [3.46.3](https://github.com/Sanofi-IADC/konviw/compare/v3.46.2...v3.46.3) (2025-10-15)
 
 
