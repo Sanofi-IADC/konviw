@@ -1,3 +1,10 @@
+## [3.46.3](https://github.com/Sanofi-IADC/konviw/compare/v3.46.2...v3.46.3) (2025-10-15)
+
+
+### Bug Fixes
+
+* **api:** updtaed the depricated jira api ([fc3f41e](https://github.com/Sanofi-IADC/konviw/commit/fc3f41ee3219551b587ce2be7a9ceb8f68f14423))
+
 ## [3.46.2](https://github.com/Sanofi-IADC/konviw/compare/v3.46.1...v3.46.2) (2025-10-15)
 
 
