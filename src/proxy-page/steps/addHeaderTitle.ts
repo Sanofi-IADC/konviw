@@ -9,7 +9,12 @@ export default (confluence: ConfluenceService): Step => async (context: ContextS
   const { code, type, path } = await headerIconFacatory(context, confluence);
   const title = context.getTitle();
   if (type === 'atlassian' || type === 'upload') {
-    $('#Content').prepend(`<h1 class="titlePage"><div class="specialAtlassian">${path ? `<img src="${path}"/>` : ''} &nbsp${title}</div></h1>`);
+    var imgHtml = path ? '<img src="' + path + '"/>' : '';
+    $('#Content').prepend(
+      '<h1 class="titlePage"><div class="specialAtlassian">' +
+      imgHtml + '&nbsp;' + title +
+      '</div></h1>'
+    );
   } else {
     $('#Content').prepend(`<h1 class="titlePage">${code} ${title}</h1>`); // to set page title
   }
@@ -17,7 +22,7 @@ export default (confluence: ConfluenceService): Step => async (context: ContextS
 };
 
 async function headerIconFacatory(context: ContextService, confluence: ConfluenceService): Promise<EmojiType> {
-  const emoji : EmojiType = context.getHeaderEmoji();
+  const emoji: EmojiType = context.getHeaderEmoji();
   if (emoji.type === 'atlassian') {
     emoji.path = await confluence.getSpecialAtlassianIcons(emoji.code);
   }
