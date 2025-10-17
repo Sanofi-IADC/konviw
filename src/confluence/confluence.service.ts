@@ -417,10 +417,10 @@ export class ConfluenceService {
     const meta = response.data?.meta ?? {};
     if (image) {
       const imageData = results.find(({ id }) => id === image);
+      if (!imageData) return "";
       const baseImagePath = imageData.representation.imagePath;
       const imagePath = `${baseImagePath}&token=${meta.mediaApiToken.jwt}&client=${meta.mediaApiToken.clientId}`;
-
-      return imagePath;
+       return imagePath;
     }
     return response.data;
   }
