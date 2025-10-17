@@ -1,3 +1,12 @@
+## [3.46.5](https://github.com/Sanofi-IADC/konviw/compare/v3.46.4...v3.46.5) (2025-10-17)
+
+
+### Bug Fixes
+
+* WEB-2574 emoji path null fix ([3d618ab](https://github.com/Sanofi-IADC/konviw/commit/3d618ab422d52e533a9318d7ca5ada355fdb649a))
+* WEB-2574 emoji path null fix ([820b97e](https://github.com/Sanofi-IADC/konviw/commit/820b97e49e1182e08007d735a0c6ead02d225c19))
+* WEB-2574 emoji path null fix ([a4df194](https://github.com/Sanofi-IADC/konviw/commit/a4df19479f54dbfdd9133e6ce264f95e2d7d27e0))
+
 ## [3.46.4](https://github.com/Sanofi-IADC/konviw/compare/v3.46.3...v3.46.4) (2025-10-15)
 
 
