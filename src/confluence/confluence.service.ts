@@ -21,7 +21,7 @@ export class ConfluenceService {
   constructor(
     private http: HttpService,
     private readonly config: ConfigService,
-  ) {}
+  ) { }
 
   /**
    * @function getPage Service
@@ -63,7 +63,7 @@ export class ConfluenceService {
 
         const [authorContent, versionAuthorContent] = await Promise.all([
           this.getAccountDataById((pageContent as Content['pageContent']).ownerId
-          ?? (pageContent as Content['pageContent']).authorId),
+            ?? (pageContent as Content['pageContent']).authorId),
           this.getAccountDataById((pageContent as Content['pageContent']).version.authorId),
         ]);
 
@@ -299,7 +299,7 @@ export class ConfluenceService {
     };
 
     try {
-      const response : AxiosResponse = await firstValueFrom(
+      const response: AxiosResponse = await firstValueFrom(
         this.http.get(next || '/wiki/api/v2/spaces', { params: !next && defaultParms }),
       );
 
@@ -417,9 +417,9 @@ export class ConfluenceService {
     const meta = response.data?.meta ?? {};
     if (image) {
       const imageData = results.find(({ id }) => id === image);
+      if (!imageData) return '';
       const baseImagePath = imageData.representation.imagePath;
       const imagePath = `${baseImagePath}&token=${meta.mediaApiToken.jwt}&client=${meta.mediaApiToken.clientId}`;
-
       return imagePath;
     }
     return response.data;
