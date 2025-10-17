@@ -9,15 +9,19 @@ export default (confluence: ConfluenceService): Step => async (context: ContextS
   const { code, type, path } = await headerIconFacatory(context, confluence);
   const title = context.getTitle();
   if (type === 'atlassian' || type === 'upload') {
-    var imgHtml = path ? '<img src="' + path + '"/>' : '';
+    const imgHtml = path ? `${path}` : '';
+
     $('#Content').prepend(
-      '<h1 class="titlePage"><div class="specialAtlassian">' +
-      imgHtml + '&nbsp;' + title +
-      '</div></h1>'
+      `<h1 class="titlePage">
+       <div class="specialAtlassian">${imgHtml}&nbsp;${title}</div>
+     </h1>`,
     );
   } else {
-    $('#Content').prepend(`<h1 class="titlePage">${code} ${title}</h1>`); // to set page title
+    $('#Content').prepend(
+      `<h1 class="titlePage">${code} ${title}</h1>`,
+    );
   }
+
   context.getPerfMeasure('addTitleHeader');
 };
 
