@@ -1,3 +1,12 @@
+## [3.46.6](https://github.com/Sanofi-IADC/konviw/compare/v3.46.5...v3.46.6) (2025-10-23)
+
+
+### Bug Fixes
+
+* WEB-2574 header emoji fix ([9bbf54b](https://github.com/Sanofi-IADC/konviw/commit/9bbf54b71227ac63e8a855ca4a104ceb28a29f16))
+* WEB-2574 header emoji fix ([35df296](https://github.com/Sanofi-IADC/konviw/commit/35df296201badbd2a0639240146ba4a0b229ed7f))
+* WEB-2574 header emoji fix ([00f6087](https://github.com/Sanofi-IADC/konviw/commit/00f608700e7df9b4853923d3b7c08671b9adff02))
+
 ## [3.46.5](https://github.com/Sanofi-IADC/konviw/compare/v3.46.4...v3.46.5) (2025-10-17)
 
 
