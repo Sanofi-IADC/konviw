@@ -10,7 +10,6 @@ export default (confluence: ConfluenceService): Step => async (context: ContextS
   const title = context.getTitle();
   if (type === 'atlassian' || type === 'upload') {
     const imgHtml = path ? `${path}` : '';
-    console.log('imgHtml', imgHtml);
 
     $('#Content').prepend(
       `<h1 class="titlePage">
