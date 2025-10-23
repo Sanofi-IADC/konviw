@@ -14,7 +14,7 @@ export default (confluence: ConfluenceService): Step => async (context: ContextS
     $('#Content').prepend(
       `<h1 class="titlePage">
     <div class="specialAtlassian">
-      ${imgHtml ? `<img src='${imgHtml}' />` : ''}
+      ${imgHtml ? `<img src='${imgHtml}' />` : ''} // no image if path not avaialable or broken 
       &nbsp;${title}
     </div>
   </h1>`,
