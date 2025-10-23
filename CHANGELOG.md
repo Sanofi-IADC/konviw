@@ -1,3 +1,10 @@
+## [3.46.8](https://github.com/Sanofi-IADC/konviw/compare/v3.46.7...v3.46.8) (2025-10-23)
+
+
+### Bug Fixes
+
+* WEB-2574 fix mjor emoji issue ([12bc8cc](https://github.com/Sanofi-IADC/konviw/commit/12bc8ccc16a8e09666c26a39c0fd4b91c657385f))
+
 ## [3.46.7](https://github.com/Sanofi-IADC/konviw/compare/v3.46.6...v3.46.7) (2025-10-23)
 
 
