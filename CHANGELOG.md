@@ -1,3 +1,10 @@
+## [3.46.9](https://github.com/Sanofi-IADC/konviw/compare/v3.46.8...v3.46.9) (2025-10-28)
+
+
+### Bug Fixes
+
+* web-2574 render image api fix ([5231b33](https://github.com/Sanofi-IADC/konviw/commit/5231b33b0e02a5c2e5d7797c551ace6262499429))
+
 ## [3.46.8](https://github.com/Sanofi-IADC/konviw/compare/v3.46.7...v3.46.8) (2025-10-23)
 
 
