@@ -230,6 +230,7 @@ export class ProxyPageService {
    * @param uri {string} 'iadc' - URL of the media file to return
    */
   getMediaCdnUrl(uri: string): Promise<string> {
-    return this.confluence.getRedirectUrlForMedia(uri);
+    const modifiedUri = uri.replace('/thumbnails/', '/attachments/');// replaced thumbnails due to end of support
+    return this.confluence.getRedirectUrlForMedia(modifiedUri);
   }
 }
