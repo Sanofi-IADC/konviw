@@ -172,6 +172,57 @@ export class JiraService {
   }
 
   /**
+   * @function findTicketsCount Service
+   * @description Return the tickets count selected for the JQL
+   * @return Promise {number}
+   * @param jqlSearch {string} 'project = FND ORDER BY resolution DESC' - Jira Query Language to filter the issues to retrieve
+   */
+  async findTicketsCount(
+    jqlSearch: string,
+  ): Promise<number> {
+    const url = `${this.baseUrl}/rest/api/3/search/approximate-count`;
+    this.logger.log(
+      `findticketscount - JQL: ${jqlSearch} - API: ${url}`,
+    );
+    try {
+      const response = await firstValueFrom(
+        this.http.post(
+          url,
+          { jql: jqlSearch },
+          {
+            auth: {
+              username: this.apiUsername,
+              password: this.apiToken,
+            },
+            headers: { 'Content-Type': 'application/json' },
+          },
+        ),
+      );
+      this.logger.log('Retrieving findTicketsCount', response.data.count);
+      return response.data.count;
+    } catch (error) {
+      this.logger.error({
+        msg: 'HTTP request error in findTicketsCount',
+        message: error.message,
+        code: error.code,
+        config: {
+          method: error.config?.method,
+          url: error.config?.url,
+          headers: error.config?.headers,
+        },
+        response: error.response
+          ? {
+            status: error.response.status,
+            data: error.response.data,
+            headers: error.response.headers,
+          }
+          : undefined,
+      });
+      return 0;
+    }
+  }
+
+  /**
    * @function findProjects Service
    * @description Return a the projects matching the filter criteria
    * @return Promise {any}
