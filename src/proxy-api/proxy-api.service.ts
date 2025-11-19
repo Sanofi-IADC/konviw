@@ -274,8 +274,12 @@ export class ProxyApiService {
       }, {}),
     }));
 
+    const totalIssues = await this.jira.findTicketsCount(
+      jqlSearch,
+    );
+
     const meta = {
-      totalSize: data.total,
+      totalSize: totalIssues ?? data.total,
       server,
     };
 
