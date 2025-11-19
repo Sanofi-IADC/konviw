@@ -1,3 +1,10 @@
+## [3.46.10](https://github.com/Sanofi-IADC/konviw/compare/v3.46.9...v3.46.10) (2025-11-19)
+
+
+### Bug Fixes
+
+* ARM-2020 add function to get JQL Issue count ([a466285](https://github.com/Sanofi-IADC/konviw/commit/a466285eb17a9d1e7e908063a4fb0ade21aa452f))
+
 ## [3.46.9](https://github.com/Sanofi-IADC/konviw/compare/v3.46.8...v3.46.9) (2025-10-28)
 
 
