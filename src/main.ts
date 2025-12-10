@@ -44,7 +44,7 @@ async function bootstrap() {
     // Reference: https://docs.nestjs.com/techniques/validation#auto-validation
     new ValidationPipe({
       whitelist: true,
-      forbidNonWhitelisted: true,
+      forbidNonWhitelisted: false,
       forbidUnknownValues: true,
       disableErrorMessages: true,
       validationError: {

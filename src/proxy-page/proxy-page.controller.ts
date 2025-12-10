@@ -6,6 +6,7 @@ import {
   Req,
   Logger,
   Query,
+  UseInterceptors,
 } from '@nestjs/common';
 import { Response, Request } from 'express'; // eslint-disable-line import/no-extraneous-dependencies,import/no-unresolved
 import { ApiOkResponse, ApiTags, ApiOperation } from '@nestjs/swagger';
@@ -15,9 +16,11 @@ import {
   PageQueryDTO,
   SlidesQueryDTO,
 } from './proxy-page.validation.dto';
+import { QueryParamsLoggerInterceptor } from '../common/interceptors/query-params-logger.interceptor';
 
 @ApiTags('proxy-page')
 @Controller('wiki')
+@UseInterceptors(QueryParamsLoggerInterceptor)
 export class ProxyPageController {
   private readonly logger = new Logger(ProxyPageController.name);
 
