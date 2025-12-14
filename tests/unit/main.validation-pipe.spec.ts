@@ -1,7 +1,6 @@
-import { ValidationPipe, BadRequestException } from '@nestjs/common';
+import { ValidationPipe } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
-import { validate } from 'class-validator';
-import { IsString, IsOptional } from 'class-validator';
+import { IsString, IsOptional, validate } from 'class-validator';
 
 class TestQueryDTO {
   @IsOptional()
@@ -83,13 +82,11 @@ describe('ValidationPipe', () => {
       const transformed = plainToClass(TestQueryDTO, maliciousInput);
       const errors = await validate(transformed, { whitelist: true });
 
-      // Whitelist allows only defined DTO properties
       expect(errors.length).toBe(0);
       expect(transformed.style).toBe('konviw');
       expect(transformed.theme).toBe('dark');
       
-      // Malicious properties are stripped
-      expect((transformed as any).__proto__).not.toHaveProperty('polluted');
+      expect(Object.getPrototypeOf(transformed)).not.toHaveProperty('polluted');
       expect((transformed as any).constructor).not.toHaveProperty('dangerous');
       expect((transformed as any).isAdmin).toBeUndefined();
       expect((transformed as any).hasAccess).toBeUndefined();

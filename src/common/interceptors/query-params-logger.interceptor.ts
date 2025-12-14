@@ -31,11 +31,11 @@ export class QueryParamsLoggerInterceptor implements NestInterceptor {
       `[${request.method}] ${path} - Query params: ${params.join(', ')}`,
     );
 
-    const knownIgnoredParams = [
+    const knownIgnoredParams = new Set([
       'atlOrigin',
-    ];
+    ]);
 
-    const unexpectedParams = params.filter((p) => !knownIgnoredParams.includes(p));
+    const unexpectedParams = params.filter((p) => !knownIgnoredParams.has(p));
 
     if (unexpectedParams.length > 0) {
       this.logger.debug(
