@@ -1,0 +1,1 @@
+const e={key:"v-583b5469",path:"/demoComments.html",title:"Demo Comments",lang:"en-US",frontmatter:{title:"Demo Comments"},excerpt:"",headers:[],git:{updatedTime:176574229e4,contributors:[{name:"Shiuli",email:"sheikhshiulinoor.alam@sanofi.com",commits:1}]},filePathRelative:"demoComments.md"};export{e as data};
