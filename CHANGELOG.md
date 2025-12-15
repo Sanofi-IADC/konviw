@@ -1,3 +1,12 @@
+## [3.46.11](https://github.com/Sanofi-IADC/konviw/compare/v3.46.10...v3.46.11) (2025-12-15)
+
+
+### Bug Fixes
+
+* WEB-2663 Handle unknown/unexpected query params in the request with query param logger interceptor ([133eb02](https://github.com/Sanofi-IADC/konviw/commit/133eb02792521de0285861c5827eddf078ff118c))
+* WEB-2663 Refactor QueryParamsLoggerInterceptor to remove Express type as dependency ([370ba04](https://github.com/Sanofi-IADC/konviw/commit/370ba04f34062172fc7189c12a5fe89e464a61ea))
+* WEB-2663 Refactor to fix sonar issue ([6d750a1](https://github.com/Sanofi-IADC/konviw/commit/6d750a18d79eff3978f65e6bd57de8bdbf035ad5))
+
 ## [3.46.10](https://github.com/Sanofi-IADC/konviw/compare/v3.46.9...v3.46.10) (2025-11-19)
 
 
