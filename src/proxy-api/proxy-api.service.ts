@@ -539,6 +539,17 @@ export class ProxyApiService {
   }
 
   /**
+   * @function getAttachmentDownloadUrl
+   * @description Retrieves the download URL for a given attachment URI from Confluence.
+   * @param uri {string} The URI of the attachment.
+   * @returns Promise {string} A promise that resolves to the download URL of the attachment.
+   */
+  async getAttachmentDownloadUrl(uri: string): Promise<string> {
+    const downloadUrl = await this.confluence.getRedirectUrlForMedia(uri);
+    return downloadUrl;
+  }
+
+  /**
    * @function getCustomContentById
    * @description Retrieves custom content information by its ID from Confluence.
    * @param id {number} The ID of the custom content to retrieve.
