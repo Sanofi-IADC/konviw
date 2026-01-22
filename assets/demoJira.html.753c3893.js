@@ -1,0 +1,1 @@
+const a={key:"v-f064de22",path:"/demoJira.html",title:"Demo Jira Macro",lang:"en-US",frontmatter:{title:"Demo Jira Macro"},excerpt:"",headers:[],git:{updatedTime:1769060023e3,contributors:[{name:"Shubham Upadhay",email:"shubham.upadhyay@sanofi.com",commits:1}]},filePathRelative:"demoJira.md"};export{a as data};
