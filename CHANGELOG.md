@@ -1,3 +1,11 @@
+## [3.46.14](https://github.com/Sanofi-IADC/konviw/compare/v3.46.13...v3.46.14) (2026-01-22)
+
+
+### Bug Fixes
+
+* web-2685 vertical slide fix ([2f3d895](https://github.com/Sanofi-IADC/konviw/commit/2f3d895dd94e64e754df8b5181e855dcc5b1bcd3))
+* web-2685 vertical slide fix ([f27c5e8](https://github.com/Sanofi-IADC/konviw/commit/f27c5e852e7feda0eba564df04a04bea9f5c9a86))
+
 ## [3.46.13](https://github.com/Sanofi-IADC/konviw/compare/v3.46.12...v3.46.13) (2026-01-22)
 
 
