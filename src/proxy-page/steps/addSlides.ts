@@ -18,11 +18,15 @@ export default (): Step => (context: ContextService): void => {
   // Div with class plugin-tabmeta-details (Confluence macro "properties") is framing the sections for each slide
   $(".plugin-tabmeta-details[data-macro-name='details']").each(
     (_index: number, pageProperties: cheerio.Element) => {
+      const HR_REGEX = /<hr\b[^>]*\/?>/gi;
       // we will generate vertical slides if there are 'hr' tags
-      const verticalSlides = ($(pageProperties).html() as string).split('<hr>').length > 1;
-      const sections = ($(pageProperties).html() as string)
-        .split('<hr>')
-        .map((body) => cheerio.load(body));
+  const verticalSlides = (($(pageProperties).html() as string).match(HR_REGEX)?.length ?? 0) > 0;
+  // Split into sections by any <hr ...> variant
+  const sectionStrings = ($(pageProperties).html() as string)
+    .split(HR_REGEX)
+    .map(s => s.trim())
+    .filter(s => s.length > 0);
+      const sections = sectionStrings.map(body => cheerio.load(body));
         // Iterate thru the sections split by the 'hr' horizontal lines
         // only one if no split done
       sectionsHtml += verticalSlides ? '<section>' : '';
