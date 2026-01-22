@@ -21,6 +21,7 @@ export default (): Step => (context: ContextService): void => {
       const HR_REGEX = /<hr\b[^>]*\/?>/gi;
       // we will generate vertical slides if there are 'hr' tags
       const verticalSlides = (($(pageProperties).html() as string).match(HR_REGEX)?.length ?? 0) > 0;
+      
       // Split into sections by any <hr ...> variant
       const sectionStrings = ($(pageProperties).html() as string)
         .split(HR_REGEX)
