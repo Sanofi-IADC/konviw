@@ -305,4 +305,22 @@ export class ProxyApiController {
   ): Promise<any> {
     return this.proxyApi.getAttachmentById(params.id);
   }
+
+  /**
+   * @GET (controller) api/attachment/download-url
+   * @description Retrieves the download URL for an attachment given its URI.
+   * @return {Promise<string>} - A promise resolving to the download URL of the attachment.
+   * @param {string} uri - The URI of the attachment to retrieve the download URL for.
+   */
+  @ApiOkResponse({
+    description: 'Get Attachment Download URL',
+  })
+  @Get('attachment/download-url')
+  async getAttachmentDownloadUrl(
+    @Query('uri') uri: string,
+  ): Promise<string> {
+    const du = await this.proxyApi.getAttachmentDownloadUrl(uri);
+    this.logger.debug(`Attachment download URL: ${du}`);
+    return du;
+  }
 }
