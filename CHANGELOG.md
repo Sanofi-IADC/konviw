@@ -1,3 +1,10 @@
+# [3.47.0](https://github.com/Sanofi-IADC/konviw/compare/v3.46.14...v3.47.0) (2026-01-23)
+
+
+### Features
+
+* ARM-2019 add API for download attachment ([d1494e1](https://github.com/Sanofi-IADC/konviw/commit/d1494e12ead041c23e2fbefbc5a7f3d743c62f0c))
+
 ## [3.46.14](https://github.com/Sanofi-IADC/konviw/compare/v3.46.13...v3.46.14) (2026-01-22)
 
 
