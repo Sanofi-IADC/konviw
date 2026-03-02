@@ -9,48 +9,41 @@ export default (): Step => (context: ContextService): void => {
   $('body').append(
     `<script type="module">
       const coll = document.getElementsByClassName("expand-control");
-      let i;
-      for (i = 0; i < coll.length; i++) {
-        let promiseFinallyState = false;
+      for (let i = 0; i < coll.length; i++) {
+        let imageLoadListeners = [];
+
         coll[i].addEventListener("click", function() {
           this.classList.toggle("active");
 
           const content = this.nextElementSibling;
 
-          const toggleMaxHeight = (clear = false) => {
-            content.style.maxHeight = clear ? null : 'max-content';
+          const syncMaxHeight = () => {
+            content.style.maxHeight = content.scrollHeight + 'px';
           };
 
-          const toggleOpacity = (value) => {
-            content.style.opacity = value;
+          const removeListeners = () => {
+            imageLoadListeners.forEach(({ image, handlers }) => {
+              image.removeEventListener('load', handlers.load);
+              image.removeEventListener('error', handlers.error);
+            });
+            imageLoadListeners = [];
           };
 
-          const togglePromiseFinallyState = () => {
-            promiseFinallyState = !promiseFinallyState;
-          };
-
-          if (content.style.maxHeight) {
-            toggleMaxHeight(true);
+          if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+            content.style.maxHeight = null;
+            removeListeners();
           } else {
-            const imagesCollection = content.querySelectorAll('img.confluence-embedded-image');
-            const notCompletedIamges = Array.from(imagesCollection).filter((image) => !image.complete);
+            syncMaxHeight();
 
-            if (notCompletedIamges && notCompletedIamges.length > 0 && !promiseFinallyState) {
-              toggleOpacity('0');
-              toggleMaxHeight();
+            const images = content.querySelectorAll('img.confluence-embedded-image');
+            const pendingImages = Array.from(images).filter((img) => !img.complete);
 
-              const loadImageStatusFn = (image) => new Promise(
-                (res) => image.addEventListener('load', () => res())
-              );
-
-              Promise.all([...notCompletedIamges].map(loadImageStatusFn)).finally(() => {
-                toggleMaxHeight();
-                toggleOpacity('1');
-                togglePromiseFinallyState();
-              });
-            } else {
-              toggleMaxHeight();
-            }
+            pendingImages.forEach((image) => {
+              const handlers = { load: syncMaxHeight, error: syncMaxHeight };
+              image.addEventListener('load', handlers.load);
+              image.addEventListener('error', handlers.error);
+              imageLoadListeners.push({ image, handlers });
+            });
           }
         });
       }
