@@ -5,6 +5,9 @@
   "author": "Jose Gascon",
   "private": true,
   "license": "MIT",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "main": "src/main.ts",
   "scripts": {
     "prebuild": "rimraf dist",
