@@ -52,9 +52,9 @@ export class ProxyPageController {
   })
   @ApiOkResponse({ description: 'Full html of the rendered Confluence page' })
   @Get([
-    '/spaces/:spaceKey/pages/:pageId/:pageSlug?',
-    '/spaces/:spaceKey/pages/:pageId/versions/:pageVersion/:pageSlug?',
-    '/spaces/:spaceKey/blog/:year/:month/:day/:pageId/:pageSlug?',
+    '/spaces/:spaceKey/pages/:pageId{/:pageSlug}',
+    '/spaces/:spaceKey/pages/:pageId/versions/:pageVersion{/:pageSlug}',
+    '/spaces/:spaceKey/blog/:year/:month/:day/:pageId{/:pageSlug}',
   ])
   async getPage(
     @Param() params: PageParamsDTO,
@@ -96,8 +96,8 @@ export class ProxyPageController {
     description: 'Full html of the rendered page as reveal.js slides',
   })
   @Get([
-    '/slides/:spaceKey/:pageId/:pageSlug?',
-    '/slides/:spaceKey/:pageId/versions/:pageVersion/:pageSlug?',
+    '/slides/:spaceKey/:pageId{/:pageSlug}',
+    '/slides/:spaceKey/:pageId/versions/:pageVersion{/:pageSlug}',
   ])
   async getSlides(
     @Param() params: PageParamsDTO,
@@ -126,7 +126,7 @@ export class ProxyPageController {
     summary: 'Redirect to media',
     description: 'Retrieve  media content defined in Confluence pages',
   })
-  @Get(['/download/*', '/aa-avatar/*'])
+  @Get(['/download/*path', '/aa-avatar/*path'])
   async getMedia(@Req() req: Request, @Res() res: Response) {
     const reqUrl = req.url.replace(/\/cpv\/wiki\//, '');
     const mediaCdnUrl = await this.proxyPage.getMediaCdnUrl(reqUrl);
