@@ -59,6 +59,14 @@ async function bootstrap() {
 
   app.useGlobalFilters(new HttpExceptionFilter(config));
 
+  // Alias /health to respond directly without the global prefix
+  app.getHttpAdapter().getInstance().use((req, res, next) => {
+    if (req.url === '/health' || req.url === '/health/') {
+      req.url = `${basePath}/health`;
+    }
+    next();
+  });
+
   // Default path for all routes
   app.setGlobalPrefix(`${basePath}`);
 
