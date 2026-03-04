@@ -2,8 +2,8 @@ import {
   Module,
   NestModule,
   MiddlewareConsumer,
-  CacheModule,
 } from '@nestjs/common';
+import { CacheModule } from '@nestjs/cache-manager';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TerminusModule } from '@nestjs/terminus';
 import { APP_INTERCEPTOR } from '@nestjs/core';
@@ -53,7 +53,7 @@ export class AppModule implements NestModule {
 
   configure(consumer: MiddlewareConsumer) {
     if (this.config.get('logging.enableLoggerMiddleware')) {
-      consumer.apply(LoggerMiddleware).forRoutes('*');
+      consumer.apply(LoggerMiddleware).forRoutes('{*splat}');
     }
   }
 }

@@ -17,15 +17,15 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: '24.14.0'
+          node-version: '22.22.0'
 
       - name: Cache dependencies
         uses: actions/cache@v3
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-24.14.0-npm-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-node-22.22.0-npm-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-24.14.0-npm-
+            ${{ runner.os }}-node-22.22.0-npm-
 
       - name: Install dependencies
         run: cd docs && npm ci

@@ -1,4 +1,5 @@
-import { CacheInterceptor, ExecutionContext, Injectable } from '@nestjs/common';
+import { ExecutionContext, Injectable } from '@nestjs/common';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
 @Injectable()
 export default class CustomHttpCacheInterceptor extends CacheInterceptor {
@@ -11,7 +12,7 @@ export default class CustomHttpCacheInterceptor extends CacheInterceptor {
       return undefined;
     }
     if (request.query.cache === 'clear-cache') {
-      this.cacheManager.reset();
+      this.cacheManager.clear?.().catch(() => undefined);
     }
     return key;
   }

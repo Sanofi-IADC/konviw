@@ -38,6 +38,8 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     logger: logLevel,
   });
+  // Express 5 uses 'simple' query parser by default; use 'extended' for nested objects/arrays
+  app.set('query parser', 'extended');
   const config = app.get(ConfigService);
   const basePath = config.get('web.basePath');
   app.useGlobalPipes(
