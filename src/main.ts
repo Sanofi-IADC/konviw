@@ -21,6 +21,7 @@ import { join } from 'path';
 import hbs from 'hbs';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { AppModule } from './app.module';
+import { HealthController } from './health/health.controller';
 
 /**
  * Entry point of application. By using the NestFactory.create() method a new Nest application instance is created.
@@ -60,6 +61,13 @@ async function bootstrap() {
 
   // Default path for all routes
   app.setGlobalPrefix(`${basePath}`);
+
+  // Alias /health to respond directly alongside the prefixed route
+  app.getHttpAdapter().get('/health', async (req, res) => {
+    const healthController = app.get(HealthController);
+    const result = await healthController.apiCheck();
+    res.json(result);
+  });
 
   // Define headers defaults
   app.disable('x-powered-by');
