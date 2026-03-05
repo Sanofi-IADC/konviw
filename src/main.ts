@@ -9,7 +9,7 @@ if (
 }
 
 import { NestFactory } from '@nestjs/core';
-import { LogLevel, ValidationPipe } from '@nestjs/common';
+import { LogLevel, RequestMethod, ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { ConfigService } from '@nestjs/config';
 import {
@@ -59,16 +59,10 @@ async function bootstrap() {
 
   app.useGlobalFilters(new HttpExceptionFilter(config));
 
-  // Alias /health to respond directly without the global prefix
-  app.getHttpAdapter().getInstance().use((req, res, next) => {
-    if (req.url === '/health' || req.url === '/health/') {
-      req.url = `${basePath}/health`;
-    }
-    next();
-  });
-
   // Default path for all routes
-  app.setGlobalPrefix(`${basePath}`);
+  app.setGlobalPrefix(`${basePath}`, {
+    exclude: [{ path: 'health', method: RequestMethod.GET }],
+  });
 
   // Alias /health to respond directly alongside the prefixed route
   app.getHttpAdapter().get('/health', async (req, res) => {
