@@ -1,3 +1,10 @@
+# [3.48.0](https://github.com/Sanofi-IADC/konviw/compare/v3.47.1...v3.48.0) (2026-03-05)
+
+
+### Features
+
+* add /health alias for health check endpoint ([#647](https://github.com/Sanofi-IADC/konviw/issues/647)) ([f0d8e2c](https://github.com/Sanofi-IADC/konviw/commit/f0d8e2c7f6373e11aa890e41f6a2387d328e0f5b))
+
 ## [3.47.1](https://github.com/Sanofi-IADC/konviw/compare/v3.47.0...v3.47.1) (2026-03-05)
 
 
