@@ -18,7 +18,6 @@ import {
   SwaggerModule,
 } from '@nestjs/swagger';
 import { join } from 'path';
-import { Response } from 'express';
 import hbs from 'hbs';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { AppModule } from './app.module';
@@ -64,7 +63,7 @@ async function bootstrap() {
   app.setGlobalPrefix(`${basePath}`);
 
   // Alias /health to respond directly alongside the prefixed route
-  app.getHttpAdapter().get('/health', async (req, res: Response) => {
+  app.getHttpAdapter().getInstance().get('/health', async (req, res) => {
     const healthController = app.get(HealthController);
     const result = await healthController.apiCheck();
     res.json(result);
