@@ -70,13 +70,6 @@ async function bootstrap() {
     res.json(result);
   });
 
-  // Alias /health to respond directly alongside the prefixed route
-  app.getHttpAdapter().get('/health', async (req, res) => {
-    const healthController = app.get(HealthController);
-    const result = await healthController.apiCheck();
-    res.json(result);
-  });
-
   // Define headers defaults
   app.disable('x-powered-by');
   app.enableCors();
