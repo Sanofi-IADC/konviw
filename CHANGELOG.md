@@ -1,3 +1,10 @@
+# [3.49.0](https://github.com/Sanofi-IADC/konviw/compare/v3.48.0...v3.49.0) (2026-03-05)
+
+
+### Features
+
+* express Response type ([#650](https://github.com/Sanofi-IADC/konviw/issues/650)) ([dc64936](https://github.com/Sanofi-IADC/konviw/commit/dc64936459c5de9c5f72ed08897e38a77d1d8ab4))
+
 # [3.48.0](https://github.com/Sanofi-IADC/konviw/compare/v3.47.1...v3.48.0) (2026-03-05)
 
 
