@@ -1,3 +1,10 @@
+## [3.49.1](https://github.com/Sanofi-IADC/konviw/compare/v3.49.0...v3.49.1) (2026-03-05)
+
+
+### Bug Fixes
+
+* lint issue regarding express ([#654](https://github.com/Sanofi-IADC/konviw/issues/654)) ([3f055d5](https://github.com/Sanofi-IADC/konviw/commit/3f055d5863ddc3e5e529aa1d8221ceaf16f982f8))
+
 # [3.49.0](https://github.com/Sanofi-IADC/konviw/compare/v3.48.0...v3.49.0) (2026-03-05)
 
 
