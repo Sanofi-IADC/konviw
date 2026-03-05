@@ -237,8 +237,8 @@ export class ProxyApiController {
   @ApiOkResponse({ description: 'Get Konviw page API object' })
   @Version('0.1-alpha')
   @Get([
-    '/spaces/:spaceKey/pages/:pageId/:pageSlug?',
-    '/spaces/:spaceKey/blog/:year/:month/:day/:pageId/:pageSlug?',
+    '/spaces/:spaceKey/pages/:pageId{/:pageSlug}',
+    '/spaces/:spaceKey/blog/:year/:month/:day/:pageId{/:pageSlug}',
   ])
   async getPageAPIResponse(
     @Param() params: PageParamsDTO,
@@ -262,7 +262,7 @@ export class ProxyApiController {
   @ApiOkResponse({
     description: 'Get Custom Contents by Type in a Space',
   })
-  @Get('spaces/:id/custom-content?')
+  @Get('spaces/:id{/custom-content}')
   async getCustomContentsByTypeInSpace(
     @Param() params: GetCustomContentsInSpaceParamsDTO,
     @Query() queries: GetCustomContentsInSpaceQueryDTO,

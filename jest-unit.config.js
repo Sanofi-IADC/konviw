@@ -4,6 +4,12 @@ module.exports = {
   transform: {
     '^.+\\.(t|j)s$': 'ts-jest',
   },
+  transformIgnorePatterns: [
+    'node_modules/(?!(@nestjs/axios|axios)/)',
+  ],
+  moduleNameMapper: {
+    '^axios$': require.resolve('axios/dist/node/axios.cjs'),
+  },
   testPathIgnorePatterns: ['/dist/', 'node_modules', '/docs/'],
   collectCoverage: true,
   collectCoverageFrom: [
