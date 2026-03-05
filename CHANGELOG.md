@@ -1,3 +1,16 @@
+## [3.47.1](https://github.com/Sanofi-IADC/konviw/compare/v3.47.0...v3.47.1) (2026-03-05)
+
+
+### Bug Fixes
+
+* WEB-2667 fix lint error and resolve respective dependencies after node upgrade ([5c3e4ef](https://github.com/Sanofi-IADC/konviw/commit/5c3e4ef2144602430d12f0e1787b10b73caf6e04))
+* WEB-2667 fix peer dependency errors after node upgrade ([40970fb](https://github.com/Sanofi-IADC/konviw/commit/40970fb172edfb622f4f91689624591e4af2df07))
+* WEB-2667 modify fixExpander to load images and adjust content height dynamically without blocking display ([0c037d9](https://github.com/Sanofi-IADC/konviw/commit/0c037d9417226773948dcfdeb9fd1608d0cd483d))
+* WEB-2667 refactor code to properly handle error during cahce clear ([8515046](https://github.com/Sanofi-IADC/konviw/commit/851504655a83ce314dc8791301771e55ffb48008))
+* WEB-2667 Update node version to LTS 24.x ([693af83](https://github.com/Sanofi-IADC/konviw/commit/693af83527baf838b62ec890b798a6b9eafb48b9))
+* WEB-2667 update node version to use v22.22.0 - current stable LTS ([7fedfe2](https://github.com/Sanofi-IADC/konviw/commit/7fedfe27cbff512613176dd2e02770377ad41393))
+* WEB-2667 update node version to use v24.14.0 - current stable LTS ([994483c](https://github.com/Sanofi-IADC/konviw/commit/994483cd9c4c9f366dbf07313eb27ecd1106b203))
+
 # [3.47.0](https://github.com/Sanofi-IADC/konviw/compare/v3.46.14...v3.47.0) (2026-01-23)
 
 
