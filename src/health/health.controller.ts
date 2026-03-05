@@ -4,7 +4,7 @@ import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { ApiHealthService } from './health-atlassian.service';
 
 @ApiTags('health')
-@Controller(['health', `${process.env.CPV_BASEPATH}/health`])
+@Controller('health')
 export class HealthController {
   constructor(
     private readonly apiHealth: ApiHealthService,

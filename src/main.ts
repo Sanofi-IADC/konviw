@@ -9,7 +9,7 @@ if (
 }
 
 import { NestFactory } from '@nestjs/core';
-import { LogLevel, RequestMethod, ValidationPipe } from '@nestjs/common';
+import { LogLevel, ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { ConfigService } from '@nestjs/config';
 import {
@@ -21,6 +21,7 @@ import { join } from 'path';
 import hbs from 'hbs';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { AppModule } from './app.module';
+import { HealthController } from './health/health.controller';
 
 /**
  * Entry point of application. By using the NestFactory.create() method a new Nest application instance is created.
@@ -57,8 +58,13 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter(config));
 
   // Default path for all routes
-  app.setGlobalPrefix(`${basePath}`, {
-    exclude: [{ path: 'health', method: RequestMethod.GET }],
+  app.setGlobalPrefix(`${basePath}`);
+
+  // Alias /health to respond directly alongside the prefixed route
+  app.getHttpAdapter().get('/health', async (req, res) => {
+    const healthController = app.get(HealthController);
+    const result = await healthController.apiCheck();
+    res.json(result);
   });
 
   // Define headers defaults
