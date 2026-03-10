@@ -65,6 +65,7 @@ jobs:
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy Project Artifacts to Vercel
+        id: vercel-deploy
         if: ${{ matrix.node-version == '22.22.0' }}
         run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
 
