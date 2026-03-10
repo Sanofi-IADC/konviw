@@ -19,4 +19,5 @@ import './commands';
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 
-import '@kiru42/cypress-plugin-visual-tests/commands';
+import compareSnapshotCommand from 'cypress-image-diff-js/command';
+compareSnapshotCommand();

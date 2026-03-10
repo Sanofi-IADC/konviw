@@ -6,13 +6,10 @@ context('Jira snapshot', () => {
       '/wiki/spaces/KONVIW/pages/237371394/Demo+Jira+snapshot+with+project'
     ];
     it('checks if the Jira snapshot is displayed and matches the whole page', () => {
-      JIRA_URL.forEach((url) => {
+      JIRA_URL.forEach((url, index) => {
         cy.visit(url);
-        cy.get('div.gridjs.gridjs-container', { timeout: 2000 })
-          .should('be.visible')
-          .then(() => {
-            cy.document().toMatchImageSnapshot();
-          });
+        cy.get('div.gridjs.gridjs-container', { timeout: 2000 }).should('be.visible');
+        cy.compareSnapshot(`jira-snapshot-${index + 1}`);
       });
     });
   });

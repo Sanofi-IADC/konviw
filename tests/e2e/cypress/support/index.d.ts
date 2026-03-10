@@ -1,13 +1,6 @@
 declare namespace Cypress {
   interface Chainable<Subject> {
     /**
-     * to Match Image Snapshot
-     * @example
-     * cy.document().toMatchImageSnapshot()
-     */
-    toMatchImageSnapshot(): Chainable;
-
-    /**
      * Login Shortcut
      * @example
      * cy.login()

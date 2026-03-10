@@ -83,7 +83,7 @@ jobs:
         with:
           name: cypress-screenshots-artifacts
           retention-days: 5
-          path: ${{ github.repository }}/tests/e2e/cypress/screenshots/
+          path: ${{ github.repository }}/tests/e2e/cypress/cypress-image-diff-screenshots/
 
       - name: Upload Cypress Videos
         uses: actions/upload-artifact@v4

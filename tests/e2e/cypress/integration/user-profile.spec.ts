@@ -7,10 +7,7 @@ context('User profile', () => {
     cy.visit(USER_PROFILE_URL);
 
     // Chain the commands without using an additional callback function
-    cy.get('img.userLogo', { timeout: 2000 })
-      .should('be.visible')
-      .then(() => {
-        cy.document().toMatchImageSnapshot();
-      });
+    cy.get('img.userLogo', { timeout: 2000 }).should('be.visible');
+    cy.compareSnapshot('user-profile');
   });
 });
