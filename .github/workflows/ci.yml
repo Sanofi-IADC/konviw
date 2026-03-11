@@ -67,7 +67,10 @@ jobs:
       - name: Deploy Project Artifacts to Vercel
         id: vercel-deploy
         if: ${{ matrix.node-version == '22.22.0' }}
-        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+        run: |
+          PREVIEW_URL=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})
+          echo "PREVIEW_URL=$PREVIEW_URL" >> $GITHUB_OUTPUT
+          echo "DEPLOYMENT_CREATED=true" >> $GITHUB_OUTPUT
 
       - name: Run Cypress Tests
         uses: cypress-io/github-action@v2
