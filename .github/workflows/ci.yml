@@ -77,6 +77,7 @@ jobs:
         if: ${{ steps.vercel-deploy.outputs.DEPLOYMENT_CREATED }}
         with:
           browser: chrome
+          config-file: cypress.config.js
         env:
           CYPRESS_BASE_URL: ${{ steps.vercel-deploy.outputs.PREVIEW_URL }}/cpv
 
