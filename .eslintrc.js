@@ -54,6 +54,7 @@ module.exports = {
         'no-empty-function': ['error', { allow: ['constructors'] }], // NestJS DI uses empty constructors
         '@typescript-eslint/no-useless-constructor': 'error', // idac habits
         '@typescript-eslint/no-shadow': ['error'], // idac habits
+        '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_' }],
         '@typescript-eslint/no-explicit-any': 'off', // idac habits
         '@typescript-eslint/interface-name-prefix': 'off', // idac habits
         '@typescript-eslint/explicit-function-return-type': 'off', // idac habits
