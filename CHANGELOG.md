@@ -1,3 +1,16 @@
+## [3.49.2](https://github.com/Sanofi-IADC/konviw/compare/v3.49.1...v3.49.2) (2026-03-13)
+
+
+### Bug Fixes
+
+* WEB-2742 add id for vercel-deploy step in ci.yml ([1555d48](https://github.com/Sanofi-IADC/konviw/commit/1555d4826dc866c0c99f231b16eb60548658c43d))
+* WEB-2742 refactor cypress.config.js ([5f5e066](https://github.com/Sanofi-IADC/konviw/commit/5f5e066afe54fb848dd57599eb30f6e101be7b57))
+* WEB-2742 update ci.yml to exclude cypress test ([d58a2df](https://github.com/Sanofi-IADC/konviw/commit/d58a2df0b126ef431b198231d8eae4444788ec4f))
+* WEB-2742 update ci.yml to explicitely add configuration file for cypress ([3a59ed0](https://github.com/Sanofi-IADC/konviw/commit/3a59ed090a363817cdc9c2b4f8b2287f67fad560))
+* WEB-2742 update ci.yml to write PREVIEW_URL & DEPLOYMENT_CREATED to  for running cypress tests in ci ([1b44b1a](https://github.com/Sanofi-IADC/konviw/commit/1b44b1a0a853866f73e38a212ca18c6c989ad580))
+* WEB-2742 update remove instana dependency and fix remaining vulnerabilities ([1c95320](https://github.com/Sanofi-IADC/konviw/commit/1c953209021cc7765be999cf8b0774c3750d726f))
+* WEB-2742 upgrade cypress version to ^15.x and migrate to cypress-image-diff-js package for visual regression testing ([0b047b2](https://github.com/Sanofi-IADC/konviw/commit/0b047b248991e8487b579982fd93d34dc5c4c16a))
+
 ## [3.49.1](https://github.com/Sanofi-IADC/konviw/compare/v3.49.0...v3.49.1) (2026-03-05)
 
 
