@@ -1,3 +1,12 @@
+## [3.49.3](https://github.com/Sanofi-IADC/konviw/compare/v3.49.2...v3.49.3) (2026-03-13)
+
+
+### Bug Fixes
+
+* WEB-2748 Fix node version for cache key in ci.yml file ([c981ce7](https://github.com/Sanofi-IADC/konviw/commit/c981ce75e5b6f70168456d3b90f5b7ff05afdf7d))
+* WEB-2748 Fix node version for cache key in ci.yml file ([933157b](https://github.com/Sanofi-IADC/konviw/commit/933157b0788d83dcd7fbf509e14c85c280a690ee))
+* WEB-2748 Remove deprecated packages @types/cache-manage and npm-run-all; add alternate npm-run-all2 dependency ([bb5de80](https://github.com/Sanofi-IADC/konviw/commit/bb5de80989cd6535d2268daae700bdbca46a3d8e))
+
 ## [3.49.2](https://github.com/Sanofi-IADC/konviw/compare/v3.49.1...v3.49.2) (2026-03-13)
 
 
