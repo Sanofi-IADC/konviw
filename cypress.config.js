@@ -21,10 +21,9 @@ module.exports = defineConfig({
     requestTimeout: 120000,
     responseTimeout: 120000,
     setupNodeEvents(on, config) {
-      on('before:browser:launch', (browser = {}, launchOptions) => {
+      on('before:browser:launch', (launchOptions, browser = {}) => {
         if (browser.name === 'chrome') {
-          launchOptions.args.push('--disable-dev-shm-usage');
-          launchOptions.args.push('--window-size=1920,1080');
+          launchOptions.args.push('--disable-dev-shm-usage', '--window-size=1920,1080');
         }
         return launchOptions;
       });
