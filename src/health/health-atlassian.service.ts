@@ -23,7 +23,7 @@ export class ApiHealthService extends HealthIndicator {
     let isHealthy = true;
     try {
       await this.confluence.Search('konviw');
-    } catch (error) {
+    } catch (_) {
       isHealthy = false;
     }
     let result;

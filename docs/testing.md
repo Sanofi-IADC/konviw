@@ -124,7 +124,7 @@ And that's it 😉.
 
 ### Introduction
 
-We use [**Cypress**](https://www.cypress.io/) and the plugin [**cypress-plugin-snapshots**](https://github.com/meinaart/cypress-plugin-snapshots) to implement our end-to-end visual tests. We will see here our visual testing **strategy** for testing the confluence **pages** through a running version of Konviw, with an example.
+We use [**Cypress**](https://www.cypress.io/) and the plugin [**cypress-image-diff-js**](https://cypress.visual-image-diff.dev/) to implement our end-to-end visual tests. We will see here our visual testing **strategy** for testing the confluence **pages** through a running version of Konviw, with an example.
 
 ### Strategy
 
@@ -143,18 +143,15 @@ Cypress will compare each commited snapshots with the running konviw pages on ve
 
 context('Example', () => {
   it('match the whole page', () => {
-    cy.visit(
-      '/wiki/spaces/KONVIW/pages/[PAGE_ID]/Example',
-    ).then(() => {
-      cy.document().toMatchImageSnapshot();
-    });
+    cy.visit('/wiki/spaces/KONVIW/pages/[PAGE_ID]/Example');
+    cy.compareSnapshot('example');
   });
 });
 ```
 3. Run the tests with cypress
 ```bash
 # In order to run the tests against an URL, you will need to execute this command with the correct URL for CYPRESS_BASE_URL
-# By default it will take the URL specified in cypress.json
+# By default it will take the URL specified in cypress.config.js
 CYPRESS_BASE_URL=https://konviw.vercel.app/cpv npm run cypress:run
 ```
 
@@ -169,17 +166,12 @@ It will generate any new snapshot for new tests you've added.
 
 ### Update snapshots
 
-In case you've added some changes which break an existing test, you need to delete the snapshot and re-run the tests to update the snapshot:
+When you've intentionally changed the UI, update baselines with:
 
 ```bash
-# 1. Delete the snapshot
-rm -f tests/e2e/cypress/integration/__image_snapshots__/Example.png
-
-# 2. Re-run the test
 CYPRESS_BASE_URL=https://konviw.vercel.app/cpv npm run cypress:run
-
-# 3. Add, commit & push
-git add tests/e2e/cypress/integration/__image_snapshots__/Example.png
-git commit -m "fix: test"
+npx cypress-image-diff -u
+git add tests/e2e/cypress/cypress-image-diff-screenshots/baseline/
+git commit -m "chore: update visual baselines"
 git push
 ```

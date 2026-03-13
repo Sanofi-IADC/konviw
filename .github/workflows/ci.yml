@@ -65,14 +65,20 @@ jobs:
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy Project Artifacts to Vercel
+        id: vercel-deploy
         if: ${{ matrix.node-version == '22.22.0' }}
         run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+        # run: |
+        #   PREVIEW_URL=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})
+        #   echo "PREVIEW_URL=$PREVIEW_URL" >> $GITHUB_OUTPUT
+        #   echo "DEPLOYMENT_CREATED=true" >> $GITHUB_OUTPUT
 
       - name: Run Cypress Tests
         uses: cypress-io/github-action@v2
         if: ${{ steps.vercel-deploy.outputs.DEPLOYMENT_CREATED }}
         with:
           browser: chrome
+          config-file: cypress.config.js
         env:
           CYPRESS_BASE_URL: ${{ steps.vercel-deploy.outputs.PREVIEW_URL }}/cpv
 
@@ -82,7 +88,7 @@ jobs:
         with:
           name: cypress-screenshots-artifacts
           retention-days: 5
-          path: ${{ github.repository }}/tests/e2e/cypress/screenshots/
+          path: ${{ github.repository }}/tests/e2e/cypress/cypress-image-diff-screenshots/
 
       - name: Upload Cypress Videos
         uses: actions/upload-artifact@v4
