@@ -9,7 +9,7 @@ module.exports = defineConfig({
     viewportHeight: 1080,
     specPattern: 'tests/e2e/cypress/integration/**/*.ts',
     supportFile: 'tests/e2e/cypress/support/index.ts',
-    screenshotsFolder: 'tests/e2e/cypress/cypress-image-diff-screenshots/comparison',
+    screenshotsFolder: 'tests/e2e/cypress/cypress-image-diff-screenshots/screenshots',
     videosFolder: 'tests/e2e/cypress/videos',
     fixturesFolder: 'tests/e2e/cypress/fixtures',
     ignoreTestFiles: ['**/__snapshots__/*', '**/__image_snapshots__/*'],
