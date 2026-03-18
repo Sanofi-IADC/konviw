@@ -126,6 +126,21 @@ And that's it 😉.
 
 We use [**Cypress**](https://www.cypress.io/) and the plugin [**cypress-image-diff-js**](https://cypress.visual-image-diff.dev/) to implement our end-to-end visual tests. We will see here our visual testing **strategy** for testing the confluence **pages** through a running version of Konviw, with an example.
 
+### Folder Structure
+
+```
+tests/e2e/cypress/
+├── cypress-image-diff-screenshots/
+│   ├── baseline/      # "golden" images; CI compares against these
+│   ├── comparison/    # Current run screenshots; plugin moves them here from screenshots/
+│   ├── diff/          # Diff images when a test fails
+│   └── screenshots/   # Cypress writes here first; plugin moves files into comparison/
+├── cypress-image-diff-html-report/  # HTML report (generated after run)
+└── videos/           # Cypress videos
+```
+
+**What to push:** Only `baseline/`. CI uses the baseline images from your branch to compare against the live Konviw deployment.
+
 ### Strategy
 
 E2E Visual Tests consists of taking snapshots of each pages the first time you run the tests, then you need to add and commit the generated snapshots to git.
