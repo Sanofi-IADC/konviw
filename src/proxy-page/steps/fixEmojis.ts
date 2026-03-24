@@ -13,17 +13,18 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => a
     const atlassianSpecialEmojis = await confluence.getSpecialAtlassianIcons();
     const uploadedSpecialEmojis = await confluence.getSpecialUploadedIcons();
 
-    const imgEmoticonsPromises = imgEmoticons.map((element: cheerio.Element) => {
+    imgEmoticons.forEach((element: cheerio.Element) => {
       const emojiData = $(element).data() as { emojiId: string | number, emojiFallback: string };
-      const emojiIdIsStringInstance = typeof emojiData.emojiId === 'string';
+      const emojiId = typeof emojiData.emojiId === 'string' ? emojiData.emojiId : '';
+      const emojiFallback = typeof emojiData.emojiFallback === 'string' ? emojiData.emojiFallback : '';
 
       // define all cases for emojis
-      const emojiIdIsCustomAtlassianEmmoticon = emojiData.emojiFallback.startsWith(':') && emojiData.emojiFallback.endsWith(':');
-      const emojiIdIsSpecialAtlassianEmoticon = emojiIdIsStringInstance && (emojiData.emojiId as string).startsWith('atlassian');
-      const emojiIdIsSpecialUploadedEmoticon = (((emojiData.emojiId as string).length > 10) && (!emojiIdIsSpecialAtlassianEmoticon));
+      const emojiIdIsCustomAtlassianEmmoticon = emojiFallback.startsWith(':') && emojiFallback.endsWith(':');
+      const emojiIdIsSpecialAtlassianEmoticon = emojiId.startsWith('atlassian');
+      const emojiIdIsSpecialUploadedEmoticon = emojiId.length > 10 && !emojiIdIsSpecialAtlassianEmoticon;
 
       if (emojiIdIsSpecialUploadedEmoticon) {
-        const relatedIcon = uploadedSpecialEmojis.emojis.find(({ fallback }) => fallback === emojiData.emojiFallback);
+        const relatedIcon = uploadedSpecialEmojis.emojis.find(({ fallback }) => fallback === emojiFallback);
         if (relatedIcon) {
           const { representation: { imagePath } } = relatedIcon;
           const { meta } = uploadedSpecialEmojis;
@@ -33,7 +34,7 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => a
       }
 
       if (emojiIdIsCustomAtlassianEmmoticon) {
-        const relatedIcon = atlassianSpecialEmojis.find(({ fallback }) => fallback === emojiData.emojiFallback);
+        const relatedIcon = atlassianSpecialEmojis.find(({ fallback }) => fallback === emojiFallback);
         if (relatedIcon) {
           const { representation: { imagePath } } = relatedIcon;
           return asignEmojiSource(element, $, imagePath);
@@ -41,10 +42,8 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => a
         return $(element).replaceWith(null);
       }
 
-      return $(element).replaceWith(emojiData.emojiFallback);
+      return $(element).replaceWith(emojiFallback);
     });
-
-    await imgEmoticonsPromises;
   }
 
   const convertUnicodeToChar = (text: string) =>
