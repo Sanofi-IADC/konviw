@@ -1,3 +1,10 @@
+## [3.49.4](https://github.com/Sanofi-IADC/konviw/compare/v3.49.3...v3.49.4) (2026-03-24)
+
+
+### Bug Fixes
+
+* WEB-2763 blgImg_null_fix ([d75227b](https://github.com/Sanofi-IADC/konviw/commit/d75227b5f894690a9247648d35ebb3a66c2280fe))
+
 ## [3.49.3](https://github.com/Sanofi-IADC/konviw/compare/v3.49.2...v3.49.3) (2026-03-13)
 
 
