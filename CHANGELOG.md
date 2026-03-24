@@ -1,3 +1,10 @@
+# [3.50.0](https://github.com/Sanofi-IADC/konviw/compare/v3.49.6...v3.50.0) (2026-03-24)
+
+
+### Features
+
+* web-2685 null image fix ([5c5e847](https://github.com/Sanofi-IADC/konviw/commit/5c5e8477763fa3dc8057ac40e6b0d7bc7e706b43))
+
 ## [3.49.6](https://github.com/Sanofi-IADC/konviw/compare/v3.49.5...v3.49.6) (2026-03-24)
 
 
