@@ -18,6 +18,7 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => a
       const emojiId = typeof emojiData.emojiId === 'string' ? emojiData.emojiId : '';
       const emojiFallback = typeof emojiData.emojiFallback === 'string' ? emojiData.emojiFallback : '';
 
+      // define all cases for emojis
       const emojiIdIsCustomAtlassianEmmoticon = emojiFallback.startsWith(':') && emojiFallback.endsWith(':');
       const emojiIdIsSpecialAtlassianEmoticon = emojiId.startsWith('atlassian');
       const emojiIdIsSpecialUploadedEmoticon = emojiId.length > 10 && !emojiIdIsSpecialAtlassianEmoticon;
