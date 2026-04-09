@@ -81,13 +81,123 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
     });
   });
 
-  // collect all new Jira issues macro elements
-  const newJiraIssuesMacroElements = $('.external-link').get().filter((link) => link.attribs['data-datasource']);
+  // collect all new Jira issues macro elements (Atlassian has changed markup over time)
+  const newJiraIssuesMacroElements = $('[data-datasource]').get().filter((link) => {
+    const dataSource = link.attribs?.['data-datasource'];
+    if (!dataSource) {
+      return false;
+    }
+
+    // Keep only datasource entries that look like Jira macro payloads.
+    return dataSource.includes('jql') || dataSource.includes('views') || dataSource.includes('JIRA');
+  });
 
   const elementsToVerifyStep = [
     ...$(newJiraIssuesMacroElements).toArray(),
     ...$('.refresh-wiki').toArray(),
   ];
+
+  const normalizeHeader = (value: string) => value.toLowerCase().replace(/\s+/g, '');
+
+  const enrichStaticFixVersionTables = async (): Promise<number> => {
+    const candidateTables = $('table').toArray().filter((tableElement: cheerio.Element) => {
+      const headers = $(tableElement).find('tr').first().find('th').toArray().map((header) => normalizeHeader($(header).text()));
+      return headers.includes('key') && (headers.includes('fixversions') || headers.includes('fixversion'));
+    });
+
+    if (!candidateTables.length) {
+      return 0;
+    }
+
+    const issueKeys = new Set<string>();
+
+    candidateTables.forEach((tableElement: cheerio.Element) => {
+      const headers = $(tableElement).find('tr').first().find('th').toArray();
+      const keyColumnIndex = headers.findIndex((header) => normalizeHeader($(header).text()) === 'key');
+
+      $(tableElement).find('tr').slice(1).each((_rowIndex, row) => {
+        const keyCell = $(row).find('td').eq(keyColumnIndex);
+        const href = keyCell.find('a').attr('href') || '';
+        const hrefKeyMatch = href.match(/\/browse\/([A-Z]+-\d+)/i);
+        const textKeyMatch = keyCell.text().match(/([A-Z]+-\d+)/i);
+        const issueKey = hrefKeyMatch?.[1] || textKeyMatch?.[1] || '';
+
+        if (issueKey) {
+          issueKeys.add(issueKey);
+        }
+      });
+    });
+
+    const keys = [...issueKeys];
+    if (!keys.length) {
+      return candidateTables.length;
+    }
+
+    const jiraIssuesResponse = await jiraService.findTickets(
+      'System JIRA',
+      `key in (${keys.join(',')})`,
+      'fixVersions',
+      0,
+      keys.length,
+    );
+
+    const fixVersionByKey = new Map<string, string>();
+    (jiraIssuesResponse?.data?.issues ?? []).forEach((issue: any) => {
+      const fixVersions = (issue.fields?.fixVersions ?? []).map((item: { name?: string }) => item.name).filter(Boolean);
+      fixVersionByKey.set(issue.key, fixVersions.join(', '));
+    });
+
+    candidateTables.forEach((tableElement: cheerio.Element) => {
+      const headers = $(tableElement).find('tr').first().find('th').toArray();
+
+      const removableInternalColumns = headers
+        .map((header, headerIndex) => ({
+          headerIndex,
+          normalized: normalizeHeader($(header).text()),
+        }))
+        .filter(({ normalized }) => /^customfield_\d+$/i.test(normalized))
+        .map(({ headerIndex }) => headerIndex)
+        .sort((a, b) => b - a);
+
+      removableInternalColumns.forEach((headerIndex) => {
+        $(tableElement).find('tr').each((_rowIndex, row) => {
+          $(row).find('th,td').eq(headerIndex).remove();
+        });
+      });
+
+      const refreshedHeaders = $(tableElement).find('tr').first().find('th').toArray();
+      const keyColumnIndex = refreshedHeaders.findIndex((header) => normalizeHeader($(header).text()) === 'key');
+      const fixVersionColumnIndex = refreshedHeaders.findIndex((header) => {
+        const normalized = normalizeHeader($(header).text());
+        return normalized === 'fixversions' || normalized === 'fixversion';
+      });
+
+      if (fixVersionColumnIndex >= 0) {
+        $(refreshedHeaders[fixVersionColumnIndex]).text('Fix versions');
+      }
+
+      $(tableElement).find('tr').slice(1).each((_rowIndex, row) => {
+        const cells = $(row).find('td');
+        const keyCell = cells.eq(keyColumnIndex);
+        const fixVersionCell = cells.eq(fixVersionColumnIndex);
+        const href = keyCell.find('a').attr('href') || '';
+        const hrefKeyMatch = href.match(/\/browse\/([A-Z]+-\d+)/i);
+        const textKeyMatch = keyCell.text().match(/([A-Z]+-\d+)/i);
+        const issueKey = hrefKeyMatch?.[1] || textKeyMatch?.[1] || '';
+
+        if (!issueKey || !fixVersionCell.length) {
+          return;
+        }
+
+        const fixVersionValue = fixVersionByKey.get(issueKey) || '';
+        fixVersionCell.text(fixVersionValue);
+      });
+    });
+
+    return candidateTables.length;
+  };
+
+  await enrichStaticFixVersionTables();
 
   if (!elementsToVerifyStep.length) {
     context.getPerfMeasure('addJira');
@@ -134,10 +244,36 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
 
   // this is the anchor holding the data to scrap the list of issues for new jira macro
   $(newJiraIssuesMacroElements).each((_, link: cheerio.Element) => {
-    const wikimarkup = JSON.parse(link.attribs['data-datasource']) as { [key: string]: any };
+    let wikimarkup: { [key: string]: any };
+    try {
+      wikimarkup = JSON.parse(link.attribs['data-datasource']) as { [key: string]: any };
+    } catch (error) {
+      return;
+    }
+
+    if (!wikimarkup?.parameters?.jql || !wikimarkup?.views?.[0]?.properties?.columns) {
+      return;
+    }
+
     const server = 'System JIRA';
     const filter = wikimarkup.parameters.jql;
-    const columns = wikimarkup.views[0].properties.columns.map(({ key }) => key).join(',');
+    const columns = wikimarkup.views[0].properties.columns
+      .filter((column: { key?: string; isVisible?: boolean; hidden?: boolean }) => {
+        if (!column?.key) {
+          return false;
+        }
+
+        // Ignore hidden/internal datasource columns to avoid rendering fields users did not request.
+        const explicitlyVisible = column.isVisible !== false && column.hidden !== true;
+        const isInternalCustomField = /^customfield_\d+$/i.test(column.key);
+        return explicitlyVisible && !isInternalCustomField;
+      })
+      .map((column: { key: string }) => column.key)
+      .join(',');
+
+    if (!columns) {
+      return;
+    }
 
     jiraIssuesPromises.push({
       issues: {
@@ -217,7 +353,18 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
     ({
       issues, columns, element, server,
     }, index) => {
-      const requestedFields = columns.split(',');
+      const requestedFields = columns
+        .split(',')
+        .map((field) => field.trim())
+        .filter(Boolean)
+        .filter((field) => {
+          if (!/^customfield_\d+$/i.test(field)) {
+            return true;
+          }
+
+          // Drop unresolved internal Jira custom fields so users do not see raw ids as columns.
+          return Boolean(checkFieldExistence(jiraFields, field));
+        });
       const dataObject:DataObject[] = [];
       // Load new base URL if defined a specific connection for Jira as ENV variables
       // otherwise default to standard baseURL defined for main server
@@ -225,6 +372,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
         ?? config.get('confluence.baseURL');
       issues.forEach((issue) => {
         const rowData:RowData = {};
+
         // the Jira API doesnt provide the key field value so we have to create manually
         if (requestedFields.includes('key')) {
           rowData.key = {
@@ -236,7 +384,9 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
         }
         Object.keys(issue.fields).forEach((fieldName) => {
           let fieldValue = issue.fields[fieldName];
-          const fieldTypeData = checkFieldExistence(jiraFields, fieldName);
+
+          const fieldTypeData = checkFieldExistence(jiraFields, fieldName)
+            ?? { name: fieldName, type: 'string' };
           let ColumnProcess = '';
 
           if (fieldTypeData.type in fieldFunctions) {
@@ -265,6 +415,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
         });
         return reorderedItem;
       });
+
       // prepared data format for grid
       const preparedData = reorderedDataArray.map((obj) => Object.values(obj));
       /* eslint-disable no-template-curly-in-string */
