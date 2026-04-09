@@ -6,6 +6,157 @@ import { ContextService } from '../../context/context.service';
 import * as FieldInterfaces from '../dto/FieldInterface';
 import * as JiraTable from '../utils/jiraGrid';
 
+const extractIssueKey = (keyCell: cheerio.Cheerio<cheerio.Element>): string => {
+  const href = keyCell.find('a').attr('href') || '';
+  const hrefKeyMatch = href.match(/\/browse\/([A-Z]+-\d+)/i);
+  const textKeyMatch = keyCell.text().match(/([A-Z]+-\d+)/i);
+  return hrefKeyMatch?.[1] || textKeyMatch?.[1] || '';
+};
+
+const getTableHeaders = (
+  $: cheerio.CheerioAPI,
+  tableElement: cheerio.Element,
+): cheerio.Element[] => $(tableElement).find('tr').first().find('th')
+  .toArray();
+
+const isFixVersionTable = (
+  $: cheerio.CheerioAPI,
+  tableElement: cheerio.Element,
+  normalizeHeader: (value: string) => string,
+): boolean => {
+  const headers = getTableHeaders($, tableElement).map((header) => normalizeHeader($(header).text()));
+  return headers.includes('key') && (headers.includes('fixversions') || headers.includes('fixversion'));
+};
+
+const collectIssueKeysFromTable = (
+  $: cheerio.CheerioAPI,
+  tableElement: cheerio.Element,
+  issueKeys: Set<string>,
+  normalizeHeader: (value: string) => string,
+): void => {
+  const headers = getTableHeaders($, tableElement);
+  const keyColumnIndex = headers.findIndex((header) => normalizeHeader($(header).text()) === 'key');
+  if (keyColumnIndex < 0) {
+    return;
+  }
+
+  const rows = $(tableElement).find('tr').slice(1).toArray();
+  rows.forEach((row) => {
+    const keyCell = $(row).find('td').eq(keyColumnIndex);
+    const issueKey = extractIssueKey(keyCell);
+    if (issueKey) {
+      issueKeys.add(issueKey);
+    }
+  });
+};
+
+const buildFixVersionMap = (jiraIssuesResponse: any): Map<string, string> => {
+  const fixVersionByKey = new Map<string, string>();
+  (jiraIssuesResponse?.data?.issues ?? []).forEach((issue: any) => {
+    const fixVersions = (issue.fields?.fixVersions ?? [])
+      .map((item: { name?: string }) => item.name)
+      .filter(Boolean);
+    fixVersionByKey.set(issue.key, fixVersions.join(', '));
+  });
+  return fixVersionByKey;
+};
+
+const removeInternalCustomColumns = (
+  $: cheerio.CheerioAPI,
+  tableElement: cheerio.Element,
+  normalizeHeader: (value: string) => string,
+): void => {
+  const removableInternalColumns = getTableHeaders($, tableElement)
+    .map((header, headerIndex) => ({
+      headerIndex,
+      normalized: normalizeHeader($(header).text()),
+    }))
+    .filter(({ normalized }) => /^customfield_\d+$/i.test(normalized))
+    .map(({ headerIndex }) => headerIndex)
+    .sort((a, b) => b - a);
+
+  removableInternalColumns.forEach((headerIndex) => {
+    const rows = $(tableElement).find('tr').toArray();
+    rows.forEach((row) => {
+      $(row).find('th,td').eq(headerIndex).remove();
+    });
+  });
+};
+
+const fillFixVersionsInTable = (
+  $: cheerio.CheerioAPI,
+  tableElement: cheerio.Element,
+  fixVersionByKey: Map<string, string>,
+  normalizeHeader: (value: string) => string,
+): void => {
+  const refreshedHeaders = getTableHeaders($, tableElement);
+  const keyColumnIndex = refreshedHeaders.findIndex((header) => normalizeHeader($(header).text()) === 'key');
+  const fixVersionColumnIndex = refreshedHeaders.findIndex((header) => {
+    const normalized = normalizeHeader($(header).text());
+    return normalized === 'fixversions' || normalized === 'fixversion';
+  });
+
+  if (fixVersionColumnIndex >= 0) {
+    $(refreshedHeaders[fixVersionColumnIndex]).text('Fix versions');
+  }
+
+  if (keyColumnIndex < 0 || fixVersionColumnIndex < 0) {
+    return;
+  }
+
+  const rows = $(tableElement).find('tr').slice(1).toArray();
+  rows.forEach((row) => {
+    const cells = $(row).find('td');
+    const keyCell = cells.eq(keyColumnIndex);
+    const fixVersionCell = cells.eq(fixVersionColumnIndex);
+    const issueKey = extractIssueKey(keyCell);
+
+    if (!issueKey || !fixVersionCell.length) {
+      return;
+    }
+
+    const fixVersionValue = fixVersionByKey.get(issueKey) || '';
+    fixVersionCell.text(fixVersionValue);
+  });
+};
+
+const enrichStaticFixVersionTables = async (
+  $: cheerio.CheerioAPI,
+  jiraService: JiraService,
+  normalizeHeader: (value: string) => string,
+): Promise<number> => {
+  const candidateTables = $('table').toArray().filter((tableElement) => isFixVersionTable($, tableElement, normalizeHeader));
+  if (!candidateTables.length) {
+    return 0;
+  }
+
+  const issueKeys = new Set<string>();
+  candidateTables.forEach((tableElement) => {
+    collectIssueKeysFromTable($, tableElement, issueKeys, normalizeHeader);
+  });
+
+  const keys = [...issueKeys];
+  if (!keys.length) {
+    return candidateTables.length;
+  }
+
+  const jiraIssuesResponse = await jiraService.findTickets(
+    'System JIRA',
+    `key in (${keys.join(',')})`,
+    'fixVersions',
+    0,
+    keys.length,
+  );
+
+  const fixVersionByKey = buildFixVersionMap(jiraIssuesResponse);
+  candidateTables.forEach((tableElement) => {
+    removeInternalCustomColumns($, tableElement, normalizeHeader);
+    fillFixVersionsInTable($, tableElement, fixVersionByKey, normalizeHeader);
+  });
+
+  return candidateTables.length;
+};
+
 export default (config: ConfigService, jiraService: JiraService): Step => async (context: ContextService): Promise<void> => {
   context.setPerfMark('addJira');
   const $ = context.getCheerioBody();
@@ -98,134 +249,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
   ];
 
   const normalizeHeader = (value: string) => value.toLowerCase().split(/\s+/).join('');
-
-  const extractIssueKey = (keyCell: cheerio.Cheerio<cheerio.Element>): string => {
-    const href = keyCell.find('a').attr('href') || '';
-    const hrefKeyMatch = href.match(/\/browse\/([A-Z]+-\d+)/i);
-    const textKeyMatch = keyCell.text().match(/([A-Z]+-\d+)/i);
-    return hrefKeyMatch?.[1] || textKeyMatch?.[1] || '';
-  };
-
-  const getTableHeaders = (tableElement: cheerio.Element): cheerio.Element[] => $(tableElement).find('tr').first().find('th')
-    .toArray();
-
-  const isFixVersionTable = (tableElement: cheerio.Element): boolean => {
-    const headers = getTableHeaders(tableElement).map((header) => normalizeHeader($(header).text()));
-    return headers.includes('key') && (headers.includes('fixversions') || headers.includes('fixversion'));
-  };
-
-  const collectIssueKeysFromTable = (tableElement: cheerio.Element, issueKeys: Set<string>): void => {
-    const headers = getTableHeaders(tableElement);
-    const keyColumnIndex = headers.findIndex((header) => normalizeHeader($(header).text()) === 'key');
-    if (keyColumnIndex < 0) {
-      return;
-    }
-
-    const rows = $(tableElement).find('tr').slice(1).toArray();
-    rows.forEach((row) => {
-      const keyCell = $(row).find('td').eq(keyColumnIndex);
-      const issueKey = extractIssueKey(keyCell);
-      if (issueKey) {
-        issueKeys.add(issueKey);
-      }
-    });
-  };
-
-  const buildFixVersionMap = (jiraIssuesResponse: any): Map<string, string> => {
-    const fixVersionByKey = new Map<string, string>();
-    (jiraIssuesResponse?.data?.issues ?? []).forEach((issue: any) => {
-      const fixVersions = (issue.fields?.fixVersions ?? [])
-        .map((item: { name?: string }) => item.name)
-        .filter(Boolean);
-      fixVersionByKey.set(issue.key, fixVersions.join(', '));
-    });
-    return fixVersionByKey;
-  };
-
-  const removeInternalCustomColumns = (tableElement: cheerio.Element): void => {
-    const removableInternalColumns = getTableHeaders(tableElement)
-      .map((header, headerIndex) => ({
-        headerIndex,
-        normalized: normalizeHeader($(header).text()),
-      }))
-      .filter(({ normalized }) => /^customfield_\d+$/i.test(normalized))
-      .map(({ headerIndex }) => headerIndex)
-      .sort((a, b) => b - a);
-
-    removableInternalColumns.forEach((headerIndex) => {
-      const rows = $(tableElement).find('tr').toArray();
-      rows.forEach((row) => {
-        $(row).find('th,td').eq(headerIndex).remove();
-      });
-    });
-  };
-
-  const fillFixVersionsInTable = (tableElement: cheerio.Element, fixVersionByKey: Map<string, string>): void => {
-    const refreshedHeaders = getTableHeaders(tableElement);
-    const keyColumnIndex = refreshedHeaders.findIndex((header) => normalizeHeader($(header).text()) === 'key');
-    const fixVersionColumnIndex = refreshedHeaders.findIndex((header) => {
-      const normalized = normalizeHeader($(header).text());
-      return normalized === 'fixversions' || normalized === 'fixversion';
-    });
-
-    if (fixVersionColumnIndex >= 0) {
-      $(refreshedHeaders[fixVersionColumnIndex]).text('Fix versions');
-    }
-
-    if (keyColumnIndex < 0 || fixVersionColumnIndex < 0) {
-      return;
-    }
-
-    const rows = $(tableElement).find('tr').slice(1).toArray();
-    rows.forEach((row) => {
-      const cells = $(row).find('td');
-      const keyCell = cells.eq(keyColumnIndex);
-      const fixVersionCell = cells.eq(fixVersionColumnIndex);
-      const issueKey = extractIssueKey(keyCell);
-
-      if (!issueKey || !fixVersionCell.length) {
-        return;
-      }
-
-      const fixVersionValue = fixVersionByKey.get(issueKey) || '';
-      fixVersionCell.text(fixVersionValue);
-    });
-  };
-
-  const enrichStaticFixVersionTables = async (): Promise<number> => {
-    const candidateTables = $('table').toArray().filter(isFixVersionTable);
-    if (!candidateTables.length) {
-      return 0;
-    }
-
-    const issueKeys = new Set<string>();
-    candidateTables.forEach((tableElement) => {
-      collectIssueKeysFromTable(tableElement, issueKeys);
-    });
-
-    const keys = [...issueKeys];
-    if (!keys.length) {
-      return candidateTables.length;
-    }
-
-    const jiraIssuesResponse = await jiraService.findTickets(
-      'System JIRA',
-      `key in (${keys.join(',')})`,
-      'fixVersions',
-      0,
-      keys.length,
-    );
-
-    const fixVersionByKey = buildFixVersionMap(jiraIssuesResponse);
-    candidateTables.forEach((tableElement) => {
-      removeInternalCustomColumns(tableElement);
-      fillFixVersionsInTable(tableElement, fixVersionByKey);
-    });
-
-    return candidateTables.length;
-  };
-
-  await enrichStaticFixVersionTables();
+  await enrichStaticFixVersionTables($, jiraService, normalizeHeader);
 
   if (!elementsToVerifyStep.length) {
     context.getPerfMeasure('addJira');
