@@ -8,8 +8,8 @@ import * as JiraTable from '../utils/jiraGrid';
 
 const extractIssueKey = (keyCell: cheerio.Cheerio<cheerio.Element>): string => {
   const href = keyCell.find('a').attr('href') || '';
-  const hrefKeyMatch = href.match(/\/browse\/([A-Z][A-Z0-9]*-\d+)/i);
-  const textKeyMatch = keyCell.text().match(/([A-Z][A-Z0-9]*-\d+)/i);
+  const hrefKeyMatch = href.match(/\/browse\/([A-Z][A-Z0-9]{0,9}-\d{1,10})/i);
+  const textKeyMatch = keyCell.text().match(/([A-Z][A-Z0-9]{0,9}-\d{1,10})/i);
   return hrefKeyMatch?.[1] || textKeyMatch?.[1] || '';
 };
 
