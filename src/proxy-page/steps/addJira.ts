@@ -157,6 +157,15 @@ const enrichStaticFixVersionTables = async (
   return candidateTables.length;
 };
 
+const createGridColumns = (data: any[], columnConfig: any): string => `[${data.slice(0, 1).flatMap((obj) => Object.keys(obj)
+  .map((key) => {
+    const field = obj[key];
+    const { gridtype } = field;
+    const { name } = field;
+    return columnConfig[gridtype](name);
+  })
+  .filter(Boolean)).join(',')}]`;
+
 export default (config: ConfigService, jiraService: JiraService): Step => async (context: ContextService): Promise<void> => {
   context.setPerfMark('addJira');
   const $ = context.getCheerioBody();
@@ -268,7 +277,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
     },
   );
   type JiraIssuePromise = {
-    issues: { issues: Promise<any>; } | { issues: Promise<any>; };
+    issues: { issues: Promise<any>; };
     columns: any;
     server: string;
     filter: any;
@@ -482,16 +491,7 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
       const preparedData = reorderedDataArray.map((obj) => Object.values(obj));
       /* eslint-disable no-template-curly-in-string */
       const { columnConfig } = JiraTable;
-      const createColumns = (data) => `[${data.slice(0, 1).flatMap((obj) =>
-        Object.keys(obj)
-          .map((key) => {
-            const field = obj[key];
-            const { gridtype } = field;
-            const { name } = field;
-            return columnConfig[gridtype](name);
-          })
-          .filter(Boolean)).join(',')}]`;
-      const gridjsColumns = createColumns(reorderedDataArray);
+      const gridjsColumns = createGridColumns(reorderedDataArray, columnConfig);
       const createGridTable = JiraTable.createTable;
       // remove the header
       $('div[id^="jira-issues-"]').remove();
