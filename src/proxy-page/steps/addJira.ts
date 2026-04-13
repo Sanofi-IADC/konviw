@@ -120,6 +120,34 @@ const fillFixVersionsInTable = (
   });
 };
 
+const reorderDataObjectKeys = (
+  item: Record<string, any>,
+  requestedFields: (string | number)[],
+): Record<string, any> => {
+  const reorderedItem = {};
+  requestedFields.forEach((column: string | number) => {
+    if (Object.prototype.hasOwnProperty.call(item, column)) {
+      reorderedItem[column] = item[column];
+    }
+  });
+  return reorderedItem;
+};
+
+const buildGridColumnsConfig = (
+  data: Record<string, any>[],
+  columnConfig: Record<string, (name: string) => string>,
+): string => {
+  const columns = data.slice(0, 1).flatMap((obj) => Object.keys(obj)
+    .map((key) => {
+      const field = obj[key];
+      const { gridtype } = field;
+      const { name } = field;
+      return columnConfig[gridtype](name);
+    })
+    .filter(Boolean));
+  return `[${columns.join(',')}]`;
+};
+
 const enrichStaticFixVersionTables = async (
   $: cheerio.CheerioAPI,
   jiraService: JiraService,
@@ -156,15 +184,6 @@ const enrichStaticFixVersionTables = async (
 
   return candidateTables.length;
 };
-
-const createGridColumns = (data: any[], columnConfig: any): string => `[${data.slice(0, 1).flatMap((obj) => Object.keys(obj)
-  .map((key) => {
-    const field = obj[key];
-    const { gridtype } = field;
-    const { name } = field;
-    return columnConfig[gridtype](name);
-  })
-  .filter(Boolean)).join(',')}]`;
 
 export default (config: ConfigService, jiraService: JiraService): Step => async (context: ContextService): Promise<void> => {
   context.setPerfMark('addJira');
@@ -477,21 +496,13 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
         dataObject.push(rowData);
       });
       // reorder dataObject keys from issuesColumns.columns sometimes it's unordered
-      const reorderedDataArray = dataObject.map((item) => {
-        const reorderedItem = {};
-        requestedFields.forEach((column: string | number) => {
-          if (Object.prototype.hasOwnProperty.call(item, column)) {
-            reorderedItem[column] = item[column];
-          }
-        });
-        return reorderedItem;
-      });
+      const reorderedDataArray = dataObject.map((item) => reorderDataObjectKeys(item, requestedFields));
 
       // prepared data format for grid
       const preparedData = reorderedDataArray.map((obj) => Object.values(obj));
       /* eslint-disable no-template-curly-in-string */
       const { columnConfig } = JiraTable;
-      const gridjsColumns = createGridColumns(reorderedDataArray, columnConfig);
+      const gridjsColumns = buildGridColumnsConfig(reorderedDataArray, columnConfig);
       const createGridTable = JiraTable.createTable;
       // remove the header
       $('div[id^="jira-issues-"]').remove();
