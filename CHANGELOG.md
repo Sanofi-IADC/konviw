@@ -1,3 +1,16 @@
+## [3.50.2](https://github.com/Sanofi-IADC/konviw/compare/v3.50.1...v3.50.2) (2026-04-13)
+
+
+### Bug Fixes
+
+* **web:** web-2776 mismatched columns ([52c2b71](https://github.com/Sanofi-IADC/konviw/commit/52c2b715cf2384d11cbd453b4282f090cec34e0c))
+* **web:** web-2776 mismatched columns ([e848fb2](https://github.com/Sanofi-IADC/konviw/commit/e848fb29567a1f8d67da5370fcbc975cf4d0a112))
+* **web:** web-2776 mismatched columns ([ff830b7](https://github.com/Sanofi-IADC/konviw/commit/ff830b76775c14c79652c4de9eca0f7f1ef9de85))
+* **web:** web-2776 mismatched columns ([4c32218](https://github.com/Sanofi-IADC/konviw/commit/4c322185dff4a8951fd45040b49237ab88df14a7))
+* **web:** web-2776 mismatched columns ([b76af80](https://github.com/Sanofi-IADC/konviw/commit/b76af8006dfbf896a8fc64a70e17bded016acc92))
+* **web:** web-2776 mismatched columns ([d4db31f](https://github.com/Sanofi-IADC/konviw/commit/d4db31f69b79c37a410b149443bbfe72f36c8453))
+* **web:** web-2776 mismatched columns ([796b694](https://github.com/Sanofi-IADC/konviw/commit/796b694291b48c929bbb51e104797d3254b53abd))
+
 ## [3.50.1](https://github.com/Sanofi-IADC/konviw/compare/v3.50.0...v3.50.1) (2026-03-25)
 
 
