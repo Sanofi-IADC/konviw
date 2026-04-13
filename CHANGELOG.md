@@ -1,3 +1,10 @@
+## [3.50.3](https://github.com/Sanofi-IADC/konviw/compare/v3.50.2...v3.50.3) (2026-04-13)
+
+
+### Bug Fixes
+
+* WEB-2754 Trigger release to deploy latest code changes ([7d2da96](https://github.com/Sanofi-IADC/konviw/commit/7d2da96e038061f66443b22b1a9e048a6457c964))
+
 ## [3.50.2](https://github.com/Sanofi-IADC/konviw/compare/v3.50.1...v3.50.2) (2026-04-13)
 
 
