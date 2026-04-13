@@ -266,6 +266,100 @@ describe('Confluence Proxy / addJira', () => {
     await step(context);
     expect(context.getHtmlBody()).toBe(expected);
   });
+
+  it('should enrich static Fixversions table from Jira when no Jira macro exists', async () => {
+    const findTicketsMock = jest.fn().mockResolvedValue({
+      data: {
+        issues: [
+          {
+            key: 'SPC-4166',
+            fields: {
+              fixVersions: [{ name: 'SPC_V4.1.1' }],
+            },
+          },
+          {
+            key: 'SPC-4213',
+            fields: {
+              fixVersions: [],
+            },
+          },
+        ],
+      },
+    });
+
+    const staticTableStep = addJira(config, {
+      getTicket: async () => ({}),
+      getMaCro: async () => ({}),
+      getFields: async () => [],
+      findTickets: findTicketsMock,
+    } as any);
+
+    context.setHtmlBody(
+      '<html><head></head><body>'
+      + '<table class="confluenceTable"><thead><tr>'
+      + '<th>Type</th><th>Key</th><th>Summary</th><th>Fixversions</th>'
+      + '</tr></thead><tbody>'
+      + '<tr><td>Bug</td><td><a href="https://sanofi.atlassian.net/browse/SPC-4166">SPC-4166</a></td><td>Issue A</td><td></td></tr>'
+      + '<tr><td>Task</td><td><a href="https://sanofi.atlassian.net/browse/SPC-4213">SPC-4213</a></td><td>Issue B</td><td></td></tr>'
+      + '</tbody></table>'
+      + '</body></html>',
+    );
+
+    await staticTableStep(context);
+
+    const $ = context.getCheerioBody();
+    expect($('th').eq(3).text()).toBe('Fix versions');
+    expect($('tbody tr').eq(0).find('td').eq(3).text()).toBe('SPC_V4.1.1');
+    expect($('tbody tr').eq(1).find('td').eq(3).text()).toBe('');
+    expect(findTicketsMock).toHaveBeenCalledWith(
+      'System JIRA',
+      expect.stringContaining('SPC-4166'),
+      'fixVersions',
+      0,
+      2,
+    );
+  });
+
+  it('should remove empty static Customfield columns while enriching Fix versions', async () => {
+    const findTicketsMock = jest.fn().mockResolvedValue({
+      data: {
+        issues: [
+          {
+            key: 'SPC-4166',
+            fields: {
+              fixVersions: [{ name: 'SPC_V4.1.1' }],
+            },
+          },
+        ],
+      },
+    });
+
+    const staticTableStep = addJira(config, {
+      getTicket: async () => ({}),
+      getMaCro: async () => ({}),
+      getFields: async () => [],
+      findTickets: findTicketsMock,
+    } as any);
+
+    context.setHtmlBody(
+      '<html><head></head><body>'
+      + '<table class="confluenceTable"><thead><tr>'
+      + '<th>Key</th><th>Summary</th><th>Customfield_10020</th><th>Fixversions</th>'
+      + '</tr></thead><tbody>'
+      + '<tr><td><a href="https://sanofi.atlassian.net/browse/SPC-4166">SPC-4166</a></td><td>Issue A</td><td></td><td></td></tr>'
+      + '</tbody></table>'
+      + '</body></html>',
+    );
+
+    await staticTableStep(context);
+
+    const $ = context.getCheerioBody();
+    expect($('th').length).toBe(3);
+    expect($('thead').text()).not.toContain('Customfield_10020');
+    expect($('thead').text()).toContain('Fix versions');
+    expect($('tbody tr').eq(0).find('td').eq(2).text()).toBe('SPC_V4.1.1');
+  });
+
  it('should create new jira issues macro from anchor', async () => {
   const example =
     '<html><head></head><body>' +
@@ -275,5 +369,70 @@ describe('Confluence Proxy / addJira', () => {
     'href="https://test.atlassian.net/issues/jql?jql=PROJECT=%22TEI%20Web%20Platform%22%20ORDER%20BY%20created%20DESC">' +
     '</body></html>';
  });
+
+  it('should ignore internal customfield columns from new jira macro datasource', async () => {
+    const jiraWithCustomField = {
+      getTicket: async () => mockedIssueData,
+      getMaCro: async () => ({}),
+      getFields: async () => [
+        { id: 'key', name: 'Key', schema: { type: 'issuelinks' } },
+        { id: 'summary', name: 'summary', schema: { type: 'string' } },
+        { id: 'status', name: 'status', schema: { type: 'status' } },
+      ],
+      findTickets: async () => ({
+        data: {
+          total: 1,
+          issues: [{
+            ...mockedIssueData,
+            fields: {
+              ...mockedIssueData.fields,
+              customfield_10020: 'internal value',
+            },
+          }],
+        },
+      }),
+    };
+
+    const newMacroStep = addJira(config, jiraWithCustomField as any);
+    context.setHtmlBody(
+      '<html><head></head><body>'
+      + '<a class="external-link" data-card-appearance="block" '
+      + 'data-datasource="{&quot;id&quot;:&quot;123&quot;,&quot;parameters&quot;:{&quot;cloudId&quot;:&quot;abc&quot;,&quot;jql&quot;:&quot;project=FND&quot;},&quot;views&quot;:[{&quot;type&quot;:&quot;table&quot;,&quot;properties&quot;:{&quot;columns&quot;:[{&quot;key&quot;:&quot;key&quot;},{&quot;key&quot;:&quot;summary&quot;},{&quot;key&quot;:&quot;customfield_10020&quot;,&quot;isVisible&quot;:false}]}}]}" '
+      + 'href="https://test.atlassian.net/issues/jql?jql=project=FND">jira</a>'
+      + '</body></html>',
+    );
+
+    await newMacroStep(context);
+    const html = context.getHtmlBody();
+
+    expect(html).not.toContain('customfield_10020');
+    expect(html).toContain('summary');
+  });
+
+  it('should ignore unresolved customfield columns from legacy jira macro columns list', async () => {
+    const legacyMacroWithCustomField = `<input
+      type="hidden"
+      class="refresh-wiki"
+      id="refresh-wiki-legacy"
+      data-wikimarkup='
+        <ac:structured-macro ac:name="jira" ac:schema-version="1" ac:macro-id="macro-id">
+        <ac:parameter ac:name="server">System JIRA</ac:parameter>
+        <ac:parameter ac:name="maximumIssues">100</ac:parameter>
+        <ac:parameter ac:name="columns">summary,customfield_10020,status</ac:parameter>
+        <ac:parameter ac:name="jqlQuery">key = (FND-319)</ac:parameter>
+        <ac:parameter ac:name="serverId">server-id</ac:parameter>
+        </ac:structured-macro>' data-pageid="page-id">`;
+
+    context.setHtmlBody(
+      `<html><head><title>test</title></head><body><div id='Content'><div class='confluence-jim-macro jira-table'>${legacyMacroWithCustomField}</div></div></body></html>`,
+    );
+
+    await step(context);
+    const html = context.getHtmlBody();
+
+    expect(html).not.toContain('customfield_10020');
+    expect(html).toContain('summary');
+    expect(html).toContain('status');
+  });
 
 });

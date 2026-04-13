@@ -165,6 +165,10 @@ function checkFieldExistence(fields: jiraField[], idToCheck: string): CheckField
   return undefined;
 }
 
+function isInternalCustomField(fieldId: string): boolean {
+  return /^customfield_\d+$/i.test(fieldId);
+}
+
 function traverseIssues(issue: Issues, parentStructure: Issues['item'][] = []): Issues['item'][][] {
   // Append the current issue's item to the parent structure
   const currentStructure = [...parentStructure, issue.item];
@@ -255,6 +259,10 @@ function extractKeysColumns(issuesArray, allColumnsId, jiraFields, fieldFunction
         const isKeyColumn = column === 'key';
         const fieldTypeData = checkFieldExistence(jiraFields, column);
 
+        if (!isKeyColumn && isInternalCustomField(column) && fieldTypeData === undefined) {
+          return;
+        }
+
         let fieldValue = issue.fields[column];
         let columnProcess = '';
 
@@ -298,6 +306,10 @@ function createGridColumns(columns, columnsName, jiraFields, columnConfig, field
 
     if (column === 'key') {
       return columnConfig.link(column);
+    }
+
+    if (isInternalCustomField(column) && fieldTypeData === undefined) {
+      return '';
     }
 
     if (fieldTypeData === undefined || !(fieldTypeData.type in fieldFunctions)) {
