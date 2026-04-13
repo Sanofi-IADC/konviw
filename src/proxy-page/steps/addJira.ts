@@ -79,7 +79,9 @@ const removeInternalCustomColumns = (
       }
 
       return bodyRows.every((row) => {
-        const cellText = $(row).find('td').eq(headerIndex).text().trim();
+        const cellText = $(row).find('td').eq(headerIndex)
+          .text()
+          .trim();
         return cellText === '';
       });
     })
