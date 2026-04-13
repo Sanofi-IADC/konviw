@@ -66,17 +66,27 @@ const removeInternalCustomColumns = (
   tableElement: cheerio.Element,
   normalizeHeader: (value: string) => string,
 ): void => {
+  const rows = $(tableElement).find('tr').toArray();
+  const bodyRows = rows.slice(1);
   const removableInternalColumns = getTableHeaders($, tableElement)
     .map((header, headerIndex) => ({
       headerIndex,
       normalized: normalizeHeader($(header).text()),
     }))
-    .filter(({ normalized }) => /^customfield_\d+$/i.test(normalized))
+    .filter(({ headerIndex, normalized }) => {
+      if (!/^customfield_\d+$/i.test(normalized)) {
+        return false;
+      }
+
+      return bodyRows.every((row) => {
+        const cellText = $(row).find('td').eq(headerIndex).text().trim();
+        return cellText === '';
+      });
+    })
     .map(({ headerIndex }) => headerIndex)
     .sort((a, b) => b - a);
 
   removableInternalColumns.forEach((headerIndex) => {
-    const rows = $(tableElement).find('tr').toArray();
     rows.forEach((row) => {
       $(row).find('th,td').eq(headerIndex).remove();
     });
