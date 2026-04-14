@@ -96,6 +96,10 @@ export class ConfluenceService {
       return undefined;
     } catch (err) {
       this.logger.log(err, 'error:getPage');
+      const errAny = err as { response?: { status?: number }; code?: string };
+      this.logger.warn(
+        `[runtime-debug] getPage failed pageId=${pageId} upstreamStatus=${errAny?.response?.status ?? 'n/a'} code=${errAny?.code ?? 'n/a'}`,
+      );
       throw new HttpException(`${err}\nPage ${pageId} Not Found`, 404);
     }
   }

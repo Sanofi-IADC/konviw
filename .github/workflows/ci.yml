@@ -60,6 +60,22 @@ jobs:
         if: ${{ matrix.node-version == '22.22.0' }}
         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
 
+      - name: Debug — env presence in CI vs Vercel pull (no secret values)
+        if: ${{ matrix.node-version == '22.22.0' }}
+        run: |
+          echo "=== GitHub Actions job env: SET or UNSET (values never printed) ==="
+          for name in CPV_BASEPATH CPV_BASEHOST CPV_CONFLUENCE_BASE_URL CPV_CONFLUENCE_API_USERNAME CPV_CONFLUENCE_API_TOKEN CPV_KONVIW_PRIVATE_PAGE CPV_CONFLUENCE_API_TIMEOUT CPV_JIRA_READER_API_USERNAME CPV_JIRA_READER_API_TOKEN VERCEL_ORG_ID VERCEL_PROJECT_ID; do
+            eval "val=\"\${$name:-}\""
+            if [ -n "$val" ]; then echo "$name=SET"; else echo "$name=UNSET"; fi
+          done
+          echo "=== Variable NAMES from vercel pull (.vercel/.env.preview.local), values omitted ==="
+          if [ -f .vercel/.env.preview.local ]; then
+            cut -d= -f1 .vercel/.env.preview.local | grep -v '^#' | sed '/^$/d' | sort -u
+          else
+            echo "(no .vercel/.env.preview.local — check vercel pull output)"
+            ls -la .vercel 2>/dev/null || true
+          fi
+
       - name: Build Project Artifacts
         if: ${{ matrix.node-version == '22.22.0' }}
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
@@ -71,8 +87,16 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: |
           PREVIEW_URL=$(vercel deploy --prebuilt --token="$VERCEL_TOKEN")
+          echo "PREVIEW_URL=$PREVIEW_URL"
           echo "PREVIEW_URL=$PREVIEW_URL" >> $GITHUB_OUTPUT
           echo "DEPLOYMENT_CREATED=true" >> $GITHUB_OUTPUT
+
+      - name: Debug — probe preview /cpv/health (no secrets in response)
+        if: ${{ matrix.node-version == '22.22.0' && steps.vercel-deploy.outputs.DEPLOYMENT_CREATED == 'true' }}
+        run: |
+          URL="${{ steps.vercel-deploy.outputs.PREVIEW_URL }}/cpv/health"
+          echo "GET $URL"
+          curl -sS -w "\nHTTP_CODE:%{http_code}\n" "$URL" || true
 
       - name: Run Cypress Tests
         uses: cypress-io/github-action@v2
