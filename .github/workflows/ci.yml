@@ -113,7 +113,7 @@ jobs:
           echo "GET $WIKI_URL (with slug)"
           curl -sS -i "$WIKI_URL" | head -c 4096
           echo ""
-          WIKI_URL_NO_SLUG="${PREVIEW_URL}/cpv/wiki/spaces/KONVIW/pages/77660200"
+          WIKI_URL_NO_SLUG="${PREVIEW_URL}/cpv/wiki/spaces/konviw/pages/770408500"
           echo "GET $WIKI_URL_NO_SLUG (page id only)"
           curl -sS -i "$WIKI_URL_NO_SLUG" | head -c 4096
           echo ""
