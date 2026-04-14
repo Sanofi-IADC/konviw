@@ -1,3 +1,66 @@
+## [3.50.4](https://github.com/Sanofi-IADC/konviw/compare/v3.50.3...v3.50.4) (2026-04-14)
+
+
+### Bug Fixes
+
+* WEB-2574 depricated JIRA API fix ([3ee57a3](https://github.com/Sanofi-IADC/konviw/commit/3ee57a3f822945d77f1c57b6e3f23ad0993c890b))
+
+## [3.50.3](https://github.com/Sanofi-IADC/konviw/compare/v3.50.2...v3.50.3) (2026-04-13)
+
+
+### Bug Fixes
+
+* WEB-2754 Trigger release to deploy latest code changes ([7d2da96](https://github.com/Sanofi-IADC/konviw/commit/7d2da96e038061f66443b22b1a9e048a6457c964))
+
+## [3.50.2](https://github.com/Sanofi-IADC/konviw/compare/v3.50.1...v3.50.2) (2026-04-13)
+
+
+### Bug Fixes
+
+* **web:** web-2776 mismatched columns ([52c2b71](https://github.com/Sanofi-IADC/konviw/commit/52c2b715cf2384d11cbd453b4282f090cec34e0c))
+* **web:** web-2776 mismatched columns ([e848fb2](https://github.com/Sanofi-IADC/konviw/commit/e848fb29567a1f8d67da5370fcbc975cf4d0a112))
+* **web:** web-2776 mismatched columns ([ff830b7](https://github.com/Sanofi-IADC/konviw/commit/ff830b76775c14c79652c4de9eca0f7f1ef9de85))
+* **web:** web-2776 mismatched columns ([4c32218](https://github.com/Sanofi-IADC/konviw/commit/4c322185dff4a8951fd45040b49237ab88df14a7))
+* **web:** web-2776 mismatched columns ([b76af80](https://github.com/Sanofi-IADC/konviw/commit/b76af8006dfbf896a8fc64a70e17bded016acc92))
+* **web:** web-2776 mismatched columns ([d4db31f](https://github.com/Sanofi-IADC/konviw/commit/d4db31f69b79c37a410b149443bbfe72f36c8453))
+* **web:** web-2776 mismatched columns ([796b694](https://github.com/Sanofi-IADC/konviw/commit/796b694291b48c929bbb51e104797d3254b53abd))
+
+## [3.50.1](https://github.com/Sanofi-IADC/konviw/compare/v3.50.0...v3.50.1) (2026-03-25)
+
+
+### Bug Fixes
+
+* WEB-2685 Trigger release to deploy latest code changes ([8fc2393](https://github.com/Sanofi-IADC/konviw/commit/8fc23938b9f0fb7d60640d92b63598b29387af99))
+
+# [3.50.0](https://github.com/Sanofi-IADC/konviw/compare/v3.49.6...v3.50.0) (2026-03-24)
+
+
+### Features
+
+* web-2685 null image fix ([5c5e847](https://github.com/Sanofi-IADC/konviw/commit/5c5e8477763fa3dc8057ac40e6b0d7bc7e706b43))
+
+## [3.49.6](https://github.com/Sanofi-IADC/konviw/compare/v3.49.5...v3.49.6) (2026-03-24)
+
+
+### Bug Fixes
+
+* web-2685 null image fix ([187b947](https://github.com/Sanofi-IADC/konviw/commit/187b947b008b04de68f53ac7925872140ad95b73))
+
+## [3.49.5](https://github.com/Sanofi-IADC/konviw/compare/v3.49.4...v3.49.5) (2026-03-24)
+
+
+### Bug Fixes
+
+* WEB-2763 blgImg null fix ([8acd679](https://github.com/Sanofi-IADC/konviw/commit/8acd679658f37e47673b0fc428c9eef496882b1c))
+* WEB-2763 blgImg null fix ([3a21946](https://github.com/Sanofi-IADC/konviw/commit/3a219461afe89d607a82cec477328927b54492d5))
+
+## [3.49.4](https://github.com/Sanofi-IADC/konviw/compare/v3.49.3...v3.49.4) (2026-03-24)
+
+
+### Bug Fixes
+
+* WEB-2763 blgImg_null_fix ([d75227b](https://github.com/Sanofi-IADC/konviw/commit/d75227b5f894690a9247648d35ebb3a66c2280fe))
+
 ## [3.49.3](https://github.com/Sanofi-IADC/konviw/compare/v3.49.2...v3.49.3) (2026-03-13)
 
 
