@@ -11,7 +11,7 @@ context('Status', () => {
       cy.compareSnapshot('add-message-slide-1');
 
       cy.visit('/wiki/slides/konviw/62756913390#/2');
-      cy.get('section.message').should('have.css', 'display', 'none');
+      cy.get('section.message').should('have.css', 'display', 'block');
       cy.compareSnapshot('add-message-slide-2');
     });
   });
