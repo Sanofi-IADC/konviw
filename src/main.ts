@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { Logger, LogLevel, ValidationPipe } from '@nestjs/common';
+import { LogLevel, ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { ConfigService } from '@nestjs/config';
 import {
@@ -12,7 +12,6 @@ import hbs from 'hbs';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { AppModule } from './app.module';
 import { HealthController } from './health/health.controller';
-import { logRuntimeConfigDebug } from './common/utils/runtime-config-debug';
 
 /**
  * Entry point of application. By using the NestFactory.create() method a new Nest application instance is created.
@@ -34,7 +33,6 @@ async function bootstrap() {
   app.set('query parser', 'extended');
   const config = app.get(ConfigService);
   const basePath = config.get('web.basePath');
-  logRuntimeConfigDebug(new Logger('Bootstrap'), config);
   app.useGlobalPipes(
     // Reference: https://docs.nestjs.com/techniques/validation#auto-validation
     new ValidationPipe({
