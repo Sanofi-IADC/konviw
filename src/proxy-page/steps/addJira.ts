@@ -519,7 +519,6 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
       // remove the header
       $('div[id^="jira-issues-"]').remove();
 
-      // remove the 'loading...' text
       $('div[id^="refresh-issues-loading-"]').remove();
 
       // remove the actualize link
