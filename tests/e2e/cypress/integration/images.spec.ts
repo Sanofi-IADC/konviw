@@ -3,7 +3,7 @@
 context('Images', () => {
   it('match the whole page', () => {
     cy.visit(
-      '/wiki/spaces/KONVIW/pages/191299661/Demo+Media+content+Images',
+      '/wiki/spaces/KONVIW/pages/763035809',
     );
     cy.wait(2000);
     cy.compareSnapshot('images');
