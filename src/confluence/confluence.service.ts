@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
-import { AxiosRequestConfig, AxiosResponse } from 'axios'; // eslint-disable-line import/no-extraneous-dependencies
+import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'; // eslint-disable-line import/no-extraneous-dependencies
 import { firstValueFrom } from 'rxjs';
 import {
   Content,
@@ -22,6 +22,24 @@ export class ConfluenceService {
     private http: HttpService,
     private readonly config: ConfigService,
   ) { }
+
+  /* eslint-disable class-methods-use-this */
+  private getSafeErrorMessage(err: unknown): string {
+    if (err instanceof AxiosError) {
+      const status = err.response?.status ?? 'N/A';
+      const url = err.config?.url ?? 'unknown';
+      const method = (err.config?.method ?? 'unknown').toUpperCase();
+      const serverMessage = err.response?.data?.message ?? err.message;
+      return `${method} ${url} failed with status ${status}: ${serverMessage}`;
+    }
+    if (err instanceof HttpException) {
+      return err.message;
+    }
+    if (err instanceof Error) {
+      return err.message;
+    }
+    return 'Unknown error';
+  }
 
   /**
    * @function getPage Service
@@ -95,8 +113,9 @@ export class ConfluenceService {
       }
       return undefined;
     } catch (err) {
-      this.logger.log(err, 'error:getPage');
-      throw new HttpException(`${err}\nPage ${pageId} Not Found`, 404);
+      this.logger.error(`error:getPage - ${this.getSafeErrorMessage(err)}`);
+      if (err instanceof HttpException) throw err;
+      throw new HttpException(`Page ${pageId} Not Found`, 404);
     }
   }
 
@@ -117,8 +136,8 @@ export class ConfluenceService {
       this.logger.log(`Retrieving media from ${uri}`);
       return results.headers.location;
     } catch (err) {
-      this.logger.log(err, 'error:getRedirectUrlForMedia');
-      throw new HttpException(`error:getRedirectUrlForMedia > ${err}`, 404);
+      this.logger.error(`error:getRedirectUrlForMedia - ${this.getSafeErrorMessage(err)}`);
+      throw new HttpException('error:getRedirectUrlForMedia', 404);
     }
   }
 
@@ -199,8 +218,8 @@ export class ConfluenceService {
       );
       return results;
     } catch (err) {
-      this.logger.log(err, 'error:getResults');
-      throw new HttpException(`error:getResults > ${err}`, 404);
+      this.logger.error(`error:getResults - ${this.getSafeErrorMessage(err)}`);
+      throw new HttpException('error:getResults', 404);
     }
   }
 
@@ -222,8 +241,8 @@ export class ConfluenceService {
       );
       return results;
     } catch (err: any) {
-      this.logger.log(err, 'error:getSpacePermissions');
-      throw new HttpException(`error:getSpacePermissions > ${err}`, 404);
+      this.logger.error(`error:getSpacePermissions - ${this.getSafeErrorMessage(err)}`);
+      throw new HttpException('error:getSpacePermissions', 404);
     }
   }
 
@@ -244,8 +263,8 @@ export class ConfluenceService {
       );
       return data.results;
     } catch (err: any) {
-      this.logger.log(err, 'error:getSpaceLabels');
-      throw new HttpException(`error:getSpaceLabels > ${err}`, 404);
+      this.logger.error(`error:getSpaceLabels - ${this.getSafeErrorMessage(err)}`);
+      throw new HttpException('error:getSpaceLabels', 404);
     }
   }
 
@@ -272,8 +291,8 @@ export class ConfluenceService {
       }
       return collection;
     } catch (err: any) {
-      this.logger.log(err, 'error:getSpacesMeta');
-      throw new HttpException(`error:getSpacesMeta > ${err}`, 404);
+      this.logger.error(`error:getSpacesMeta - ${this.getSafeErrorMessage(err)}`);
+      throw new HttpException('error:getSpacesMeta', 404);
     }
   }
 
@@ -320,8 +339,8 @@ export class ConfluenceService {
       );
       return { ...response, data: { ...response.data, results } };
     } catch (err: any) {
-      this.logger.log(err, 'error:getAllSpaces');
-      throw new HttpException(`error:getAllSpaces > ${err}`, 404);
+      this.logger.error(`error:getAllSpaces - ${this.getSafeErrorMessage(err)}`);
+      throw new HttpException('error:getAllSpaces', 404);
     }
   }
 
@@ -349,8 +368,8 @@ export class ConfluenceService {
       );
       return { ...result, data: result.data.results[0] };
     } catch (err: any) {
-      this.logger.log(err, 'error:getSpaceMetadata');
-      throw new HttpException(`error:getSpaceMetadata > ${err}`, 404);
+      this.logger.error(`error:getSpaceMetadata - ${this.getSafeErrorMessage(err)}`);
+      throw new HttpException('error:getSpaceMetadata', 404);
     }
   }
 
@@ -366,7 +385,7 @@ export class ConfluenceService {
         this.logger.log(`Retrieving attachments from ${contentType} ${pageId} via REST API v2`);
         return results.data?.results;
       } catch (err: any) {
-        this.logger.log(err, `error:getAttachments from ${contentType} ${pageId}`);
+        this.logger.error(`error:getAttachments from ${contentType} ${pageId} - ${this.getSafeErrorMessage(err)}`);
         return undefined;
       }
     }
@@ -381,7 +400,7 @@ export class ConfluenceService {
       this.logger.log(`Retrieving attachmentBase64 from ${url} via REST API v2`);
       return data.toString('base64');
     } catch (err: any) {
-      this.logger.log(err, `error:getAttachmentBase64 from ${url}`);
+      this.logger.error(`error:getAttachmentBase64 from ${url} - ${this.getSafeErrorMessage(err)}`);
       return undefined;
     }
   }
@@ -523,8 +542,8 @@ export class ConfluenceService {
       }
       return collection;
     } catch (err: any) {
-      this.logger.log(err, 'error:getCustomContentByTypeInSpace');
-      throw new HttpException(`error:getCustomContentByTypeInSpace > ${err}`, 404);
+      this.logger.error(`error:getCustomContentByTypeInSpace - ${this.getSafeErrorMessage(err)}`);
+      throw new HttpException('error:getCustomContentByTypeInSpace', 404);
     }
   }
 
@@ -543,8 +562,8 @@ export class ConfluenceService {
       this.logger.log(`Retrieving custom-content ${id} via REST API`);
       return data;
     } catch (err: any) {
-      this.logger.log(err, `error:getCustomContentById ${id}`);
-      throw new HttpException(`error:getCustomContentById > ${err}`, 404);
+      this.logger.error(`error:getCustomContentById ${id} - ${this.getSafeErrorMessage(err)}`);
+      throw new HttpException(`error:getCustomContentById ${id}`, 404);
     }
   }
 
@@ -563,8 +582,8 @@ export class ConfluenceService {
       this.logger.log(`Retrieving attachment ${id} via REST API`);
       return data;
     } catch (err: any) {
-      this.logger.log(err, `error:getAttchmentById ${id}`);
-      throw new HttpException(`error:getAttchmentById > ${err}`, 404);
+      this.logger.error(`error:getAttachmentById ${id} - ${this.getSafeErrorMessage(err)}`);
+      throw new HttpException(`error:getAttachmentById ${id}`, 404);
     }
   }
 }

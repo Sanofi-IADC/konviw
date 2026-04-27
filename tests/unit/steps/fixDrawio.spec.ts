@@ -91,6 +91,58 @@ describe('ConfluenceProxy / fixDrawio', () => {
   });
 });
 
+describe('ConfluenceProxy / fixDrawio (API v2 placeholder fallback)', () => {
+  let context: ContextService;
+  let config: ConfigService;
+  let webBasePath = '';
+
+  const v2DiagramName = 'my-v2-diagram';
+  const v2PageId = '999888777';
+
+  const v2ViewHtml = `
+<html>
+  <body>
+    <h3>Drawio from v2 view format</h3>
+    <div>draw.io Board</div>
+  </body>
+</html>
+`;
+
+  const v2StorageXml = `
+<ac:structured-macro ac:name="drawio-sketch" ac:schema-version="1" ac:macro-id="abc123">
+  <ac:parameter ac:name="pageId">${v2PageId}</ac:parameter>
+  <ac:parameter ac:name="diagramName">${v2DiagramName}</ac:parameter>
+</ac:structured-macro>
+`;
+
+  beforeEach(async () => {
+    const moduleRef = await createModuleRefForStep();
+    context = moduleRef.get<ContextService>(ContextService);
+    config = moduleRef.get<ConfigService>(ConfigService);
+    webBasePath = config.get('web.absoluteBasePath') ?? '';
+
+    context.initPageContext('v2', 'XXX', v2PageId, 'dark');
+    context.setHtmlBody(v2ViewHtml);
+    context.setBodyStorage(v2StorageXml);
+    const step = fixDrawio(config);
+    step(context);
+  });
+
+  it('should replace the draw.io Board placeholder with an image from storage metadata', () => {
+    const $ = context.getCheerioBody();
+    const img = $('img.drawio-zoomable');
+    expect(img.length).toBe(1);
+    const expectedSrc = `${webBasePath}/wiki/download/attachments/${v2PageId}/${v2DiagramName}.png`;
+    expect(img.attr('src')).toBe(expectedSrc);
+    expect(img.attr('alt')).toBe(v2DiagramName);
+  });
+
+  it('should remove the draw.io Board text placeholder', () => {
+    const $ = context.getCheerioBody();
+    expect($.html()).not.toContain('draw.io Board');
+  });
+});
+
 const getImgSrc = (image): string => {
   const regex = new RegExp('src="([^"]*)');
   return regex.exec(image)[1];

@@ -58,7 +58,11 @@ export class HttpAtlassianModule implements OnModuleInit {
         return response;
       },
       (err) => {
-        logger.error(err);
+        const status = err.response?.status ?? 'N/A';
+        const url = err.config?.url ?? 'unknown';
+        const method = (err.config?.method ?? 'unknown').toUpperCase();
+        const message = err.response?.data?.message ?? err.message;
+        logger.error(`${method} ${url} failed with status ${status}: ${message}`);
 
         // Don't forget this line like I did at first: it makes your failed HTTP requests resolve with "undefined" :-(
         return Promise.reject(err);
