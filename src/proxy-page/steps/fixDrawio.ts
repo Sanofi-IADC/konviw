@@ -12,6 +12,11 @@ import { Step } from '../proxy-page.step';
  * `div.ap-container[data-macro-name='inc-drawio']` which is used for
  * embedded diagrams from other pages
  *
+ * Additionally, when the Confluence API v2 view format is used, drawio macros
+ * are rendered as plain `<div>draw.io Board</div>` placeholders. In that case,
+ * the storage body (XML) is parsed to extract diagram metadata (diagramName, pageId)
+ * and the placeholder is replaced with the proper image tag.
+ *
  * @param  {ConfigService} config
  * @returns void
  */
@@ -85,6 +90,44 @@ export default (config: ConfigService): Step => (context: ContextService): void 
       }
     },
   );
+
+  // Confluence API v2 view format renders drawio macros as plain <div>draw.io Board</div>.
+  // When the old ap-container selectors didn't match, fall back to parsing the storage body
+  // to extract diagram metadata and replace the placeholder divs with proper image tags.
+  const drawioPlaceholders = $('div').filter(
+    (_i, el) => $(el).text().trim() === 'draw.io Board',
+  );
+  if (drawioPlaceholders.length > 0) {
+    const storageBody = context.getBodyStorage();
+    if (storageBody) {
+      const $xml = cheerio.load(storageBody, { xmlMode: true });
+      const macros = $xml(
+        String.raw`ac\:structured-macro[ac\:name="drawio"],`
+        + String.raw`ac\:structured-macro[ac\:name="drawio-sketch"],`
+        + String.raw`ac\:structured-macro[ac\:name="inc-drawio"]`,
+      );
+
+      drawioPlaceholders.each((idx: number, el: cheerio.Element) => {
+        const macro = macros.eq(idx);
+        if (!macro.length) return;
+
+        const diagramName = macro
+          .find(String.raw`ac\:parameter[ac\:name="diagramName"]`)
+          .text();
+        const pageId = macro
+          .find(String.raw`ac\:parameter[ac\:name="pageId"]`)
+          .text() || context.getPageId();
+
+        if (diagramName) {
+          $(el).replaceWith(
+            `<figure><img class="drawio-zoomable"
+              src="${webBasePath}/wiki/download/attachments/${pageId}/${diagramName}.png"
+              alt="${diagramName}" /></figure>`,
+          );
+        }
+      });
+    }
+  }
 
   context.getPerfMeasure('fixDrawio');
 };
