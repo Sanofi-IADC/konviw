@@ -1,3 +1,11 @@
+## [3.50.5](https://github.com/Sanofi-IADC/konviw/compare/v3.50.4...v3.50.5) (2026-04-27)
+
+
+### Bug Fixes
+
+* resolve draw.io diagrams rendering as 'draw.io Board' text ([49e0f19](https://github.com/Sanofi-IADC/konviw/commit/49e0f1989bd385442d0803eec85d7193fa553903))
+* resolve draw.io diagrams rendering as 'draw.io Board' text ([87b136d](https://github.com/Sanofi-IADC/konviw/commit/87b136d6b6ae56937d1abbc9d9b34f8ac7ce7a8c))
+
 ## [3.50.4](https://github.com/Sanofi-IADC/konviw/compare/v3.50.3...v3.50.4) (2026-04-14)
 
 
