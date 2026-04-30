@@ -47,12 +47,13 @@ Makedockfile.dist.conf
 Makedockfile.out
 
 # Cypress
-tests/e2e/cypress/screenshots/*
 tests/e2e/cypress/videos/*.mp4
-tests/e2e/cypress/integration/__image_snapshots__/*.actual.png
-tests/e2e/cypress/integration/__image_snapshots__/*.diff.png
+
+# cypress-image-diff-js: baseline/ is committed, others are generated
+tests/e2e/cypress/cypress-image-diff-screenshots/screenshots/*
 tests/e2e/cypress/cypress-image-diff-screenshots/comparison/*
 tests/e2e/cypress/cypress-image-diff-screenshots/diff/*
+tests/e2e/cypress/cypress-image-diff-html-report/
 
 # Tests coverage
 tests/unit/coverage

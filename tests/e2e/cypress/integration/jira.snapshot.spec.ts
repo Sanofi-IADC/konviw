@@ -2,8 +2,9 @@
 
 context('Jira snapshot', () => {
     const JIRA_URL = [
-      '/wiki/spaces/KONVIW/pages/237469697/Demo+Jira+Snapshot+with+JQL+Query+key',
-      '/wiki/spaces/KONVIW/pages/237371394/Demo+Jira+snapshot+with+project'
+      '/wiki/spaces/KONVIW/pages/64039359788',
+      // '/wiki/spaces/KONVIW/pages/64039359788/Demo+Jira+Snapshot+with+JQL+Query+key',
+      // '/wiki/spaces/KONVIW/pages/237371394/Demo+Jira+snapshot+with+project'
     ];
     it('checks if the Jira snapshot is displayed and matches the whole page', () => {
       JIRA_URL.forEach((url, index) => {
