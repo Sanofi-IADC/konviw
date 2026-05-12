@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, HttpException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { HttpService } from '@nestjs/axios';
 import getExcerptAndHeaderImage from '../proxy-api/steps/getExcerptAndHeaderImage';
@@ -225,12 +225,16 @@ export class ProxyPageService {
   }
 
   /**
-   * @function getMediaCdnUrl Service
-   * @return Promise string
-   * @param uri {string} 'iadc' - URL of the media file to return
+   * @function getMediaResponse Service
+   * @return Promise with binary content and media type
+   * @param uri {string} - URL of the media file to return
    */
-  getMediaCdnUrl(uri: string): Promise<string> {
-    const modifiedUri = uri.replace('/thumbnails/', '/attachments/');// replaced thumbnails due to end of support
-    return this.confluence.getRedirectUrlForMedia(modifiedUri);
+  async getMediaResponse(uri: string): Promise<{ data: Buffer; mediaType: string }> {
+    const modifiedUri = uri.replace('/thumbnails/', '/attachments/');
+    const content = await this.confluence.getMediaContent(modifiedUri);
+    if (content) {
+      return content;
+    }
+    throw new HttpException('Media not found', 404);
   }
 }
