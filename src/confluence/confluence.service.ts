@@ -17,7 +17,9 @@ import {
 @Injectable()
 export class ConfluenceService {
   private readonly logger = new Logger(ConfluenceService.name);
+
   private readonly attachmentCache = new Map<string, { data: Attachment[], timestamp: number }>();
+
   private readonly ATTACHMENT_CACHE_TTL = 60_000; // 60s
 
   constructor(
