@@ -123,28 +123,6 @@ export class ConfluenceService {
     }
   }
 
-  /**
-   * @function getRedirectUrlForMedia Service
-   * @description Route to retrieve the standard media files like images and videos (usually attachments)
-   * @return Promise {string} 'url' - URL of the media to display
-   * @param uri {string}
-   */
-  async getRedirectUrlForMedia(uri: string): Promise<string | null> {
-    try {
-      const results = await firstValueFrom(
-        this.http.get(`/wiki/${uri}`, {
-          maxRedirects: 0,
-          validateStatus: (status) => status === 302,
-        }),
-      );
-      this.logger.log(`Retrieving media from ${uri}`);
-      return results.headers.location;
-    } catch (err) {
-      this.logger.warn(`getRedirectUrlForMedia failed for ${uri}, will try v2 fallback - ${this.getSafeErrorMessage(err)}`);
-      return null;
-    }
-  }
-
   async getCachedAttachments(pageId: string): Promise<Attachment[]> {
     const cached = this.attachmentCache.get(pageId);
     if (cached && Date.now() - cached.timestamp < this.ATTACHMENT_CACHE_TTL) {

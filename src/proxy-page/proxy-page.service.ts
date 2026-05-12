@@ -5,7 +5,7 @@ import getExcerptAndHeaderImage from '../proxy-api/steps/getExcerptAndHeaderImag
 import { ConfluenceService } from '../confluence/confluence.service';
 import { JiraService } from '../jira/jira.service';
 import { ContextService } from '../context/context.service';
-import { Content, MediaResponse } from '../confluence/confluence.interface';
+import { Content } from '../confluence/confluence.interface';
 import delUnnecessaryCode from './steps/delUnnecessaryCode';
 import fixLinks from './steps/fixLinks';
 import fixEmojis from './steps/fixEmojis';
@@ -226,18 +226,14 @@ export class ProxyPageService {
 
   /**
    * @function getMediaResponse Service
-   * @return Promise MediaResponse
+   * @return Promise with binary content and media type
    * @param uri {string} - URL of the media file to return
    */
-  async getMediaResponse(uri: string): Promise<MediaResponse> {
+  async getMediaResponse(uri: string): Promise<{ data: Buffer; mediaType: string }> {
     const modifiedUri = uri.replace('/thumbnails/', '/attachments/');
-    const redirectUrl = await this.confluence.getRedirectUrlForMedia(modifiedUri);
-    if (redirectUrl) {
-      return { type: 'redirect', url: redirectUrl };
-    }
     const content = await this.confluence.getMediaContent(modifiedUri);
     if (content) {
-      return { type: 'proxy', data: content.data, mediaType: content.mediaType };
+      return content;
     }
     throw new HttpException('Media not found', 404);
   }

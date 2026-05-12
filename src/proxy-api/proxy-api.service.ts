@@ -545,10 +545,6 @@ export class ProxyApiService {
    * @returns Promise {string} A promise that resolves to the download URL of the attachment.
    */
   async getAttachmentDownloadUrl(uri: string): Promise<string> {
-    const downloadUrl = await this.confluence.getRedirectUrlForMedia(uri);
-    if (downloadUrl) {
-      return downloadUrl;
-    }
     const baseHost = this.config.get('web.baseHost');
     const basePath = this.config.get('web.basePath');
     return `${baseHost}${basePath}/wiki/${uri}`;
