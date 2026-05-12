@@ -13,7 +13,7 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => a
   const confluenceSpaceClassList = 'confluence-space';
   const confluenceSpaceIconClassList = 'confluence-space-icon';
 
-  const confluenceBaseURL = config.get('confluence.baseURL');
+  const webBasePath = config.get('web.absoluteBasePath');
 
   const isValidURL = (value: string) => {
     try {
@@ -41,8 +41,17 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => a
     return data;
   };
 
-  const createImagePath = (icon: { path: string }) =>
-    `${confluenceBaseURL}${icon.path}`;
+  // Route space icons through the konviw proxy. Prefer `icon.apiDownloadLink`
+  // (the v1 REST attachment-download endpoint, which returns a 302 to the
+  // signed Atlassian media URL) because the legacy `/wiki/download/attachments/...`
+  // path served by `icon.path` is no longer accepted with Basic Auth
+  // (Atlassian CHANGE-2735) and its parent content id is a space-level id,
+  // so the v2 page-attachments fallback used by `/cpv/wiki/download/...` 404s.
+  const createImagePath = (icon: { path?: string; apiDownloadLink?: string }) => {
+    if (icon?.apiDownloadLink) return `${webBasePath}${icon.apiDownloadLink}`;
+    if (icon?.path) return `${webBasePath}${icon.path}`;
+    return '';
+  };
 
   $('a').each((_, anchor) => {
     const confluenceSpaceRegex = new RegExp('^(.*?)(/wiki/spaces/)(.*)$');

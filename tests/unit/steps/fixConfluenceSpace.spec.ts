@@ -9,6 +9,7 @@ describe('ConfluenceProxy / fixConfluenceSpace', () => {
   let context: ContextService;
   let config: ConfigService;
   let http: HttpService;
+  let webBasePath = '';
   let input = '<html><head></head><body><div id="Content" class="fullWidth"><p><a href="/wiki/spaces/konviw">https://sanofi.atlassian.net/wiki/spaces/konviw</a> </p></div></body></html>';
 
   beforeEach(async () => {
@@ -16,14 +17,15 @@ describe('ConfluenceProxy / fixConfluenceSpace', () => {
     context = moduleRef.get<ContextService>(ContextService);
     config = moduleRef.get<ConfigService>(ConfigService);
     http = moduleRef.get<HttpService>(HttpService);
+    webBasePath = config.get('web.absoluteBasePath') ?? '';
     context.initPageContext('v2', 'XXX', '123456', 'dark');
   });
 
-  it('should replace confluence space icon', async () => {
+  it('should replace confluence space icon with a konviw-proxied apiDownloadLink', async () => {
     const step = fixConfluenceSpace(config, confluenceMockServiceFactory);
     context.setHtmlBody(input);
     await step(context);
-    const expected = '<img class="confluence-space-icon" src="https://test.atlassian.net/wiki/download/attachments/63859916803/konviw?version=1&amp;modificationDate=1664237784553&amp;cacheVersion=1&amp;api=v2">';
+    const expected = `<img class="confluence-space-icon" src="${webBasePath}/wiki/rest/api/content/63859916803/child/attachment/att63859916804/download">`;
     expect(context.getHtmlBody()).toContain(expected);
   });
 

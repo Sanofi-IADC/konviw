@@ -7,6 +7,7 @@ const GET_SPACE_METADATA = jest.fn().mockImplementation(() => ({
     name: 'konviw',
     icon: {
       path: '/wiki/download/attachments/63859916803/konviw?version=1&modificationDate=1664237784553&cacheVersion=1&api=v2',
+      apiDownloadLink: '/wiki/rest/api/content/63859916803/child/attachment/att63859916804/download',
       width: 48,
       height: 48,
       isDefault: false,

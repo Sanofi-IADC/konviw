@@ -119,14 +119,21 @@ export class ProxyPageController {
   /**
    * Route to retrieve the standard media files like images, videos or user profile avatar
    *
-   * @GET (controller) /download/* or /aa-avatar/*
+   * @GET (controller) /download/* or /aa-avatar/* or /rest/api/content/*
    * @return {string} 'url' - URL of the media to display
+   *
+   * The `/rest/api/content/*` route is needed for space icons. The v2 `/spaces`
+   * API exposes `icon.apiDownloadLink` of the form
+   *   /wiki/rest/api/content/{contentId}/child/attachment/{attId}/download
+   * which returns a 302 to the signed Atlassian media URL. Space icons cannot
+   * use the `/download/attachments/...` path because their parent content id is
+   * a space-level id (not a page id) and the v2 page-attachments lookup 404s.
    */
   @ApiOperation({
     summary: 'Redirect to media',
     description: 'Retrieve  media content defined in Confluence pages',
   })
-  @Get(['/download/*path', '/aa-avatar/*path'])
+  @Get(['/download/*path', '/aa-avatar/*path', '/rest/api/content/*path'])
   async getMedia(@Req() req: Request, @Res() res: Response) {
     const reqUrl = req.url.replace(/\/cpv\/wiki\//, '');
     const mediaCdnUrl = await this.proxyPage.getMediaCdnUrl(reqUrl);

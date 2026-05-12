@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
-import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'; // eslint-disable-line import/no-extraneous-dependencies
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'; // eslint-disable-line import/no-extraneous-dependencies
 import { firstValueFrom } from 'rxjs';
 import {
   Content,
@@ -120,22 +120,82 @@ export class ConfluenceService {
   }
 
   /**
+   * Parse a konviw media uri of the form
+   * `download/(attachments|thumbnails)/{pageId}/{filename}?...` into
+   * `{ pageId, filename }`. Returns `null` for any uri that does not match.
+   * Accepts optional leading `/` and `wiki/` prefix so both shapes work:
+   *   - `download/attachments/12345/file.png?...`               (proxy-page route)
+   *   - `/download/attachments/12345/file.png?...&api=v2`       (`downloadLink` from v2 attachment metadata)
+   *   - `/wiki/download/attachments/12345/file.png?...`         (absolute-style)
+   * Both `attachments` and `thumbnails` shapes are handled identically because
+   * Atlassian's supported migration endpoint serves the original file in both cases.
+   */
+  /* eslint-disable class-methods-use-this */
+  private parseMediaUri(uri: string): { pageId: string; filename: string } | null {
+    const normalized = uri.replace(/^\/+/, '').replace(/^wiki\//, '');
+    const match = normalized.match(/^download\/(?:attachments|thumbnails)\/(\d+)\/([^/?]+)(?:\?.*)?$/);
+    if (!match) return null;
+    const [, pageId, encodedFilename] = match;
+    try {
+      return { pageId, filename: decodeURIComponent(encodedFilename) };
+    } catch {
+      return { pageId, filename: encodedFilename };
+    }
+  }
+
+  /**
    * @function getRedirectUrlForMedia Service
-   * @description Route to retrieve the standard media files like images and videos (usually attachments)
+   * @description Resolve a Confluence attachment URL to its signed media-download URL
+   * via Atlassian's recommended migration path (CHANGE-2735):
+   *   1. v2 page-attachments lookup to resolve `{pageId, filename}` -> `attachmentId`
+   *   2. v1 REST `attachment/download` endpoint which returns a 302 to a signed
+   *      `media-download.confluence-data.com` URL.
+   * Replaces the now-deprecated direct `GET /wiki/download/attachments/...` call,
+   * which Atlassian no longer accepts with Basic Auth.
    * @return Promise {string} 'url' - URL of the media to display
-   * @param uri {string}
+   * @param uri {string} - e.g. `download/attachments/12345/file.png?api=v2`
    */
   async getRedirectUrlForMedia(uri: string): Promise<string> {
+    const parsed = this.parseMediaUri(uri);
+
     try {
-      const results = await firstValueFrom(
-        this.http.get(`/wiki/${uri}`, {
-          maxRedirects: 0,
-          validateStatus: (status) => status === 302,
+      // For non-`download/...` uris (e.g. `aa-avatar/{accountId}` for user
+      // profile pictures) we keep the original direct-call behavior because
+      // Atlassian's CHANGE-2735 deprecation only targets `/download/attachments/`.
+      if (!parsed) {
+        const passthrough: AxiosResponse = await firstValueFrom(
+          this.http.get(`/wiki/${uri.replace(/^\/+/, '')}`, {
+            maxRedirects: 0,
+            validateStatus: (status) => status === 302,
+          }),
+        );
+        this.logger.log(`Retrieving media from ${uri} via direct passthrough`);
+        return passthrough.headers.location;
+      }
+
+      const lookup: AxiosResponse = await firstValueFrom(
+        this.http.get(`/wiki/api/v2/pages/${parsed.pageId}/attachments`, {
+          params: { filename: parsed.filename, limit: 1 },
         }),
       );
-      this.logger.log(`Retrieving media from ${uri}`);
-      return results.headers.location;
+      const attachmentId: string | undefined = lookup.data?.results?.[0]?.id;
+      if (!attachmentId) {
+        this.logger.error(
+          `error:getRedirectUrlForMedia - attachment not found: pageId=${parsed.pageId} filename=${parsed.filename}`,
+        );
+        throw new HttpException('error:getRedirectUrlForMedia', 404);
+      }
+
+      const redirect: AxiosResponse = await firstValueFrom(
+        this.http.get(
+          `/wiki/rest/api/content/${parsed.pageId}/child/attachment/${attachmentId}/download`,
+          { maxRedirects: 0, validateStatus: (status) => status === 302 },
+        ),
+      );
+      this.logger.log(`Retrieving media from ${uri} via v1 attachment/download (attId=${attachmentId})`);
+      return redirect.headers.location;
     } catch (err) {
+      if (err instanceof HttpException) throw err;
       this.logger.error(`error:getRedirectUrlForMedia - ${this.getSafeErrorMessage(err)}`);
       throw new HttpException('error:getRedirectUrlForMedia', 404);
     }
@@ -394,11 +454,16 @@ export class ConfluenceService {
 
   async getAttachmentBase64(url: string): Promise<string> {
     try {
-      const { data }: AxiosResponse = await firstValueFrom(
-        this.http.get(`/wiki${url}`, { responseType: 'arraybuffer' }),
-      );
-      this.logger.log(`Retrieving attachmentBase64 from ${url} via REST API v2`);
-      return data.toString('base64');
+      // (1) Resolve the konviw media uri (typically a v2 `downloadLink` like
+      //     `/download/attachments/{pageId}/{filename}?...&api=v2`) to a
+      //     signed media-download URL via the supported migration path.
+      const signedUrl = await this.getRedirectUrlForMedia(url);
+      // (2) Fetch the bytes directly from the signed URL with a plain axios
+      //     call - the signed URL is on a different host (api.media.atlassian.com)
+      //     and must NOT receive our Atlassian Basic Auth header.
+      const { data } = await axios.get<ArrayBuffer>(signedUrl, { responseType: 'arraybuffer' });
+      this.logger.log(`Retrieving attachmentBase64 from ${url} via v1 attachment/download`);
+      return Buffer.from(data).toString('base64');
     } catch (err: any) {
       this.logger.error(`error:getAttachmentBase64 from ${url} - ${this.getSafeErrorMessage(err)}`);
       return undefined;

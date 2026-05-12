@@ -226,11 +226,15 @@ export class ProxyPageService {
 
   /**
    * @function getMediaCdnUrl Service
+   * @description Resolves a konviw media uri to its signed Atlassian
+   * `media-download.confluence-data.com` redirect URL. The legacy
+   * `/thumbnails/` -> `/attachments/` rewrite is no longer needed because
+   * `ConfluenceService.getRedirectUrlForMedia` handles both shapes via the
+   * v2 lookup + v1 attachment/download migration path (CHANGE-2735).
    * @return Promise string
    * @param uri {string} 'iadc' - URL of the media file to return
    */
   getMediaCdnUrl(uri: string): Promise<string> {
-    const modifiedUri = uri.replace('/thumbnails/', '/attachments/');// replaced thumbnails due to end of support
-    return this.confluence.getRedirectUrlForMedia(modifiedUri);
+    return this.confluence.getRedirectUrlForMedia(uri);
   }
 }
