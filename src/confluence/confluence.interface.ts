@@ -246,6 +246,10 @@ export interface Attachment {
   _links: GenericLinks
 }
 
+export type MediaResponse =
+  | { type: 'redirect'; url: string }
+  | { type: 'proxy'; data: Buffer; mediaType: string };
+
 export type Properties = {
   [key: string]: {
     value: string;

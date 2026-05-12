@@ -546,7 +546,12 @@ export class ProxyApiService {
    */
   async getAttachmentDownloadUrl(uri: string): Promise<string> {
     const downloadUrl = await this.confluence.getRedirectUrlForMedia(uri);
-    return downloadUrl;
+    if (downloadUrl) {
+      return downloadUrl;
+    }
+    const baseHost = this.config.get('web.baseHost');
+    const basePath = this.config.get('web.basePath');
+    return `${baseHost}${basePath}/wiki/${uri}`;
   }
 
   /**

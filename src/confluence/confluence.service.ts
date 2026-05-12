@@ -12,11 +12,14 @@ import {
   Content,
   SearchResults,
   Attachment,
+  MediaResponse,
 } from './confluence.interface';
 
 @Injectable()
 export class ConfluenceService {
   private readonly logger = new Logger(ConfluenceService.name);
+  private attachmentCache = new Map<string, { data: Attachment[], timestamp: number }>();
+  private readonly ATTACHMENT_CACHE_TTL = 60_000; // 60s
 
   constructor(
     private http: HttpService,
@@ -125,7 +128,7 @@ export class ConfluenceService {
    * @return Promise {string} 'url' - URL of the media to display
    * @param uri {string}
    */
-  async getRedirectUrlForMedia(uri: string): Promise<string> {
+  async getRedirectUrlForMedia(uri: string): Promise<string | null> {
     try {
       const results = await firstValueFrom(
         this.http.get(`/wiki/${uri}`, {
@@ -136,8 +139,52 @@ export class ConfluenceService {
       this.logger.log(`Retrieving media from ${uri}`);
       return results.headers.location;
     } catch (err) {
-      this.logger.error(`error:getRedirectUrlForMedia - ${this.getSafeErrorMessage(err)}`);
-      throw new HttpException('error:getRedirectUrlForMedia', 404);
+      this.logger.warn(`getRedirectUrlForMedia failed for ${uri}, will try v2 fallback - ${this.getSafeErrorMessage(err)}`);
+      return null;
+    }
+  }
+
+  async getCachedAttachments(pageId: string): Promise<Attachment[]> {
+    const cached = this.attachmentCache.get(pageId);
+    if (cached && Date.now() - cached.timestamp < this.ATTACHMENT_CACHE_TTL) {
+      return cached.data;
+    }
+    const data = await this.getAttachments(pageId);
+    if (data) {
+      this.attachmentCache.set(pageId, { data, timestamp: Date.now() });
+    }
+    return data;
+  }
+
+  async getMediaContent(uri: string): Promise<{ data: Buffer; mediaType: string } | null> {
+    const match = uri.match(/download\/attachments\/(\d+)\/([^?]+)/);
+    if (!match) return null;
+    const [, pageId, filename] = match;
+    try {
+      // Decode percent-encoding then normalise to NFC so accented filenames
+      // (e.g. "é" stored as NFC in Confluence, but NFD-encoded in the URL) match correctly.
+      const decodedFilename = decodeURIComponent(filename).normalize('NFC');
+      const attachments = await this.getCachedAttachments(pageId);
+      const attachment = attachments?.find((a) => a.title.normalize('NFC') === decodedFilename);
+      if (!attachment) {
+        this.logger.warn(`getMediaContent: attachment "${decodedFilename}" not found on page ${pageId}`);
+        return null;
+      }
+      // The legacy /wiki/download/attachments/ path returns 401 for API tokens.
+      // The v2 API has no binary download endpoint.
+      // The v1 REST endpoint /wiki/rest/api/content/{pageId}/child/attachment/{id}/download
+      // properly supports Basic Auth with API tokens.
+      const { data }: { data: ArrayBuffer } = await firstValueFrom(
+        this.http.get(
+          `/wiki/rest/api/content/${pageId}/child/attachment/${attachment.id}/download`,
+          { responseType: 'arraybuffer' },
+        ),
+      );
+      this.logger.log(`Downloaded attachment "${decodedFilename}" via REST v1 for page ${pageId}`);
+      return { data: Buffer.from(data), mediaType: attachment.mediaType };
+    } catch (err) {
+      this.logger.error(`error:getMediaContent for ${uri} - ${this.getSafeErrorMessage(err)}`);
+      return null;
     }
   }
 

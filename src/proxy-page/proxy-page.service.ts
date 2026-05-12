@@ -1,11 +1,11 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, HttpException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { HttpService } from '@nestjs/axios';
 import getExcerptAndHeaderImage from '../proxy-api/steps/getExcerptAndHeaderImage';
 import { ConfluenceService } from '../confluence/confluence.service';
 import { JiraService } from '../jira/jira.service';
 import { ContextService } from '../context/context.service';
-import { Content } from '../confluence/confluence.interface';
+import { Content, MediaResponse } from '../confluence/confluence.interface';
 import delUnnecessaryCode from './steps/delUnnecessaryCode';
 import fixLinks from './steps/fixLinks';
 import fixEmojis from './steps/fixEmojis';
@@ -225,12 +225,20 @@ export class ProxyPageService {
   }
 
   /**
-   * @function getMediaCdnUrl Service
-   * @return Promise string
-   * @param uri {string} 'iadc' - URL of the media file to return
+   * @function getMediaResponse Service
+   * @return Promise MediaResponse
+   * @param uri {string} - URL of the media file to return
    */
-  getMediaCdnUrl(uri: string): Promise<string> {
-    const modifiedUri = uri.replace('/thumbnails/', '/attachments/');// replaced thumbnails due to end of support
-    return this.confluence.getRedirectUrlForMedia(modifiedUri);
+  async getMediaResponse(uri: string): Promise<MediaResponse> {
+    const modifiedUri = uri.replace('/thumbnails/', '/attachments/');
+    const redirectUrl = await this.confluence.getRedirectUrlForMedia(modifiedUri);
+    if (redirectUrl) {
+      return { type: 'redirect', url: redirectUrl };
+    }
+    const content = await this.confluence.getMediaContent(modifiedUri);
+    if (content) {
+      return { type: 'proxy', data: content.data, mediaType: content.mediaType };
+    }
+    throw new HttpException('Media not found', 404);
   }
 }
