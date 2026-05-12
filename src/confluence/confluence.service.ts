@@ -12,13 +12,12 @@ import {
   Content,
   SearchResults,
   Attachment,
-  MediaResponse,
 } from './confluence.interface';
 
 @Injectable()
 export class ConfluenceService {
   private readonly logger = new Logger(ConfluenceService.name);
-  private attachmentCache = new Map<string, { data: Attachment[], timestamp: number }>();
+  private readonly attachmentCache = new Map<string, { data: Attachment[], timestamp: number }>();
   private readonly ATTACHMENT_CACHE_TTL = 60_000; // 60s
 
   constructor(
@@ -157,7 +156,7 @@ export class ConfluenceService {
   }
 
   async getMediaContent(uri: string): Promise<{ data: Buffer; mediaType: string } | null> {
-    const match = uri.match(/download\/attachments\/(\d+)\/([^?]+)/);
+    const match = /download\/attachments\/(\d+)\/([^?]+)/.exec(uri);
     if (!match) return null;
     const [, pageId, filename] = match;
     try {
