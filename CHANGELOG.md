@@ -1,3 +1,10 @@
+## [3.50.6](https://github.com/Sanofi-IADC/konviw/compare/v3.50.5...v3.50.6) (2026-05-12)
+
+
+### Bug Fixes
+
+* WEB-2806 migrate Confluence media URLs off deprecated download endpoint ([865e8b6](https://github.com/Sanofi-IADC/konviw/commit/865e8b63cc0e2f24d694d13f148473a94f01149b))
+
 ## [3.50.5](https://github.com/Sanofi-IADC/konviw/compare/v3.50.4...v3.50.5) (2026-04-27)
 
 
