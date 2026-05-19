@@ -20,6 +20,75 @@ import { Step } from '../proxy-page.step';
  * @param  {ConfigService} config
  * @returns void
  */
+
+type StorageDrawioMacro = {
+  diagramName: string;
+  pageId: string;
+};
+
+/**
+ * Walk the storage XML and collect every drawio macro in document order, no
+ * matter which storage shape Atlassian produced for it:
+ *
+ * - Legacy `<ac:structured-macro ac:name="drawio">`
+ *   (also `drawio-sketch` and `inc-drawio`).
+ * - New Forge ecosystem extension nodes
+ *   `<ac:adf-node type="extension">` whose `extension-key` ends with
+ *   `/static/drawio` (or `/static/drawio-sketch`). In that case Atlassian also
+ *   emits a duplicate copy inside `<ac:adf-fallback>` which we MUST skip to
+ *   keep the document-order indexing aligned with the rendered placeholders.
+ */
+const collectStorageDrawioMacros = (
+  storageBody: string,
+  fallbackPageId: string,
+): StorageDrawioMacro[] => {
+  const $xml = cheerio.load(storageBody, { xmlMode: true });
+  const candidates = $xml(
+    String.raw`ac\:structured-macro[ac\:name="drawio"],`
+      + String.raw`ac\:structured-macro[ac\:name="drawio-sketch"],`
+      + String.raw`ac\:structured-macro[ac\:name="inc-drawio"],`
+      + String.raw`ac\:adf-node[type="extension"]`,
+  );
+
+  const macros: StorageDrawioMacro[] = [];
+  candidates.each((_i, el) => {
+    const $el = $xml(el);
+
+    if ($el.is(String.raw`ac\:structured-macro`)) {
+      const diagramName = $el
+        .find(String.raw`ac\:parameter[ac\:name="diagramName"]`)
+        .first()
+        .text();
+      if (!diagramName) return;
+      const pageId = $el
+        .find(String.raw`ac\:parameter[ac\:name="pageId"]`)
+        .first()
+        .text() || fallbackPageId;
+      macros.push({ diagramName, pageId });
+      return;
+    }
+
+    // Forge ecosystem extension: only drawio extensions, and only the
+    // primary node (skip the duplicate inside <ac:adf-fallback>).
+    if ($el.parents(String.raw`ac\:adf-fallback`).length > 0) return;
+    const extensionKey = $el
+      .find(String.raw`ac\:adf-attribute[key="extension-key"]`)
+      .first()
+      .text();
+    if (!/\/static\/drawio(?:-sketch)?$/i.test(extensionKey)) return;
+    const diagramName = $el
+      .find(String.raw`ac\:adf-parameter[key="diagram-name"]`)
+      .first()
+      .text();
+    if (!diagramName) return;
+    const pageId = $el
+      .find(String.raw`ac\:adf-parameter[key="page-id"]`)
+      .first()
+      .text() || fallbackPageId;
+    macros.push({ diagramName, pageId });
+  });
+  return macros;
+};
 /* eslint-disable no-useless-escape, prefer-regex-literals */
 export default (config: ConfigService): Step => (context: ContextService): void => {
   context.setPerfMark('fixDrawio');
@@ -91,40 +160,43 @@ export default (config: ConfigService): Step => (context: ContextService): void 
     },
   );
 
-  // Confluence API v2 view format renders drawio macros as plain <div>draw.io Board</div>.
-  // When the old ap-container selectors didn't match, fall back to parsing the storage body
-  // to extract diagram metadata and replace the placeholder divs with proper image tags.
-  const drawioPlaceholders = $('div').filter(
+  // Confluence API v2 view format renders drawio macros as plain <div>draw.io Board</div>
+  // (when the macro pre-render succeeded) or, since 2026-05-19, as a generic warning macro
+  // body containing "Failed to load the diagram preview image. / Authentication Required /
+  // Page ID: <id>" when Atlassian's server-side preview generation fails. In both cases the
+  // ap-container selectors above don't match, so we fall back to parsing the storage body
+  // and reconstruct the proper image tag from the drawio macro parameters. The warning-macro
+  // and "draw.io Board" cases are mutually exclusive in practice (Atlassian emits one shape
+  // for the whole page), so a single index-aligned correlation against the storage drawio
+  // macros covers both.
+  const drawioBoardPlaceholders = $('div').filter(
     (_i, el) => $(el).text().trim() === 'draw.io Board',
+  );
+  // We do NOT constrain on data-macro-name here: depending on the original
+  // macro structure, Atlassian renders the same failure with data-macro-name
+  // set to "warning", "excerpt", or other values. The drawio-specific body
+  // text "Failed to load the diagram preview image" is what makes this
+  // selection safe.
+  const drawioWarningPlaceholders = $(
+    '.confluence-information-macro-warning',
+  ).filter((_i, el) =>
+    $(el).text().includes('Failed to load the diagram preview image'));
+  const drawioPlaceholders = drawioBoardPlaceholders.add(
+    drawioWarningPlaceholders,
   );
   if (drawioPlaceholders.length > 0) {
     const storageBody = context.getBodyStorage();
     if (storageBody) {
-      const $xml = cheerio.load(storageBody, { xmlMode: true });
-      const macros = $xml(
-        String.raw`ac\:structured-macro[ac\:name="drawio"],`
-        + String.raw`ac\:structured-macro[ac\:name="drawio-sketch"],`
-        + String.raw`ac\:structured-macro[ac\:name="inc-drawio"]`,
-      );
+      const macros = collectStorageDrawioMacros(storageBody, context.getPageId());
 
       drawioPlaceholders.each((idx: number, el: cheerio.Element) => {
-        const macro = macros.eq(idx);
-        if (!macro.length) return;
-
-        const diagramName = macro
-          .find(String.raw`ac\:parameter[ac\:name="diagramName"]`)
-          .text();
-        const pageId = macro
-          .find(String.raw`ac\:parameter[ac\:name="pageId"]`)
-          .text() || context.getPageId();
-
-        if (diagramName) {
-          $(el).replaceWith(
-            `<figure><img class="drawio-zoomable"
-              src="${webBasePath}/wiki/download/attachments/${pageId}/${diagramName}.png"
-              alt="${diagramName}" /></figure>`,
-          );
-        }
+        const macro = macros[idx];
+        if (!macro) return;
+        $(el).replaceWith(
+          `<figure><img class="drawio-zoomable"
+              src="${webBasePath}/wiki/download/attachments/${macro.pageId}/${macro.diagramName}.png"
+              alt="${macro.diagramName}" /></figure>`,
+        );
       });
     }
   }
