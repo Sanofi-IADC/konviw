@@ -1,3 +1,11 @@
+## [3.50.7](https://github.com/Sanofi-IADC/konviw/compare/v3.50.6...v3.50.7) (2026-05-19)
+
+
+### Bug Fixes
+
+* WEB-2830 render draw.io Forge ecosystem extensions and keep failure text out of the excerpt ([b8e6837](https://github.com/Sanofi-IADC/konviw/commit/b8e68376ac8a52263f6f2d29c8de57cbc514d264))
+* WEB-2830 render draw.io Forge ecosystem extensions and keep failure text out of the excerpt ([3130225](https://github.com/Sanofi-IADC/konviw/commit/313022509223ba48b9f47a53d1413ed42940f612))
+
 ## [3.50.6](https://github.com/Sanofi-IADC/konviw/compare/v3.50.5...v3.50.6) (2026-05-12)
 
 
