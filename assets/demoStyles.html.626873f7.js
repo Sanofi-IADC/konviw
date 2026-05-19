@@ -1,0 +1,1 @@
+const e={key:"v-76caaf3b",path:"/demoStyles.html",title:"Demo Styles",lang:"en-US",frontmatter:{title:"Demo Styles"},excerpt:"",headers:[],git:{updatedTime:1779206572e3,contributors:[{name:"St\xE9phane Dubois",email:"120457029+stephane-dubois@users.noreply.github.com",commits:1}]},filePathRelative:"demoStyles.md"};export{e as data};
