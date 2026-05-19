@@ -4,6 +4,21 @@ import { ContextService } from '../../context/context.service';
 import { Step } from '../proxy-api.step';
 import { ConfluenceService } from '../../confluence/confluence.service';
 
+// When Atlassian fails to pre-render a drawio diagram server-side, it injects
+// a generic "Failed to load the diagram preview image. / Authentication
+// Required / Page ID: <id>" warning macro in place of the diagram. fixDrawio
+// recovers the diagram in the rendered body, but this step runs first, so we
+// must strip the same text here to avoid leaking it into the excerpt /
+// konviwExcerpt metadata.
+const DRAWIO_FAILURE_TEXT_REGEX = /Failed to load the diagram preview image\.?\s*Authentication Required\s*Page ID:\s*\d+/gi;
+
+const stripDrawioFailureText = (text: string): string =>
+  text.replace(DRAWIO_FAILURE_TEXT_REGEX, '').replace(/\s+/g, ' ').trim();
+
+const isDrawioFailureWarning = ($el: cheerio.Cheerio<cheerio.Element>): boolean =>
+  $el.is('.confluence-information-macro-warning')
+    && $el.text().includes('Failed to load the diagram preview image');
+
 // This module search for the right image and a blockquote to set them as blog post header image and headline
 export default (config: ConfigService, confluence: ConfluenceService): Step => async (context: ContextService): Promise<void> => {
   context.setPerfMark('getExcerptAndHeaderImage');
@@ -33,7 +48,21 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => a
     .first()
     .each((_index: number, elementExcerpt: cheerio.Element) => {
       const excerptPage = $(elementExcerpt);
-      context.setExcerpt(excerptPage.text());
+      // If the excerpt macro IS the drawio preview-failure warning, treat
+      // it as empty: fixDrawio will recover the diagram and we don't want
+      // the failure text leaking into konviwExcerpt.
+      if (isDrawioFailureWarning(excerptPage)) {
+        return;
+      }
+      // Otherwise the excerpt may still embed a failure warning as a
+      // descendant; clone before mutating so we don't disturb the page DOM
+      // that fixDrawio still needs to operate on.
+      const cleaned = excerptPage.clone();
+      cleaned
+        .find('.confluence-information-macro-warning')
+        .filter((_i, el) => $(el).text().includes('Failed to load the diagram preview image'))
+        .remove();
+      context.setExcerpt(stripDrawioFailureText(cleaned.text()));
     });
 
   // TODO: [WEB-344] to be removed and release new major version
@@ -58,7 +87,7 @@ export default (config: ConfigService, confluence: ConfluenceService): Step => a
 
   // if not excerpt at all then alternatively we take a summary of the body of the document
   if (context.getExcerpt() === '') {
-    const tmpTextBody = context.getTextBody();
+    const tmpTextBody = stripDrawioFailureText(context.getTextBody());
     context.setExcerpt(
       tmpTextBody.substring(0, tmpTextBody.lastIndexOf(' ', 500)),
     );
