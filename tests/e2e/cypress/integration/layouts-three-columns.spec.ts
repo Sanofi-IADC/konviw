@@ -3,7 +3,7 @@
 context('Layouts Three Columns', () => {
   it('match the whole page', () => {
     cy.visit(
-      '/wiki/spaces/KONVIW/pages/191299585/Demo+Layouts+Three+columns+layout',
+      '/wiki/spaces/KONVIW/pages/763101857',
     );
     cy.compareSnapshot('layouts-three-columns');
   });

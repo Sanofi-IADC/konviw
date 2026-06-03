@@ -1,45 +1,48 @@
 import packageJson from '../../package.json';
 import Config from './config.d';
 
-export default (): Config => ({
-  env: process.env.NODE_ENV || 'production',
-  version: 'version' in packageJson ? packageJson.version : 'beta',
-  httpsProxy: process.env.HTTPS_PROXY,
-  web: {
-    port: (process.env.PORT && parseInt(process.env.PORT, 10)) || 3000,
-    basePath: process.env.CPV_BASEPATH,
-    baseHost: process.env.CPV_BASEHOST,
-    absoluteBasePath: `${process.env.CPV_BASEHOST}${process.env.CPV_BASEPATH}`,
-  },
-  confluence: {
-    baseURL: process.env.CPV_CONFLUENCE_BASE_URL,
-    apiUsername: process.env.CPV_CONFLUENCE_API_USERNAME,
-    apiToken: process.env.CPV_CONFLUENCE_API_TOKEN,
-    apiTimeOut: process.env.CPV_CONFLUENCE_API_TIMEOUT,
-    apiMaxRedirects: process.env.CPV_CONFLUENCE_API_MAX_REDIRECTS || '5',
-    emojiCollection: process.env.CPV_CONFLUENCE_EMOJI_COLLECTION,
-  },
-  konviw: {
-    private: process.env.CPV_KONVIW_PRIVATE_PAGE,
-  },
-  matomo: {
-    baseURL: process.env.CPV_MATOMO_BASE_URL,
-    idSite: process.env.CPV_MATOMO_ID_SITE,
-  },
-  google: {
-    tag: process.env.CPV_GOOGLE_ANALYTICS,
-  },
-  cache: {
-    cacheTTL:
-      (process.env.CACHE_TTL && parseInt(process.env.CACHE_TTL, 10)) || 60,
-    cacheMax:
-      (process.env.CACHE_MAX && parseInt(process.env.CACHE_MAX, 10)) || 100,
-  },
-  logging: {
-    enableLoggerMiddleware: process.env.ENABLE_LOGGER_MIDDLEWARE === 'true',
-  },
-  jiraIssues: {
-    apiReaderUsername: process.env.CPV_JIRA_READER_API_USERNAME,
-    apiReaderToken: process.env.CPV_JIRA_READER_API_TOKEN,
-  },
-});
+export default (): Config => {
+  const basePath = process.env.CPV_BASEPATH || '/cpv';
+  return {
+    env: process.env.NODE_ENV || 'production',
+    version: 'version' in packageJson ? packageJson.version : 'beta',
+    httpsProxy: process.env.HTTPS_PROXY,
+    web: {
+      port: (process.env.PORT && parseInt(process.env.PORT, 10)) || 3000,
+      basePath,
+      baseHost: process.env.CPV_BASEHOST,
+      absoluteBasePath: `${process.env.CPV_BASEHOST ?? ''}${basePath}`,
+    },
+    confluence: {
+      baseURL: process.env.CPV_CONFLUENCE_BASE_URL,
+      apiUsername: process.env.CPV_CONFLUENCE_API_USERNAME,
+      apiToken: process.env.CPV_CONFLUENCE_API_TOKEN,
+      apiTimeOut: process.env.CPV_CONFLUENCE_API_TIMEOUT,
+      apiMaxRedirects: process.env.CPV_CONFLUENCE_API_MAX_REDIRECTS || '5',
+      emojiCollection: process.env.CPV_CONFLUENCE_EMOJI_COLLECTION,
+    },
+    konviw: {
+      private: process.env.CPV_KONVIW_PRIVATE_PAGE,
+    },
+    matomo: {
+      baseURL: process.env.CPV_MATOMO_BASE_URL,
+      idSite: process.env.CPV_MATOMO_ID_SITE,
+    },
+    google: {
+      tag: process.env.CPV_GOOGLE_ANALYTICS,
+    },
+    cache: {
+      cacheTTL:
+        (process.env.CACHE_TTL && parseInt(process.env.CACHE_TTL, 10)) || 60,
+      cacheMax:
+        (process.env.CACHE_MAX && parseInt(process.env.CACHE_MAX, 10)) || 100,
+    },
+    logging: {
+      enableLoggerMiddleware: process.env.ENABLE_LOGGER_MIDDLEWARE === 'true',
+    },
+    jiraIssues: {
+      apiReaderUsername: process.env.CPV_JIRA_READER_API_USERNAME,
+      apiReaderToken: process.env.CPV_JIRA_READER_API_TOKEN,
+    },
+  };
+};
