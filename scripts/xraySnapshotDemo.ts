@@ -10,12 +10,16 @@
  *   npx ts-node -r tsconfig-paths/register scripts/xraySnapshotDemo.ts
  * then open the printed file path in a browser.
  */
-import { writeFileSync, mkdirSync } from 'fs';
-import { join } from 'path';
 import { ConfigService } from '@nestjs/config';
 import configuration from '../src/config/configuration.test';
-import { ContextService } from '../src/context/context.service';
-import addJiraSnapshot from '../src/proxy-page/steps/addJiraSnapshot';
+import {
+  GRIDJS_CDN_CSS,
+  GRIDJS_CDN_JS,
+  commonJiraFields,
+  renderSnapshotDemo,
+  runDemo,
+  xrayTestRunsLevel,
+} from './xrayDemoShared';
 
 // --- Sample data -----------------------------------------------------------
 //
@@ -74,17 +78,7 @@ const macroParams = {
         { value: { id: 'summary' }, label: 'Summary' },
       ],
     },
-    {
-      jql: 'mode = all AND fixVersions = Track4 2.0.1 AND environments = Test',
-      title: 'Test execution',
-      levelType: 'XRAY_TESTRUNS',
-      fieldsPosition: [
-        { value: { id: 'testexeckey' }, label: 'Test Execution Key' },
-        { value: { id: 'status' }, label: 'Status' },
-        { value: { id: 'fixversions' }, label: 'Fix versions' },
-        { value: { id: 'defects' }, label: 'Defects' },
-      ],
-    },
+    xrayTestRunsLevel,
   ],
 };
 
@@ -95,17 +89,7 @@ const jiraServiceMock = {
     return { data: { total: testCases.length, issues: testCases } };
   },
   async getFields() {
-    return [
-      {
-        id: 'key', key: 'key', name: 'Key', schema: { type: 'issuelinks' },
-      },
-      {
-        id: 'summary', key: 'summary', name: 'Summary', schema: { type: 'string' },
-      },
-      {
-        id: 'status', key: 'status', name: 'Status', schema: { type: 'status' },
-      },
-    ];
+    return commonJiraFields();
   },
 };
 
@@ -117,42 +101,25 @@ const xrayServiceMock = {
 
 // --- Render ----------------------------------------------------------------
 
-const GRIDJS_CDN_CSS = 'https://cdn.jsdelivr.net/npm/gridjs/dist/theme/mermaid.min.css';
-const GRIDJS_CDN_JS = 'https://cdn.jsdelivr.net/npm/gridjs/dist/gridjs.umd.js';
+const htmlBody = '<html><head><title>Xray Snapshot Demo</title>'
+  + `<link href="${GRIDJS_CDN_CSS}" rel="stylesheet" />`
+  + '</head><body><div id="Content">'
+  + '<h2>Jira Snapshot with Xray Test Runs (mocked data)</h2>'
+  + '<div data-macro-name="jira-jql-snapshot"></div>'
+  + `<script src="${GRIDJS_CDN_JS}"></script>`
+  + '</div></body></html>';
 
-async function run() {
+runDemo(async () => {
   const config = new ConfigService(configuration() as unknown as Record<string, unknown>);
-  const context = new ContextService(config);
-  context.initPageContext('v2', 'KONVIW', 'demo', 'light');
-
-  context.setHtmlBody(
-    '<html><head><title>Xray Snapshot Demo</title>'
-    + `<link href="${GRIDJS_CDN_CSS}" rel="stylesheet" />`
-    + '</head><body><div id="Content">'
-    + '<h2>Jira Snapshot with Xray Test Runs (mocked data)</h2>'
-    + '<div data-macro-name="jira-jql-snapshot"></div>'
-    + `<script src="${GRIDJS_CDN_JS}"></script>`
-    + '</div></body></html>',
-  );
-  context.setBodyStorage(
-    '<ac:structured-macro ac:name="jira-jql-snapshot">'
-    + `<ac:parameter ac:name="macroParams">${JSON.stringify(macroParams)}</ac:parameter>`
-    + '</ac:structured-macro>',
-  );
-
-  await addJiraSnapshot(config, jiraServiceMock as any, xrayServiceMock as any)(context);
-
-  const outputDir = join(__dirname, '..', 'tmp');
-  mkdirSync(outputDir, { recursive: true });
-  const outputFile = join(outputDir, 'xray-snapshot-demo.html');
-  writeFileSync(outputFile, context.getHtmlBody(), 'utf-8');
-
-  // eslint-disable-next-line no-console
-  console.log(`\nDemo rendered. Open this file in a browser:\n  ${outputFile}\n`);
-}
-
-run().catch((error) => {
-  // eslint-disable-next-line no-console
-  console.error(error);
-  process.exit(1);
+  await renderSnapshotDemo({
+    config,
+    jiraService: jiraServiceMock,
+    xrayService: xrayServiceMock,
+    macroParams,
+    htmlBody,
+    spaceKey: 'KONVIW',
+    slug: 'demo',
+    outputFileName: 'xray-snapshot-demo.html',
+    logLabel: 'Demo rendered. Open this file in a browser',
+  });
 });

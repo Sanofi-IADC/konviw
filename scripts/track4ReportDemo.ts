@@ -11,14 +11,18 @@
  */
 // eslint-disable-next-line import/no-extraneous-dependencies
 import 'dotenv/config';
-import { writeFileSync, mkdirSync } from 'fs';
-import { join } from 'path';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import configuration from '../src/config/configuration';
-import { ContextService } from '../src/context/context.service';
-import addJiraSnapshot from '../src/proxy-page/steps/addJiraSnapshot';
 import { XrayService } from '../src/xray/xray.service';
+import {
+  GRIDJS_CDN_CSS,
+  GRIDJS_CDN_JS,
+  commonJiraFields,
+  renderSnapshotDemo,
+  runDemo,
+  xrayTestRunsLevel,
+} from './xrayDemoShared';
 
 const SITE = 'https://sanofi.atlassian.net';
 
@@ -133,17 +137,7 @@ const macroParams = {
         { value: { id: 'summary' }, label: 'Summary' },
       ],
     },
-    {
-      jql: 'mode = all AND fixVersions = Track4 2.0.1 AND environments = Test',
-      title: 'Test execution',
-      levelType: 'XRAY_TESTRUNS',
-      fieldsPosition: [
-        { value: { id: 'testexeckey' }, label: 'Test Execution Key' },
-        { value: { id: 'status' }, label: 'Status' },
-        { value: { id: 'fixversions' }, label: 'Fix versions' },
-        { value: { id: 'defects' }, label: 'Defects' },
-      ],
-    },
+    xrayTestRunsLevel,
   ],
 };
 
@@ -158,26 +152,7 @@ const jiraServiceMock = {
     return { data: { total: requirements.length, issues: requirements } };
   },
   async getFields() {
-    return [
-      {
-        id: 'key', key: 'key', name: 'Key', schema: { type: 'issuelinks' },
-      },
-      {
-        id: 'summary', key: 'summary', name: 'Summary', schema: { type: 'string' },
-      },
-      {
-        id: 'status', key: 'status', name: 'Status', schema: { type: 'status' },
-      },
-      {
-        id: 'components', key: 'components', name: 'Components', schema: { type: 'array', items: 'component' },
-      },
-      {
-        id: 'issuetype', key: 'issuetype', name: 'Issue Type', schema: { type: 'issuetype' },
-      },
-      {
-        id: 'customfield_10014', key: 'customfield_10014', name: 'Epic Link', schema: { type: 'string' },
-      },
-    ];
+    return commonJiraFields();
   },
 };
 
@@ -188,13 +163,8 @@ const xrayServiceMock = {
 };
 
 // --- Render -----------------------------------------------------------------
-const GRIDJS_CDN_CSS = 'https://cdn.jsdelivr.net/npm/gridjs/dist/theme/mermaid.min.css';
-const GRIDJS_CDN_JS = 'https://cdn.jsdelivr.net/npm/gridjs/dist/gridjs.umd.js';
-
-async function run() {
+runDemo(async () => {
   const config = new ConfigService(configuration() as unknown as Record<string, unknown>);
-  const context = new ContextService(config);
-  context.initPageContext('v2', 'KONVIW', 'track4', 'light');
 
   // Use the real Xray Cloud API when credentials are configured; otherwise fall
   // back to the sample data so the report still renders.
@@ -205,8 +175,7 @@ async function run() {
     ? 'Xray Test Run rows are <b>live Xray Cloud data</b>.'
     : 'Xray Test Run rows are <b>sample data</b> (production Xray credentials pending).';
 
-  context.setHtmlBody(
-    '<html><head><meta charset="utf-8" /><title>TRACK4 Release Report - konviw</title>'
+  const htmlBody = '<html><head><meta charset="utf-8" /><title>TRACK4 Release Report - konviw</title>'
     + `<link href="${GRIDJS_CDN_CSS}" rel="stylesheet" />`
     + `<script src="${GRIDJS_CDN_JS}"></script>`
     + '<style>body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;margin:32px;color:#172B4D;}'
@@ -217,27 +186,17 @@ async function run() {
     + '<h2>Test execution snapshot (Requirements &rarr; Test Cases &rarr; Xray Test Runs)</h2>'
     + `<div class="note">Requirements and Test Cases are <b>live Jira data</b>. ${xrayNote}</div>`
     + '<div data-macro-name="jira-jql-snapshot"></div>'
-    + '</div></body></html>',
-  );
-  context.setBodyStorage(
-    '<ac:structured-macro ac:name="jira-jql-snapshot">'
-    + `<ac:parameter ac:name="macroParams">${JSON.stringify(macroParams)}</ac:parameter>`
-    + '</ac:structured-macro>',
-  );
+    + '</div></body></html>';
 
-  await addJiraSnapshot(config, jiraServiceMock as any, xrayService as any)(context);
-
-  const outputDir = join(__dirname, '..', 'tmp');
-  mkdirSync(outputDir, { recursive: true });
-  const outputFile = join(outputDir, 'track4-report.html');
-  writeFileSync(outputFile, context.getHtmlBody(), 'utf-8');
-
-  // eslint-disable-next-line no-console
-  console.log(`\nReport rendered:\n  ${outputFile}\n`);
-}
-
-run().catch((error) => {
-  // eslint-disable-next-line no-console
-  console.error(error);
-  process.exit(1);
+  await renderSnapshotDemo({
+    config,
+    jiraService: jiraServiceMock,
+    xrayService,
+    macroParams,
+    htmlBody,
+    spaceKey: 'KONVIW',
+    slug: 'track4',
+    outputFileName: 'track4-report.html',
+    logLabel: 'Report rendered',
+  });
 });
