@@ -4,6 +4,7 @@ import { HttpService } from '@nestjs/axios';
 import getExcerptAndHeaderImage from '../proxy-api/steps/getExcerptAndHeaderImage';
 import { ConfluenceService } from '../confluence/confluence.service';
 import { JiraService } from '../jira/jira.service';
+import { XrayService } from '../xray/xray.service';
 import { ContextService } from '../context/context.service';
 import { Content } from '../confluence/confluence.interface';
 import delUnnecessaryCode from './steps/delUnnecessaryCode';
@@ -63,6 +64,7 @@ export class ProxyPageService {
     private context: ContextService,
     private confluence: ConfluenceService,
     private jira: JiraService,
+    private xray: XrayService,
     private readonly http: HttpService,
   ) {}
 
@@ -108,7 +110,7 @@ export class ProxyPageService {
     );
     const contextType = this.context.getType();
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
-    const addJiraSnapshotPromise = addJiraSnapshot(this.config, this.jira)(this.context);
+    const addJiraSnapshotPromise = addJiraSnapshot(this.config, this.jira, this.xray)(this.context);
     await getExcerptAndHeaderImage(this.config, this.confluence)(this.context);
     fixHtmlHead(this.config)(this.context);
     fixContentWidth()(this.context);
@@ -190,7 +192,7 @@ export class ProxyPageService {
       content,
     );
     const addJiraPromise = addJira(this.config, this.jira)(this.context);
-    const addJiraSnapshotPromise = addJiraSnapshot(this.config, this.jira)(this.context);
+    const addJiraSnapshotPromise = addJiraSnapshot(this.config, this.jira, this.xray)(this.context);
     addSlidesCSS(this.config)(this.context);
     fixHtmlHead(this.config)(this.context);
     fixUserProfile()(this.context);

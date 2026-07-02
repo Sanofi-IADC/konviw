@@ -42,4 +42,9 @@ export default (): Config => ({
     apiReaderUsername: process.env.CPV_JIRA_READER_API_USERNAME,
     apiReaderToken: process.env.CPV_JIRA_READER_API_TOKEN,
   },
+  xray: {
+    baseURL: process.env.CPV_XRAY_BASE_URL || 'https://xray.cloud.getxray.app/api/v2',
+    clientId: process.env.CPV_XRAY_CLIENT_ID,
+    clientSecret: process.env.CPV_XRAY_CLIENT_SECRET,
+  },
 });

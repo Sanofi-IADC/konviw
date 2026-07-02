@@ -44,6 +44,14 @@ If you have multiple Jira instances connected to your Confluence server you can 
 
 Credentials for Jira and Confluence servers may be the same if the username has enought rights to access to all the servers.
 
+To render Xray Test Runs inside Jira Snapshots (test execution levels), provide the Xray Cloud API credentials (created from an Xray API Key in _Xray Global Settings: API Keys_):
+
+- `CPV_XRAY_BASE_URL`: Xray Cloud API base URL. Default: `https://xray.cloud.getxray.app/api/v2`. _Optional_
+- `CPV_XRAY_CLIENT_ID`: Xray API Key Client ID. _Optional_
+- `CPV_XRAY_CLIENT_SECRET`: Xray API Key Client Secret. _Optional_
+
+When these are not provided, Jira Snapshots still render but the Test Run levels remain empty.
+
 ## Development
 
 1. Clone the repo:

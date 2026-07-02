@@ -1,12 +1,35 @@
 import * as cheerio from 'cheerio';
 import { ConfigService } from '@nestjs/config';
 import { JiraService } from '../../jira/jira.service';
+import { XrayService, XrayTestRun } from '../../xray/xray.service';
 import { Step } from '../proxy-page.step';
 import { ContextService } from '../../context/context.service';
 import * as FieldInterfaces from '../dto/FieldInterface';
 import * as jiraGrid from '../utils/jiraGrid';
 
-export default (config: ConfigService, jiraService: JiraService): Step => async (context: ContextService): Promise<void> => {
+// Synthetic field metadata describing the Xray Test Run columns. Xray test runs
+// are not Jira issues, so their column ids (as configured in the snapshot macro's
+// XRAY_TESTRUNS level) are not returned by the Jira field API. We declare them
+// here so the existing grid pipeline (fieldFunctions / columnConfig) can render
+// them like any other column. Note: `status` is intentionally omitted because it
+// is a real Jira field and already resolves through getFields().
+const XRAY_TESTRUN_FIELDS = [
+  { id: 'testexeckey', name: 'Test Execution Key', schema: { type: 'issuelinks' } },
+  { id: 'fixversions', name: 'Fix versions', schema: { type: 'string' } },
+  { id: 'defects', name: 'Defects', schema: { type: 'issuelinks' } },
+  { id: 'test', name: 'Test', schema: { type: 'issuelinks' } },
+  { id: 'startedon', name: 'Started On', schema: { type: 'datetime' } },
+  { id: 'finishedon', name: 'Finished On', schema: { type: 'datetime' } },
+  { id: 'executedby', name: 'Executed By', schema: { type: 'string' } },
+  { id: 'environments', name: 'Test Environments', schema: { type: 'string' } },
+  { id: 'comment', name: 'Comment', schema: { type: 'string' } },
+];
+
+export default (
+  config: ConfigService,
+  jiraService: JiraService,
+  xrayService?: XrayService,
+): Step => async (context: ContextService): Promise<void> => {
   context.setPerfMark('addJiraSnapshot');
   const $ = context.getCheerioBody();
   const $xml = cheerio.load(context.getBodyStorage(), { xmlMode: true });
@@ -44,6 +67,8 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
   await promise.then((result) => {
     jiraFields_ = result;
   });
+  // Make the Xray Test Run columns resolvable by the grid rendering pipeline.
+  jiraFields_ = [...(jiraFields_ ?? []), ...XRAY_TESTRUN_FIELDS];
 
   const processJqlsWithKeys = async (jqlParams: JqlParams, jiraFields, index) => {
     const allIssues = [];
@@ -63,7 +88,31 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
               .then((res) => res?.data?.issues ?? []),
           },
         });
-      } else if (jqlParams.levelType[i] !== 'XRAY_TESTRUNS') {
+      } else if (jqlParams.levelType[i] === 'XRAY_TESTRUNS') {
+        // The previous level holds the parent Tests (Test Cases); we fetch their
+        // Test Runs from the Xray API (not available via the Jira API) in a single
+        // batched call and group the runs back per Test to keep the grid hierarchy
+        // aligned. The level's own query may restrict to a fix version.
+        const parentTests = levelJiraIssues.flat();
+        const testIds = parentTests.map((test) => test?.id).filter(Boolean);
+        let runs: XrayTestRun[] = [];
+        if (xrayService) {
+          // eslint-disable-next-line no-await-in-loop
+          runs = await xrayService.getTestRunsByTestIds(testIds).catch(() => []);
+        }
+        const filteredRuns = filterTestRunsByFixVersion(runs, jqlParams.jqls[i]);
+        const runsByTest = groupTestRunsByTest(filteredRuns);
+        parentTests.forEach((test) => {
+          const testRuns = runsByTest[test?.id] ?? [];
+          jiraIssues.push({
+            issues: {
+              issues: Promise.resolve(
+                mapTestRunsToIssues(testRuns, test?.key, confluenceDomain),
+              ),
+            },
+          });
+        });
+      } else {
         child = getJqlVariables(jqlParams.jqls[i]);
         keys = extractKeys(levelJiraIssues, jqlParams.allColumns, child);
         keys.forEach((key) => {
@@ -129,12 +178,12 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
 };
 
 function processLevel(level, jqlParams: JqlParams) {
-  const cleanedJql = level.jql.replace(/\n/g, '');
+  const cleanedJql = (level.jql ?? '').replace(/\n/g, '');
   jqlParams.jqls.push(cleanedJql);
   jqlParams.titles.push(level.title);
+  jqlParams.levelType.push(level.levelType);
   const columnsId = [];
   const columnsName = [];
-  jqlParams.levelType.push(level.levelType);
   level.fieldsPosition.forEach((field) => {
     columnsId.push(field.value.id);
     columnsName.push(field.label);
@@ -199,6 +248,83 @@ function numberIssues(issuesResponse: any[][]) {
     number += issueArray.length;
   });
   return number;
+}
+
+// Groups a flat list of Xray Test Runs by their parent Test issue id.
+function groupTestRunsByTest(runs: XrayTestRun[]): Record<string, XrayTestRun[]> {
+  return (runs ?? []).reduce((grouped, run) => {
+    const testId = run?.test?.issueId;
+    if (!testId) {
+      return grouped;
+    }
+    /* eslint-disable no-param-reassign */
+    (grouped[testId] = grouped[testId] ?? []).push(run);
+    /* eslint-enable no-param-reassign */
+    return grouped;
+  }, {} as Record<string, XrayTestRun[]>);
+}
+
+// Best-effort restriction of the runs to a fix version, parsed from the XRAY
+// level query (e.g. `fixVersions = Track4 2.0.1`). When no fix version can be
+// parsed, all runs are returned unchanged.
+function filterTestRunsByFixVersion(runs: XrayTestRun[], levelJql: string): XrayTestRun[] {
+  const match = (levelJql ?? '').match(/fixversions?\s*=\s*"?([^"\n]+?)"?\s*(?:and|$)/i);
+  const wanted = match?.[1]?.trim();
+  if (!wanted) {
+    return runs ?? [];
+  }
+  return (runs ?? []).filter((run) => {
+    const versions = run?.testExecution?.jira?.fixVersions ?? [];
+    return versions.some((version) => version?.name === wanted);
+  });
+}
+
+// Maps Xray Test Runs into the issue-like shape expected by the grid pipeline,
+// keyed by the macro's XRAY column ids (see XRAY_TESTRUN_FIELDS) so they render
+// through the same fieldFunctions / columnConfig as Jira issues. All supported
+// columns are populated; the grid only renders the ones the macro configured.
+function mapTestRunsToIssues(runs: XrayTestRun[], testKeyFallback: string, baseUrl: string) {
+  return (runs ?? []).map((run) => {
+    const execKey = run?.testExecution?.jira?.key ?? '';
+    const testKey = run?.test?.jira?.key ?? testKeyFallback ?? '';
+    const statusName = run?.status?.name ?? '';
+    const fixVersions = (run?.testExecution?.jira?.fixVersions ?? [])
+      .map((version) => version?.name)
+      .filter(Boolean)
+      .join(', ');
+    return {
+      id: run?.id ?? '',
+      key: execKey || testKey,
+      self: execKey ? `${baseUrl}/browse/${execKey}` : '',
+      fields: {
+        testexeckey: execKey ? [{ id: run?.testExecution?.issueId ?? '', key: execKey, self: `${baseUrl}/browse/${execKey}` }] : [],
+        test: testKey ? [{ id: run?.test?.issueId ?? '', key: testKey, self: `${baseUrl}/browse/${testKey}` }] : [],
+        status: statusName
+          ? [{
+            self: '',
+            description: run?.status?.description ?? '',
+            iconUrl: '',
+            name: statusName,
+            id: '',
+            statusCategory: {
+              self: '',
+              id: 0,
+              key: '',
+              colorName: run?.status?.color ?? '#6B778C',
+              name: statusName,
+            },
+          }]
+          : [],
+        fixversions: fixVersions,
+        defects: (run?.defects ?? []).map((defect) => ({ id: '', key: defect, self: `${baseUrl}/browse/${defect}` })),
+        startedon: run?.startedOn ?? '',
+        finishedon: run?.finishedOn ?? '',
+        executedby: run?.executedById ?? '',
+        environments: (run?.testEnvironments ?? []).join(', '),
+        comment: run?.comment ?? '',
+      },
+    };
+  });
 }
 
 function splitStrings(inputArray: string[]): string[] {
@@ -327,9 +453,7 @@ function createHeaderGridColumns(jqlParams:JqlParams, jiraFields, columnConfig, 
   const gridColumns = jqlParams.allColumnsId.map((column, indexLevel) => {
     const columnId = splitStrings([column]);
     const columnName = splitStrings([jqlParams.allColumnsName[indexLevel]]);
-    const name = jqlParams.levelType[indexLevel] === 'XRAY_TESTRUNS'
-      ? 'TEST RUN NOT SUPPORTED YET'
-      : `${jqlParams.titles[indexLevel]} (Total: ${jqlParams.numberTicket[indexLevel]})`;
+    const name = `${jqlParams.titles[indexLevel]} (Total: ${jqlParams.numberTicket[indexLevel]})`;
 
     const header = `{
       name: '${name}',
