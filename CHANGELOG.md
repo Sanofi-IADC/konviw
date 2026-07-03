@@ -1,3 +1,10 @@
+# [3.51.0](https://github.com/Sanofi-IADC/konviw/compare/v3.50.7...v3.51.0) (2026-07-03)
+
+
+### Features
+
+* **jira-snapshot:** render Xray test runs via Xray Cloud API (WEB-2475) ([1d3f031](https://github.com/Sanofi-IADC/konviw/commit/1d3f031cf123941c22047424b4c6ef10ed99946c))
+
 ## [3.50.7](https://github.com/Sanofi-IADC/konviw/compare/v3.50.6...v3.50.7) (2026-05-19)
 
 
