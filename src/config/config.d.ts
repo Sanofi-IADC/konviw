@@ -47,6 +47,12 @@ interface Config {
     apiReaderUsername: string;
     apiReaderToken: string;
   }
+
+  xray: {
+    baseURL: string;
+    clientId: string;
+    clientSecret: string;
+  }
 }
 
 export default Config;
