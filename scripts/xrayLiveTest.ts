@@ -42,7 +42,7 @@ async function run() {
       `exec=${r.testExecution?.jira?.key ?? '?'}`,
       `status=${r.status?.name ?? '?'}`,
       `fixVersions=${(r.testExecution?.jira?.fixVersions ?? []).map((v) => v?.name).join('|') || '-'}`,
-      `envs=${(r.testEnvironments ?? []).join('|') || '-'}`,
+      `envs=${(r.testExecution?.testEnvironments ?? []).join('|') || '-'}`,
       `defects=${(r.defects ?? []).join('|') || '-'}`,
     ].join('  ');
     // eslint-disable-next-line no-console

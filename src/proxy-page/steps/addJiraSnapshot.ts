@@ -21,7 +21,7 @@ const XRAY_TESTRUN_FIELDS = [
   { id: 'startedon', name: 'Started On', schema: { type: 'datetime' } },
   { id: 'finishedon', name: 'Finished On', schema: { type: 'datetime' } },
   { id: 'executedby', name: 'Executed By', schema: { type: 'string' } },
-  { id: 'environments', name: 'Test Environments', schema: { type: 'string' } },
+  { id: 'testenvironments', name: 'Test Environments', schema: { type: 'string' } },
   { id: 'comment', name: 'Comment', schema: { type: 'string' } },
 ];
 
@@ -320,7 +320,7 @@ function mapTestRunsToIssues(runs: XrayTestRun[], testKeyFallback: string, baseU
         startedon: run?.startedOn ?? '',
         finishedon: run?.finishedOn ?? '',
         executedby: run?.executedById ?? '',
-        environments: (run?.testEnvironments ?? []).join(', '),
+        testenvironments: (run?.testExecution?.testEnvironments ?? []).join(', '),
         comment: run?.comment ?? '',
       },
     };
