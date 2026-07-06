@@ -1,3 +1,11 @@
+## [3.51.1](https://github.com/Sanofi-IADC/konviw/compare/v3.51.0...v3.51.1) (2026-07-06)
+
+
+### Bug Fixes
+
+* **jira-snapshot:** render Xray Test Environments column ([8f1493e](https://github.com/Sanofi-IADC/konviw/commit/8f1493e2548e78ec447de765ac5f44dc4e0b11ac))
+* **web:** web-2475 render Xray Test Environments column ([77428c2](https://github.com/Sanofi-IADC/konviw/commit/77428c28bd814c2e1d96ce52cec97313bd5db109))
+
 # [3.51.0](https://github.com/Sanofi-IADC/konviw/compare/v3.50.7...v3.51.0) (2026-07-03)
 
 
