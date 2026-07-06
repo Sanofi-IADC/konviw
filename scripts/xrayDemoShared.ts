@@ -25,6 +25,7 @@ export const xrayTestRunsLevel = {
     { value: { id: 'status' }, label: 'Status' },
     { value: { id: 'fixversions' }, label: 'Fix versions' },
     { value: { id: 'defects' }, label: 'Defects' },
+    { value: { id: 'testenvironments' }, label: 'Test Environments' },
   ],
 };
 

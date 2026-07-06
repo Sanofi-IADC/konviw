@@ -10,8 +10,10 @@ export interface XrayTestRun {
   testExecution?: {
     issueId?: string;
     jira?: { key?: string; fixVersions?: { name?: string }[] };
+    // Test environments are a property of the Test Execution in Xray (the
+    // TestRun type does not expose them), so they are nested here.
+    testEnvironments?: string[];
   };
-  testEnvironments?: string[];
   startedOn?: string;
   finishedOn?: string;
   executedById?: string;
@@ -159,7 +161,7 @@ export class XrayService {
           id
           status { name color description }
           test { issueId jira(fields: ["key", "summary"]) }
-          testExecution { issueId jira(fields: ["key", "fixVersions"]) }
+          testExecution { issueId jira(fields: ["key", "fixVersions"]) testEnvironments }
           startedOn
           finishedOn
           executedById

@@ -38,6 +38,7 @@ class XrayServiceMock {
         testExecution: {
           issueId: '10001',
           jira: { key: 'TRACK4-EXEC-1', fixVersions: [{ name: 'Track4 2.0.1' }] },
+          testEnvironments: ['Dev'],
         },
         defects: ['TRACK4-BUG-1'],
       },
@@ -65,6 +66,7 @@ const macroParams = {
         { value: { id: 'status' }, label: 'Status' },
         { value: { id: 'fixversions' }, label: 'Fix versions' },
         { value: { id: 'defects' }, label: 'Defects' },
+        { value: { id: 'testenvironments' }, label: 'Test Environments' },
       ],
     },
   ],
@@ -102,11 +104,14 @@ describe('Confluence Proxy / addJiraSnapshot', () => {
     const html = context.getHtmlBody();
 
     expect(html).not.toContain('TEST RUN NOT SUPPORTED YET');
+    expect(html).not.toContain('column undefined');
     expect(html).toContain('Test execution (Total: 1)');
     expect(html).toContain('PASSED');
     expect(html).toContain('TRACK4-EXEC-1');
     expect(html).toContain('Track4 2.0.1');
     expect(html).toContain('TRACK4-BUG-1');
+    expect(html).toContain('Test Environments');
+    expect(html).toContain('Dev');
   });
 
   it('degrades gracefully when the Xray service is not provided', async () => {
