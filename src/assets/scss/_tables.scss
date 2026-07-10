@@ -45,6 +45,23 @@ table.confluenceTable {
   }
 }
 
+// Nested tables (one level deep) ==========================
+// Confluence allows a table inside a cell. Constrain it to the width of its
+// parent cell so it never overflows into the column on the right.
+table.confluenceTable td.confluenceTd table.confluenceTable,
+table.confluenceTable th.confluenceTh table.confluenceTable {
+  width: 100%;
+  max-width: 100%;
+  margin-top: 0;
+}
+
+table.confluenceTable td.confluenceTd .table-wrap,
+table.confluenceTable th.confluenceTh .table-wrap {
+  max-width: 100%;
+  margin-top: 0;
+  overflow-x: auto;
+}
+
 table.confluenceTable th.confluenceTh {
   position: -webkit-sticky;
   position: sticky;
