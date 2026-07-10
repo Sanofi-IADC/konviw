@@ -38,13 +38,16 @@ table.confluenceTable th.confluenceTh table.confluenceTable {
   width: 100%;
   max-width: 100%;
   margin-top: 0;
+  // Auto layout lets the nested table shrink to fit its cell whatever the
+  // colgroup widths are (px or %); with the inherited 'fixed' layout a pixel
+  // colgroup would force the table wider than the cell and overflow.
+  table-layout: auto;
 }
 
 table.confluenceTable td.confluenceTd .table-wrap,
 table.confluenceTable th.confluenceTh .table-wrap {
   max-width: 100%;
   margin-top: 0;
-  overflow-x: auto;
 }
 
 table.confluenceTable th.confluenceTh {
