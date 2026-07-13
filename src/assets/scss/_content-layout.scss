@@ -56,6 +56,10 @@
           width: 100%;
           max-width: 100%;
 
+          &[data-layout='center'] {
+            width: auto;
+          }
+
           td.confluenceTd img,
           td.confluenceTd .confluence-embedded-file-wrapper img,
           th.confluenceTh .confluence-embedded-file-wrapper img {
