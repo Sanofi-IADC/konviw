@@ -238,6 +238,47 @@ describe('ConfluenceProxy / fixMultiColumnLayout', () => {
     expect(cellTexts).toEqual(['C1', 'C2', 'C3', 'C4']);
   });
 
+  it('leaves other 3-cell layouts (e.g. three-with-sidebars) untouched', () => {
+    // A `three-with-sidebars` layout also renders 3 cells, but it is NOT the
+    // collapsed form of a 4/5-column layout. Even if the storage section has
+    // 4 cells, the step must not rewrite a layout that is not `three-equal`.
+    context.setBodyStorage(
+      layoutStorage('four_equal', ['<p>C1</p>', '<p>C2</p>', '<p>C3</p>', '<p>C4</p>']),
+    );
+    context.setHtmlBody(
+      '<div class="contentLayout2">'
+      + viewLayout('three-with-sidebars', ['<p>C1</p>', '<p>C2</p>', '<p>C3</p><p>C4</p>'])
+      + '</div>',
+    );
+
+    fixMultiColumnLayout()(context);
+
+    const $ = cheerio.load(context.getHtmlBody());
+    expect($('.columnLayout').hasClass('three-with-sidebars')).toBe(true);
+    expect($('.columnLayout').hasClass('four-equal')).toBe(false);
+    expect($('.columnLayout > .cell').length).toBe(3);
+  });
+
+  it('does not modify a three-equal layout that does not have exactly 3 cells', () => {
+    // Defensive guard: even a `three-equal` layout is only rebuilt when it has
+    // the expected 3 collapsed cells. An unexpected cell count is left as-is.
+    context.setBodyStorage(
+      layoutStorage('four_equal', ['<p>C1</p>', '<p>C2</p>', '<p>C3</p>', '<p>C4</p>']),
+    );
+    context.setHtmlBody(
+      '<div class="contentLayout2">'
+      + viewLayout('three-equal', ['<p>C1</p>', '<p>C2</p>'])
+      + '</div>',
+    );
+
+    fixMultiColumnLayout()(context);
+
+    const $ = cheerio.load(context.getHtmlBody());
+    expect($('.columnLayout').hasClass('three-equal')).toBe(true);
+    expect($('.columnLayout').hasClass('four-equal')).toBe(false);
+    expect($('.columnLayout > .cell').length).toBe(2);
+  });
+
   it('rebuilt columns keep the expected cell / innerCell structure', () => {
     context.setBodyStorage(
       layoutStorage('four_equal', ['<p>C1</p>', '<p>C2</p>', '<p>C3</p>', '<p>C4</p>']),

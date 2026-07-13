@@ -61,6 +61,15 @@ export default (): Step => (context: ContextService): void => {
         }
 
         const $viewLayout = $(viewLayouts[index]);
+
+        // Confluence collapses 4/5 column layouts specifically into a
+        // `three-equal` layout. Other 3-cell layouts (e.g.
+        // `three-with-sidebars`) share the same cell count but a different
+        // structure, so we must never rewrite them.
+        if (!$viewLayout.hasClass('three-equal') || $viewLayout.attr('data-layout') !== 'three-equal') {
+          return;
+        }
+
         const viewCells = $viewLayout.children('.cell').toArray();
 
         // Confluence always collapses the extra columns into exactly 3 cells.
