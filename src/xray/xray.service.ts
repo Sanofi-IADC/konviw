@@ -3,23 +3,50 @@ import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
 
+export interface XrayJiraStatus {
+  name?: string;
+  description?: string;
+  iconUrl?: string;
+  id?: string;
+  statusCategory?: { colorName?: string; name?: string };
+}
+
+export interface XrayEvidence {
+  id?: string;
+  filename?: string;
+  downloadLink?: string;
+}
+
 export interface XrayTestRun {
   id: string;
   status?: { name?: string; color?: string; description?: string };
   test?: { issueId?: string; jira?: { key?: string; summary?: string } };
   testExecution?: {
     issueId?: string;
-    jira?: { key?: string; fixVersions?: { name?: string }[] };
+    // `jira` is resolved server-side from the Test Execution Jira issue, so it
+    // carries whatever fields we request (key, summary, fixVersions, status).
+    jira?: {
+      key?: string;
+      summary?: string;
+      fixVersions?: { name?: string }[];
+      status?: XrayJiraStatus;
+    };
     // Test environments are a property of the Test Execution in Xray (the
     // TestRun type does not expose them), so they are nested here.
     testEnvironments?: string[];
   };
+  // The Test version this run was executed against (e.g. name "v1", id 1).
+  testVersion?: { id?: number; name?: string };
   startedOn?: string;
   finishedOn?: string;
+  // Account ids of the executor / assignee; resolved to display names later.
   executedById?: string;
   assigneeId?: string;
   defects?: string[];
   comment?: string;
+  gherkin?: string;
+  unstructured?: string;
+  evidence?: XrayEvidence[];
 }
 
 // Xray caps the `limit` argument of GraphQL connections at 100.
@@ -161,13 +188,17 @@ export class XrayService {
           id
           status { name color description }
           test { issueId jira(fields: ["key", "summary"]) }
-          testExecution { issueId jira(fields: ["key", "fixVersions"]) testEnvironments }
+          testExecution { issueId jira(fields: ["key", "summary", "status", "fixVersions"]) testEnvironments }
+          testVersion { id name }
           startedOn
           finishedOn
           executedById
           assigneeId
           defects
           comment
+          gherkin
+          unstructured
+          evidence { id filename downloadLink }
         }
       }
     }`;

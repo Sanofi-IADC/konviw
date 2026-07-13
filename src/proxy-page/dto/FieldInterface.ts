@@ -376,6 +376,16 @@ export const createLinkObject = (key, baseUrl, name = '') => ({
   link: key ? `${baseUrl}/browse/${key}?src=confmacro` : '',
 });
 
+// Passthrough formatter for pre-built web links. Unlike `issuelinks`, the value
+// is already an array of `{ name, link }` objects (with absolute URLs), so it is
+// rendered as-is through the `link` grid column. Used for Xray columns that
+// point to arbitrary URLs (e.g. evidences, link to the Test Run's execution).
+export const formatWebLink = (value: any) =>
+  [Array.isArray(value) ? value.filter((item) => item && item.link) : [], 'link'] as [
+    { name: string; link: string }[],
+    string,
+  ];
+
 export const fieldFunctions: {
   [key: string]: (value: any, baseUrl?: string) => any;
 } = {
@@ -396,4 +406,5 @@ export const fieldFunctions: {
   issuelinks: (value: any, baseUrl?: string) =>
     formatIssueLinks(value, baseUrl),
   json: formatJson,
+  weblink: formatWebLink,
 };
