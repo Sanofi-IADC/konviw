@@ -15,11 +15,13 @@ export default (): Step => (context: ContextService): void => {
     const tbody = $(tbodyElement);
 
     // for each row in the table
-    const trElements = tbody.find('tr');
+    // Only look at direct children so a nested table (one level deep) is not
+    // traversed here: it owns its own <tbody> and is processed on its own turn.
+    const trElements = tbody.children('tr');
     trElements.each((_: number, trElement: cheerio.Element) => {
       const tr = $(trElement);
-      const thElement = tr.find('th');
-      const tdElement = tr.find('td');
+      const thElement = tr.children('th');
+      const tdElement = tr.children('td');
 
       // row headers and column headers have 2 different patterns, the column headers are in the first
       // tr full of th, so there are no td elements in the first tr
@@ -45,7 +47,7 @@ export default (): Step => (context: ContextService): void => {
     trElements.slice(slice_number).each((_index_row: number, trElement: cheerio.Element) => {
       const row = _index_row;
       const tr = $(trElement);
-      const tdElements = tr.find('td');
+      const tdElements = tr.children('td');
       tdElements.each((_index_column: number, tdElement: cheerio.Element) => {
         const td = $(tdElement);
         const header_column = headers_column[_index_column + slice_number];

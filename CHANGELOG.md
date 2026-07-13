@@ -1,3 +1,14 @@
+## [3.52.2](https://github.com/Sanofi-IADC/konviw/compare/v3.52.1...v3.52.2) (2026-07-13)
+
+
+### Bug Fixes
+
+* **steps:** WEB-2893 convert nested table colgroup widths to % ([895e028](https://github.com/Sanofi-IADC/konviw/commit/895e028cf0b2951130e8b844d2149702f0d866d0))
+* **steps:** WEB-2893 ignore nested tables in fixTableSize ([5873588](https://github.com/Sanofi-IADC/konviw/commit/5873588ce32c54b8570c97863c4529a7d5327a23))
+* **steps:** WEB-2893 scope addTableResponsive to its own table ([bb97974](https://github.com/Sanofi-IADC/konviw/commit/bb9797437decd55c0142f0925a5c7f1e470b640f))
+* **styles:** WEB-2893 contain nested tables within their cell ([32fad42](https://github.com/Sanofi-IADC/konviw/commit/32fad42891ef0347b03b73733f41884a407a14aa))
+* **styles:** WEB-2893 use auto layout so nested tables fit their cell ([90c96e4](https://github.com/Sanofi-IADC/konviw/commit/90c96e4c9c4103856b9ad1dacb2e77bf0701fc33))
+
 ## [3.52.1](https://github.com/Sanofi-IADC/konviw/compare/v3.52.0...v3.52.1) (2026-07-06)
 
 
