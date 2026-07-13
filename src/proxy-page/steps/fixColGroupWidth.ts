@@ -25,7 +25,13 @@ export default (): Step => (context: ContextService): void => {
     table[data-layout= 'wide']> colgroup,
     table[data-layout='default']>colgroup,
     table[data-layout= 'align-start']> colgroup,
-    table[data-layout= 'center']> colgroup`,
+    table[data-layout= 'center']> colgroup,
+    td.confluenceTd table.confluenceTable>colgroup,
+    th.confluenceTh table.confluenceTable>colgroup`,
+    // Nested tables (one level deep) rarely carry a data-layout attribute, so we
+    // also target confluence tables living inside a cell. Converting their
+    // colgroup widths to % keeps the columns proportional to the parent cell and
+    // prevents the nested table from overflowing into the column on the right.
     // 'table[data-table-display-mode=\'fixed\']',   // eventually to define whether we need special style to display fixed tables
   ).each((_index: number, elementColgroup: cheerio.Element) => {
     let sumColWidth = 0;
