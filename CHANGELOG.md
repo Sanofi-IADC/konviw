@@ -1,3 +1,11 @@
+## [3.52.3](https://github.com/Sanofi-IADC/konviw/compare/v3.52.2...v3.52.3) (2026-07-14)
+
+
+### Bug Fixes
+
+* **web:** WEB-2894 only rebuild genuine three-equal collapsed layouts ([d350295](https://github.com/Sanofi-IADC/konviw/commit/d3502952bc191ba60a759be3055690411fddb899))
+* **web:** WEB-2894 render layouts with more than 3 columns ([77081fc](https://github.com/Sanofi-IADC/konviw/commit/77081fc6a4eaf7d332f836b140a676cdfe06b1d7))
+
 ## [3.52.2](https://github.com/Sanofi-IADC/konviw/compare/v3.52.1...v3.52.2) (2026-07-13)
 
 
