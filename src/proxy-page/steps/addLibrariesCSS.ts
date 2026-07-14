@@ -10,7 +10,7 @@ export default (): Step => (context: ContextService): void => {
     $('head').append(
       `<link
         rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/github-dark-dimmed.min.css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/panda-syntax-dark.min.css"
         crossorigin="anonymous"
         referrerpolicy="no-referrer"
       />`,
@@ -19,7 +19,7 @@ export default (): Step => (context: ContextService): void => {
     $('head').append(
       `<link
         rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/base16/solar-flare-light.min.css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/panda-syntax-dark.min.css"
         crossorigin="anonymous"
         referrerpolicy="no-referrer"
       />`,
