@@ -7,7 +7,7 @@
 // DIV '.panel' used in 'Excerpt Include’ Macro =====================
 .panel[data-macro-name='excerpt-include'],
 .panel[data-macro-name='include'] {
-  color: #333;
+  color: var(--font-color);
   margin: 1em 0 0 0;
   border: 1px solid #d2cdcd;
   overflow: hidden;
