@@ -12,9 +12,9 @@ const parseHexColour = (value: string): [number, number, number] | null => {
     return null;
   }
   return [
-    parseInt(full.slice(0, 2), 16),
-    parseInt(full.slice(2, 4), 16),
-    parseInt(full.slice(4, 6), 16),
+    Number.parseInt(full.slice(0, 2), 16),
+    Number.parseInt(full.slice(2, 4), 16),
+    Number.parseInt(full.slice(4, 6), 16),
   ];
 };
 

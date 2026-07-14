@@ -37,10 +37,12 @@ html {
   font-weight: var(--main-font-weight);
 }
 
+// Page title uses a heavier display weight
 h1.titlePage {
   color: var(--heading-color);
   font-size: var(--title-font-size);
   padding-top: 0.8rem;
+  font-weight: 800;
 
   & .specialAtlassian {
     display: inline-block;
@@ -144,13 +146,6 @@ ul.childpages-macro li {
   }
 }
 
-
-// ── Opella brand signatures ────────────────────────────
-// Page title uses a heavier display weight (falls back to Inter 700 —
-// OpellaSans ships Regular only in the current brand kit).
-h1.titlePage {
-  font-weight: 800;
-}
 
 // Text selection uses the Challenger Pink accent.
 ::selection {
