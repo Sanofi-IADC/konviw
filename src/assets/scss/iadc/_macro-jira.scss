@@ -4,6 +4,42 @@
   font-size: 16px;
 }
 
+// Size the Jira snapshot grid columns to their content so the full column
+// headings are visible instead of being clipped with an ellipsis. Grid.js
+// defaults to `table-layout: fixed` + `max-width: 100%`, which squeezes every
+// column into the container width; switching to auto layout lets each column
+// grow to fit its heading/content while the wrapper (`overflow: auto`) keeps
+// the horizontal scrolling when the table is wider than its container.
+.gridjs-wrapper {
+  table.gridjs-table {
+    table-layout: auto;
+    max-width: none;
+  }
+
+  .gridjs-th {
+    white-space: nowrap;
+
+    // Keep the heading label and the sort arrow on the same line (arrow right
+    // after the name). Grid.js floats the content left and the sort button
+    // right, which drops the arrow below the label once columns are auto-sized.
+    .gridjs-th-content {
+      float: none;
+      display: inline-block;
+      vertical-align: middle;
+      width: auto;
+      overflow: visible;
+      text-overflow: clip;
+    }
+
+    .gridjs-sort {
+      float: none;
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 4px;
+    }
+  }
+}
+
 
 // Table Jira chart Report ===================================
 
