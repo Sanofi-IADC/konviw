@@ -169,7 +169,7 @@ describe('Confluence Proxy / addJiraSnapshot', () => {
     // Image evidence is displayed inline as a thumbnail: the evidences column
     // uses the image formatter (the grid renders the <img> client-side from the
     // proxied link in the row data).
-    expect(html).toContain('<img src="${item.link}"');
+    expect(html).toContain('class="xray-evidence-thumb"');
     // Clicking a thumbnail opens the lightbox modal rather than navigating.
     expect(html).toContain('xray-evidence-modal');
     expect(html).toContain('Given a step'); // gherkin

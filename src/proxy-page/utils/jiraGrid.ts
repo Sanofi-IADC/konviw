@@ -58,10 +58,10 @@ export const columnConfig = {
               .replace(/'/g, '&#39;');
             const safeName = escapeHtml(name);
             const safeLink = escapeHtml(link);
-            const isImage = /\.(png|jpe?g|gif|webp|bmp|svg)$/i.test(name);
+            const isImage = /\\.(png|jpe?g|gif|webp|bmp|svg)$/i.test(name);
             return isImage
-              ? `<img src="${safeLink}" alt="${safeName}" title="${safeName}" loading="lazy" class="xray-evidence-thumb" />`
-              : `<a href="${safeLink}" target="_blank" rel="noopener noreferrer">${safeName}</a>`;
+              ? \`<img src="\${safeLink}" alt="\${safeName}" title="\${safeName}" loading="lazy" class="xray-evidence-thumb" />\`
+              : \`<a href="\${safeLink}" target="_blank" rel="noopener noreferrer">\${safeName}</a>\`;
           }).join(' ')
         )
       }`,
