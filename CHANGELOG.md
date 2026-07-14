@@ -1,3 +1,17 @@
+# [3.53.0](https://github.com/Sanofi-IADC/konviw/compare/v3.52.3...v3.53.0) (2026-07-14)
+
+
+### Bug Fixes
+
+* **jira-snapshot:** correct multi-parent hierarchy and filter Xray runs by environment (WEB-2475) ([eaa12de](https://github.com/Sanofi-IADC/konviw/commit/eaa12defddddf88a5fbc6ea0fa4cc261218e041e))
+* **jira-snapshot:** repair evidences formatter template escaping broken by lint fix (WEB-2475) ([878b479](https://github.com/Sanofi-IADC/konviw/commit/878b47967512b0a6844d6188e416b6addbf3d927))
+
+
+### Features
+
+* **jira-snapshot:** enrich Xray Test Run columns (WEB-2475) ([f0109de](https://github.com/Sanofi-IADC/konviw/commit/f0109de8b909c7a7dc20cbe407b4a4ca81c408fa))
+* **jira-snapshot:** proxy Xray evidence and show inline thumbnails with lightbox (WEB-2475) ([6cc9455](https://github.com/Sanofi-IADC/konviw/commit/6cc9455a6201b0f7d65af9d716bce392a68b018c))
+
 ## [3.52.3](https://github.com/Sanofi-IADC/konviw/compare/v3.52.2...v3.52.3) (2026-07-14)
 
 
