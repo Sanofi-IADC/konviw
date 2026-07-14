@@ -1,0 +1,51 @@
+/*
+ * Display the anchor link with a smooth animation when a heading is hovered.
+ */
+h1:not(.titlePage),
+h2,
+h3,
+h4,
+h5,
+h6 {
+  &:hover {
+    .🔗 button {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+}
+
+.🔗 button {
+  position: relative;
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity 0.2s ease 0s, transform 0.2s ease 0s;
+  color: var(--font-color);
+  background: none;
+  border: none;
+  cursor: pointer;
+  &:focus {
+    outline: none;
+  }
+  /* Display the tooltip when the anchor is hovered */
+  &:hover:before {
+    position: absolute;
+    top: -1.75em;
+    left: 50%;
+    transform: translateX(-50%);
+    content: 'Copy link to heading';
+    width: max-content;
+    padding: 2px 5px;
+    background: rgb(23, 43, 77);
+    color: #fafafa;
+    border-radius: 3px;
+  }
+  &.visited {
+    svg path {
+      fill: rgb(23, 43, 77);
+    }
+  }
+  &.visited:before {
+    content: 'Copied !';
+  }
+}

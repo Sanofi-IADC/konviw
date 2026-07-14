@@ -270,4 +270,57 @@ describe('ConfluenceProxy / fixLinks', () => {
     expect($('#Content > div').attr('class')).toBe('link-card');
   });
 
+  it('should append the style query to internal page links when a style is set', async () => {
+    context.initPageContext('v2', 'XXX', '123456', 'dark', undefined, 'opella');
+    const step = fixLinks(config, http, jiraMockServiceFactory);
+    context.setHtmlBody(
+      '<html><head></head><body>' +
+      '<a href="https://test.atlassian.net/wiki/spaces/XXX/pages/4242/Hello+World">test</a>' +
+      '<a href="/wiki/spaces/XXX/pages/4343/Hello+World">test2</a>' +
+      '</body></html>',
+    );
+    await step(context);
+    const expected =
+      '<html><head></head><body><div id="Content">' +
+      `<a href="${webBasePath}/wiki/spaces/XXX/pages/4242/Hello+World?style=opella">test</a>` +
+      `<a href="${webBasePath}/wiki/spaces/XXX/pages/4343/Hello+World?style=opella">test2</a>` +
+      '</div></body></html>';
+    expect(context.getHtmlBody()).toEqual(expected);
+  });
+
+  it('should place the style query before the anchor fragment', async () => {
+    context.initPageContext('v2', 'XXX', '123456', 'dark', undefined, 'opella');
+    const step = fixLinks(config, http, jiraMockServiceFactory);
+    context.setHtmlBody(
+      '<html><head></head><body>' +
+      '<a href="https://test.atlassian.net/wiki/spaces/XXX/pages/4242/Hello+World#Hello+World-heading">test</a>' +
+      '</body></html>',
+    );
+    await step(context);
+    expect(context.getHtmlBody()).toContain('?style=opella#');
+  });
+
+  it('should not append the style query to image src', async () => {
+    context.initPageContext('v2', 'XXX', '123456', 'dark', undefined, 'opella');
+    const step = fixLinks(config, http, jiraMockServiceFactory);
+    context.setHtmlBody(
+      '<html><head></head><body>' +
+      '<img src="https://test.atlassian.net/wiki/download/thumbnails/241271570/image.png">' +
+      '</body></html>',
+    );
+    await step(context);
+    expect(context.getHtmlBody()).not.toContain('style=opella');
+  });
+
+  it('should leave links unchanged when no style is set', async () => {
+    const step = fixLinks(config, http, jiraMockServiceFactory);
+    context.setHtmlBody(
+      '<html><head></head><body>' +
+      '<a href="/wiki/spaces/XXX/pages/4343/Hello+World">test2</a>' +
+      '</body></html>',
+    );
+    await step(context);
+    expect(context.getHtmlBody()).not.toContain('style=');
+  });
+
 });

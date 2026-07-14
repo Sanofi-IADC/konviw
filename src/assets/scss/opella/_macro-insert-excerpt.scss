@@ -9,7 +9,7 @@
 .panel[data-macro-name='include'] {
   color: var(--font-color);
   margin: 1em 0 0 0;
-  border: 1px solid #d2cdcd;
+  border: 1px solid #ced5ce;
   overflow: hidden;
   border-radius: 5px;
   width: 100%;
@@ -20,7 +20,7 @@
   .panelHeader {
     padding: 0.5em;
     font-size: 1.1em;
-    border-bottom: 1px solid #d2cdcd;
+    border-bottom: 1px solid #ced5ce;
   }
 
   .panelContent {
@@ -30,7 +30,7 @@
       margin: 20px auto;
       color: var(--font-color);
       padding: 10px 15px 10px 15px;
-      border-left: 8px solid #578ff0;
+      border-left: 8px solid #546955;
       line-height: 1.2;
       background: var(--bg-blockquote);
       border-radius: 5px;
