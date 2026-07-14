@@ -16,6 +16,8 @@ export default (config: ConfigService, http: HttpService, jira: JiraService): St
   const $ = context.getCheerioBody();
   const confluenceBaseURL = config.get('confluence.baseURL');
   const webBasePath = config.get('web.absoluteBasePath');
+  const style = context.getStyle();
+  const styleQuery = style ? `?style=${encodeURIComponent(style)}` : '';
 
   const isValidURL = (favicon: string) => {
     try {
@@ -181,8 +183,8 @@ export default (config: ConfigService, http: HttpService, jira: JiraService): St
       ' ',
     )}`;
 
-  const composeUrlFactory = (path: string, title: string, heading: string) =>
-    `${webBasePath}/wiki${path}#`
+  const composeUrlFactory = (path: string, title: string, heading: string, query = '') =>
+    `${webBasePath}/wiki${path}${query}#`
       + `${title.replace(/\+/g, '')}-`
       + `${heading.replace(/\-/g, '')}`;
 
@@ -192,16 +194,17 @@ export default (config: ConfigService, http: HttpService, jira: JiraService): St
   };
 
   const replaceAttributeLink = (attr: string, link: cheerio.Element) => {
+    const linkStyleQuery = attr === 'href' ? styleQuery : '';
     const [, , pathPageAnchorUrl, titlePageUrl, headingPageUrl] = searchUrlwithAnchor.exec($(link).attr(attr)) ?? [];
     const [, , pathPageAnchorUri, titlePageUri, headingPageUri] = searchUriwithAnchor.exec($(link).attr(attr)) ?? [];
     const [, , pathPageUrl] = searchUrl.exec($(link).attr(attr)) ?? [];
     const [, , pathPageUri] = searchUri.exec($(link).attr(attr)) ?? [];
 
-    // ! Yet no solved the pattern when hyphen symbol is partin the title
+    // ! Yet no solved the pattern when hyphen symbol is part of the title
     if (pathPageAnchorUrl) {
       $(link).attr(
         attr,
-        composeUrlFactory(pathPageAnchorUrl, titlePageUrl, headingPageUrl),
+        composeUrlFactory(pathPageAnchorUrl, titlePageUrl, headingPageUrl, linkStyleQuery),
       );
       // if there is no display text for the Url we try to compose one or modify if starts with confluence domain
       if (verifyComposeUrl(link)) {
@@ -210,7 +213,7 @@ export default (config: ConfigService, http: HttpService, jira: JiraService): St
     } else if (pathPageAnchorUri) {
       $(link).attr(
         attr,
-        composeUrlFactory(pathPageAnchorUri, titlePageUri, headingPageUri),
+        composeUrlFactory(pathPageAnchorUri, titlePageUri, headingPageUri, linkStyleQuery),
       );
       // if there is no display text for the Url we try to compose one
       if (verifyComposeUrl(link)) {
@@ -218,10 +221,10 @@ export default (config: ConfigService, http: HttpService, jira: JiraService): St
       }
     } else if (pathPageUrl) {
       // Step 1: replace absolute URLs by absolute URIs
-      $(link).attr(attr, `${webBasePath}/wiki${pathPageUrl}`);
+      $(link).attr(attr, `${webBasePath}/wiki${pathPageUrl}${linkStyleQuery}`);
     } else if (pathPageUri) {
       // Step 2: replace URIs with the correct base path
-      $(link).attr(attr, `${webBasePath}/wiki${pathPageUri}`);
+      $(link).attr(attr, `${webBasePath}/wiki${pathPageUri}${linkStyleQuery}`);
     }
 
     // (Optional) Step 3: add resized URLs in srcset attribute on resized images
