@@ -75,8 +75,8 @@ export default (
     // earlier link/image steps (e.g. fixLinks, which hides <img> tags that have
     // an empty src) cannot tamper with it before we set its src on click.
     $('body').append(
-      '<div id="xray-evidence-modal" class="xray-evidence-modal">'
-      + '<span class="xray-evidence-modal-close" aria-label="Close">&times;</span>'
+      '<div id="xray-evidence-modal" class="xray-evidence-modal" role="dialog" aria-modal="true" aria-label="Xray evidence">'
+      + '<button type="button" class="xray-evidence-modal-close" aria-label="Close">&times;</button>'
       + '</div>',
     );
     $('body').append(`<script defer>
