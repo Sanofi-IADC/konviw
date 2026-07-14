@@ -1,3 +1,10 @@
+## [3.53.1](https://github.com/Sanofi-IADC/konviw/compare/v3.53.0...v3.53.1) (2026-07-14)
+
+
+### Bug Fixes
+
+* Isolate ContextService and avoid theme flicker effect ([#681](https://github.com/Sanofi-IADC/konviw/issues/681)) ([1bd51ff](https://github.com/Sanofi-IADC/konviw/commit/1bd51ff2e4b3f792dbcfb1a1f08dce5ce3458460))
+
 # [3.53.0](https://github.com/Sanofi-IADC/konviw/compare/v3.52.3...v3.53.0) (2026-07-14)
 
 
