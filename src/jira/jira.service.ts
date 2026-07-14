@@ -518,6 +518,67 @@ export class JiraService {
   }
 
   /**
+   * @function getUsersByAccountIds Service
+   * @description Resolves a set of Atlassian account ids to their user details
+   * (mainly the display name). Used to turn the raw account ids returned by the
+   * Xray API (e.g. the Test Run executor / assignee) into human-readable names.
+   * Fails gracefully by returning an empty map so a rendering step never breaks
+   * because a user could not be resolved.
+   * @param accountIds {string[]} the Atlassian account ids to resolve
+   * @return Promise {Record<string, { accountId: string; displayName: string; emailAddress: string; self: string }>}
+   */
+  async getUsersByAccountIds(
+    accountIds: string[],
+  ): Promise<Record<string, { accountId: string; displayName: string; emailAddress: string; self: string }>> {
+    this.init();
+    const uniqueIds = Array.from(new Set((accountIds ?? []).filter(Boolean)));
+    const usersById: Record<string, { accountId: string; displayName: string; emailAddress: string; self: string }> = {};
+    if (uniqueIds.length === 0) {
+      return usersById;
+    }
+    // The bulk endpoint accepts up to 200 accountId params per request.
+    const chunkSize = 200;
+    const chunks: string[][] = [];
+    for (let i = 0; i < uniqueIds.length; i += chunkSize) {
+      chunks.push(uniqueIds.slice(i, i + chunkSize));
+    }
+    try {
+      await Promise.all(
+        chunks.map(async (chunk) => {
+          const params = new URLSearchParams();
+          params.set('maxResults', String(chunkSize));
+          chunk.forEach((id) => params.append('accountId', id));
+          const response = await firstValueFrom(
+            this.http.get(`${this.baseUrl}/rest/api/3/user/bulk?${params.toString()}`, {
+              auth: { username: this.apiUsername, password: this.apiToken },
+            }),
+          );
+          (response.data?.values ?? []).forEach((user) => {
+            if (user?.accountId) {
+              usersById[user.accountId] = {
+                accountId: user.accountId,
+                displayName: user.displayName ?? '',
+                emailAddress: user.emailAddress ?? '',
+                self: user.self ?? '',
+              };
+            }
+          });
+        }),
+      );
+      this.logger.log(`Resolved ${Object.keys(usersById).length}/${uniqueIds.length} Jira users by account id`);
+    } catch (error) {
+      this.logger.error({
+        msg: 'HTTP request error in getUsersByAccountIds',
+        message: error.message,
+        response: error.response
+          ? { status: error.response.status, data: error.response.data }
+          : undefined,
+      });
+    }
+    return usersById;
+  }
+
+  /**
    * @function findProjectVersions Service
    * @description Returns the list of project versions.
    * @return Promise {any}

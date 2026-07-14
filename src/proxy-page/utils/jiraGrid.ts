@@ -42,6 +42,29 @@ export const columnConfig = {
           \`).join(' ')
         )
       }`,
+  evidences: (name) => `
+      {
+        name: \`${name}\`,
+        sort: { compare: (a, b) => ((a?.data[0]?.name ?? '') > (b?.data[0]?.name ?? '') ? 1 : -1) },
+        formatter: (cell) => gridjs.html(
+          (cell?.data ?? []).map(item => {
+            const name = String(item?.name ?? '');
+            const link = String(item?.link ?? '');
+            const escapeHtml = (s) => String(s)
+              .replace(/&/g, '&amp;')
+              .replace(/</g, '&lt;')
+              .replace(/>/g, '&gt;')
+              .replace(/"/g, '&quot;')
+              .replace(/'/g, '&#39;');
+            const safeName = escapeHtml(name);
+            const safeLink = escapeHtml(link);
+            const isImage = /\\.(png|jpe?g|gif|webp|bmp|svg)$/i.test(name);
+            return isImage
+              ? \`<img src="\${safeLink}" alt="\${safeName}" title="\${safeName}" loading="lazy" class="xray-evidence-thumb" />\`
+              : \`<a href="\${safeLink}" target="_blank" rel="noopener noreferrer">\${safeName}</a>\`;
+          }).join(' ')
+        )
+      }`,
 };
 
 export const createTable = (index, gridjsColumns, preparedData) => `
