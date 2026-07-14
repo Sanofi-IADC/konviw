@@ -1,3 +1,19 @@
+# [3.54.0](https://github.com/Sanofi-IADC/konviw/compare/v3.53.1...v3.54.0) (2026-07-14)
+
+
+### Bug Fixes
+
+* **addLibrariesCSS:** update highlight.js them ([6e63d25](https://github.com/Sanofi-IADC/konviw/commit/6e63d25c119a92d59624bd7b1209a20e37d6fed6))
+* **fixImageSize:** fix width of inline images ([345d009](https://github.com/Sanofi-IADC/konviw/commit/345d0092b0f87f80a47e6a1624574378c9d637d6))
+* **fixLinks:** add the style  param in every internal link ([93a0fc1](https://github.com/Sanofi-IADC/konviw/commit/93a0fc1452f8434a33497c300c290aa1d73b0afa))
+* **fixTableBackground:** dark font in cells with light colors ([b25cf4b](https://github.com/Sanofi-IADC/konviw/commit/b25cf4bb9a98603692be37fbbea8ef527c9f9199)), closes [#172b4](https://github.com/Sanofi-IADC/konviw/issues/172b4)
+* **scss:** General fixes styles did not use variables ([cf26a88](https://github.com/Sanofi-IADC/konviw/commit/cf26a88bed440a4bfbeb5e89877aa2463a490a17))
+
+
+### Features
+
+* **opella:** new style for Opella ([720d73a](https://github.com/Sanofi-IADC/konviw/commit/720d73a5a04056a9c42bd0e2a4e5263ff9cbfe4e))
+
 ## [3.53.1](https://github.com/Sanofi-IADC/konviw/compare/v3.53.0...v3.53.1) (2026-07-14)
 
 
