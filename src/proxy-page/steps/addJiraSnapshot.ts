@@ -120,6 +120,7 @@ export default (
         // Xray returns account ids for the executor / assignee; resolve them to
         // display names in a single batched call so the grid shows user names.
         const accountIds = filteredRuns.flatMap((run) => [run?.executedById, run?.assigneeId]);
+        // eslint-disable-next-line no-await-in-loop
         const usersById = await jiraService
           .getUsersByAccountIds(accountIds)
           .catch(() => ({}));
@@ -166,7 +167,15 @@ export default (
     const duplicatedIssue = hierarchiedIssues.flatMap((issue) => traverseIssues(issue));
 
     // Then based on the duplicate value we will build the row format for gridjs
-    const gridData = extractKeysColumns(duplicatedIssue, jqlParams.allColumnsId, jqlParams.levelType, jiraFields, xrayJiraFields, fieldFunctions, confluenceDomain);
+    const gridData = extractKeysColumns(
+      duplicatedIssue,
+      jqlParams.allColumnsId,
+      jqlParams.levelType,
+      jiraFields,
+      xrayJiraFields,
+      fieldFunctions,
+      confluenceDomain,
+    );
     const preparedData = gridData.map((obj) => Object.values(obj));
     const gridjsColumns = createHeaderGridColumns(jqlParams, jiraFields, xrayJiraFields, columnConfig, fieldFunctions, confluenceDomain);
     // Implementation of the gridjs table
