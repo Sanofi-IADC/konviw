@@ -386,6 +386,15 @@ export const formatWebLink = (value: any) =>
     string,
   ];
 
+// Same passthrough shape as `formatWebLink` but rendered through the dedicated
+// `evidences` grid column, which shows image attachments as inline thumbnails
+// (and falls back to a plain link for non-image files).
+export const formatEvidences = (value: any) =>
+  [Array.isArray(value) ? value.filter((item) => item && item.link) : [], 'evidences'] as [
+    { name: string; link: string }[],
+    string,
+  ];
+
 export const fieldFunctions: {
   [key: string]: (value: any, baseUrl?: string) => any;
 } = {
@@ -407,4 +416,5 @@ export const fieldFunctions: {
     formatIssueLinks(value, baseUrl),
   json: formatJson,
   weblink: formatWebLink,
+  evidences: formatEvidences,
 };

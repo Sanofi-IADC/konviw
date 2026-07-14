@@ -32,7 +32,7 @@ const XRAY_TESTRUN_FIELDS = [
   { id: 'comment', name: 'Comment', schema: { type: 'string' } },
   { id: 'gherkin', name: 'Gherkin', schema: { type: 'string' } },
   { id: 'unstructured', name: 'Definition', schema: { type: 'string' } },
-  { id: 'evidences', name: 'Evidences', schema: { type: 'weblink' } },
+  { id: 'evidences', name: 'Evidences', schema: { type: 'evidences' } },
 ];
 
 export default (
@@ -65,6 +65,51 @@ export default (
   $('div[data-macro-name="jira-jql-snapshot"]').each((i, element) => {
     jiraJqlSnapshots.push($(element));
   });
+
+  // Lightbox for Xray evidence images: clicking a thumbnail opens the full
+  // image in a centered modal (80% of the viewport) instead of navigating away
+  // or downloading it. Added once per page and driven by a delegated listener
+  // since the grid (and its thumbnails) are rendered client-side by Grid.js.
+  if (jiraJqlSnapshots.length > 0) {
+    // The modal image is created client-side (not in the server HTML) so that
+    // earlier link/image steps (e.g. fixLinks, which hides <img> tags that have
+    // an empty src) cannot tamper with it before we set its src on click.
+    $('body').append(
+      '<div id="xray-evidence-modal" class="xray-evidence-modal">'
+      + '<span class="xray-evidence-modal-close" aria-label="Close">&times;</span>'
+      + '</div>',
+    );
+    $('body').append(`<script defer>
+      document.addEventListener('DOMContentLoaded', function () {
+        var modal = document.getElementById('xray-evidence-modal');
+        if (!modal) { return; }
+        var modalImg = document.createElement('img');
+        modalImg.className = 'xray-evidence-modal-img';
+        modal.appendChild(modalImg);
+        var open = function (src, alt) {
+          modalImg.setAttribute('src', src);
+          modalImg.setAttribute('alt', alt || '');
+          modal.classList.add('is-open');
+        };
+        var close = function () {
+          modal.classList.remove('is-open');
+          modalImg.setAttribute('src', '');
+        };
+        document.addEventListener('click', function (e) {
+          var target = e.target;
+          if (target && target.classList && target.classList.contains('xray-evidence-thumb')) {
+            e.preventDefault();
+            open(target.currentSrc || target.src, target.getAttribute('alt'));
+          } else if (target === modal || (target.classList && target.classList.contains('xray-evidence-modal-close'))) {
+            close();
+          }
+        });
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape') { close(); }
+        });
+      });
+    </script>`);
+  }
 
   const macroParamsList = [];
   $xml('ac\\:parameter[ac\\:name="macroParams"]').each((i, element) => {
@@ -132,7 +177,7 @@ export default (
           jiraIssues.push({
             issues: {
               issues: Promise.resolve(
-                mapTestRunsToIssues(testRuns, test?.key, confluenceDomain, usersById),
+                mapTestRunsToIssues(testRuns, test?.key, confluenceDomain, usersById, basePath),
               ),
             },
           });
@@ -337,6 +382,7 @@ function mapTestRunsToIssues(
   testKeyFallback: string,
   baseUrl: string,
   usersById: Record<string, { accountId: string; displayName: string; emailAddress: string; self: string }> = {},
+  webBasePath = '',
 ) {
   // Builds the `user`-typed data (an array of User objects) expected by
   // formatUser. Falls back to showing the raw account id when the user could
@@ -409,9 +455,14 @@ function mapTestRunsToIssues(
         comment: run?.comment ?? '',
         gherkin: run?.gherkin ?? '',
         unstructured: run?.unstructured ?? '',
+        // Xray attachment URLs (`evidence.downloadLink`) require a bearer token
+        // and are not browsable directly, so we point at konviw's proxy route
+        // (`/api/xray/attachments/:id`) which fetches the bytes server-side.
         evidences: (run?.evidence ?? []).map((evidence) => ({
           name: evidence?.filename ?? evidence?.id ?? 'evidence',
-          link: evidence?.downloadLink ?? '',
+          link: evidence?.id
+            ? `${webBasePath}/api/xray/attachments/${evidence.id}`
+            : (evidence?.downloadLink ?? ''),
         })),
       },
     };

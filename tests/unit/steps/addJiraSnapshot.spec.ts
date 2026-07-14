@@ -162,6 +162,16 @@ describe('Confluence Proxy / addJiraSnapshot', () => {
     expect(html).toContain('v2'); // testversion
     expect(html).toContain('run comment'); // comment via synthetic string field
     expect(html).toContain('screenshot.png'); // evidences
+    // Evidence links must go through konviw's Xray attachment proxy, not the
+    // raw (unauthenticated, 404-ing) Xray downloadLink.
+    expect(html).toContain('/api/xray/attachments/ev1');
+    expect(html).not.toContain('https://files/screenshot.png');
+    // Image evidence is displayed inline as a thumbnail: the evidences column
+    // uses the image formatter (the grid renders the <img> client-side from the
+    // proxied link in the row data).
+    expect(html).toContain('<img src="${item.link}"');
+    // Clicking a thumbnail opens the lightbox modal rather than navigating.
+    expect(html).toContain('xray-evidence-modal');
     expect(html).toContain('Given a step'); // gherkin
     // account ids should not leak into the rendered output
     expect(html).not.toContain('account-executor');

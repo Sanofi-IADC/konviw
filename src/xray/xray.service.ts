@@ -176,6 +176,68 @@ export class XrayService {
     }
   }
 
+  /**
+   * @function getAttachment
+   * @description Downloads a Test Run evidence/attachment by its id, using the
+   * authenticated Xray REST endpoint (`/attachments/:id`). The `downloadLink`
+   * returned by the GraphQL API points at an `/enterprise/...` path that is not
+   * directly reachable and, like every Xray endpoint, requires a bearer token a
+   * browser cannot supply - so konviw proxies the download server-side instead.
+   * @param id {string} the Xray attachment id (equals the evidence id)
+   * @return Promise {{ data: Buffer; contentType: string }}
+   */
+  async getAttachment(id: string): Promise<{ data: Buffer; contentType: string }> {
+    if (!this.isConfigured()) {
+      throw new Error('Xray credentials are not configured');
+    }
+    const token = await this.authenticate();
+    const baseURL = this.config.get('xray.baseURL');
+    const response = await firstValueFrom(
+      this.http.get(`${baseURL}/attachments/${encodeURIComponent(id)}`, {
+        headers: { Authorization: `Bearer ${token}` },
+        responseType: 'arraybuffer',
+      }),
+    );
+    const data = Buffer.from(response.data);
+    const headerContentType = response.headers?.['content-type'];
+    // Xray serves evidence as `application/octet-stream`, which prevents the
+    // browser from rendering it inline. Sniff the magic bytes so images get a
+    // proper `image/*` type and can be shown as thumbnails in the grid.
+    const contentType = (!headerContentType || headerContentType === 'application/octet-stream')
+      ? (XrayService.sniffContentType(data) ?? headerContentType ?? 'application/octet-stream')
+      : headerContentType;
+    return { data, contentType };
+  }
+
+  // Detects a content type from the leading "magic" bytes of a buffer. Returns
+  // undefined when the type is not recognised so the caller can keep the
+  // original header value.
+  private static sniffContentType(buffer: Buffer): string | undefined {
+    if (!buffer || buffer.length < 4) {
+      return undefined;
+    }
+    if (buffer[0] === 0x89 && buffer[1] === 0x50 && buffer[2] === 0x4e && buffer[3] === 0x47) {
+      return 'image/png';
+    }
+    if (buffer[0] === 0xff && buffer[1] === 0xd8 && buffer[2] === 0xff) {
+      return 'image/jpeg';
+    }
+    if (buffer[0] === 0x47 && buffer[1] === 0x49 && buffer[2] === 0x46 && buffer[3] === 0x38) {
+      return 'image/gif';
+    }
+    if (
+      buffer.length >= 12
+      && buffer.toString('ascii', 0, 4) === 'RIFF'
+      && buffer.toString('ascii', 8, 12) === 'WEBP'
+    ) {
+      return 'image/webp';
+    }
+    if (buffer[0] === 0x25 && buffer[1] === 0x50 && buffer[2] === 0x44 && buffer[3] === 0x46) {
+      return 'application/pdf';
+    }
+    return undefined;
+  }
+
   // eslint-disable-next-line class-methods-use-this
   private buildTestRunsQuery(testIds: string[], start: number): string {
     // Encode each id as a JSON string so an unexpected character (e.g. a quote)

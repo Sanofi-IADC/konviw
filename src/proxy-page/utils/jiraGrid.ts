@@ -42,6 +42,20 @@ export const columnConfig = {
           \`).join(' ')
         )
       }`,
+  evidences: (name) => `
+      {
+        name: \`${name}\`,
+        sort: { compare: (a, b) => ((a?.data[0]?.name ?? '') > (b?.data[0]?.name ?? '') ? 1 : -1) },
+        formatter: (cell) => gridjs.html(
+          (cell?.data ?? []).map(item => {
+            const isImage = /\\.(png|jpe?g|gif|webp|bmp|svg)$/i.test(item.name || '');
+            return isImage
+              ? \`<img src="\${item.link}" alt="\${item.name}" title="\${item.name}" \`
+                + \`loading="lazy" class="xray-evidence-thumb" />\`
+              : \`<a href="\${item.link}" target="_blank">\${item.name}</a>\`;
+          }).join(' ')
+        )
+      }`,
 };
 
 export const createTable = (index, gridjsColumns, preparedData) => `

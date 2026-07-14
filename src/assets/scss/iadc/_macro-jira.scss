@@ -4,6 +4,53 @@
   font-size: 16px;
 }
 
+// Inline thumbnails for Xray Test Run evidence images in the snapshot grid.
+img.xray-evidence-thumb {
+  max-height: 64px;
+  max-width: 120px;
+  margin: 2px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  object-fit: cover;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+// Lightbox modal shown when an evidence thumbnail is clicked.
+.xray-evidence-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.75);
+
+  &.is-open {
+    display: flex;
+  }
+
+  .xray-evidence-modal-img {
+    max-width: 80vw;
+    max-height: 80vh;
+    object-fit: contain;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 0 24px rgba(0, 0, 0, 0.5);
+  }
+
+  .xray-evidence-modal-close {
+    position: absolute;
+    top: 20px;
+    right: 32px;
+    color: #fff;
+    font-size: 40px;
+    line-height: 1;
+    cursor: pointer;
+    user-select: none;
+  }
+}
+
 // Size the Jira snapshot grid columns to their content so the full column
 // headings are visible instead of being clipped with an ellipsis. Grid.js
 // defaults to `table-layout: fixed` + `max-width: 100%`, which squeezes every
