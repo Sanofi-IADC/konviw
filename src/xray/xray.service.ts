@@ -178,7 +178,9 @@ export class XrayService {
 
   // eslint-disable-next-line class-methods-use-this
   private buildTestRunsQuery(testIds: string[], start: number): string {
-    const idsArg = testIds.map((id) => `"${id}"`).join(', ');
+    // Encode each id as a JSON string so an unexpected character (e.g. a quote)
+    // cannot break out of the GraphQL string literal / alter the query.
+    const idsArg = testIds.map((id) => JSON.stringify(String(id))).join(', ');
     return `query {
       getTestRuns(testIssueIds: [${idsArg}], limit: ${XRAY_MAX_PAGE_SIZE}, start: ${start}) {
         total

@@ -102,4 +102,46 @@ describe('xray.service', () => {
     const runs = await xrayService.getTestRunsByTestIds(['20001']);
     expect(runs).toEqual([]);
   });
+
+  it('reuses the cached bearer token across calls (authenticates only once)', async () => {
+    await buildService();
+    httpService.post
+      .mockReturnValueOnce(of({ data: '"a-bearer-token"' }))
+      .mockReturnValue(graphqlPage([{ id: 'run-1', test: { issueId: '20001' } }], 1));
+
+    await xrayService.getTestRunsByTestIds(['20001']);
+    await xrayService.getTestRunsByTestIds(['20002']);
+
+    const authCalls = httpService.post.mock.calls.filter((call) => String(call[0]).includes('/authenticate'));
+    expect(authCalls).toHaveLength(1);
+  });
+
+  it('stops paginating when a page returns no results even if total is higher', async () => {
+    await buildService();
+    httpService.post
+      .mockReturnValueOnce(of({ data: '"a-bearer-token"' }))
+      .mockReturnValueOnce(graphqlPage([{ id: 'run-1', test: { issueId: '20001' } }], 500))
+      .mockReturnValueOnce(graphqlPage([], 500));
+
+    const runs = await xrayService.getTestRunsByTestIds(['20001']);
+
+    expect(runs).toHaveLength(1);
+    // auth + first (non-empty) page + second (empty) page, then it breaks
+    expect(httpService.post).toHaveBeenCalledTimes(3);
+  });
+
+  it('escapes the test issue ids injected into the GraphQL query', async () => {
+    await buildService();
+    httpService.post
+      .mockReturnValueOnce(of({ data: '"a-bearer-token"' }))
+      .mockReturnValueOnce(graphqlPage([], 0));
+
+    await xrayService.getTestRunsByTestIds(['20001', 'evil" injection']);
+
+    const { query } = httpService.post.mock.calls[1][1];
+    // The rogue quote must be escaped so it cannot break out of the string.
+    expect(query).toContain('"20001"');
+    expect(query).toContain('evil\\" injection');
+    expect(query).not.toContain('"evil" injection"');
+  });
 });

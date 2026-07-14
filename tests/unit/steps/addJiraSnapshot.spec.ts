@@ -61,7 +61,7 @@ class XrayServiceMock {
             },
             fixVersions: [{ name: 'Track4 2.0.1' }],
           },
-          testEnvironments: ['Dev'],
+          testEnvironments: ['Staging'],
         },
         testVersion: { id: 2, name: 'v2' },
         executedById: 'account-executor',
@@ -88,7 +88,7 @@ const macroParams = {
       ],
     },
     {
-      jql: 'mode = all AND fixVersions = Track4 2.0.1 AND environments = Test',
+      jql: 'mode = all AND fixVersions = Track4 2.0.1 AND environments = Staging',
       title: 'Test execution',
       levelType: 'XRAY_TESTRUNS',
       fieldsPosition: [
@@ -154,7 +154,7 @@ describe('Confluence Proxy / addJiraSnapshot', () => {
     expect(html).toContain('Track4 2.0.1');
     expect(html).toContain('TRACK4-BUG-1');
     expect(html).toContain('Test Environments');
-    expect(html).toContain('Dev');
+    expect(html).toContain('Staging');
     // New columns fixed as part of WEB-2475 Kevin feedback.
     expect(html).toContain('Regression exec'); // testexecsummary
     expect(html).toContain('Alice Executor'); // executedby resolved to name

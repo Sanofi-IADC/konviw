@@ -115,7 +115,10 @@ export default (
           // eslint-disable-next-line no-await-in-loop
           runs = await xrayService.getTestRunsByTestIds(testIds).catch(() => []);
         }
-        const filteredRuns = filterTestRunsByFixVersion(runs, jqlParams.jqls[i]);
+        const filteredRuns = filterTestRunsByEnvironment(
+          filterTestRunsByFixVersion(runs, jqlParams.jqls[i]),
+          jqlParams.jqls[i],
+        );
         const runsByTest = groupTestRunsByTest(filteredRuns);
         // Xray returns account ids for the executor / assignee; resolve them to
         // display names in a single batched call so the grid shows user names.
@@ -309,6 +312,22 @@ function filterTestRunsByFixVersion(runs: XrayTestRun[], levelJql: string): Xray
   });
 }
 
+// Best-effort restriction of the runs to a test environment, parsed from the
+// XRAY level query (e.g. `environments = Test`). Test environments live on the
+// Test Execution in Xray. When no environment can be parsed, all runs are
+// returned unchanged.
+function filterTestRunsByEnvironment(runs: XrayTestRun[], levelJql: string): XrayTestRun[] {
+  const match = (levelJql ?? '').match(/(?:test)?environments?\s*=\s*"?([^"\n]+?)"?\s*(?:and|$)/i);
+  const wanted = match?.[1]?.trim();
+  if (!wanted) {
+    return runs ?? [];
+  }
+  return (runs ?? []).filter((run) => {
+    const environments = run?.testExecution?.testEnvironments ?? [];
+    return environments.includes(wanted);
+  });
+}
+
 // Maps Xray Test Runs into the issue-like shape expected by the grid pipeline,
 // keyed by the macro's XRAY column ids (see XRAY_TESTRUN_FIELDS) so they render
 // through the same fieldFunctions / columnConfig as Jira issues. All supported
@@ -419,10 +438,22 @@ function buildChildren(data: any[][][], level: number, parentIndex: number): Iss
     return children;
   }
 
-  data[level][parentIndex].forEach((childItem: any, index: number) => {
+  const siblingGroups = data[level] ?? [];
+  const group = siblingGroups[parentIndex] ?? [];
+  // The next level's groups are indexed by the *global* (flattened) position of
+  // their parent within this level, whereas `forEach` only gives us the index
+  // local to the current parent group. We therefore add the number of items in
+  // all preceding sibling groups so children resolve to the correct group
+  // instead of always the first one (which broke snapshots with 2+ parents).
+  let globalOffset = 0;
+  for (let i = 0; i < parentIndex; i += 1) {
+    globalOffset += (siblingGroups[i]?.length ?? 0);
+  }
+
+  group.forEach((childItem: any, index: number) => {
     const childNode = {
       item: childItem,
-      children: buildChildren(data, level + 1, index),
+      children: buildChildren(data, level + 1, globalOffset + index),
     };
     children.push(childNode);
   });
