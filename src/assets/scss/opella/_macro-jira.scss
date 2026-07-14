@@ -1,0 +1,145 @@
+// Jira Table ===============================================
+
+#gridjs0 {
+  font-size: 16px;
+}
+
+// Inline thumbnails for Xray Test Run evidence images in the snapshot grid.
+img.xray-evidence-thumb {
+  max-height: 64px;
+  max-width: 120px;
+  margin: 2px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  object-fit: cover;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+// Lightbox modal shown when an evidence thumbnail is clicked.
+.xray-evidence-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.75);
+
+  &.is-open {
+    display: flex;
+  }
+
+  .xray-evidence-modal-img {
+    max-width: 80vw;
+    max-height: 80vh;
+    object-fit: contain;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 0 24px rgba(0, 0, 0, 0.5);
+  }
+
+  .xray-evidence-modal-close {
+    position: absolute;
+    top: 20px;
+    right: 32px;
+    color: #fff;
+    font-size: 40px;
+    line-height: 1;
+    cursor: pointer;
+    user-select: none;
+  }
+}
+
+// Size the Jira snapshot grid columns to their content so the full column
+// headings are visible instead of being clipped with an ellipsis. Grid.js
+// defaults to `table-layout: fixed` + `max-width: 100%`, which squeezes every
+// column into the container width; switching to auto layout lets each column
+// grow to fit its heading/content while the wrapper (`overflow: auto`) keeps
+// the horizontal scrolling when the table is wider than its container.
+.gridjs-wrapper {
+  table.gridjs-table {
+    table-layout: auto;
+    max-width: none;
+  }
+
+  .gridjs-th {
+    white-space: nowrap;
+
+    // Keep the heading label and the sort arrow on the same line (arrow right
+    // after the name). Grid.js floats the content left and the sort button
+    // right, which drops the arrow below the label once columns are auto-sized.
+    .gridjs-th-content {
+      float: none;
+      display: inline-block;
+      vertical-align: middle;
+      width: auto;
+      overflow: visible;
+      text-overflow: clip;
+    }
+
+    .gridjs-sort {
+      float: none;
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 4px;
+    }
+  }
+}
+
+
+// Table Jira chart Report ===================================
+
+div.two-dimensional-chart-module {
+
+  table.two-dimensional-chart-table {
+    margin: 10px 0 0 0;
+    width: 100%;
+    border-collapse: collapse;
+    th {
+      font-size: 1.2em;
+      line-height: 1.5em;
+      padding-left: 0.5em;
+    }
+    td {
+      border: 1px solid #ddd;
+      padding: 0.2em 0.5em 0.2em 0.5em;
+      vertical-align: top;
+      a {
+        justify-content: center;
+        display: flex;
+        transition: none;
+        background-image: none;
+        color: var(--primary-color-link);
+        &:hover {
+          color: var(--primary-color);
+        }
+      }
+    }
+  }
+
+  div.chart-summary {
+    font-size: x-small;
+    margin: 5px 0 0 0;
+  }
+}
+
+
+// Jira Chart ================================================
+
+div.jira-chart-macro-wrapper {
+
+  img.jira-chart-macro-img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  div.info {
+    justify-content:center;
+    display: flex;
+    font-size: smaller;
+  }
+}
+
+

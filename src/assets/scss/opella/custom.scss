@@ -1,0 +1,171 @@
+// Opella brand style =====================================
+@import 'variables';
+@import 'fonts';
+@import '../content-layout';
+@import '../media';
+@import '../checkboxes';
+@import '../tables';
+@import 'blog';
+@import '../scrolltotop';
+@import '../reading-progress';
+@import '../status';
+@import '../blockquote';
+@import 'copy-link';
+@import 'links';
+@import '../macro-decisions';
+@import '../macro-expand-panel';
+@import '../macro-info-panel';
+@import 'macro-profile';
+@import '../macro-recently-updated';
+@import '../macro-toc';
+@import 'macro-insert-excerpt';
+@import '../macro-content-by-label';
+@import '../macro-roadmap';
+@import 'macro-jira';
+@import 'dark-theme';
+@import 'attachments';
+@import 'author-header';
+
+// Basic styles ===========================================
+html {
+  transition: color 300ms, background-color 300ms;
+  scroll-behavior: smooth;
+  font-family: var(--font-body);
+  font-size: var(--main-font-size);
+  background-color: var(--bg-color);
+  color: var(--font-color);
+  font-weight: var(--main-font-weight);
+}
+
+h1.titlePage {
+  color: var(--heading-color);
+  font-size: var(--title-font-size);
+  padding-top: 0.8rem;
+
+  & .specialAtlassian {
+    display: inline-block;
+    align-items: center;
+    img {
+      width: 32px;
+      height: 32px;
+    }
+  }
+}
+
+p {
+  margin-bottom: 0px;
+}
+
+ul,
+li p {
+  margin: 0.5em;
+}
+
+.smalltext {
+  font-size: $small-text;
+  padding-left: 10px;
+}
+
+strong {
+  font-weight: 500;
+}
+
+.emoticon {
+  padding: 0;
+}
+
+// Headers ===========================================
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+}
+
+h1 {
+  font-size: 1.6em;
+}
+
+h2 {
+  font-size: 1.4em;
+}
+
+h3 {
+  font-size: 1.2em;
+}
+
+h4 {
+  font-size: 1em;
+}
+
+h5 {
+  font-size: 0.8em;
+}
+
+h6 {
+  font-size: 0.6em;
+}
+
+// Hidden section ===========================================
+.hidden {
+  display: none;
+}
+
+// Source code ===========================================
+// although most of the configuration and syntax highlights comes from addHighlights step
+code {
+  border-radius: 3px;
+  color: var(--font-color);
+  background-color: var(--highlight-grey);
+  word-wrap: break-word;
+}
+
+// Macro Child Pages ==================================
+ul.childpages-macro {
+  font-size: 16px;
+}
+ul.childpages-macro li {
+  padding-top: 5px;
+}
+
+// Macro image with caption
+.image-caption {
+  margin-top: .5rem;
+  &.image-left-wrapper {
+    text-align: left;
+  }
+  &.image-right-wrapper{
+    text-align: right;
+  }
+  &.image-center-wrapper {
+    text-align: center;
+  }
+}
+
+
+// ── Opella brand signatures ────────────────────────────
+// Page title uses a heavier display weight (falls back to Inter 700 —
+// OpellaSans ships Regular only in the current brand kit).
+h1.titlePage {
+  font-weight: 800;
+}
+
+// Text selection uses the Challenger Pink accent.
+::selection {
+  background: var(--pink-challenger);
+  color: #042b0b;
+}
+
+// Signature device: a short Challenger-Pink rule before every section
+// heading (h2). Rendered as a block above the heading so it never disturbs
+// the inline copy-link anchors appended inside headings.
+#Content h2::before {
+  content: '';
+  display: block;
+  width: 1.75rem;
+  height: 2px;
+  margin-bottom: 0.5rem;
+  background: var(--pink-challenger);
+}

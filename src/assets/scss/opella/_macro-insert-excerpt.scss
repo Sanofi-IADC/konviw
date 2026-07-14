@@ -1,0 +1,52 @@
+//
+// These styles are used in the macros to include Excerpt and content by label.
+// In both cases a thin border is shown to enclose the content embedded.
+// Also some elements like blockquote are smaller than the regular one.
+//
+
+// DIV '.panel' used in 'Excerpt Include’ Macro =====================
+.panel[data-macro-name='excerpt-include'],
+.panel[data-macro-name='include'] {
+  color: var(--font-color);
+  margin: 1em 0 0 0;
+  border: 1px solid #ced5ce;
+  overflow: hidden;
+  border-radius: 5px;
+  width: 100%;
+  p {
+    margin: 0.2em;
+  }
+
+  .panelHeader {
+    padding: 0.5em;
+    font-size: 1.1em;
+    border-bottom: 1px solid #ced5ce;
+  }
+
+  .panelContent {
+    padding: 0em 1em 1em 1em;
+    blockquote {
+      width: 70%;
+      margin: 20px auto;
+      color: var(--font-color);
+      padding: 10px 15px 10px 15px;
+      border-left: 8px solid #546955;
+      line-height: 1.2;
+      background: var(--bg-blockquote);
+      border-radius: 5px;
+      &::before {
+        position: absolute;
+        top: -10px;
+        left: -80px;
+        font-family: 'Font Awesome 5 Free', sans-serif;
+        font-weight: 600; // fa-solid for free usage
+        content: '\f10d';
+        font-size: 50px;
+        color: gray;
+      }
+      &::after {
+        content: '';
+      }
+    }
+  }
+}
