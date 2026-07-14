@@ -34,5 +34,12 @@ export default (): Step => (context: ContextService): void => {
       }
     });
 
+  // for images inline make sure they are not widerr than 20px
+  $('img.confluence-content-image-inline')
+    .each((_index: number, elementImg: cheerio.Element) => {
+      $(elementImg).attr('width', '20px');
+      logger.log('Fixed width to inline icon');
+    });
+
   context.getPerfMeasure('fixImageSize');
 };
