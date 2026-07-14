@@ -29,6 +29,46 @@
         flex-direction: column;
       }
 
+      // Keep every column's content (images, tables, ...) inside its own
+      // column instead of overflowing and overlapping the neighbouring column.
+      // Content is scaled down to fit the column width so the cell never needs
+      // a horizontal scrollbar.
+      > .cell {
+        min-width: 0;
+      }
+
+      .innerCell {
+        .confluence-embedded-file-wrapper {
+          max-width: 100%;
+        }
+
+        img,
+        video {
+          max-width: 100%;
+          height: auto;
+        }
+
+        // Tables must fill - but never exceed - the column. Images inside
+        // table cells keep their natural width by default (see _tables.scss
+        // `max-width: auto`), which would overflow a narrow column and force a
+        // horizontal scrollbar, so we constrain them here as well.
+        table.confluenceTable {
+          width: 100%;
+          max-width: 100%;
+
+          &[data-layout='center'] {
+            width: auto;
+          }
+
+          td.confluenceTd img,
+          td.confluenceTd .confluence-embedded-file-wrapper img,
+          th.confluenceTh .confluence-embedded-file-wrapper img {
+            max-width: 100%;
+            height: auto;
+          }
+        }
+      }
+
       // 2 columns layout with smaller in the left
       &.two-left-sidebar {
         grid-template-columns: 30% 70%;
@@ -58,6 +98,26 @@
         grid-template-columns: 25% 50% 25%;
         grid-template-areas: 'sidebars normal sidebars2';
       }
+
+      // 4 equal columns layout
+      &.four-equal {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-areas: 'normal normal2 normal3 normal4';
+      }
+
+      // 5 equal columns layout
+      &.five-equal {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        grid-template-areas: 'normal normal2 normal3 normal4 normal5';
+      }
+
+      // The 4 and 5 column layouts are narrow enough to need extra spacing
+      // between columns. Their tracks use `minmax(0, 1fr)` so the gap is taken
+      // into account without overflowing (unlike the percentage based tracks).
+      &.four-equal,
+      &.five-equal {
+        column-gap: 16px;
+      }
     }
   }
 }
@@ -78,6 +138,12 @@
 }
 .normal ~ .normal ~ .normal {
   grid-area: normal3;
+}
+.normal ~ .normal ~ .normal ~ .normal {
+  grid-area: normal4;
+}
+.normal ~ .normal ~ .normal ~ .normal ~ .normal {
+  grid-area: normal5;
 }
 
 .sidebars {

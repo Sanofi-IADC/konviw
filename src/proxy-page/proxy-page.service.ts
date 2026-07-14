@@ -15,6 +15,7 @@ import fixToc from './steps/fixToc';
 import fixHtmlHead from './steps/fixHtmlHead';
 import fixUserProfile from './steps/fixUserProfile';
 import fixContentWidth from './steps/fixContentWidth';
+import fixMultiColumnLayout from './steps/fixMultiColumnLayout';
 import fixVideo from './steps/fixVideo';
 import fixEmptyLineIncludePage from './steps/fixEmptyLineIncludePage';
 import fixCode from './steps/fixCode';
@@ -114,6 +115,7 @@ export class ProxyPageService {
     await getExcerptAndHeaderImage(this.config, this.confluence)(this.context);
     fixHtmlHead(this.config)(this.context);
     fixContentWidth()(this.context);
+    fixMultiColumnLayout()(this.context);
     fixUserProfile()(this.context);
     fixProfilePicture()(this.context);
     await fixConfluenceSpace(this.config, this.confluence)(this.context);
