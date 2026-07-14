@@ -393,9 +393,9 @@ function mapTestRunsToIssues(
     }
     const user = usersById?.[accountId];
     return [{
-      self: user?.self ?? '',
+      self: '',
       accountId,
-      emailAddress: user?.emailAddress ?? '',
+      emailAddress: '',
       displayName: user?.displayName || accountId,
     }];
   };
