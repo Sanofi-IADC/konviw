@@ -232,6 +232,14 @@ export class XrayService {
     ) {
       return 'image/webp';
     }
+    if (buffer[0] === 0x42 && buffer[1] === 0x4d) {
+      return 'image/bmp';
+    }
+    // SVG is text-based; check the initial bytes for an <svg> tag (optionally after an XML header).
+    const head = buffer.toString('utf8', 0, Math.min(buffer.length, 256)).trimStart().toLowerCase();
+    if (head.includes('<svg')) {
+      return 'image/svg+xml';
+    }
     if (buffer[0] === 0x25 && buffer[1] === 0x50 && buffer[2] === 0x44 && buffer[3] === 0x46) {
       return 'application/pdf';
     }
