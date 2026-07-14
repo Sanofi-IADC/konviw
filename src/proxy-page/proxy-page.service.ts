@@ -62,7 +62,6 @@ export class ProxyPageService {
 
   constructor(
     private config: ConfigService,
-    private context: ContextService,
     private confluence: ConfluenceService,
     private jira: JiraService,
     private xray: XrayService,
@@ -98,7 +97,8 @@ export class ProxyPageService {
       version,
       status,
     );
-    this.context.initPageContext(
+    const context = new ContextService(this.config);
+    context.initPageContext(
       'v2',
       spaceKey,
       pageId,
@@ -109,62 +109,62 @@ export class ProxyPageService {
       true, // loadAsDocument
       view,
     );
-    const contextType = this.context.getType();
-    const addJiraPromise = addJira(this.config, this.jira)(this.context);
-    const addJiraSnapshotPromise = addJiraSnapshot(this.config, this.jira, this.xray)(this.context);
-    await getExcerptAndHeaderImage(this.config, this.confluence)(this.context);
-    fixHtmlHead(this.config)(this.context);
-    fixContentWidth()(this.context);
-    fixMultiColumnLayout()(this.context);
-    fixUserProfile()(this.context);
-    fixProfilePicture()(this.context);
-    await fixConfluenceSpace(this.config, this.confluence)(this.context);
-    await fixLinks(this.config, this.http, this.jira)(this.context);
+    const contextType = context.getType();
+    const addJiraPromise = addJira(this.config, this.jira)(context);
+    const addJiraSnapshotPromise = addJiraSnapshot(this.config, this.jira, this.xray)(context);
+    await getExcerptAndHeaderImage(this.config, this.confluence)(context);
+    fixHtmlHead(this.config)(context);
+    fixContentWidth()(context);
+    fixMultiColumnLayout()(context);
+    fixUserProfile()(context);
+    fixProfilePicture()(context);
+    await fixConfluenceSpace(this.config, this.confluence)(context);
+    await fixLinks(this.config, this.http, this.jira)(context);
     if (view !== 'iframe-resizer') {
-      fixToc()(this.context);
+      fixToc()(context);
     }
-    await fixEmojis(this.config, this.confluence)(this.context);
-    fixDrawioMacro(this.config)(this.context);
-    fixChartMacro(this.config)(this.context);
-    fixExpander()(this.context);
-    fixVideo()(this.context);
+    await fixEmojis(this.config, this.confluence)(context);
+    fixDrawioMacro(this.config)(context);
+    fixChartMacro(this.config)(context);
+    fixExpander()(context);
+    fixVideo()(context);
     // fixEmptyLineIncludePage()(this.context);
-    fixRoadmap(this.config)(this.context);
-    fixCode()(this.context);
-    fixFrameAllowFullscreen()(this.context);
-    fixCaptionImage()(this.context);
-    fixImageSize()(this.context);
-    fixColGroupWidth()(this.context);
+    fixRoadmap(this.config)(context);
+    fixCode()(context);
+    fixFrameAllowFullscreen()(context);
+    fixCaptionImage()(context);
+    fixImageSize()(context);
+    fixColGroupWidth()(context);
     if (contextType.includes('blog')) {
-      await addHeaderBlog()(this.context);
+      await addHeaderBlog()(context);
     } else if (!contextType.includes('notitle')) {
-      await addHeaderTitle(this.confluence)(this.context);
+      await addHeaderTitle(this.confluence)(context);
     }
-    fixSVG(this.config)(this.context);
-    fixEmbeddedFile()(this.context);
-    fixTableBackground()(this.context);
-    fixTableSize()(this.context);
-    fixRecentlyUpdated()(this.context);
-    addTableResponsive()(this.context);
-    addAuthorVersion()(this.context);
-    delUnnecessaryCode()(this.context);
-    addCustomCss(this.config, style)(this.context);
-    addLibrariesCSS()(this.context);
-    addZoom()(this.context);
-    addTheme()(this.context);
+    fixSVG(this.config)(context);
+    fixEmbeddedFile()(context);
+    fixTableBackground()(context);
+    fixTableSize()(context);
+    fixRecentlyUpdated()(context);
+    addTableResponsive()(context);
+    addAuthorVersion()(context);
+    delUnnecessaryCode()(context);
+    addCustomCss(this.config, style)(context);
+    addLibrariesCSS()(context);
+    addZoom()(context);
+    addTheme()(context);
     if (view !== 'iframe-resizer') {
-      addScrollToTop()(this.context);
-      addReadingProgressBar()(this.context);
+      addScrollToTop()(context);
+      addReadingProgressBar()(context);
     }
-    addCopyLinks()(this.context);
-    addWebStatsTracker(this.config)(this.context);
+    addCopyLinks()(context);
+    addWebStatsTracker(this.config)(context);
     await addJiraPromise;
     await addJiraSnapshotPromise;
-    addLibrariesJS()(this.context);
-    addUnsupportedMacroIndicator()(this.context);
-    await addPDF(this.confluence)(this.context);
-    this.context.Close();
-    return this.context.getHtmlBody();
+    addLibrariesJS()(context);
+    addUnsupportedMacroIndicator()(context);
+    await addPDF(this.confluence)(context);
+    context.Close();
+    return context.getHtmlBody();
   }
 
   /**
@@ -186,46 +186,47 @@ export class ProxyPageService {
     status: string,
   ): Promise<string> {
     const content: Content = await this.confluence.getPage(spaceKey, pageId, version, status);
+    const context = new ContextService(this.config);
     addSlideContextByStrategy(
-      this.context,
+      context,
       spaceKey,
       pageId,
       style,
       content,
     );
-    const addJiraPromise = addJira(this.config, this.jira)(this.context);
-    const addJiraSnapshotPromise = addJiraSnapshot(this.config, this.jira, this.xray)(this.context);
-    addSlidesCSS(this.config)(this.context);
-    fixHtmlHead(this.config)(this.context);
-    fixUserProfile()(this.context);
-    fixProfilePicture()(this.context);
-    fixEmbeddedFile()(this.context);
-    await fixConfluenceSpace(this.config, this.confluence)(this.context);
-    await fixLinks(this.config, this.http, this.jira)(this.context);
-    fixToc()(this.context);
-    await fixEmojis(this.config, this.confluence)(this.context);
-    fixDrawioMacro(this.config)(this.context);
-    fixChartMacro(this.config)(this.context);
-    fixExpander()(this.context);
-    fixVideo()(this.context);
-    fixEmptyLineIncludePage()(this.context);
-    fixRoadmap(this.config)(this.context);
-    fixCaptionImage()(this.context);
-    fixImageSize()(this.context);
-    fixFrameAllowFullscreen()(this.context);
-    fixSVG(this.config)(this.context);
-    fixTableBackground()(this.context);
+    const addJiraPromise = addJira(this.config, this.jira)(context);
+    const addJiraSnapshotPromise = addJiraSnapshot(this.config, this.jira, this.xray)(context);
+    addSlidesCSS(this.config)(context);
+    fixHtmlHead(this.config)(context);
+    fixUserProfile()(context);
+    fixProfilePicture()(context);
+    fixEmbeddedFile()(context);
+    await fixConfluenceSpace(this.config, this.confluence)(context);
+    await fixLinks(this.config, this.http, this.jira)(context);
+    fixToc()(context);
+    await fixEmojis(this.config, this.confluence)(context);
+    fixDrawioMacro(this.config)(context);
+    fixChartMacro(this.config)(context);
+    fixExpander()(context);
+    fixVideo()(context);
+    fixEmptyLineIncludePage()(context);
+    fixRoadmap(this.config)(context);
+    fixCaptionImage()(context);
+    fixImageSize()(context);
+    fixFrameAllowFullscreen()(context);
+    fixSVG(this.config)(context);
+    fixTableBackground()(context);
     // addTableResponsive()(this.context);
-    delUnnecessaryCode()(this.context);
+    delUnnecessaryCode()(context);
     await addJiraPromise;
     await addJiraSnapshotPromise;
-    addSlideTypeByStrategy(this.config)(this.context);
-    addSlidesJS(this.config)(this.context);
-    addMessageLastSlide()(this.context);
-    addWebStatsTracker(this.config)(this.context);
-    await addPDF(this.confluence)(this.context);
-    this.context.Close();
-    return this.context.getHtmlBody();
+    addSlideTypeByStrategy(this.config)(context);
+    addSlidesJS(this.config)(context);
+    addMessageLastSlide()(context);
+    addWebStatsTracker(this.config)(context);
+    await addPDF(this.confluence)(context);
+    context.Close();
+    return context.getHtmlBody();
   }
 
   /**
