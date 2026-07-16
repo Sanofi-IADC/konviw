@@ -579,6 +579,62 @@ export class JiraService {
   }
 
   /**
+   * @function getIssueKeysByIds Service
+   * @description Resolves a set of numeric Jira issue ids to their issue keys.
+   * The Xray API returns defects as raw Jira issue ids; this turns them into the
+   * human-readable keys (e.g. ARM-3926) expected in the "Defects" column. Fails
+   * gracefully by returning an empty map so a rendering step never breaks because
+   * an id could not be resolved.
+   * @param issueIds {string[]} the numeric Jira issue ids to resolve
+   * @return Promise {Record<string, string>} a map of issue id -> issue key
+   */
+  async getIssueKeysByIds(issueIds: string[]): Promise<Record<string, string>> {
+    this.init();
+    const uniqueIds = Array.from(new Set((issueIds ?? []).map((id) => String(id ?? '')).filter(Boolean)));
+    const keysById: Record<string, string> = {};
+    if (uniqueIds.length === 0) {
+      return keysById;
+    }
+    // The bulk fetch endpoint accepts up to 100 issues per request.
+    const chunkSize = 100;
+    const chunks: string[][] = [];
+    for (let i = 0; i < uniqueIds.length; i += chunkSize) {
+      chunks.push(uniqueIds.slice(i, i + chunkSize));
+    }
+    try {
+      await Promise.all(
+        chunks.map(async (chunk) => {
+          const response = await firstValueFrom(
+            this.http.post(
+              `${this.baseUrl}/rest/api/3/issue/bulkfetch`,
+              { fields: ['key'], issueIdsOrKeys: chunk },
+              {
+                auth: { username: this.apiUsername, password: this.apiToken },
+                headers: { 'Content-Type': 'application/json' },
+              },
+            ),
+          );
+          (response.data?.issues ?? []).forEach((issue) => {
+            if (issue?.id && issue?.key) {
+              keysById[String(issue.id)] = issue.key;
+            }
+          });
+        }),
+      );
+      this.logger.log(`Resolved ${Object.keys(keysById).length}/${uniqueIds.length} Jira issue keys by id`);
+    } catch (error) {
+      this.logger.error({
+        msg: 'HTTP request error in getIssueKeysByIds',
+        message: error.message,
+        response: error.response
+          ? { status: error.response.status, data: error.response.data }
+          : undefined,
+      });
+    }
+    return keysById;
+  }
+
+  /**
    * @function findProjectVersions Service
    * @description Returns the list of project versions.
    * @return Promise {any}

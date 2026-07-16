@@ -81,3 +81,76 @@ describe('jira.service / getUsersByAccountIds', () => {
     expect(users).toEqual({});
   });
 });
+
+describe('jira.service / getIssueKeysByIds', () => {
+  let jiraService: JiraService;
+  let httpService: { get: jest.Mock; post: jest.Mock };
+
+  const buildService = async () => {
+    httpService = { get: jest.fn(), post: jest.fn() };
+    const module: TestingModule = await Test.createTestingModule({
+      imports: [ConfigModule.forRoot({ load: [configuration] })],
+      providers: [
+        JiraService,
+        { provide: HttpService, useValue: httpService },
+      ],
+    }).compile();
+    jiraService = module.get<JiraService>(JiraService);
+  };
+
+  const issuesResponse = (issues: any[]) => of({ data: { issues } });
+
+  it('resolves numeric issue ids to a map keyed by id', async () => {
+    await buildService();
+    httpService.post.mockReturnValueOnce(issuesResponse([
+      { id: '9535271', key: 'ARM-3951' },
+      { id: '9556906', key: 'ARM-3969' },
+    ]));
+
+    const keys = await jiraService.getIssueKeysByIds(['9535271', '9556906']);
+
+    expect(keys['9535271']).toBe('ARM-3951');
+    expect(keys['9556906']).toBe('ARM-3969');
+    const [url, body] = httpService.post.mock.calls[0];
+    expect(String(url)).toContain('/rest/api/3/issue/bulkfetch');
+    expect(body.issueIdsOrKeys).toEqual(['9535271', '9556906']);
+    expect(body.fields).toEqual(['key']);
+  });
+
+  it('dedupes duplicate ids and ignores falsy values', async () => {
+    await buildService();
+    httpService.post.mockReturnValueOnce(issuesResponse([{ id: '1', key: 'ARM-1' }]));
+
+    await jiraService.getIssueKeysByIds(['1', '1', '', null as any, undefined as any]);
+
+    expect(httpService.post).toHaveBeenCalledTimes(1);
+    expect(httpService.post.mock.calls[0][1].issueIdsOrKeys).toEqual(['1']);
+  });
+
+  it('returns an empty map without calling the API when there are no ids', async () => {
+    await buildService();
+    const keys = await jiraService.getIssueKeysByIds([]);
+    expect(keys).toEqual({});
+    expect(httpService.post).not.toHaveBeenCalled();
+  });
+
+  it('splits requests into chunks of 100 issue ids', async () => {
+    await buildService();
+    httpService.post.mockReturnValue(issuesResponse([]));
+    const ids = Array.from({ length: 101 }, (_, i) => `${i}`);
+
+    await jiraService.getIssueKeysByIds(ids);
+
+    // 101 unique ids -> two chunks (100 + 1).
+    expect(httpService.post).toHaveBeenCalledTimes(2);
+  });
+
+  it('degrades gracefully to an empty map when the API fails', async () => {
+    await buildService();
+    httpService.post.mockReturnValueOnce(throwError(() => new Error('boom')));
+
+    const keys = await jiraService.getIssueKeysByIds(['1']);
+
+    expect(keys).toEqual({});
+  });
+});
