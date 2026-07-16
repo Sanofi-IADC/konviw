@@ -35,6 +35,15 @@ class ConfigurableJiraServiceMock {
       return acc;
     }, {} as Record<string, any>);
   }
+
+  // Resolves defect Jira issue ids to keys via the same `directory` map (values
+  // that are strings are treated as keys); unknown ids are left unresolved.
+  async getIssueKeysByIds(issueIds: string[]) {
+    return (issueIds ?? []).reduce((acc, id) => {
+      if (typeof this.directory[id] === 'string') acc[id] = this.directory[id];
+      return acc;
+    }, {} as Record<string, string>);
+  }
 }
 
 class ConfigurableXrayServiceMock {

@@ -59,6 +59,10 @@ describe('xray.service', () => {
     expect(graphqlCall[0]).toContain('/graphql');
     expect(graphqlCall[2].headers.Authorization).toBe('Bearer a-bearer-token');
     expect(graphqlCall[1].query).toContain('testIssueIds: ["20001", "20002"]');
+    // Defects / evidence can live on the steps, so the query must fetch them
+    // (WEB-2475 Kevin feedback: missing defects / evidences on some runs).
+    expect(graphqlCall[1].query).toContain('steps');
+    expect(graphqlCall[1].query).toMatch(/steps\s*{[\s\S]*defects[\s\S]*evidence/);
   });
 
   it('paginates beyond the 100-item page limit', async () => {

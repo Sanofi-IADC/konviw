@@ -17,6 +17,14 @@ export interface XrayEvidence {
   downloadLink?: string;
 }
 
+export interface XrayTestRunStep {
+  id?: string;
+  // Defects (Jira issue ids) and evidence can be attached at the step level
+  // rather than the run level (e.g. manual tests), so we collect both.
+  defects?: string[];
+  evidence?: XrayEvidence[];
+}
+
 export interface XrayTestRun {
   id: string;
   status?: { name?: string; color?: string; description?: string };
@@ -42,11 +50,15 @@ export interface XrayTestRun {
   // Account ids of the executor / assignee; resolved to display names later.
   executedById?: string;
   assigneeId?: string;
+  // Run-level defects (Jira issue ids). Defects may also live on the steps.
   defects?: string[];
   comment?: string;
   gherkin?: string;
   unstructured?: string;
+  // Run-level evidence. Evidence may also live on the steps.
   evidence?: XrayEvidence[];
+  // Manual test steps, each of which can carry its own defects and evidence.
+  steps?: XrayTestRunStep[];
 }
 
 // Xray caps the `limit` argument of GraphQL connections at 100.
@@ -271,6 +283,10 @@ export class XrayService {
           gherkin
           unstructured
           evidence { id filename downloadLink }
+          steps {
+            defects
+            evidence { id filename downloadLink }
+          }
         }
       }
     }`;

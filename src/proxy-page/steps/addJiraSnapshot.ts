@@ -172,12 +172,20 @@ export default (
         const usersById = await jiraService
           .getUsersByAccountIds(accountIds)
           .catch(() => ({}));
+        // Xray returns defects as raw Jira issue ids (at the run and/or step
+        // level); resolve them to issue keys in a single batched call so the
+        // "Defects" column shows keys (e.g. ARM-3926) instead of numeric ids.
+        const defectIds = filteredRuns.flatMap((run) => collectDefectIds(run));
+        // eslint-disable-next-line no-await-in-loop
+        const defectsById = await jiraService
+          .getIssueKeysByIds(defectIds)
+          .catch(() => ({}));
         parentTests.forEach((test) => {
           const testRuns = runsByTest[test?.id] ?? [];
           jiraIssues.push({
             issues: {
               issues: Promise.resolve(
-                mapTestRunsToIssues(testRuns, test?.key, confluenceDomain, usersById, basePath),
+                mapTestRunsToIssues(testRuns, test?.key, confluenceDomain, usersById, basePath, defectsById),
               ),
             },
           });
@@ -377,12 +385,38 @@ function filterTestRunsByEnvironment(runs: XrayTestRun[], levelJql: string): Xra
 // keyed by the macro's XRAY column ids (see XRAY_TESTRUN_FIELDS) so they render
 // through the same fieldFunctions / columnConfig as Jira issues. All supported
 // columns are populated; the grid only renders the ones the macro configured.
+// Collects the defect Jira issue ids attached to a run, from both the run level
+// and the individual test steps (deduplicated). Xray attaches defects at either
+// level depending on how the test was executed.
+function collectDefectIds(run: XrayTestRun): string[] {
+  const runDefects = run?.defects ?? [];
+  const stepDefects = (run?.steps ?? []).flatMap((step) => step?.defects ?? []);
+  return Array.from(new Set([...runDefects, ...stepDefects].filter(Boolean)));
+}
+
+// Collects the evidence attached to a run, from both the run level and the
+// individual test steps, deduplicated by evidence id (falling back to filename).
+function collectEvidence(run: XrayTestRun): { id?: string; filename?: string; downloadLink?: string }[] {
+  const runEvidence = run?.evidence ?? [];
+  const stepEvidence = (run?.steps ?? []).flatMap((step) => step?.evidence ?? []);
+  const seen = new Set<string>();
+  return [...runEvidence, ...stepEvidence].filter((evidence) => {
+    const dedupeKey = evidence?.id || evidence?.downloadLink || evidence?.filename;
+    if (!dedupeKey || seen.has(dedupeKey)) {
+      return false;
+    }
+    seen.add(dedupeKey);
+    return true;
+  });
+}
+
 function mapTestRunsToIssues(
   runs: XrayTestRun[],
   testKeyFallback: string,
   baseUrl: string,
   usersById: Record<string, { accountId: string; displayName: string; emailAddress: string; self: string }> = {},
   webBasePath = '',
+  defectsById: Record<string, string> = {},
 ) {
   // Builds the `user`-typed data (an array of User objects) expected by
   // formatUser. Falls back to showing the raw account id when the user could
@@ -441,7 +475,13 @@ function mapTestRunsToIssues(
           }]
           : [],
         fixversions: fixVersions,
-        defects: (run?.defects ?? []).map((defect) => ({ id: '', key: defect, self: `${baseUrl}/browse/${defect}` })),
+        // Defects come from the run and/or its steps and are returned by Xray as
+        // Jira issue ids; show the resolved key (e.g. ARM-3926) and link to it,
+        // falling back to the id when it could not be resolved.
+        defects: collectDefectIds(run).map((defectId) => {
+          const defectKey = defectsById?.[defectId] || defectId;
+          return { id: defectId, key: defectKey, self: `${baseUrl}/browse/${defectKey}` };
+        }),
         // Xray Test Runs are not Jira issues and have no public deep link, so we
         // link to the Test Execution issue that contains the run.
         testrunlinkcloud: execKey ? [{ name: execKey, link: `${baseUrl}/browse/${execKey}?src=confmacro` }] : [],
@@ -458,7 +498,7 @@ function mapTestRunsToIssues(
         // Xray attachment URLs (`evidence.downloadLink`) require a bearer token
         // and are not browsable directly, so we point at konviw's proxy route
         // (`/api/xray/attachments/:id`) which fetches the bytes server-side.
-        evidences: (run?.evidence ?? []).map((evidence) => ({
+        evidences: collectEvidence(run).map((evidence) => ({
           name: evidence?.filename ?? evidence?.id ?? 'evidence',
           link: evidence?.id
             ? `${webBasePath}/api/xray/attachments/${evidence.id}`

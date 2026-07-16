@@ -41,6 +41,18 @@ class JiraServiceMock {
       return acc;
     }, {} as Record<string, any>);
   }
+
+  // eslint-disable-next-line class-methods-use-this
+  async getIssueKeysByIds(issueIds: string[]) {
+    const directory = {
+      '90001': 'TRACK4-BUG-1',
+      '90002': 'TRACK4-BUG-2',
+    };
+    return (issueIds ?? []).reduce((acc, id) => {
+      if (directory[id]) acc[id] = directory[id];
+      return acc;
+    }, {} as Record<string, string>);
+  }
 }
 
 class XrayServiceMock {
@@ -66,11 +78,21 @@ class XrayServiceMock {
         testVersion: { id: 2, name: 'v2' },
         executedById: 'account-executor',
         assigneeId: 'account-assignee',
-        defects: ['TRACK4-BUG-1'],
+        // Xray returns defects as raw Jira issue ids at the run level ...
+        defects: ['90001'],
         comment: 'run comment',
         gherkin: 'Given a step',
         unstructured: 'do the thing',
         evidence: [{ id: 'ev1', filename: 'screenshot.png', downloadLink: 'https://files/screenshot.png' }],
+        // ... and can also attach defects / evidence at the step level, which
+        // must be merged into the run's Defects / Evidences columns.
+        steps: [
+          {
+            id: 'step-1',
+            defects: ['90002'],
+            evidence: [{ id: 'ev2', filename: 'step-evidence.png', downloadLink: 'https://files/step.png' }],
+          },
+        ],
       },
     ];
   }
@@ -152,7 +174,12 @@ describe('Confluence Proxy / addJiraSnapshot', () => {
     expect(html).toContain('PASSED');
     expect(html).toContain('TRACK4-EXEC-1');
     expect(html).toContain('Track4 2.0.1');
-    expect(html).toContain('TRACK4-BUG-1');
+    // Defects: raw Jira issue ids returned by Xray must be resolved to keys ...
+    expect(html).toContain('TRACK4-BUG-1'); // run-level defect id 90001 -> key
+    expect(html).toContain('TRACK4-BUG-2'); // step-level defect id 90002 -> key (merged)
+    // ... and the raw numeric ids must not be shown.
+    expect(html).not.toContain('90001');
+    expect(html).not.toContain('90002');
     expect(html).toContain('Test Environments');
     expect(html).toContain('Staging');
     // New columns fixed as part of WEB-2475 Kevin feedback.
@@ -161,10 +188,12 @@ describe('Confluence Proxy / addJiraSnapshot', () => {
     expect(html).toContain('Bob Assignee'); // assignee resolved to name
     expect(html).toContain('v2'); // testversion
     expect(html).toContain('run comment'); // comment via synthetic string field
-    expect(html).toContain('screenshot.png'); // evidences
+    expect(html).toContain('screenshot.png'); // run-level evidence
+    expect(html).toContain('step-evidence.png'); // step-level evidence (merged)
     // Evidence links must go through konviw's Xray attachment proxy, not the
     // raw (unauthenticated, 404-ing) Xray downloadLink.
     expect(html).toContain('/api/xray/attachments/ev1');
+    expect(html).toContain('/api/xray/attachments/ev2'); // step-level evidence proxied too
     expect(html).not.toContain('https://files/screenshot.png');
     // Image evidence is displayed inline as a thumbnail: the evidences column
     // uses the image formatter (the grid renders the <img> client-side from the
