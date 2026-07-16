@@ -1,3 +1,10 @@
+## [3.54.2](https://github.com/Sanofi-IADC/konviw/compare/v3.54.1...v3.54.2) (2026-07-16)
+
+
+### Bug Fixes
+
+* **jira-snapshot:** scope Xray runs to release fix versions and honour status filter (WEB-2475) ([0ca4b74](https://github.com/Sanofi-IADC/konviw/commit/0ca4b74c59efdb7ad3ca86c7206780d65c9c9453))
+
 ## [3.54.1](https://github.com/Sanofi-IADC/konviw/compare/v3.54.0...v3.54.1) (2026-07-16)
 
 
