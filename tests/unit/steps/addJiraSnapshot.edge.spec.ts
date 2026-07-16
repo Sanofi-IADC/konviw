@@ -224,4 +224,53 @@ describe('Confluence Proxy / addJiraSnapshot (edge cases)', () => {
     expect(html).not.toContain('EXEC-1');
     expect(html).toContain('Test execution (Total: 0)');
   });
+
+  it('inherits the fix version scope from an ancestor (parent) level query', async () => {
+    // The release fix versions live in the parent (Epic) query, while the XRAY
+    // level query only carries a status filter - konviw must still scope the
+    // runs to those versions (regression: historical runs leaked in otherwise).
+    const macroParams = {
+      levels: [
+        {
+          jql: 'project = ARM AND issuetype = Epic AND fixVersion in ("RV2.8.0")',
+          title: 'Epics',
+          levelType: 'JIRA_ISSUES',
+          fieldsPosition: [{ value: { id: 'key' }, label: 'Key' }],
+        },
+        {
+          jql: 'Status != Cancelled',
+          title: 'Test execution',
+          levelType: 'XRAY_TESTRUNS',
+          fieldsPosition: [{ value: { id: 'testexeckey' }, label: 'Test Execution Key' }],
+        },
+      ],
+    };
+    context.setBodyStorage(buildStorage(macroParams));
+    const jira = new ConfigurableJiraServiceMock(singleTestResolver);
+    const xray = new ConfigurableXrayServiceMock([
+      { id: 'r1', test: { issueId: '101', jira: { key: 'TEST-1' } }, testExecution: { issueId: '1001', jira: { key: 'EXEC-REL', fixVersions: [{ name: 'RV2.8.0' }] } } },
+      { id: 'r2', test: { issueId: '101', jira: { key: 'TEST-1' } }, testExecution: { issueId: '1002', jira: { key: 'EXEC-OLD', fixVersions: [{ name: 'RV1.0.0' }] } } },
+    ]);
+
+    const html = await runStep(addJiraSnapshot(config, jira as any, xray as any));
+
+    expect(html).toContain('EXEC-REL');
+    expect(html).not.toContain('EXEC-OLD');
+    expect(html).toContain('Test execution (Total: 1)');
+  });
+
+  it('excludes runs whose Test Execution status matches the level Status filter', async () => {
+    context.setBodyStorage(buildStorage(singleLevelMacro('Status != Cancelled')));
+    const jira = new ConfigurableJiraServiceMock(singleTestResolver);
+    const xray = new ConfigurableXrayServiceMock([
+      { id: 'r1', test: { issueId: '101', jira: { key: 'TEST-1' } }, testExecution: { issueId: '1001', jira: { key: 'EXEC-KEEP', status: { name: 'Done' } } } },
+      { id: 'r2', test: { issueId: '101', jira: { key: 'TEST-1' } }, testExecution: { issueId: '1002', jira: { key: 'EXEC-DROP', status: { name: 'Cancelled' } } } },
+    ]);
+
+    const html = await runStep(addJiraSnapshot(config, jira as any, xray as any));
+
+    expect(html).toContain('EXEC-KEEP');
+    expect(html).not.toContain('EXEC-DROP');
+    expect(html).toContain('Test execution (Total: 1)');
+  });
 });

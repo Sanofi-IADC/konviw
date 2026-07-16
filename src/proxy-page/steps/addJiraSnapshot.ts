@@ -160,8 +160,17 @@ export default (
           // eslint-disable-next-line no-await-in-loop
           runs = await xrayService.getTestRunsByTestIds(testIds).catch(() => []);
         }
-        const filteredRuns = filterTestRunsByEnvironment(
-          filterTestRunsByFixVersion(runs, jqlParams.jqls[i]),
+        // In a release report the fix-version scope is declared in the ancestor
+        // level queries (Epics/Tests), not necessarily in the XRAY level's own
+        // query, so collect it from all levels down to and including this one.
+        // The status condition (e.g. `Status != Cancelled`) comes from the XRAY
+        // level's own query.
+        const scopeJqls = jqlParams.jqls.slice(0, i + 1);
+        const filteredRuns = filterTestRunsByStatus(
+          filterTestRunsByEnvironment(
+            filterTestRunsByFixVersions(runs, scopeJqls),
+            jqlParams.jqls[i],
+          ),
           jqlParams.jqls[i],
         );
         const runsByTest = groupTestRunsByTest(filteredRuns);
@@ -350,18 +359,86 @@ function groupTestRunsByTest(runs: XrayTestRun[]): Record<string, XrayTestRun[]>
   }, {} as Record<string, XrayTestRun[]>);
 }
 
-// Best-effort restriction of the runs to a fix version, parsed from the XRAY
-// level query (e.g. `fixVersions = Track4 2.0.1`). When no fix version can be
-// parsed, all runs are returned unchanged.
-function filterTestRunsByFixVersion(runs: XrayTestRun[], levelJql: string): XrayTestRun[] {
-  const match = (levelJql ?? '').match(/fixversions?\s*=\s*"?([^"\n]+?)"?\s*(?:and|$)/i);
-  const wanted = match?.[1]?.trim();
-  if (!wanted) {
+// Splits a JQL value list like `"a", "b", c` into clean, unquoted values.
+function splitJqlList(list: string): string[] {
+  return (list ?? '')
+    .split(',')
+    .map((value) => value.trim().replace(/^["']|["']$/g, '').trim())
+    .filter(Boolean);
+}
+
+// Parses the fix version(s) referenced by a JQL query. Supports both the list
+// form (`fixVersion in ("a", "b")`) and the equality form (`fixVersions = a`).
+function parseFixVersionsFromJql(jql: string): string[] {
+  const source = jql ?? '';
+  const versions: string[] = [];
+  const inMatch = source.match(/fixversions?\s+in\s*\(([^)]*)\)/i);
+  if (inMatch) {
+    versions.push(...splitJqlList(inMatch[1]));
+  }
+  const eqMatch = source.match(/fixversions?\s*=\s*"?([^"\n]+?)"?\s*(?:\band\b|\border\b|$)/i);
+  if (eqMatch) {
+    versions.push(eqMatch[1].trim());
+  }
+  return versions.filter(Boolean);
+}
+
+// Restricts the runs to the release fix version(s) that scope the snapshot. For
+// a release report the fix versions are declared in the ancestor level queries
+// (Epics/Tests) rather than the XRAY level's own query, so the union of versions
+// across all provided level queries is used. When no fix version can be parsed
+// anywhere, all runs are returned unchanged.
+function filterTestRunsByFixVersions(runs: XrayTestRun[], jqls: string[]): XrayTestRun[] {
+  const wanted = new Set((jqls ?? []).flatMap(parseFixVersionsFromJql));
+  if (wanted.size === 0) {
     return runs ?? [];
   }
   return (runs ?? []).filter((run) => {
     const versions = run?.testExecution?.jira?.fixVersions ?? [];
-    return versions.some((version) => version?.name === wanted);
+    return versions.some((version) => version?.name && wanted.has(version.name));
+  });
+}
+
+// Parses the status condition(s) from a JQL query. Supports `Status = X`,
+// `Status != X`, `Status in (...)` and `Status not in (...)`. Each condition is
+// returned with whether it excludes (`!=` / `not in`) or includes matches.
+function parseStatusFilter(jql: string): { exclude: boolean; values: string[] }[] {
+  const source = jql ?? '';
+  const conditions: { exclude: boolean; values: string[] }[] = [];
+  const notInMatch = source.match(/status\s+not\s+in\s*\(([^)]*)\)/i);
+  if (notInMatch) {
+    conditions.push({ exclude: true, values: splitJqlList(notInMatch[1]) });
+  }
+  const inMatch = source.match(/status\s+in\s*\(([^)]*)\)/i);
+  if (inMatch && !/status\s+not\s+in/i.test(source)) {
+    conditions.push({ exclude: false, values: splitJqlList(inMatch[1]) });
+  }
+  const neMatch = source.match(/status\s*!=\s*("([^"]+)"|'([^']+)'|[^\s)]+)/i);
+  if (neMatch) {
+    conditions.push({ exclude: true, values: [(neMatch[2] ?? neMatch[3] ?? neMatch[1] ?? '').trim()] });
+  }
+  const eqMatch = source.match(/status\s*=\s*("([^"]+)"|'([^']+)'|[^\s)]+)/i);
+  if (eqMatch) {
+    conditions.push({ exclude: false, values: [(eqMatch[2] ?? eqMatch[3] ?? eqMatch[1] ?? '').trim()] });
+  }
+  return conditions;
+}
+
+// Applies the status condition(s) from the XRAY level query (e.g.
+// `Status != Cancelled`) against each run's Test Execution Jira status. When no
+// status condition is present, all runs are returned unchanged.
+function filterTestRunsByStatus(runs: XrayTestRun[], levelJql: string): XrayTestRun[] {
+  const conditions = parseStatusFilter(levelJql);
+  if (conditions.length === 0) {
+    return runs ?? [];
+  }
+  return (runs ?? []).filter((run) => {
+    const statusName = (run?.testExecution?.jira?.status?.name ?? '').toLowerCase();
+    return conditions.every((condition) => {
+      const values = condition.values.map((value) => value.toLowerCase());
+      const matches = values.includes(statusName);
+      return condition.exclude ? !matches : matches;
+    });
   });
 }
 
