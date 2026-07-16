@@ -1,3 +1,10 @@
+## [3.54.1](https://github.com/Sanofi-IADC/konviw/compare/v3.54.0...v3.54.1) (2026-07-16)
+
+
+### Bug Fixes
+
+* **jira-snapshot:** resolve Xray defect keys and merge step-level defects/evidence (WEB-2475) ([7374d2b](https://github.com/Sanofi-IADC/konviw/commit/7374d2bfdf0cadd611a035fa2c769abe0c415ae2))
+
 # [3.54.0](https://github.com/Sanofi-IADC/konviw/compare/v3.53.1...v3.54.0) (2026-07-14)
 
 
