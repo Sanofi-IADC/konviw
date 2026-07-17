@@ -1,3 +1,10 @@
+## [3.54.3](https://github.com/Sanofi-IADC/konviw/compare/v3.54.2...v3.54.3) (2026-07-17)
+
+
+### Bug Fixes
+
+* trigger fresh release build to replace corrupted 3.54.2 image ([11fa498](https://github.com/Sanofi-IADC/konviw/commit/11fa4988510580ef5052a11b2dd12f4079160b48))
+
 ## [3.54.2](https://github.com/Sanofi-IADC/konviw/compare/v3.54.1...v3.54.2) (2026-07-16)
 
 
