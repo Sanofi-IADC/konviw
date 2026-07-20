@@ -6,7 +6,12 @@ export default (): Step => (context: ContextService): void => {
   context.setPerfMark('fixTableSize');
   const $ = context.getCheerioBody();
 
-  $('table').each(
+  // Only size top-level tables. A nested table (one level deep) must keep its
+  // natural size so it fits inside its cell instead of overflowing the column.
+  const isTopLevelTable = (_index: number, tableElement: cheerio.Element): boolean =>
+    $(tableElement).parents('table').length === 0;
+
+  $('table').filter(isTopLevelTable).each(
     (_macroIndex: number, tableElement: cheerio.Element) => {
       const tableWidth = $(tableElement).attr('data-table-width');
       if (tableWidth) {

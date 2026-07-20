@@ -1,3 +1,80 @@
+## [3.54.3](https://github.com/Sanofi-IADC/konviw/compare/v3.54.2...v3.54.3) (2026-07-17)
+
+
+### Bug Fixes
+
+* trigger fresh release build to replace corrupted 3.54.2 image ([11fa498](https://github.com/Sanofi-IADC/konviw/commit/11fa4988510580ef5052a11b2dd12f4079160b48))
+
+## [3.54.2](https://github.com/Sanofi-IADC/konviw/compare/v3.54.1...v3.54.2) (2026-07-16)
+
+
+### Bug Fixes
+
+* **jira-snapshot:** scope Xray runs to release fix versions and honour status filter (WEB-2475) ([0ca4b74](https://github.com/Sanofi-IADC/konviw/commit/0ca4b74c59efdb7ad3ca86c7206780d65c9c9453))
+
+## [3.54.1](https://github.com/Sanofi-IADC/konviw/compare/v3.54.0...v3.54.1) (2026-07-16)
+
+
+### Bug Fixes
+
+* **jira-snapshot:** resolve Xray defect keys and merge step-level defects/evidence (WEB-2475) ([7374d2b](https://github.com/Sanofi-IADC/konviw/commit/7374d2bfdf0cadd611a035fa2c769abe0c415ae2))
+
+# [3.54.0](https://github.com/Sanofi-IADC/konviw/compare/v3.53.1...v3.54.0) (2026-07-14)
+
+
+### Bug Fixes
+
+* **addLibrariesCSS:** update highlight.js them ([6e63d25](https://github.com/Sanofi-IADC/konviw/commit/6e63d25c119a92d59624bd7b1209a20e37d6fed6))
+* **fixImageSize:** fix width of inline images ([345d009](https://github.com/Sanofi-IADC/konviw/commit/345d0092b0f87f80a47e6a1624574378c9d637d6))
+* **fixLinks:** add the style  param in every internal link ([93a0fc1](https://github.com/Sanofi-IADC/konviw/commit/93a0fc1452f8434a33497c300c290aa1d73b0afa))
+* **fixTableBackground:** dark font in cells with light colors ([b25cf4b](https://github.com/Sanofi-IADC/konviw/commit/b25cf4bb9a98603692be37fbbea8ef527c9f9199)), closes [#172b4](https://github.com/Sanofi-IADC/konviw/issues/172b4)
+* **scss:** General fixes styles did not use variables ([cf26a88](https://github.com/Sanofi-IADC/konviw/commit/cf26a88bed440a4bfbeb5e89877aa2463a490a17))
+
+
+### Features
+
+* **opella:** new style for Opella ([720d73a](https://github.com/Sanofi-IADC/konviw/commit/720d73a5a04056a9c42bd0e2a4e5263ff9cbfe4e))
+
+## [3.53.1](https://github.com/Sanofi-IADC/konviw/compare/v3.53.0...v3.53.1) (2026-07-14)
+
+
+### Bug Fixes
+
+* Isolate ContextService and avoid theme flicker effect ([#681](https://github.com/Sanofi-IADC/konviw/issues/681)) ([1bd51ff](https://github.com/Sanofi-IADC/konviw/commit/1bd51ff2e4b3f792dbcfb1a1f08dce5ce3458460))
+
+# [3.53.0](https://github.com/Sanofi-IADC/konviw/compare/v3.52.3...v3.53.0) (2026-07-14)
+
+
+### Bug Fixes
+
+* **jira-snapshot:** correct multi-parent hierarchy and filter Xray runs by environment (WEB-2475) ([eaa12de](https://github.com/Sanofi-IADC/konviw/commit/eaa12defddddf88a5fbc6ea0fa4cc261218e041e))
+* **jira-snapshot:** repair evidences formatter template escaping broken by lint fix (WEB-2475) ([878b479](https://github.com/Sanofi-IADC/konviw/commit/878b47967512b0a6844d6188e416b6addbf3d927))
+
+
+### Features
+
+* **jira-snapshot:** enrich Xray Test Run columns (WEB-2475) ([f0109de](https://github.com/Sanofi-IADC/konviw/commit/f0109de8b909c7a7dc20cbe407b4a4ca81c408fa))
+* **jira-snapshot:** proxy Xray evidence and show inline thumbnails with lightbox (WEB-2475) ([6cc9455](https://github.com/Sanofi-IADC/konviw/commit/6cc9455a6201b0f7d65af9d716bce392a68b018c))
+
+## [3.52.3](https://github.com/Sanofi-IADC/konviw/compare/v3.52.2...v3.52.3) (2026-07-14)
+
+
+### Bug Fixes
+
+* **web:** WEB-2894 only rebuild genuine three-equal collapsed layouts ([d350295](https://github.com/Sanofi-IADC/konviw/commit/d3502952bc191ba60a759be3055690411fddb899))
+* **web:** WEB-2894 render layouts with more than 3 columns ([77081fc](https://github.com/Sanofi-IADC/konviw/commit/77081fc6a4eaf7d332f836b140a676cdfe06b1d7))
+
+## [3.52.2](https://github.com/Sanofi-IADC/konviw/compare/v3.52.1...v3.52.2) (2026-07-13)
+
+
+### Bug Fixes
+
+* **steps:** WEB-2893 convert nested table colgroup widths to % ([895e028](https://github.com/Sanofi-IADC/konviw/commit/895e028cf0b2951130e8b844d2149702f0d866d0))
+* **steps:** WEB-2893 ignore nested tables in fixTableSize ([5873588](https://github.com/Sanofi-IADC/konviw/commit/5873588ce32c54b8570c97863c4529a7d5327a23))
+* **steps:** WEB-2893 scope addTableResponsive to its own table ([bb97974](https://github.com/Sanofi-IADC/konviw/commit/bb9797437decd55c0142f0925a5c7f1e470b640f))
+* **styles:** WEB-2893 contain nested tables within their cell ([32fad42](https://github.com/Sanofi-IADC/konviw/commit/32fad42891ef0347b03b73733f41884a407a14aa))
+* **styles:** WEB-2893 use auto layout so nested tables fit their cell ([90c96e4](https://github.com/Sanofi-IADC/konviw/commit/90c96e4c9c4103856b9ad1dacb2e77bf0701fc33))
+
 ## [3.52.1](https://github.com/Sanofi-IADC/konviw/compare/v3.52.0...v3.52.1) (2026-07-06)
 
 

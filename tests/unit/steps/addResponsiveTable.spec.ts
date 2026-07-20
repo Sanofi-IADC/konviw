@@ -1,4 +1,5 @@
 import { ConfigService } from '@nestjs/config';
+import * as cheerio from 'cheerio';
 import { ContextService } from '../../../src/context/context.service';
 import { Step } from '../../../src/proxy-page/proxy-page.step';
 import addResponsiveTable from '../../../src/proxy-page/steps/addTableResponsive';
@@ -59,5 +60,43 @@ describe('Confluence Proxy / addTheme', () => {
     '<tr><th><p><strong>B</strong></p></th><td data-column-id=\"2\" data-lign-id=\"B\"><p>Test3</p></td><td data-column-id=\"3\" data-lign-id=\"B\"><p>Test4</p></td></tr></tbody>'+
     '</table></div><p></p></div></div></body></html>'
     );
+  });
+
+  it('should not leak outer table headers into a nested table (one level deep)', () => {
+    context.setHtmlBody('<html><head></head><body><div id="Content"><div class="table-wrap">'+
+    '<table data-layout="default" class="confluenceTable"><colgroup><col><col></colgroup>'+
+    '<tbody>'+
+    '<tr><th><p><strong>Outer1</strong></p></th><th><p><strong>Outer2</strong></p></th></tr>'+
+    '<tr>'+
+    '<td class="confluenceTd"><div class="table-wrap"><table class="confluenceTable"><colgroup><col><col></colgroup>'+
+    '<tbody>'+
+    '<tr><th><p><strong>Inner1</strong></p></th><th><p><strong>Inner2</strong></p></th></tr>'+
+    '<tr><td class="confluenceTd"><p>n1</p></td><td class="confluenceTd"><p>n2</p></td></tr>'+
+    '</tbody></table></div></td>'+
+    '<td class="confluenceTd"><p>right</p></td>'+
+    '</tr>'+
+    '</tbody></table></div></div></body></html>');
+    step(context);
+
+    const $ = cheerio.load(context.getHtmlBody());
+    const outerTable = $('table.confluenceTable').first();
+    const nestedTable = outerTable.find('table.confluenceTable').first();
+
+    // Outer data cells are labelled from the outer header row.
+    const outerDataCells = outerTable.children('tbody').children('tr').last().children('td');
+    expect(outerDataCells.eq(0).attr('data-column-id')).toBe('Outer1');
+    expect(outerDataCells.eq(1).attr('data-column-id')).toBe('Outer2');
+
+    // Nested data cells are labelled from the nested header row only.
+    const nestedDataCells = nestedTable.children('tbody').children('tr').last().children('td');
+    expect(nestedDataCells.eq(0).attr('data-column-id')).toBe('Inner1');
+    expect(nestedDataCells.eq(1).attr('data-column-id')).toBe('Inner2');
+
+    // The outer headers must never bleed into the nested cells.
+    nestedDataCells.each((_i, cell) => {
+      expect($(cell).attr('data-column-id')).not.toBe('Outer1');
+      expect($(cell).attr('data-column-id')).not.toBe('Outer2');
+      expect($(cell).attr('data-lign-id')).toBeUndefined();
+    });
   });
 });

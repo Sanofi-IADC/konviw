@@ -3,23 +3,62 @@ import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
 
+export interface XrayJiraStatus {
+  name?: string;
+  description?: string;
+  iconUrl?: string;
+  id?: string;
+  statusCategory?: { colorName?: string; name?: string };
+}
+
+export interface XrayEvidence {
+  id?: string;
+  filename?: string;
+  downloadLink?: string;
+}
+
+export interface XrayTestRunStep {
+  id?: string;
+  // Defects (Jira issue ids) and evidence can be attached at the step level
+  // rather than the run level (e.g. manual tests), so we collect both.
+  defects?: string[];
+  evidence?: XrayEvidence[];
+}
+
 export interface XrayTestRun {
   id: string;
   status?: { name?: string; color?: string; description?: string };
   test?: { issueId?: string; jira?: { key?: string; summary?: string } };
   testExecution?: {
     issueId?: string;
-    jira?: { key?: string; fixVersions?: { name?: string }[] };
+    // `jira` is resolved server-side from the Test Execution Jira issue, so it
+    // carries whatever fields we request (key, summary, fixVersions, status).
+    jira?: {
+      key?: string;
+      summary?: string;
+      fixVersions?: { name?: string }[];
+      status?: XrayJiraStatus;
+    };
     // Test environments are a property of the Test Execution in Xray (the
     // TestRun type does not expose them), so they are nested here.
     testEnvironments?: string[];
   };
+  // The Test version this run was executed against (e.g. name "v1", id 1).
+  testVersion?: { id?: number; name?: string };
   startedOn?: string;
   finishedOn?: string;
+  // Account ids of the executor / assignee; resolved to display names later.
   executedById?: string;
   assigneeId?: string;
+  // Run-level defects (Jira issue ids). Defects may also live on the steps.
   defects?: string[];
   comment?: string;
+  gherkin?: string;
+  unstructured?: string;
+  // Run-level evidence. Evidence may also live on the steps.
+  evidence?: XrayEvidence[];
+  // Manual test steps, each of which can carry its own defects and evidence.
+  steps?: XrayTestRunStep[];
 }
 
 // Xray caps the `limit` argument of GraphQL connections at 100.
@@ -149,9 +188,81 @@ export class XrayService {
     }
   }
 
+  /**
+   * @function getAttachment
+   * @description Downloads a Test Run evidence/attachment by its id, using the
+   * authenticated Xray REST endpoint (`/attachments/:id`). The `downloadLink`
+   * returned by the GraphQL API points at an `/enterprise/...` path that is not
+   * directly reachable and, like every Xray endpoint, requires a bearer token a
+   * browser cannot supply - so konviw proxies the download server-side instead.
+   * @param id {string} the Xray attachment id (equals the evidence id)
+   * @return Promise {{ data: Buffer; contentType: string }}
+   */
+  async getAttachment(id: string): Promise<{ data: Buffer; contentType: string }> {
+    if (!this.isConfigured()) {
+      throw new Error('Xray credentials are not configured');
+    }
+    const token = await this.authenticate();
+    const baseURL = this.config.get('xray.baseURL');
+    const response = await firstValueFrom(
+      this.http.get(`${baseURL}/attachments/${encodeURIComponent(id)}`, {
+        headers: { Authorization: `Bearer ${token}` },
+        responseType: 'arraybuffer',
+      }),
+    );
+    const data = Buffer.from(response.data);
+    const headerContentType = response.headers?.['content-type'];
+    // Xray serves evidence as `application/octet-stream`, which prevents the
+    // browser from rendering it inline. Sniff the magic bytes so images get a
+    // proper `image/*` type and can be shown as thumbnails in the grid.
+    const contentType = (!headerContentType || headerContentType === 'application/octet-stream')
+      ? (XrayService.sniffContentType(data) ?? headerContentType ?? 'application/octet-stream')
+      : headerContentType;
+    return { data, contentType };
+  }
+
+  // Detects a content type from the leading "magic" bytes of a buffer. Returns
+  // undefined when the type is not recognised so the caller can keep the
+  // original header value.
+  private static sniffContentType(buffer: Buffer): string | undefined {
+    if (!buffer || buffer.length < 4) {
+      return undefined;
+    }
+    if (buffer[0] === 0x89 && buffer[1] === 0x50 && buffer[2] === 0x4e && buffer[3] === 0x47) {
+      return 'image/png';
+    }
+    if (buffer[0] === 0xff && buffer[1] === 0xd8 && buffer[2] === 0xff) {
+      return 'image/jpeg';
+    }
+    if (buffer[0] === 0x47 && buffer[1] === 0x49 && buffer[2] === 0x46 && buffer[3] === 0x38) {
+      return 'image/gif';
+    }
+    if (
+      buffer.length >= 12
+      && buffer.toString('ascii', 0, 4) === 'RIFF'
+      && buffer.toString('ascii', 8, 12) === 'WEBP'
+    ) {
+      return 'image/webp';
+    }
+    if (buffer[0] === 0x42 && buffer[1] === 0x4d) {
+      return 'image/bmp';
+    }
+    // SVG is text-based; check the initial bytes for an <svg> tag (optionally after an XML header).
+    const head = buffer.toString('utf8', 0, Math.min(buffer.length, 256)).trimStart().toLowerCase();
+    if (head.includes('<svg')) {
+      return 'image/svg+xml';
+    }
+    if (buffer[0] === 0x25 && buffer[1] === 0x50 && buffer[2] === 0x44 && buffer[3] === 0x46) {
+      return 'application/pdf';
+    }
+    return undefined;
+  }
+
   // eslint-disable-next-line class-methods-use-this
   private buildTestRunsQuery(testIds: string[], start: number): string {
-    const idsArg = testIds.map((id) => `"${id}"`).join(', ');
+    // Encode each id as a JSON string so an unexpected character (e.g. a quote)
+    // cannot break out of the GraphQL string literal / alter the query.
+    const idsArg = testIds.map((id) => JSON.stringify(String(id))).join(', ');
     return `query {
       getTestRuns(testIssueIds: [${idsArg}], limit: ${XRAY_MAX_PAGE_SIZE}, start: ${start}) {
         total
@@ -161,13 +272,21 @@ export class XrayService {
           id
           status { name color description }
           test { issueId jira(fields: ["key", "summary"]) }
-          testExecution { issueId jira(fields: ["key", "fixVersions"]) testEnvironments }
+          testExecution { issueId jira(fields: ["key", "summary", "status", "fixVersions"]) testEnvironments }
+          testVersion { id name }
           startedOn
           finishedOn
           executedById
           assigneeId
           defects
           comment
+          gherkin
+          unstructured
+          evidence { id filename downloadLink }
+          steps {
+            defects
+            evidence { id filename downloadLink }
+          }
         }
       }
     }`;

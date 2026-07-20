@@ -9,6 +9,7 @@ import {
 } from '../confluence/confluence.interface';
 import { ConfluenceService } from '../confluence/confluence.service';
 import { JiraService } from '../jira/jira.service';
+import { XrayService } from '../xray/xray.service';
 import getExcerptAndHeaderImage from './steps/getExcerptAndHeaderImage';
 import fixContentWidth from '../proxy-page/steps/fixContentWidth';
 import fixLinks from '../proxy-page/steps/fixLinks';
@@ -43,6 +44,7 @@ export class ProxyApiService {
     private jira: JiraService,
     private context: ContextService,
     private readonly http: HttpService,
+    private readonly xray: XrayService,
   ) {}
 
   /**
@@ -547,6 +549,18 @@ export class ProxyApiService {
   async getAttachmentDownloadUrl(uri: string): Promise<string> {
     const downloadUrl = await this.confluence.getRedirectUrlForMedia(uri);
     return downloadUrl;
+  }
+
+  /**
+   * @function getXrayAttachment
+   * @description Downloads an Xray Test Run evidence/attachment by its id so it
+   * can be proxied to the browser. Xray attachment URLs require a bearer token
+   * that a browser click cannot provide, hence the server-side proxy.
+   * @param id {string} The Xray attachment (evidence) id.
+   * @return Promise {{ data: Buffer; contentType: string }}
+   */
+  async getXrayAttachment(id: string): Promise<{ data: Buffer; contentType: string }> {
+    return this.xray.getAttachment(id);
   }
 
   /**

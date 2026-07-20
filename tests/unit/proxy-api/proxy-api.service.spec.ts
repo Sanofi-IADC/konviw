@@ -3,6 +3,7 @@ import { ProxyApiService } from '../../../src/proxy-api/proxy-api.service';
 import { ContextService } from '../../../src/context/context.service';
 import { ConfluenceService } from '../../../src/confluence/confluence.service';
 import { JiraService } from '../../../src/jira/jira.service';
+import { XrayService } from '../../../src/xray/xray.service';
 import { HttpModule } from '../../../src/http/http.module';
 import { ConfigModule } from '@nestjs/config';
 import { Content } from '../../../src/confluence/confluence.interface';
@@ -70,6 +71,7 @@ describe('proxy-api.service', () => {
         ConfluenceServiceProvider,
         ProxyApiService,
         JiraService,
+        { provide: XrayService, useValue: { getAttachment: jest.fn() } },
       ],
     }).compile();
     proxyApiService = app.get<ProxyApiService>(ProxyApiService);

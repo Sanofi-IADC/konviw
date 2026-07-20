@@ -1,7 +1,8 @@
 import {
-  Controller, Get, Logger, Param, Query, Version,
+  Controller, Get, Logger, Param, Query, Res, Version,
 } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { Response } from 'express'; // eslint-disable-line import/no-extraneous-dependencies
 import {
   PageParamsDTO,
   PageQueryDTO,
@@ -322,5 +323,25 @@ export class ProxyApiController {
     const du = await this.proxyApi.getAttachmentDownloadUrl(uri);
     this.logger.debug(`Attachment download URL: ${du}`);
     return du;
+  }
+
+  /**
+   * @GET (controller) api/xray/attachments/:id
+   * @description Proxies an Xray Test Run evidence/attachment so it can be
+   * opened from the browser. Xray attachment URLs require a bearer token that a
+   * browser click cannot supply, so konviw fetches the bytes server-side and
+   * streams them back with the original content type.
+   * @param {string} id - The Xray attachment (evidence) id.
+   */
+  @ApiOkResponse({ description: 'Download an Xray evidence attachment' })
+  @Get('xray/attachments/:id')
+  async getXrayAttachment(
+    @Param('id') id: string,
+    @Res() res: Response,
+  ): Promise<void> {
+    const { data, contentType } = await this.proxyApi.getXrayAttachment(id);
+    res.setHeader('Content-Type', contentType);
+    res.setHeader('Cache-Control', 'private, max-age=3600');
+    res.send(data);
   }
 }
