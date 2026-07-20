@@ -268,8 +268,17 @@ function groupTestRunsByTest(runs: XrayTestRun[]): Record<string, XrayTestRun[]>
 // level query (e.g. `fixVersions = Track4 2.0.1`). When no fix version can be
 // parsed, all runs are returned unchanged.
 function filterTestRunsByFixVersion(runs: XrayTestRun[], levelJql: string): XrayTestRun[] {
-  const match = (levelJql ?? '').match(/fixversions?\s*=\s*"?([^"\n]+?)"?\s*(?:and|$)/i);
-  const wanted = match?.[1]?.trim();
+  // Grab everything after the `fixVersions =` assignment, then narrow it down
+  // imperatively. This avoids a single regex with overlapping quantifiers whose
+  // backtracking would be super-linear on adversarial input.
+  const assignmentMatch = /fixversions?\s*=\s*(.+)/i.exec(levelJql ?? '');
+  const wanted = (assignmentMatch?.[1] ?? '')
+    // Drop any trailing ` AND ...` clause that follows the value.
+    .split(/\s+and\b/i)[0]
+    .trim()
+    // Strip surrounding quotes when the value was quoted.
+    .replace(/^"(.*)"$/, '$1')
+    .trim();
   if (!wanted) {
     return runs ?? [];
   }
@@ -336,7 +345,7 @@ export function getJqlVariables(jql: string): string {
   // contain spaces (e.g. `$"Epic Link"`). The capture group must stop at the
   // end of the token: for the bare form we only allow word characters so we do
   // not greedily swallow the rest of the clause (`$key AND issuetype in ...`).
-  const variablePattern = /\$(?:"([^"]+)"|([a-zA-Z0-9_]+))/g;
+  const variablePattern = /\$(?:"([^"]+)"|(\w+))/g;
   const matches = Array.from(jql.matchAll(variablePattern));
   const variables = matches
     .map((match) => (match[1] ?? match[2] ?? '').trim())
