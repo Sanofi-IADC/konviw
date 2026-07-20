@@ -118,7 +118,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: "22.22.0"
+          node-version: "22.23.1"
 
       - name: Cache dependencies
         uses: actions/cache@v3
