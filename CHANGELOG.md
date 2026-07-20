@@ -1,3 +1,10 @@
+## [3.54.4](https://github.com/Sanofi-IADC/konviw/compare/v3.54.3...v3.54.4) (2026-07-20)
+
+
+### Bug Fixes
+
+* **snapshot:** correctly parse bare $key variable in child JQL levels ([4a4b1ba](https://github.com/Sanofi-IADC/konviw/commit/4a4b1ba04784d0fc74e627c2998471b409945630))
+
 ## [3.54.3](https://github.com/Sanofi-IADC/konviw/compare/v3.54.2...v3.54.3) (2026-07-17)
 
 
