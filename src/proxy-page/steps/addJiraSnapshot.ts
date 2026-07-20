@@ -330,12 +330,17 @@ function mapTestRunsToIssues(runs: XrayTestRun[], testKeyFallback: string, baseU
 function splitStrings(inputArray: string[]): string[] {
   return inputArray.flatMap((str) => str.split(','));
 }
-function getJqlVariables(jql: string): string {
-  const variablePattern = /\$\s*"?([a-zA-Z0-9\s_]+)"?/g;
+export function getJqlVariables(jql: string): string {
+  // Snapshot child levels reference their parent through a variable that is
+  // either a bare field id (e.g. `$key`) or a quoted field name that may
+  // contain spaces (e.g. `$"Epic Link"`). The capture group must stop at the
+  // end of the token: for the bare form we only allow word characters so we do
+  // not greedily swallow the rest of the clause (`$key AND issuetype in ...`).
+  const variablePattern = /\$(?:"([^"]+)"|([a-zA-Z0-9_]+))/g;
   const matches = Array.from(jql.matchAll(variablePattern));
   const variables = matches
-    .filter((match) => match[1])
-    .map((match) => match[1].trim());
+    .map((match) => (match[1] ?? match[2] ?? '').trim())
+    .filter(Boolean);
 
   return variables.join(', ');
 }
