@@ -213,4 +213,139 @@ describe('ConfluenceProxy / fixTableChart', () => {
       expect(context.getCheerioBody()('script[data-konviw-apexcharts]').length).toBe(0);
     });
   });
+
+  // Helper to render a single chart macro of a given type and return the
+  // generated HTML (including the ApexCharts options script).
+  const renderChart = (type: string, extraParams = '', tableRows?: string): string => {
+    const rows = tableRows
+      ?? `<tr><th><p>Month</p></th><th><p>Not Managed</p></th><th><p>MCE</p></th></tr>
+          <tr><td><p>May</p></td><td><p>2300</p></td><td><p>2900</p></td></tr>
+          <tr><td><p>June</p></td><td><p>2400</p></td><td><p>3000</p></td></tr>`;
+    const storage = `
+      <ac:structured-macro ac:name="table-chart">
+        <ac:parameter ac:name="type">${type}</ac:parameter>
+        <ac:parameter ac:name="column">Month</ac:parameter>
+        <ac:parameter ac:name="hide">true</ac:parameter>
+        ${extraParams}
+        <ac:rich-text-body><table><tbody>${rows}</tbody></table></ac:rich-text-body>
+      </ac:structured-macro>`;
+    context.setHtmlBody(viewHtml);
+    context.setBodyStorage(storage);
+    fixTableChart()(context);
+    return context.getHtmlBody();
+  };
+
+  describe('Data labels (WEB-2452 values on bars)', () => {
+    it('enables data labels for bar/column charts', () => {
+      expect(renderChart('Column')).toContain('enabled: true');
+    });
+
+    it('uses a readable dark label color with a background pill', () => {
+      const html = renderChart('Column');
+      expect(html).toContain("colors: ['#172b4d']");
+      expect(html).toContain('background: { enabled: true');
+    });
+
+    it('blanks out zero values so empty categories show no label', () => {
+      const html = renderChart('Column');
+      expect(html).toContain("return val === 0 ? '' : String(val);");
+    });
+
+    it('disables data labels for line charts to avoid clutter', () => {
+      expect(renderChart('Line')).toContain('enabled: false');
+    });
+
+    it('enables data labels for pie charts', () => {
+      const html = renderChart(
+        'Pie',
+        '',
+        `<tr><th><p>Month</p></th><th><p>Not Managed</p></th></tr>
+         <tr><td><p>May</p></td><td><p>2300</p></td></tr>`,
+      );
+      expect(html).toContain("type: 'pie'");
+      expect(html).toContain('enabled: true');
+    });
+  });
+
+  describe('Chart type mapping', () => {
+    it('renders "Bar" as a horizontal bar chart', () => {
+      const html = renderChart('Bar');
+      expect(html).toContain("type: 'bar'");
+      expect(html).toContain('horizontal: true');
+    });
+
+    it('renders "Column" as a vertical (non-horizontal) bar chart', () => {
+      const html = renderChart('Column');
+      expect(html).toContain("type: 'bar'");
+      expect(html).toContain('horizontal: false');
+      expect(html).toContain('stacked: false');
+    });
+
+    it('renders "Stacked Bar" as a horizontal stacked bar chart', () => {
+      const html = renderChart('Stacked Bar');
+      expect(html).toContain('horizontal: true');
+      expect(html).toContain('stacked: true');
+    });
+
+    it('renders "Area" as an area chart', () => {
+      expect(renderChart('Area')).toContain("type: 'area'");
+    });
+
+    it('renders "Donut" as a donut chart', () => {
+      const html = renderChart(
+        'Donut',
+        '',
+        `<tr><th><p>Month</p></th><th><p>Value</p></th></tr>
+         <tr><td><p>May</p></td><td><p>2300</p></td></tr>`,
+      );
+      expect(html).toContain("type: 'donut'");
+    });
+
+    it('defaults an unknown type to a vertical bar chart', () => {
+      const html = renderChart('SomethingWeird');
+      expect(html).toContain("type: 'bar'");
+      expect(html).toContain('horizontal: false');
+    });
+  });
+
+  describe('Legend option', () => {
+    it('hides the legend when legend=false', () => {
+      const html = renderChart('Column', '<ac:parameter ac:name="legend">false</ac:parameter>');
+      expect(html).toContain('legend: { show: false }');
+    });
+
+    it('positions the legend when a valid position is given', () => {
+      const html = renderChart('Column', '<ac:parameter ac:name="legend">top</ac:parameter>');
+      expect(html).toContain("position: 'top'");
+    });
+
+    it('falls back to a bottom legend for an unknown position value', () => {
+      const html = renderChart('Column', '<ac:parameter ac:name="legend">weird</ac:parameter>');
+      expect(html).toContain("position: 'bottom'");
+    });
+  });
+
+  describe('Title option', () => {
+    it('adds a chart title when the title parameter is set', () => {
+      const html = renderChart('Column', '<ac:parameter ac:name="title">My chart</ac:parameter>');
+      expect(html).toContain('title: { text: "My chart"');
+    });
+
+    it('omits the title block when no title parameter is set', () => {
+      expect(renderChart('Column')).not.toContain('title: { text:');
+    });
+  });
+
+  describe('Numeric parsing', () => {
+    it('strips thousands separators and spaces from numeric cells', () => {
+      const html = renderChart(
+        'Column',
+        '<ac:parameter ac:name="aggregation">Value</ac:parameter>',
+        `<tr><th><p>Month</p></th><th><p>Value</p></th></tr>
+         <tr><td><p>May</p></td><td><p>2,300</p></td></tr>
+         <tr><td><p>June</p></td><td><p>1 500</p></td></tr>`,
+      );
+      expect(html).toContain('"data":[2300,1500]');
+    });
+  });
 });
