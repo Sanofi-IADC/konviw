@@ -1,3 +1,11 @@
+## [3.54.5](https://github.com/Sanofi-IADC/konviw/compare/v3.54.4...v3.54.5) (2026-07-27)
+
+
+### Bug Fixes
+
+* guard slide storage body against missing content ([ed9099b](https://github.com/Sanofi-IADC/konviw/commit/ed9099bc879f8cfccefaf7afa4728109d5ab90de))
+* restore konviw slides rendering broken by Confluence v2 migration ([f3897e5](https://github.com/Sanofi-IADC/konviw/commit/f3897e5ebbb5a46034c477059ddd39dd47516381))
+
 ## [3.54.4](https://github.com/Sanofi-IADC/konviw/compare/v3.54.3...v3.54.4) (2026-07-20)
 
 
