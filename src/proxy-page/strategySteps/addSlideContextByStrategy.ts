@@ -12,8 +12,10 @@ export default (
   content?: Content,
 ): void => {
   // Populate the storage body up-front so the slide macro settings can be read
-  // before the full page context is initialized below.
-  context.setBodyStorage(setBodyStorageHelper(content, 'v2'));
+  // before the full page context is initialized below. Guard against a missing
+  // content object or an empty storage body so cheerio always receives a string.
+  const bodyStorage = content ? (setBodyStorageHelper(content, 'v2') ?? '') : '';
+  context.setBodyStorage(bodyStorage);
   const storageXML = loadStorageContentToXML(context);
 
   const {
