@@ -15,7 +15,6 @@ export default (): Step => (context: ContextService): void => {
   $(
     /* List of unsupported macros */
     `[data-macro-name="pagetree"],
-      [data-macro-name="table-chart"],
       [data-macro-name="pagetreesearch"]`,
   ).each((_: number, element: cheerio.Element) => {
     const thisBlock = $(element).html();

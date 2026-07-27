@@ -31,6 +31,7 @@ import addJira from './steps/addJira';
 import addWebStatsTracker from './steps/addWebStatsTracker';
 import fixDrawioMacro from './steps/fixDrawio';
 import fixChartMacro from './steps/fixChart';
+import fixTableChartMacro from './steps/fixTableChart';
 import fixRoadmap from './steps/fixRoadmap';
 import fixFrameAllowFullscreen from './steps/fixFrameAllowFullscreen';
 import fixImageSize from './steps/fixImageSize';
@@ -126,6 +127,7 @@ export class ProxyPageService {
     await fixEmojis(this.config, this.confluence)(context);
     fixDrawioMacro(this.config)(context);
     fixChartMacro(this.config)(context);
+    fixTableChartMacro()(context);
     fixExpander()(context);
     fixVideo()(context);
     // fixEmptyLineIncludePage()(this.context);
@@ -207,6 +209,7 @@ export class ProxyPageService {
     await fixEmojis(this.config, this.confluence)(context);
     fixDrawioMacro(this.config)(context);
     fixChartMacro(this.config)(context);
+    fixTableChartMacro()(context);
     fixExpander()(context);
     fixVideo()(context);
     fixEmptyLineIncludePage()(context);
