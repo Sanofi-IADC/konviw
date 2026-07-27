@@ -1,5 +1,6 @@
 import { Content } from '../../confluence/confluence.interface';
 import { ContextService } from '../../context/context.service';
+import { setBodyStorageHelper } from '../../context/context.helpers';
 import { getMacroSlideSettingsPropertyValueByKey, loadStorageContentToXML } from '../utils/macroSlide';
 import { MacroSlideSettingsProperty } from '../utils/macroSlide.interface';
 
@@ -10,6 +11,11 @@ export default (
   style?: string,
   content?: Content,
 ): void => {
+  // Populate the storage body up-front so the slide macro settings can be read
+  // before the full page context is initialized below. Guard against a missing
+  // content object or an empty storage body so cheerio always receives a string.
+  const bodyStorage = content ? (setBodyStorageHelper(content, 'v2') ?? '') : '';
+  context.setBodyStorage(bodyStorage);
   const storageXML = loadStorageContentToXML(context);
 
   const {
@@ -23,7 +29,7 @@ export default (
   }: MacroSlideSettingsProperty = getMacroSlideSettingsPropertyValueByKey(storageXML, 'slide_settings_transition', 'slide');
 
   context.initPageContext(
-    context.getApiVersion(),
+    'v2',
     spaceKey,
     pageId,
     'light',
