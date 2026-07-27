@@ -1,6 +1,8 @@
 import { ConfigService } from '@nestjs/config';
-import { ContextService } from '../../../src/context/context.service';
 import { HttpService } from '@nestjs/axios';
+import { of } from 'rxjs';
+import { AxiosResponse } from 'axios';
+import { ContextService } from '../../../src/context/context.service';
 import fixLinks from '../../../src/proxy-page/steps/fixLinks';
 import { jiraMockServiceFactory } from '../mocks/jiraService';
 import { createModuleRefForStep } from './utils';
@@ -20,6 +22,17 @@ describe('ConfluenceProxy / fixLinks', () => {
 
     context.initPageContext('v2', 'XXX', '123456', 'dark');
   });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
+  // Stub the external metadata fetch so smart-link tests never hit the network.
+  const mockSmartLinkFetch = (html: string) => {
+    jest
+      .spyOn(http, 'get')
+      .mockReturnValue(of({ data: html } as AxiosResponse));
+  };
 
   it('should replace page absolute URLs', async () => {
     const step = fixLinks(config, http, jiraMockServiceFactory);
@@ -235,6 +248,7 @@ describe('ConfluenceProxy / fixLinks', () => {
   });
 
   it('should display data-appearance=inline links with a favicon', async () => {
+    mockSmartLinkFetch('<html><head><link rel="icon" href="/favicon.ico"><title>Example</title></head></html>');
     const step = fixLinks(config, http, jiraMockServiceFactory);
     const example =
     '<html><head></head><body>' +
@@ -247,6 +261,7 @@ describe('ConfluenceProxy / fixLinks', () => {
   });
 
   it('should display data-appearance=inline links without a favicon', async () => {
+    mockSmartLinkFetch('<html><head><link rel="icon" href="/favicon.ico"><title>Example</title></head></html>');
     const step = fixLinks(config, http, jiraMockServiceFactory);
     const example =
     '<html><head></head><body>' +
@@ -259,6 +274,7 @@ describe('ConfluenceProxy / fixLinks', () => {
   });
 
   it('should display data-appearance=card links as a card', async () => {
+    mockSmartLinkFetch('<html><head><link rel="icon" href="/favicon.ico"><title>Example</title><meta name="description" content="Example description"></head></html>');
     const step = fixLinks(config, http, jiraMockServiceFactory);
     const example =
     '<html><head></head><body>' +
