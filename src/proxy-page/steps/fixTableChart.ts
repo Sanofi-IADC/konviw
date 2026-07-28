@@ -35,6 +35,16 @@ type TableChartMacro = {
 };
 
 /**
+ * Decode HTML entities left untouched by cheerio's XML mode. Stiltsoft stores
+ * the aggregation/pieKeys separator as the named entity `&sbquo;` (U+201A), so
+ * without decoding the multi-column selections cannot be split correctly.
+ */
+const decodeEntities = (value: string): string => {
+  if (!value || value.indexOf('&') === -1) return value;
+  return cheerio.load(`<x>${value}</x>`, null, false)('x').text();
+};
+
+/**
  * Walk the storage XML and collect every `table-chart` macro in document order.
  * Confluence serializes `com.atlassian.confluence.macro.core` extensions as
  * classic `<ac:structured-macro ac:name="table-chart">` nodes whose parameters
@@ -54,7 +64,7 @@ const collectStorageTableChartMacros = (storageBody: string): TableChartMacro[] 
       .children(String.raw`ac\:parameter`)
       .each((_j, param) => {
         const name = $xml(param).attr('ac:name');
-        if (name) params[name] = $xml(param).text();
+        if (name) params[name] = decodeEntities($xml(param).text());
       });
 
     const tableHtml = $xml.html($el.find(String.raw`ac\:rich-text-body table`).first());

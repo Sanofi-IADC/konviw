@@ -216,9 +216,9 @@ describe('ConfluenceProxy / fixTableChart', () => {
 
   // Helper to render a single chart macro of a given type and return the
   // generated HTML (including the ApexCharts options script).
-  const renderChart = (type: string, extraParams = '', tableRows?: string): string => {
+  const renderChart = (type: string, extraParams = '', tableRows = ''): string => {
     const rows = tableRows
-      ?? `<tr><th><p>Month</p></th><th><p>Not Managed</p></th><th><p>MCE</p></th></tr>
+      || `<tr><th><p>Month</p></th><th><p>Not Managed</p></th><th><p>MCE</p></th></tr>
           <tr><td><p>May</p></td><td><p>2300</p></td><td><p>2900</p></td></tr>
           <tr><td><p>June</p></td><td><p>2400</p></td><td><p>3000</p></td></tr>`;
     const storage = `
@@ -333,6 +333,39 @@ describe('ConfluenceProxy / fixTableChart', () => {
 
     it('omits the title block when no title parameter is set', () => {
       expect(renderChart('Column')).not.toContain('title: { text:');
+    });
+  });
+
+  describe('Aggregation separator entity decoding (real storage regression)', () => {
+    // In the real body.storage the aggregation/pieKeys separator is stored as
+    // the HTML entity &sbquo; (U+201A), which cheerio's XML mode does NOT decode.
+    // The columns must still be split and kept in the configured order.
+    const stackedStorage = `
+      <ac:structured-macro ac:name="table-chart" ac:schema-version="1">
+        <ac:parameter ac:name="type">Stacked Column</ac:parameter>
+        <ac:parameter ac:name="column">Month</ac:parameter>
+        <ac:parameter ac:name="aggregation">MCE&sbquo;Not Managed&sbquo;Central Jira</ac:parameter>
+        <ac:parameter ac:name="colors">#2484c1,#f6c342,#d04437</ac:parameter>
+        <ac:parameter ac:name="hide">true</ac:parameter>
+        <ac:rich-text-body>
+          <table>
+            <tbody>
+              <tr><th><p>Month</p></th><th><p>Not Managed</p></th><th><p>MCE</p></th><th><p>Central Jira</p></th></tr>
+              <tr><td><p>May</p></td><td><p>2300</p></td><td><p>2900</p></td><td><p>700</p></td></tr>
+            </tbody>
+          </table>
+        </ac:rich-text-body>
+      </ac:structured-macro>`;
+
+    it('splits the &sbquo; aggregation into the configured series order', () => {
+      context.setHtmlBody(viewHtml);
+      context.setBodyStorage(stackedStorage);
+      fixTableChart()(context);
+
+      const html = context.getHtmlBody();
+      expect(html).toContain(
+        'series: [{"name":"MCE","data":[2900]},{"name":"Not Managed","data":[2300]},{"name":"Central Jira","data":[700]}]',
+      );
     });
   });
 
