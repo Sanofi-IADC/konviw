@@ -1,3 +1,15 @@
+# [3.55.0](https://github.com/Sanofi-IADC/konviw/compare/v3.54.5...v3.55.0) (2026-07-28)
+
+
+### Bug Fixes
+
+* **macros:** decode &sbquo; separator in table-chart aggregation (WEB-2452) ([a92a2a1](https://github.com/Sanofi-IADC/konviw/commit/a92a2a191acb5d89d5969158010a22b9d824ec72))
+
+
+### Features
+
+* **macros:** render Table Filters and Charts macro (WEB-2452) ([bc78437](https://github.com/Sanofi-IADC/konviw/commit/bc78437274a07344fb83627b1f48360540cd4c8f))
+
 ## [3.54.5](https://github.com/Sanofi-IADC/konviw/compare/v3.54.4...v3.54.5) (2026-07-27)
 
 
