@@ -1,7 +1,10 @@
+import { Logger } from '@nestjs/common';
 import * as cheerio from 'cheerio';
 import { Tabletojson } from 'tabletojson';
 import { Step } from '../proxy-page.step';
 import { ContextService } from '../../context/context.service';
+
+const logger = new Logger('fixTableChart');
 
 /**
  * ### Proxy page step to render the "Table Filters and Charts for Confluence"
@@ -228,50 +231,58 @@ export default (): Step => (context: ContextService): void => {
     return;
   }
 
-  const macros = collectStorageTableChartMacros(context.getBodyStorage());
-  let needsApexCharts = false;
+  try {
+    const macros = collectStorageTableChartMacros(context.getBodyStorage());
+    let needsApexCharts = false;
 
-  placeholders.each((index: number, element: cheerio.Element) => {
-    const macro = macros[index];
-    if (!macro) {
-      // No matching storage data: drop the empty placeholder to avoid leaking
-      // the unusable iframe stub into the rendition.
-      $(element).remove();
-      return;
-    }
+    placeholders.each((index: number, element: cheerio.Element) => {
+      const macro = macros[index];
+      if (!macro) {
+        // No matching storage data: drop the empty placeholder to avoid leaking
+        // the unusable iframe stub into the rendition.
+        $(element).remove();
+        return;
+      }
 
-    const isChart = Boolean(macro.params.type);
-    let output = '';
+      const isChart = Boolean(macro.params.type);
+      let output = '';
 
-    if (isChart) {
-      const chart = buildChart(macro, index);
-      if (chart) {
-        needsApexCharts = true;
-        output = chart;
-        // The source table is a data source hidden by default; only show it
-        // when the macro is explicitly configured to keep it visible.
-        if (macro.params.hide !== 'true') {
-          output += buildTable(macro);
+      if (isChart) {
+        const chart = buildChart(macro, index);
+        if (chart) {
+          needsApexCharts = true;
+          output = chart;
+          // The source table is a data source hidden by default; only show it
+          // when the macro is explicitly configured to keep it visible.
+          if (macro.params.hide !== 'true') {
+            output += buildTable(macro);
+          }
         }
       }
-    }
 
-    if (!output) {
-      // Table Filter / Pivot Table variants (or a chart without usable data):
-      // fall back to the plain source table.
-      output = buildTable(macro);
-    }
+      if (!output) {
+        // Table Filter / Pivot Table variants (or a chart without usable data):
+        // fall back to the plain source table.
+        output = buildTable(macro);
+      }
 
-    if (output) {
-      $(element).replaceWith(output);
-    } else {
-      $(element).remove();
-    }
-  });
+      if (output) {
+        $(element).replaceWith(output);
+      } else {
+        $(element).remove();
+      }
+    });
 
-  if (needsApexCharts && $('script[data-konviw-apexcharts]').length === 0) {
-    $('body').append(
-      '<script defer data-konviw-apexcharts src="https://cdn.jsdelivr.net/npm/apexcharts"></script>',
+    if (needsApexCharts && $('script[data-konviw-apexcharts]').length === 0) {
+      $('body').append(
+        '<script defer data-konviw-apexcharts src="https://cdn.jsdelivr.net/npm/apexcharts"></script>',
+      );
+    }
+  } catch (error) {
+    // Never let an unexpected parsing/rendering error break the whole page:
+    // log it and leave the original placeholders untouched.
+    logger.error(
+      `Failed to render table-chart macro(s): ${(error as Error).message}`,
     );
   }
 
