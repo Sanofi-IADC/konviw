@@ -1,3 +1,10 @@
+## [3.55.1](https://github.com/Sanofi-IADC/konviw/compare/v3.55.0...v3.55.1) (2026-07-29)
+
+
+### Bug Fixes
+
+* **macros:** guard table-chart rendering against unexpected errors (WEB-2452) ([6efe32a](https://github.com/Sanofi-IADC/konviw/commit/6efe32a09ea2a76c0886c237114939ba2b0fd37b))
+
 # [3.55.0](https://github.com/Sanofi-IADC/konviw/compare/v3.54.5...v3.55.0) (2026-07-28)
 
 
