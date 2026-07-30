@@ -1,3 +1,15 @@
+# [3.56.0](https://github.com/Sanofi-IADC/konviw/compare/v3.55.1...v3.56.0) (2026-07-30)
+
+
+### Bug Fixes
+
+* **tables:** apply WEB-2507 responsive/dynamic-width rules to iadc theme ([f075b14](https://github.com/Sanofi-IADC/konviw/commit/f075b140b4716ccae02f9b8797196bcfc0205576))
+
+
+### Features
+
+* **media:** open embedded images in a centered zoom modal ([eebcd31](https://github.com/Sanofi-IADC/konviw/commit/eebcd31322a556c944bffc962756e99550474e3a))
+
 ## [3.55.1](https://github.com/Sanofi-IADC/konviw/compare/v3.55.0...v3.55.1) (2026-07-29)
 
 
