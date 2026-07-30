@@ -111,3 +111,44 @@ hr {
   clear: both;
   border-width: 0.5px;
 }
+
+// Lightbox for embedded images: clicking a thumbnail opens the full image in a
+// centered modal (90% of the viewport) instead of viewing it at its inline
+// size. Added by the addImageModal step.
+img.konviw-image-modal-zoomable {
+  cursor: zoom-in;
+}
+
+.konviw-image-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.75);
+
+  &.is-open {
+    display: flex;
+  }
+
+  .konviw-image-modal-img {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 0 24px rgba(0, 0, 0, 0.5);
+  }
+
+  .konviw-image-modal-close {
+    position: absolute;
+    top: 20px;
+    right: 32px;
+    color: #fff;
+    font-size: 40px;
+    line-height: 1;
+    cursor: pointer;
+    user-select: none;
+  }
+}

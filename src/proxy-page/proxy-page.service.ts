@@ -56,6 +56,7 @@ import fixProfilePicture from './steps/fixProfilePicture';
 import fixEmbeddedFile from './steps/fixEmbeddedFile';
 import fixRecentlyUpdated from './steps/fixRecentlyUpdated';
 import addJiraSnapshot from './steps/addJiraSnapshot';
+import addImageModal from './steps/addImageModal';
 
 @Injectable()
 export class ProxyPageService {
@@ -153,6 +154,7 @@ export class ProxyPageService {
     addCustomCss(this.config, style)(context);
     addLibrariesCSS()(context);
     addZoom()(context);
+    addImageModal()(context);
     addTheme()(context);
     if (view !== 'iframe-resizer') {
       addScrollToTop()(context);
