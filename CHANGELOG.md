@@ -1,3 +1,10 @@
+## [3.56.1](https://github.com/Sanofi-IADC/konviw/compare/v3.56.0...v3.56.1) (2026-08-06)
+
+
+### Bug Fixes
+
+* **table:** WEB-2001 epic level table fixes ([5ecb81d](https://github.com/Sanofi-IADC/konviw/commit/5ecb81d579d7b66775eb8f02019154da5ef41718))
+
 # [3.56.0](https://github.com/Sanofi-IADC/konviw/compare/v3.55.1...v3.56.0) (2026-07-30)
 
 
