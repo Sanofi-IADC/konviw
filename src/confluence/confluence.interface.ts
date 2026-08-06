@@ -116,6 +116,7 @@ export interface User {
   operations?: OperationCheckResult[];
   details?: UserDetails;
   personalSpace?: Space;
+  // personalSpace?: Space;
 }
 
 export interface UsersUserKeys {
