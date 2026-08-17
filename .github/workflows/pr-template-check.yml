@@ -1,0 +1,86 @@
+name: PR Template Check
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened, ready_for_review]
+    branches:
+      - 'main'
+
+permissions:
+  pull-requests: write
+
+jobs:
+  validate-pr-template:
+    name: Validate PR template
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check required sections are filled
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.pull_request.body || '';
+            const COMMENT_MARKER = '<!-- pr-template-check -->';
+
+            const requiredSections = [
+              { name: 'Ticket', placeholder: 'Link to the JIRA ticket and/or Confluence page' },
+              { name: 'Problem', placeholder: 'What is broken/needed? Describe the current behavior.' },
+              { name: 'Root Cause Analysis', placeholder: 'Why is this happening? (skip if not applicable, e.g. new feature)' },
+              { name: 'Solution', placeholder: 'What was changed to fix/implement it?' },
+              { name: 'Proof', placeholder: 'Before / after screenshots, logs, or recordings demonstrating the fix/feature' },
+            ];
+
+            function parseSections(text) {
+              const sections = {};
+              let current = null;
+              for (const line of text.split(/\r?\n/)) {
+                const m = line.match(/^#\s+(.+?)\s*$/);
+                if (m) {
+                  current = m[1].trim();
+                  sections[current] = [];
+                } else if (current) {
+                  sections[current].push(line);
+                }
+              }
+              return sections;
+            }
+
+            function isFilled(lines, placeholder) {
+              const meaningful = lines
+                .map((l) => l.trim())
+                .filter((l) => l.length > 0)
+                .filter((l) => l !== `_${placeholder}_`)
+                .filter((l) => !/^\|?\s*-{2,}\s*\|/.test(l))
+                .filter((l) => !/^\|\s*before\s*\|\s*after\s*\|$/i.test(l))
+                .filter((l) => !/^\|\s*\|\s*\|$/.test(l));
+              return meaningful.length > 0;
+            }
+
+            const sections = parseSections(body);
+            const missing = requiredSections
+              .filter(({ name, placeholder }) => !isFilled(sections[name] || [], placeholder))
+              .map(({ name }) => name);
+
+            const [{ data: comments }] = await Promise.all([
+              github.rest.issues.listComments({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+              }),
+            ]);
+            const existing = comments.find((c) => c.body.includes(COMMENT_MARKER));
+
+            if (missing.length > 0) {
+              const message = `${COMMENT_MARKER}\n### :x: PR template incomplete\n\nPlease fill in the following section(s) before this PR can be merged:\n\n${missing.map((s) => `- **${s}**`).join('\n')}\n\nReplace the placeholder text under each heading with real content (or \`N/A\` if a section genuinely doesn't apply).`;
+              if (existing) {
+                await github.rest.issues.updateComment({ owner: context.repo.owner, repo: context.repo.repo, comment_id: existing.id, body: message });
+              } else {
+                await github.rest.issues.createComment({ owner: context.repo.owner, repo: context.repo.repo, issue_number: context.issue.number, body: message });
+              }
+              core.setFailed(`PR template is missing required content in: ${missing.join(', ')}`);
+            } else if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body: `${COMMENT_MARKER}\n### :white_check_mark: PR template complete`,
+              });
+            }
