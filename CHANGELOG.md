@@ -1,3 +1,10 @@
+## [3.56.2](https://github.com/Sanofi-IADC/konviw/compare/v3.56.1...v3.56.2) (2026-08-17)
+
+
+### Bug Fixes
+
+* **table-chart:** render Jira-backed "Table Filter, Charts & Spreadsheets" macros ([e0d048b](https://github.com/Sanofi-IADC/konviw/commit/e0d048bd2efe8a7f53b7bb2e8d6a6aa9e306d660))
+
 ## [3.56.1](https://github.com/Sanofi-IADC/konviw/compare/v3.56.0...v3.56.1) (2026-08-06)
 
 
