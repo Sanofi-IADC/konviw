@@ -1,0 +1,79 @@
+// Table Filter/Chart tab toggle ==============================
+// Lets the reader switch between a chart and its underlying table (or
+// between several charts) instead of always showing them stacked — see
+// fixTableChart.ts's `buildTabbedViews`.
+
+.konviw-tablechart-group {
+  margin: 8px 0;
+}
+
+.konviw-tablechart-tablist {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--border-color, rgba(9, 30, 66, 0.13));
+  margin-bottom: 12px;
+}
+
+.konviw-tablechart-tab {
+  appearance: none;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  padding: 6px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  color: inherit;
+  cursor: pointer;
+  opacity: 0.65;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &.is-active {
+    opacity: 1;
+    border-bottom-color: var(--primary-color-link);
+    color: var(--primary-color-link);
+  }
+}
+
+.konviw-tablechart-panel {
+  display: none;
+
+  &.is-active {
+    display: block;
+  }
+}
+
+// "Service Category ="-style filter dropdown above the chart/table tabs —
+// see fixTableChart.ts's `buildFilterBar`.
+.konviw-tablechart-filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.konviw-tablechart-filter-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: inherit;
+}
+
+.konviw-tablechart-filter {
+  font-family: inherit;
+  font-size: 14px;
+  color: inherit;
+  background-color: var(--bg-color, #fff);
+  border: 1px solid var(--border-color, rgba(9, 30, 66, 0.13));
+  border-radius: 4px;
+  padding: 4px 8px;
+  max-width: 260px;
+
+  &:focus {
+    outline: none;
+    border-color: var(--primary-color-link);
+  }
+}

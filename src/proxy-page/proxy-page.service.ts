@@ -128,7 +128,7 @@ export class ProxyPageService {
     await fixEmojis(this.config, this.confluence)(context);
     fixDrawioMacro(this.config)(context);
     fixChartMacro(this.config)(context);
-    fixTableChartMacro()(context);
+    await fixTableChartMacro(this.config, this.jira)(context);
     fixExpander()(context);
     fixVideo()(context);
     // fixEmptyLineIncludePage()(this.context);
@@ -211,7 +211,7 @@ export class ProxyPageService {
     await fixEmojis(this.config, this.confluence)(context);
     fixDrawioMacro(this.config)(context);
     fixChartMacro(this.config)(context);
-    fixTableChartMacro()(context);
+    await fixTableChartMacro(this.config, this.jira)(context);
     fixExpander()(context);
     fixVideo()(context);
     fixEmptyLineIncludePage()(context);

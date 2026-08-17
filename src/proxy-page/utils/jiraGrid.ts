@@ -71,14 +71,14 @@ export const createTable = (index, gridjsColumns, preparedData) => `
   <div id="gridjs${index}"></div>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      new gridjs.Grid({
+      var konviwGrid = new gridjs.Grid({
         columns: ${gridjsColumns},
         data: ${JSON.stringify(preparedData)},
         resizable: true,
         sort: true,
         search: {
           enabled: true,
-          selector: (cell, rowIndex, cellIndex) => 
+          selector: (cell, rowIndex, cellIndex) =>
             cell?.data?.map(item => item?.name).filter(name => name).join(', ') || cell?.data
         },
         width: '100%',
@@ -93,7 +93,13 @@ export const createTable = (index, gridjsColumns, preparedData) => `
             padding: '5px 5px'
           }
         }
-      }).render(document.getElementById("gridjs${index}"));
+      });
+      konviwGrid.render(document.getElementById("gridjs${index}"));
+      // Registered so a filter control elsewhere on the page (see
+      // fixTableChart.ts's table-processor filter dropdown) can re-filter
+      // this grid's rows client-side via updateConfig()/forceRender().
+      window.konviwGrids = window.konviwGrids || {};
+      window.konviwGrids["gridjs${index}"] = konviwGrid;
     });
   </script>
 `;
