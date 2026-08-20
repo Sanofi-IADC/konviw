@@ -71,6 +71,22 @@ const processorViewHtml = (count = 1) => `
   </body>
 </html>`;
 
+// Some Confluence renditions server-render a table-processor macro's Jira
+// search directly into a plain table instead of leaving the empty iframe
+// placeholder `processorViewHtml` builds above — no macro id or marker
+// survives, just this Confluence-native table class.
+const NATIVE_JIRA_TABLE = '<table class="jiraWorkItemMacroListViewTable"><thead><tr><th>Key</th></tr>'
+  + '</thead><tbody><tr><td>FND-1</td></tr></tbody></table>';
+
+const processorNativeTableViewHtml = (count = 1) => `
+<html>
+  <body>
+    <div id="Content">
+      ${NATIVE_JIRA_TABLE.repeat(count)}
+    </div>
+  </body>
+</html>`;
+
 // The view body Confluence returns for a Connect "Table Filters and Charts"
 // macro: only an empty iframe placeholder, no table nor chart.
 const viewHtml = `
@@ -833,6 +849,77 @@ describe('ConfluenceProxy / fixTableChart', () => {
       const $ = context.getCheerioBody();
       expect($('.konviw-table-chart').length).toBe(0);
       expect(context.getHtmlBody()).toContain('id="gridjstp-0"');
+    });
+  });
+
+  describe('table-processor: Confluence-native table rendering (no iframe placeholder)', () => {
+    beforeEach(() => {
+      jiraService.getFields.mockResolvedValue([
+        { id: 'status', name: 'Status', schema: { type: 'status' } },
+      ]);
+      jiraService.findTickets.mockResolvedValue({
+        data: {
+          issues: [
+            { key: 'FND-1', fields: { status: statusField('Done') } },
+            { key: 'FND-2', fields: { status: statusField('Open') } },
+            { key: 'FND-3', fields: { status: statusField('Done') } },
+          ],
+        },
+      });
+    });
+
+    it('replaces the native list-view table with the chart/table toggle when its count matches the storage macro count', async () => {
+      context.setHtmlBody(processorNativeTableViewHtml());
+      context.setBodyStorage(buildProcessorStorage());
+      await runStep();
+
+      expect(jiraService.findTickets).toHaveBeenCalledWith(
+        'System JIRA',
+        'project = FND',
+        expect.stringContaining('status'),
+      );
+
+      const $ = context.getCheerioBody();
+      expect($('table.jiraWorkItemMacroListViewTable').length).toBe(0);
+      expect($('.konviw-tablechart-group').length).toBe(1);
+      expect($('.konviw-tablechart-tab').length).toBe(2);
+      expect($('script[data-konviw-apexcharts]').length).toBe(1);
+      expect($('script[src*="gridjs.production.min.js"]').length).toBe(1);
+    });
+
+    it('matches multiple native tables to their storage macros by document order', async () => {
+      context.setHtmlBody(processorNativeTableViewHtml(2));
+      context.setBodyStorage(buildProcessorStorage() + buildProcessorStorage());
+      await runStep();
+
+      expect(jiraService.findTickets).toHaveBeenCalledTimes(2);
+      const $ = context.getCheerioBody();
+      expect($('table.jiraWorkItemMacroListViewTable').length).toBe(0);
+      expect($('.konviw-tablechart-group').length).toBe(2);
+    });
+
+    it('leaves the native tables untouched when their count does not match the storage macro count (ambiguous correlation)', async () => {
+      // Three native tables (e.g. an unrelated Jira Issues macro sharing the
+      // same Confluence table class) but only one table-processor macro in
+      // storage: matching by document order would be a guess, so skip
+      // rendering entirely rather than risk misattributing a table.
+      context.setHtmlBody(processorNativeTableViewHtml(3));
+      context.setBodyStorage(buildProcessorStorage());
+      await expect(runStep()).resolves.toBeUndefined();
+
+      expect(jiraService.findTickets).not.toHaveBeenCalled();
+      const $ = context.getCheerioBody();
+      expect($('table.jiraWorkItemMacroListViewTable').length).toBe(3);
+      expect($('.konviw-tablechart-group').length).toBe(0);
+    });
+
+    it('does nothing when there are no native tables and no iframe placeholders', async () => {
+      context.setHtmlBody('<html><body><div id="Content"><p>no macros here</p></div></body></html>');
+      context.setBodyStorage('');
+      await runStep();
+
+      expect(jiraService.getFields).not.toHaveBeenCalled();
+      expect(jiraService.findTickets).not.toHaveBeenCalled();
     });
   });
 
