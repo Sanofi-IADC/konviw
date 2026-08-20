@@ -657,16 +657,39 @@ const findChartNodesSafe = (
   tree: tableProcessorJira.TableProcessorNode | null,
 ): tableProcessorJira.TableProcessorNode[] => tableProcessorJira.findChartNodes(tree);
 
+// The class Confluence's own renderer gives the plain `<table>` it produces
+// when it server-renders a table-processor macro's Jira search itself instead
+// of leaving the iframe placeholder this step was originally built around
+// (see the fallback in `renderTableProcessorMacros` below).
+const NATIVE_JIRA_TABLE_SELECTOR = 'table.jiraWorkItemMacroListViewTable';
+
 // Only called by the default export when it has already confirmed at least
-// one `table-processor` placeholder exists, so `placeholders` is never empty here.
+// one `table-processor` placeholder (iframe or native-rendered table) exists,
+// but `placeholders` can still end up empty here — see the native-table
+// fallback's count guard below.
 const renderTableProcessorMacros = async (
   $: cheerio.CheerioAPI,
   storageBody: string,
   config: ConfigService,
   jiraService: JiraService,
 ): Promise<{ needsApexCharts: boolean; needsGridjs: boolean; needsTabScript: boolean; needsFilterScript: boolean }> => {
-  const placeholders = $('[data-macro-name="table-processor"]');
   const macros = collectStorageTableProcessorMacros(storageBody);
+
+  // Confluence normally leaves an empty iframe placeholder for this macro
+  // (see the file-level doc comment), but on some renditions it instead
+  // server-renders the underlying Jira search straight into a plain table
+  // (no macro id or marker of any kind survives). Only trust that as a
+  // document-order match for our macros when the counts line up exactly —
+  // an unrelated macro producing the same table class elsewhere on the page
+  // could otherwise desync the correlation.
+  let placeholders = $('[data-macro-name="table-processor"]');
+  if (placeholders.length === 0) {
+    const nativeTables = $(NATIVE_JIRA_TABLE_SELECTOR);
+    if (macros.length > 0 && nativeTables.length === macros.length) {
+      placeholders = nativeTables;
+    }
+  }
+
   const baseUrl = config.get('confluence.baseURL');
 
   let jiraFields: any[] = [];
@@ -726,7 +749,8 @@ export default (config: ConfigService, jiraService: JiraService): Step => async 
   const $ = context.getCheerioBody();
 
   const hasLegacyPlaceholders = $('[data-macro-name="table-chart"]').length > 0;
-  const hasProcessorPlaceholders = $('[data-macro-name="table-processor"]').length > 0;
+  const hasProcessorPlaceholders = $('[data-macro-name="table-processor"]').length > 0
+    || $(NATIVE_JIRA_TABLE_SELECTOR).length > 0;
 
   if (!hasLegacyPlaceholders && !hasProcessorPlaceholders) {
     context.getPerfMeasure('fixTableChart');
