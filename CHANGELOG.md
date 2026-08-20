@@ -1,3 +1,16 @@
+## [3.56.3](https://github.com/Sanofi-IADC/konviw/compare/v3.56.2...v3.56.3) (2026-08-20)
+
+
+### Bug Fixes
+
+* **table-chart:** fall back to Confluence's native table when table-processor has no iframe placeholder ([f667811](https://github.com/Sanofi-IADC/konviw/commit/f667811a0f4744d059cdc723e0ead335fbddea19))
+* **web:** web-1234 tables macro fixes ([49cb8f0](https://github.com/Sanofi-IADC/konviw/commit/49cb8f0eaf031e005540164226d0b8618c0044b9))
+
+
+### Reverts
+
+* remove PR template CI check and its branch protection ([#694](https://github.com/Sanofi-IADC/konviw/issues/694)) ([06bf0f5](https://github.com/Sanofi-IADC/konviw/commit/06bf0f56aa377a9f17fea9de7e932dc9839bfce5))
+
 ## [3.56.2](https://github.com/Sanofi-IADC/konviw/compare/v3.56.1...v3.56.2) (2026-08-17)
 
 
