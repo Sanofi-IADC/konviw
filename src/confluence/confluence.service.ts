@@ -147,7 +147,8 @@ export class ConfluenceService {
    * @function getRedirectUrlForMedia Service
    * @description Resolve a Confluence attachment URL to its signed media-download URL
    * via Atlassian's recommended migration path (CHANGE-2735):
-   *   1. v2 page-attachments lookup to resolve `{pageId, filename}` -> `attachmentId`
+   *   1. v2 attachments lookup (under `/pages/` or `/blogposts/`, depending on the
+   *      actual content type) to resolve `{pageId, filename}` -> `attachmentId`
    *   2. v1 REST `attachment/download` endpoint which returns a 302 to a signed
    *      `media-download.confluence-data.com` URL.
    * Replaces the now-deprecated direct `GET /wiki/download/attachments/...` call,
@@ -173,8 +174,14 @@ export class ConfluenceService {
         return passthrough.headers.location;
       }
 
+      // v2 API splits pages and blog posts into separate resource collections,
+      // so the attachments lookup must target whichever one `pageId` actually is
+      // (see `getAttachments`, which needs the same resolution).
+      const typeContentResponse: AxiosResponse = await this.getContentType(parsed.pageId);
+      const contentType = this.getApiEndPoint(typeContentResponse, parsed.pageId);
+
       const lookup: AxiosResponse = await firstValueFrom(
-        this.http.get(`/wiki/api/v2/pages/${parsed.pageId}/attachments`, {
+        this.http.get(`/wiki/api/v2/${contentType}/${parsed.pageId}/attachments`, {
           params: { filename: parsed.filename, limit: 1 },
         }),
       );
