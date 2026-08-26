@@ -471,42 +471,57 @@ export class ConfluenceService {
   }
 
   async getSpecialAtlassianIcons(image?: string): Promise<any> {
-    const response: AxiosResponse = await firstValueFrom(
-      this.http.get<Content>(
-        '/gateway/api/emoji/atlassian?scale=XHDPI&altScale=XXXHDPI&preferredRepresentation=IMAGE',
-      ),
-    );
-    const results = response.data?.emojis ?? [];
-    if (image) {
-      const imageData = results.find(({ id }) => id === image);
-      const { imagePath } = imageData.representation;
-      return imagePath;
+    try {
+      const response: AxiosResponse = await firstValueFrom(
+        this.http.get<Content>(
+          '/gateway/api/emoji/atlassian?scale=XHDPI&altScale=XXXHDPI&preferredRepresentation=IMAGE',
+        ),
+      );
+      const results = response.data?.emojis ?? [];
+      if (image) {
+        const imageData = results.find(({ id }) => id === image);
+        const { imagePath } = imageData.representation;
+        return imagePath;
+      }
+      return results;
+    } catch (err) {
+      // The /gateway/api/emoji endpoint is an internal Confluence frontend
+      // gateway and can reject the API token auth used elsewhere in this
+      // service; fail open so a page without special icons still renders.
+      this.logger.error(`error:getSpecialAtlassianIcons - ${this.getSafeErrorMessage(err)}`);
+      return image ? undefined : [];
     }
-    return results;
   }
 
   async getSpecialUploadedIcons(image?: string): Promise<any> {
-    const response: AxiosResponse = await firstValueFrom(
-      // Special custom emojis are uploaded to a specific collection per site, so we set it up
-      // via env variable emojiCollection
-      //
-      this.http.get<Content>(
-        `/gateway/api/emoji/${this.config.get('confluence.emojiCollection')}/site`
-        + '?scale=XHDPI&altScale=XXXHDPI&preferredRepresentation=IMAGE',
-      ),
-    );
-    // retrieve the custom uploaded emojis and image path
-    const results = response.data?.emojis ?? [];
-    // retrieve the metadata for retrieving the images from the media library, specially JWT token and client
-    const meta = response.data?.meta ?? {};
-    if (image) {
-      const imageData = results.find(({ id }) => id === image);
-      if (!imageData) return '';
-      const baseImagePath = imageData.representation.imagePath;
-      const imagePath = `${baseImagePath}&token=${meta.mediaApiToken.jwt}&client=${meta.mediaApiToken.clientId}`;
-      return imagePath;
+    try {
+      const response: AxiosResponse = await firstValueFrom(
+        // Special custom emojis are uploaded to a specific collection per site, so we set it up
+        // via env variable emojiCollection
+        //
+        this.http.get<Content>(
+          `/gateway/api/emoji/${this.config.get('confluence.emojiCollection')}/site`
+          + '?scale=XHDPI&altScale=XXXHDPI&preferredRepresentation=IMAGE',
+        ),
+      );
+      // retrieve the custom uploaded emojis and image path
+      const results = response.data?.emojis ?? [];
+      // retrieve the metadata for retrieving the images from the media library, specially JWT token and client
+      const meta = response.data?.meta ?? {};
+      if (image) {
+        const imageData = results.find(({ id }) => id === image);
+        if (!imageData) return '';
+        const baseImagePath = imageData.representation.imagePath;
+        const imagePath = `${baseImagePath}&token=${meta.mediaApiToken.jwt}&client=${meta.mediaApiToken.clientId}`;
+        return imagePath;
+      }
+      return response.data;
+    } catch (err) {
+      // Same rationale as getSpecialAtlassianIcons: fail open on auth/network
+      // errors from this gateway endpoint rather than crashing page render.
+      this.logger.error(`error:getSpecialUploadedIcons - ${this.getSafeErrorMessage(err)}`);
+      return image ? '' : { emojis: [], meta: {} };
     }
-    return response.data;
   }
 
   private async getSpacesAccountByPermissions(data) {
