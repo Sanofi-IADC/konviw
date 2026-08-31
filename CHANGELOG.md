@@ -1,3 +1,10 @@
+## [3.56.4](https://github.com/Sanofi-IADC/konviw/compare/v3.56.3...v3.56.4) (2026-08-26)
+
+
+### Bug Fixes
+
+* fail open on Confluence emoji gateway errors instead of crashing render ([350c8f8](https://github.com/Sanofi-IADC/konviw/commit/350c8f85331eba6153bccca46156533fd6e4ef78))
+
 ## [3.56.3](https://github.com/Sanofi-IADC/konviw/compare/v3.56.2...v3.56.3) (2026-08-20)
 
 
