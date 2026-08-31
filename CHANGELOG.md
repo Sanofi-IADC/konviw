@@ -1,3 +1,15 @@
+# [3.57.0](https://github.com/Sanofi-IADC/konviw/compare/v3.56.4...v3.57.0) (2026-08-31)
+
+
+### Bug Fixes
+
+* resolve media attachment lookup for blog posts ([fc8a10d](https://github.com/Sanofi-IADC/konviw/commit/fc8a10d9e6878a4aba2d4d7eaffd11123ff379b6))
+
+
+### Features
+
+* graceful fallback for broken/blank drawio diagram previews ([6fe378b](https://github.com/Sanofi-IADC/konviw/commit/6fe378bd0574778425cb77669bb4fbb2e3331de6))
+
 ## [3.56.4](https://github.com/Sanofi-IADC/konviw/compare/v3.56.3...v3.56.4) (2026-08-26)
 
 
