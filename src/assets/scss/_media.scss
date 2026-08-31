@@ -106,6 +106,72 @@ img.drawio-zoomable{
   max-width: 100%;
 }
 
+// A drawio preview can fail to load, or come back as Confluence's own blank
+// 1x1px placeholder when its server-side export failed. Either way the
+// image is hidden and a link back to the live diagram is shown instead.
+.drawio-figure .drawio-fallback {
+  display: none;
+}
+
+// A native `title` attribute tooltip is unreliable (browser-dependent hover
+// delay, no touch support), so the explanation is rendered as a CSS tooltip
+// driven by `data-tooltip` instead, shown on both hover and keyboard focus.
+.drawio-fallback-info {
+  position: relative;
+  display: inline-block;
+  cursor: help;
+  margin-left: 0.25rem;
+
+  &::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 260px;
+    max-width: 80vw;
+    padding: 0.5rem 0.75rem;
+    margin-bottom: 0.4rem;
+    background: #333;
+    color: #fff;
+    font-size: 0.75rem;
+    line-height: 1.3;
+    font-weight: normal;
+    text-align: left;
+    white-space: normal;
+    border-radius: 4px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.15s ease;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  &:hover::after,
+  &:focus::after {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.drawio-figure.drawio-broken {
+  // !important: Confluence's own theme rule
+  // (`.confluence-embedded-file-wrapper figure img.confluence-embedded-image.image-center`)
+  // outranks a plain `.drawio-figure.drawio-broken img.drawio-zoomable` on
+  // specificity alone, so it would otherwise keep the broken image visible.
+  img.drawio-zoomable {
+    display: none !important;
+  }
+
+  .drawio-fallback {
+    display: block;
+    padding: 1rem;
+    text-align: center;
+    border: 1px dashed #ccc;
+    border-radius: 4px;
+  }
+}
+
 // To force to have horizontal line across the page and avoid floating left or right
 hr {
   clear: both;
