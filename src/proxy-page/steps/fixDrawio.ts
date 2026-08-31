@@ -89,11 +89,50 @@ const collectStorageDrawioMacros = (
   });
   return macros;
 };
+/**
+ * Two distinct failure modes are handled client-side, since neither is
+ * knowable at render time on the server:
+ *  - the image fails to load at all (`onerror`, e.g. a 404/permission error)
+ *  - the image loads but is Confluence's blank 1x1px placeholder, emitted
+ *    when its own server-side diagram-preview export failed (`onload`)
+ * In both cases `.drawio-broken` is toggled on the nearest `.drawio-figure`
+ * ancestor so CSS can swap the image for a link back to the live diagram.
+ */
+const DRAWIO_ONLOAD = "if(this.naturalWidth<2){this.closest('.drawio-figure').classList.add('drawio-broken')}";
+const DRAWIO_ONERROR = "this.closest('.drawio-figure').classList.add('drawio-broken')";
+
+const DRAWIO_BROKEN_EXPLANATION = 'Confluence failed to generate a static preview image for this diagram '
+  + '(the drawio app export did not complete). This is not a konviw issue: try republishing the '
+  + 'diagram on Confluence with a real change, or export it as PNG and upload it manually as the '
+  + 'page attachment.';
+
+const buildDrawioFallback = (viewUrl: string): string => `
+    <div class="drawio-fallback">
+      <p>
+        ⚠️ Diagram preview unavailable.
+        <span class="drawio-fallback-info" tabindex="0" role="img"
+          aria-label="${DRAWIO_BROKEN_EXPLANATION}"
+          data-tooltip="${DRAWIO_BROKEN_EXPLANATION}">ℹ️</span>
+      </p>
+      <a href="${viewUrl}" target="_blank" rel="noopener noreferrer">Open diagram in Confluence</a>
+    </div>`;
+
+/** Build the markup for a drawio preview: the image itself, plus a hidden fallback (see above). */
+const buildDrawioFigure = (src: string, alt: string, viewUrl: string): string => `
+  <figure class="drawio-figure">
+    <img class="drawio-zoomable" src="${src}" alt="${alt}"
+      onload="${DRAWIO_ONLOAD}"
+      onerror="${DRAWIO_ONERROR}" />
+    ${buildDrawioFallback(viewUrl)}
+  </figure>`;
+
 /* eslint-disable no-useless-escape, prefer-regex-literals */
 export default (config: ConfigService): Step => (context: ContextService): void => {
   context.setPerfMark('fixDrawio');
   const $ = context.getCheerioBody();
   const webBasePath = config.get('web.absoluteBasePath');
+  const confluenceBaseURL = config.get('confluence.baseURL');
+  const buildViewUrl = (pageId: string): string => `${confluenceBaseURL}/wiki/pages/viewpage.action?pageId=${pageId}`;
 
   // Div class with data-macro-name='drawio' is used for Drawio diagrams created in the same page
   $(
@@ -117,9 +156,11 @@ export default (config: ConfigService): Step => (context: ContextService): void 
 
     if (contentId && diagramName) {
       $(elementDrawio).prepend(
-        `<figure><img class="drawio-zoomable"
-                  src="${webBasePath}/wiki/download/attachments/${contentId}/${diagramName}.png"
-                  alt="${diagramName}" /></figure>`,
+        buildDrawioFigure(
+          `${webBasePath}/wiki/download/attachments/${contentId}/${diagramName}.png`,
+          diagramName,
+          buildViewUrl(contentId),
+        ),
       );
     }
   });
@@ -148,14 +189,13 @@ export default (config: ConfigService): Step => (context: ContextService): void 
         const fileName = aspectHash
           ? `${diagramName}-${aspectHash}`
           : diagramName;
-        $(elementDrawio).prepend(`
-        <figure>
-          <img
-            class="drawio-zoomable"
-            src="${webBasePath}/wiki/download/attachments/${context.getPageId()}/${fileName}.png"
-            alt="${diagramName}"
-          />
-        </figure>`);
+        $(elementDrawio).prepend(
+          buildDrawioFigure(
+            `${webBasePath}/wiki/download/attachments/${context.getPageId()}/${fileName}.png`,
+            diagramName,
+            buildViewUrl(context.getPageId()),
+          ),
+        );
       }
     },
   );
@@ -184,21 +224,57 @@ export default (config: ConfigService): Step => (context: ContextService): void 
   const drawioPlaceholders = drawioBoardPlaceholders.add(
     drawioWarningPlaceholders,
   );
-  if (drawioPlaceholders.length > 0) {
-    const storageBody = context.getBodyStorage();
-    if (storageBody) {
-      const macros = collectStorageDrawioMacros(storageBody, context.getPageId());
+  const storageBody = context.getBodyStorage();
+  const storageMacros = storageBody
+    ? collectStorageDrawioMacros(storageBody, context.getPageId())
+    : [];
 
-      drawioPlaceholders.each((idx: number, el: cheerio.Element) => {
-        const macro = macros[idx];
-        if (!macro) return;
-        $(el).replaceWith(
-          `<figure><img class="drawio-zoomable"
-              src="${webBasePath}/wiki/download/attachments/${macro.pageId}/${macro.diagramName}.png"
-              alt="${macro.diagramName}" /></figure>`,
-        );
-      });
-    }
+  if (drawioPlaceholders.length > 0 && storageMacros.length > 0) {
+    drawioPlaceholders.each((idx: number, el: cheerio.Element) => {
+      const macro = storageMacros[idx];
+      if (!macro) return;
+      $(el).replaceWith(
+        buildDrawioFigure(
+          `${webBasePath}/wiki/download/attachments/${macro.pageId}/${macro.diagramName}.png`,
+          macro.diagramName,
+          buildViewUrl(macro.pageId),
+        ),
+      );
+    });
+  }
+
+  // Confluence sometimes resolves the extension directly into a plain
+  // embedded `<img>` in the view HTML instead of a placeholder (no
+  // "draw.io Board" div, no warning macro) - in that case none of the
+  // selectors above match anything. Detect those by matching each image's
+  // attachment URL against the drawio macros collected from the storage
+  // body, and decorate them in place with the same broken-preview fallback.
+  if (storageMacros.length > 0) {
+    $('img').each((_i, imgEl) => {
+      const $img = $(imgEl);
+      if ($img.hasClass('drawio-zoomable')) return; // already handled above
+      const src = $img.attr('data-image-src') || $img.attr('src') || '';
+      const match = src.match(/\/download\/attachments\/(\d+)\/([^/?]+)/);
+      if (!match) return;
+      const [, imgPageId, encodedFilename] = match;
+      let filename: string;
+      try {
+        filename = decodeURIComponent(encodedFilename);
+      } catch {
+        filename = encodedFilename;
+      }
+      const macro = storageMacros.find(
+        (m) => m.pageId === imgPageId && `${m.diagramName}.png` === filename,
+      );
+      if (!macro) return;
+
+      $img.wrap('<span class="drawio-figure"></span>');
+      $img
+        .addClass('drawio-zoomable')
+        .attr('onload', DRAWIO_ONLOAD)
+        .attr('onerror', DRAWIO_ONERROR)
+        .after(buildDrawioFallback(buildViewUrl(macro.pageId)));
+    });
   }
 
   context.getPerfMeasure('fixDrawio');

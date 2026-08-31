@@ -75,6 +75,7 @@ describe('confluence.service', () => {
     it('resolves an attachment uri via v2 lookup + v1 attachment/download', async () => {
       const httpGet = jest.spyOn(confluenceService['http'], 'get');
       (firstValueFrom as any)
+        .mockResolvedValueOnce({ data: { results: { '1234': 'page' } } })
         .mockResolvedValueOnce({ data: { results: [{ id: 'att42' }] } })
         .mockResolvedValueOnce({ headers: { location: signedUrl } });
 
@@ -99,6 +100,7 @@ describe('confluence.service', () => {
     it('resolves a thumbnail uri via the same path (no /thumbnails/ -> /attachments/ swap needed)', async () => {
       const httpGet = jest.spyOn(confluenceService['http'], 'get');
       (firstValueFrom as any)
+        .mockResolvedValueOnce({ data: { results: { '5678': 'page' } } })
         .mockResolvedValueOnce({ data: { results: [{ id: 'att99' }] } })
         .mockResolvedValueOnce({ headers: { location: signedUrl } });
 
@@ -120,6 +122,7 @@ describe('confluence.service', () => {
     it('url-decodes the filename before the v2 lookup', async () => {
       const httpGet = jest.spyOn(confluenceService['http'], 'get');
       (firstValueFrom as any)
+        .mockResolvedValueOnce({ data: { results: { '100': 'page' } } })
         .mockResolvedValueOnce({ data: { results: [{ id: 'att1' }] } })
         .mockResolvedValueOnce({ headers: { location: signedUrl } });
 
@@ -174,6 +177,7 @@ describe('confluence.service', () => {
     it('also accepts a v2 downloadLink shape with leading slash', async () => {
       const httpGet = jest.spyOn(confluenceService['http'], 'get');
       (firstValueFrom as any)
+        .mockResolvedValueOnce({ data: { results: { '246153217': 'page' } } })
         .mockResolvedValueOnce({ data: { results: [{ id: 'attXX' }] } })
         .mockResolvedValueOnce({ headers: { location: signedUrl } });
 

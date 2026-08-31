@@ -74,6 +74,32 @@ describe('ConfluenceProxy / fixDrawio', () => {
         true,
       );
     });
+    it('wraps the image in a .drawio-figure with onload/onerror broken-preview detection', () => {
+      const figure = $(images[0]);
+      expect(figure.hasClass('drawio-figure')).toBe(true);
+      const img = figure.children('img').first();
+      expect(img.attr('onload')).toBe(
+        "if(this.naturalWidth<2){this.closest('.drawio-figure').classList.add('drawio-broken')}",
+      );
+      expect(img.attr('onerror')).toBe(
+        "this.closest('.drawio-figure').classList.add('drawio-broken')",
+      );
+    });
+    it('includes a hidden fallback linking to the diagram on Confluence', () => {
+      const figure = $(images[0]);
+      const fallback = figure.find('.drawio-fallback');
+      expect(fallback.length).toBe(1);
+      const link = fallback.find('a');
+      expect(link.attr('href')).toBe(
+        `https://test.atlassian.net/wiki/pages/viewpage.action?pageId=${image1ContentId}`,
+      );
+      expect(link.attr('target')).toBe('_blank');
+      expect(link.attr('rel')).toBe('noopener noreferrer');
+      const info = fallback.find('.drawio-fallback-info');
+      expect(info.attr('tabindex')).toBe('0');
+      expect(info.attr('aria-label')).toContain('Confluence failed to generate a static preview image');
+      expect(info.attr('data-tooltip')).toBe(info.attr('aria-label'));
+    });
   });
 
   describe('Diagram imported from the repository', () => {
@@ -86,6 +112,12 @@ describe('ConfluenceProxy / fixDrawio', () => {
     it('should has zoomable class', () => {
       expect($(images[1]).children().first().hasClass('drawio-zoomable')).toBe(
         true,
+      );
+    });
+    it('includes a hidden fallback linking to the diagram on Confluence using the page id', () => {
+      const link = $(images[1]).find('.drawio-fallback a');
+      expect(link.attr('href')).toBe(
+        'https://test.atlassian.net/wiki/pages/viewpage.action?pageId=123456',
       );
     });
   });
@@ -140,6 +172,55 @@ describe('ConfluenceProxy / fixDrawio (API v2 placeholder fallback)', () => {
   it('should remove the draw.io Board text placeholder', () => {
     const $ = context.getCheerioBody();
     expect($.html()).not.toContain('draw.io Board');
+  });
+
+  it('replaces the placeholder with a .drawio-figure including the broken-preview fallback', () => {
+    const $ = context.getCheerioBody();
+    const figure = $('figure.drawio-figure');
+    expect(figure.length).toBe(1);
+    expect(figure.find('img.drawio-zoomable').length).toBe(1);
+    const link = figure.find('.drawio-fallback a');
+    expect(link.attr('href')).toBe(
+      `https://test.atlassian.net/wiki/pages/viewpage.action?pageId=${v2PageId}`,
+    );
+  });
+
+  describe('when the storage body has no matching drawio macros', () => {
+    beforeEach(async () => {
+      const moduleRef = await createModuleRefForStep();
+      context = moduleRef.get<ContextService>(ContextService);
+      config = moduleRef.get<ConfigService>(ConfigService);
+      context.initPageContext('v2', 'XXX', v2PageId, 'dark');
+      context.setHtmlBody(v2ViewHtml);
+      context.setBodyStorage('<html></html>'); // no drawio macros in storage
+      const step = fixDrawio(config);
+      step(context);
+    });
+
+    it('leaves the draw.io Board placeholder untouched instead of crashing', () => {
+      const $ = context.getCheerioBody();
+      expect($.html()).toContain('draw.io Board');
+      expect($('img.drawio-zoomable').length).toBe(0);
+    });
+  });
+
+  describe('when there is no storage body at all', () => {
+    beforeEach(async () => {
+      const moduleRef = await createModuleRefForStep();
+      context = moduleRef.get<ContextService>(ContextService);
+      config = moduleRef.get<ConfigService>(ConfigService);
+      context.initPageContext('v2', 'XXX', v2PageId, 'dark');
+      context.setHtmlBody(v2ViewHtml);
+      // context.setBodyStorage is intentionally not called
+      const step = fixDrawio(config);
+      step(context);
+    });
+
+    it('leaves the draw.io Board placeholder untouched instead of crashing', () => {
+      const $ = context.getCheerioBody();
+      expect($.html()).toContain('draw.io Board');
+      expect($('img.drawio-zoomable').length).toBe(0);
+    });
   });
 });
 
@@ -350,6 +431,149 @@ describe('ConfluenceProxy / fixDrawio (Forge ecosystem extension shape)', () => 
   it('does not pick up the diagram-name from the <ac:adf-fallback> copy', () => {
     const $ = context.getCheerioBody();
     expect($.html()).not.toContain('SHOULD-NOT-BE-USED');
+  });
+});
+
+/**
+ * Confluence's v2 view API sometimes resolves the drawio extension directly
+ * into a plain `<img>` (Confluence's own generic media-embed markup) instead
+ * of a "draw.io Board" placeholder or a warning macro - in that case none of
+ * the selectors above match anything, so a dedicated pass matches images
+ * against the storage-body macro list by pageId + filename instead.
+ */
+describe('ConfluenceProxy / fixDrawio (Confluence-resolved plain <img> shape)', () => {
+  let context: ContextService;
+  let config: ConfigService;
+
+  const pageId = '65401716739';
+  const diagramName = 'SA WI';
+  const encodedDiagramFilename = 'SA%20WI.png';
+  const otherFilename = 'image-20250514-061034.png';
+
+  const buildEmbeddedImg = (filename: string, extraClasses = '', extraAttrs = '') => `
+    <span class="confluence-embedded-file-wrapper"><figure>
+      <img class="confluence-embedded-image image-center${extraClasses}"
+        src="http://localhost:4000/cpv/wiki/download/attachments/${pageId}/${filename}?api=v2"
+        data-image-src="https://test.atlassian.net/wiki/download/attachments/${pageId}/${filename}?api=v2"
+        ${extraAttrs} />
+    </figure></span>`;
+
+  const storageXml = `
+<ac:structured-macro ac:name="drawio-sketch" ac:schema-version="1" ac:macro-id="abc123">
+  <ac:parameter ac:name="pageId">${pageId}</ac:parameter>
+  <ac:parameter ac:name="diagramName">${diagramName}</ac:parameter>
+</ac:structured-macro>`;
+
+  const setup = async (viewHtml: string, storageBody?: string) => {
+    const moduleRef = await createModuleRefForStep();
+    context = moduleRef.get<ContextService>(ContextService);
+    config = moduleRef.get<ConfigService>(ConfigService);
+    context.initPageContext('v2', 'XXX', pageId, 'dark');
+    context.setHtmlBody(viewHtml);
+    if (storageBody !== undefined) context.setBodyStorage(storageBody);
+    const step = fixDrawio(config);
+    step(context);
+    return context.getCheerioBody();
+  };
+
+  it('decorates the matching image in place with the broken-preview fallback', async () => {
+    const $ = await setup(
+      `<html><body>${buildEmbeddedImg(encodedDiagramFilename)}</body></html>`,
+      storageXml,
+    );
+
+    const img = $('img.confluence-embedded-image');
+    expect(img.length).toBe(1);
+    expect(img.hasClass('drawio-zoomable')).toBe(true);
+    expect(img.parent().is('span.drawio-figure')).toBe(true);
+    expect(img.attr('onload')).toBe(
+      "if(this.naturalWidth<2){this.closest('.drawio-figure').classList.add('drawio-broken')}",
+    );
+    expect(img.attr('onerror')).toBe(
+      "this.closest('.drawio-figure').classList.add('drawio-broken')",
+    );
+
+    const fallback = img.siblings('.drawio-fallback');
+    expect(fallback.length).toBe(1);
+    expect(fallback.find('a').attr('href')).toBe(
+      `https://test.atlassian.net/wiki/pages/viewpage.action?pageId=${pageId}`,
+    );
+  });
+
+  it('leaves an unrelated image on the same page untouched', async () => {
+    const $ = await setup(
+      `<html><body>
+        ${buildEmbeddedImg(encodedDiagramFilename)}
+        ${buildEmbeddedImg(otherFilename)}
+      </body></html>`,
+      storageXml,
+    );
+
+    const images = $('img.confluence-embedded-image');
+    expect(images.length).toBe(2);
+    const untouched = images.filter((_i, el) => $(el).attr('src').includes(otherFilename));
+    expect(untouched.length).toBe(1);
+    expect(untouched.hasClass('drawio-zoomable')).toBe(false);
+    expect(untouched.parent().is('span.drawio-figure')).toBe(false);
+    expect(untouched.siblings('.drawio-fallback').length).toBe(0);
+  });
+
+  it('leaves an image with no /download/attachments/ url pattern untouched', async () => {
+    const $ = await setup(
+      `<html><body>
+        <img class="confluence-embedded-image" src="https://example.com/logo.png" />
+      </body></html>`,
+      storageXml,
+    );
+
+    const img = $('img.confluence-embedded-image');
+    expect(img.hasClass('drawio-zoomable')).toBe(false);
+    expect(img.parent().is('span.drawio-figure')).toBe(false);
+  });
+
+  it('does not crash and leaves the image untouched when the filename is invalidly percent-encoded', async () => {
+    const $ = await setup(
+      `<html><body>${buildEmbeddedImg('bad%GG.png')}</body></html>`,
+      storageXml,
+    );
+
+    const img = $('img.confluence-embedded-image');
+    expect(img.hasClass('drawio-zoomable')).toBe(false);
+    expect(img.parent().is('span.drawio-figure')).toBe(false);
+  });
+
+  it('does not re-wrap an image that already has the drawio-zoomable class', async () => {
+    const $ = await setup(
+      `<html><body>${buildEmbeddedImg(encodedDiagramFilename, ' drawio-zoomable')}</body></html>`,
+      storageXml,
+    );
+
+    const img = $('img.confluence-embedded-image');
+    expect(img.length).toBe(1);
+    // still wrapped only by the original markup, not an extra .drawio-figure span
+    expect(img.parent().is('span.drawio-figure')).toBe(false);
+    expect($('.drawio-fallback').length).toBe(0);
+  });
+
+  it('leaves the image untouched when there is no storage body at all', async () => {
+    const $ = await setup(
+      `<html><body>${buildEmbeddedImg(encodedDiagramFilename)}</body></html>`,
+    );
+
+    const img = $('img.confluence-embedded-image');
+    expect(img.hasClass('drawio-zoomable')).toBe(false);
+    expect(img.parent().is('span.drawio-figure')).toBe(false);
+  });
+
+  it('leaves the image untouched when the storage body has no matching drawio macros', async () => {
+    const $ = await setup(
+      `<html><body>${buildEmbeddedImg(encodedDiagramFilename)}</body></html>`,
+      '<html></html>',
+    );
+
+    const img = $('img.confluence-embedded-image');
+    expect(img.hasClass('drawio-zoomable')).toBe(false);
+    expect(img.parent().is('span.drawio-figure')).toBe(false);
   });
 });
 
