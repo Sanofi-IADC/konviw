@@ -1,3 +1,10 @@
+## [3.57.1](https://github.com/Sanofi-IADC/konviw/compare/v3.57.0...v3.57.1) (2026-09-07)
+
+
+### Bug Fixes
+
+* resolve page 404 caused by string contentId and null version.authorId ([5d25e3e](https://github.com/Sanofi-IADC/konviw/commit/5d25e3e7fc85557cb1d94066557cb6cd4ea798d6))
+
 # [3.57.0](https://github.com/Sanofi-IADC/konviw/compare/v3.56.4...v3.57.0) (2026-08-31)
 
 
