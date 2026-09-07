@@ -35,14 +35,14 @@ describe('confluence.service', () => {
     const spyOn = jest.spyOn(confluenceService, 'getContentTypeBody');
     (firstValueFrom as any).mockImplementation(() => ({ data: { body: {}, results: [], authorId: '', version: { authorId: '' } }}))
     await confluenceService.getPage('space', '1234', 'type', 'draft');
-    expect(spyOn).toHaveBeenCalledWith('blogposts', '1234', { version: 'type', 'space-id': null, 'get-draft': true });
+    expect(spyOn).toHaveBeenCalledWith('pages', '1234', { version: 'type', 'space-id': null, 'get-draft': true });
   });
 
   it('should call the service to get page using method getContentTypeBody with params get-draft false', async () => {
     const spyOn = jest.spyOn(confluenceService, 'getContentTypeBody');
     (firstValueFrom as any).mockImplementation(() => ({ data: { body: {}, results: [], authorId: '', version: { authorId: '' } }}))
     await confluenceService.getPage('space', '1234', 'type', 'current');
-    expect(spyOn).toHaveBeenCalledWith('blogposts', '1234', { version: 'type', 'space-id': null, 'get-draft': false });
+    expect(spyOn).toHaveBeenCalledWith('pages', '1234', { version: 'type', 'space-id': null, 'get-draft': false });
   });
 
   it('should call the service to get page using method getContentTypeResource with params get-draft true', async () => {
@@ -50,8 +50,8 @@ describe('confluence.service', () => {
     (firstValueFrom as any).mockImplementation(() => ({ data: { body: {}, results: [], authorId: '', version: { authorId: '' } }}))
     await confluenceService.getPage('space', '1234', 'type', 'draft');
     expect(spyOn.mock.calls).toEqual([
-      ['blogposts', '1234', 'labels', { 'get-draft': true, 'space-id': null, version: 'type' }],
-      ['blogposts', '1234', 'properties', { 'get-draft': true, 'space-id': null, version: 'type' }]
+      ['pages', '1234', 'labels', { 'get-draft': true, 'space-id': null, version: 'type' }],
+      ['pages', '1234', 'properties', { 'get-draft': true, 'space-id': null, version: 'type' }]
     ]);
   });
 
@@ -60,9 +60,76 @@ describe('confluence.service', () => {
     (firstValueFrom as any).mockImplementation(() => ({ data: { body: {}, results: [], authorId: '', version: { authorId: '' } }}))
     await confluenceService.getPage('space', '1234', 'type', 'current');
     expect(spyOn.mock.calls).toEqual([
-      ['blogposts', '1234', 'labels', { 'get-draft': false, 'space-id': null, version: 'type' }],
-      ['blogposts', '1234', 'properties', { 'get-draft': false, 'space-id': null, version: 'type' }]
+      ['pages', '1234', 'labels', { 'get-draft': false, 'space-id': null, version: 'type' }],
+      ['pages', '1234', 'properties', { 'get-draft': false, 'space-id': null, version: 'type' }]
     ]);
+  });
+
+  describe('getPage - content type routing and author fallback', () => {
+    beforeEach(() => {
+      (firstValueFrom as any).mockReset();
+    });
+
+    const pageContent = { body: { storage: {}, view: {} }, authorId: 'author1', version: { number: 1, createdAt: '2024-01-01', authorId: 'v-author1' } };
+    const mockAllCalls = (contentTypeResults: Record<string, string>) => {
+      (firstValueFrom as any)
+        .mockResolvedValueOnce({ data: { results: contentTypeResults } })  // getContentType
+        .mockResolvedValueOnce({ data: { results: [] } })                  // getSpaceData
+        .mockResolvedValueOnce({ data: pageContent })                      // getContentTypeBody view
+        .mockResolvedValueOnce({ data: pageContent })                      // getContentTypeBody storage
+        .mockResolvedValueOnce({ data: { results: [] } })                  // labels
+        .mockResolvedValueOnce({ data: { results: [] } })                  // properties
+        .mockResolvedValueOnce({ data: {} })                               // getAccountDataById author
+        .mockResolvedValueOnce({ data: {} });                              // getAccountDataById versionAuthor
+    };
+
+    it('sends pageId as a number in the convert-ids-to-types request', async () => {
+      const httpPost = jest.spyOn(confluenceService['http'], 'post');
+      (firstValueFrom as any).mockImplementation(() => ({ data: { body: {}, results: [], authorId: '', version: { authorId: '' } }}));
+      await confluenceService.getPage('space', '9999', 'type', 'current');
+      expect(httpPost).toHaveBeenCalledWith(
+        '/wiki/api/v2/content/convert-ids-to-types',
+        { contentIds: [9999] },
+      );
+    });
+
+    it('routes to pages endpoint when convert-ids-to-types returns page', async () => {
+      const spyOn = jest.spyOn(confluenceService, 'getContentTypeBody');
+      mockAllCalls({ '1234': 'page' });
+      await confluenceService.getPage('space', '1234', 'type', 'current');
+      expect(spyOn).toHaveBeenCalledWith('pages', '1234', expect.any(Object));
+    });
+
+    it('routes to blogposts endpoint when convert-ids-to-types returns blogpost', async () => {
+      const spyOn = jest.spyOn(confluenceService, 'getContentTypeBody');
+      mockAllCalls({ '1234': 'blogpost' });
+      await confluenceService.getPage('space', '1234', 'type', 'current');
+      expect(spyOn).toHaveBeenCalledWith('blogposts', '1234', expect.any(Object));
+    });
+
+    it('defaults to pages endpoint when convert-ids-to-types returns empty results', async () => {
+      const spyOn = jest.spyOn(confluenceService, 'getContentTypeBody');
+      mockAllCalls({});
+      await confluenceService.getPage('space', '1234', 'type', 'current');
+      expect(spyOn).toHaveBeenCalledWith('pages', '1234', expect.any(Object));
+    });
+
+    it('falls back to page author when version.authorId is missing', async () => {
+      const getAccountSpy = jest.spyOn(confluenceService as any, 'getAccountDataById');
+      const contentNoVersionAuthor = { body: { storage: {}, view: {} }, authorId: 'owner1', version: { number: 1, createdAt: '2024-01-01', authorId: null } };
+      (firstValueFrom as any)
+        .mockResolvedValueOnce({ data: { results: { '42': 'page' } } })
+        .mockResolvedValueOnce({ data: { results: [] } })
+        .mockResolvedValueOnce({ data: contentNoVersionAuthor })
+        .mockResolvedValueOnce({ data: contentNoVersionAuthor })
+        .mockResolvedValueOnce({ data: { results: [] } })
+        .mockResolvedValueOnce({ data: { results: [] } })
+        .mockResolvedValue({ data: {} });
+      await confluenceService.getPage('space', '42', 'type', 'current');
+      expect(getAccountSpy).toHaveBeenCalledTimes(2);
+      expect(getAccountSpy).toHaveBeenNthCalledWith(1, 'owner1');
+      expect(getAccountSpy).toHaveBeenNthCalledWith(2, 'owner1');
+    });
   });
 
   describe('getRedirectUrlForMedia', () => {
@@ -138,11 +205,18 @@ describe('confluence.service', () => {
     });
 
     it('throws 404 when no attachment matches the filename', async () => {
-      (firstValueFrom as any).mockResolvedValueOnce({ data: { results: [] } });
+      (firstValueFrom as any)
+        .mockResolvedValueOnce({ data: { results: { '1': 'page' } } })  // getContentType
+        .mockResolvedValueOnce({ data: { results: [] } });               // attachment lookup returns empty
 
       await expect(
         confluenceService.getRedirectUrlForMedia('download/attachments/1/missing.png'),
       ).rejects.toBeInstanceOf(HttpException);
+
+      (firstValueFrom as any)
+        .mockResolvedValueOnce({ data: { results: { '1': 'page' } } })
+        .mockResolvedValueOnce({ data: { results: [] } });
+
       await expect(
         confluenceService.getRedirectUrlForMedia('download/attachments/1/missing.png'),
       ).rejects.toHaveProperty('status', 404);
@@ -150,8 +224,9 @@ describe('confluence.service', () => {
 
     it('throws 404 when the v1 attachment/download response is not a 302', async () => {
       (firstValueFrom as any)
-        .mockResolvedValueOnce({ data: { results: [{ id: 'att1' }] } })
-        .mockRejectedValueOnce(new Error('Request failed with status code 401'));
+        .mockResolvedValueOnce({ data: { results: { '1': 'page' } } })         // getContentType
+        .mockResolvedValueOnce({ data: { results: [{ id: 'att1' }] } })        // attachment lookup
+        .mockRejectedValueOnce(new Error('Request failed with status code 401')); // v1 download
 
       await expect(
         confluenceService.getRedirectUrlForMedia('download/attachments/1/file.png'),

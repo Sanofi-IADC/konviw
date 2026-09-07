@@ -79,10 +79,14 @@ export class ConfluenceService {
           this.getContentTypeResource(contentType, pageId, 'properties', params),
         ]);
 
+        const pc = pageContent as Content['pageContent'];
+        const authorId = pc.ownerId ?? pc.authorId;
+        const versionAuthorId = pc.version?.authorId;
         const [authorContent, versionAuthorContent] = await Promise.all([
-          this.getAccountDataById((pageContent as Content['pageContent']).ownerId
-            ?? (pageContent as Content['pageContent']).authorId),
-          this.getAccountDataById((pageContent as Content['pageContent']).version.authorId),
+          this.getAccountDataById(authorId),
+          versionAuthorId && versionAuthorId !== authorId
+            ? this.getAccountDataById(versionAuthorId)
+            : this.getAccountDataById(authorId),
         ]);
 
         const convertedPagePropertiesContentToObject = propertiesContent.results.reduce((acc, property) => {
@@ -553,7 +557,9 @@ export class ConfluenceService {
 
   /* eslint-disable class-methods-use-this */
   private getApiEndPoint(typeContent: any, pageId: string): string {
-    return typeContent?.data.results[pageId] === 'page' ? 'pages' : 'blogposts';
+    const type = typeContent?.data?.results?.[pageId];
+    if (type === 'blogpost') return 'blogposts';
+    return 'pages';
   }
 
   private async getSpaceData(spaceKey: string) {
@@ -564,7 +570,7 @@ export class ConfluenceService {
 
   private async getContentType(pageId: string): Promise<any> {
     return firstValueFrom(
-      this.http.post('/wiki/api/v2/content/convert-ids-to-types', { contentIds: [pageId] }),
+      this.http.post('/wiki/api/v2/content/convert-ids-to-types', { contentIds: [Number(pageId)] }),
     );
   }
 
