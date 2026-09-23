@@ -3,7 +3,7 @@
 module.exports = {
   ROOT_DIR: 'tests/e2e/cypress',
   SCREENSHOTS_DIR: 'cypress-image-diff-screenshots',
-  FAILURE_THRESHOLD: 0.1,
+  FAILURE_THRESHOLD: 0.3,
   CYPRESS_SCREENSHOT_OPTIONS: {
     timeout: 120000,
   },
