@@ -62,9 +62,11 @@ jobs:
           browser: chrome
           config-file: cypress.config.js
           start: npm run start:prod
-          wait-on: 'http://localhost:4000/cpv/health'
+          wait-on: 'http://localhost:4000/health'
           wait-on-timeout: 60
         env:
+          PORT: 4000
+          CPV_BASEPATH: cpv
           CPV_CONFLUENCE_BASE_URL: ${{ secrets.CPV_CONFLUENCE_BASE_URL }}
           CPV_CONFLUENCE_API_USERNAME: ${{ secrets.CPV_CONFLUENCE_API_USERNAME }}
           CPV_CONFLUENCE_API_TOKEN: ${{ secrets.CPV_CONFLUENCE_API_TOKEN }}
