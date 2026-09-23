@@ -62,7 +62,7 @@ jobs:
           browser: chrome
           config-file: cypress.config.js
           start: npm run start:prod
-          wait-on: 'tcp:localhost:4000'
+          wait-on: 'http://localhost:4000/livez'
           wait-on-timeout: 60
         env:
           PORT: 4000

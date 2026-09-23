@@ -52,6 +52,11 @@ async function bootstrap() {
   // Default path for all routes
   app.setGlobalPrefix(`${basePath}`);
 
+  // Liveness probe: returns 200 as soon as the process is up (no external deps)
+  app.getHttpAdapter().getInstance().get('/livez', (_req, res) => {
+    res.status(200).json({ status: 'ok' });
+  });
+
   // Alias /health to respond directly alongside the prefixed route
   app.getHttpAdapter().getInstance().get('/health', async (req, res) => {
     const healthController = app.get(HealthController);
