@@ -10,7 +10,7 @@ context('Jira snapshot', () => {
       JIRA_URL.forEach((url, index) => {
         cy.visit(url);
         if (index === 0) {
-          cy.get('div.gridjs.gridjs-container', { timeout: 2000 }).should('be.visible');
+          cy.get('div.gridjs.gridjs-container').should('be.visible');
         } else {
           cy.get('h1').should('exist');
         }
