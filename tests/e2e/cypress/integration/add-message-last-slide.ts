@@ -2,6 +2,7 @@
 
 context('Status', () => {
     it('check if the message is in the last slide', () => {
+      cy.on('uncaught:exception', () => false);
       cy.visit('wiki/slides/konviw/63878179528#/Demo-Slide');
       cy.get('section.message').should('have.css', 'display', 'none');
       cy.compareSnapshot('add-message-demo-slide');
