@@ -3,7 +3,7 @@
 context('Blog post', () => {
   it('match the whole page', () => {
     cy.visit(
-      '/wiki/spaces/KONVIW/pages/191365134/Demo+Blog+Post?type=blog',
+      '/wiki/spaces/IADC/pages/988348832/Data+products?type=blog',
     );
     cy.compareSnapshot('blog-post');
   });

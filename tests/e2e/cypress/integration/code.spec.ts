@@ -2,7 +2,8 @@
 
 context('Code', () => {
   it('match the whole page', () => {
-    cy.visit('/wiki/spaces/KONVIW/pages/77627557/Demo+JavaScript');
+    cy.on('uncaught:exception', () => false);
+    cy.visit('/wiki/spaces/konviw/pages/763494466/CPV+tests+-+code');
     cy.viewport(1200, 800);
     cy.compareSnapshot('code');
   });

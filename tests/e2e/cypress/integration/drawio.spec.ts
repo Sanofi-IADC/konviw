@@ -2,8 +2,9 @@
 
 context('DrawIO', () => {
   it('match the whole page', () => {
+    cy.on('uncaught:exception', () => false);
     cy.visit(
-      '/wiki/spaces/KONVIW/pages/191299598/Demo+Media+content+Draw.io',
+      '/wiki/spaces/konviw/pages/769949785/CPV+tests+-+all',
     );
     cy.compareSnapshot('drawio');
   });

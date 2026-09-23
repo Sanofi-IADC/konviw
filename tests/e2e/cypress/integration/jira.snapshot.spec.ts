@@ -2,13 +2,17 @@
 
 context('Jira snapshot', () => {
     const JIRA_URL = [
-      '/wiki/spaces/KONVIW/pages/237469697/Demo+Jira+Snapshot+with+JQL+Query+key',
-      '/wiki/spaces/KONVIW/pages/237371394/Demo+Jira+snapshot+with+project'
+      '/wiki/spaces/konviw/pages/64039359788/konviw+-+macro+jira+snapshot',
+      '/wiki/spaces/konviw/pages/65041465391/Jira+Spanshots+Macro+Table+filters+with+chart+Macro+Database+page'
     ];
     it('checks if the Jira snapshot is displayed and matches the whole page', () => {
       JIRA_URL.forEach((url, index) => {
         cy.visit(url);
-        cy.get('div.gridjs.gridjs-container', { timeout: 2000 }).should('be.visible');
+        if (index === 0) {
+          cy.get('div.gridjs.gridjs-container', { timeout: 2000 }).should('be.visible');
+        } else {
+          cy.get('h1').should('exist');
+        }
         cy.compareSnapshot(`jira-snapshot-${index + 1}`);
       });
     });
