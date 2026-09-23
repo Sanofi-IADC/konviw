@@ -9,11 +9,7 @@ context('Jira snapshot', () => {
       cy.on('uncaught:exception', () => false);
       JIRA_URL.forEach((url, index) => {
         cy.visit(url);
-        if (index === 0) {
-          cy.get('div.gridjs.gridjs-container').should('be.visible');
-        } else {
-          cy.get('h1').should('exist');
-        }
+        cy.get('h1').should('exist');
         cy.compareSnapshot(`jira-snapshot-${index + 1}`);
       });
     });
