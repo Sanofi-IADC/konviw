@@ -2,7 +2,7 @@
 
 context('Expand Panels', () => {
   it('match the whole page', () => {
-    cy.visit('/wiki/spaces/konviw/pages/762904807/konviw+-+demo+expand');
+    cy.visit('/wiki/spaces/konviw/pages/67521415540/konviw+-+demo+expand+Test+Copy');
     cy.compareSnapshot('expand-panels');
   });
 });

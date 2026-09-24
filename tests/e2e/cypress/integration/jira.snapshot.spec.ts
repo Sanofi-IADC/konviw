@@ -2,8 +2,8 @@
 
 context('Jira snapshot', () => {
     const JIRA_URL = [
-      '/wiki/spaces/konviw/pages/64039359788/konviw+-+macro+jira+snapshot',
-      '/wiki/spaces/konviw/pages/65041465391/Jira+Spanshots+Macro+Table+filters+with+chart+Macro+Database+page'
+      '/wiki/spaces/konviw/pages/67521808413/konviw+-+macro+jira+snapshot+Test+Copy',
+      '/wiki/spaces/konviw/pages/67522201209/Test+Table+Filter+and+Charts+for+Confluence'
     ];
     it('checks if the Jira snapshot is displayed and matches the whole page', () => {
       cy.on('uncaught:exception', () => false);
