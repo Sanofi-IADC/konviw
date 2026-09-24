@@ -4,7 +4,7 @@ context('DrawIO', () => {
   it('match the whole page', () => {
     cy.on('uncaught:exception', () => false);
     cy.visit(
-      '/wiki/spaces/konviw/pages/769949785/CPV+tests+-+all',
+      '/wiki/spaces/konviw/pages/67523085377/CPV+tests+-+all+Test+Copy',
     );
     cy.compareSnapshot('drawio');
   });
