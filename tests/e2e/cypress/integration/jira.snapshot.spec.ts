@@ -6,7 +6,7 @@ context('Jira snapshot', () => {
       '/wiki/spaces/konviw/pages/67522201209/Test+Table+Filter+and+Charts+for+Confluence'
     ];
     it('checks if the Jira snapshot is displayed and matches the whole page', () => {
-      cy.on('uncaught:exception', () => false);
+      cy.on('uncaught:exception', (err) => !err.message.includes('gridjs'));
       JIRA_URL.forEach((url, index) => {
         cy.visit(url);
         cy.get('h1').should('exist');
