@@ -2,7 +2,7 @@
 
 context('User profile', () => {
   const USER_PROFILE_URL =
-    '/wiki/spaces/KONVIW/pages/77594849/Demo+Macro+User+Profiles';
+    '/wiki/spaces/konviw/pages/67522397917/konviw+-+demo+macro+user+profile+Test+Copy';
   it('checks for the profile image and matches the whole page', () => {
     cy.visit(USER_PROFILE_URL);
 

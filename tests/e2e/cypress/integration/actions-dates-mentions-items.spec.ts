@@ -3,7 +3,7 @@
 context('Actions, dates and mentions', () => {
   it('match the whole page', () => {
     cy.visit(
-      '/wiki/spaces/KONVIW/pages/77660200/Demo+Actions+dates+and+mentions',
+      '/wiki/spaces/konviw/pages/67521251973/konviw+-+demo+action+items+Test+Copy',
     );
     cy.compareSnapshot('actions-dates-mentions-items');
   });

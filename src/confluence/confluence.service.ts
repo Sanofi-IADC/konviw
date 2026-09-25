@@ -505,13 +505,17 @@ export class ConfluenceService {
   }
 
   async getSpecialUploadedIcons(image?: string): Promise<any> {
+    const emojiCollection = this.config.get('confluence.emojiCollection');
+    if (!emojiCollection) {
+      return image ? '' : { emojis: [], meta: {} };
+    }
     try {
       const response: AxiosResponse = await firstValueFrom(
         // Special custom emojis are uploaded to a specific collection per site, so we set it up
         // via env variable emojiCollection
         //
         this.http.get<Content>(
-          `/gateway/api/emoji/${this.config.get('confluence.emojiCollection')}/site`
+          `/gateway/api/emoji/${emojiCollection}/site`
           + '?scale=XHDPI&altScale=XXXHDPI&preferredRepresentation=IMAGE',
         ),
       );

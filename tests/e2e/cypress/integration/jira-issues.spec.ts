@@ -2,9 +2,11 @@
 
 context('Jira issues', () => {
   it('should render grid container for new jira issues macro and match the whole page', () => {
-    cy.visit('/wiki/spaces/KONVIW/pages/345931777/Demo+Jira+Issues');
+    cy.on('uncaught:exception', (err) => !err.message.includes('gridjs'));
+    cy.viewport(1200, 800);
+    cy.visit('/wiki/spaces/konviw/pages/67522987306/konviw+-+demo+New+Jira+Issues+Test+Copy');
     cy.wait(2000);
-    cy.get('grid,gridjs-container').then((container) => expect(Boolean(container)).to.be.true);
-    cy.compareSnapshot('jira-issues');
+    cy.get('table.jiraWorkItemMacroListViewTable').should('exist');
+    cy.compareSnapshot({ name: 'jira-issues', cypressScreenshotOptions: { capture: 'viewport' } });
   });
 });

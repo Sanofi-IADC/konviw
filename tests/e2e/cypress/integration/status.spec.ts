@@ -2,7 +2,7 @@
 
 context('Status', () => {
   it('match the whole page', () => {
-    cy.visit('/wiki/spaces/KONVIW/pages/77561880/Demo+Status+labels');
+    cy.visit('/wiki/spaces/konviw/pages/67523347001/konviw+-+demo+status+Test+Copy');
     cy.compareSnapshot('status');
   });
 });

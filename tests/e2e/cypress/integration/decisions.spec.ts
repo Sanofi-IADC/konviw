@@ -2,7 +2,7 @@
 
 context('Decisions', () => {
   it('match the whole page', () => {
-    cy.visit('/wiki/spaces/KONVIW/pages/77561890/Demo+Decisions');
+    cy.visit('/wiki/spaces/konviw/pages/67522823807/konviw+-+demo+decisions+Test+Copy');
     cy.compareSnapshot('decisions');
   });
 });

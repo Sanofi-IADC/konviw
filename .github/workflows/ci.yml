@@ -19,8 +19,6 @@ jobs:
       CPV_CONFLUENCE_API_TOKEN: ${{ secrets.CPV_CONFLUENCE_API_TOKEN }}
       CPV_CONFLUENCE_API_USERNAME: ${{ secrets.CPV_CONFLUENCE_API_USERNAME }}
       CPV_CONFLUENCE_BASE_URL: ${{ secrets.CPV_CONFLUENCE_BASE_URL }}
-      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
       CPV_JIRA_READER_API_USERNAME: ${{ secrets.CPV_JIRA_READER_API_USERNAME }}
       CPV_JIRA_READER_API_TOKEN: ${{ secrets.CPV_JIRA_READER_API_TOKEN }}
       CPV_XRAY_BASE_URL: ${{ secrets.CPV_XRAY_BASE_URL }}
@@ -55,35 +53,21 @@ jobs:
       - name: Prod build
         run: npm run build
 
-      - name: Install Vercel CLI
-        if: ${{ matrix.node-version == '22.22.0' }}
-        run: npm install --global vercel@latest
-
-      - name: Pull Vercel Environment Information
-        if: ${{ matrix.node-version == '22.22.0' }}
-        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Build Project Artifacts
-        if: ${{ matrix.node-version == '22.22.0' }}
-        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Deploy Project Artifacts to Vercel
-        id: vercel-deploy
-        if: ${{ matrix.node-version == '22.22.0' }}
-        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
-        # run: |
-        #   PREVIEW_URL=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})
-        #   echo "PREVIEW_URL=$PREVIEW_URL" >> $GITHUB_OUTPUT
-        #   echo "DEPLOYMENT_CREATED=true" >> $GITHUB_OUTPUT
-
       - name: Run Cypress Tests
         uses: cypress-io/github-action@v2
-        if: ${{ steps.vercel-deploy.outputs.DEPLOYMENT_CREATED }}
+        if: ${{ matrix.node-version == '22.22.0' }}
         with:
           browser: chrome
           config-file: cypress.config.js
+          start: npm run start:prod
+          wait-on: 'http://localhost:4000/livez'
+          wait-on-timeout: 60
         env:
-          CYPRESS_BASE_URL: ${{ steps.vercel-deploy.outputs.PREVIEW_URL }}/cpv
+          PORT: 4000
+          CPV_BASEPATH: cpv
+          CPV_CONFLUENCE_BASE_URL: ${{ secrets.CPV_CONFLUENCE_BASE_URL }}
+          CPV_CONFLUENCE_API_USERNAME: ${{ secrets.CPV_CONFLUENCE_API_USERNAME }}
+          CPV_CONFLUENCE_API_TOKEN: ${{ secrets.CPV_CONFLUENCE_API_TOKEN }}
 
       - name: Upload Cypress Screenshots
         uses: actions/upload-artifact@v4
@@ -103,7 +87,7 @@ jobs:
 
   release:
     name: Release
-    # needs: quality
+    needs: quality
     # https://github.community/t/how-do-i-specify-job-dependency-running-in-another-workflow/16482
     if: github.event_name == 'push' && github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, 'chore(release):')
     runs-on: ubuntu-latest

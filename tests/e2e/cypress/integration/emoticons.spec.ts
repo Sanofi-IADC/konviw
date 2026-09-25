@@ -3,7 +3,7 @@
 context('Emoticons', () => {
   it('match the whole page', () => {
     cy.visit(
-      '/wiki/spaces/KONVIW/pages/77627428/Demo+Emoticons+or+emojis',
+      '/wiki/spaces/konviw/pages/67522005178/konviw+-+demo+emoticons+Test+Copy',
     );
     cy.compareSnapshot('emoticons');
   });
