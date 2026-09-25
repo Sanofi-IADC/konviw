@@ -1,3 +1,22 @@
+## [3.57.2](https://github.com/Sanofi-IADC/konviw/compare/v3.57.1...v3.57.2) (2026-09-25)
+
+
+### Bug Fixes
+
+* **ci:** add /livez probe and use it for cypress wait-on ([e20cb61](https://github.com/Sanofi-IADC/konviw/commit/e20cb61a686a5462732a4d4aa4fe5745d22cf016))
+* **ci:** restore indentation of CPV_JIRA_READER_API_USERNAME env var ([8632c9e](https://github.com/Sanofi-IADC/konviw/commit/8632c9e6617058d52d6fc460684220d85565944d))
+* **ci:** set PORT/CPV_BASEPATH for local server and raise image-diff threshold ([3734102](https://github.com/Sanofi-IADC/konviw/commit/37341020a98087833b19982329ce9f749126fb99))
+* **ci:** use tcp wait-on to avoid health check 401 blocking Cypress ([4f8ad99](https://github.com/Sanofi-IADC/konviw/commit/4f8ad996c615faa0cc0807d44c1904b983ca038b))
+* **confluence:** skip emoji collection API call when CPV_CONFLUENCE_EMOJI_COLLECTION is unset ([07595c7](https://github.com/Sanofi-IADC/konviw/commit/07595c7b8b75def828a3c5dc79fee705e5ac57cb))
+* **e2e:** address Copilot review comments on exception handlers and assertions ([cef2c10](https://github.com/Sanofi-IADC/konviw/commit/cef2c10b6637672d43903c44a09ee6f0793a6e74))
+* **e2e:** delete Mac baselines and fix uncaught exception in specs ([9de5534](https://github.com/Sanofi-IADC/konviw/commit/9de5534b1dcc7d56a49a40c9dfd8e04058bb129d))
+* **e2e:** raise image-diff threshold to tolerate cross-platform rendering ([fd003d6](https://github.com/Sanofi-IADC/konviw/commit/fd003d6d4a501cf497e555f580361b6f5631c792))
+* **e2e:** remove hardcoded 2s timeout from jira.snapshot spec ([d5e4b29](https://github.com/Sanofi-IADC/konviw/commit/d5e4b2954968d7cc60b429eeda745ab1edba4a90))
+* **e2e:** replace gridjs assertion with h1 in jira.snapshot spec ([467679e](https://github.com/Sanofi-IADC/konviw/commit/467679e2d3316dfcd237390a439b1838b76311b5))
+* **e2e:** use correct 3-slide page copy for add-message-last-slide spec ([a63a991](https://github.com/Sanofi-IADC/konviw/commit/a63a9917c0c3ca9d1d94b982dc021bd617f12096))
+* **test:** web 1234 e2e fixes konviw ([72cb501](https://github.com/Sanofi-IADC/konviw/commit/72cb501b1f52675889e055faa9688f23cada95be))
+* **test:** web 1234 e2e fixes konviw ([5d511bc](https://github.com/Sanofi-IADC/konviw/commit/5d511bc3d21e941e77356d9ef21c7ee9f080dd27))
+
 ## [3.57.1](https://github.com/Sanofi-IADC/konviw/compare/v3.57.0...v3.57.1) (2026-09-07)
 
 
