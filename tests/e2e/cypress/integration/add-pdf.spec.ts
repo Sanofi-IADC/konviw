@@ -5,7 +5,7 @@ context('Check if the PDF files are well displayed', () => {
         .filter('[data-macro-name="view-file"]')
         .should('exist');
       cy.get('a[data-mime-type="application/pdf"]').should('exist');
-      cy.get('iframe').should('exist');
+      cy.get('iframe').should('have.attr', 'src').and('not.be.empty');
       cy.compareSnapshot('add-pdf');
     });
   });
