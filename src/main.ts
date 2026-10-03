@@ -60,8 +60,14 @@ async function bootstrap() {
   // Alias /health to respond directly alongside the prefixed route
   app.getHttpAdapter().getInstance().get('/health', async (req, res) => {
     const healthController = app.get(HealthController);
-    const result = await healthController.apiCheck();
-    res.json(result);
+    try {
+      const result = await healthController.apiCheck();
+      res.json(result);
+    } catch (err) {
+      const status = err?.status ?? 503;
+      const body = err?.response ?? { status, message: 'Service Unavailable' };
+      res.status(status).json(body);
+    }
   });
 
   // Define headers defaults
