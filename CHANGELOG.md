@@ -1,3 +1,10 @@
+## [3.57.3](https://github.com/Sanofi-IADC/konviw/compare/v3.57.2...v3.57.3) (2026-10-03)
+
+
+### Bug Fixes
+
+* **health:** reduce search payload and handle /health alias errors ([#704](https://github.com/Sanofi-IADC/konviw/issues/704)) ([4a64226](https://github.com/Sanofi-IADC/konviw/commit/4a642265c71aeb58a30ac7ff28f233f68234637b))
+
 ## [3.57.2](https://github.com/Sanofi-IADC/konviw/compare/v3.57.1...v3.57.2) (2026-09-25)
 
 
