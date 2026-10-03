@@ -22,7 +22,7 @@ export class ApiHealthService extends HealthIndicator {
   async apiCheck(): Promise<HealthIndicatorResult> {
     let isHealthy = true;
     try {
-      await this.confluence.Search('konviw');
+      await this.confluence.Search('konviw', undefined, undefined, undefined, 1);
     } catch (_) {
       isHealthy = false;
     }

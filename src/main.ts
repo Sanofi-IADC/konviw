@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { LogLevel, ValidationPipe } from '@nestjs/common';
+import { Logger, LogLevel, ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { ConfigService } from '@nestjs/config';
 import {
@@ -60,8 +60,14 @@ async function bootstrap() {
   // Alias /health to respond directly alongside the prefixed route
   app.getHttpAdapter().getInstance().get('/health', async (req, res) => {
     const healthController = app.get(HealthController);
-    const result = await healthController.apiCheck();
-    res.json(result);
+    try {
+      const result = await healthController.apiCheck();
+      res.json(result);
+    } catch (err) {
+      const status = err?.status ?? 503;
+      const body = err?.response ?? { status, message: 'Service Unavailable' };
+      res.status(status).json(body);
+    }
   });
 
   // Define headers defaults
@@ -83,7 +89,10 @@ async function bootstrap() {
   await app.listen(process.env.PORT || 3000);
 }
 
-bootstrap();
+bootstrap().catch((err) => {
+  new Logger('bootstrap').error('Application failed to start', err?.stack);
+  process.exit(1);
+});
 
 // ================= Setup Swagger (OpenAPI) specification
 const useOpenApi = (app: NestExpressApplication) => {
