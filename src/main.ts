@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { LogLevel, ValidationPipe } from '@nestjs/common';
+import { Logger, LogLevel, ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { ConfigService } from '@nestjs/config';
 import {
@@ -89,7 +89,10 @@ async function bootstrap() {
   await app.listen(process.env.PORT || 3000);
 }
 
-bootstrap();
+bootstrap().catch((err) => {
+  new Logger('bootstrap').error('Application failed to start', err?.stack);
+  process.exit(1);
+});
 
 // ================= Setup Swagger (OpenAPI) specification
 const useOpenApi = (app: NestExpressApplication) => {
