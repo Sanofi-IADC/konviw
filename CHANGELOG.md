@@ -1,3 +1,11 @@
+## [3.57.5](https://github.com/Sanofi-IADC/konviw/compare/v3.57.4...v3.57.5) (2026-10-22)
+
+
+### Bug Fixes
+
+* **web:** web-1234 make health check resilient to slow Atlassian responses ([e8f1994](https://github.com/Sanofi-IADC/konviw/commit/e8f199486feab9488a993227c933b0bb037038db))
+* **web:** web-1234 use explicit null check for in-flight health promise ([994727b](https://github.com/Sanofi-IADC/konviw/commit/994727b8beff79801e75d58f617bf1512f987940))
+
 ## [3.57.4](https://github.com/Sanofi-IADC/konviw/compare/v3.57.3...v3.57.4) (2026-10-22)
 
 
