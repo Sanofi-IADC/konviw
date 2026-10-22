@@ -31,7 +31,7 @@ export class ApiHealthService extends HealthIndicator {
    * finishes after the timeout still refreshes lastSuccess for the next probe.
    */
   private runCheck(): Promise<'ok' | 'timeout' | 'error'> {
-    if (this.inFlight) {
+    if (this.inFlight !== null) {
       return this.inFlight;
     }
     let timer: NodeJS.Timeout;
