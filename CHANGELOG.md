@@ -1,3 +1,10 @@
+## [3.57.4](https://github.com/Sanofi-IADC/konviw/compare/v3.57.3...v3.57.4) (2026-10-22)
+
+
+### Bug Fixes
+
+* **web:** web-1234 upgrade cypress github action to v7 ([236502b](https://github.com/Sanofi-IADC/konviw/commit/236502b8de051427d0e214f0f3d0d158da57acba))
+
 ## [3.57.3](https://github.com/Sanofi-IADC/konviw/compare/v3.57.2...v3.57.3) (2026-10-03)
 
 
