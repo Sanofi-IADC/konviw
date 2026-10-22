@@ -1,3 +1,10 @@
+## [3.57.6](https://github.com/Sanofi-IADC/konviw/compare/v3.57.5...v3.57.6) (2026-10-22)
+
+
+### Bug Fixes
+
+* **web:** web-1234 bump github actions to node24 versions ([4797c25](https://github.com/Sanofi-IADC/konviw/commit/4797c25736916c874ffdb7b143217e9ea389f327))
+
 ## [3.57.5](https://github.com/Sanofi-IADC/konviw/compare/v3.57.4...v3.57.5) (2026-10-22)
 
 
