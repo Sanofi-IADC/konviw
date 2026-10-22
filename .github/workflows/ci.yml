@@ -54,7 +54,7 @@ jobs:
         run: npm run build
 
       - name: Run Cypress Tests
-        uses: cypress-io/github-action@v2
+        uses: cypress-io/github-action@v7
         if: ${{ matrix.node-version == '22.22.0' }}
         with:
           browser: chrome
