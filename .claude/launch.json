@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "konviw-dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "start:dev:nest"],
+      "port": 4000,
+      "url": "http://localhost:4000"
+    }
+  ]
+}

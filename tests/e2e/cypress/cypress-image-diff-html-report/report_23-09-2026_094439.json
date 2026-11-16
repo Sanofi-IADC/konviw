@@ -1,0 +1,48 @@
+{
+  "total": 2,
+  "totalPassed": 0,
+  "totalFailed": 2,
+  "totalSuites": 2,
+  "suites": [
+    {
+      "name": "blog-post.spec.ts",
+      "path": "tests/e2e/cypress/integration/blog-post.spec.ts",
+      "tests": [
+        {
+          "status": "fail",
+          "name": "blog-post.spec.ts-blog-post",
+          "percentage": 0.1676353603164081,
+          "failureThreshold": 0.1,
+          "specPath": "tests/e2e/cypress/integration/blog-post.spec.ts",
+          "specFilename": "blog-post.spec.ts",
+          "baselinePath": "tests/e2e/cypress/cypress-image-diff-screenshots/baseline/blog-post.spec.ts-blog-post.png",
+          "diffPath": "tests/e2e/cypress/cypress-image-diff-screenshots/diff/blog-post.spec.ts-blog-post.png",
+          "comparisonPath": "tests/e2e/cypress/cypress-image-diff-screenshots/comparison/blog-post.spec.ts-blog-post.png"
+        }
+      ]
+    },
+    {
+      "name": "jira.snapshot.spec.ts",
+      "path": "tests/e2e/cypress/integration/jira.snapshot.spec.ts",
+      "tests": [
+        {
+          "status": "fail",
+          "name": "jira.snapshot.spec.ts-jira-snapshot-1",
+          "percentage": 0.14963411308372804,
+          "failureThreshold": 0.1,
+          "specPath": "tests/e2e/cypress/integration/jira.snapshot.spec.ts",
+          "specFilename": "jira.snapshot.spec.ts",
+          "baselinePath": "tests/e2e/cypress/cypress-image-diff-screenshots/baseline/jira.snapshot.spec.ts-jira-snapshot-1.png",
+          "diffPath": "tests/e2e/cypress/cypress-image-diff-screenshots/diff/jira.snapshot.spec.ts-jira-snapshot-1.png",
+          "comparisonPath": "tests/e2e/cypress/cypress-image-diff-screenshots/comparison/jira.snapshot.spec.ts-jira-snapshot-1.png"
+        }
+      ]
+    }
+  ],
+  "startedAt": "2026-09-23T04:14:39.704Z",
+  "endedAt": "2026-09-23T04:20:31.471Z",
+  "duration": 344603,
+  "browserName": "chrome",
+  "browserVersion": "153.0.8010.54",
+  "cypressVersion": "15.11.0"
+}

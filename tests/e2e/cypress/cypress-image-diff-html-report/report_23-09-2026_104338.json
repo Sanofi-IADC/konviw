@@ -1,0 +1,31 @@
+{
+  "total": 1,
+  "totalPassed": 1,
+  "totalFailed": 0,
+  "totalSuites": 1,
+  "suites": [
+    {
+      "name": "jira-issues.spec.ts",
+      "path": "tests/e2e/cypress/integration/jira-issues.spec.ts",
+      "tests": [
+        {
+          "status": "pass",
+          "name": "jira-issues.spec.ts-jira-issues",
+          "percentage": 0,
+          "failureThreshold": 0.1,
+          "specPath": "tests/e2e/cypress/integration/jira-issues.spec.ts",
+          "specFilename": "jira-issues.spec.ts",
+          "baselinePath": "tests/e2e/cypress/cypress-image-diff-screenshots/baseline/jira-issues.spec.ts-jira-issues.png",
+          "diffPath": "",
+          "comparisonPath": "tests/e2e/cypress/cypress-image-diff-screenshots/comparison/jira-issues.spec.ts-jira-issues.png"
+        }
+      ]
+    }
+  ],
+  "startedAt": "2026-09-23T05:13:38.762Z",
+  "endedAt": "2026-09-23T05:14:00.232Z",
+  "duration": 21470,
+  "browserName": "electron",
+  "browserVersion": "138.0.7204.251",
+  "cypressVersion": "15.11.0"
+}

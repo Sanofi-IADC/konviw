@@ -1,0 +1,31 @@
+{
+  "total": 1,
+  "totalPassed": 1,
+  "totalFailed": 0,
+  "totalSuites": 1,
+  "suites": [
+    {
+      "name": "blog-post.spec.ts",
+      "path": "tests/e2e/cypress/integration/blog-post.spec.ts",
+      "tests": [
+        {
+          "status": "pass",
+          "name": "blog-post.spec.ts-blog-post",
+          "percentage": 0,
+          "failureThreshold": 0.1,
+          "specPath": "tests/e2e/cypress/integration/blog-post.spec.ts",
+          "specFilename": "blog-post.spec.ts",
+          "baselinePath": "tests/e2e/cypress/cypress-image-diff-screenshots/baseline/blog-post.spec.ts-blog-post.png",
+          "diffPath": "",
+          "comparisonPath": "tests/e2e/cypress/cypress-image-diff-screenshots/comparison/blog-post.spec.ts-blog-post.png"
+        }
+      ]
+    }
+  ],
+  "startedAt": "2026-09-23T03:51:32.702Z",
+  "endedAt": "2026-09-23T03:51:47.337Z",
+  "duration": 14635,
+  "browserName": "chrome",
+  "browserVersion": "153.0.8010.53",
+  "cypressVersion": "15.11.0"
+}

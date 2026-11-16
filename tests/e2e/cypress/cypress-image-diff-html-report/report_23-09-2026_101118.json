@@ -1,0 +1,48 @@
+{
+  "total": 2,
+  "totalPassed": 2,
+  "totalFailed": 0,
+  "totalSuites": 2,
+  "suites": [
+    {
+      "name": "blog-post.spec.ts",
+      "path": "tests/e2e/cypress/integration/blog-post.spec.ts",
+      "tests": [
+        {
+          "status": "pass",
+          "name": "blog-post.spec.ts-blog-post",
+          "percentage": 0,
+          "failureThreshold": 0.1,
+          "specPath": "tests/e2e/cypress/integration/blog-post.spec.ts",
+          "specFilename": "blog-post.spec.ts",
+          "baselinePath": "tests/e2e/cypress/cypress-image-diff-screenshots/baseline/blog-post.spec.ts-blog-post.png",
+          "diffPath": "",
+          "comparisonPath": "tests/e2e/cypress/cypress-image-diff-screenshots/comparison/blog-post.spec.ts-blog-post.png"
+        }
+      ]
+    },
+    {
+      "name": "code.spec.ts",
+      "path": "tests/e2e/cypress/integration/code.spec.ts",
+      "tests": [
+        {
+          "status": "pass",
+          "name": "code.spec.ts-code",
+          "percentage": 0,
+          "failureThreshold": 0.1,
+          "specPath": "tests/e2e/cypress/integration/code.spec.ts",
+          "specFilename": "code.spec.ts",
+          "baselinePath": "tests/e2e/cypress/cypress-image-diff-screenshots/baseline/code.spec.ts-code.png",
+          "diffPath": "",
+          "comparisonPath": "tests/e2e/cypress/cypress-image-diff-screenshots/comparison/code.spec.ts-code.png"
+        }
+      ]
+    }
+  ],
+  "startedAt": "2026-09-23T04:41:18.599Z",
+  "endedAt": "2026-09-23T04:42:47.123Z",
+  "duration": 84857,
+  "browserName": "electron",
+  "browserVersion": "138.0.7204.251",
+  "cypressVersion": "15.11.0"
+}

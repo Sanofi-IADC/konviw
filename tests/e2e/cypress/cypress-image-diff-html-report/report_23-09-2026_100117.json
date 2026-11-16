@@ -1,0 +1,48 @@
+{
+  "total": 2,
+  "totalPassed": 2,
+  "totalFailed": 0,
+  "totalSuites": 2,
+  "suites": [
+    {
+      "name": "creator-name-and-version-page.spec.ts",
+      "path": "tests/e2e/cypress/integration/creator-name-and-version-page.spec.ts",
+      "tests": [
+        {
+          "status": "pass",
+          "name": "creator-name-and-version-page.spec.ts-creator-name-and-version-page",
+          "percentage": 0,
+          "failureThreshold": 0.1,
+          "specPath": "tests/e2e/cypress/integration/creator-name-and-version-page.spec.ts",
+          "specFilename": "creator-name-and-version-page.spec.ts",
+          "baselinePath": "tests/e2e/cypress/cypress-image-diff-screenshots/baseline/creator-name-and-version-page.spec.ts-creator-name-and-version-page.png",
+          "diffPath": "",
+          "comparisonPath": "tests/e2e/cypress/cypress-image-diff-screenshots/comparison/creator-name-and-version-page.spec.ts-creator-name-and-version-page.png"
+        }
+      ]
+    },
+    {
+      "name": "jira.snapshot.spec.ts",
+      "path": "tests/e2e/cypress/integration/jira.snapshot.spec.ts",
+      "tests": [
+        {
+          "status": "pass",
+          "name": "jira.snapshot.spec.ts-jira-snapshot-1",
+          "percentage": 0,
+          "failureThreshold": 0.1,
+          "specPath": "tests/e2e/cypress/integration/jira.snapshot.spec.ts",
+          "specFilename": "jira.snapshot.spec.ts",
+          "baselinePath": "tests/e2e/cypress/cypress-image-diff-screenshots/baseline/jira.snapshot.spec.ts-jira-snapshot-1.png",
+          "diffPath": "",
+          "comparisonPath": "tests/e2e/cypress/cypress-image-diff-screenshots/comparison/jira.snapshot.spec.ts-jira-snapshot-1.png"
+        }
+      ]
+    }
+  ],
+  "startedAt": "2026-09-23T04:31:17.846Z",
+  "endedAt": "2026-09-23T04:31:42.223Z",
+  "duration": 22671,
+  "browserName": "chrome",
+  "browserVersion": "153.0.8010.54",
+  "cypressVersion": "15.11.0"
+}

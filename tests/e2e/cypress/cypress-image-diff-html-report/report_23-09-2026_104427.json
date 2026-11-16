@@ -1,0 +1,450 @@
+{
+  "total": 26,
+  "totalPassed": 4,
+  "totalFailed": 22,
+  "totalSuites": 25,
+  "suites": [
+    {
+      "name": "actions-dates-mentions-items.spec.ts",
+      "path": "tests/e2e/cypress/integration/actions-dates-mentions-items.spec.ts",
+      "tests": [
+        {
+          "status": "fail",
+          "name": "actions-dates-mentions-items.spec.ts-actions-dates-mentions-items",
+          "percentage": 0.11579431630383075,
+          "failureThreshold": 0.1,
+          "specPath": "tests/e2e/cypress/integration/actions-dates-mentions-items.spec.ts",
+          "specFilename": "actions-dates-mentions-items.spec.ts",
+          "baselinePath": "tests/e2e/cypress/cypress-image-diff-screenshots/baseline/actions-dates-mentions-items.spec.ts-actions-dates-mentions-items.png",
+          "diffPath": "tests/e2e/cypress/cypress-image-diff-screenshots/diff/actions-dates-mentions-items.spec.ts-actions-dates-mentions-items.png",
+          "comparisonPath": "tests/e2e/cypress/cypress-image-diff-screenshots/comparison/actions-dates-mentions-items.spec.ts-actions-dates-mentions-items.png"
+        }
+      ]
+    },
+    {
+      "name": "add-message-last-slide.ts",
+      "path": "tests/e2e/cypress/integration/add-message-last-slide.ts",
+      "tests": [
+        {
+          "status": "fail",
+          "name": "add-message-last-slide.ts-add-message-demo-slide",
+          "percentage": 0.8746406928855203,
+          "failureThreshold": 0.1,
+          "specPath": "tests/e2e/cypress/integration/add-message-last-slide.ts",
+          "specFilename": "add-message-last-slide.ts",
+          "baselinePath": "tests/e2e/cypress/cypress-image-diff-screenshots/baseline/add-message-last-slide.ts-add-message-demo-slide.png",
+          "diffPath": "tests/e2e/cypress/cypress-image-diff-screenshots/diff/add-message-last-slide.ts-add-message-demo-slide.png",
+          "comparisonPath": "tests/e2e/cypress/cypress-image-diff-screenshots/comparison/add-message-last-slide.ts-add-message-demo-slide.png"
+        }
+      ]
+    },
+    {
+      "name": "apex-charts.spec.ts",
+      "path": "tests/e2e/cypress/integration/apex-charts.spec.ts",
+      "tests": [
+        {
+          "status": "fail",
+          "name": "apex-charts.spec.ts-apex-charts",
+          "percentage": 0.17091905877571925,
+          "failureThreshold": 0.1,
+          "specPath": "tests/e2e/cypress/integration/apex-charts.spec.ts",
+          "specFilename": "apex-charts.spec.ts",
+          "baselinePath": "tests/e2e/cypress/cypress-image-diff-screenshots/baseline/apex-charts.spec.ts-apex-charts.png",
+          "diffPath": "tests/e2e/cypress/cypress-image-diff-screenshots/diff/apex-charts.spec.ts-apex-charts.png",
+          "comparisonPath": "tests/e2e/cypress/cypress-image-diff-screenshots/comparison/apex-charts.spec.ts-apex-charts.png"
+        }
+      ]
+    },
+    {
+      "name": "blog-post.spec.ts",
+      "path": "tests/e2e/cypress/integration/blog-post.spec.ts",
+      "tests": [
+        {
+          "status": "fail",
+          "name": "blog-post.spec.ts-blog-post",
+          "percentage": 0.10534556521297633,
+          "failureThreshold": 0.1,
+          "specPath": "tests/e2e/cypress/integration/blog-post.spec.ts",
+          "specFilename": "blog-post.spec.ts",
+          "baselinePath": "tests/e2e/cypress/cypress-image-diff-screenshots/baseline/blog-post.spec.ts-blog-post.png",
+          "diffPath": "tests/e2e/cypress/cypress-image-diff-screenshots/diff/blog-post.spec.ts-blog-post.png",
+          "comparisonPath": "tests/e2e/cypress/cypress-image-diff-screenshots/comparison/blog-post.spec.ts-blog-post.png"
+        }
+      ]
+    },
+    {
+      "name": "code.spec.ts",
+      "path": "tests/e2e/cypress/integration/code.spec.ts",
+      "tests": [
+        {
+          "status": "pass",
+          "name": "code.spec.ts-code",
+          "percentage": 0,
+          "failureThreshold": 0.1,
+          "specPath": "tests/e2e/cypress/integration/code.spec.ts",
+          "specFilename": "code.spec.ts",
+          "baselinePath": "tests/e2e/cypress/cypress-image-diff-screenshots/baseline/code.spec.ts-code.png",
+          "diffPath": "",
+          "comparisonPath": "tests/e2e/cypress/cypress-image-diff-screenshots/comparison/code.spec.ts-code.png"
+        }
+      ]
+    },
+    {
+      "name": "creator-name-and-version-page.spec.ts",
+      "path": "tests/e2e/cypress/integration/creator-name-and-version-page.spec.ts",
+      "tests": [
+        {
+          "status": "fail",
+          "name": "creator-name-and-version-page.spec.ts-creator-name-and-version-page",
+          "percentage": 0.1656240557617615,
+          "failureThreshold": 0.1,
+          "specPath": "tests/e2e/cypress/integration/creator-name-and-version-page.spec.ts",
+          "specFilename": "creator-name-and-version-page.spec.ts",
+          "baselinePath": "tests/e2e/cypress/cypress-image-diff-screenshots/baseline/creator-name-and-version-page.spec.ts-creator-name-and-version-page.png",
+          "diffPath": "tests/e2e/cypress/cypress-image-diff-screenshots/diff/creator-name-and-version-page.spec.ts-creator-name-and-version-page.png",
+          "comparisonPath": "tests/e2e/cypress/cypress-image-diff-screenshots/comparison/creator-name-and-version-page.spec.ts-creator-name-and-version-page.png"
+        }
+      ]
+    },
+    {
+      "name": "decisions.spec.ts",
+      "path": "tests/e2e/cypress/integration/decisions.spec.ts",
+      "tests": [
+        {
+          "status": "pass",
+          "name": "decisions.spec.ts-decisions",
+          "percentage": 0.08389423502096605,
+          "failureThreshold": 0.1,
+          "specPath": "tests/e2e/cypress/integration/decisions.spec.ts",
+          "specFilename": "decisions.spec.ts",
+          "baselinePath": "tests/e2e/cypress/cypress-image-diff-screenshots/baseline/decisions.spec.ts-decisions.png",
+          "diffPath": "",
+          "comparisonPath": "tests/e2e/cypress/cypress-image-diff-screenshots/comparison/decisions.spec.ts-decisions.png"
+        }
+      ]
+    },
+    {
+      "name": "drawio.spec.ts",
+      "path": "tests/e2e/cypress/integration/drawio.spec.ts",
+      "tests": [
+        {
+          "status": "fail",
+          "name": "drawio.spec.ts-drawio",
+          "percentage": 0.2619924409730622,
+          "failureThreshold": 0.1,
+          "specPath": "tests/e2e/cypress/integration/drawio.spec.ts",
+          "specFilename": "drawio.spec.ts",
+          "baselinePath": "tests/e2e/cypress/cypress-image-diff-screenshots/baseline/drawio.spec.ts-drawio.png",
+          "diffPath": "tests/e2e/cypress/cypress-image-diff-screenshots/diff/drawio.spec.ts-drawio.png",
+          "comparisonPath": "tests/e2e/cypress/cypress-image-diff-screenshots/comparison/drawio.spec.ts-drawio.png"
+        }
+      ]
+    },
+    {
+      "name": "embedded-videos.spec.ts",
+      "path": "tests/e2e/cypress/integration/embedded-videos.spec.ts",
+      "tests": [
+        {
+          "status": "fail",
+          "name": "embedded-videos.spec.ts-embedded-videos",
+          "percentage": 0.2501275234169143,
+          "failureThreshold": 0.1,
+          "specPath": "tests/e2e/cypress/integration/embedded-videos.spec.ts",
+          "specFilename": "embedded-videos.spec.ts",
+          "baselinePath": "tests/e2e/cypress/cypress-image-diff-screenshots/baseline/embedded-videos.spec.ts-embedded-videos.png",
+          "diffPath": "tests/e2e/cypress/cypress-image-diff-screenshots/diff/embedded-videos.spec.ts-embedded-videos.png",
+          "comparisonPath": "tests/e2e/cypress/cypress-image-diff-screenshots/comparison/embedded-videos.spec.ts-embedded-videos.png"
+        }
+      ]
+    },
+    {
+      "name": "emoticons.spec.ts",
+      "path": "tests/e2e/cypress/integration/emoticons.spec.ts",
+      "tests": [
+        {
+          "status": "fail",
+          "name": "emoticons.spec.ts-emoticons",
+          "percentage": 0.12189329951252195,
+          "failureThreshold": 0.1,
+          "specPath": "tests/e2e/cypress/integration/emoticons.spec.ts",
+          "specFilename": "emoticons.spec.ts",
+          "baselinePath": "tests/e2e/cypress/cypress-image-diff-screenshots/baseline/emoticons.spec.ts-emoticons.png",
+          "diffPath": "tests/e2e/cypress/cypress-image-diff-screenshots/diff/emoticons.spec.ts-emoticons.png",
+          "comparisonPath": "tests/e2e/cypress/cypress-image-diff-screenshots/comparison/emoticons.spec.ts-emoticons.png"
+        }
+      ]
+    },
+    {
+      "name": "expand-panels.spec.ts",
+      "path": "tests/e2e/cypress/integration/expand-panels.spec.ts",
+      "tests": [
+        {
+          "status": "fail",
+          "name": "expand-panels.spec.ts-expand-panels",
+          "percentage": 0.140720132430638,
+          "failureThreshold": 0.1,
+          "specPath": "tests/e2e/cypress/integration/expand-panels.spec.ts",
+          "specFilename": "expand-panels.spec.ts",
+          "baselinePath": "tests/e2e/cypress/cypress-image-diff-screenshots/baseline/expand-panels.spec.ts-expand-panels.png",
+          "diffPath": "tests/e2e/cypress/cypress-image-diff-screenshots/diff/expand-panels.spec.ts-expand-panels.png",
+          "comparisonPath": "tests/e2e/cypress/cypress-image-diff-screenshots/comparison/expand-panels.spec.ts-expand-panels.png"
+        }
+      ]
+    },
+    {
+      "name": "fixProfilePicture.spec.ts",
+      "path": "tests/e2e/cypress/integration/fixProfilePicture.spec.ts",
+      "tests": [
+        {
+          "status": "fail",
+          "name": "fixProfilePicture.spec.ts-fix-profile-picture-error-1",
+          "percentage": 0.18381637490616,
+          "failureThreshold": 0.1,
+          "specPath": "tests/e2e/cypress/integration/fixProfilePicture.spec.ts",
+          "specFilename": "fixProfilePicture.spec.ts",
+          "baselinePath": "tests/e2e/cypress/cypress-image-diff-screenshots/baseline/fixProfilePicture.spec.ts-fix-profile-picture-error-1.png",
+          "diffPath": "tests/e2e/cypress/cypress-image-diff-screenshots/diff/fixProfilePicture.spec.ts-fix-profile-picture-error-1.png",
+          "comparisonPath": "tests/e2e/cypress/cypress-image-diff-screenshots/comparison/fixProfilePicture.spec.ts-fix-profile-picture-error-1.png"
+        },
+        {
+          "status": "fail",
+          "name": "fixProfilePicture.spec.ts-fix-profile-picture-error-2",
+          "percentage": 0.12189329951252195,
+          "failureThreshold": 0.1,
+          "specPath": "tests/e2e/cypress/integration/fixProfilePicture.spec.ts",
+          "specFilename": "fixProfilePicture.spec.ts",
+          "baselinePath": "tests/e2e/cypress/cypress-image-diff-screenshots/baseline/fixProfilePicture.spec.ts-fix-profile-picture-error-2.png",
+          "diffPath": "tests/e2e/cypress/cypress-image-diff-screenshots/diff/fixProfilePicture.spec.ts-fix-profile-picture-error-2.png",
+          "comparisonPath": "tests/e2e/cypress/cypress-image-diff-screenshots/comparison/fixProfilePicture.spec.ts-fix-profile-picture-error-2.png"
+        }
+      ]
+    },
+    {
+      "name": "images.spec.ts",
+      "path": "tests/e2e/cypress/integration/images.spec.ts",
+      "tests": [
+        {
+          "status": "fail",
+          "name": "images.spec.ts-images",
+          "percentage": 0.24323749852222196,
+          "failureThreshold": 0.1,
+          "specPath": "tests/e2e/cypress/integration/images.spec.ts",
+          "specFilename": "images.spec.ts",
+          "baselinePath": "tests/e2e/cypress/cypress-image-diff-screenshots/baseline/images.spec.ts-images.png",
+          "diffPath": "tests/e2e/cypress/cypress-image-diff-screenshots/diff/images.spec.ts-images.png",
+          "comparisonPath": "tests/e2e/cypress/cypress-image-diff-screenshots/comparison/images.spec.ts-images.png"
+        }
+      ]
+    },
+    {
+      "name": "info-panels.spec.ts",
+      "path": "tests/e2e/cypress/integration/info-panels.spec.ts",
+      "tests": [
+        {
+          "status": "fail",
+          "name": "info-panels.spec.ts-info-panels",
+          "percentage": 0.5914999481093979,
+          "failureThreshold": 0.1,
+          "specPath": "tests/e2e/cypress/integration/info-panels.spec.ts",
+          "specFilename": "info-panels.spec.ts",
+          "baselinePath": "tests/e2e/cypress/cypress-image-diff-screenshots/baseline/info-panels.spec.ts-info-panels.png",
+          "diffPath": "tests/e2e/cypress/cypress-image-diff-screenshots/diff/info-panels.spec.ts-info-panels.png",
+          "comparisonPath": "tests/e2e/cypress/cypress-image-diff-screenshots/comparison/info-panels.spec.ts-info-panels.png"
+        }
+      ]
+    },
+    {
+      "name": "jira-issues.spec.ts",
+      "path": "tests/e2e/cypress/integration/jira-issues.spec.ts",
+      "tests": [
+        {
+          "status": "pass",
+          "name": "jira-issues.spec.ts-jira-issues",
+          "percentage": 0,
+          "failureThreshold": 0.1,
+          "specPath": "tests/e2e/cypress/integration/jira-issues.spec.ts",
+          "specFilename": "jira-issues.spec.ts",
+          "baselinePath": "tests/e2e/cypress/cypress-image-diff-screenshots/baseline/jira-issues.spec.ts-jira-issues.png",
+          "diffPath": "",
+          "comparisonPath": "tests/e2e/cypress/cypress-image-diff-screenshots/comparison/jira-issues.spec.ts-jira-issues.png"
+        }
+      ]
+    },
+    {
+      "name": "jira-space.spec.ts",
+      "path": "tests/e2e/cypress/integration/jira-space.spec.ts",
+      "tests": [
+        {
+          "status": "fail",
+          "name": "jira-space.spec.ts-jira-space",
+          "percentage": 0.1840796687241059,
+          "failureThreshold": 0.1,
+          "specPath": "tests/e2e/cypress/integration/jira-space.spec.ts",
+          "specFilename": "jira-space.spec.ts",
+          "baselinePath": "tests/e2e/cypress/cypress-image-diff-screenshots/baseline/jira-space.spec.ts-jira-space.png",
+          "diffPath": "tests/e2e/cypress/cypress-image-diff-screenshots/diff/jira-space.spec.ts-jira-space.png",
+          "comparisonPath": "tests/e2e/cypress/cypress-image-diff-screenshots/comparison/jira-space.spec.ts-jira-space.png"
+        }
+      ]
+    },
+    {
+      "name": "jira.snapshot.spec.ts",
+      "path": "tests/e2e/cypress/integration/jira.snapshot.spec.ts",
+      "tests": [
+        {
+          "status": "fail",
+          "name": "jira.snapshot.spec.ts-jira-snapshot-1",
+          "percentage": 0.11692025881757316,
+          "failureThreshold": 0.1,
+          "specPath": "tests/e2e/cypress/integration/jira.snapshot.spec.ts",
+          "specFilename": "jira.snapshot.spec.ts",
+          "baselinePath": "tests/e2e/cypress/cypress-image-diff-screenshots/baseline/jira.snapshot.spec.ts-jira-snapshot-1.png",
+          "diffPath": "tests/e2e/cypress/cypress-image-diff-screenshots/diff/jira.snapshot.spec.ts-jira-snapshot-1.png",
+          "comparisonPath": "tests/e2e/cypress/cypress-image-diff-screenshots/comparison/jira.snapshot.spec.ts-jira-snapshot-1.png"
+        }
+      ]
+    },
+    {
+      "name": "layouts-three-columns.spec.ts",
+      "path": "tests/e2e/cypress/integration/layouts-three-columns.spec.ts",
+      "tests": [
+        {
+          "status": "fail",
+          "name": "layouts-three-columns.spec.ts-layouts-three-columns",
+          "percentage": 0.17157486420737095,
+          "failureThreshold": 0.1,
+          "specPath": "tests/e2e/cypress/integration/layouts-three-columns.spec.ts",
+          "specFilename": "layouts-three-columns.spec.ts",
+          "baselinePath": "tests/e2e/cypress/cypress-image-diff-screenshots/baseline/layouts-three-columns.spec.ts-layouts-three-columns.png",
+          "diffPath": "tests/e2e/cypress/cypress-image-diff-screenshots/diff/layouts-three-columns.spec.ts-layouts-three-columns.png",
+          "comparisonPath": "tests/e2e/cypress/cypress-image-diff-screenshots/comparison/layouts-three-columns.spec.ts-layouts-three-columns.png"
+        }
+      ]
+    },
+    {
+      "name": "layouts-two-columns.spec.ts",
+      "path": "tests/e2e/cypress/integration/layouts-two-columns.spec.ts",
+      "tests": [
+        {
+          "status": "fail",
+          "name": "layouts-two-columns.spec.ts-layouts-two-columns",
+          "percentage": 0.11827950572168212,
+          "failureThreshold": 0.1,
+          "specPath": "tests/e2e/cypress/integration/layouts-two-columns.spec.ts",
+          "specFilename": "layouts-two-columns.spec.ts",
+          "baselinePath": "tests/e2e/cypress/cypress-image-diff-screenshots/baseline/layouts-two-columns.spec.ts-layouts-two-columns.png",
+          "diffPath": "tests/e2e/cypress/cypress-image-diff-screenshots/diff/layouts-two-columns.spec.ts-layouts-two-columns.png",
+          "comparisonPath": "tests/e2e/cypress/cypress-image-diff-screenshots/comparison/layouts-two-columns.spec.ts-layouts-two-columns.png"
+        }
+      ]
+    },
+    {
+      "name": "responsive-table.spec.ts",
+      "path": "tests/e2e/cypress/integration/responsive-table.spec.ts",
+      "tests": [
+        {
+          "status": "fail",
+          "name": "responsive-table.spec.ts-responsive-table",
+          "percentage": 0.2490472949253852,
+          "failureThreshold": 0.1,
+          "specPath": "tests/e2e/cypress/integration/responsive-table.spec.ts",
+          "specFilename": "responsive-table.spec.ts",
+          "baselinePath": "tests/e2e/cypress/cypress-image-diff-screenshots/baseline/responsive-table.spec.ts-responsive-table.png",
+          "diffPath": "tests/e2e/cypress/cypress-image-diff-screenshots/diff/responsive-table.spec.ts-responsive-table.png",
+          "comparisonPath": "tests/e2e/cypress/cypress-image-diff-screenshots/comparison/responsive-table.spec.ts-responsive-table.png"
+        }
+      ]
+    },
+    {
+      "name": "rich-text.spec.ts",
+      "path": "tests/e2e/cypress/integration/rich-text.spec.ts",
+      "tests": [
+        {
+          "status": "fail",
+          "name": "rich-text.spec.ts-rich-text",
+          "percentage": 0.1646682856233205,
+          "failureThreshold": 0.1,
+          "specPath": "tests/e2e/cypress/integration/rich-text.spec.ts",
+          "specFilename": "rich-text.spec.ts",
+          "baselinePath": "tests/e2e/cypress/cypress-image-diff-screenshots/baseline/rich-text.spec.ts-rich-text.png",
+          "diffPath": "tests/e2e/cypress/cypress-image-diff-screenshots/diff/rich-text.spec.ts-rich-text.png",
+          "comparisonPath": "tests/e2e/cypress/cypress-image-diff-screenshots/comparison/rich-text.spec.ts-rich-text.png"
+        }
+      ]
+    },
+    {
+      "name": "status.spec.ts",
+      "path": "tests/e2e/cypress/integration/status.spec.ts",
+      "tests": [
+        {
+          "status": "pass",
+          "name": "status.spec.ts-status",
+          "percentage": 0.08227335122011048,
+          "failureThreshold": 0.1,
+          "specPath": "tests/e2e/cypress/integration/status.spec.ts",
+          "specFilename": "status.spec.ts",
+          "baselinePath": "tests/e2e/cypress/cypress-image-diff-screenshots/baseline/status.spec.ts-status.png",
+          "diffPath": "",
+          "comparisonPath": "tests/e2e/cypress/cypress-image-diff-screenshots/comparison/status.spec.ts-status.png"
+        }
+      ]
+    },
+    {
+      "name": "tables.spec.ts",
+      "path": "tests/e2e/cypress/integration/tables.spec.ts",
+      "tests": [
+        {
+          "status": "fail",
+          "name": "tables.spec.ts-tables",
+          "percentage": 0.17321408811691558,
+          "failureThreshold": 0.1,
+          "specPath": "tests/e2e/cypress/integration/tables.spec.ts",
+          "specFilename": "tables.spec.ts",
+          "baselinePath": "tests/e2e/cypress/cypress-image-diff-screenshots/baseline/tables.spec.ts-tables.png",
+          "diffPath": "tests/e2e/cypress/cypress-image-diff-screenshots/diff/tables.spec.ts-tables.png",
+          "comparisonPath": "tests/e2e/cypress/cypress-image-diff-screenshots/comparison/tables.spec.ts-tables.png"
+        }
+      ]
+    },
+    {
+      "name": "toc.spec.ts",
+      "path": "tests/e2e/cypress/integration/toc.spec.ts",
+      "tests": [
+        {
+          "status": "fail",
+          "name": "toc.spec.ts-toc",
+          "percentage": 0.1050694456537716,
+          "failureThreshold": 0.1,
+          "specPath": "tests/e2e/cypress/integration/toc.spec.ts",
+          "specFilename": "toc.spec.ts",
+          "baselinePath": "tests/e2e/cypress/cypress-image-diff-screenshots/baseline/toc.spec.ts-toc.png",
+          "diffPath": "tests/e2e/cypress/cypress-image-diff-screenshots/diff/toc.spec.ts-toc.png",
+          "comparisonPath": "tests/e2e/cypress/cypress-image-diff-screenshots/comparison/toc.spec.ts-toc.png"
+        }
+      ]
+    },
+    {
+      "name": "user-profile.spec.ts",
+      "path": "tests/e2e/cypress/integration/user-profile.spec.ts",
+      "tests": [
+        {
+          "status": "fail",
+          "name": "user-profile.spec.ts-user-profile",
+          "percentage": 0.18381637490616,
+          "failureThreshold": 0.1,
+          "specPath": "tests/e2e/cypress/integration/user-profile.spec.ts",
+          "specFilename": "user-profile.spec.ts",
+          "baselinePath": "tests/e2e/cypress/cypress-image-diff-screenshots/baseline/user-profile.spec.ts-user-profile.png",
+          "diffPath": "tests/e2e/cypress/cypress-image-diff-screenshots/diff/user-profile.spec.ts-user-profile.png",
+          "comparisonPath": "tests/e2e/cypress/cypress-image-diff-screenshots/comparison/user-profile.spec.ts-user-profile.png"
+        }
+      ]
+    }
+  ],
+  "startedAt": "2026-09-23T05:14:27.739Z",
+  "endedAt": "2026-09-23T05:32:13.253Z",
+  "duration": 1019613,
+  "browserName": "electron",
+  "browserVersion": "138.0.7204.251",
+  "cypressVersion": "15.11.0"
+}

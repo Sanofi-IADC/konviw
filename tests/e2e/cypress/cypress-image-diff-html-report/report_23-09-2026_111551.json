@@ -1,0 +1,48 @@
+{
+  "total": 2,
+  "totalPassed": 2,
+  "totalFailed": 0,
+  "totalSuites": 2,
+  "suites": [
+    {
+      "name": "drawio.spec.ts",
+      "path": "tests/e2e/cypress/integration/drawio.spec.ts",
+      "tests": [
+        {
+          "status": "pass",
+          "name": "drawio.spec.ts-drawio",
+          "percentage": 0,
+          "failureThreshold": 0.1,
+          "specPath": "tests/e2e/cypress/integration/drawio.spec.ts",
+          "specFilename": "drawio.spec.ts",
+          "baselinePath": "tests/e2e/cypress/cypress-image-diff-screenshots/baseline/drawio.spec.ts-drawio.png",
+          "diffPath": "",
+          "comparisonPath": "tests/e2e/cypress/cypress-image-diff-screenshots/comparison/drawio.spec.ts-drawio.png"
+        }
+      ]
+    },
+    {
+      "name": "add-pdf.spec.ts",
+      "path": "tests/e2e/cypress/integration/add-pdf.spec.ts",
+      "tests": [
+        {
+          "status": "pass",
+          "name": "add-pdf.spec.ts-add-pdf",
+          "percentage": 0,
+          "failureThreshold": 0.1,
+          "specPath": "tests/e2e/cypress/integration/add-pdf.spec.ts",
+          "specFilename": "add-pdf.spec.ts",
+          "baselinePath": "tests/e2e/cypress/cypress-image-diff-screenshots/baseline/add-pdf.spec.ts-add-pdf.png",
+          "diffPath": "",
+          "comparisonPath": "tests/e2e/cypress/cypress-image-diff-screenshots/comparison/add-pdf.spec.ts-add-pdf.png"
+        }
+      ]
+    }
+  ],
+  "startedAt": "2026-09-23T05:45:51.222Z",
+  "endedAt": "2026-09-23T05:46:44.325Z",
+  "duration": 51188,
+  "browserName": "electron",
+  "browserVersion": "138.0.7204.251",
+  "cypressVersion": "15.11.0"
+}

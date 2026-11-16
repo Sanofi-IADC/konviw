@@ -1,0 +1,31 @@
+{
+  "total": 1,
+  "totalPassed": 0,
+  "totalFailed": 1,
+  "totalSuites": 1,
+  "suites": [
+    {
+      "name": "jira.snapshot.spec.ts",
+      "path": "tests/e2e/cypress/integration/jira.snapshot.spec.ts",
+      "tests": [
+        {
+          "status": "fail",
+          "name": "jira.snapshot.spec.ts-jira-snapshot-1",
+          "percentage": 0.15253998267535462,
+          "failureThreshold": 0.1,
+          "specPath": "tests/e2e/cypress/integration/jira.snapshot.spec.ts",
+          "specFilename": "jira.snapshot.spec.ts",
+          "baselinePath": "tests/e2e/cypress/cypress-image-diff-screenshots/baseline/jira.snapshot.spec.ts-jira-snapshot-1.png",
+          "diffPath": "tests/e2e/cypress/cypress-image-diff-screenshots/diff/jira.snapshot.spec.ts-jira-snapshot-1.png",
+          "comparisonPath": "tests/e2e/cypress/cypress-image-diff-screenshots/comparison/jira.snapshot.spec.ts-jira-snapshot-1.png"
+        }
+      ]
+    }
+  ],
+  "startedAt": "2026-09-23T04:39:27.692Z",
+  "endedAt": "2026-09-23T04:40:03.738Z",
+  "duration": 36046,
+  "browserName": "electron",
+  "browserVersion": "138.0.7204.251",
+  "cypressVersion": "15.11.0"
+}
