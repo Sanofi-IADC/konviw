@@ -1,3 +1,10 @@
+# [3.58.0](https://github.com/Sanofi-IADC/konviw/compare/v3.57.6...v3.58.0) (2026-11-18)
+
+
+### Features
+
+* **web:** web-1234 added code owners files ([75f758b](https://github.com/Sanofi-IADC/konviw/commit/75f758b5dfcb4b48e7ec1b31f50313960590838a))
+
 ## [3.57.6](https://github.com/Sanofi-IADC/konviw/compare/v3.57.5...v3.57.6) (2026-10-22)
 
 
